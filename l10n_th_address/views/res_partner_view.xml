@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+
+        <record id="view_partner_form_ext" model="ir.ui.view">
+            <field name="name">view.partner.form.ext</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <!-- Parent -->
+                <xpath expr="/form/sheet/group/group/div/field[@name='state_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/group/group/div/field[@name='zip']" position="replace"/>
+                <xpath expr="/form/sheet/group/group/div/field[@name='country_id']" position="after">
+                    <field name="province_id" placeholder="Province" class="oe_no_button" options='{"no_open": True}' />
+                    <field name="district_id" placeholder="District" class="oe_no_button" options='{"no_open": True}' />
+                    <field name="township_id" placeholder="Township" class="oe_no_button" options='{"no_open": True}' />
+                    <field name="zip" placeholder="Zip Code" />
+                </xpath>
+                <!-- Contact -->
+                <xpath expr="/form/sheet/notebook/page/field/form//field[@name='state_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page/field//field[@name='zip']" position="replace"></xpath>
+                <xpath expr="/form/sheet/notebook/page/field//field[@name='country_id']" position="after">
+                    <field name="province_id" placeholder="Province" class="oe_no_button" options='{"no_open": True}' />
+                    <field name="district_id" placeholder="District" class="oe_no_button" options='{"no_open": True}' />
+                    <field name="township_id" placeholder="Township" class="oe_no_button" options='{"no_open": True}' />
+                    <field name="zip" placeholder="Zip Code" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
