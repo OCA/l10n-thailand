@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+group_user_model_res_country_province,group_user_model_res_country_province,model_res_country_province,base.group_user,1,1,1,1
+group_user_model_res_country_district,group_user_model_res_country_district,model_res_country_district,base.group_user,1,1,1,1
+group_user_model_res_country_township,group_user_model_res_country_township,model_res_country_township,base.group_user,1,1,1,1

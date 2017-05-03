@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="bas.th" model="res.country">
+            <field name="address_format">%(street)s\n%(street2)s\n%(district_name)s %(township_name)s\n%(province_name)s %(zip)s</field>
+        </record>
+
+    </data>
+</openerp>

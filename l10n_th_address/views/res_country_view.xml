@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Province -->
+        <record id="view_res_country_province_tree" model="ir.ui.view">
+            <field name="name">res.country.province.tree</field>
+            <field name="model">res.country.province</field>
+            <field name="arch" type="xml">
+                <tree string="Province">
+                    <field name="name"/>
+                    <field name="country_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_res_country_province_form" model="ir.ui.view">
+            <field name="name">res.country.province.form</field>
+            <field name="model">res.country.province</field>
+            <field name="arch" type="xml">
+                <form string="Province">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="country_id"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_res_country_province" model="ir.actions.act_window">
+            <field name="name">Provinces</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.country.province</field>
+            <field name="view_type">form</field>
+            <field name="help">Display and manage the list of all province that can be assigned to your partner records. You can create or delete provinces to make sure the ones you are working on will be maintained.</field>
+        </record>
+
+        <menuitem action="action_res_country_province" id="menu_res_country_province" parent="sales_team.menu_localisation" sequence="50" groups="base.group_no_one"/>
+
+        <!-- District -->
+        <record id="view_res_country_district_tree" model="ir.ui.view">
+            <field name="name">res.country.district.tree</field>
+            <field name="model">res.country.district</field>
+            <field name="arch" type="xml">
+                <tree string="Province">
+                    <field name="name"/>
+                    <field name="province_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_res_country_district_form" model="ir.ui.view">
+            <field name="name">res.country.district.form</field>
+            <field name="model">res.country.district</field>
+            <field name="arch" type="xml">
+                <form string="District">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="province_id"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_res_country_district" model="ir.actions.act_window">
+            <field name="name">Districts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.country.district</field>
+            <field name="view_type">form</field>
+            <field name="help">Display and manage the list of all district that can be assigned to your partner records. You can create or delete districts to make sure the ones you are working on will be maintained.</field>
+        </record>
+
+        <menuitem action="action_res_country_district" id="menu_res_country_district" parent="sales_team.menu_localisation" sequence="51" groups="base.group_no_one"/>
+
+        <!-- Township -->
+        <record id="view_res_country_township_filter" model="ir.ui.view">
+            <field name="name">view.res.country.township.filter</field>
+            <field name="model">res.country.township</field>
+            <field name="arch" type="xml">
+                <search string="Search Townshop">
+                    <field name="name" string="Township" filter_domain="[('name','ilike',self)]"/>
+                    <field name="district_id"/>
+                    <field name="province_id"/>
+                    <field name="country_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Country" domain="[]" context="{'group_by':'country_id'}"/>
+                        <filter string="Province" domain="[]" context="{'group_by':'province_id'}"/>
+                        <filter string="District" domain="[]" context="{'group_by':'district_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_res_country_township_tree" model="ir.ui.view">
+            <field name="name">res.country.township.tree</field>
+            <field name="model">res.country.township</field>
+            <field name="arch" type="xml">
+                <tree string="Township">
+                    <field name="name"/>
+                    <field name="district_id"/>
+                    <field name="zip"/>
+                    <field name="province_id"/>
+                    <field name="country_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_res_country_township_form" model="ir.ui.view">
+            <field name="name">res.country.township.form</field>
+            <field name="model">res.country.township</field>
+            <field name="arch" type="xml">
+                <form string="Township">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="province_id"/>
+                            <field name="country_id"/>
+                        </group>
+                        <group>
+                            <field name="district_id"/>
+                            <field name="zip"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_res_country_township" model="ir.actions.act_window">
+            <field name="name">Townships</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.country.township</field>
+            <field name="view_type">form</field>
+            <field name="help">Display and manage the list of all township that can be assigned to your partner records. You can create or delete townships to make sure the ones you are working on will be maintained.</field>
+        </record>
+
+        <menuitem action="action_res_country_township" id="menu_res_country_township" parent="sales_team.menu_localisation" sequence="52" groups="base.group_no_one"/>
+
+    </data>
+</openerp>
