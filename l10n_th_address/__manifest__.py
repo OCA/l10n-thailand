@@ -32,6 +32,7 @@ Choosing Township will realize Province, District, and Zip Code
     ],
     'installable': True,
     'auto_install': False,
+    'post_init_hook': '_update_data_noupdate',
 }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
