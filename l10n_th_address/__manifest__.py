@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     'name': 'Partner Address in Thai',
-    'version': '10.0.0.1',
+    'version': '10.0.0.1.0',
     'category': 'Hidden',
     'description': """
 
