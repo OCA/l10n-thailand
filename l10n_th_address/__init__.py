@@ -12,4 +12,5 @@ def _update_data_noupdate(cr, registry):
         where model in ('res.country.province',
                         'res.country.district',
                         'res.country.township')
+        and module = 'l10n_th_address'
     """)
