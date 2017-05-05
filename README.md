@@ -16,14 +16,7 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
-[l10n_th_address](l10n_th_address/) | 10.0.0.0.1 | Address in Thai format: Township, District, Province
-
-
-Future addons
----------------
-addon | summary
---- | ---
-[l10n_th_base](l10n_th_base/) | Base module for Thai Localization (additional fields)
+[l10n_th_address](l10n_th_address/) | 10.0.0.1.0 | Partner Address in Thai
 
 [//]: # (end addons)
 
