@@ -9,7 +9,9 @@ class ResCountryProvince(models.Model):
     _name = 'res.country.province'
     _description = 'Provinces'
 
-    name = fields.Char(string='Province', required=True)
+    name = fields.Char(
+        string='Province', required=True,
+    )
     country_id = fields.Many2one(
         'res.country',
         string='Country',
