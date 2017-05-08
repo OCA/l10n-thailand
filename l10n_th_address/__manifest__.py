@@ -33,5 +33,5 @@ Choosing Township will realize Province, District, and Zip Code
     ],
     'installable': True,
     'auto_install': False,
-    'post_init_hook': '_update_data_noupdate',
+    'post_init_hook': 'update_data_noupdate',
 }
