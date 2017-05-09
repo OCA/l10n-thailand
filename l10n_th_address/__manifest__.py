@@ -5,20 +5,6 @@
     'name': 'Partner Address in Thai',
     'version': '10.0.0.1.0',
     'category': 'Hidden',
-    'description': """
-
-Address for Thailand
-====================
-
-If country is selected as Thailand, new fields will show up.
-
-* Province (Chanwat)
-* District (Amphoe)
-* Township (Tambon)
-
-Choosing Township will realize Province, District, and Zip Code
-
-    """,
     'author': 'Ecosoft,Odoo Community Association (OCA)',
     'website': 'http://ecosoft.co.th',
     'depends': ['sales_team'],

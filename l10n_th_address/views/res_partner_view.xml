@@ -12,7 +12,7 @@
                 <xpath expr="/form/sheet/group/group/div/field[@name='state_id']" position="attributes">
                     <attribute name="invisible">True</attribute>
                 </xpath>
-                <xpath expr="/form/sheet/group/group/div/field[@name='zip']" position="replace"/>
+                <xpath expr="/form/sheet/group/group/div/field[@name='zip']" position="replace" priority="10"/>
                 <xpath expr="/form/sheet/group/group/div/field[@name='country_id']" position="after">
                     <field name="province_id" placeholder="Province" class="oe_no_button" options='{"no_open": True}' />
                     <field name="district_id" placeholder="District" class="oe_no_button" options='{"no_open": True}' />
@@ -23,7 +23,7 @@
                 <xpath expr="/form/sheet/notebook/page/field/form//field[@name='state_id']" position="attributes">
                     <attribute name="invisible">True</attribute>
                 </xpath>
-                <xpath expr="/form/sheet/notebook/page/field//field[@name='zip']" position="replace"></xpath>
+                <xpath expr="/form/sheet/notebook/page/field//field[@name='zip']" position="replace" priority="10"/>
                 <xpath expr="/form/sheet/notebook/page/field//field[@name='country_id']" position="after">
                     <field name="province_id" placeholder="Province" class="oe_no_button" options='{"no_open": True}' />
                     <field name="district_id" placeholder="District" class="oe_no_button" options='{"no_open": True}' />
