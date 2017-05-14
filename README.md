@@ -17,6 +17,7 @@ Available addons
 addon | version | summary
 --- | --- | ---
 [l10n_th_address](l10n_th_address/) | 10.0.0.1.0 | Partner Address in Thai
+[l10n_th_account_tax](l10n_th_account_tax/) | 10.0.0.1.0 | Undue VAT, Withholding Tax
 
 [//]: # (end addons)
 
