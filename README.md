@@ -6,7 +6,7 @@
 Odoo Thai Localization
 ======================
 
-This repository hosts official Swiss localization provided by the OCA.
+This repository hosts official Thai localization provided by the OCA.
 
 It extends Odoo to add needed functionalities to use Odoo in Thailand.
 
