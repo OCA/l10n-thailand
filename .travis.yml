@@ -1,0 +1,38 @@
+language: python
+
+python:
+  - "3.5"
+
+sudo: false
+cache: pip
+
+addons:
+  postgresql: "9.2" # minimal postgresql version for the daterange method
+  apt:
+    packages:
+      - expect-dev  # provides unbuffer utility
+      - python-lxml  # because pip installation is slow
+      - python-xlrd
+
+env:
+  global:
+  - VERSION="11.0" TESTS="0" LINT_CHECK="0" TRANSIFEX="0"
+  - TRANSIFEX_USER='transbot@odoo-community.org'
+  - secure: "yaEEMJ+b5wpySGxYHPqUbDCgPwHtLhc8lwk7kyc7zJQ09+NRQFHlmuCv3FUx6s2IYi2tl4zloW7ne/hjPR47eUnxc2ok+aHZzxsjn1/90Ty37MW9Fhd2sVrTQwB5GkbaX7A7gE7YPJir2LdvF5OD24Q3e3nSp33vnSKah4qRtIdjOHtKSf6TS1nM22OT8bPscBVt3mcek9zPxUwMfSCDFJ7TZZ1/Ab9NwhHDXNqbo3tYQMvBuNT+TR9SRFb8MfHLvZ0hlLcfTL4hua8nlFQSxTjx/p4LQRbM6Dk3oxlq6pijNxW4Q1S8K/Robj8KDv3.5d+mJkCaZc+zbT/o1CryCJbqQLW+cjprC8O5uBU4nOrdvaWHjfvmieKBX/sNAmEDc7ApI9zDGFXUSTyqO7inzMK6nYZ2ktwDuP+5+7dpFnQYYzGqnNIE+GDLA2wxKd9XLKz27aptAsfH4xSkIlXramzALr/uTfuet5wLFPstlOhY9P0QFRhB2VCWsFQmhYyR1e3Yik8ZlRGcXyRUsAZXbefT+CL9YrUtm+tNObYAuiiFgc80s3d4skdj+AmlnJTfi6E2lydgm4m3lZBO/XgoylRXXC7NJ/jxbrKYT5ClqRsnF3z3luYeKn6/eKw5UEYt6ibNw3MI6WSYm9AY/UbVjqhFMEMnKSkEEbsG6nEVAwU="
+  matrix:
+  - LINT_CHECK="1"
+  - TRANSIFEX="1"
+  - TESTS="1" ODOO_REPO="OCA/OCB"
+  - TESTS="1" ODOO_REPO="odoo/odoo"
+
+
+install:
+  - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
+  - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
+  - travis_install_nightly
+
+script:
+  - travis_wait travis_run_tests
+
+after_success:
+  - travis_after_tests_success
