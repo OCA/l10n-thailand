@@ -1,0 +1,155 @@
+id,country_id/id,code,name
+TH-10,base.th,TH-10,Bangkok
+TH-11,base.th,TH-11,Samut Prakan
+TH-12,base.th,TH-12,Nonthaburi
+TH-13,base.th,TH-13,Pathum Thani
+TH-14,base.th,TH-14,Phra Nakhon Si Ayutthaya
+TH-15,base.th,TH-15,Ang Thong
+TH-16,base.th,TH-16,Lopburi
+TH-17,base.th,TH-17,Sing Buri
+TH-18,base.th,TH-18,Chai Nat
+TH-19,base.th,TH-19,Saraburi
+TH-20,base.th,TH-20,Chon Buri
+TH-21,base.th,TH-21,Rayong
+TH-22,base.th,TH-22,Chanthaburi
+TH-23,base.th,TH-23,Trat
+TH-24,base.th,TH-24,Chachoengsao
+TH-25,base.th,TH-25,Prachin Buri
+TH-26,base.th,TH-26,Nakhon Nayok
+TH-27,base.th,TH-27,Sa Kaeo
+TH-30,base.th,TH-30,Nakhon Ratchasima
+TH-31,base.th,TH-31,Buriram
+TH-32,base.th,TH-32,Surin
+TH-33,base.th,TH-33,Sisaket
+TH-34,base.th,TH-34,Ubon Ratchathani
+TH-35,base.th,TH-35,Yasothon
+TH-36,base.th,TH-36,Chaiyaphum
+TH-37,base.th,TH-37,Amnat Charoen
+TH-38,base.th,TH-38,Bueng Kan
+TH-39,base.th,TH-39,Nong Bua Lam Phu
+TH-40,base.th,TH-40,Khon Kaen
+TH-41,base.th,TH-41,Udon Thani
+TH-42,base.th,TH-42,Loei
+TH-43,base.th,TH-43,Nong Khai
+TH-44,base.th,TH-44,Maha Sarakham
+TH-45,base.th,TH-45,Roi Et
+TH-46,base.th,TH-46,Kalasin
+TH-47,base.th,TH-47,Sakon Nakhon
+TH-48,base.th,TH-48,Nakhon Phanom
+TH-49,base.th,TH-49,Mukdahan
+TH-50,base.th,TH-50,Chiang Mai
+TH-51,base.th,TH-51,Lamphun
+TH-52,base.th,TH-52,Lampang
+TH-53,base.th,TH-53,Uttaradit
+TH-54,base.th,TH-54,Phrae
+TH-55,base.th,TH-55,Nan
+TH-56,base.th,TH-56,Phayao
+TH-57,base.th,TH-57,Chiang Rai
+TH-58,base.th,TH-58,Mae Hong Son
+TH-60,base.th,TH-60,Nakhon Sawan
+TH-61,base.th,TH-61,Uthai Thani
+TH-62,base.th,TH-62,Kamphaeng Phet
+TH-63,base.th,TH-63,Tak
+TH-64,base.th,TH-64,Sukhothai
+TH-65,base.th,TH-65,Phitsanulok
+TH-66,base.th,TH-66,Phichit
+TH-67,base.th,TH-67,Phetchabun
+TH-70,base.th,TH-70,Ratchaburi
+TH-71,base.th,TH-71,Kanchanaburi
+TH-72,base.th,TH-72,Suphan Buri
+TH-73,base.th,TH-73,Nakhon Pathom
+TH-74,base.th,TH-74,Samut Sakhon
+TH-75,base.th,TH-75,Samut Songkhram
+TH-76,base.th,TH-76,Phetchaburi
+TH-77,base.th,TH-77,Prachuap Khiri Khan
+TH-80,base.th,TH-80,Nakhon Si Thammarat
+TH-81,base.th,TH-81,Krabi
+TH-82,base.th,TH-82,Phangnga
+TH-83,base.th,TH-83,Phuket
+TH-84,base.th,TH-84,Surat Thani
+TH-85,base.th,TH-85,Ranong
+TH-86,base.th,TH-86,Chumphon
+TH-90,base.th,TH-90,Songkhla
+TH-91,base.th,TH-91,Satun
+TH-92,base.th,TH-92,Trang
+TH-93,base.th,TH-93,Phatthalung
+TH-94,base.th,TH-94,Pattani
+TH-95,base.th,TH-95,Yala
+TH-96,base.th,TH-96,Narathiwat
+TH_TH-10,base.th,TH_TH-10,กรุงเทพมหานคร
+TH_TH-11,base.th,TH_TH-11,สมุทรปราการ
+TH_TH-12,base.th,TH_TH-12,นนทบุรี
+TH_TH-13,base.th,TH_TH-13,ปทุมธานี
+TH_TH-14,base.th,TH_TH-14,พระนครศรีอยุธยา
+TH_TH-15,base.th,TH_TH-15,อ่างทอง
+TH_TH-16,base.th,TH_TH-16,ลพบุรี
+TH_TH-17,base.th,TH_TH-17,สิงห์บุรี
+TH_TH-18,base.th,TH_TH-18,ชัยนาท
+TH_TH-19,base.th,TH_TH-19,สระบุรี
+TH_TH-20,base.th,TH_TH-20,ชลบุรี
+TH_TH-21,base.th,TH_TH-21,ระยอง
+TH_TH-22,base.th,TH_TH-22,จันทบุรี
+TH_TH-23,base.th,TH_TH-23,ตราด
+TH_TH-24,base.th,TH_TH-24,ฉะเชิงเทรา
+TH_TH-25,base.th,TH_TH-25,ปราจีนบุรี
+TH_TH-26,base.th,TH_TH-26,นครนายก
+TH_TH-27,base.th,TH_TH-27,สระแก้ว
+TH_TH-30,base.th,TH_TH-30,นครราชสีมา
+TH_TH-31,base.th,TH_TH-31,บุรีรัมย์
+TH_TH-32,base.th,TH_TH-32,สุรินทร์
+TH_TH-33,base.th,TH_TH-33,ศรีสะเกษ
+TH_TH-34,base.th,TH_TH-34,อุบลราชธานี
+TH_TH-35,base.th,TH_TH-35,ยโสธร
+TH_TH-36,base.th,TH_TH-36,ชัยภูมิ
+TH_TH-37,base.th,TH_TH-37,อำนาจเจริญ
+TH_TH-38,base.th,TH_TH-38,บึงกาฬ
+TH_TH-39,base.th,TH_TH-39,หนองบัวลำภู
+TH_TH-40,base.th,TH_TH-40,ขอนแก่น
+TH_TH-41,base.th,TH_TH-41,อุดรธานี
+TH_TH-42,base.th,TH_TH-42,เลย
+TH_TH-43,base.th,TH_TH-43,หนองคาย
+TH_TH-44,base.th,TH_TH-44,มหาสารคาม
+TH_TH-45,base.th,TH_TH-45,ร้อยเอ็ด
+TH_TH-46,base.th,TH_TH-46,กาฬสินธุ์
+TH_TH-47,base.th,TH_TH-47,สกลนคร
+TH_TH-48,base.th,TH_TH-48,นครพนม
+TH_TH-49,base.th,TH_TH-49,มุกดาหาร
+TH_TH-50,base.th,TH_TH-50,เชียงใหม่
+TH_TH-51,base.th,TH_TH-51,ลำพูน
+TH_TH-52,base.th,TH_TH-52,ลำปาง
+TH_TH-53,base.th,TH_TH-53,อุตรดิตถ์
+TH_TH-54,base.th,TH_TH-54,แพร่
+TH_TH-55,base.th,TH_TH-55,น่าน
+TH_TH-56,base.th,TH_TH-56,พะเยา
+TH_TH-57,base.th,TH_TH-57,เชียงราย
+TH_TH-58,base.th,TH_TH-58,แม่ฮ่องสอน
+TH_TH-59,base.th,TH_TH-59,นครสวรรค์
+TH_TH-60,base.th,TH_TH-60,อุทัยธานี
+TH_TH-61,base.th,TH_TH-61,กำแพงเพชร
+TH_TH-62,base.th,TH_TH-62,ตาก
+TH_TH-63,base.th,TH_TH-63,สุโขทัย
+TH_TH-64,base.th,TH_TH-64,พิษณุโลก
+TH_TH-65,base.th,TH_TH-65,พิจิตร
+TH_TH-67,base.th,TH_TH-67,เพชรบูรณ์
+TH_TH-70,base.th,TH_TH-70,ราชบุรี
+TH_TH-71,base.th,TH_TH-71,กาญจนบุรี
+TH_TH-72,base.th,TH_TH-72,สุพรรณบุรี
+TH_TH-73,base.th,TH_TH-73,นครปฐม
+TH_TH-74,base.th,TH_TH-74,สมุทรสาคร
+TH_TH-75,base.th,TH_TH-75,สมุทรสงคราม
+TH_TH-76,base.th,TH_TH-76,เพชรบุรี
+TH_TH-77,base.th,TH_TH-77,ประจวบคีรีขันธ์
+TH_TH-80,base.th,TH_TH-80,นครศรีธรรมราช
+TH_TH-81,base.th,TH_TH-81,กระบี่
+TH_TH-82,base.th,TH_TH-82,พังงา
+TH_TH-83,base.th,TH_TH-83,ภูเก็ต
+TH_TH-84,base.th,TH_TH-84,สุราษฎร์ธานี
+TH_TH-85,base.th,TH_TH-85,ระนอง
+TH_TH-86,base.th,TH_TH-86,ชุมพร
+TH_TH-90,base.th,TH_TH-90,สงขลา
+TH_TH-91,base.th,TH_TH-91,สตูล
+TH_TH-92,base.th,TH_TH-92,ตรัง
+TH_TH-93,base.th,TH_TH-93,พัทลุง
+TH_TH-94,base.th,TH_TH-94,ปัตตานี
+TH_TH-95,base.th,TH_TH-95,ยะลา
+TH_TH-96,base.th,TH_TH-96,นราธิวาส
