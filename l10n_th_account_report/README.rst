@@ -22,21 +22,15 @@ Thailand Localization - Accounting Reports
 
 |badge1| |badge2| |badge3| |badge4| 
 
-This module add new Thailand's account report, as following
+This module add new Thailand's account report, on following menus,
 
-- Thai VAT Report
+- Invoicing > Reporting > TH accounting reports > **VAT Report**
+- Invoicing > Withholding Tax > **WT Income Tax Report**
 
 **Table of contents**
 
 .. contents::
    :local:
-
-Usage
-=====
-
-Report menus:
-
-- Invoicing > Reporting > TH accounting reports > VAT Report
 
 Changelog
 =========
