@@ -48,7 +48,6 @@
         <field name="csv_delimiter">,</field>
         <field name="csv_extension">txt</field>
         <field name="csv_quote">True</field>
-        <field name="name">Report PND Template (.txt)</field>
         <field name="input_instruction">
           {
               '__EXPORT__': {

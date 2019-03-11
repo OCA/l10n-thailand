@@ -52,4 +52,4 @@ class AccountVatReport(models.Model):
                     join account_move am on aml.move_id = am.id
                     where tax_line_id is not null
             )
-        """ % (self._table, ))
+        """, (self._table, ))

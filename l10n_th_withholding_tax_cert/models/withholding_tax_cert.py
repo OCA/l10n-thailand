@@ -145,10 +145,12 @@ class WithholdingTaxCert(models.Model):
                                 wt_move.statement_id.base, 2)
                 if percent:
                     base = tax / percent
-        vals = {'wt_percent': percent * 100,
-                'base': base,
-                'amount': abs(move_line.balance),
-                'ref_move_line_id': move_line.id}
+        vals = {
+            'wt_cert_income_type': self._context.get('wt_cert_income_type'),
+            'wt_percent': percent * 100,
+            'base': base,
+            'amount': abs(move_line.balance),
+            'ref_move_line_id': move_line.id, }
         return vals
 
     @api.model
