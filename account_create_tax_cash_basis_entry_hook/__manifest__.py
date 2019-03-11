@@ -8,5 +8,6 @@
     'license': "AGPL-3",
     'depends': ["account"],
     'data': [],
+    'post_load': 'post_load_hook',
     'installable': True,
 }

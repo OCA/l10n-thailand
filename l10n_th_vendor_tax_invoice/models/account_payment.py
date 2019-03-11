@@ -9,9 +9,9 @@ class AccountPayment(models.Model):
 
     @api.multi
     def _create_payment_entry(self, amount):
-        if self.payment_type == 'inbound':  # Customer Payment
+        if self.payment_type == 'inbound':
             self.taxinv_ready = True
-        elif self.payment_type == 'outbound':  # Supplier Payment
+        elif self.payment_type == 'outbound' and self.invoice_ids:
             invoice_lines = self.invoice_ids.mapped('invoice_line_ids')
             taxes = invoice_lines.mapped('invoice_line_tax_ids')
             if not taxes.filtered(lambda l: l.tax_exigibility == 'on_payment'):
@@ -52,6 +52,7 @@ class AccuntAbstractPayment(models.AbstractModel):
     taxinv_ready = fields.Boolean(
         string="Tax Invoice Ready",
         default=False,
+        copy=False,
         help="Tax invoice number is ready for filling in,\n"
         "system will open tax table allow user to fill in",
     )
@@ -86,24 +87,6 @@ class AccuntAbstractPayment(models.AbstractModel):
                          not l.tax_date_manual)
             if no_taxinv_lines:
                 raise UserError(_('Tax invoice/date is not filled!'))
-
-    @api.model
-    def default_get(self, fields):
-        res = super().default_get(fields)
-        invoice_ids = self._context.get('active_ids')
-        InvoiceTax = self.env['account.invoice.tax']
-        tax_lines = InvoiceTax.search([
-            ('invoice_id', 'in', invoice_ids),
-            ('tax_id.tax_exigibility', '=', 'on_payment'),
-            ('tax_id.type_tax_use', '=', 'purchase')])
-        vals = []
-        for tax_line in tax_lines:
-            company_currency_id = self.env.user.company_id.currency_id.id
-            vals.append((0, 0, {'invoice_tax_line_id': tax_line.id,
-                                'name': tax_line.name,
-                                'company_currency_id': company_currency_id}))
-        res['tax_line_ids'] = vals
-        return res
 
     @api.constrains('taxinv_ready', 'pending_tax_cash_basis_entry')
     def _check_tax_invoice(self):

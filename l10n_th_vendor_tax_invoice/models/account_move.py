@@ -25,18 +25,18 @@ class AccountMoveLine(models.Model):
     invoice_tax_line_id = fields.Many2one(
         comodel_name='account.invoice.tax',
         string='Invoice Tax Line',
-        copy=False,
+        copy=True,
         ondelete='restrict',
     )
     payment_tax_line_id = fields.Many2one(
         comodel_name='account.payment.tax',
         string='Payment Tax Line',
-        copy=False,
+        copy=True,
         ondelete='restrict',
     )
     tax_invoice_manual = fields.Char(
         string='Tax Invoice',
-        copy=False,
+        copy=True,
     )
     tax_invoice = fields.Char(
         string='Tax Invoice',
@@ -45,7 +45,7 @@ class AccountMoveLine(models.Model):
     )
     tax_date_manual = fields.Date(
         string='Tax Date',
-        copy=False,
+        copy=True,
     )
     tax_date = fields.Char(
         string='Tax Date',
@@ -55,25 +55,37 @@ class AccountMoveLine(models.Model):
 
     @api.model
     def create(self, vals):
+        """ Create payment tax line for clear undue vat """
         if self._context.get('cash_basis_entry_move_line', False):
             move_line = self._context['cash_basis_entry_move_line']
-            print(move_line)
+            payment = self._context.get('payment')
             invoice_tax_line = move_line.invoice_tax_line_id
-            payment_tax_line = self.env['account.payment.tax'].search(
-                [('invoice_tax_line_id', '=', invoice_tax_line.id),
-                 ('payment_id', '=', self._context.get('payment_id'))])
+            payment_tax_line_id = False
+            if move_line.tax_line_id.tax_exigibility == 'on_payment' and \
+                    move_line.tax_line_id.type_tax_use == 'purchase':
+                payment_tax = self.env['account.payment.tax'].\
+                    search([('invoice_tax_line_id', '=', invoice_tax_line.id),
+                            ('payment_id', '=', payment.id)])
+                if not payment_tax:  # If not already created for this payment
+                    currency = self.env.user.company_id.currency_id
+                    payment_tax = self.env['account.payment.tax'].create({
+                        'invoice_tax_line_id': invoice_tax_line.id,
+                        'name': invoice_tax_line.name,
+                        'company_currency_id': currency.id,
+                        'payment_id': payment.id,
+                    })
+                payment_tax_line_id = payment_tax.id
             vals.update({
                 'invoice_tax_line_id': invoice_tax_line.id,
                 'tax_invoice_manual': invoice_tax_line.tax_invoice_manual,
-                'payment_tax_line_id': payment_tax_line.id,
+                'payment_tax_line_id': payment_tax_line_id,
             })
         res = super().create(vals)
-        print(vals)
-        print(res)
         return res
 
     @api.multi
     @api.depends('tax_invoice_manual',
+                 'tax_date_manual',
                  'invoice_tax_line_id',
                  'invoice_id.number',
                  'invoice_id.date_invoice')
@@ -112,6 +124,14 @@ class AccountPartialReconcile(models.Model):
         payment = lines.mapped('payment_id')
         if payment and len(payment) == 1 and not payment.taxinv_ready:
             payment.pending_tax_cash_basis_entry = True
-            self = self.with_context(payment_id=payment.id)
         res = super(AccountPartialReconcile, self).create(vals)
         return res
+
+    @api.model
+    def _set_additional_context(self, move_line):
+        self = super()._set_additional_context(move_line)
+        payment = (self.debit_move_id.move_id + self.credit_move_id.move_id).\
+            mapped('line_ids').mapped('payment_id')
+        ctx = {'cash_basis_entry_move_line': move_line,
+               'payment': payment}
+        return self.with_context(ctx)

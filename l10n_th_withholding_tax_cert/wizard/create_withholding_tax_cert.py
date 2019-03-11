@@ -19,7 +19,7 @@ class CreateWithholdingTaxCert(models.TransientModel):
         payment_id = self._context.get('active_id')
         payment = self.env['account.payment'].browse(payment_id)
         wt_moves = self.env['withholding.tax.move'].search([
-            ('payment_line_id', '=', payment.move_line_ids.ids)])
+            ('payment_line_id', 'in', payment.move_line_ids.ids)])
         if wt_moves:
             taxes = wt_moves.mapped('withholding_tax_id')
             accounts = taxes.mapped('account_receivable_id') + \
@@ -32,7 +32,7 @@ class CreateWithholdingTaxCert(models.TransientModel):
         self.ensure_one()
         ctx = self._context.copy()
         if len(ctx.get('active_ids', [])) != 1:
-            raise ValidationError(_('Please select only 1 journal entry.'))
+            raise ValidationError(_('Please select only 1 payment'))
         ctx.update({'default_payment_id': ctx.get('active_id'),
                     'wt_account_ids': self.wt_account_ids.ids})
         return {
