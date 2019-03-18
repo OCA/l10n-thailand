@@ -7,11 +7,11 @@
             model="withholding.tax.cert"
             string="Withholding Cert (pdf)"
             report_type="qweb-pdf"
-            name="withholding_tax_cert_report.withholding_tax_pdf"
-            file="withholding_tax_cert_report.withholding_tax_pdf"
+            name="withholding_tax_cert_form.withholding_tax_pdf"
+            file="withholding_tax_cert_form.withholding_tax_pdf"
             print_report_name="('Withholding Tax')"
             groups="account.group_account_invoice"
-            paperformat="withholding_tax_cert_report.paperformat_withholding_tax"
+            paperformat="withholding_tax_cert_form.paperformat_withholding_tax"
         />
 
     </data>

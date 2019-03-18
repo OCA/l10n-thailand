@@ -4,12 +4,12 @@
 
         <template id="report_assets_common" name="Withholding Tax Cert Reports" inherit_id="web.report_assets_common">
             <xpath expr="//link[last()]" position="after">
-                <link rel="stylesheet" type="text/scss" href="/withholding_tax_cert_report/static/scss/style_report.scss"/>
+                <link rel="stylesheet" type="text/scss" href="/withholding_tax_cert_form/static/scss/style_report.scss"/>
             </xpath>
         </template>
 
         <template id="withholding_layout_report">
-            <div class="header" t-attf-style="background-image:url('/withholding_tax_cert_report/static/src/img/WithholdingCert.jpg'); background-size:300mm 424mm; width:300mm; height:424mm;">
+            <div class="header" t-attf-style="background-image:url('/withholding_tax_cert_form/static/src/img/WithholdingCert.jpg'); background-size:300mm 424mm; width:300mm; height:424mm;">
                 <div class="company_vat">
                     <t t-if="o.company_partner_id.vat">
                         <div class="row">
@@ -132,7 +132,7 @@
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <t t-set="lang" t-value="o.supplier_partner_id.lang"/>
-                    <t t-call="withholding_tax_cert_report.withholding_layout_report" t-lang="lang"/>
+                    <t t-call="withholding_tax_cert_form.withholding_layout_report" t-lang="lang"/>
                 </t>
             </t>
         </template>

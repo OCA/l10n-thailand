@@ -22,7 +22,6 @@ body {
     width: 650px;
     height: 40px;
     padding: 1px;
-    border: 1px solid blue;
 }
 .company_address {
     margin-left: 113px;
@@ -32,7 +31,6 @@ body {
     width: 1000px;
     height: 40px;
     padding: 1px;
-    border: 1px solid blue;
 }
 .supplier_vat {
     margin-left: 730px;
@@ -47,7 +45,6 @@ body {
     width: 650px;
     height: 40px;
     padding: 1px;
-    border: 1px solid blue;
     margin-top: 0px;
     margin-bottom: 0px;
 }
@@ -59,7 +56,6 @@ body {
     width: 1000px;
     height: 40px;
     padding: 1px;
-    border: 1px solid blue;
 }
 .sequence_number {
     margin-left: 150px;
@@ -69,7 +65,6 @@ body {
     width: 110px;
     height: 20px;
     padding: 1px;
-    border: 1px solid blue;
     margin-top: 0px;
     margin-bottom: 0px;
 }
@@ -187,7 +182,6 @@ body {
     box-sizing: content-box;
     width: 700px;
     height: 40px;
-    border: 1px solid blue;
     top: 1275px;
     right: 80px;
     text-align: center;
@@ -205,9 +199,9 @@ body {
     box-sizing: content-box;
     width: 21px;
     height: 23px;
-    border: 1px solid blue;
     text-align: center;
     margin-bottom: 0px;
+    padding-left: 2px;
 }
 .vat_tab {
     margin-left: 11px;

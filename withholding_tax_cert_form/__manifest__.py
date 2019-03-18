@@ -2,7 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 {
-    'name': 'Withholding Tax Cert Report',
+    'name': 'Withholding Tax Cert Form',
     'category': 'Report',
     'description': """
 Reporting
