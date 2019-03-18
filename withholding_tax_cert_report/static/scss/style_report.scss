@@ -1,0 +1,214 @@
+// Change Font
+@font-face {
+    font-family: 'THSarabun';
+    src: url('../fonts/THSarabunNew Bold.ttf') format('truetype');
+}
+body {
+    font-family: 'THSarabun';
+    font-size: 22px;
+}
+
+
+.company_vat {
+    margin-left: 730px;
+    position: fixed;
+    top: 160px;
+}
+.company_name {
+    margin-left: 107px;
+    position: fixed;
+    top: 187px;
+    box-sizing: content-box;
+    width: 650px;
+    height: 40px;
+    padding: 1px;
+    border: 1px solid blue;
+}
+.company_address {
+    margin-left: 113px;
+    position: fixed;
+    top: 233px;
+    box-sizing: content-box;
+    width: 1000px;
+    height: 40px;
+    padding: 1px;
+    border: 1px solid blue;
+}
+.supplier_vat {
+    margin-left: 730px;
+    position: fixed;
+    top: 290px;
+}
+.supplier_name {
+    margin-left: 107px;
+    position: fixed;
+    top: 325px;
+    box-sizing: content-box;
+    width: 650px;
+    height: 40px;
+    padding: 1px;
+    border: 1px solid blue;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.supplier_address {
+    margin-left: 113px;
+    position: fixed;
+    top: 376px;
+    box-sizing: content-box;
+    width: 1000px;
+    height: 40px;
+    padding: 1px;
+    border: 1px solid blue;
+}
+.sequence_number {
+    margin-left: 150px;
+    position: fixed;
+    top: 430px;
+    box-sizing: content-box;
+    width: 110px;
+    height: 20px;
+    padding: 1px;
+    border: 1px solid blue;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.choice_pnd1a {
+    position: fixed;
+    top: 430px;
+    left: 420px;
+    font-size: 28px;
+}
+.choice_pnd3 {
+    position: fixed;
+    top: 430px;
+    right: 217px;
+    font-size: 28px;
+}
+.choice_pnd3a {
+    position: fixed;
+    top: 463px;
+    right: 568px;
+    font-size: 28px;
+}
+.choice_pnd53 {
+    position: fixed;
+    top: 463px;
+    right: 365px;
+    font-size: 28px;
+}
+.type_1_date {
+    position: fixed;
+    top: 563px;
+    right: 400px;
+}
+.type_1_base {
+    position: fixed;
+    top: 563px;
+    right: 210px;
+}
+.type_1_tax {
+    position: fixed;
+    top: 563px;
+    right: 74px;
+}
+.type_2_date {
+    position: fixed;
+    top: 590px;
+    right: 400px;
+}
+.type_2_base {
+    position: fixed;
+    top: 590px;
+    right: 210px;
+}
+.type_2_tax {
+    position: fixed;
+    top: 590px;
+    right: 74px;
+}
+.type_3_date {
+    position: fixed;
+    top: 617px;
+    right: 400px;
+}
+.type_3_base {
+    position: fixed;
+    top: 617px;
+    right: 210px;
+}
+.type_3_tax {
+    position: fixed;
+    top: 617px;
+    right: 74px;
+}
+.type_5_date {
+    position: fixed;
+    top: 1150px;
+    right: 400px;
+}
+.type_5_base {
+    position: fixed;
+    top: 1150px;
+    right: 210px;
+}
+.type_5_tax {
+    position: fixed;
+    top: 1150px;
+    right: 74px;
+}
+.type_6_date {
+    position: fixed;
+    top: 1195px;
+    right: 400px;
+}
+.type_6_base {
+    position: fixed;
+    top: 1195px;
+    right: 210px;
+}
+.type_6_tax {
+    position: fixed;
+    top: 1195px;
+    right: 74px;
+}
+.total_amount {
+    position: fixed;
+    top: 1235px;
+    right: 210px;
+}
+.total_tax {
+    position: fixed;
+    top: 1235px;
+    right: 74px;
+}
+.text_amount {
+    position: fixed;
+    box-sizing: content-box;
+    width: 700px;
+    height: 40px;
+    border: 1px solid blue;
+    top: 1275px;
+    right: 80px;
+    text-align: center;
+}
+.choich_withholding_tax {
+    position: fixed;
+    top: 1350px;
+    left: 180px;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+
+.box-vat {
+    box-sizing: content-box;
+    width: 21px;
+    height: 23px;
+    border: 1px solid blue;
+    text-align: center;
+    margin-bottom: 0px;
+}
+.vat_tab {
+    margin-left: 11px;
+}
