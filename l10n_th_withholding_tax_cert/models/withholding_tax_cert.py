@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
+from odoo.tools.float_utils import float_compare
 
 
 INCOME_TAX_FORM = [('pnd1', 'PND1'),
@@ -114,7 +115,10 @@ class WithholdingTaxCert(models.Model):
     def _check_wt_line(self):
         for cert in self:
             for line in cert.wt_line:
-                if line.amount != line.base * line.wt_percent / 100:
+                prec = self.env.user.company_id.currency_id.decimal_places
+                if float_compare(line.amount,
+                                 line.base * line.wt_percent / 100,
+                                 prec) != 0:
                     raise ValidationError(_('WT Base/Percent/Tax mismatch!'))
 
     @api.onchange('payment_id')
