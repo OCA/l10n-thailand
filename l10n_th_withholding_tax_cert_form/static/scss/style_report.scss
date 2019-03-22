@@ -8,7 +8,11 @@ body {
     font-size: 22px;
 }
 
-
+.number_payment {
+    position: fixed;
+    top: 100px;
+    right: 200px;
+}
 .company_vat {
     margin-left: 730px;
     position: fixed;
@@ -100,12 +104,12 @@ body {
 .type_1_base {
     position: fixed;
     top: 563px;
-    right: 210px;
+    right: 209px;
 }
 .type_1_tax {
     position: fixed;
     top: 563px;
-    right: 74px;
+    right: 73px;
 }
 .type_2_date {
     position: fixed;
@@ -115,12 +119,12 @@ body {
 .type_2_base {
     position: fixed;
     top: 590px;
-    right: 210px;
+    right: 209px;
 }
 .type_2_tax {
     position: fixed;
     top: 590px;
-    right: 74px;
+    right: 73px;
 }
 .type_3_date {
     position: fixed;
@@ -130,12 +134,12 @@ body {
 .type_3_base {
     position: fixed;
     top: 617px;
-    right: 210px;
+    right: 209px;
 }
 .type_3_tax {
     position: fixed;
     top: 617px;
-    right: 74px;
+    right: 73px;
 }
 .type_5_date {
     position: fixed;
@@ -145,12 +149,20 @@ body {
 .type_5_base {
     position: fixed;
     top: 1150px;
-    right: 210px;
+    right: 209px;
 }
 .type_5_tax {
     position: fixed;
     top: 1150px;
-    right: 74px;
+    right: 73px;
+}
+.type_6_description {
+    position: fixed;
+    box-sizing: content-box;
+    width: 450px;
+    height: 40px;
+    top: 1200px;
+    left: 200px;
 }
 .type_6_date {
     position: fixed;
@@ -160,22 +172,22 @@ body {
 .type_6_base {
     position: fixed;
     top: 1195px;
-    right: 210px;
+    right: 209px;
 }
 .type_6_tax {
     position: fixed;
     top: 1195px;
-    right: 74px;
+    right: 73px;
 }
 .total_amount {
     position: fixed;
     top: 1235px;
-    right: 210px;
+    right: 209px;
 }
 .total_tax {
     position: fixed;
     top: 1235px;
-    right: 74px;
+    right: 73px;
 }
 .text_amount {
     position: fixed;
@@ -190,6 +202,13 @@ body {
     position: fixed;
     top: 1350px;
     left: 180px;
+    font-size: 23px;
+    font-weight: bold;
+}
+.choich_paid_one_time {
+    position: fixed;
+    top: 1350px;
+    right: 577px;
     font-size: 23px;
     font-weight: bold;
 }
