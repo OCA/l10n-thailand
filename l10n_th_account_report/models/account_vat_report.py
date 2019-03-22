@@ -42,7 +42,7 @@ class AccountVatReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
         self.env.cr.execute("""
-            CREATE or REPLACE VIEW %s as (
+            CREATE or REPLACE VIEW account_vat_report as (
                 select
                     aml.id as id, am.company_id, am.name,
                     aml.account_id, aml.tax_invoice, aml.partner_id,
@@ -52,4 +52,4 @@ class AccountVatReport(models.Model):
                     join account_move am on aml.move_id = am.id
                     where tax_line_id is not null
             )
-        """, (self._table, ))
+        """)
