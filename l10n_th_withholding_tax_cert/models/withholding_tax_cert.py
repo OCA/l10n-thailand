@@ -8,8 +8,7 @@ from odoo.tools.float_utils import float_compare
 INCOME_TAX_FORM = [('pnd1', 'PND1'),
                    ('pnd3', 'PND3'),
                    ('pnd3a', 'PND3a'),
-                   ('pnd53', 'PND53'),
-                   ('pnd54', 'PND54')]
+                   ('pnd53', 'PND53')]
 
 
 WHT_CERT_INCOME_TYPE = [('1', '1. เงินเดือน ค่าจ้าง ฯลฯ 40(1)'),
