@@ -4,12 +4,12 @@
 
         <template id="report_assets_common" name="withholding tax cert common assets" inherit_id="web.report_assets_common">
             <xpath expr="." position="inside">
-                <link rel="stylesheet" type="text/scss" href="/l10n_th_withholding_tax_cert_form/static/scss/style_report.scss"/>
+                <link rel="stylesheet" type="text/scss" href="/l10n_th_withholding_tax_cert_form/static/scss/style_withholding_tax_cert.scss"/>
             </xpath>
         </template>
 
         <template id="withholding_layout_report">
-            <div class="article" t-attf-style="background-image:url('/l10n_th_withholding_tax_cert_form/static/src/img/WithholdingCert.jpg'); background-size:300mm 424mm; width:300mm; height:424mm;">
+            <div class="article o_withholding_tax_cert" t-attf-style="background-image:url('/l10n_th_withholding_tax_cert_form/static/src/img/WithholdingCert.jpg'); background-size:300mm 424mm; width:300mm; height:424mm;">
                 <h4 class="number_payment"><span t-esc="o.payment_id.name"/></h4>
                 <div class="company_vat">
                     <t t-if="o.company_partner_id.vat">
