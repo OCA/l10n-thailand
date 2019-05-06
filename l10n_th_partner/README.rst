@@ -20,7 +20,7 @@ Thai Localization - Partner
     :target: https://runbot.odoo-community.org/runbot/238/12.0
     :alt: Try me on Runbot
 
-|badge1| |badge2| |badge3| |badge4|
+|badge1| |badge2| |badge3| |badge4| 
 
 This module add more features/fields for partners for Thailand
 
@@ -71,7 +71,7 @@ promote its widespread use.
 
 Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-kittiu|
+|maintainer-kittiu| 
 
 This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/12.0/l10n_th_partner>`_ project on GitHub.
 
