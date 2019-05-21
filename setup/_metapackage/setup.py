@@ -9,6 +9,8 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo12-addon-l10n_th_partner',
+        'odoo12-addon-l10n_th_withholding_tax_cert',
+        'odoo12-addon-l10n_th_withholding_tax_cert_form',
     ],
     classifiers=[
         'Programming Language :: Python',
