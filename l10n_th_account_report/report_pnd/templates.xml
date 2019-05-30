@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Excel Format -->
+    <record id="report_pnd_template" model="xlsx.template">
+        <field name="res_model">report.pnd</field>
+        <field name="fname">xlsx_report_pnd.xlsx</field>
+        <field name="name">Report PND Template</field>
+        <field name="description">PND3, PND53 Summary Report</field>
+        <field name="input_instruction">
+          {
+              '__EXPORT__': {
+                  1: {
+                      '_HEAD_': {
+                          'A1': '${env.user.company_id.partner_id.name}',
+                          'A2': 'income_tax_form${value == b"pnd3" and "ใบแนบ ภ.ง.ด.3" or "ใบแนบ ภ.ง.ด.53"}',
+                          'A3': 'date_range_id.name${value or ""}',
+                          'K2': '${env.user.company_id.partner_id.vat}',
+                          'K3': '${env.user.company_id.partner_id.branch}',
+                      },
+                      'results': {
+                          'A6': "${'=ROW(?(A1))'}",
+                          'B6': 'cert_id.supplier_partner_id.vat${value or ""}#{style=text}',
+                          'C6': 'cert_id.supplier_partner_id.display_name${value or ""}',
+                          'D6': 'cert_id.supplier_partner_id${value and value._display_address(without_company=True) or ""}',
+                          'E6': 'cert_id.date${value or ""}#{style=date}',
+                          'F6': 'wt_cert_income_desc${value or ""}',
+                          'G6': 'wt_percent${"%s%%" % value or "0"}#{style=text}',
+                          'H6': 'base${value or ""}#{style=number}@{sum}',
+                          'I6': 'amount${value or ""}#{style=number}@{sum}',
+                          'J6': 'cert_id.tax_payer${value == b"withholding" and "1" or value == b"paid_one_time" and "3" or ""}',
+                          'K6': 'cert_id.payment_id.name${value or ""}',
+                      },
+                  }
+              }
+          }
+        </field>
+    </record>
+
+
+    <!-- TXT Format -->
+    <record id="report_pnd_txt_template" model="xlsx.template">
+        <field name="res_model">report.pnd</field>
+        <field name="fname">xlsx_report_pnd_txt.xlsx</field>
+        <field name="name">Report PND Template (.txt)</field>
+        <field name="description">PND3, PND53 Summary Report in text</field>
+        <field name="to_csv">True</field>
+        <field name="csv_delimiter">,</field>
+        <field name="csv_extension">txt</field>
+        <field name="csv_quote">True</field>
+        <field name="input_instruction">
+          {
+              '__EXPORT__': {
+                  1: {
+                      'results': {
+                          'A1': "${'=ROW(?(A1))'}",
+                          'B1': 'cert_id.supplier_partner_id.vat${value or ""}#{style=text}',
+                          'C1': 'cert_id.supplier_partner_id.display_name${value or ""}',
+                          'D1': 'cert_id.date${value and "%s%s%s" % (str(value).split("-")[0], str(value).split("-")[1], str(value)[8:10]) or ""}#{style=text}',
+                          'E1': 'wt_cert_income_desc${value or ""}',
+                          'F1': 'wt_percent${value or 0}#{style=text}',
+                          'G1': 'base${value or ""}#{style=number}',
+                          'H1': 'amount${value or ""}#{style=number}',
+                          'I1': 'cert_id.tax_payer${value == b"withholding" and "1" or value == b"paid_one_time" and "3" or ""}',
+                          'J1': 'cert_id.payment_id.name${value or ""}',
+                      },
+                  }
+              }
+          }
+        </field>
+    </record>
+    <function model="xlsx.template" name="load_xlsx_template">
+        <value eval="[ref('report_pnd_template'),
+                      ref('report_pnd_txt_template')]"/>
+    </function>
+
+</odoo>

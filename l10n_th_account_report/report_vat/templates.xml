@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="report_vat" model="xlsx.template">
+        <field name="res_model">report.vat</field>
+        <field name="fname">report_vat.xlsx</field>
+        <field name="name">VAT Report</field>
+        <field name="description">VAT Report</field>
+        <field name="input_instruction">
+            {
+                '__EXPORT__': {
+                    'VAT Report': {
+                        '_HEAD_': {
+                            'A2': 'tax_id.type_tax_use${value and value == "sale" and "Sales VAT Report" or "Purchase VAT Report"}',
+                            'C4': 'date_range_id.display_name${value or ""}',
+                            'C5': 'company_id.display_name${value or ""}',
+                            'G4': 'company_id.partner_id.vat${value or ""}#{align=left;style=text}',
+                            'G4': 'company_id.partner_id.branch${value or ""}#{align=left;style=text}',
+                        },
+                        'results': {
+                            'A10': '${"=ROW()-9"}',
+                            'B10': 'date${value or ""}#{style=date}',
+                            'C10': 'tax_invoice${value or ""}',
+                            'D10': 'partner_id.display_name${value or ""}',
+                            'E10': 'partner_id.vat${value or ""}',
+                            'F10': 'partner_id.branch${value or ""}',
+                            'G10': 'base_amount${value or 0}#{style=number}',
+                            'H10': 'tax_amount${value or 0}#{style=number}',
+                            'I10': 'name${value or ""}',
+                        }
+                    }
+                },
+            }
+        </field>
+    </record>
+
+    <function model="xlsx.template" name="load_xlsx_template">
+        <value eval="[ref('report_vat')]"/>
+    </function>
+
+</odoo>

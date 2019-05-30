@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="report_pnd" model="ir.ui.view">
+        <field name="name">report.pnd</field>
+        <field name="model">report.pnd</field>
+        <field name="inherit_id" ref="excel_import_export.xlsx_report_view"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='criteria']" position="inside">
+                <group>
+                    <field name="income_tax_form"/>
+                </group>
+                <group>
+                    <field name="date_range_id"/>
+                    <field name="date_from" invisible="1"/>
+                    <field name="date_to" invisible="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_report_pnd" model="ir.actions.act_window">
+        <field name="name">WT Income Tax Report</field>
+        <field name="res_model">report.pnd</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">
+            {'template_domain': [('res_model', '=', 'report.pnd')],
+             'default_choose_template': True}
+        </field>
+    </record>
+
+    <menuitem id="menu_report_pnd"
+        parent="menu_l10n_th_account_report"
+        action="action_report_pnd"
+        sequence="20"/>
+
+</odoo>
