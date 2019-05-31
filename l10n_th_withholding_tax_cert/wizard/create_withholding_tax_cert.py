@@ -6,6 +6,7 @@ from odoo.exceptions import ValidationError
 
 class CreateWithholdingTaxCert(models.TransientModel):
     _name = 'create.withholding.tax.cert'
+    _description = 'Create Withholding Tax Cert Wizard'
 
     wt_account_ids = fields.Many2many(
         comodel_name='account.account',
