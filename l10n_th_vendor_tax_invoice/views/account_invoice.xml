@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='tax_line_ids']/tree/field[@name='currency_id']" position="after">
                 <field name="tax_invoice_manual"/>
-                <field name="tax_date_manual"/>
+                <field name="tax_date_manual" string="Tax Date"/>
             </xpath>
         </field>
     </record>

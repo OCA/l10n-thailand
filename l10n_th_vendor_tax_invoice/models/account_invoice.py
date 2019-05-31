@@ -38,17 +38,14 @@ class AccountInvoiceTax(models.Model):
         "this will always overwrite invoice's number",
     )
     tax_invoice = fields.Char(
-        string='Tax Invoice',
         compute='_compute_tax_invoice',
         help="- case sales invoice/refund, use invoice number\n"
         "- case purchase invoice/refund, user will manually keyin\n",
     )
     tax_date_manual = fields.Date(
-        string='Tax Date',
         copy=False,
     )
     tax_date = fields.Date(
-        string='Tax Date',
         compute='_compute_tax_invoice',
     )
     move_line_ids = fields.One2many(

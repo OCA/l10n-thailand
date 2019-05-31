@@ -24,13 +24,11 @@ class AccountMoveLine(models.Model):
 
     invoice_tax_line_id = fields.Many2one(
         comodel_name='account.invoice.tax',
-        string='Invoice Tax Line',
         copy=True,
         ondelete='restrict',
     )
     payment_tax_line_id = fields.Many2one(
         comodel_name='account.payment.tax',
-        string='Payment Tax Line',
         copy=True,
         ondelete='restrict',
     )
@@ -39,16 +37,13 @@ class AccountMoveLine(models.Model):
         copy=True,
     )
     tax_invoice = fields.Char(
-        string='Tax Invoice',
         compute='_compute_tax_invoice',
         store=True,
     )
     tax_date_manual = fields.Date(
-        string='Tax Date',
         copy=True,
     )
     tax_date = fields.Char(
-        string='Tax Date',
         compute='_compute_tax_invoice',
         store=True,
     )
