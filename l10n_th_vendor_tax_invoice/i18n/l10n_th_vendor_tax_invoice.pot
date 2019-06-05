@@ -186,11 +186,17 @@ msgstr ""
 
 #. module: l10n_th_vendor_tax_invoice
 #: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_invoice_tax__tax_date
-#: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_invoice_tax__tax_date_manual
 #: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_move_line__tax_date
-#: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_move_line__tax_date_manual
 #: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_payment_tax__tax_date_manual
+#: model_terms:ir.ui.view,arch_db:l10n_th_vendor_tax_invoice.invoice_supplier_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_vendor_tax_invoice.view_account_payment_form
 msgid "Tax Date"
+msgstr ""
+
+#. module: l10n_th_vendor_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_invoice_tax__tax_date_manual
+#: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_move_line__tax_date_manual
+msgid "Tax Date Manual"
 msgstr ""
 
 #. module: l10n_th_vendor_tax_invoice
