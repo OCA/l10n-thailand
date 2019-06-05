@@ -90,7 +90,12 @@ msgid "Create"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
-#: code:addons/l10n_th_withholding_tax_cert/wizard/create_withholding_tax_cert.py:27
+#: model:ir.model,name:l10n_th_withholding_tax_cert.model_create_withholding_tax_cert
+msgid "Create Withholding Tax Cert Wizard"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert
+#: code:addons/l10n_th_withholding_tax_cert/wizard/create_withholding_tax_cert.py:28
 #: model:ir.actions.act_window,name:l10n_th_withholding_tax_cert.action_create_withholding_tax_cert
 #, python-format
 msgid "Create Withholding Tax Cert."
@@ -237,7 +242,7 @@ msgid "Payments"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
-#: code:addons/l10n_th_withholding_tax_cert/wizard/create_withholding_tax_cert.py:23
+#: code:addons/l10n_th_withholding_tax_cert/wizard/create_withholding_tax_cert.py:24
 #, python-format
 msgid "Please select only 1 payment"
 msgstr ""
@@ -393,10 +398,5 @@ msgstr ""
 #. module: l10n_th_withholding_tax_cert
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_create_withholding_tax_cert__wt_account_ids
 msgid "Withholing Tax Accounts"
-msgstr ""
-
-#. module: l10n_th_withholding_tax_cert
-#: model:ir.model,name:l10n_th_withholding_tax_cert.model_create_withholding_tax_cert
-msgid "create.withholding.tax.cert"
 msgstr ""
 
