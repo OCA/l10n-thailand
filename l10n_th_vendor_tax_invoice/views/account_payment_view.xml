@@ -21,7 +21,7 @@
                         <field name="name"/>
                         <field name="invoice_tax_line_id" invisible="1"/>
                         <field name="tax_invoice_manual"/>
-                        <field name="tax_date_manual"/>
+                        <field name="tax_date_manual" string="Tax Date"/>
                         <field name="amount_tax"/>
                         <field name="company_currency_id" invisible="1"/>
                         <field name="move_id"/>
