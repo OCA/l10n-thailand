@@ -6,7 +6,7 @@
 
 .o_report_withholding_tax_cert{
     font-family: 'THSarabun';
-    font-size: 22px;
+    font-size: 24px;
 
     .number_payment {
         position: fixed;
@@ -16,7 +16,7 @@
     .company_vat {
         margin-left: 730px;
         position: fixed;
-        top: 160px;
+        top: 156px;
     }
     .company_name {
         margin-left: 107px;
@@ -39,7 +39,7 @@
     .supplier_vat {
         margin-left: 730px;
         position: fixed;
-        top: 290px;
+        top: 288px;
     }
     .supplier_name {
         margin-left: 107px;
@@ -98,62 +98,62 @@
     }
     .type_1_date {
         position: fixed;
-        top: 563px;
+        top: 561px;
         right: 400px;
     }
     .type_1_base {
         position: fixed;
-        top: 563px;
+        top: 561px;
         right: 209px;
     }
     .type_1_tax {
         position: fixed;
-        top: 563px;
+        top: 561px;
         right: 73px;
     }
     .type_2_date {
         position: fixed;
-        top: 590px;
+        top: 588px;
         right: 400px;
     }
     .type_2_base {
         position: fixed;
-        top: 590px;
+        top: 588px;
         right: 209px;
     }
     .type_2_tax {
         position: fixed;
-        top: 590px;
+        top: 588px;
         right: 73px;
     }
     .type_3_date {
         position: fixed;
-        top: 617px;
+        top: 615px;
         right: 400px;
     }
     .type_3_base {
         position: fixed;
-        top: 617px;
+        top: 615px;
         right: 209px;
     }
     .type_3_tax {
         position: fixed;
-        top: 617px;
+        top: 615px;
         right: 73px;
     }
     .type_5_date {
         position: fixed;
-        top: 1150px;
+        top: 1167px;
         right: 400px;
     }
     .type_5_base {
         position: fixed;
-        top: 1150px;
+        top: 1167px;
         right: 209px;
     }
     .type_5_tax {
         position: fixed;
-        top: 1150px;
+        top: 1167px;
         right: 73px;
     }
     .type_6_description {
@@ -161,32 +161,32 @@
         box-sizing: content-box;
         width: 450px;
         height: 40px;
-        top: 1200px;
+        top: 1197px;
         left: 200px;
     }
     .type_6_date {
         position: fixed;
-        top: 1195px;
+        top: 1194px;
         right: 400px;
     }
     .type_6_base {
         position: fixed;
-        top: 1195px;
+        top: 1194px;
         right: 209px;
     }
     .type_6_tax {
         position: fixed;
-        top: 1195px;
+        top: 1194px;
         right: 73px;
     }
     .total_amount {
         position: fixed;
-        top: 1235px;
+        top: 1233px;
         right: 209px;
     }
     .total_tax {
         position: fixed;
-        top: 1235px;
+        top: 1233px;
         right: 73px;
     }
     .text_amount {
@@ -194,7 +194,7 @@
         box-sizing: content-box;
         width: 700px;
         height: 40px;
-        top: 1275px;
+        top: 1272px;
         right: 80px;
         text-align: center;
     }
@@ -223,5 +223,31 @@
     .vat_tab {
         margin-left: 11px;
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    .payment_transaction_name{
+        margin-left: 675px;
+        position: fixed;
+        top: 1412px;
+    }
+    .value_date_day{
+        margin-left: 660px;
+        position: fixed;
+        top: 1435px;
+    }
+    .value_date_month{
+        margin-left: 750px;
+        position: fixed;
+        top: 1435px;
+    }
+    .value_date_year{
+        margin-left: 840px;
+        position: fixed;
+        top: 1435px;
+    }
 
+>>>>>>> b430677... [12.0][FIX]l10n_th_withholdding_tax_cert_form
+=======
+>>>>>>> 3d52652... [12.0][FIX]l10n_th_withholding_tax_cert_form
 }
