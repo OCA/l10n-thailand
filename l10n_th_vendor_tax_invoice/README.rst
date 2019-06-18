@@ -32,6 +32,9 @@ But for supplier invoice/payment, where tax invoice number and tax date is given
 This module will provide ways for user to do so on vendor bill (for normal tax) and
 in supplier payment (for undue tax which is due on payment).
 
+Note : This module also delete line in journal entry are not used
+and Remove required field Base Tax Received Account.
+
 **Table of contents**
 
 .. contents::
@@ -101,6 +104,17 @@ Changelog
 
 * Start of the history
 
+12.0.1.0.1 (2019-06-04)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Change field name
+
+12.0.1.1.0 (2019-06-11)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Delete line in journal entry is not used
+* Delete required field Base Tax Received Account
+
 Bug Tracker
 ===========
 
@@ -123,6 +137,7 @@ Contributors
 ~~~~~~~~~~~~
 
 * Kitti Upariphutthiphong. <kittiu@gmail.com> (http://ecosoft.co.th)
+* Saran Lim. <saranl@ecosoft.co.th>
 
 Maintainers
 ~~~~~~~~~~~
