@@ -72,7 +72,8 @@ class AccuntAbstractPayment(models.AbstractModel):
                 # Update new tax invoice info
                 for m in move_lines:
                     vals = {'tax_invoice_manual': p.tax_invoice_manual,
-                            'tax_date_manual': p.tax_date_manual}
+                            'tax_date_manual': p.tax_date_manual,
+                            'partner_id': p.partner_id.id}
                     m.write(vals)
                 # Find move for this payment tax to clear, post it
                 move_lines.mapped('move_id').\
@@ -105,6 +106,10 @@ class AccountPaymentTax(models.Model):
         comodel_name='account.payment',
         index=True,
         readonly=True,
+    )
+    partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        required=True,
     )
     invoice_tax_line_id = fields.Many2one(
         comodel_name='account.invoice.tax',
@@ -142,6 +147,14 @@ class AccountPaymentTax(models.Model):
         related='move_line_id.balance',
         readonly=True,
     )
+
+    @api.model_cr
+    def init(self):
+        self._cr.execute("""
+            update account_payment_tax pt set partner_id =
+            (select partner_id from account_payment where id = pt.payment_id)
+            where pt.partner_id is null
+        """)
 
     @api.multi
     def _compute_move_line_id(self):

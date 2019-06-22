@@ -12,4 +12,10 @@
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 * Delete line in journal entry is not used
-* Delete required field Base Tax Received Account
+* Invisible required field Base Tax Received Account
+
+12.0.2.0.0 (2019-06-22)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Applicable to HR Expense too, when it also use Undue Tax (add depends on hr_expense)
+* Add partner_id in account.payment.tax, to allow changing partner (mostly for expense case)
