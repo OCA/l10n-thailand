@@ -130,6 +130,11 @@ msgid "Partial Reconcile"
 msgstr ""
 
 #. module: l10n_th_vendor_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_payment_tax__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_th_vendor_tax_invoice
 #: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_payment_tax__payment_id
 msgid "Payment"
 msgstr ""
@@ -246,7 +251,7 @@ msgid "Tax invoice number is ready for filling in,\n"
 msgstr ""
 
 #. module: l10n_th_vendor_tax_invoice
-#: code:addons/l10n_th_vendor_tax_invoice/models/account_payment.py:89
+#: code:addons/l10n_th_vendor_tax_invoice/models/account_payment.py:90
 #, python-format
 msgid "Tax invoice/date is not filled!"
 msgstr ""
