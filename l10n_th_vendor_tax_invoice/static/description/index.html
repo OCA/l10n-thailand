@@ -372,7 +372,7 @@ ul.auto-toc {
 <p>In Odoo, cash basis feature is being used to cover case of undue tax (due on payment).
 This can answer the issue about undue tax in Thailand partially.
 For customer invoice/payment, Odoo’s cash basis alone is enough.</p>
-<p>But for supplier invoice/payment, where tax invoice number and tax date is given from vendor.
+<p>But for supplier invoice/payment and expense, where tax invoice number and tax date is given from vendor.
 This module will provide ways for user to do so on vendor bill (for normal tax) and
 in supplier payment (for undue tax which is due on payment).</p>
 <p>Note : This module also delete line in journal entry are not used
@@ -380,30 +380,31 @@ and Remove required field Base Tax Received Account.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#installation" id="id4">Installation</a></li>
-<li><a class="reference internal" href="#usage" id="id5">Usage</a></li>
-<li><a class="reference internal" href="#changelog" id="id6">Changelog</a><ul>
-<li><a class="reference internal" href="#id1" id="id7">12.0.1.0.0 (2019-03-07)</a></li>
-<li><a class="reference internal" href="#id2" id="id8">12.0.1.0.1 (2019-06-04)</a></li>
-<li><a class="reference internal" href="#id3" id="id9">12.0.1.1.0 (2019-06-11)</a></li>
+<li><a class="reference internal" href="#installation" id="id5">Installation</a></li>
+<li><a class="reference internal" href="#usage" id="id6">Usage</a></li>
+<li><a class="reference internal" href="#changelog" id="id7">Changelog</a><ul>
+<li><a class="reference internal" href="#id1" id="id8">12.0.1.0.0 (2019-03-07)</a></li>
+<li><a class="reference internal" href="#id2" id="id9">12.0.1.0.1 (2019-06-04)</a></li>
+<li><a class="reference internal" href="#id3" id="id10">12.0.1.1.0 (2019-06-11)</a></li>
+<li><a class="reference internal" href="#id4" id="id11">12.0.2.0.0 (2019-06-22)</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#bug-tracker" id="id10">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="id11">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="id12">Authors</a></li>
-<li><a class="reference internal" href="#contributors" id="id13">Contributors</a></li>
-<li><a class="reference internal" href="#maintainers" id="id14">Maintainers</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="id12">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="id13">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="id14">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="id15">Contributors</a></li>
+<li><a class="reference internal" href="#maintainers" id="id16">Maintainers</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="installation">
-<h1><a class="toc-backref" href="#id4">Installation</a></h1>
+<h1><a class="toc-backref" href="#id5">Installation</a></h1>
 <p>To install this module, you need to install the hook addon <strong>account_create_tax_cash_basis_entry_hook</strong></p>
 <p>Then, simply install <strong>l10n_th_vendor_tax_invoice</strong>.</p>
 </div>
 <div class="section" id="usage">
-<h1><a class="toc-backref" href="#id5">Usage</a></h1>
+<h1><a class="toc-backref" href="#id6">Usage</a></h1>
 <p>With this, 2 new tax related fields will be introduced in account.move.line</p>
 <ol class="arabic simple">
 <li>tax_invoice : Tax Invoice Number</li>
@@ -448,29 +449,36 @@ But we should still now see the new <tt class="docutils literal">Tax Invoice Num
 </ul>
 </div>
 <div class="section" id="changelog">
-<h1><a class="toc-backref" href="#id6">Changelog</a></h1>
+<h1><a class="toc-backref" href="#id7">Changelog</a></h1>
 <div class="section" id="id1">
-<h2><a class="toc-backref" href="#id7">12.0.1.0.0 (2019-03-07)</a></h2>
+<h2><a class="toc-backref" href="#id8">12.0.1.0.0 (2019-03-07)</a></h2>
 <ul class="simple">
 <li>Start of the history</li>
 </ul>
 </div>
 <div class="section" id="id2">
-<h2><a class="toc-backref" href="#id8">12.0.1.0.1 (2019-06-04)</a></h2>
+<h2><a class="toc-backref" href="#id9">12.0.1.0.1 (2019-06-04)</a></h2>
 <ul class="simple">
 <li>Change field name</li>
 </ul>
 </div>
 <div class="section" id="id3">
-<h2><a class="toc-backref" href="#id9">12.0.1.1.0 (2019-06-11)</a></h2>
+<h2><a class="toc-backref" href="#id10">12.0.1.1.0 (2019-06-11)</a></h2>
 <ul class="simple">
 <li>Delete line in journal entry is not used</li>
-<li>Delete required field Base Tax Received Account</li>
+<li>Invisible required field Base Tax Received Account</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h2><a class="toc-backref" href="#id11">12.0.2.0.0 (2019-06-22)</a></h2>
+<ul class="simple">
+<li>Applicable to HR Expense too, when it also use Undue Tax (add depends on hr_expense)</li>
+<li>Add partner_id in account.payment.tax, to allow changing partner (mostly for expense case)</li>
 </ul>
 </div>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#id10">Bug Tracker</a></h1>
+<h1><a class="toc-backref" href="#id12">Bug Tracker</a></h1>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-thailand/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed
@@ -478,22 +486,22 @@ If you spotted it first, help us smashing it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#id11">Credits</a></h1>
+<h1><a class="toc-backref" href="#id13">Credits</a></h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#id12">Authors</a></h2>
+<h2><a class="toc-backref" href="#id14">Authors</a></h2>
 <ul class="simple">
 <li>Ecosoft</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h2><a class="toc-backref" href="#id13">Contributors</a></h2>
+<h2><a class="toc-backref" href="#id15">Contributors</a></h2>
 <ul class="simple">
 <li>Kitti Upariphutthiphong. &lt;<a class="reference external" href="mailto:kittiu&#64;gmail.com">kittiu&#64;gmail.com</a>&gt; (<a class="reference external" href="http://ecosoft.co.th">http://ecosoft.co.th</a>)</li>
 <li>Saran Lim. &lt;<a class="reference external" href="mailto:saranl&#64;ecosoft.co.th">saranl&#64;ecosoft.co.th</a>&gt;</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#id14">Maintainers</a></h2>
+<h2><a class="toc-backref" href="#id16">Maintainers</a></h2>
 <p>This module is maintained by the OCA.</p>
 <a class="reference external image-reference" href="https://odoo-community.org"><img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" /></a>
 <p>OCA, or the Odoo Community Association, is a nonprofit organization whose

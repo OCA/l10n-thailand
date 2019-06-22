@@ -28,7 +28,7 @@ In Odoo, cash basis feature is being used to cover case of undue tax (due on pay
 This can answer the issue about undue tax in Thailand partially.
 For customer invoice/payment, Odoo's cash basis alone is enough.
 
-But for supplier invoice/payment, where tax invoice number and tax date is given from vendor.
+But for supplier invoice/payment and expense, where tax invoice number and tax date is given from vendor.
 This module will provide ways for user to do so on vendor bill (for normal tax) and
 in supplier payment (for undue tax which is due on payment).
 
@@ -113,7 +113,13 @@ Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 * Delete line in journal entry is not used
-* Delete required field Base Tax Received Account
+* Invisible required field Base Tax Received Account
+
+12.0.2.0.0 (2019-06-22)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Applicable to HR Expense too, when it also use Undue Tax (add depends on hr_expense)
+* Add partner_id in account.payment.tax, to allow changing partner (mostly for expense case)
 
 Bug Tracker
 ===========
