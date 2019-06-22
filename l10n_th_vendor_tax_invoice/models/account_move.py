@@ -64,6 +64,7 @@ class AccountMoveLine(models.Model):
                 if not payment_tax:  # If not already created for this payment
                     currency = self.env.user.company_id.currency_id
                     payment_tax = self.env['account.payment.tax'].create({
+                        'partner_id': payment.partner_id.id,
                         'invoice_tax_line_id': invoice_tax_line.id,
                         'name': invoice_tax_line.name,
                         'company_currency_id': currency.id,
@@ -132,10 +133,11 @@ class AccountPartialReconcile(models.Model):
         return self.with_context(ctx)
 
     def create_tax_cash_basis_entry(self, percentage_before_rec):
+        """Only for Thai localization, delete unused account move lines."""
         res = super(AccountPartialReconcile, self).create_tax_cash_basis_entry(
             percentage_before_rec)
         move_line = self.env['account.move.line'].search([
             ('move_id.tax_cash_basis_rec_id', '=', self.id)]).filtered(
-            lambda l: not l.invoice_tax_line_id)
+            lambda l: not l.payment_tax_line_id)
         move_line.unlink()
         return res
