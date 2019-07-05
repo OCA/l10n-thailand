@@ -38,6 +38,9 @@ class AccountVatReport(models.Model):
     tax_amount = fields.Float(
         string='Tax Amount',
     )
+    tax_date = fields.Date(
+        string='Tax Date',
+    )
 
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
@@ -47,7 +50,7 @@ class AccountVatReport(models.Model):
                     aml.id as id, am.company_id, am.name,
                     aml.account_id, aml.tax_invoice, aml.partner_id,
                     aml.date, aml.tax_base_amount as base_amount,
-                    abs(aml.balance) tax_amount
+                    abs(aml.balance) tax_amount, aml.tax_date
                     from account_move_line aml
                     join account_move am on aml.move_id = am.id
                     where tax_line_id is not null

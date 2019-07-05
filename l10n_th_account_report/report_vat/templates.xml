@@ -11,15 +11,15 @@
                 '__EXPORT__': {
                     'VAT Report': {
                         '_HEAD_': {
-                            'A2': 'tax_id.type_tax_use${value and value == "sale" and "Sales VAT Report" or "Purchase VAT Report"}',
+                            'A2': 'tax_id.type_tax_use${value and value == b"sale" and "Sales VAT Report" or "Purchase VAT Report"}',
                             'C4': 'date_range_id.display_name${value or ""}',
                             'C5': 'company_id.display_name${value or ""}',
                             'G4': 'company_id.partner_id.vat${value or ""}#{align=left;style=text}',
-                            'G4': 'company_id.partner_id.branch${value or ""}#{align=left;style=text}',
+                            'G5': 'company_id.partner_id.branch${value or ""}#{align=left;style=text}',
                         },
                         'results': {
                             'A10': '${"=ROW()-9"}',
-                            'B10': 'date${value or ""}#{style=date}',
+                            'B10': 'tax_date${value or ""}#{style=date}',
                             'C10': 'tax_invoice${value or ""}',
                             'D10': 'partner_id.display_name${value or ""}',
                             'E10': 'partner_id.vat${value or ""}',
