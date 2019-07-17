@@ -73,7 +73,9 @@ class AccuntAbstractPayment(models.AbstractModel):
                 for m in move_lines:
                     vals = {'tax_invoice_manual': p.tax_invoice_manual,
                             'tax_date_manual': p.tax_date_manual,
-                            'partner_id': p.partner_id.id}
+                            'partner_id': p.partner_id.id,
+                            'tax_base_amount':
+                            m.tax_base_amount or m.invoice_tax_line_id.base}
                     m.write(vals)
                 # Find move for this payment tax to clear, post it
                 move_lines.mapped('move_id').\

@@ -96,6 +96,18 @@ But we should still now see the new ``Tax Invoice Number`` and ``Tax Date`` fiel
 - Click on Clear VAT button, the journal entry (cash basis) for clear undue will now be **Posted**
 - To check Tax Invoice Number and Date in relevant journal items, go to Invoicing > Accounting > Journal Items, then click to expand
 
+**Preparing Tax Adjustments**
+
+- Use Developer Mode
+- As admin, add access rights ``Show Full Accounting Features``
+- Go to Invoicing > Configuration > Accounting > Taxes, create new Tax Scope ``Adjustment``
+
+
+**Case Tax Adjustments**
+
+- Go to Invoicing > Accounting > Tax Adjustments
+- Create journal entry directly to adjust tax (manually by accountant)
+
 Changelog
 =========
 
@@ -120,6 +132,12 @@ Changelog
 
 * Applicable to HR Expense too, when it also use Undue Tax (add depends on hr_expense)
 * Add partner_id in account.payment.tax, to allow changing partner (mostly for expense case)
+
+12.0.2.1.0 (2019-07-17)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Add partner, invoice date/number and amount fields in Tax Adjustments Wizard (to comply with Thai tax report)
+* Fix bug Tax Base amount in move line is 0 (case undue vat)
 
 Bug Tracker
 ===========
