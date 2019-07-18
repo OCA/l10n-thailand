@@ -135,6 +135,16 @@ msgid "Partner"
 msgstr ""
 
 #. module: l10n_th_vendor_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_tax_adjustments_wizard__credit_partner_id
+msgid "Partner (Credit Account)"
+msgstr ""
+
+#. module: l10n_th_vendor_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_tax_adjustments_wizard__debit_partner_id
+msgid "Partner (Debit Account)"
+msgstr ""
+
+#. module: l10n_th_vendor_tax_invoice
 #: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_payment_tax__payment_id
 msgid "Payment"
 msgstr ""
@@ -185,14 +195,37 @@ msgid "Product"
 msgstr ""
 
 #. module: l10n_th_vendor_tax_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_th_vendor_tax_invoice.tax_adjustments_wizard
+msgid "Tax"
+msgstr ""
+
+#. module: l10n_th_vendor_tax_invoice
+#: model:ir.model,name:l10n_th_vendor_tax_invoice.model_tax_adjustments_wizard
+msgid "Tax Adjustments Wizard"
+msgstr ""
+
+#. module: l10n_th_vendor_tax_invoice
 #: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_payment_tax__amount_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_vendor_tax_invoice.tax_adjustments_wizard
 msgid "Tax Amount"
+msgstr ""
+
+#. module: l10n_th_vendor_tax_invoice
+#: code:addons/l10n_th_vendor_tax_invoice/wizard/wizard_tax_adjustments.py:32
+#, python-format
+msgid "Tax Amount or Tax Base can't have a zero amount."
+msgstr ""
+
+#. module: l10n_th_vendor_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_tax_adjustments_wizard__amount_tax_base
+msgid "Tax Base"
 msgstr ""
 
 #. module: l10n_th_vendor_tax_invoice
 #: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_invoice_tax__tax_date
 #: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_move_line__tax_date
 #: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_payment_tax__tax_date_manual
+#: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_tax_adjustments_wizard__tax_date
 #: model_terms:ir.ui.view,arch_db:l10n_th_vendor_tax_invoice.invoice_supplier_form
 #: model_terms:ir.ui.view,arch_db:l10n_th_vendor_tax_invoice.view_account_payment_form
 msgid "Tax Date"
@@ -219,6 +252,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_invoice_tax__tax_invoice_manual
 #: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_move_line__tax_invoice_manual
 #: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_payment_tax__tax_invoice_manual
+#: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_tax_adjustments_wizard__tax_invoice
 msgid "Tax Invoice Number"
 msgstr ""
 
@@ -251,7 +285,7 @@ msgid "Tax invoice number is ready for filling in,\n"
 msgstr ""
 
 #. module: l10n_th_vendor_tax_invoice
-#: code:addons/l10n_th_vendor_tax_invoice/models/account_payment.py:90
+#: code:addons/l10n_th_vendor_tax_invoice/models/account_payment.py:92
 #, python-format
 msgid "Tax invoice/date is not filled!"
 msgstr ""
