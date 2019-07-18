@@ -70,4 +70,5 @@ class ReportVAT(models.TransientModel):
                   ('date', '>=', self.date_from),
                   ('date', '<=', self.date_to),
                   ]
-        self.results = Result.search(domain)
+        self.results = \
+            Result.search(domain, order='tax_date, partner_id, tax_invoice')
