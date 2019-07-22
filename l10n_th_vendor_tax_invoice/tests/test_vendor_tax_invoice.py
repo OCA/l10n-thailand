@@ -222,6 +222,7 @@ class TestVendorTaxInvoice(SingleTransactionCase):
         payment.tax_line_ids.write({'tax_invoice_manual': tax_invoice,
                                     'tax_date_manual': tax_date})
         payment.taxinv_ready = True
+        payment.tax_line_ids._compute_move_line_id()
         payment.clear_tax_cash_basis()
         # Check that tax_invoice and date is stamped properly on tax move line
         for tax_line in payment.tax_line_ids:
