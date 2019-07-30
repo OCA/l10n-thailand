@@ -184,7 +184,7 @@ msgid "Please fill in tax invoice and tax date"
 msgstr ""
 
 #. module: l10n_th_vendor_tax_invoice
-#: code:addons/l10n_th_vendor_tax_invoice/models/account_payment.py:38
+#: code:addons/l10n_th_vendor_tax_invoice/models/account_payment.py:39
 #, python-format
 msgid "Please key-in tax invoice number/date"
 msgstr ""
@@ -271,7 +271,7 @@ msgid "Tax Line"
 msgstr ""
 
 #. module: l10n_th_vendor_tax_invoice
-#: code:addons/l10n_th_vendor_tax_invoice/models/account_payment.py:36
+#: code:addons/l10n_th_vendor_tax_invoice/models/account_payment.py:37
 #, python-format
 msgid "Tax cash basis is no longer pending"
 msgstr ""
