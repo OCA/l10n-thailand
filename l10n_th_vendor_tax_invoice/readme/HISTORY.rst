@@ -25,3 +25,8 @@
 
 * Add partner, invoice date/number and amount fields in Tax Adjustments Wizard (to comply with Thai tax report)
 * Fix bug Tax Base amount in move line is 0 (case undue vat)
+
+12.0.2.1.1 (2019-07-22)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Fix bug error when cancel payment (case undue vat)

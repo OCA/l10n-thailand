@@ -18,6 +18,17 @@ class AccountMove(models.Model):
             return False
         return super().post(invoice=invoice)
 
+    @api.multi
+    def _reverse_move(self, date=None, journal_id=None, auto=False):
+        self.ensure_one()
+        reversed_move = super()._reverse_move(date, journal_id, auto)
+        for move_line in reversed_move.line_ids.filtered('tax_line_id'):
+            ml_origin = self.env['account.move.line'].search([
+                ('move_id', '=', self.id),
+                ('tax_line_id', '!=', False)])
+            move_line.tax_base_amount = -ml_origin.tax_base_amount
+        return reversed_move
+
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
