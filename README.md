@@ -6,12 +6,13 @@
 Odoo Thai Localization
 ======================
 
-This repository hosts official Thai localization provided by the OCA.
+Repository นี้เป็นที่สำหรับพัฒนาและจัดเก็บโมดูลต่างๆที่เกี่ยวข้องกับ Thai Localization โดยเฉพาะที่เกี่ยวข้องกับบัญชีและภาษีไทย
+โดยผลงานทั้งหมดที่เกิดขึ้นที่นี่เป็นการทำงานแบบอาสาสมัครและการแบ่งปัน หากที่ต้องการมีส่วนร่วมในการแบ่งปันไอเดีย,โค้ด, การช่วยทดสอบ หรือให้ข้อเสนอแนะใดๆ
+ท่านสามารถเปิด Issue ได้ที่นี่เลย https://github.com/OCA/l10n-thailand/issues
 
-It extends Odoo to add needed functionalities to use Odoo in Thailand.
+สำหรับคำถามเกี่ยวกับการทำงานหรือการช่วยเหลือในชุมชนผู้ใช้ Odoo ไทย ติดต่อติดต่อ:
 
-
-
+https://www.ocathailand.org/forum/1
 
 Translation Status
 ------------------
