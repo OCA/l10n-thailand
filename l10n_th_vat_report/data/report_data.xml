@@ -1,0 +1,26 @@
+<odoo>
+    <report string='VAT Report'
+            id='action_vat_report_html'
+            model='report.vat'
+            name='l10n_th_vat_report.report_vat_report_base'
+            file='l10n_th_vat_report.report_vat_report_base'
+            report_type='qweb-html'
+            attachment_use='False'/>
+
+    <report string='PDF'
+            id='action_vat_report_pdf'
+            model='report.vat'
+            name='l10n_th_vat_report.report_vat_report_base'
+            file='l10n_th_vat_report.report_vat_report_base'
+            report_type='qweb-pdf'
+            print_report_name='"VAT Report - [%s]" % object.date_range_id.display_name'
+            paperformat='l10n_th_vat_report.paperformat_vat_report'/>
+
+    <report string='XLSX'
+            id='action_vat_report_xlsx'
+            model='report.vat'
+            name='l10n_th_vat_report.report_vat_report_xlsx'
+            file='VAT Report'
+            report_type='xlsx'
+            attachment_use='False'/>
+</odoo>

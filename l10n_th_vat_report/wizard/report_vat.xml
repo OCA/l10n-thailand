@@ -1,0 +1,49 @@
+<odoo>
+    <record id="report_vat_wizard" model="ir.ui.view">
+        <field name="name">report.vat.wizard</field>
+        <field name="model">report.vat</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="company_id" options="{'no_create_edit': True}"
+                      groups="base.group_multi_company"/>
+                    <field name="tax_id" options="{'no_create_edit': True}"/>
+                    <field name="account_id" options="{'no_create_edit': True}" invisible="1"/>
+                </group>
+                <group>
+                    <field name="date_range_id" options="{'no_create_edit': True}"/>
+                    <field name="date_from" invisible="1"/>
+                    <field name="date_to" invisible="1"/>
+                </group>
+                <footer>
+                    <button name='%(l10n_th_vat_report.action_vat_report_html)d'
+                            type='action' string='View'
+                            class='oe_highlight'/>
+                    <button name='%(l10n_th_vat_report.action_vat_report_pdf)d'
+                            type='action' string='Print PDF'
+                            class='oe_highlight'/>
+                    <button name='%(l10n_th_vat_report.action_vat_report_xlsx)d'
+                            type='action' string='Export XLSX'
+                            class='oe_highlight'/>
+                    <button special='cancel'
+                            string='Cancel'/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id='action_report_vat' model='ir.actions.act_window'>
+        <field name='name'>VAT Reports</field>
+        <field name='res_model'>report.vat</field>
+        <field name='view_type'>form</field>
+        <field name='view_mode'>form</field>
+        <field name='target'>new</field>
+    </record>
+
+    <menuitem id="menu_report_vat"
+        parent="account.menu_finance_reports"
+        action="action_report_vat"
+        name="VAT Report"
+        groups="account.group_account_manager,account.group_account_user"
+        />
+</odoo>

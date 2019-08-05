@@ -1,0 +1,87 @@
+<odoo>
+    <template id='report_vat_report_base'>
+        <t t-call='web.html_container'>
+            <t t-call='web.internal_layout'>
+                <div class='page'>
+                    <h2>VAT Report</h2>
+                    <t t-foreach='docs' t-as='o'>
+                        <div class='row'>
+                            <div class='col-6'>
+                                <div class='row'>
+                                    <div class='col-3'>
+                                        <b>Period :</b><br/>
+                                        <b>Partner :</b>
+                                    </div>
+                                    <div class='col-9'>
+                                        <span t-field='o.date_range_id.display_name'/><br/>
+                                        <span t-field='o.company_id.display_name'/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-6'>
+                                <div class='row'>
+                                    <div class='col-3'>
+                                        <b>Tax ID :</b><br/>
+                                        <b>Branch ID :</b>
+                                    </div>
+                                    <div class='col-9'>
+                                        <span t-field='o.company_id.partner_id.vat'/><br/>
+                                        <span t-field='o.company_id.partner_id.branch'/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <table class='table table-condensed table-light mt16'>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Date</th>
+                                    <th>Number</th>
+                                    <th>Cust./Sup.</th>
+                                    <th>Tax ID</th>
+                                    <th>Branch ID</th>
+                                    <th>Base Amount</th>
+                                    <th>Tax Amount</th>
+                                    <th>Doc Ref</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="i" t-value="1"/>
+                                <tr t-foreach='o.results' t-as='l'>
+                                    <td>
+                                        <span t-esc='i'/>
+                                        <t t-set='i' t-value='i+1'/>
+                                    </td>
+                                    <td>
+                                        <span t-field='l.date'/>
+                                    </td>
+                                    <td>
+                                        <span t-field='l.tax_invoice'/>
+                                    </td>
+                                    <td>
+                                        <span t-field='l.partner_id.display_name'/>
+                                    </td>
+                                    <td>
+                                        <span t-field='l.partner_id.vat'/>
+                                    </td>
+                                    <td>
+                                        <span t-field='l.partner_id.branch'/>
+                                    </td>
+                                    <td class='text-right'>
+                                        <span t-esc="'{0:,.2f}'.format(l.base_amount)"/>
+                                    </td>
+                                    <td class='text-right'>
+                                        <span t-esc="'{0:,.2f}'.format(l.tax_amount)"/>
+                                    </td>
+                                    <td>
+                                        <span t-field='l.name'/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                         </table>
+                     </t>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
