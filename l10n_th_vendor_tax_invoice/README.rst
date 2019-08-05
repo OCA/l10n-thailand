@@ -28,11 +28,12 @@ In Odoo, cash basis feature is being used to cover case of undue tax (due on pay
 This can answer the issue about undue tax in Thailand partially.
 For customer invoice/payment, Odoo's cash basis alone is enough.
 
-But for supplier invoice/payment, where tax invoice number and tax date is given from vendor.
+But for supplier invoice/payment and expense, where tax invoice number and tax date is given from vendor.
 This module will provide ways for user to do so on vendor bill (for normal tax) and
 in supplier payment (for undue tax which is due on payment).
 
-Note : This module also delete line in journal entry are not used.
+Note : This module also delete line in journal entry are not used
+and Remove required field Base Tax Received Account.
 
 **Table of contents**
 
@@ -95,6 +96,18 @@ But we should still now see the new ``Tax Invoice Number`` and ``Tax Date`` fiel
 - Click on Clear VAT button, the journal entry (cash basis) for clear undue will now be **Posted**
 - To check Tax Invoice Number and Date in relevant journal items, go to Invoicing > Accounting > Journal Items, then click to expand
 
+**Preparing Tax Adjustments**
+
+- Use Developer Mode
+- As admin, add access rights ``Show Full Accounting Features``
+- Go to Invoicing > Configuration > Accounting > Taxes, create new Tax Scope ``Adjustment``
+
+
+**Case Tax Adjustments**
+
+- Go to Invoicing > Accounting > Tax Adjustments
+- Create journal entry directly to adjust tax (manually by accountant)
+
 Changelog
 =========
 
@@ -102,6 +115,34 @@ Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 * Start of the history
+
+12.0.1.0.1 (2019-06-04)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Change field name
+
+12.0.1.1.0 (2019-06-11)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Delete line in journal entry is not used
+* Invisible required field Base Tax Received Account
+
+12.0.2.0.0 (2019-06-22)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Applicable to HR Expense too, when it also use Undue Tax (add depends on hr_expense)
+* Add partner_id in account.payment.tax, to allow changing partner (mostly for expense case)
+
+12.0.2.1.0 (2019-07-17)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Add partner, invoice date/number and amount fields in Tax Adjustments Wizard (to comply with Thai tax report)
+* Fix bug Tax Base amount in move line is 0 (case undue vat)
+
+12.0.2.1.1 (2019-07-22)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Fix bug error when cancel payment (case undue vat)
 
 Bug Tracker
 ===========

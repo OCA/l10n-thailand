@@ -18,6 +18,7 @@
                 <field name="tax_line_ids" attrs="{'invisible': ['|', ('taxinv_ready', '=', False)
                                                                  , ('tax_line_ids', '=', [])]}">
                     <tree editable="bottom" delete="0" create="0">
+                        <field name="partner_id"/>
                         <field name="name"/>
                         <field name="invoice_tax_line_id" invisible="1"/>
                         <field name="tax_invoice_manual"/>

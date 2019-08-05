@@ -200,6 +200,11 @@ msgid "Tax Amount"
 msgstr ""
 
 #. module: l10n_th_account_report
+#: model:ir.model.fields,field_description:l10n_th_account_report.field_account_vat_report__tax_date
+msgid "Tax Date"
+msgstr ""
+
+#. module: l10n_th_account_report
 #: model:ir.model.fields,field_description:l10n_th_account_report.field_account_vat_report__tax_invoice
 msgid "Tax Invoice"
 msgstr ""

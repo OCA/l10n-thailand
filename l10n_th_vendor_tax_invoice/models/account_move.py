@@ -18,6 +18,17 @@ class AccountMove(models.Model):
             return False
         return super().post(invoice=invoice)
 
+    @api.multi
+    def _reverse_move(self, date=None, journal_id=None, auto=False):
+        self.ensure_one()
+        reversed_move = super()._reverse_move(date, journal_id, auto)
+        for move_line in reversed_move.line_ids.filtered('tax_line_id'):
+            ml_origin = self.env['account.move.line'].search([
+                ('move_id', '=', self.id),
+                ('tax_line_id', '!=', False)])
+            move_line.tax_base_amount = -ml_origin.tax_base_amount
+        return reversed_move
+
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
@@ -64,6 +75,7 @@ class AccountMoveLine(models.Model):
                 if not payment_tax:  # If not already created for this payment
                     currency = self.env.user.company_id.currency_id
                     payment_tax = self.env['account.payment.tax'].create({
+                        'partner_id': payment.partner_id.id,
                         'invoice_tax_line_id': invoice_tax_line.id,
                         'name': invoice_tax_line.name,
                         'company_currency_id': currency.id,
@@ -132,10 +144,11 @@ class AccountPartialReconcile(models.Model):
         return self.with_context(ctx)
 
     def create_tax_cash_basis_entry(self, percentage_before_rec):
+        """Only for Thai localization, delete unused account move lines."""
         res = super(AccountPartialReconcile, self).create_tax_cash_basis_entry(
             percentage_before_rec)
         move_line = self.env['account.move.line'].search([
             ('move_id.tax_cash_basis_rec_id', '=', self.id)]).filtered(
-            lambda l: not l.invoice_tax_line_id)
+            lambda l: not l.payment_tax_line_id)
         move_line.unlink()
         return res
