@@ -211,7 +211,7 @@ msgid "Tax Amount"
 msgstr ""
 
 #. module: l10n_th_vendor_tax_invoice
-#: code:addons/l10n_th_vendor_tax_invoice/wizard/wizard_tax_adjustments.py:32
+#: code:addons/l10n_th_vendor_tax_invoice/wizard/wizard_tax_adjustments.py:33
 #, python-format
 msgid "Tax Amount or Tax Base can't have a zero amount."
 msgstr ""
