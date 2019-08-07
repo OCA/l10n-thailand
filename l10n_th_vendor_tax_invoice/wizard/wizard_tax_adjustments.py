@@ -25,12 +25,13 @@ class TaxAdjustments(models.TransientModel):
         required=True,
     )
 
-    @api.one
+    @api.multi
     @api.constrains('amount', 'amount_tax_base')
     def _check_amount(self):
-        if not self.amount or not self.amount_tax_base:
-            raise ValidationError(_(
-                'Tax Amount or Tax Base can\'t have a zero amount.'))
+        for rec in self:
+            if not rec.amount or not rec.amount_tax_base:
+                raise ValidationError(_(
+                    'Tax Amount or Tax Base can\'t have a zero amount.'))
 
     @api.multi
     def _create_move(self):
