@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menu Reports -->
+    <menuitem
+        parent="account.menu_finance_reports"
+        id="menu_asset_register_reports"
+        name="Asset Reports"
+        groups="account.group_account_manager,account.group_account_user"
+        />
+
+    <menuitem
+        parent="menu_asset_register_reports"
+        action="action_asset_register_wizard"
+        id="menu_asset_register_report_wizard"
+        sequence="10"
+        />
+
+    <!-- PDF/HMTL REPORTS -->
+    <report
+      id="action_report_asset_register_qweb"
+      model="report.asset.register"
+      string="Asset Register"
+      report_type="qweb-pdf"
+      name="l10n_th_asset_register_report.report_asset_register_qweb"
+      file="l10n_th_asset_register_report.report_asset_register_qweb"
+      paperformat="l10n_th_asset_register_report.report_asset_qweb_paperformat"
+      />
+    <report
+      id="action_report_asset_register_html"
+      model="report.asset.register"
+      string="Asset Register"
+      report_type="qweb-html"
+      name="l10n_th_asset_register_report.report_asset_register_qweb"
+      file="l10n_th_asset_register_report.report_asset_register_html"
+      />
+
+    <!-- XLSX REPORTS -->
+    <record id="action_report_asset_register_xlsx" model="ir.actions.report">
+        <field name="name">Asset Register XLSX</field>
+        <field name="model">report.asset.register</field>
+        <field name="type">ir.actions.report</field>
+        <field name="report_name">a_r_r.report_asset_register_xlsx</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_file">Asset_Report</field>
+    </record>
+
+</odoo>
