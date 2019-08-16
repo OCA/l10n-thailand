@@ -11,6 +11,7 @@ setuptools.setup(
         'odoo12-addon-account_create_tax_cash_basis_entry_hook',
         'odoo12-addon-l10n_th_account_report',
         'odoo12-addon-l10n_th_partner',
+        'odoo12-addon-l10n_th_vat_report',
         'odoo12-addon-l10n_th_vendor_tax_invoice',
         'odoo12-addon-l10n_th_withholding_tax_cert',
         'odoo12-addon-l10n_th_withholding_tax_cert_form',
