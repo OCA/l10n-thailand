@@ -30,14 +30,9 @@
                             string="Export XLSX"
                             type="object"
                     />
-                    <button name="%(action_report_withholding_tax_txt)d"
+                    <button name="button_export_excel"
                             string="Export TXT"
-                            type="action"
-                    />
-                    <button name="button_export_xlsx"
-                            string="Export TXT - 2"
                             type="object"
-                            context="{'type':'text'}"
                     />
                     or
                     <button string="Cancel"

@@ -45,7 +45,6 @@ class WithHoldingTaxReportWizard(models.TransientModel):
             context1 = safe_eval(context1)
         model = self.env['withholding.tax.report']
         report = model.create(self._prepare_wt_report())
-        report._compute_results()
         context1['active_id'] = report.id
         context1['active_ids'] = report.ids
         vals['context'] = context1
@@ -63,6 +62,12 @@ class WithHoldingTaxReportWizard(models.TransientModel):
         report_type = 'xlsx'
         return self._export(report_type)
 
+    @api.multi
+    def button_export_excel(self):
+        self.ensure_one()
+        report_type = 'excel'
+        return self._export(report_type)
+
     def _prepare_wt_report(self):
         self.ensure_one()
         return {
@@ -74,11 +79,6 @@ class WithHoldingTaxReportWizard(models.TransientModel):
 
     def _export(self, report_type):
         """Default export is PDF."""
-        type_excel = self._context.get('type', False)
         model = self.env['withholding.tax.report']
         report = model.create(self._prepare_wt_report())
-        report._compute_results()
-        if not type_excel:
-            return report.print_report(report_type)
-        print(report.env.ref('l10n_th_withholding_tax_report.report_withholding_txt_template'))
-        return report.env.ref('l10n_th_withholding_tax_report.report_withholding_txt_template')
+        return report.print_report(report_type)

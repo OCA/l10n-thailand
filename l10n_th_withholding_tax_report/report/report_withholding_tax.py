@@ -44,6 +44,8 @@ class WithHoldingTaxReport(models.TransientModel):
         self.ensure_one()
         if report_type == 'xlsx':
             report_name = 'withholding.tax.report.xlsx'
+        elif report_type == 'excel':
+            report_name = 'report_withholding_tax_txt.xlsx'
         else:
             report_name = 'l10n_th_withholding_tax_report.'\
                           'report_withholding_tax_qweb'

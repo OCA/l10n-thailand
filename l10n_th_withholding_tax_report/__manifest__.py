@@ -8,8 +8,7 @@
     'website': 'https://github.com/OCA/l10n-thailand',
     'license': 'AGPL-3',
     'category': 'Accounting',
-    'depends': [
-                'account',
+    'depends': ['account',
                 'excel_import_export',
                 'report_xlsx',
                 'report_xlsx_helper',
@@ -18,8 +17,7 @@
                 'l10n_th_vendor_tax_invoice',
                 'l10n_th_withholding_tax_cert',
                 ],
-    'data': [
-             'data/paper_format.xml',
+    'data': ['data/paper_format.xml',
              'data/report_data.xml',
              'report_txt/templates.xml',
              'report_txt/report.xml',
