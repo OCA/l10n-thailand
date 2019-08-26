@@ -1,10 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id="vat_report_wizard_form" model="ir.ui.view">
         <field name="name">vat.report.wizard.form</field>
         <field name="model">vat.report.wizard</field>
         <field name="arch" type="xml">
             <form>
-                <group name='criteria'>
+                <group name="criteria">
                     <group>
                         <field name="company_id" options="{'no_create_edit': True}"
                           groups="base.group_multi_company"/>
@@ -18,25 +20,25 @@
                     </group>
                 </group>
                 <footer>
-                    <button name='button_export_html' string='View'
-                            type='object' default_focus='1' class='oe_highlight'/>
+                    <button name="button_export_html" string="View"
+                            type="object" default_focus="1" class="oe_highlight"/>
                     or
-                    <button name='button_export_pdf' string='Export PDF' type='object'/>
+                    <button name="button_export_pdf" string="Export PDF" type="object"/>
                     or
-                    <button name='button_export_xlsx' string='Export XLSX' type='object'/>
+                    <button name="button_export_xlsx" string="Export XLSX" type="object"/>
                     or
-                    <button string='Cancel' class='oe_link' special='cancel' />
+                    <button string="Cancel" class="oe_link" special="cancel" />
                 </footer>
             </form>
         </field>
     </record>
 
-    <record id='action_vat_report' model='ir.actions.act_window'>
-        <field name='name'>VAT Reports</field>
-        <field name='res_model'>vat.report.wizard</field>
-        <field name='view_type'>form</field>
-        <field name='view_mode'>form</field>
-        <field name='target'>new</field>
+    <record id="action_vat_report" model="ir.actions.act_window">
+        <field name="name">VAT Reports</field>
+        <field name="res_model">vat.report.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
     </record>
 
     <menuitem id="menu_vat_report"
@@ -45,4 +47,5 @@
         name="VAT Report"
         groups="account.group_account_manager,account.group_account_user"
         />
+
 </odoo>
