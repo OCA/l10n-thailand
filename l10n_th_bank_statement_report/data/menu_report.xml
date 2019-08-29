@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menu Reports -->
+    <menuitem
+        parent="account.menu_finance_reports"
+        id="menu_bank_statement_reports"
+        name="Bank Reports"
+        groups="account.group_account_manager,account.group_account_user"
+        />
+
+    <menuitem
+        parent="menu_bank_statement_reports"
+        action="action_bank_statement_wizard"
+        id="menu_bank_statement_report_wizard"
+        sequence="10"
+        />
+
+    <!-- PDF REPORTS -->
+    <report
+      id="action_report_bank_statement_qweb"
+      model="report.bank.statement"
+      string="Bank Statement"
+      report_type="qweb-pdf"
+      name="l10n_th_bank_statement_report.report_bank_statement_qweb"
+      file="l10n_th_bank_statement_report.report_bank_statement_qweb"
+      paperformat="l10n_th_bank_statement_report.report_bank_statement_qweb_paperformat"
+      />
+
+    <!-- XLSX REPORTS -->
+    <record id="action_report_bank_statement_xlsx" model="ir.actions.report">
+        <field name="name">Bank Statement XLSX</field>
+        <field name="model">report.bank.statement</field>
+        <field name="type">ir.actions.report</field>
+        <field name="report_name">bank_statement_xlsx</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_file">Bank_Statement</field>
+    </record>
+
+</odoo>

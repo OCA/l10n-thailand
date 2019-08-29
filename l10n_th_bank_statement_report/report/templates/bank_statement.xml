@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="l10n_th_bank_statement_report.internal_layout">
+        <div class="article">
+            <link href="/l10n_th_bank_statement_report/static/src/css/report.css" rel="stylesheet"/>
+          <t t-raw="0" />
+        </div>
+    </template>
+
+    <template id="l10n_th_bank_statement_report.report_bank_statement_qweb">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="l10n_th_bank_statement_report.internal_layout">
+                    <t t-call="l10n_th_bank_statement_report.report_bank_statement_base"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_bank_statement_base">
+        <!-- Defines global variables used by internal layout -->
+        <t t-set="title">Bank Statement - <t t-raw="o.company_id.name"/> - <t t-raw="o.company_id.currency_id.name"/></t>
+        <div class="page">
+            <div class="row">
+                <h4 class="mt0" t-esc="title or 'Odoo Report'" style="text-align: center;"/>
+            </div>
+            <!-- Display filters -->
+            <t t-call="l10n_th_bank_statement_report.report_bank_statement_filters"/>
+            <div class="act_as_table list_table" style="margin-top: 10px;"/>
+
+            <!-- Display account lines -->
+            <div class="act_as_table data_table" style="width: 100%;">
+                <t t-set="total_credit" t-value="0"/>
+                <t t-set="total_debit" t-value="0"/>
+                <t t-set="balance" t-value="0"/>
+                <t t-set="total_amount_currency" t-value="0"/>
+                <!-- Display bank statement header -->
+                <t t-call="l10n_th_bank_statement_report.report_bank_statement_lines_header"/>
+                <!-- Display initial balance -->
+                <t t-call="l10n_th_bank_statement_report.report_bank_statement_lines_initial_balance"/>
+                <t t-set="total_credit" t-value="total_credit + o._get_initial('credit')"/>
+                <t t-set="total_debit" t-value="total_debit + o._get_initial('debit')"/>
+                <t t-set="balance" t-value="balance + o._get_initial('balance')"/>
+                <t t-set="total_amount_currency" t-value="total_amount_currency + o._get_initial('amount_currency')"/>
+                <!-- Display each lines -->
+                <t t-foreach="o.results" t-as="line">
+                    <t t-set="total_credit" t-value="total_credit + line.credit"/>
+                    <t t-set="total_debit" t-value="total_debit + line.debit"/>
+                    <t t-set="balance" t-value="balance + line.balance"/>
+                    <t t-set="total_amount_currency" t-value="total_amount_currency + line.amount_currency"/>
+                    <t t-call="l10n_th_bank_statement_report.report_bank_statement_lines"/>
+                </t>
+                <!-- Display bank account footer -->
+                <t t-call="l10n_th_bank_statement_report.report_bank_statement_lines_footer"/>
+            </div>
+        </div>
+    </template>
+
+    <template id="l10n_th_bank_statement_report.report_bank_statement_filters">
+        <div class="act_as_table data_table" style="width: 100%;">
+            <div class="act_as_row labels">
+                <div class="act_as_cell">Date range filter</div>
+                <div class="act_as_cell">Bank Account</div>
+            </div>
+            <div class="act_as_row">
+                <div class="act_as_cell">
+                    From: <span t-field="o.date_from"/> To: <span t-field="o.date_to"/>
+                </div>
+                <div class="act_as_cell">
+                    <span t-field="o.bank_account_id"/>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="l10n_th_bank_statement_report.report_bank_statement_lines_header">
+        <!-- Display table headers for lines -->
+        <div class="act_as_thead">
+            <div class="act_as_row labels">
+                <div class="act_as_cell" style="width: 10%;">Date</div>
+                <div class="act_as_cell" style="width: 20%;">Description</div>
+                <div class="act_as_cell" style="width: 20%;">Partner</div>
+                <div class="act_as_cell" style="width: 10%;">Ref.</div>
+                <div class="act_as_cell" style="width: 10%;">Withdrawals</div>
+                <div class="act_as_cell" style="width: 10%;">Deposits</div>
+                <div class="act_as_cell" style="width: 10%;">Balance</div>
+                <div class="act_as_cell" style="width: 10%;">Amount Currency</div>
+            </div>
+        </div>
+    </template>
+
+    <template id="l10n_th_bank_statement_report.report_bank_statement_lines_initial_balance">
+        <t t-set="initial_credit" t-value="o._get_initial('credit')"/>
+        <t t-set="initial_debit" t-value="o._get_initial('debit')"/>
+        <t t-set="initial_balance" t-value="o._get_initial('balance')"/>
+        <t t-set="initial_currency" t-value="o._get_initial('amount_currency')"/>
+        <div class="act_as_row lines">
+            <div class="act_as_cell">
+                <t t-esc="o.date_from"/>
+            </div>
+            <div class="act_as_cell left">
+                <span>Initial Balance</span>
+            </div>
+            <div class="act_as_cell"/>
+            <div class="act_as_cell"/>
+            <div class="act_as_cell amount">
+                <t t-esc="'{0:,.2f}'.format(initial_credit)"/>
+            </div>
+            <div class="act_as_cell amount">
+                <t t-esc="'{0:,.2f}'.format(initial_debit)"/>
+            </div>
+            <div class="act_as_cell amount">
+                <t t-esc="'{0:,.2f}'.format(initial_balance)"/>
+            </div>
+            <div class="act_as_cell amount">
+                <t t-esc="'{0:,.2f}'.format(initial_currency)"/>
+            </div>
+        </div>
+    </template>
+
+    <template id="l10n_th_bank_statement_report.report_bank_statement_lines">
+        <div class="act_as_row lines">
+            <div class="act_as_cell">
+                <t t-esc="line.date_maturity"/>
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.name"/>
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.partner_id.name"/>
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.ref"/>
+            </div>
+            <div class="act_as_cell amount">
+                <t t-esc="'{0:,.2f}'.format(line.credit)"/>
+            </div>
+            <div class="act_as_cell amount">
+                <t t-esc="'{0:,.2f}'.format(line.debit)"/>
+            </div>
+            <div class="act_as_cell amount">
+                <t t-esc="'{0:,.2f}'.format(balance)"/>
+            </div>
+            <div class="act_as_cell amount">
+                <t t-esc="'{0:,.2f}'.format(line.amount_currency)"/>
+            </div>
+        </div>
+    </template>
+
+    <template id="l10n_th_bank_statement_report.report_bank_statement_lines_footer">
+        <div class="act_as_row labels" style="font-weight: bold;">
+            <div class="act_as_cell"/>
+            <div class="act_as_cell"/>
+            <div class="act_as_cell"/>
+            <div class="act_as_cell right">Ending balance</div>
+            <!--## amount_currency-->
+            <div class="act_as_cell amount">
+                <t t-esc="'{0:,.2f}'.format(total_credit)"/>
+            </div>
+            <div class="act_as_cell amount">
+                <t t-esc="'{0:,.2f}'.format(total_debit)"/>
+            </div>
+            <div class="act_as_cell amount">
+                <t t-esc="'{0:,.2f}'.format(balance)"/>
+            </div>
+            <div class="act_as_cell amount">
+                <t t-esc="'{0:,.2f}'.format(total_amount_currency)"/>
+            </div>
+        </div>
+    </template>
+</odoo>
