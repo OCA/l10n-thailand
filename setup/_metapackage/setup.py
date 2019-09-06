@@ -15,6 +15,7 @@ setuptools.setup(
         'odoo12-addon-l10n_th_vendor_tax_invoice',
         'odoo12-addon-l10n_th_withholding_tax_cert',
         'odoo12-addon-l10n_th_withholding_tax_cert_form',
+        'odoo12-addon-l10n_th_withholding_tax_report',
     ],
     classifiers=[
         'Programming Language :: Python',
