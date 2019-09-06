@@ -1,0 +1,39 @@
+<odoo>
+
+    <!-- TXT Format -->
+    <record id="report_withholding_txt_template" model="xlsx.template">
+        <field name="res_model">withholding.tax.report</field>
+        <field name="fname">report_withholding_tax_txt.xlsx</field>
+        <field name="name">Report Withholding Tax Template (.txt)</field>
+        <field name="description">PND3, PND53 Summary Report in text</field>
+        <field name="to_csv">True</field>
+        <field name="csv_delimiter">,</field>
+        <field name="csv_extension">txt</field>
+        <field name="csv_quote">True</field>
+        <field name="input_instruction">
+          {
+              '__EXPORT__': {
+                  1: {
+                      'results': {
+                          'A1': "${'=ROW(?(A1))'}",
+                          'B1': 'cert_id.supplier_partner_id.vat${value or ""}#{style=text}',
+                          'C1': 'cert_id.supplier_partner_id.display_name${value or ""}',
+                          'D1': 'cert_id.date${value and "%s%s%s" % (str(value).split("-")[0], str(value).split("-")[1], str(value)[8:10]) or ""}#{style=text}',
+                          'E1': 'wt_cert_income_desc${value or ""}',
+                          'F1': 'wt_percent${value or 0}#{style=text}',
+                          'G1': 'base${value or ""}#{style=number}',
+                          'H1': 'amount${value or ""}#{style=number}',
+                          'I1': 'cert_id.tax_payer${value == b"withholding" and "1" or value == b"paid_one_time" and "3" or ""}',
+                          'J1': 'cert_id.payment_id.name${value or ""}',
+                      },
+                  }
+              }
+          }
+        </field>
+    </record>
+
+    <function model="xlsx.template" name="load_xlsx_template">
+        <value eval="[ref('report_withholding_txt_template')]"/>
+    </function>
+
+</odoo>
