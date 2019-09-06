@@ -76,8 +76,6 @@ msgid "Bank statement line reconciled with this entry"
 msgstr ""
 
 #. module: l10n_th_vat_report
-#: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_view__base_amount
-#: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_view__tax_base_amount
 #: model_terms:ir.ui.view,arch_db:l10n_th_vat_report.report_vat_report_lines_header
 msgid "Base Amount"
 msgstr ""
@@ -400,6 +398,11 @@ msgid "Reference"
 msgstr ""
 
 #. module: l10n_th_vat_report
+#: model:ir.model,name:l10n_th_vat_report.model_report_vat_report
+msgid "Report Vat Report"
+msgstr ""
+
+#. module: l10n_th_vat_report
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_view__amount_residual
 msgid "Residual Amount"
 msgstr ""
@@ -439,6 +442,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_view__tax_amount
 #: model_terms:ir.ui.view,arch_db:l10n_th_vat_report.report_vat_report_lines_header
 msgid "Tax Amount"
+msgstr ""
+
+#. module: l10n_th_vat_report
+#: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_view__tax_base_amount
+msgid "Tax Base Amount"
 msgstr ""
 
 #. module: l10n_th_vat_report
@@ -590,6 +598,11 @@ msgid "VAT Reports"
 msgstr ""
 
 #. module: l10n_th_vat_report
+#: model:ir.model,name:l10n_th_vat_report.model_vat_report_view
+msgid "Vat Report View"
+msgstr ""
+
+#. module: l10n_th_vat_report
 #: model_terms:ir.ui.view,arch_db:l10n_th_vat_report.vat_report_wizard_form
 msgid "View"
 msgstr ""
@@ -612,15 +625,5 @@ msgstr ""
 #. module: l10n_th_vat_report
 #: model:ir.model,name:l10n_th_vat_report.model_report_l10n_th_vat_report_report_vat_report_xlsx
 msgid "report.l10n_th_vat_report.report_vat_report_xlsx"
-msgstr ""
-
-#. module: l10n_th_vat_report
-#: model:ir.model,name:l10n_th_vat_report.model_report_vat_report
-msgid "report.vat.report"
-msgstr ""
-
-#. module: l10n_th_vat_report
-#: model:ir.model,name:l10n_th_vat_report.model_vat_report_view
-msgid "vat.report.view"
 msgstr ""
 
