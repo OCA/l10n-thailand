@@ -1,5 +1,6 @@
 # Copyright 2019 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
+
 from odoo import models, fields, api
 from odoo.tools.safe_eval import safe_eval
 from odoo.tools import pycompat
@@ -8,7 +9,6 @@ from odoo.tools import pycompat
 class VatReportWizard(models.TransientModel):
     _name = 'vat.report.wizard'
     _description = 'Wizard for VAT Report'
-
     # Search Criteria
     company_id = fields.Many2one(
         comodel_name='res.company',
@@ -21,7 +21,9 @@ class VatReportWizard(models.TransientModel):
         comodel_name='account.tax',
         string='Tax',
         required=True,
-        domain=[('tax_exigibility', '=', 'on_invoice')],
+        domain=[('tax_exigibility', '=', 'on_invoice'),
+                ('type_tax_use', 'in', ['sale', 'purchase']),
+                ('include_base_amount', '=', False)],
     )
     account_id = fields.Many2one(
         comodel_name='account.account',
