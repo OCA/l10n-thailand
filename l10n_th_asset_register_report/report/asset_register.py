@@ -93,7 +93,19 @@ class AssetRegisterReport(models.TransientModel):
         where_str = self._domain_to_where_str(dom)
         if where_str:
             where_str = 'and ' + where_str
-        self._cr.execute("""
+        sql = self._get_sql(where_str)
+        self._cr.execute(sql,
+                         (tuple(depre_account_ids), date_start, date_end,
+                          tuple(accum_depre_account_ids), date_end,
+                          fiscalyear_start,
+                          tuple(accum_depre_account_ids), fiscalyear_start))
+        asset_results = self._cr.dictfetchall()
+        ReportLine = self.env['asset.view']
+        for line in asset_results:
+            self.results += ReportLine.new(line)
+
+    def _get_sql(self, where_str):
+        sql = """
             select a.*, id asset_id,
                 -- percent_depreciation
                 case when a.method_number != 0
@@ -123,15 +135,8 @@ class AssetRegisterReport(models.TransientModel):
             account_asset a
             where (a.state != 'close' or a.value_depreciated != 0)
                 and a.type != 'view'
-        """ + where_str + "order by profile_id",
-                         (tuple(depre_account_ids), date_start, date_end,
-                          tuple(accum_depre_account_ids), date_end,
-                          fiscalyear_start,
-                          tuple(accum_depre_account_ids), fiscalyear_start))
-        asset_results = self._cr.dictfetchall()
-        ReportLine = self.env['asset.view']
-        for line in asset_results:
-            self.results += ReportLine.new(line)
+                {where_str} order by profile_id""".format(where_str=where_str)
+        return sql
 
 
 class AssetRegisterReportCompute(models.TransientModel):
