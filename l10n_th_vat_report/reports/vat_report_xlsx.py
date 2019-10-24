@@ -138,10 +138,10 @@ class ReportVatReportXlsx(models.TransientModel):
             ws, row_pos, ws_params, col_specs_section='header',
             default_format=self.format_theader_blue_left)
         ws.freeze_panes(row_pos, 0)
-        for object in objects:
+        for obj in objects:
             total_base = 0.00
             total_tax = 0.00
-            for line in object.results:
+            for line in obj.results:
                 total_base += line.tax_base_amount
                 total_tax += line.tax_amount
                 row_pos = self._write_line(
