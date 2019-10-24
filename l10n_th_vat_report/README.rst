@@ -57,6 +57,11 @@ Changelog
 * Fix wrong query database to report
 * Add test script
 
+12.0.1.0.2 (2019-10-24)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Fix variable name in for loop
+
 Bug Tracker
 ===========
 
@@ -79,6 +84,7 @@ Contributors
 ~~~~~~~~~~~~
 
 * Pimolnat Suntian <pimolnats@ecosoft.co.th>
+* Saran Lim. <saranl@ecosoft.co.th>
 
 Maintainers
 ~~~~~~~~~~~

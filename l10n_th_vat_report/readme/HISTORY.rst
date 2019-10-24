@@ -10,3 +10,8 @@
 * Fix column swap in xlsx report
 * Fix wrong query database to report
 * Add test script
+
+12.0.1.0.2 (2019-10-24)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Fix variable name in for loop
