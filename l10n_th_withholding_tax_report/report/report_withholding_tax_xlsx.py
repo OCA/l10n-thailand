@@ -213,8 +213,8 @@ class WithholdingTaxReportXslx(models.AbstractModel):
             default_format=self.format_theader_blue_center,
         )
         ws.freeze_panes(row_pos, 0)
-        for object in objects:
-            for line in object.results:
+        for obj in objects:
+            for line in obj.results:
                 row_pos = self._write_line(
                     ws, row_pos, ws_params, col_specs_section='data',
                     render_space={
