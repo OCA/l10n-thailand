@@ -46,6 +46,20 @@ To use this module, you need to:
   Export PDF - Report type pdf.
   Export XLSX - Report type xlsx.
 
+Changelog
+=========
+
+12.0.1.0.0 (2019-09-06)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Start of the history
+* Add Thai Withholding Tax Report
+
+12.0.1.0.1 (2019-10-24)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Fix variable name in for loop
+
 Bug Tracker
 ===========
 
@@ -68,6 +82,7 @@ Contributors
 ~~~~~~~~~~~~
 
 * Rattapong Chokmasermkul <rattapongc@ecosoft.co.th>
+* Saran Lim. <saranl@ecosoft.co.th>
 
 Maintainers
 ~~~~~~~~~~~
