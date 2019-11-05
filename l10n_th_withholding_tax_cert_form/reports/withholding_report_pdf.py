@@ -1,4 +1,4 @@
-# Copyright 2019 Ecosoft Co., Ltd (http://ecosoft.co.th/)
+# Copyright 2019 Ecosoft Co., Ltd (https://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
 from num2words import num2words
@@ -26,14 +26,12 @@ class ReportWithholdingTaxCert(models.AbstractModel):
 class WithholdingTaxCert(models.Model):
     _inherit = "withholding.tax.cert"
 
-    @api.multi
     def amount_text(self, amount):
         try:
             return num2words(amount, to="currency", lang="th")
         except NotImplementedError:
             return num2words(amount, to="currency", lang="en")
 
-    @api.multi
     def _compute_sum_type_other(self, lines, ttype):
         base_type_other = sum(
             lines.filtered(lambda l: l.wt_cert_income_type in ["6", "7", "8"]).mapped(
@@ -42,7 +40,6 @@ class WithholdingTaxCert(models.Model):
         )
         return base_type_other
 
-    @api.multi
     def _compute_desc_type_other(self, lines, ttype):
         base_type_other = lines.filtered(
             lambda l: l.wt_cert_income_type in ["6", "7", "8"]
