@@ -1,5 +1,6 @@
-# Copyright 2019 Ecosoft Co., Ltd (http://ecosoft.co.th/)
+# Copyright 2019 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
+
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 from odoo.tools.float_utils import float_compare
@@ -41,7 +42,7 @@ class WithholdingTaxCert(models.Model):
         states={"draft": [("readonly", False)]},
     )
     state = fields.Selection(
-        [("draft", "Draft"), ("done", "Done"), ("cancel", "Cancelled")],
+        selection=[("draft", "Draft"), ("done", "Done"), ("cancel", "Cancelled")],
         string="Status",
         default="draft",
         copy=False,
@@ -56,15 +57,15 @@ class WithholdingTaxCert(models.Model):
         ondelete="restrict",
     )
     company_partner_id = fields.Many2one(
-        "res.partner",
+        comodel_name="res.partner",
         string="Company",
         readonly=True,
         copy=False,
-        default=lambda self: self.env.user.company_id.partner_id,
+        default=lambda self: self.env.company.partner_id,
         ondelete="restrict",
     )
     supplier_partner_id = fields.Many2one(
-        "res.partner",
+        comodel_name="res.partner",
         string="Supplier",
         required=True,
         readonly=True,
@@ -79,7 +80,7 @@ class WithholdingTaxCert(models.Model):
         related="supplier_partner_id.vat", string="Supplier Tax ID", readonly=True
     )
     income_tax_form = fields.Selection(
-        INCOME_TAX_FORM,
+        selection=INCOME_TAX_FORM,
         string="Income Tax Form",
         required=True,
         readonly=True,
@@ -87,15 +88,15 @@ class WithholdingTaxCert(models.Model):
         states={"draft": [("readonly", False)]},
     )
     wt_line = fields.One2many(
-        "withholding.tax.cert.line",
-        "cert_id",
+        comodel_name="withholding.tax.cert.line",
+        inverse_name="cert_id",
         string="Withholding Line",
         readonly=True,
         states={"draft": [("readonly", False)]},
         copy=False,
     )
     tax_payer = fields.Selection(
-        TAX_PAYER,
+        selection=TAX_PAYER,
         string="Tax Payer",
         default="withholding",
         required=True,
@@ -136,17 +137,14 @@ class WithholdingTaxCert(models.Model):
         )
         return wt_move_lines
 
-    @api.multi
     def action_draft(self):
         self.write({"state": "draft"})
         return True
 
-    @api.multi
     def action_done(self):
         self.write({"state": "done"})
         return True
 
-    @api.multi
     def action_cancel(self):
         self.write({"state": "cancel"})
         return True
@@ -156,9 +154,11 @@ class WithholdingTaxCertLine(models.Model):
     _name = "withholding.tax.cert.line"
     _description = "Withholding Tax Cert Lines"
 
-    cert_id = fields.Many2one("withholding.tax.cert", string="WHT Cert", index=True)
+    cert_id = fields.Many2one(
+        comodel_name="withholding.tax.cert", string="WHT Cert", index=True
+    )
     wt_cert_income_type = fields.Selection(
-        WHT_CERT_INCOME_TYPE, string="Type of Income", required=True
+        selection=WHT_CERT_INCOME_TYPE, string="Type of Income", required=True
     )
     wt_cert_income_desc = fields.Char(
         string="Income Description", size=500, required=False
@@ -173,11 +173,10 @@ class WithholdingTaxCertLine(models.Model):
         help="Reference back to journal item which create wt move",
     )
 
-    @api.multi
     @api.constrains("base", "wt_percent", "amount")
     def _check_wt_line(self):
         for rec in self:
-            prec = self.env.user.company_id.currency_id.decimal_places
+            prec = self.env.company.currency_id.decimal_places
             if (
                 rec.wt_percent
                 and float_compare(rec.amount, rec.base * rec.wt_percent / 100, prec)
