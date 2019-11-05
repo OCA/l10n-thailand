@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
 
         <record id="create_withholding_tax_cert" model="ir.ui.view">
             <field name="name">Create Withholding Tax Cert.</field>
@@ -29,7 +27,6 @@
             <field name="name">Create Withholding Tax Cert.</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">create.withholding.tax.cert</field>
-            <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="view_id" ref="create_withholding_tax_cert"/>
             <field name="context">{}</field>
@@ -37,5 +34,4 @@
             <field name="binding_model_id" ref="account.model_account_payment" />
         </record>
 
-    </data>
 </odoo>
