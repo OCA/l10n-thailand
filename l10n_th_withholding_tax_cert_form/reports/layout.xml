@@ -1,0 +1,139 @@
+<odoo>
+    <template id="report_assets_common" name="withholding tax cert common assets" inherit_id="web.report_assets_common">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href="/l10n_th_withholding_tax_cert_form/static/scss/style_report.scss"/>
+        </xpath>
+    </template>
+
+    <template id="withholding_layout_report">
+        <div class="article o_report_withholding_tax_cert" t-attf-style="background-image:url('/l10n_th_withholding_tax_cert_form/static/src/img/WithholdingCert.jpg'); background-size:300mm 424mm; width:300mm; height:424mm;">
+            <h4 class="number_payment"><span t-esc="o.payment_id.name"/></h4>
+            <div class="company_vat">
+                <t t-if="o.company_partner_id.vat">
+                    <div class="row">
+                        <p class="box-vat"><t t-esc="o.company_partner_id.vat[:1]"/></p>
+                        <p class="box-vat vat_tab"><t t-esc="o.company_partner_id.vat[1:2]"/></p>
+                        <p class="box-vat"><t t-esc="o.company_partner_id.vat[2:3]"/></p>
+                        <p class="box-vat"><t t-esc="o.company_partner_id.vat[3:4]"/></p>
+                        <p class="box-vat"><t t-esc="o.company_partner_id.vat[4:5]"/></p>
+                        <p class="box-vat vat_tab"><t t-esc="o.company_partner_id.vat[5:6]"/></p>
+                        <p class="box-vat"><t t-esc="o.company_partner_id.vat[6:7]"/></p>
+                        <p class="box-vat"><t t-esc="o.company_partner_id.vat[7:8]"/></p>
+                        <p class="box-vat"><t t-esc="o.company_partner_id.vat[8:9]"/></p>
+                        <p class="box-vat"><t t-esc="o.company_partner_id.vat[9:10]"/></p>
+                        <p class="box-vat vat_tab"><t t-esc="o.company_partner_id.vat[10:11]"/></p>
+                        <p class="box-vat"><t t-esc="o.company_partner_id.vat[11:12]"/></p>
+                        <p class="box-vat vat_tab"><t t-esc="o.company_partner_id.vat[12:13]"/></p>
+                    </div>
+                </t>
+            </div>
+            <div class="company_name">
+                <p><span t-field="o.company_partner_id.name"/></p>
+            </div>
+            <div class="company_address">
+                <t t-if="o.company_partner_id.street"><span t-field="o.company_partner_id.street"/></t>
+                <t t-if="o.company_partner_id.street2"><span>,</span><span t-field="o.company_partner_id.street2"/></t>
+                <t t-if="o.company_partner_id.city"><span>,</span><span t-field="o.company_partner_id.city"/></t>
+                <t t-if="o.company_partner_id.state_id"><span>,</span><span t-field="o.company_partner_id.state_id"/></t>
+                <t t-if="o.company_partner_id.zip"><span t-field="o.company_partner_id.zip"/></t>
+                <t t-if="o.company_partner_id.country_id"><span>,</span><span t-field="o.company_partner_id.country_id"/></t>
+            </div>
+            <div class="supplier_vat">
+                <t t-if="o.supplier_partner_id.vat">
+                    <div class="row">
+                        <p class="box-vat"><t t-esc="o.supplier_partner_id.vat[:1]"/></p>
+                        <p class="box-vat vat_tab"><t t-esc="o.supplier_partner_id.vat[1:2]"/></p>
+                        <p class="box-vat"><t t-esc="o.supplier_partner_id.vat[2:3]"/></p>
+                        <p class="box-vat"><t t-esc="o.supplier_partner_id.vat[3:4]"/></p>
+                        <p class="box-vat"><t t-esc="o.supplier_partner_id.vat[4:5]"/></p>
+                        <p class="box-vat vat_tab"><t t-esc="o.supplier_partner_id.vat[5:6]"/></p>
+                        <p class="box-vat"><t t-esc="o.supplier_partner_id.vat[6:7]"/></p>
+                        <p class="box-vat"><t t-esc="o.supplier_partner_id.vat[7:8]"/></p>
+                        <p class="box-vat"><t t-esc="o.supplier_partner_id.vat[8:9]"/></p>
+                        <p class="box-vat"><t t-esc="o.supplier_partner_id.vat[9:10]"/></p>
+                        <p class="box-vat vat_tab"><t t-esc="o.supplier_partner_id.vat[10:11]"/></p>
+                        <p class="box-vat"><t t-esc="o.supplier_partner_id.vat[11:12]"/></p>
+                        <p class="box-vat vat_tab"><t t-esc="o.supplier_partner_id.vat[12:13]"/></p>
+                    </div>
+                </t>
+            </div>
+            <div class="supplier_name">
+                <p><span t-field="o.supplier_partner_id.name"/></p>
+            </div>
+            <div class="supplier_address">
+                <t t-if="o.supplier_partner_id.street"><span t-field="o.supplier_partner_id.street"/></t>
+                <t t-if="o.supplier_partner_id.street2"><span>,</span><span t-field="o.supplier_partner_id.street2"/></t>
+                <t t-if="o.supplier_partner_id.city"><span>,</span><span t-field="o.supplier_partner_id.city"/></t>
+                <t t-if="o.supplier_partner_id.state_id"><span>,</span><span t-field="o.supplier_partner_id.state_id"/></t>
+                <t t-if="o.supplier_partner_id.zip"><span t-field="o.supplier_partner_id.zip"/></t>
+                <t t-if="o.supplier_partner_id.country_id"><span>,</span><span t-field="o.supplier_partner_id.country_id"/></t>
+            </div>
+            <t t-if="o.income_tax_form == 'pnd1'">
+                <p class="choice_pnd1a">X</p>
+            </t>
+            <t t-if="o.income_tax_form == 'pnd3'">
+                <p class="choice_pnd3">X</p>
+            </t>
+            <t t-if="o.income_tax_form == 'pnd3a'">
+                <p class="choice_pnd3a">X</p>
+            </t>
+            <t t-if="o.income_tax_form == 'pnd53'">
+                <p class="choice_pnd53">X</p>
+            </t>
+
+            <!-- change A.D. to B.E. year-->
+            <t t-set="year" t-value="(int((o.date).strftime('%Y')))+543"/>
+            <t t-set="date" t-value="'%s/%s' %((o.date).strftime('%d/%m'),year)"/>
+
+            <t t-foreach="o.wt_line" t-as="line_id">
+                <t t-if="line_id.wt_cert_income_type == '1'">
+                    <p class="type_1_date"><t t-esc="date"/></p>
+                    <p class="type_1_base"><t t-esc="'{0:,.2f}'.format(line_id.base)"/></p>
+                    <p class="type_1_tax"><t t-esc="'{0:,.2f}'.format(line_id.amount)"/></p>
+                </t>
+                <t t-if="line_id.wt_cert_income_type == '2'">
+                    <p class="type_2_date"><t t-esc="date"/></p>
+                    <p class="type_2_base"><t t-esc="'{0:,.2f}'.format(line_id.base)"/></p>
+                    <p class="type_2_tax"><t t-esc="'{0:,.2f}'.format(line_id.amount)"/></p>
+                </t>
+                <t t-if="line_id.wt_cert_income_type == '3'">
+                    <p class="type_3_date"><t t-esc="date"/></p>
+                    <p class="type_3_base"><t t-esc="'{0:,.2f}'.format(line_id.base)"/></p>
+                    <p class="type_3_tax"><t t-esc="'{0:,.2f}'.format(line_id.amount)"/></p>
+                </t>
+                <t t-if="line_id.wt_cert_income_type == '5'">
+                    <p class="type_5_date"><t t-esc="date"/></p>
+                    <p class="type_5_base"><t t-esc="'{0:,.2f}'.format(line_id.base)"/></p>
+                    <p class="type_5_tax"><t t-esc="'{0:,.2f}'.format(line_id.amount)"/></p>
+                </t>
+            </t>
+            <!-- check in line type other (6, 7, 8) -->
+            <t t-if="o._compute_sum_type_other(o.wt_line, 'base')">
+                <p class="type_6_description"><t t-esc="o._compute_desc_type_other(o.wt_line, 'wt_cert_income_desc')"/></p>
+                <p class="type_6_date"><t t-esc="date"/></p>
+                <p class="type_6_base"><t t-esc="'{0:,.2f}'.format(o._compute_sum_type_other(o.wt_line, 'base'))"/></p>
+                <p class="type_6_tax"><t t-esc="'{0:,.2f}'.format(o._compute_sum_type_other(o.wt_line, 'amount'))"/></p>
+            </t>
+
+            <t t-set="total_amount_base" t-value="sum(o.wt_line.mapped('base'))"/>
+            <t t-set="total_amount_tax" t-value="sum(o.wt_line.mapped('amount'))"/>
+            <p class="total_amount"><t t-esc="'{0:,.2f}'.format(total_amount_base)"/></p>
+            <p class="total_tax"><t t-esc="'{0:,.2f}'.format(total_amount_tax)"/></p>
+            <p class="text_amount"><t t-esc="o.amount_text(total_amount_tax)"/></p>
+            <t t-if="o.tax_payer == 'withholding'">
+                <p class="choich_withholding_tax">X</p>
+            </t>
+            <t t-if="o.tax_payer == 'paid_one_time'">
+                <p class="choich_paid_one_time">X</p>
+            </t>
+        </div>
+    </template>
+
+    <template id="withholding_tax_pdf">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="l10n_th_withholding_tax_cert_form.withholding_layout_report"/>
+            </t>
+        </t>
+    </template>
+</odoo>
