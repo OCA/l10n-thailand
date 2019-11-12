@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_withholding_tax_cert,withholding.tax.cert,model_withholding_tax_cert,account.group_account_invoice,1,1,1,1
+access_withholding_tax_cert_line,withholding.tax.cert.line,model_withholding_tax_cert_line,account.group_account_invoice,1,1,1,1

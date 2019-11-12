@@ -1,0 +1,12 @@
+<odoo>
+    <report
+        string="Withholding Cert (pdf)"
+        id="withholding_tax_pdf_report"
+        model="withholding.tax.cert"
+        name="l10n_th_withholding_tax_cert_form.withholding_tax_pdf"
+        file="l10n_th_withholding_tax_cert_form.withholding_tax_pdf"
+        report_type="qweb-pdf"
+        print_report_name="'WHT - [%s]' % object.display_name"
+        paperformat="l10n_th_withholding_tax_cert_form.paperformat_withholding_tax"
+    />
+</odoo>

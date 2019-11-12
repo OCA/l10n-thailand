@@ -1,0 +1,36 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_partner
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__branch
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__branch
+msgid "Branch"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,help:l10n_th_partner.field_res_partner__branch
+#: model:ir.model.fields,help:l10n_th_partner.field_res_users__branch
+msgid "Branch ID, e.g., 0000, 0001, ..."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model_terms:ir.ui.view,arch_db:l10n_th_partner.view_partner_form
+msgid "Branch, e.g., 00000"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model,name:l10n_th_partner.model_res_partner
+msgid "Contact"
+msgstr ""
