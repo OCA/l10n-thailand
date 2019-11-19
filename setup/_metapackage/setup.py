@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo13-addon-l10n_th_partner',
+        'odoo13-addon-l10n_th_tax_invoice',
         'odoo13-addon-l10n_th_withholding_tax_cert',
         'odoo13-addon-l10n_th_withholding_tax_cert_form',
     ],
