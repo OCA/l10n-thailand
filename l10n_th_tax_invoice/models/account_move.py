@@ -63,7 +63,9 @@ class AccountMoveLine(models.Model):
         TaxInvoice = self.env["account.move.tax.invoice"]
         for line in move_lines:
             if line.tax_line_id and line.tax_exigible:
-                taxinv = TaxInvoice.create({"move_line_id": line.id})
+                taxinv = TaxInvoice.create(
+                    {"move_line_id": line.id, "move_id": line.move_id.id}
+                )  # To ensure move_id early
                 line.tax_invoice_id = taxinv
         return move_lines
 
