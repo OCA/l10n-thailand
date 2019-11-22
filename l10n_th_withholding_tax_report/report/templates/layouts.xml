@@ -3,7 +3,7 @@
     <template id="l10n_th_withholding_tax_report.internal_layout">
         <div class="article">
             <link href="/l10n_th_withholding_tax_report/static/src/css/report.css" rel="stylesheet"/>
-          <t t-raw="0" />
+          <t t-raw="0"/>
         </div>
 
         <div class="footer">
