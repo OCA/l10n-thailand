@@ -5,7 +5,6 @@
             model='withholding.tax.report'
             name='report_withholding_tax_txt.xlsx'
             file='ReportPNDTemplate'
-            report_type='excel'
-    />
+            report_type='excel'/>
 
 </odoo>
