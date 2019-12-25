@@ -144,7 +144,7 @@ class TestVatReport(common.TransactionCase):
             })
 
     def test_wizard(self):
-        wizard = self.env['vat.report.wizard'].create({
+        wizard = self.env['l10n.vat.report.wizard'].create({
             'company_id': self.company_id.id,
             'tax_id': self.tax_id.id,
             'account_id': 1,

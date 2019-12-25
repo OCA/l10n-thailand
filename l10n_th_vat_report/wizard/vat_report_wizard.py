@@ -7,7 +7,7 @@ from odoo.tools import pycompat
 
 
 class VatReportWizard(models.TransientModel):
-    _name = 'vat.report.wizard'
+    _name = 'l10n.vat.report.wizard'
     _description = 'Wizard for VAT Report'
     # Search Criteria
     company_id = fields.Many2one(
