@@ -24,9 +24,9 @@ msgid "<span class=\"fa fa-print\"/>Print"
 msgstr ""
 
 #. module: l10n_th_vat_report
+#: model:ir.model.fields,field_description:l10n_th_vat_report.field_l10n_vat_report_wizard__account_id
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_report_vat_report__account_id
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_view__account_id
-#: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_wizard__account_id
 msgid "Account"
 msgstr ""
 
@@ -92,9 +92,9 @@ msgid "Cancel"
 msgstr ""
 
 #. module: l10n_th_vat_report
+#: model:ir.model.fields,field_description:l10n_th_vat_report.field_l10n_vat_report_wizard__company_id
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_report_vat_report__company_id
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_view__company_id
-#: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_wizard__company_id
 msgid "Company"
 msgstr ""
 
@@ -114,18 +114,18 @@ msgid "Counterpart"
 msgstr ""
 
 #. module: l10n_th_vat_report
+#: model:ir.model.fields,field_description:l10n_th_vat_report.field_l10n_vat_report_wizard__create_uid
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_report_l10n_th_vat_report_report_vat_report_xlsx__create_uid
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_report_vat_report__create_uid
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_view__create_uid
-#: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_wizard__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: l10n_th_vat_report
+#: model:ir.model.fields,field_description:l10n_th_vat_report.field_l10n_vat_report_wizard__create_date
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_report_l10n_th_vat_report_report_vat_report_xlsx__create_date
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_report_vat_report__create_date
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_view__create_date
-#: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_wizard__create_date
 msgid "Created on"
 msgstr ""
 
@@ -191,10 +191,10 @@ msgid "Debit journal items that are matched with this journal item."
 msgstr ""
 
 #. module: l10n_th_vat_report
+#: model:ir.model.fields,field_description:l10n_th_vat_report.field_l10n_vat_report_wizard__display_name
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_report_l10n_th_vat_report_report_vat_report_xlsx__display_name
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_report_vat_report__display_name
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_view__display_name
-#: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_wizard__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -229,15 +229,15 @@ msgid "Export XLSX"
 msgstr ""
 
 #. module: l10n_th_vat_report
-#: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_wizard__date_from
+#: model:ir.model.fields,field_description:l10n_th_vat_report.field_l10n_vat_report_wizard__date_from
 msgid "From Date"
 msgstr ""
 
 #. module: l10n_th_vat_report
+#: model:ir.model.fields,field_description:l10n_th_vat_report.field_l10n_vat_report_wizard__id
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_report_l10n_th_vat_report_report_vat_report_xlsx__id
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_report_vat_report__id
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_view__id
-#: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_wizard__id
 msgid "ID"
 msgstr ""
 
@@ -272,26 +272,26 @@ msgid "Label"
 msgstr ""
 
 #. module: l10n_th_vat_report
+#: model:ir.model.fields,field_description:l10n_th_vat_report.field_l10n_vat_report_wizard____last_update
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_report_l10n_th_vat_report_report_vat_report_xlsx____last_update
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_report_vat_report____last_update
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_view____last_update
-#: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_wizard____last_update
 msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_th_vat_report
+#: model:ir.model.fields,field_description:l10n_th_vat_report.field_l10n_vat_report_wizard__write_uid
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_report_l10n_th_vat_report_report_vat_report_xlsx__write_uid
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_report_vat_report__write_uid
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_view__write_uid
-#: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_wizard__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: l10n_th_vat_report
+#: model:ir.model.fields,field_description:l10n_th_vat_report.field_l10n_vat_report_wizard__write_date
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_report_l10n_th_vat_report_report_vat_report_xlsx__write_date
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_report_vat_report__write_date
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_view__write_date
-#: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_wizard__write_date
 msgid "Last Updated on"
 msgstr ""
 
@@ -362,7 +362,7 @@ msgid "Payment that created this entry"
 msgstr ""
 
 #. module: l10n_th_vat_report
-#: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_wizard__date_range_id
+#: model:ir.model.fields,field_description:l10n_th_vat_report.field_l10n_vat_report_wizard__date_range_id
 #: model_terms:ir.ui.view,arch_db:l10n_th_vat_report.report_vat_report_filters
 msgid "Period"
 msgstr ""
@@ -433,8 +433,8 @@ msgid "Statement"
 msgstr ""
 
 #. module: l10n_th_vat_report
+#: model:ir.model.fields,field_description:l10n_th_vat_report.field_l10n_vat_report_wizard__tax_id
 #: model:ir.model.fields,field_description:l10n_th_vat_report.field_report_vat_report__tax_id
-#: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_wizard__tax_id
 msgid "Tax"
 msgstr ""
 
@@ -551,7 +551,7 @@ msgid "This field is used for payable and receivable journal entries. You can pu
 msgstr ""
 
 #. module: l10n_th_vat_report
-#: model:ir.model.fields,field_description:l10n_th_vat_report.field_vat_report_wizard__date_to
+#: model:ir.model.fields,field_description:l10n_th_vat_report.field_l10n_vat_report_wizard__date_to
 msgid "To Date"
 msgstr ""
 
@@ -608,7 +608,7 @@ msgid "View"
 msgstr ""
 
 #. module: l10n_th_vat_report
-#: model:ir.model,name:l10n_th_vat_report.model_vat_report_wizard
+#: model:ir.model,name:l10n_th_vat_report.model_l10n_vat_report_wizard
 msgid "Wizard for VAT Report"
 msgstr ""
 
