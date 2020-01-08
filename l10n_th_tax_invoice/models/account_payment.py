@@ -25,7 +25,8 @@ class AccountPayment(models.Model):
                 ):
                     raise UserError(_("Please fill in tax invoice and tax date"))
             payment.write({"to_clear_tax": False})
-            move = payment.tax_invoice_ids.mapped("move_id")
-            move.ensure_one()
-            move.post()
+            moves = payment.tax_invoice_ids.mapped("move_id")
+            for move in moves.filtered(lambda l: l.state == "draft"):
+                move.ensure_one()
+                move.post()
         return True
