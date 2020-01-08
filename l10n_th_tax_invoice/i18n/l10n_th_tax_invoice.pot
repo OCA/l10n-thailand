@@ -19,6 +19,12 @@ msgid "Account"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
+#: code:addons/l10n_th_tax_invoice/models/account_move.py:0
+#, python-format
+msgid "Cannot delete this tax invoice line"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_account_payment_form
 msgid "Clear Tax"
 msgstr ""
@@ -64,13 +70,14 @@ msgid "Indicates that this journal item is a tax line"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
-#: model:ir.model,name:l10n_th_tax_invoice.model_account_move
-msgid "Journal Entries"
+#: code:addons/l10n_th_tax_invoice/models/account_move.py:0
+#, python-format
+msgid "Invalid Tax Base/Amount"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
-#: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_tax_invoice__move_id
-msgid "Journal Entry"
+#: model:ir.model,name:l10n_th_tax_invoice.model_account_move
+msgid "Journal Entries"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
@@ -91,6 +98,11 @@ msgstr ""
 #. module: l10n_th_tax_invoice
 #: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_tax_invoice__write_date
 msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_tax_invoice__move_id
+msgid "Move"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
@@ -126,7 +138,19 @@ msgid "Please fill in tax invoice and tax date"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_account_payment_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_move_form
+msgid "Split"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_tax_invoice__move_state
+msgid "Status"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
 #: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_tax_invoice__balance
+#: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_move_form
 msgid "Tax Amount"
 msgstr ""
 
@@ -137,8 +161,9 @@ msgstr ""
 
 #. module: l10n_th_tax_invoice
 #: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move__tax_invoice_ids
-#: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_line__tax_invoice_id
+#: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_line__tax_invoice_ids
 #: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_payment__tax_invoice_ids
+#: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_account_payment_form
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_move_form
 msgid "Tax Invoice"
 msgstr ""
@@ -165,21 +190,14 @@ msgid "Tax Invoices"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
-#: model:ir.model.fields,help:l10n_th_tax_invoice.field_account_move_tax_invoice__balance
-msgid ""
-"Technical field holding the debit - credit in order to open meaningful graph"
-" views from reports"
-msgstr ""
-
-#. module: l10n_th_tax_invoice
-#: model:ir.model.fields,help:l10n_th_tax_invoice.field_account_move_tax_invoice__move_id
-msgid "The move of this entry line."
-msgstr ""
-
-#. module: l10n_th_tax_invoice
 #: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_tax_invoice__to_clear_tax
 #: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_payment__to_clear_tax
 msgid "To Clear Tax"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_account_payment_form
+msgid "Total Tax"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
