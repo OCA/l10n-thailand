@@ -14,18 +14,18 @@ Thailand Localization - TAX Reports
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-thailand/tree/13.0-add-l10n_th_tax_report/l10n_th_tax_report
+    :target: https://github.com/OCA/l10n-thailand/tree/13.0/l10n_th_tax_report
     :alt: OCA/l10n-thailand
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-thailand-13-0-add-l10n_th_tax_report/l10n-thailand-13-0-add-l10n_th_tax_report-l10n_th_tax_report
+    :target: https://translation.odoo-community.org/projects/l10n-thailand-13-0/l10n-thailand-13-0-l10n_th_tax_report
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runbot-Try%20me-875A7B.png
-    :target: https://runbot.odoo-community.org/runbot/238/13.0-add-l10n_th_tax_report
+    :target: https://runbot.odoo-community.org/runbot/238/13.0
     :alt: Try me on Runbot
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-VAT Report is the report that display transactions of the selected Tax type in a specific date range (period).
+TAX Report is the report that display transactions of the selected Tax type in a specific date range (period).
 
 **Table of contents**
 
@@ -37,30 +37,9 @@ Usage
 
 To use this module, you need to:
 
-#. Go to Invoicing > Reporting > VAT Report.
+#. Go to Invoicing > Reporting > TAX Report.
 #. Select Tax, Period.
 #. Choose View or Export PDF or Export XLSX or Cancel.
-
-Changelog
-=========
-
-12.0.1.0.0 (2019-08-05)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-* Start of the history
-* Add Thai VAT Report
-
-12.0.1.0.1 (2019-09-02)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-* Fix column swap in xlsx report
-* Fix wrong query database to report
-* Add test script
-
-12.0.1.0.2 (2019-10-24)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-* Fix variable name in for loop
 
 Bug Tracker
 ===========
@@ -68,7 +47,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-thailand/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_tax_report%0Aversion:%2013.0-add-l10n_th_tax_report%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_tax_report%0Aversion:%2013.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -85,6 +64,7 @@ Contributors
 
 * Pimolnat Suntian <pimolnats@ecosoft.co.th>
 * Saran Lim. <saranl@ecosoft.co.th>
+* Rattapong Chokmasermkul <rattapongc@ecosoft.co.th>
 
 Maintainers
 ~~~~~~~~~~~
@@ -99,6 +79,6 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/13.0-add-l10n_th_tax_report/l10n_th_tax_report>`_ project on GitHub.
+This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/13.0/l10n_th_tax_report>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
