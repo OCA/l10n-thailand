@@ -6,6 +6,4 @@ from odoo import fields, models
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    branch = fields.Char(
-        string="Branch", size=5, help="Branch ID, e.g., 0000, 0001, ..."
-    )
+    branch = fields.Char(string="Tax Branch", help="Branch ID, e.g., 0000, 0001, ...")
