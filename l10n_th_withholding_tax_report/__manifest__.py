@@ -12,7 +12,7 @@
         "account",
         # "excel_import_export",
         "report_xlsx",
-        # "report_xlsx_helper",
+        "report_xlsx_helper",
         "date_range",
         "l10n_th_partner",
         "l10n_th_tax_invoice",
