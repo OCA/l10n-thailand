@@ -11,6 +11,7 @@ _logger = logging.getLogger(__name__)
 class ReportTaxReportXlsx(models.TransientModel):
     _name = "report.l10n_th_tax_report.report_tax_report_xlsx"
     _inherit = "report.report_xlsx.abstract"
+    _description = "Tax Report Excel"
 
     def _get_ws_params(self, wb, data, objects):
         tax_template = {
