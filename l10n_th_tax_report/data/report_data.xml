@@ -1,0 +1,28 @@
+<odoo>
+
+    <record id="action_report_tax_report_html" model="ir.actions.client">
+        <field name="name">TAX Report</field>
+        <field name="tag">l10n_th_tax_report_backend</field>
+        <field name="context" eval="{'active_model': 'report.tax.report'}"/>
+    </record>
+
+    <report
+        id="action_tax_report_pdf"
+        model="report.tax.report"
+        string="TAX Report PDF"
+        name="l10n_th_tax_report.report_tax_report_pdf"
+        file="l10n_th_tax_report.report_tax_report_pdf"
+        report_type="qweb-pdf"
+        print_report_name="'TAX Report - [%s]' % object.date_range_id.display_name"
+        paperformat="l10n_th_tax_report.paperformat_tax_report"/>
+
+    <report
+        id="action_tax_report_xlsx"
+        model="report.tax.report"
+        string="TAX Report XLSX"
+        name="l10n_th_tax_report.report_tax_report_xlsx"
+        file="TAX Report"
+        report_type="xlsx"
+        attachment_use="False"/>
+
+</odoo>
