@@ -7,6 +7,7 @@ from odoo import _, models
 class WithholdingTaxReportXslx(models.AbstractModel):
     _name = "report.withholding.tax.report.xlsx"
     _inherit = "report.report_xlsx.abstract"
+    _description = "Report Withholding Tax xlsx"
 
     def _get_ws_params(self, wb, data, objects):
         withholding_tax_template = {
