@@ -102,6 +102,12 @@ odoo.define('l10n_th_vat_report.l10n_th_vat_report_backend', function (require) 
         canBeRemoved: function () {
             return $.when();
         },
+        on_attach_callback: function () {
+            this.isInDOM = true;
+        },
+        on_detach_callback: function () {
+            this.isInDOM = false;
+        },
     });
 
     core.action_registry.add(
