@@ -10,35 +10,14 @@
                         <field name="income_tax_form"/>
                         <field name="date_range_id"/>
                     </group>
-                    <group>
-                        <field name="date_from" invisible="1"/>
-                        <field name="date_to" invisible="1"/>
-                    </group>
                 </group>
                 <footer>
-                    <button name="button_export_html"
-                            string="View"
-                            type="object"
-                            default_focus="1"
-                            class="oe_highlight"
-                    />
-                    <button name="button_export_pdf"
-                            string="Export PDF"
-                            type="object"
-                    />
-                    <button name="button_export_xlsx"
-                            string="Export XLSX"
-                            type="object"
-                    />
-                    <button name="button_export_excel"
-                            string="Export TXT"
-                            type="object"
-                    />
+                    <button name="button_export_html" string="View" type="object" default_focus="1" class="oe_highlight"/>
+                    <button name="button_export_pdf" string="Export PDF" type="object"/>
+                    <button name="button_export_xlsx" string="Export XLSX" type="object"/>
+                    <button name="button_export_csv" string="Export CSV" type="object"/>
                     or
-                    <button string="Cancel"
-                            class="oe_link"
-                            special="cancel"
-                    />
+                    <button string="Cancel" class="oe_link" special="cancel"/>
                 </footer>
             </form>
         </field>
@@ -47,17 +26,14 @@
     <record id="action_withholding_tax_report_wizard" model="ir.actions.act_window">
         <field name="name">WT Income Tax Report</field>
         <field name="res_model">withholding.tax.report.wizard</field>
-        <field name="view_type">form</field>
         <field name="view_mode">form</field>
         <field name="view_id" ref="view_withholding_tax_report_wizard"/>
         <field name="target">new</field>
     </record>
 
-    <menuitem
-        parent="account.menu_finance_reports"
-        id="menu_withholding_tax_report"
-        action="action_withholding_tax_report_wizard"
-        sequence="20"
-    />
+    <menuitem parent="account.menu_finance_reports"
+              id="menu_withholding_tax_report"
+              action="action_withholding_tax_report_wizard"
+              sequence="20"/>
 
 </odoo>

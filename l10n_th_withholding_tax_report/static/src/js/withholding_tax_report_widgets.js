@@ -1,5 +1,4 @@
-odoo.define('l10n_th_withholding_tax_report.withholding_tax_report_widget', function
-(require) {
+odoo.define('withholding_tax_report_widget', function (require) {
     'use strict';
 
     var Widget = require('web.Widget');
