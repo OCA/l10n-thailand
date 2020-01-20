@@ -60,8 +60,8 @@ class TaxReportWizard(models.TransientModel):
             "company_id": self.company_id.id,
             "tax_id": self.tax_id.id,
             "date_range_id": self.date_range_id.id,
-            "date_from": self.date_range_id.date_from,
-            "date_to": self.date_range_id.date_to,
+            "date_from": self.date_range_id.date_start,
+            "date_to": self.date_range_id.date_end,
         }
 
     def _export(self, report_type):
