@@ -1,21 +1,21 @@
-odoo.define('l10n_th_withholding_tax_report.withholding_tax_report_backend', function (require) {
+odoo.define('withholding_tax_report_backend', function (require) {
     'use strict';
 
+    var AbstractAction = require('web.AbstractAction');
     var core = require('web.core');
     var Widget = require('web.Widget');
-    var ControlPanelMixin = require('web.ControlPanelMixin');
-    var ReportWidget = require(
-        'l10n_th_withholding_tax_report.withholding_tax_report_widget'
-    );
+    var ReportWidget = require('withholding_tax_report_widget');
 
 
-    var report_backend = Widget.extend(ControlPanelMixin, {
+    var report_backend = AbstractAction.extend({
+        hasControlPanel: true,
         // Stores all the parameters of the action.
         events: {
             'click .o_withholding_tax_report_print': 'print',
             'click .o_withholding_tax_report_export': 'export',
         },
         init: function (parent, action) {
+            this._super.apply(this, arguments);
             this.actionManager = parent;
             this.given_context = {};
             this.odoo_context = action.context;
@@ -27,17 +27,16 @@ odoo.define('l10n_th_withholding_tax_report.withholding_tax_report_backend', fun
                 action.params.active_id;
             this.given_context.model = action.context.active_model || false;
             this.given_context.ttype = action.context.ttype || false;
-            return this._super.apply(this, arguments);
         },
         willStart: function () {
-            return $.when(this.get_html());
+            return Promise.all([this._super.apply(this, arguments), this.get_html()]);
         },
         set_html: function () {
             var self = this;
-            var def = $.when();
+            var def = Promise.resolve();
             if (!this.report_widget) {
                 this.report_widget = new ReportWidget(this, this.given_context);
-                def = this.report_widget.appendTo(this.$el);
+                def = this.report_widget.appendTo(this.$('.o_content'));
             }
             def.then(function () {
                 self.report_widget.$el.html(self.html);
@@ -61,7 +60,7 @@ odoo.define('l10n_th_withholding_tax_report.withholding_tax_report_backend', fun
                 .then(function (result) {
                     self.html = result.html;
                     defs.push(self.update_cp());
-                    return $.when.apply($, defs);
+                    return Promise.all(defs);
                 });
         },
         // Updates the control panel and render the elements that have yet
@@ -72,7 +71,7 @@ odoo.define('l10n_th_withholding_tax_report.withholding_tax_report_backend', fun
                     breadcrumbs: this.actionManager.get_breadcrumbs(),
                     cp_content: {$buttons: this.$buttons},
                 };
-                return this.update_control_panel(status);
+                return this.updateControlPanel(status);
             }
         },
         do_show: function () {
@@ -102,19 +101,10 @@ odoo.define('l10n_th_withholding_tax_report.withholding_tax_report_backend', fun
             });
         },
         canBeRemoved: function () {
-            return $.when();
-        },
-        on_attach_callback: function () {
-            this.isInDOM = true;
-        },
-        on_detach_callback: function () {
-            this.isInDOM = false;
+            return Promise.resolve();
         },
     });
 
-    core.action_registry.add(
-        "withholding_tax_report_backend",
-        report_backend
-    );
+    core.action_registry.add("withholding_tax_report_backend", report_backend);
     return report_backend;
 });
