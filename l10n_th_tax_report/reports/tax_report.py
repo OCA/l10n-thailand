@@ -7,9 +7,12 @@ from odoo import api, fields, models
 class TaxReportView(models.TransientModel):
     _name = "tax.report.view"
     _description = "Tax Report View"
-    _inherit = "account.move.line"
     _order = "id"
 
+    name = fields.Char()
+    company_id = fields.Many2one("res.company")
+    account_id = fields.Many2one("account.account")
+    partner_id = fields.Many2one("res.partner")
     tax_base_amount = fields.Float()
     tax_amount = fields.Float()
     tax_date = fields.Char()
