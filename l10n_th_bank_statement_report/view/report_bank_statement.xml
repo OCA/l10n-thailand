@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_bank_statement">
+        <div class="o_l10n_th_bank_statement_reports_page">
+            <t t-call="l10n_th_bank_statement_report.report_buttons"/>
+            <t t-call="l10n_th_bank_statement_report.report_bank_statement_base"/>
+        </div>
+    </template>
+</odoo>
