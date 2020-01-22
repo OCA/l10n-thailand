@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_res_amphur,res.amphur,l10n_th_address.model_res_amphur,base.group_user,1,1,1,1
+access_res_province,res.province,l10n_th_address.model_res_province,base.group_user,1,1,1,1
+access_res_tambon,res.tambon,l10n_th_address.model_res_tambon,base.group_user,1,1,1,1
+access_res_zip,res.zip,l10n_th_address.model_res_zip,base.group_user,1,1,1,1

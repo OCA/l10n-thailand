@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record model="res.province" forcecreate="True" id="province_1">
+            <field name="name">กระบี่</field>
+            <field name="name_eng">Krabi</field>
+            <field name="code">81</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_2">
+            <field name="name">กรุงเทพมหานคร</field>
+            <field name="name_eng">Bangkok</field>
+            <field name="code">10</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_3">
+            <field name="name">กาญจนบุรี</field>
+            <field name="name_eng">Kanchanaburi</field>
+            <field name="code">71</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_4">
+            <field name="name">กาฬสินธุ์</field>
+            <field name="name_eng">Kalasin</field>
+            <field name="code">46</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_5">
+            <field name="name">กำแพงเพชร</field>
+            <field name="name_eng">Kamphaengphet</field>
+            <field name="code">62</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_6">
+            <field name="name">ขอนแก่น</field>
+            <field name="name_eng">Khonkaen</field>
+            <field name="code">40</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_7">
+            <field name="name">จันทบุรี</field>
+            <field name="name_eng">Chanthaburi</field>
+            <field name="code">22</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_8">
+            <field name="name">ฉะเชิงเทรา</field>
+            <field name="name_eng">Chachoengsao</field>
+            <field name="code">24</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_9">
+            <field name="name">ชลบุรี</field>
+            <field name="name_eng">Chonburi</field>
+            <field name="code">20</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_10">
+            <field name="name">ชัยนาท</field>
+            <field name="name_eng">Chainat</field>
+            <field name="code">18</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_11">
+            <field name="name">ชัยภูมิ</field>
+            <field name="name_eng">Chaiyaphum</field>
+            <field name="code">36</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_12">
+            <field name="name">ชุมพร</field>
+            <field name="name_eng">Chumphon</field>
+            <field name="code">86</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_13">
+            <field name="name">เชียงราย</field>
+            <field name="name_eng">Chiangrai</field>
+            <field name="code">57</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_14">
+            <field name="name">เชียงใหม่</field>
+            <field name="name_eng">Chiangmai</field>
+            <field name="code">50</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_15">
+            <field name="name">ตรัง</field>
+            <field name="name_eng">Trang</field>
+            <field name="code">92</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_16">
+            <field name="name">ตราด</field>
+            <field name="name_eng">Trat</field>
+            <field name="code">23</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_17">
+            <field name="name">ตาก</field>
+            <field name="name_eng">Tak</field>
+            <field name="code">63</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_18">
+            <field name="name">นครนายก</field>
+            <field name="name_eng">Nakhonnayok</field>
+            <field name="code">26</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_19">
+            <field name="name">นครปฐม</field>
+            <field name="name_eng">Nakhonpathom</field>
+            <field name="code">73</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_20">
+            <field name="name">นครพนม</field>
+            <field name="name_eng">Nakhonphanom</field>
+            <field name="code">48</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_21">
+            <field name="name">นครราชสีมา</field>
+            <field name="name_eng">Nakhonratchasima</field>
+            <field name="code">30</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_22">
+            <field name="name">นครศรีธรรมราช</field>
+            <field name="name_eng">Nakhonsithammarat</field>
+            <field name="code">80</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_23">
+            <field name="name">นครสวรรค์</field>
+            <field name="name_eng">Nakhonsawan</field>
+            <field name="code">60</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_24">
+            <field name="name">นนทบุรี</field>
+            <field name="name_eng">Nonthaburi</field>
+            <field name="code">12</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_25">
+            <field name="name">นราธิวาส</field>
+            <field name="name_eng">Narathiwat</field>
+            <field name="code">96</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_26">
+            <field name="name">น่าน</field>
+            <field name="name_eng">Nan</field>
+            <field name="code">55</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_27">
+            <field name="name">บึงกาฬ</field>
+            <field name="name_eng">Buengkan</field>
+            <field name="code">38</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_28">
+            <field name="name">บุรีรัมย์</field>
+            <field name="name_eng">Buriram</field>
+            <field name="code">31</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_29">
+            <field name="name">ปทุมธานี</field>
+            <field name="name_eng">Pathumthani</field>
+            <field name="code">13</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_30">
+            <field name="name">ประจวบคีรีขันธ์</field>
+            <field name="name_eng">Prachuapkhirikhan</field>
+            <field name="code">77</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_31">
+            <field name="name">ปราจีนบุรี</field>
+            <field name="name_eng">Prachinburi</field>
+            <field name="code">25</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_32">
+            <field name="name">ปัตตานี</field>
+            <field name="name_eng">Pattani</field>
+            <field name="code">94</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_33">
+            <field name="name">พระนครศรีอยุธยา</field>
+            <field name="name_eng">Phranakhonsiayutthaya</field>
+            <field name="code">14</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_34">
+            <field name="name">พะเยา</field>
+            <field name="name_eng">Phayao</field>
+            <field name="code">56</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_35">
+            <field name="name">พังงา</field>
+            <field name="name_eng">Phangnga</field>
+            <field name="code">82</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_36">
+            <field name="name">พัทลุง</field>
+            <field name="name_eng">Phatthalung</field>
+            <field name="code">93</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_37">
+            <field name="name">พิจิตร</field>
+            <field name="name_eng">Phichit</field>
+            <field name="code">66</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_38">
+            <field name="name">พิษณุโลก</field>
+            <field name="name_eng">Phitsanulok</field>
+            <field name="code">65</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_39">
+            <field name="name">เพชรบุรี</field>
+            <field name="name_eng">Phetchaburi</field>
+            <field name="code">76</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_40">
+            <field name="name">เพชรบูรณ์</field>
+            <field name="name_eng">Phetchabun</field>
+            <field name="code">67</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_41">
+            <field name="name">แพร่</field>
+            <field name="name_eng">Phrae</field>
+            <field name="code">54</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_42">
+            <field name="name">ภูเก็ต</field>
+            <field name="name_eng">Phuket</field>
+            <field name="code">83</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_43">
+            <field name="name">มหาสารคาม</field>
+            <field name="name_eng">Mahasarakham</field>
+            <field name="code">44</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_44">
+            <field name="name">มุกดาหาร</field>
+            <field name="name_eng">Mukdahan</field>
+            <field name="code">49</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_45">
+            <field name="name">แม่ฮ่องสอน</field>
+            <field name="name_eng">Maehongson</field>
+            <field name="code">58</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_46">
+            <field name="name">ยโสธร</field>
+            <field name="name_eng">Yasothon</field>
+            <field name="code">35</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_47">
+            <field name="name">ยะลา</field>
+            <field name="name_eng">Yala</field>
+            <field name="code">95</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_48">
+            <field name="name">ร้อยเอ็ด</field>
+            <field name="name_eng">Roiet</field>
+            <field name="code">45</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_49">
+            <field name="name">ระนอง</field>
+            <field name="name_eng">Ranong</field>
+            <field name="code">85</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_50">
+            <field name="name">ระยอง</field>
+            <field name="name_eng">Rayong</field>
+            <field name="code">21</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_51">
+            <field name="name">ราชบุรี</field>
+            <field name="name_eng">Ratchaburi</field>
+            <field name="code">70</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_52">
+            <field name="name">ลพบุรี</field>
+            <field name="name_eng">Lopburi</field>
+            <field name="code">16</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_53">
+            <field name="name">ลำปาง</field>
+            <field name="name_eng">Lampang</field>
+            <field name="code">52</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_54">
+            <field name="name">ลำพูน</field>
+            <field name="name_eng">Lamphun</field>
+            <field name="code">51</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_55">
+            <field name="name">เลย</field>
+            <field name="name_eng">Loei</field>
+            <field name="code">42</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_56">
+            <field name="name">ศรีสะเกษ</field>
+            <field name="name_eng">Sisaket</field>
+            <field name="code">33</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_57">
+            <field name="name">สกลนคร</field>
+            <field name="name_eng">Sakonnakhon</field>
+            <field name="code">47</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_58">
+            <field name="name">สงขลา</field>
+            <field name="name_eng">Songkhla</field>
+            <field name="code">90</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_59">
+            <field name="name">สตูล</field>
+            <field name="name_eng">Satun</field>
+            <field name="code">91</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_60">
+            <field name="name">สมุทรปราการ</field>
+            <field name="name_eng">Samutprakan</field>
+            <field name="code">11</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_61">
+            <field name="name">สมุทรสงคราม</field>
+            <field name="name_eng">Samutsongkhram</field>
+            <field name="code">75</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_62">
+            <field name="name">สมุทรสาคร</field>
+            <field name="name_eng">Samutsakhon</field>
+            <field name="code">74</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_63">
+            <field name="name">สระแก้ว</field>
+            <field name="name_eng">Sakaeo</field>
+            <field name="code">27</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_64">
+            <field name="name">สระบุรี</field>
+            <field name="name_eng">Saraburi</field>
+            <field name="code">19</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_65">
+            <field name="name">สิงห์บุรี</field>
+            <field name="name_eng">Singburi</field>
+            <field name="code">17</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_66">
+            <field name="name">สุโขทัย</field>
+            <field name="name_eng">Sukhothai</field>
+            <field name="code">64</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_67">
+            <field name="name">สุพรรณบุรี</field>
+            <field name="name_eng">Suphanburi</field>
+            <field name="code">72</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_68">
+            <field name="name">สุราษฎร์ธานี</field>
+            <field name="name_eng">Suratthani</field>
+            <field name="code">84</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_69">
+            <field name="name">สุรินทร์</field>
+            <field name="name_eng">Surin</field>
+            <field name="code">32</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_70">
+            <field name="name">หนองคาย</field>
+            <field name="name_eng">Nongkhai</field>
+            <field name="code">43</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_71">
+            <field name="name">หนองบัวลำภู</field>
+            <field name="name_eng">Nongbualamphu</field>
+            <field name="code">39</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_72">
+            <field name="name">อ่างทอง</field>
+            <field name="name_eng">Angthong</field>
+            <field name="code">15</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_73">
+            <field name="name">อำนาจเจริญ</field>
+            <field name="name_eng">Amnatcharoen</field>
+            <field name="code">37</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_74">
+            <field name="name">อุดรธานี</field>
+            <field name="name_eng">Udonthani</field>
+            <field name="code">41</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_75">
+            <field name="name">อุตรดิตถ์</field>
+            <field name="name_eng">Uttaradit</field>
+            <field name="code">53</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_76">
+            <field name="name">อุทัยธานี</field>
+            <field name="name_eng">Uthaithani</field>
+            <field name="code">61</field>
+        </record>
+        <record model="res.province" forcecreate="True" id="province_77">
+            <field name="name">อุบลราชธานี</field>
+            <field name="name_eng">Ubonratchathani</field>
+            <field name="code">34</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Top address menu item -->
+    <menuitem id="menu_address_thai"
+              name="Address Thai"
+              sequence="6"
+              parent="base.menu_administration"/>
+
+    <!-- Province -->
+    <menuitem
+            id="menu_province"
+            sequence="6"
+            parent="menu_address_thai"
+            action="action_province"
+            groups="base.group_system"
+    />
+
+    <!-- Amphur/Khet -->
+    <menuitem
+            id="menu_amphur"
+            sequence="7"
+            parent="menu_address_thai"
+            action="action_amphur"
+            groups="base.group_system"
+    />
+
+    <!-- Tambon -->
+    <menuitem
+            id="menu_tambon"
+            sequence="7"
+            parent="menu_address_thai"
+            action="action_tambon"
+            groups="base.group_system"
+    />
+    <!-- Zip -->
+    <menuitem
+            id="menu_zip"
+            sequence="8"
+            parent="menu_address_thai"
+            action="action_zip"
+            groups="base.group_system"
+    />
+</odoo>

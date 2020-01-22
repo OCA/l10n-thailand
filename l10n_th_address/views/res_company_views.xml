@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_company_form" model="ir.ui.view">
+        <field name="name">res.company.form.inherit</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='street']" position="attributes">
+                <attribute name="placeholder">Address</attribute>
+                <attribute name="class">o_address_street</attribute>
+            </xpath>
+            <xpath expr="//field[@name='street2']" position="attributes">
+                <attribute name="placeholder">Road</attribute>
+                <attribute name="class">o_address_street</attribute>
+            </xpath>
+            <xpath expr="//field[@name='zip']" position="attributes">
+                <attribute name="placeholder">ZIP</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@class='o_address_format']" position="inside">
+                <field name="alley" placeholder="Soi"/>
+                <field name="moo" placeholder="Moo" class="o_address_city"/>
+                <field name="province_id" placeholder="Province" options="{'no_create': True}"/>
+                <field name="amphur_id" placeholder="Amphur" options="{'no_create': True}"
+                       domain="[('province_id','=', province_id)]"/>
+                <field name="tambon_id" placeholder="Tambon" options="{'no_create': True}"
+                       domain="[('amphur_id','=', amphur_id)]"/>
+                <field name="zip_id" placeholder="Zip" options="{'no_create': True}"
+                       domain="[('tambon_id','=', tambon_id)]"/>
+                <field name="country_id" placeholder="Country" class="o_address_country"
+                       options='{"no_open": True, "no_create": True}' invisible="1"/>
+                <field name="branch_code" placeholder="Branch Code" required="True"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

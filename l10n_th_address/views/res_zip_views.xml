@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Zip -->
+    <record id="view_zip_tree" model="ir.ui.view">
+        <field name="name">zip.tree</field>
+        <field name="model">res.zip</field>
+        <field name="arch" type="xml">
+            <tree name="zip" string="Zip" editable="bottom">
+                <field name="name"/>
+                <field name="tambon_id"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_zip" model="ir.actions.act_window">
+        <field name="name">ZipCode</field>
+        <field name="res_model">res.zip</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+</odoo>
