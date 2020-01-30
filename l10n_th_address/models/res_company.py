@@ -1,24 +1,18 @@
-# -*- coding: utf-8 -*-
 # Copyright 2019 Trinity Roots Co., Ltd (https://trinityroots.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
-from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
 import re
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class ResCompany(models.Model):
     _inherit = "res.company"
 
     alley = fields.Char(
-        string="Alley",
-        compute="_compute_address",
-        inverse="_inverse_alley",
+        string="Alley", compute="_compute_address", inverse="_inverse_alley"
     )
-    moo = fields.Char(
-        string="Moo",
-        compute="_compute_address",
-        inverse="_inverse_moo",
-    )
+    moo = fields.Char(string="Moo", compute="_compute_address", inverse="_inverse_moo")
     tambon_id = fields.Many2one(
         "res.tambon",
         string="Tambon/Khwaeng",
@@ -32,7 +26,6 @@ class ResCompany(models.Model):
         track_visibility="always",
         compute="_compute_address",
         inverse="_inverse_amphur",
-
     )
     province_id = fields.Many2one(
         "res.province",
@@ -40,7 +33,6 @@ class ResCompany(models.Model):
         track_visibility="always",
         compute="_compute_address",
         inverse="_inverse_province",
-
     )
     zip_id = fields.Many2one(
         "res.zip",
@@ -48,7 +40,6 @@ class ResCompany(models.Model):
         track_visibility="always",
         compute="_compute_address",
         inverse="_inverse_zip_thai",
-
     )
     branch_code = fields.Char(
         string="Branch Code",
@@ -104,36 +95,22 @@ class ResCompany(models.Model):
 
     @api.onchange("branch_code")
     def _onchange_branch_code(self):
-        try:
-            if self.branch_code is not False:
-                regex = r"^[-+]?[0-9]+$"
-                if len(self.branch_code) <= 5:
-                    branch_code = re.findall(regex, self.branch_code)
-                    if branch_code or branch_code is None:
-                        pass
-                    else:
-                        raise ValidationError(
-                            _("Branch Code Must be 5 Digits")
-                        )
-        except:
-            raise ValidationError(
-                _("Branch Code Must Use 5 Digits")
-            )
+        if self.branch_code is not False:
+            regex = r"^[-+]?[0-9]+$"
+            if len(self.branch_code) <= 5:
+                branch_code = re.findall(regex, self.branch_code)
+                if branch_code or branch_code is None:
+                    pass
+                else:
+                    raise ValidationError(_("Branch Code Must be 5 Digits"))
 
     @api.onchange("moo")
     def _onchange_moo(self):
-        try:
-            if self.moo is not False:
-                regex = r"^[-+]?[0-9]+$"
-                if len(self.moo) <= 5:
-                    moo = re.findall(regex, self.moo)
-                    if moo or moo is None:
-                        pass
-                    else:
-                        raise ValidationError(
-                            _("Moo Must be digits only")
-                        )
-        except:
-            raise ValidationError(
-                _("Moo Must Use Digits Only")
-            )
+        if self.moo is not False:
+            regex = r"^[-+]?[0-9]+$"
+            if len(self.moo) <= 5:
+                moo = re.findall(regex, self.moo)
+                if moo or moo is None:
+                    pass
+                else:
+                    raise ValidationError(_("Moo Must be digits only"))
