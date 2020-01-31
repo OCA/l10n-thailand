@@ -1,3 +1,2 @@
 server-ux
-reporting-engine
-https://github.com/ecosoft-odoo/reporting-engine/tree/13.0-mig-xlsx_report_helper
+reporting-engine https://github.com/ecosoft-odoo/reporting-engine/tree/13.0-mig-xlsx_report_helper
