@@ -34,46 +34,6 @@ msgid "Account"
 msgstr ""
 
 #. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__account_root_id
-msgid "Account Root"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__amount_currency
-msgid "Amount in Currency"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__analytic_account_id
-msgid "Analytic Account"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__analytic_tag_ids
-msgid "Analytic Tags"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__analytic_line_ids
-msgid "Analytic lines"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__tax_exigible
-msgid "Appears in VAT report"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__balance
-msgid "Balance"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__statement_line_id
-msgid "Bank statement line reconciled with this entry"
-msgstr ""
-
-#. module: l10n_th_tax_report
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_report.report_tax_report_lines_header
 msgid "Base Amount"
 msgstr ""
@@ -97,28 +57,6 @@ msgid "Company"
 msgstr ""
 
 #. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__company_currency_id
-msgid "Company Currency"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__company_id
-msgid "Company related to this journal"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__tax_audit
-msgid ""
-"Computed field, listing the tax grids impacted by this line, and the amount "
-"it applies to each of them."
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__country_id
-msgid "Country"
-msgstr ""
-
-#. module: l10n_th_tax_report
 #: model:ir.model.fields,field_description:l10n_th_tax_report.field_report_l10n_th_tax_report_report_tax_report_xlsx__create_uid
 #: model:ir.model.fields,field_description:l10n_th_tax_report.field_report_tax_report__create_uid
 #: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__create_uid
@@ -135,27 +73,11 @@ msgid "Created on"
 msgstr ""
 
 #. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__credit
-msgid "Credit"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__matched_credit_ids
-msgid "Credit journal items that are matched with this journal item."
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__currency_id
-msgid "Currency"
-msgstr ""
-
-#. module: l10n_th_tax_report
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_report.report_tax_report_lines_header
 msgid "Cust./Sup."
 msgstr ""
 
 #. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__date
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_report.report_tax_report_lines_header
 msgid "Date"
 msgstr ""
@@ -176,21 +98,6 @@ msgid "Date To"
 msgstr ""
 
 #. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__debit
-msgid "Debit"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__matched_debit_ids
-msgid "Debit journal items that are matched with this journal item."
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__discount
-msgid "Discount (%)"
-msgstr ""
-
-#. module: l10n_th_tax_report
 #: model:ir.model.fields,field_description:l10n_th_tax_report.field_report_l10n_th_tax_report_report_tax_report_xlsx__display_name
 #: model:ir.model.fields,field_description:l10n_th_tax_report.field_report_tax_report__display_name
 #: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__display_name
@@ -199,23 +106,8 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__display_type
-msgid "Display Type"
-msgstr ""
-
-#. module: l10n_th_tax_report
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_report.report_tax_report_lines_header
 msgid "Doc Ref."
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__date_maturity
-msgid "Due Date"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__exclude_from_invoice_tab
-msgid "Exclude From Invoice Tab"
 msgstr ""
 
 #. module: l10n_th_tax_report
@@ -229,46 +121,11 @@ msgid "Export XLSX"
 msgstr ""
 
 #. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__always_set_currency_id
-msgid "Foreign Currency"
-msgstr ""
-
-#. module: l10n_th_tax_report
 #: model:ir.model.fields,field_description:l10n_th_tax_report.field_report_l10n_th_tax_report_report_tax_report_xlsx__id
 #: model:ir.model.fields,field_description:l10n_th_tax_report.field_report_tax_report__id
 #: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__id
 #: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_wizard__id
 msgid "ID"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__tax_line_id
-msgid "Indicates that this journal item is a tax line"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__account_internal_type
-msgid "Internal Type"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__is_rounding_line
-msgid "Is Rounding Line"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__journal_id
-msgid "Journal"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__move_id
-msgid "Journal Entry"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__name
-msgid "Label"
 msgstr ""
 
 #. module: l10n_th_tax_report
@@ -296,49 +153,13 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__matched_credit_ids
-msgid "Matched Credits"
+#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__name
+msgid "Name"
 msgstr ""
 
 #. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__matched_debit_ids
-msgid "Matched Debits"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__full_reconcile_id
-msgid "Matching #"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__blocked
-msgid "No Follow-up"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__move_name
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_report.report_tax_report_lines_header
 msgid "Number"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__payment_id
-msgid "Originator Payment"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__tax_line_id
-msgid "Originator Tax"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__tax_repartition_line_id
-msgid "Originator Tax Repartition Line"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__tax_group_id
-msgid "Originator tax group"
 msgstr ""
 
 #. module: l10n_th_tax_report
@@ -348,19 +169,9 @@ msgid "Partner"
 msgstr ""
 
 #. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__payment_id
-msgid "Payment that created this entry"
-msgstr ""
-
-#. module: l10n_th_tax_report
 #: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_wizard__date_range_id
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_report.report_tax_report_filters
 msgid "Period"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__product_id
-msgid "Product"
 msgstr ""
 
 #. module: l10n_th_tax_report
@@ -369,43 +180,8 @@ msgid "Purchase VAT Report"
 msgstr ""
 
 #. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__quantity
-msgid "Quantity"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__recompute_tax_line
-msgid "Recompute Tax Line"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__reconciled
-msgid "Reconciled"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__reconcile_model_id
-msgid "Reconciliation Model"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__ref
-msgid "Reference"
-msgstr ""
-
-#. module: l10n_th_tax_report
 #: model:ir.model,name:l10n_th_tax_report.model_report_tax_report
 msgid "Report Tax Report"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__amount_residual
-msgid "Residual Amount"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__amount_residual_currency
-msgid "Residual Amount in Currency"
 msgstr ""
 
 #. module: l10n_th_tax_report
@@ -416,26 +192,6 @@ msgstr ""
 #. module: l10n_th_tax_report
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_report.report_tax_report_base
 msgid "Sale VAT Report"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__sequence
-msgid "Sequence"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__statement_id
-msgid "Statement"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__parent_state
-msgid "Status"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__price_subtotal
-msgid "Subtotal"
 msgstr ""
 
 #. module: l10n_th_tax_report
@@ -454,18 +210,6 @@ msgid "TAX Report XLSX"
 msgstr ""
 
 #. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__tag_ids
-msgid "Tags"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__tag_ids
-msgid ""
-"Tags assigned to this line by the tax creating it, if any. It determines its"
-" impact on financial reports."
-msgstr ""
-
-#. module: l10n_th_tax_report
 #: model:ir.model.fields,field_description:l10n_th_tax_report.field_report_tax_report__tax_id
 #: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_wizard__tax_id
 msgid "Tax"
@@ -475,11 +219,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__tax_amount
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_report.report_tax_report_lines_header
 msgid "Tax Amount"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__tax_audit
-msgid "Tax Audit String"
 msgstr ""
 
 #. module: l10n_th_tax_report
@@ -499,11 +238,6 @@ msgid "Tax ID"
 msgstr ""
 
 #. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__tax_invoice_ids
-msgid "Tax Invoice"
-msgstr ""
-
-#. module: l10n_th_tax_report
 #: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__tax_invoice_number
 msgid "Tax Invoice Number"
 msgstr ""
@@ -519,69 +253,6 @@ msgid "Tax Report View"
 msgstr ""
 
 #. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__tax_repartition_line_id
-msgid ""
-"Tax repartition line that caused the creation of this move line, if any"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__tax_ids
-msgid "Taxes"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__tax_ids
-msgid "Taxes that apply on the base amount"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__display_type
-msgid "Technical field for UX purpose."
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__balance
-msgid ""
-"Technical field holding the debit - credit in order to open meaningful graph"
-" views from reports"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__always_set_currency_id
-msgid ""
-"Technical field used to compute the monetary field. As currency_id is not a "
-"required field, we need to use either the foreign currency, either the "
-"company one."
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__exclude_from_invoice_tab
-msgid ""
-"Technical field used to exclude some lines from the invoice_line_ids tab in "
-"the form view."
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__recompute_tax_line
-msgid ""
-"Technical field used to know on which lines the taxes must be recomputed."
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__tax_exigible
-msgid ""
-"Technical field used to mark a tax line as exigible in the vat report or not"
-" (only exigible journal items are displayed). By default all new journal "
-"items are directly exigible, but with the feature cash_basis on taxes, some "
-"will become exigible only when the payment is recorded."
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__is_rounding_line
-msgid "Technical field used to retrieve the cash rounding line."
-msgstr ""
-
-#. module: l10n_th_tax_report
 #: model:ir.ui.menu,name:l10n_th_tax_report.menu_tax_report
 msgid "Thai Tax Report"
 msgstr ""
@@ -592,80 +263,8 @@ msgid "Thai Tax Reports"
 msgstr ""
 
 #. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__account_internal_type
-msgid ""
-"The 'Internal Type' is used for features available on different types of "
-"accounts: liquidity type is for cash or bank accounts, payable/receivable is"
-" for vendor/customer accounts."
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__amount_currency
-msgid ""
-"The amount expressed in an optional other currency if it is a multi-currency"
-" entry."
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__statement_id
-msgid "The bank statement used for bank reconciliation"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__move_id
-msgid "The move of this entry line."
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__quantity
-msgid ""
-"The optional quantity expressed by this line, eg: number of product sold. "
-"The quantity is not a legal requirement but is very useful for some reports."
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__amount_residual_currency
-msgid ""
-"The residual amount on a journal item expressed in its currency (possibly "
-"not the company currency)."
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__amount_residual
-msgid ""
-"The residual amount on a journal item expressed in the company currency."
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__date_maturity
-msgid ""
-"This field is used for payable and receivable journal entries. You can put "
-"the limit date for the payment of this line."
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__price_total
-msgid "Total"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__price_unit
-msgid "Unit Price"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,field_description:l10n_th_tax_report.field_tax_report_view__product_uom_id
-msgid "Unit of Measure"
-msgstr ""
-
-#. module: l10n_th_tax_report
 #: model:ir.model.fields,help:l10n_th_tax_report.field_report_tax_report__results
 msgid "Use compute fields, so there is nothing store in database"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__company_currency_id
-msgid "Utility field to express amount currency"
 msgstr ""
 
 #. module: l10n_th_tax_report
@@ -684,18 +283,6 @@ msgid "Wizard for Tax Report"
 msgstr ""
 
 #. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__blocked
-msgid ""
-"You can check this box to mark this journal item as a litigation with the "
-"associated partner"
-msgstr ""
-
-#. module: l10n_th_tax_report
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_report.tax_report_wizard_form
 msgid "or"
-msgstr ""
-
-#. module: l10n_th_tax_report
-#: model:ir.model.fields,help:l10n_th_tax_report.field_tax_report_view__tax_group_id
-msgid "technical field for widget tax-group-custom-field"
 msgstr ""
