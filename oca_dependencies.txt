@@ -1,2 +1,3 @@
 server-ux
 reporting-engine https://github.com/ecosoft-odoo/reporting-engine 13.0-mig-xlsx_report_helper
+partner-contact
