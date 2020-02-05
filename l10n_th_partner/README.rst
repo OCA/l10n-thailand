@@ -25,7 +25,12 @@ Thai Localization - Partner
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-This module add more features/fields for partners for Thailand
+This module add branch on `res.company` and `res.partner`.
+
+This module can computes Name of `res.users` and `res.partner`
+
+* Individual: computes Name by Title, First name and Last name
+* Company: computes Name by Legal Form
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -36,6 +41,31 @@ This module add more features/fields for partners for Thailand
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+13.0.1.0.2 (2020-02-05)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+- Add compute Name of individual by Title, First name and Last name.
+- Add compute Name of company by Legal Form.
+- Add data of `res.partner.title` and `res.partner.company.type` for Thailand.
+
+13.0.1.0.1 (2019-11-05)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+- Add company branch.
+
+13.0.1.0.0 (2019-11-05)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Migrated to odoo 13.
+
+12.0.1.0.0 (2019-05-06)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+First version.
 
 Bug Tracker
 ===========
@@ -58,8 +88,14 @@ Authors
 Contributors
 ~~~~~~~~~~~~
 
-* Kitti Upariphutthiphong. <kittiu@gmail.com> (http://ecosoft.co.th)
-* Poonlap Veerathanabutr <poonlap@tanabutr.co.th> (https://www.tanabutr.co.th)
+* `Ecosoft <http://ecosoft.co.th>`__:
+
+  * Kitti Upariphutthiphong. <kittiu@gmail.com>
+  * Pimolnat Suntian <pimolnats@ecosoft.co.th>
+
+* `Tanabutr <https://www.tanabutr.co.th>`__:
+
+  * Poonlap Veerathanabutr <poonlap@tanabutr.co.th>
 
 Maintainers
 ~~~~~~~~~~~
