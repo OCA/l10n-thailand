@@ -95,7 +95,8 @@ msgid "Create Withholding Tax Cert Wizard"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
-#: code:addons/l10n_th_withholding_tax_cert/wizard/create_withholding_tax_cert.py:28
+#: code:addons/l10n_th_withholding_tax_cert/wizard/create_withholding_tax_cert.py:31
+#: model:ir.actions.act_window,name:l10n_th_withholding_tax_cert.action_account_move_create_withholding_tax_cert
 #: model:ir.actions.act_window,name:l10n_th_withholding_tax_cert.action_create_withholding_tax_cert
 #, python-format
 msgid "Create Withholding Tax Cert."
@@ -173,6 +174,11 @@ msgstr ""
 #. module: l10n_th_withholding_tax_cert
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_withholding_tax_cert__income_tax_form
 msgid "Income Tax Form"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_withholding_tax_cert__ref_move_id
+msgid "Journal Entry"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
@@ -345,7 +351,7 @@ msgid "WT Account"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
-#: code:addons/l10n_th_withholding_tax_cert/models/withholding_tax_cert.py:206
+#: code:addons/l10n_th_withholding_tax_cert/models/withholding_tax_cert.py:221
 #, python-format
 msgid "WT Base/Percent/Tax mismatch!"
 msgstr ""
