@@ -14,7 +14,7 @@
                 </header>
                 <sheet>
                     <h1>
-                        <field name="payment_id"/>
+                        <field name="payment_id" attrs="{'invisible': [('payment_id', '=', False)]}"/> <field name="ref_move_id" attrs="{'invisible': [('payment_id', '!=', False)]}"/>
                     </h1>
                     <group>
                         <group>

@@ -24,7 +24,7 @@
                           'G1': 'base${value or ""}#{style=number}',
                           'H1': 'amount${value or ""}#{style=number}',
                           'I1': 'cert_id.tax_payer${value == b"withholding" and "1" or value == b"paid_one_time" and "3" or ""}',
-                          'J1': 'cert_id.payment_id.name${value or ""}',
+                          'J1': 'cert_id${value and value.payment_id and value.payment_id.name or (value.ref_move_id.name or "")}',
                       },
                   }
               }

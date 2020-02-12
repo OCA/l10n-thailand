@@ -67,7 +67,9 @@ class TestWTCert(SingleTransactionCase):
         payment.action_validate_invoice_payment()
         self.assertEqual(payment.state, 'posted')
         # Create WT Cert from Payment's Action Wizard
-        ctx = {'active_id': payment.id, 'active_ids': [payment.id]}
+        ctx = {'active_model': 'account.payment',
+               'active_id': payment.id,
+               'active_ids': [payment.id]}
         f = Form(self.env['create.withholding.tax.cert'].with_context(ctx))
         wizard = f.save()
         res = wizard.create_wt_cert()

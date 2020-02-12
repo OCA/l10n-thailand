@@ -8,3 +8,8 @@
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 * Fix variable name in for loop
+
+12.0.1.0.2 (2020-02-12)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Ref Doc can be either payment or journal entry

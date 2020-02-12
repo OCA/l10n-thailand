@@ -58,6 +58,15 @@ class WithholdingTaxCert(models.Model):
         domain="[('partner_id', '=', supplier_partner_id)]",
         ondelete='restrict',
     )
+    ref_move_id = fields.Many2one(
+        comodel_name='account.move',
+        string='Journal Entry',
+        copy=False,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        # domain="[('partner_id', '=', supplier_partner_id)]",
+        ondelete='restrict',
+    )
     company_partner_id = fields.Many2one(
         'res.partner',
         string='Company',
@@ -113,15 +122,21 @@ class WithholdingTaxCert(models.Model):
 
     @api.onchange('payment_id')
     def _onchange_payment_id(self):
-        """ Prepare withholding cert """
+        """ Prepare withholding cert from Payment """
         wt_account_ids = self._context.get('wt_account_ids', [])
-        self.date = self.payment_id.payment_date
-        self.supplier_partner_id = self.payment_id.partner_id
-        # Hook to find wt move lines
-        wt_move_lines = self._get_wt_move_line(self.payment_id, wt_account_ids)
-        CertLine = self.env['withholding.tax.cert.line']
-        for line in wt_move_lines:
-            self.wt_line += CertLine.new(self._prepare_wt_line(line))
+        if self.payment_id:
+            self.date = self.payment_id.payment_date
+            self.supplier_partner_id = self.payment_id.partner_id
+            wt_move_lines = self._get_wt_move_line(
+                self.payment_id.move_line_ids, wt_account_ids)
+            moves = wt_move_lines.mapped('move_id')
+            self.update({'ref_move_id': moves and moves[0].id or False})
+        if self.ref_move_id:
+            wt_move_lines = self._get_wt_move_line(
+                self.ref_move_id.line_ids, wt_account_ids)
+            CertLine = self.env['withholding.tax.cert.line']
+            for line in wt_move_lines:
+                self.wt_line += CertLine.new(self._prepare_wt_line(line))
 
     @api.model
     def _prepare_wt_line(self, move_line):
@@ -135,9 +150,9 @@ class WithholdingTaxCert(models.Model):
         return vals
 
     @api.model
-    def _get_wt_move_line(self, payment, wt_account_ids):
+    def _get_wt_move_line(self, move_lines, wt_account_ids):
         """ Hook point to get wt_move_lines """
-        wt_move_lines = payment.move_line_ids.\
+        wt_move_lines = move_lines.\
             filtered(lambda l: l.account_id.id in wt_account_ids)
         return wt_move_lines
 
