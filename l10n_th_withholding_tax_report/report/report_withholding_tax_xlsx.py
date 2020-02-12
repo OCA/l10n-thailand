@@ -229,7 +229,9 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                         'base_amount': line.base or 0.00,
                         'tax_amount': line.amount or 0.00,
                         'tax_payer': line.cert_id.tax_payer,
-                        'payment_id': line.cert_id.payment_id.name,
+                        'payment_id': (line.cert_id.payment_id and
+                                       line.cert_id.payment_id.name or
+                                       line.cert_id.ref_move_id.name),
                     },
                     default_format=self.format_tcell_left)
         ws.merge_range(

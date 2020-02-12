@@ -22,8 +22,11 @@ class CreateWithholdingTaxCert(models.TransientModel):
         ctx = self._context.copy()
         if len(ctx.get('active_ids', [])) != 1:
             raise ValidationError(_('Please select only 1 payment'))
-        ctx.update({'default_payment_id': ctx.get('active_id'),
-                    'wt_account_ids': self.wt_account_ids.ids})
+        if ctx.get('active_model') == 'account.payment':
+            ctx.update({'default_payment_id': ctx.get('active_id')})
+        if ctx.get('active_model') == 'account.move':
+            ctx.update({'default_ref_move_id': ctx.get('active_id')})
+        ctx.update({'wt_account_ids': self.wt_account_ids.ids})
         return {
             'name': _("Create Withholding Tax Cert."),
             'view_type': 'form',

@@ -91,7 +91,7 @@
                             <span t-field="o.cert_id.tax_payer"/>
                         </div>
                         <div class="act_as_cell left" style="width: 11%;">
-                            <span t-field="o.cert_id.payment_id.name"/>
+                            <span t-esc="o.cert_id.payment_id and o.cert_id.payment_id.name or o.cert_id.ref_move_id.name"/>
                         </div>
                     </div>
                 </t>
