@@ -65,8 +65,7 @@ class VatReport(models.TransientModel):
               self.account_id.id))
         vat_report_results = self._cr.dictfetchall()
         ReportLine = self.env['vat.report.view']
-        for line in vat_report_results:
-            self.results += ReportLine.new(line)
+        self.results = [ReportLine.new(line).id for line in vat_report_results]
 
     @api.multi
     def print_report(self, report_type='qweb'):
