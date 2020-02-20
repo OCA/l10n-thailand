@@ -79,7 +79,7 @@
                     <t t-call="l10n_th_vat_report.report_vat_report_lines"/>
                     <t t-set="n" t-value="n+1"/>
                     <t t-set="total_base" t-value="total_base+line.tax_base_amount"/>
-                    <t t-set="total_tax" t-value="total_tax+abs(line.tax_amount)"/>
+                    <t t-set="total_tax" t-value="total_tax+line.tax_amount"/>
                 </t>
                 <!-- Display total lines -->
                 <t t-call="l10n_th_vat_report.report_vat_report_total_lines"/>
@@ -152,7 +152,7 @@
                 <t t-esc="'{0:,.2f}'.format(line.tax_base_amount)"/>
             </div>
             <div class="act_as_cell amount">
-                <t t-esc="'{0:,.2f}'.format(abs(line.tax_amount))"/>
+                <t t-esc="'{0:,.2f}'.format(line.tax_amount)"/>
             </div>
             <div class="act_as_cell left">
                 <t t-esc="line.name"/>

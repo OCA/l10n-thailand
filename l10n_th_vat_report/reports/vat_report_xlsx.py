@@ -11,6 +11,54 @@ class ReportVatReportXlsx(models.TransientModel):
     _inherit = 'report.report_xlsx.abstract'
 
     def _get_ws_params(self, wb, data, objects):
+        company_template = {
+            '1_blank': {
+                'header': {
+                    'value': '',
+                    'format': self.format_tcell_left,
+                },
+                'data': {
+                    'value': '',
+                },
+                'width': 3,
+            },
+            '2_period': {
+                'header': {
+                    'value': 'Period',
+                },
+                'data': {
+                    'value': self._render('period'),
+                },
+                'width': 12,
+            },
+            '3_partner': {
+                'header': {
+                    'value': 'Partner',
+                },
+                'data': {
+                    'value': self._render('partner'),
+                },
+                'width': 18,
+            },
+            '4_tax_id': {
+                'header': {
+                    'value': 'Tax ID',
+                },
+                'data': {
+                    'value': self._render('tax_id'),
+                },
+                'width': 30,
+            },
+            '5_branch_id': {
+                'header': {
+                    'value': 'Branch ID',
+                },
+                'data': {
+                    'value': self._render('branch_id'),
+                },
+                'width': 15,
+            },
+        }
         vat_template = {
             '1_index': {
                 'header': {
@@ -100,6 +148,8 @@ class ReportVatReportXlsx(models.TransientModel):
             'ws_name': 'VAT Report',
             'generate_ws_method': '_vat_report',
             'title': 'VAT Report',
+            'wanted_list_company': [k for k in sorted(company_template.keys())],
+            'col_specs_company': company_template,
             'wanted_list': [k for k in sorted(vat_template.keys())],
             'col_specs': vat_template,
         }
@@ -122,28 +172,33 @@ class ReportVatReportXlsx(models.TransientModel):
         # title
         row_pos = self._write_ws_title(ws, row_pos, ws_params, True)
         # company data
-        ws.write_column(
-            row_pos, 1, ['Period :', 'Partner :'], self.format_left_bold)
-        ws.write_column(
-            row_pos, 2, [(objects.date_range_id.display_name) or '',
-                         (objects.company_id.display_name) or ''])
-        ws.write_column(
-            row_pos, 5, ['Tax ID :', 'Branch ID :'], self.format_left_bold)
-        ws.write_column(
-            row_pos, 6, [(objects.company_id.partner_id.vat) or '',
-                         (objects.company_id.partner_id.branch) or ''])
-        row_pos += 3
+        row_pos = self._write_line(
+            ws, row_pos, ws_params, col_specs_section='header',
+            default_format=self.format_theader_blue_left,
+            col_specs='col_specs_company', wanted_list='wanted_list_company')
+        row_pos = self._write_line(
+            ws, row_pos, ws_params, col_specs_section='data',
+            render_space={
+                'period': objects.date_range_id.display_name or '',
+                'partner': objects.company_id.display_name or '',
+                'tax_id': objects.company_id.partner_id.vat or '',
+                'branch_id': objects.company_id.partner_id.branch or '',
+            },
+            default_format=self.format_tcell_left,
+            col_specs='col_specs_company', wanted_list='wanted_list_company')
+        row_pos += 1
         # vat report table
         row_pos = self._write_line(
             ws, row_pos, ws_params, col_specs_section='header',
-            default_format=self.format_theader_blue_left)
+            default_format=self.format_theader_blue_left,
+            col_specs='col_specs', wanted_list='wanted_list')
         ws.freeze_panes(row_pos, 0)
         for obj in objects:
             total_base = 0.00
             total_tax = 0.00
             for line in obj.results:
                 total_base += line.tax_base_amount
-                total_tax += abs(line.tax_amount)
+                total_tax += line.tax_amount
                 row_pos = self._write_line(
                     ws, row_pos, ws_params, col_specs_section='data',
                     render_space={
@@ -154,9 +209,10 @@ class ReportVatReportXlsx(models.TransientModel):
                         'partner_vat': line.partner_id.vat or '',
                         'partner_branch': line.partner_id.branch or '',
                         'tax_base_amount': line.tax_base_amount or 0.00,
-                        'tax_amount': abs(line.tax_amount) or 0.00,
+                        'tax_amount': line.tax_amount or 0.00,
                         'doc_ref': line.name or '',
                     },
-                    default_format=self.format_tcell_left)
+                    default_format=self.format_tcell_left,
+                    col_specs='col_specs', wanted_list='wanted_list')
         ws.write_row(row_pos, 6, [total_base, total_tax],
                      self.format_theader_blue_amount_right)
