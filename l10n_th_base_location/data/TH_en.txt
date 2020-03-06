@@ -32,10 +32,10 @@ TH	10220	Anusawari, Bang Khen	Bangkok	10
 TH	10220	Tha Raeng, Bang Khen	Bangkok	10
 TH	10240	Khlong Chan, Bang Kapi	Bangkok	10
 TH	10240	Hua Mak, Bang Kapi	Bangkok	10
-TH	10330	Rong Muang, Pahtum Wan	Bangkok	10
-TH	10330	Wang Mai, Pahtum Wan	Bangkok	10
-TH	10330	Pahtum Wan, Pahtum Wan	Bangkok	10
-TH	10330	Lumphini, Pahtum Wan	Bangkok	10
+TH	10330	Rong Muang, Pathum Wan	Bangkok	10
+TH	10330	Wang Mai, Pathum Wan	Bangkok	10
+TH	10330	Pathum Wan, Pathum Wan	Bangkok	10
+TH	10330	Lumphini, Pathum Wan	Bangkok	10
 TH	10100	Pom Prap, Pom Prap Sattru Phai	Bangkok	10
 TH	10100	Wat Thepsirin, Pom Prap Sattru Phai	Bangkok	10
 TH	10100	Khlong Maha Nak, Pom Prap Sattru Phai	Bangkok	10
