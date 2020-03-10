@@ -10,7 +10,7 @@ class ResPartner(models.Model):
     @api.onchange("zip_id")
     def _onchange_zip_id(self):
         res = super()._onchange_zip_id()
-        if self.zip_id and self.country_id.name == "Thailand":
+        if self.zip_id and self.country_id.code == "TH":
             address = self.zip_id.city_id.name.split(", ")
             self.update({"street2": address[0], "city": address[1]})
         return res

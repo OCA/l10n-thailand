@@ -10,14 +10,25 @@ from odoo import api, fields, models
 class CityZipGeonamesImport(models.TransientModel):
     _inherit = "city.zip.geonames.import"
 
-    country_name = fields.Char(related="country_id.name", readonly=True)
+    is_thailand = fields.Boolean(
+        compute="_compute_is_thailand",
+        readonly=True,
+        help="For Thailand only, data is from TH_th.txt and TH_en.txt stored "
+        "in the module's data folder. To get data from Geonames.org, "
+        "please uninstall l10n_th_base_location.",
+    )
     location_thailand_language = fields.Selection(
         [("th", "Thai"), ("en", "English")], string="Language", default="th"
     )
 
+    @api.depends("country_id")
+    def _compute_is_thailand(self):
+        self.ensure_one()
+        self.is_thailand = self.country_id.code == "TH"
+
     @api.model
     def get_and_parse_csv(self):
-        if self.country_id.name == "Thailand":
+        if self.is_thailand:
             path = os.path.join(os.path.dirname(os.path.abspath(__file__)))
             if self.location_thailand_language == "th":
                 file_path = os.path.join(path[:-6], "data/TH_th.txt")
