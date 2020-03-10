@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <record id="view_users_form" model="ir.ui.view">
         <field name="name">Add title</field>
         <field name="model">res.users</field>
@@ -11,5 +10,13 @@
             </xpath>
         </field>
     </record>
-
+    <record id="view_partner_form_firstname" model="ir.ui.view">
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="partner_firstname.view_partner_form_firstname" />
+        <field name="arch" type="xml">
+            <field name="firstname" position="after">
+                <field name="lastname" position="move"/>
+        </field>
+        </field>
+    </record>
 </odoo>
