@@ -170,6 +170,6 @@ class AccountPartialReconcile(models.Model):
             create account.move.tax.invoice """
         move_lines = self.debit_move_id | self.credit_move_id
         payment = move_lines.mapped("payment_id")
-        payment.ensure_one()
-        self = self.with_context(payment_id=payment.id)
+        if len(payment) == 1:
+            self = self.with_context(payment_id=payment.id)
         return super().create_tax_cash_basis_entry(percentage_before_rec)
