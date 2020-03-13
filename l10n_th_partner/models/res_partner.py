@@ -34,14 +34,14 @@ class ResPartner(models.Model):
         "title", "firstname", "lastname", "company_name", "partner_company_type_id"
     )
     def _compute_name(self):
-        if not self.is_company:
-            return super()._compute_name()
-
-        for record in self:
-            prefix = self.partner_company_type_id.prefix
-            suffix = self.partner_company_type_id.suffix
-            record.name = " ".join(p for p in (prefix, self.company_name, suffix) if p)
-            record._inverse_name()
+        for rec in self:
+            if not rec.is_company:
+                super()._compute_name()
+                continue
+            prefix = rec.partner_company_type_id.prefix
+            suffix = rec.partner_company_type_id.suffix
+            rec.name = " ".join(p for p in (prefix, rec.company_name, suffix) if p)
+            rec._inverse_name()
 
     @api.onchange("company_type")
     def _onchange_company_type(self):
