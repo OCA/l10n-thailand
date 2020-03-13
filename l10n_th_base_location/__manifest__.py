@@ -10,5 +10,8 @@
     "website": "https://github.com/OCA/l10n-thailand",
     "depends": ["base_location_geonames_import"],
     "data": ["wizard/geonames_import_view.xml"],
+    "external_dependencies": {
+      "python": ["requests"],
+    }
     "installable": True,
 }
