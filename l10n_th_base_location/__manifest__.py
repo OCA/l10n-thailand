@@ -12,6 +12,6 @@
     "data": ["wizard/geonames_import_view.xml"],
     "external_dependencies": {
       "python": ["requests"],
-    }
+    },
     "installable": True,
 }
