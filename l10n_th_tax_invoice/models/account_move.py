@@ -18,6 +18,7 @@ class AccountMoveTaxInvoice(models.Model):
     move_state = fields.Selection(
         [("draft", "Draft"), ("posted", "Posted"), ("cancel", "Cancelled")],
         related="move_id.state",
+        store=True,
     )
     payment_id = fields.Many2one(
         comodel_name="account.payment",
@@ -43,6 +44,9 @@ class AccountMoveTaxInvoice(models.Model):
     )
     balance = fields.Monetary(
         string="Tax Amount", currency_field="company_currency_id", copy=False
+    )
+    archived = fields.Boolean(
+        default=False, help="Archive this line if its account.move is reversed"
     )
 
     @api.depends("move_line_id")
@@ -86,6 +90,8 @@ class AccountMoveLine(models.Model):
                     raise UserError(_("Invalid Tax Base/Amount"))
 
     def create(self, vals):
+        if self._context.get("payment_id"):
+            vals["payment_id"] = self._context["payment_id"]
         move_lines = super().create(vals)
         TaxInvoice = self.env["account.move.tax.invoice"]
         sign = self._context.get("reverse_tax_invoice") and -1 or 1
@@ -97,6 +103,7 @@ class AccountMoveLine(models.Model):
                         "move_line_id": line.id,
                         "tax_base_amount": sign * abs(line.tax_base_amount),
                         "balance": sign * abs(line.balance),
+                        "archived": sign < 0 and True or False,
                     }
                 )
                 line.tax_invoice_ids |= taxinv
@@ -156,9 +163,21 @@ class AccountMove(models.Model):
 
     def _reverse_moves(self, default_values_list=None, cancel=False):
         ctx = {"reverse_tax_invoice": True}
+        self.mapped("tax_invoice_ids").write({"archived": True})
+        self.mapped("line_ids").write({"payment_id": False})
         return super(AccountMove, self.with_context(ctx))._reverse_moves(
             default_values_list=default_values_list, cancel=cancel
         )
+
+    def button_draft(self):
+        # Do not set draft cash basis move on payment, they will be reversed
+        moves = self.filtered(lambda m: not (m.type == "entry" and m.tax_invoice_ids))
+        return super(AccountMove, moves).button_draft()
+
+    def unlink(self):
+        # Do not unlink cash basis move on payment, they will be reversed
+        moves = self.filtered(lambda m: not (m.type == "entry" and m.tax_invoice_ids))
+        return super(AccountMove, moves).unlink()
 
 
 class AccountPartialReconcile(models.Model):
