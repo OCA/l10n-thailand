@@ -61,6 +61,7 @@ class TaxReport(models.TransientModel):
                                     and invoice_tax_id = %s or refund_tax_id = %s)
               and ml.date >= %s and ml.date <= %s
               and ml.company_id = %s
+              and t.archived is not true
             order by date, t.tax_invoice_number
         """,
             (
