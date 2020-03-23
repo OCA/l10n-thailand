@@ -4,7 +4,7 @@
         <field name="name">view.withholding.tax.cert.form</field>
         <field name="model">withholding.tax.cert</field>
         <field name="arch" type="xml">
-            <form string="Withholding Tax Certificate" create="0" edit="1" delete="1">
+            <form string="Withholding Tax Certificate" create="1" edit="1" delete="1">
                 <header>
                     <button name="action_draft" string="Set to Draft" type="object" states="done,cancel"/>
                     <button name="action_done" string="Done" type="object" states="draft" class="oe_highlight"/>
@@ -53,7 +53,7 @@
         <field name="name">view.withholding.tax.cert.tree</field>
         <field name="model">withholding.tax.cert</field>
         <field name="arch" type="xml">
-            <tree string="Withholding Tax Cert." create="0" edit="1" delete="1">
+            <tree string="Withholding Tax Cert." create="1" edit="1" delete="1">
                 <field name="payment_id"/>
                 <field name="supplier_partner_id"/>
                 <field name="income_tax_form"/>
