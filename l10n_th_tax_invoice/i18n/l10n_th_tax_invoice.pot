@@ -19,6 +19,16 @@ msgid "Account"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
+#: model:ir.model.fields,help:l10n_th_tax_invoice.field_account_move_tax_invoice__archived
+msgid "Archive this line if its account.move is reversed"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_tax_invoice__archived
+msgid "Archived"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
 #: code:addons/l10n_th_tax_invoice/models/account_move.py:0
 #, python-format
 msgid "Cannot delete this tax invoice line"
