@@ -259,3 +259,7 @@ class TestTaxInvoice(SingleTransactionCase):
         payment.clear_tax_cash_basis()
         # Cash basis journal is now posted
         self.assertEquals(payment.tax_invoice_ids.mapped("move_id").state, "posted")
+        # Check the move_line_ids, from both Bank and Cash Basis journal
+        self.assertEquals(len(payment.move_line_ids.mapped("move_id")), 2)
+        payment.action_draft()  # Unlink the relation
+        self.assertFalse(payment.move_line_ids)

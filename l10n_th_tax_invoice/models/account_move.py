@@ -45,8 +45,11 @@ class AccountMoveTaxInvoice(models.Model):
     balance = fields.Monetary(
         string="Tax Amount", currency_field="company_currency_id", copy=False
     )
-    archived = fields.Boolean(
-        default=False, help="Archive this line if its account.move is reversed"
+    reversing_id = fields.Many2one(
+        comodel_name="account.move", help="The move that reverse this move"
+    )
+    reversed_id = fields.Many2one(
+        comodel_name="account.move", help="This move that this move reverse"
     )
 
     @api.depends("move_line_id")
@@ -101,12 +104,19 @@ class AccountMoveLine(models.Model):
                     {
                         "move_id": line.move_id.id,
                         "move_line_id": line.id,
+                        "tax_invoice_number": sign < 0 and "/" or False,
+                        "tax_invoice_date": sign < 0 and fields.Date.today() or False,
                         "tax_base_amount": sign * abs(line.tax_base_amount),
                         "balance": sign * abs(line.balance),
-                        "archived": sign < 0 and True or False,
+                        "reversed_id": line.move_id.reversed_entry_id.id,
                     }
                 )
                 line.tax_invoice_ids |= taxinv
+            # Assign back the reversing id
+            for taxinv in line.tax_invoice_ids.filtered("reversed_id"):
+                TaxInvoice.search([("move_id", "=", taxinv.reversed_id.id)]).write(
+                    {"reversing_id": taxinv.move_id.id}
+                )
         return move_lines
 
 
@@ -162,10 +172,8 @@ class AccountMove(models.Model):
         return res
 
     def _reverse_moves(self, default_values_list=None, cancel=False):
-        ctx = {"reverse_tax_invoice": True}
-        self.mapped("tax_invoice_ids").write({"archived": True})
-        self.mapped("line_ids").write({"payment_id": False})
-        return super(AccountMove, self.with_context(ctx))._reverse_moves(
+        self = self.with_context(reverse_tax_invoice=True)
+        return super()._reverse_moves(
             default_values_list=default_values_list, cancel=cancel
         )
 
