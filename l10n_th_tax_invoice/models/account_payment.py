@@ -16,7 +16,7 @@ class AccountPayment(models.Model):
         comodel_name="account.move.tax.invoice",
         inverse_name="payment_id",
         copy=False,
-        domain=[("archived", "=", False)],
+        domain=[("reversing_id", "=", False), ("reversed_id", "=", False)],
     )
 
     def clear_tax_cash_basis(self):
@@ -33,3 +33,9 @@ class AccountPayment(models.Model):
                 move.ensure_one()
                 move.post()
         return True
+
+    def action_draft(self):
+        res = super().action_draft()
+        # Clear any move line still relate to this payment
+        self.mapped("move_line_ids").write({"payment_id": False})
+        return res
