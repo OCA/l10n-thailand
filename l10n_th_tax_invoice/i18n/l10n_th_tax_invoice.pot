@@ -19,16 +19,6 @@ msgid "Account"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
-#: model:ir.model.fields,help:l10n_th_tax_invoice.field_account_move_tax_invoice__archived
-msgid "Archive this line if its account.move is reversed"
-msgstr ""
-
-#. module: l10n_th_tax_invoice
-#: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_tax_invoice__archived
-msgid "Archived"
-msgstr ""
-
-#. module: l10n_th_tax_invoice
 #: code:addons/l10n_th_tax_invoice/models/account_move.py:0
 #, python-format
 msgid "Cannot delete this tax invoice line"
@@ -148,6 +138,16 @@ msgid "Please fill in tax invoice and tax date"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_tax_invoice__reversed_id
+msgid "Reversed"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_tax_invoice__reversing_id
+msgid "Reversing"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_account_payment_form
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_move_form
 msgid "Split"
@@ -197,6 +197,16 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_account_payment_form
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_move_form
 msgid "Tax Invoices"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields,help:l10n_th_tax_invoice.field_account_move_tax_invoice__reversing_id
+msgid "The move that reverse this move"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields,help:l10n_th_tax_invoice.field_account_move_tax_invoice__reversed_id
+msgid "This move that this move reverse"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
