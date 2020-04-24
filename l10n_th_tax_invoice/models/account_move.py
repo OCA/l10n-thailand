@@ -1,7 +1,7 @@
 # Copyright 2019 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_compare
 
 
@@ -14,6 +14,7 @@ class AccountMoveTaxInvoice(models.Model):
     move_line_id = fields.Many2one(
         comodel_name="account.move.line", index=True, copy=True, ondelete="cascade"
     )
+    partner_id = fields.Many2one(comodel_name="res.partner", string="Partner")
     move_id = fields.Many2one(comodel_name="account.move", index=True, copy=True)
     move_state = fields.Selection(
         [("draft", "Draft"), ("posted", "Posted"), ("cancel", "Cancelled")],
@@ -104,6 +105,7 @@ class AccountMoveLine(models.Model):
                     {
                         "move_id": line.move_id.id,
                         "move_line_id": line.id,
+                        "partner_id": line.partner_id.id,
                         "tax_invoice_number": sign < 0 and "/" or False,
                         "tax_invoice_date": sign < 0 and fields.Date.today() or False,
                         "tax_base_amount": sign * abs(line.tax_base_amount),
@@ -157,19 +159,41 @@ class AccountMove(models.Model):
             for tax_invoice in move.tax_invoice_ids.filtered(
                 lambda l: l.tax_line_id.type_tax_use == "sale"
             ):
-                origin_move = move.type == "entry" and move.reversed_entry_id or move
+                tinv_number, tinv_date = self._get_tax_invoice_number(
+                    move, tax_invoice, tax_invoice.tax_line_id
+                )
                 tax_invoice.write(
-                    {
-                        "tax_invoice_number": tax_invoice.payment_id.name
-                        or origin_move.name,
-                        "tax_invoice_date": origin_move.date,
-                    }
+                    {"tax_invoice_number": tinv_number, "tax_invoice_date": tinv_date}
                 )
 
         # Check amount tax invoice with move line
         for move in self:
             move.line_ids._checkout_tax_invoice_amount()
         return res
+
+    def _get_tax_invoice_number(self, move, tax_invoice, tax):
+        origin_move = move.type == "entry" and move.reversed_entry_id or move
+        sequence = tax_invoice.tax_line_id.taxinv_sequence_id
+        number = tax_invoice.tax_invoice_number
+        invoice_date = tax_invoice.tax_invoice_date or origin_move.date
+        if not number:
+            if sequence:
+                if move.reversed_entry_id:  # Find sequence of origin move
+                    tax_invoices = origin_move.tax_invoice_ids.filtered(
+                        lambda l: l.tax_line_id == tax
+                    )
+                    number = (
+                        tax_invoices and tax_invoices[0].tax_invoice_number or False
+                    )
+                    if not number:
+                        raise ValidationError(
+                            _("Cannot set tax invoice number, number already exists.")
+                        )
+                else:  # New sequence
+                    number = sequence.next_by_id(sequence_date=move.date)
+            else:  # Now sequence for this tax, use document number
+                number = tax_invoice.payment_id.name or origin_move.name
+        return (number, invoice_date)
 
     def _reverse_moves(self, default_values_list=None, cancel=False):
         self = self.with_context(reverse_tax_invoice=True)
