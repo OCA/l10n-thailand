@@ -4,8 +4,6 @@ import logging
 
 from odoo import SUPERUSER_ID, api
 
-__name__ = "Upgrade to 13.0.2.0.0"
-
 _logger = logging.getLogger(__name__)
 
 
