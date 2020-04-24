@@ -4,9 +4,9 @@ import logging
 
 from odoo import SUPERUSER_ID, api
 
-_logger = logging.getLogger(__name__)
-
 __name__ = "Upgrade to 13.0.2.0.0"
+
+_logger = logging.getLogger(__name__)
 
 
 def _auto_update_field_partner_id(env):
