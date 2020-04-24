@@ -30,6 +30,9 @@ class TestTaxInvoice(SingleTransactionCase):
         cls.payment_method_manual_out = cls.env.ref(
             "account.account_payment_method_manual_out"
         )
+        cls.payment_method_manual_in = cls.env.ref(
+            "account.account_payment_method_manual_out"
+        )
         # Accounts
         cls.output_vat_acct = cls.env["account.account"].create(
             {"name": "O7", "code": "O7", "user_type_id": type_current_liability.id}
@@ -144,74 +147,73 @@ class TestTaxInvoice(SingleTransactionCase):
         cls.payment_term_immediate = cls.env["account.payment.term"].create(
             {"name": "", "line_ids": [(0, 0, {"value": "balance", "days": 15})]}
         )
+
+        # Optiona tax sequence
+        cls.cust_vat_sequence = cls.env["ir.sequence"].create(
+            {"name": "Cust VAT Sequence", "padding": 4}
+        )
+
+        def create_invoice(name, partner, journal, invoice_type, account_type, vat):
+            invoice_dict = {
+                "name": name,
+                "partner_id": partner.id,
+                "journal_id": journal.id,
+                "type": invoice_type,
+                "invoice_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "quantity": 1.0,
+                            "account_id": cls.env["account.account"]
+                            .search([("user_type_id", "=", account_type.id)], limit=1)
+                            .id,
+                            "name": "Advice",
+                            "price_unit": 100.00,
+                            "tax_ids": [(6, 0, [vat.id])],
+                        },
+                    )
+                ],
+            }
+            return cls.env["account.move"].create(invoice_dict)
+
         # Prepare Supplier Invoices
-        invoice_dict = {
-            "name": "Test Supplier Invoice VAT",
-            "partner_id": cls.env.ref("base.res_partner_12").id,
-            "journal_id": cls.journal_purchase.id,
-            "type": "in_invoice",
-            "invoice_line_ids": [
-                (
-                    0,
-                    0,
-                    {
-                        "quantity": 1.0,
-                        "account_id": cls.env["account.account"]
-                        .search(
-                            [
-                                (
-                                    "user_type_id",
-                                    "=",
-                                    cls.env.ref(
-                                        "account.data_account_type_expenses"
-                                    ).id,
-                                )
-                            ],
-                            limit=1,
-                        )
-                        .id,
-                        "name": "Advice",
-                        "price_unit": 100.00,
-                        "tax_ids": [(6, 0, [cls.input_vat.id])],
-                    },
-                )
-            ],
-        }
-        cls.supplier_invoice_vat = cls.env["account.move"].create(invoice_dict)
-        # Supplier Invoice Undue VAT
-        invoice_dict = {
-            "name": "Test Supplier Invoice UndueVAT",
-            "partner_id": cls.env.ref("base.res_partner_10").id,
-            "journal_id": cls.journal_purchase.id,
-            "type": "in_invoice",
-            "invoice_line_ids": [
-                (
-                    0,
-                    0,
-                    {
-                        "quantity": 1.0,
-                        "account_id": cls.env["account.account"]
-                        .search(
-                            [
-                                (
-                                    "user_type_id",
-                                    "=",
-                                    cls.env.ref(
-                                        "account.data_account_type_expenses"
-                                    ).id,
-                                )
-                            ],
-                            limit=1,
-                        )
-                        .id,
-                        "name": "Advice",
-                        "price_unit": 100.00,
-                        "tax_ids": [(6, 0, [cls.undue_input_vat.id])],
-                    },
-                )
-            ],
-        }
-        cls.supplier_invoice_undue_vat = cls.env["account.move"].create(invoice_dict)
+        cls.supplier_invoice_vat = create_invoice(
+            "Test Supplier Invoice VAT",
+            cls.env.ref("base.res_partner_12"),
+            cls.journal_purchase,
+            "in_invoice",
+            cls.env.ref("account.data_account_type_expenses"),
+            cls.input_vat,
+        )
+        cls.supplier_invoice_undue_vat = create_invoice(
+            "Test Supplier Invoice UndueVAT",
+            cls.env.ref("base.res_partner_12"),
+            cls.journal_purchase,
+            "in_invoice",
+            cls.env.ref("account.data_account_type_expenses"),
+            cls.undue_input_vat,
+        )
+
+        # Prepare Customer Invoices
+        cls.customer_invoice_vat = create_invoice(
+            "Test Customer Invoice VAT",
+            cls.env.ref("base.res_partner_10"),
+            cls.journal_sale,
+            "out_invoice",
+            cls.env.ref("account.data_account_type_revenue"),
+            cls.output_vat,
+        )
+        cls.customer_invoice_vat_seq = cls.customer_invoice_vat.copy()
+        cls.customer_invoice_undue_vat = create_invoice(
+            "Test Customer Invoice UndueVAT",
+            cls.env.ref("base.res_partner_10"),
+            cls.journal_sale,
+            "out_invoice",
+            cls.env.ref("account.data_account_type_revenue"),
+            cls.undue_output_vat,
+        )
+        cls.customer_invoice_undue_vat_seq = cls.customer_invoice_undue_vat.copy()
 
     def test_supplier_invoice_vat(self):
         """ Supplier Invoice with VAT,
@@ -227,7 +229,7 @@ class TestTaxInvoice(SingleTransactionCase):
         )
         self.supplier_invoice_vat.action_post()
 
-    def test_supplier_invoice_undue_vat_payment(self):
+    def test_supplier_invoice_undue_vat(self):
         """ Register Payment from Vendor Invoice"""
         # Do not allow user to fill in Tax Invoice/Date
         tax_invoice = "SINV-10001"
@@ -259,6 +261,95 @@ class TestTaxInvoice(SingleTransactionCase):
         payment.clear_tax_cash_basis()
         # Cash basis journal is now posted
         self.assertEquals(payment.tax_invoice_ids.mapped("move_id").state, "posted")
+        # Check the move_line_ids, from both Bank and Cash Basis journal
+        self.assertEquals(len(payment.move_line_ids.mapped("move_id")), 2)
+        payment.action_draft()  # Unlink the relation
+        self.assertFalse(payment.move_line_ids)
+
+    def test_customer_invoice_vat(self):
+        """ Supplier Invoice with VAT,
+        system auto fill in Tax Invoice/Date on Invoice """
+        self.customer_invoice_vat.action_post()
+        tax_invoices = self.customer_invoice_vat.tax_invoice_ids
+        tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
+        self.assertEqual(tax_invoice_number, "Test Customer Invoice VAT")
+
+    def test_customer_invoice_undue_vat(self):
+        """ Register Payment from Customer Invoice"""
+        # Do not allow user to fill in Tax Invoice/Date
+        self.customer_invoice_undue_vat.action_post()
+        # Make full payment from invoice
+        payment = self.env["account.payment"].create(
+            {
+                "name": "Cust Receipt",
+                "payment_date": fields.Date.today(),
+                "payment_type": "inbound",
+                "amount": 107.00,
+                "journal_id": self.journal_bank.id,
+                "partner_type": "customer",
+                "partner_id": self.env.ref("base.res_partner_10").id,
+                "payment_method_id": self.payment_method_manual_out.id,
+                "invoice_ids": [(4, self.customer_invoice_undue_vat.id, None)],
+            }
+        )
+        payment.post()
+        self.assertTrue(payment.tax_invoice_ids)
+        # Clear tax cash basis
+        payment.clear_tax_cash_basis()
+        # Cash basis journal is now posted
+        tax_invoices = payment.tax_invoice_ids
+        self.assertEquals(tax_invoices.mapped("move_id").state, "posted")
+        tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
+        self.assertEqual(tax_invoice_number, "Cust Receipt")
+        # Check the move_line_ids, from both Bank and Cash Basis journal
+        self.assertEquals(len(payment.move_line_ids.mapped("move_id")), 2)
+        payment.action_draft()  # Unlink the relation
+        self.assertFalse(payment.move_line_ids)
+
+    def test_customer_invoice_vat_sequence(self):
+        """ Supplier Invoice with VAT,
+        system auto fill in Tax Invoice using sequence """
+        # Assign opptional sequence to vat
+        self.cust_vat_sequence.prefix = "CTX"
+        self.cust_vat_sequence.number_next_actual = 1  # CTX0001
+        self.output_vat.taxinv_sequence_id = self.cust_vat_sequence
+        self.customer_invoice_vat_seq.action_post()
+        tax_invoices = self.customer_invoice_vat_seq.tax_invoice_ids
+        tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
+        self.assertEqual(tax_invoice_number, "CTX0001")
+
+    def test_customer_invoice_undue_vat_sequence(self):
+        """ Register Payment from Customer Invoice
+        system auto fill in Tax Invoice using sequence """
+        # Assign opptional sequence to undue vat
+        self.cust_vat_sequence.prefix = "CTX"
+        self.cust_vat_sequence.number_next_actual = 2  # CTX0002
+        self.undue_output_vat.taxinv_sequence_id = self.cust_vat_sequence
+        # Do not allow user to fill in Tax Invoice/Date
+        self.customer_invoice_undue_vat_seq.action_post()
+        # Make full payment from invoice
+        payment = self.env["account.payment"].create(
+            {
+                "name": "Cust Receipt",
+                "payment_date": fields.Date.today(),
+                "payment_type": "inbound",
+                "amount": 107.00,
+                "journal_id": self.journal_bank.id,
+                "partner_type": "customer",
+                "partner_id": self.env.ref("base.res_partner_10").id,
+                "payment_method_id": self.payment_method_manual_out.id,
+                "invoice_ids": [(4, self.customer_invoice_undue_vat_seq.id, None)],
+            }
+        )
+        payment.post()
+        self.assertTrue(payment.tax_invoice_ids)
+        # Clear tax cash basis
+        payment.clear_tax_cash_basis()
+        # Cash basis journal is now posted
+        tax_invoices = payment.tax_invoice_ids
+        self.assertEquals(tax_invoices.mapped("move_id").state, "posted")
+        tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
+        self.assertEqual(tax_invoice_number, "CTX0002")
         # Check the move_line_ids, from both Bank and Cash Basis journal
         self.assertEquals(len(payment.move_line_ids.mapped("move_id")), 2)
         payment.action_draft()  # Unlink the relation
