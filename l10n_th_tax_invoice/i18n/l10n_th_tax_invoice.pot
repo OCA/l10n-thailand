@@ -25,6 +25,12 @@ msgid "Cannot delete this tax invoice line"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
+#: code:addons/l10n_th_tax_invoice/models/account_move.py:0
+#, python-format
+msgid "Cannot set tax invoice number, number already exists."
+msgstr ""
+
+#. module: l10n_th_tax_invoice
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_account_payment_form
 msgid "Clear Tax"
 msgstr ""
@@ -55,8 +61,18 @@ msgid "Currency"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_tax_invoice_search
+msgid "Date"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
 #: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_tax_invoice__display_name
 msgid "Display Name"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_tax_invoice_search
+msgid "Group By"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
@@ -101,6 +117,11 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_tax_invoice_form
+msgid "Misc."
+msgstr ""
+
+#. module: l10n_th_tax_invoice
 #: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_tax_invoice__move_id
 msgid "Move"
 msgstr ""
@@ -111,6 +132,16 @@ msgid "Move Line"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_tax__sequence_number_next
+msgid "Next Number"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields,help:l10n_th_tax_invoice.field_account_tax__taxinv_sequence_id
+msgid "Optional sequence as Tax Invoice number"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
 #: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_tax_invoice__tax_line_id
 msgid "Originator Tax"
 msgstr ""
@@ -118,6 +149,12 @@ msgstr ""
 #. module: l10n_th_tax_invoice
 #: model:ir.model,name:l10n_th_tax_invoice.model_account_partial_reconcile
 msgid "Partial Reconcile"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_tax_invoice__partner_id
+#: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_tax_invoice_search
+msgid "Partner"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
@@ -159,6 +196,11 @@ msgid "Status"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
+#: model:ir.model,name:l10n_th_tax_invoice.model_account_tax
+msgid "Tax"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
 #: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_tax_invoice__balance
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_move_form
 msgid "Tax Amount"
@@ -184,6 +226,11 @@ msgid "Tax Invoice Date"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_tax_invoice_form
+msgid "Tax Invoice Detail"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
 #: model:ir.model,name:l10n_th_tax_invoice.model_account_move_tax_invoice
 msgid "Tax Invoice Info"
 msgstr ""
@@ -194,14 +241,29 @@ msgid "Tax Invoice Number"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_tax__taxinv_sequence_id
+msgid "Tax Invoice Sequence"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.actions.act_window,name:l10n_th_tax_invoice.action_tax_invoice
+#: model:ir.ui.menu,name:l10n_th_tax_invoice.menu_action_tax_invoice
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_account_payment_form
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_move_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_tax_invoice_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_tax_invoice_search
+#: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_tax_invoice_tree
 msgid "Tax Invoices"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
 #: model:ir.model.fields,help:l10n_th_tax_invoice.field_account_move_tax_invoice__reversing_id
 msgid "The move that reverse this move"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields,help:l10n_th_tax_invoice.field_account_tax__sequence_number_next
+msgid "The next sequence number will be used for the next tax invoice."
 msgstr ""
 
 #. module: l10n_th_tax_invoice
