@@ -3,7 +3,7 @@
 
 {
     "name": "Thai Localization - Account Tax Invoice",
-    "version": "13.0.2.0.0",
+    "version": "13.0.2.0.1",
     "author": "Ecosoft,Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-thailand/",
