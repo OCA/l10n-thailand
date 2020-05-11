@@ -94,7 +94,7 @@ class AccountMoveLine(models.Model):
                     raise UserError(_("Invalid Tax Base/Amount"))
 
     def create(self, vals):
-        if self._context.get("payment_id"):
+        if vals and self._context.get("payment_id"):
             vals["payment_id"] = self._context["payment_id"]
         move_lines = super().create(vals)
         TaxInvoice = self.env["account.move.tax.invoice"]
