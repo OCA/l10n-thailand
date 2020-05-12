@@ -1,0 +1,158 @@
+<odoo>
+
+    <template id="report_withholding_tax_html">
+        <div class="o_withholding_tax_report_page">
+            <t t-call="l10n_th_withholding_tax_report.report_buttons"/>
+            <t t-call="l10n_th_withholding_tax_report.report_withholding_tax"/>
+            <t t-call="l10n_th_withholding_tax_report.footer_report_withholding_tax"/>
+        </div>
+    </template>
+
+    <template id="report_withholding_tax_qweb">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="l10n_th_withholding_tax_report.internal_layout">
+                    <t t-call="l10n_th_withholding_tax_report.report_withholding_tax"/>
+                    <t t-call="l10n_th_withholding_tax_report.footer_report_withholding_tax"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_withholding_tax">
+        <t t-set="title">Withholding Tax Report</t>
+        <div class="page">
+            <div class="row">
+                <h4 class="mt0" t-esc="title or 'Odoo Report'" style="text-align: center;"/>
+            </div>
+            <!-- Display filters -->
+            <t t-call="l10n_th_withholding_tax_report.header_report_withholding_tax"/>
+            <div class="page_break"/>
+            <div class="act_as_table data_table" style="width: 100%;">
+                <!-- Display table headers for lines -->
+                <div class="act_as_thead">
+                    <div class="act_as_row labels">
+                        <!--## sequence-->
+                        <div class="act_as_cell" style="width: 4%;">No.</div>
+                        <!--## customer -->
+                        <div class="act_as_cell" style="width: 7%;">Tax Invoice</div>
+                        <!--## supplier_partner_id-->
+                        <div class="act_as_cell" style="width: 13%;">Cus./Sup.</div>
+                        <!--## adress (street)-->
+                        <div class="act_as_cell" style="width: 13%;">Address</div>
+                        <!--## date-->
+                        <div class="act_as_cell" style="width: 6%;">Date</div>
+                        <!--## wt_cert_income_type-->
+                        <div class="act_as_cell" style="width: 16%;">Tax Description</div>
+                        <!--## wt_percent-->
+                        <div class="act_as_cell" style="width: 5%;">Tax</div>
+                        <!--## base-->
+                        <div class="act_as_cell" style="width: 9%;">Base Amount</div>
+                        <!--## amount-->
+                        <div class="act_as_cell" style="width: 7%;">Tax Amount</div>
+                        <!--## tax_payer-->
+                        <div class="act_as_cell" style="width: 8%;">Tax Payer</div>
+                        <!--## payment_id-->
+                        <div class="act_as_cell" style="width: 11%;">Ref Doc.</div>
+                    </div>
+                </div>
+                <t t-set="i" t-value="1"/>
+                <t t-foreach="o.results" t-as="o">
+                    <div class="act_as_row lines">
+                        <div class="act_as_cell" style="width: 4%;">
+                            <span t-esc="i"/>
+                            <t t-set="i" t-value="i+1"/>
+                        </div>
+                        <div class="act_as_cell" style="width: 7%;">
+                            <span t-field="o.cert_id.supplier_partner_id.vat"/>
+                        </div>
+                        <div class="act_as_cell left" style="width: 13%;">
+                            <span t-field="o.cert_id.supplier_partner_id.display_name"/>
+                        </div>
+                        <div class="act_as_cell left" style="width: 13%;">
+                            <span t-field="o.cert_id.supplier_partner_id.street"/>
+                        </div>
+                        <div class="act_as_cell" style="width: 6%;">
+                            <span t-field="o.cert_id.date"/>
+                        </div>
+                        <div class="act_as_cell left" style="width: 16%;">
+                            <span t-field="o.wt_cert_income_desc"/>
+                        </div>
+                        <div class="act_as_cell right" style="width: 5%;">
+                            <span t-field="o.wt_percent"/><span>%</span>
+                        </div>
+                        <div class="act_as_cell amount" style="width: 9%;">
+                            <span t-field="o.base" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                        </div>
+                        <div class="act_as_cell amount" style="width: 7%;">
+                            <span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                        </div>
+                        <div class="act_as_cell" style="width: 8%;">
+                            <span t-field="o.cert_id.tax_payer"/>
+                        </div>
+                        <div class="act_as_cell left" style="width: 11%;">
+                            <span t-field="o.cert_id.payment_id.name"/>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <template id="header_report_withholding_tax">
+        <div class="act_as_table data_table">
+            <div class="act_as_row labels">
+                <div class="act_as_cell">Date From</div>
+                <div class="act_as_cell">Date To</div>
+                <div class="act_as_cell">Income Tax Form</div>
+                <div class="act_as_cell">Tax ID</div>
+                <div class="act_as_cell">Branch ID</div>
+            </div>
+            <div class="act_as_row">
+                <div class="act_as_cell">
+                    <span t-field="o.date_from"/>
+                </div>
+                <div class="act_as_cell">
+                    <span t-field="o.date_to"/>
+                </div>
+                <div class="act_as_cell">
+                    <span t-field="o.income_tax_form"/>
+                </div>
+                <div class="act_as_cell">
+                    <t t-if="o.company_id.partner_id.vat">
+                        <span t-field="o.company_id.partner_id.vat"/>
+                    </t>
+                    <t t-else="">
+                        <span> - </span>
+                    </t>
+                </div>
+                <div class="act_as_cell">
+                    <t t-if="o.company_id.partner_id.branch">
+                        <span t-field="o.company_id.partner_id.branch"/>
+                    </t>
+                    <t t-else="">
+                        <span> - </span>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="footer_report_withholding_tax">
+        <div class="act_as_table data_table" style="width: 100%;">
+            <div class="act_as_row" style="width: 100%; font-weight: bold;">
+                <t t-set="final_base" t-value="sum(o.results.mapped('base'))"/>
+                <t t-set="final_amount" t-value="sum(o.results.mapped('amount'))"/>
+                <div class="act_as_cell" style="width: 64.55%;">Balance</div>
+                <div class="act_as_cell right" style="width: 9%;">
+                    <span t-esc="final_base" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                </div>
+                <div class="act_as_cell right" style="width: 7.05%;">
+                    <span t-esc="final_amount" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                </div>
+                <div class="act_as_cell" style="width: 19.40%;"></div>
+            </div>
+        </div>
+    </template>
+
+</odoo>

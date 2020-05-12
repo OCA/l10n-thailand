@@ -1,0 +1,38 @@
+<odoo>
+    <!-- HMTL REPORTS -->
+    <report
+        id="action_withholding_tax_report_html"
+        model="withholding.tax.report"
+        string="Withholding Tax Report (HTML)"
+        report_type="qweb-html"
+        name="l10n_th_withholding_tax_report.report_withholding_tax_html"
+        file="l10n_th_withholding_tax_report.report_withholding_tax_html"/>
+    <!-- PDF REPORTS -->
+    <report
+        id="action_withholding_tax_report_qweb"
+        model="withholding.tax.report"
+        string="Withholding Tax Report (PDF)"
+        report_type="qweb-pdf"
+        name="l10n_th_withholding_tax_report.report_withholding_tax_qweb"
+        file="l10n_th_withholding_tax_report.report_withholding_tax_qweb"
+        paperformat='l10n_th_withholding_tax_report.report_qweb_paperformat'/>
+    <!-- CSV REPORTS -->
+    <report
+        id="action_withholding_tax_report_csv"
+        model="withholding.tax.report"
+        string="Withholding Tax Report (CSV)"
+        report_type="csv"
+        name="report_withholding_tax_csv"
+        file="report_withholding_tax_csv"
+    />
+    <!-- XLSX REPORTS -->
+    <record id="action_withholding_tax_report_xlsx" model="ir.actions.report">
+        <field name="name">Withholding Tax Report (XLSX)</field>
+        <field name="model">withholding.tax.report</field>
+        <field name="type">ir.actions.report</field>
+        <field name="report_name">withholding.tax.report.xlsx</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_file">withholding_tax</field>
+    </record>
+
+</odoo>

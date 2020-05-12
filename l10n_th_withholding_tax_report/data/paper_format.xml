@@ -1,0 +1,19 @@
+<odoo>
+    <!-- PDF REPORTS : paperformat -->
+    <record id="report_qweb_paperformat" model="report.paperformat">
+        <field name="name">Withholding tax report qweb paperformat</field>
+        <field name="default" eval="True"/>
+        <field name='format'>A4</field>
+        <field name='page_height'>0</field>
+        <field name='page_width'>0</field>
+        <field name='orientation'>Portrait</field>
+        <field name='margin_top'>24</field>
+        <field name='margin_bottom'>30</field>
+        <field name='margin_left'>7</field>
+        <field name='margin_right'>7</field>
+        <field name='header_line' eval='False'/>
+        <field name='header_spacing'>18</field>
+        <field name='dpi'>90</field>
+    </record>
+
+</odoo>
