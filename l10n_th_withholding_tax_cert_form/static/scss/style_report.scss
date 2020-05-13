@@ -1,11 +1,11 @@
 // Change Font
 @font-face {
-    font-family: 'THSarabun';
-    src: url('../fonts/THSarabunNew Bold.ttf') format('truetype');
+    font-family: "THSarabun";
+    src: url("../fonts/THSarabunNew Bold.ttf") format("truetype");
 }
 
-.o_report_withholding_tax_cert{
-    font-family: 'THSarabun';
+.o_report_withholding_tax_cert {
+    font-family: "THSarabun";
     font-size: 24px;
 
     .number_payment {
@@ -223,5 +223,4 @@
     .vat_tab {
         margin-left: 11px;
     }
-
 }
