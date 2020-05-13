@@ -3,7 +3,6 @@ odoo.define("l10n_th_tax_report_backend", function(require) {
 
     var AbstractAction = require("web.AbstractAction");
     var core = require("web.core");
-    var Widget = require("web.Widget");
     var ReportWidget = require("web.Widget");
 
     var report_backend = AbstractAction.extend({
