@@ -3,7 +3,6 @@ odoo.define("withholding_tax_report_backend", function(require) {
 
     var AbstractAction = require("web.AbstractAction");
     var core = require("web.core");
-    var Widget = require("web.Widget");
     var ReportWidget = require("withholding_tax_report_widget");
 
     var report_backend = AbstractAction.extend({
