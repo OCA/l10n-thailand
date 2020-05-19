@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Top -->
+    <report
+        id="action_report_check_scb_base"
+        string="SCB Check"
+        model="account.payment"
+        name="l10n_th_check_scb_bank.report_check_scb_base"
+        file="l10n_th_check_scb_bank.report_check_scb_base"
+        report_type="qweb-pdf"
+        paperformat="account_check_printing_report_base.paperformat_check"
+    />
+</odoo>
