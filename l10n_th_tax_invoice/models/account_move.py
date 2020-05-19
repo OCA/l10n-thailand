@@ -152,6 +152,14 @@ class AccountMove(models.Model):
                     else:
                         raise UserError(_("Please fill in tax invoice and tax date"))
 
+        # Cleanup, delete lines with same account_id and sum(amount) == 0
+        for move in self:
+            accounts = move.line_ids.mapped("account_id")
+            for account in accounts:
+                lines = move.line_ids.filtered(lambda l: l.account_id == account)
+                if sum(lines.mapped("balance")) == 0:
+                    lines.unlink()
+
         res = super().post()
 
         # Sales Taxes
