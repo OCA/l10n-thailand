@@ -69,8 +69,10 @@ class AccountMoveTaxInvoice(models.Model):
         for move_line in self.mapped("move_line_id"):
             line_taxinv.update({move_line.id: move_line.tax_invoice_ids.ids})
         for rec in self.filtered("move_line_id"):
-            if len(line_taxinv[rec.move_line_id.id]) == 1:
-                raise UserError(_("Cannot delete this tax invoice line"))
+            if len(line_taxinv[rec.move_line_id.id]) == 1 and not self._context.get(
+                "force_remove_tax_invoice"
+            ):
+                raise UserError(_("Cannot delete this last tax invoice line"))
             line_taxinv[rec.move_line_id.id].remove(rec.id)
         return super().unlink()
 
@@ -81,10 +83,13 @@ class AccountMoveLine(models.Model):
     tax_invoice_ids = fields.One2many(
         comodel_name="account.move.tax.invoice", inverse_name="move_line_id"
     )
+    manual_tax_invoice = fields.Boolean(
+        copy=False, help="Create Tax Invoice for this debit/credit line"
+    )
 
     def _checkout_tax_invoice_amount(self):
         for line in self:
-            if line.tax_invoice_ids:
+            if not line.manual_tax_invoice and line.tax_invoice_ids:
                 tax_base = sum(line.tax_invoice_ids.mapped("tax_base_amount"))
                 tax = sum(line.tax_invoice_ids.mapped("balance"))
                 if (
@@ -100,7 +105,7 @@ class AccountMoveLine(models.Model):
         TaxInvoice = self.env["account.move.tax.invoice"]
         sign = self._context.get("reverse_tax_invoice") and -1 or 1
         for line in move_lines:
-            if line.tax_line_id and line.tax_exigible:
+            if (line.tax_line_id and line.tax_exigible) or line.manual_tax_invoice:
                 taxinv = TaxInvoice.create(
                     {
                         "move_id": line.move_id.id,
@@ -120,6 +125,26 @@ class AccountMoveLine(models.Model):
                     {"reversing_id": taxinv.move_id.id}
                 )
         return move_lines
+
+    def write(self, vals):
+        if "manual_tax_invoice" in vals:
+            if vals["manual_tax_invoice"]:
+                TaxInvoice = self.env["account.move.tax.invoice"]
+                for line in self:
+                    taxinv = TaxInvoice.create(
+                        {
+                            "move_id": line.move_id.id,
+                            "move_line_id": line.id,
+                            "partner_id": line.partner_id.id,
+                            "tax_base_amount": abs(line.tax_base_amount),
+                            "balance": abs(line.balance),
+                        }
+                    )
+                    line.tax_invoice_ids |= taxinv
+            else:
+                self = self.with_context(force_remove_tax_invoice=True)
+                self.mapped("tax_invoice_ids").unlink()
+        return super().write(vals)
 
 
 class AccountMove(models.Model):
@@ -151,6 +176,14 @@ class AccountMove(models.Model):
                         return False
                     else:
                         raise UserError(_("Please fill in tax invoice and tax date"))
+
+        # Cleanup, delete lines with same account_id and sum(amount) == 0
+        for move in self:
+            accounts = move.line_ids.mapped("account_id")
+            for account in accounts:
+                lines = move.line_ids.filtered(lambda l: l.account_id == account)
+                if sum(lines.mapped("balance")) == 0:
+                    lines.unlink()
 
         res = super().post()
 
@@ -202,8 +235,15 @@ class AccountMove(models.Model):
         )
 
     def button_draft(self):
-        # Do not set draft cash basis move on payment, they will be reversed
-        moves = self.filtered(lambda m: not (m.type == "entry" and m.tax_invoice_ids))
+        # Do not set draft cash basis move tax invoice created from payment
+        # They are move "entry" with tax invoice line and are not manual tax
+        moves = self.filtered(
+            lambda m: not (
+                m.type == "entry"
+                and m.tax_invoice_ids
+                and not m.line_ids.filtered("manual_tax_invoice")
+            )
+        )
         return super(AccountMove, moves).button_draft()
 
     def unlink(self):
