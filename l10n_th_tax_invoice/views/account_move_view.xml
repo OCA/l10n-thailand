@@ -6,6 +6,9 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='line_ids']//field[@name='tag_ids']" position="after">
+                <field name="manual_tax_invoice" optional="hide"/>
+            </xpath>
             <page id="other_tab" position="before">
                 <page id="tax_invoice" string="Tax Invoice"
                       attrs="{'invisible': [('tax_invoice_ids', '=', [])]}">
