@@ -21,7 +21,7 @@ msgstr ""
 #. module: l10n_th_tax_invoice
 #: code:addons/l10n_th_tax_invoice/models/account_move.py:0
 #, python-format
-msgid "Cannot delete this tax invoice line"
+msgid "Cannot delete this last tax invoice line"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
@@ -43,6 +43,11 @@ msgstr ""
 #. module: l10n_th_tax_invoice
 #: model:ir.model.fields,help:l10n_th_tax_invoice.field_account_move_tax_invoice__company_id
 msgid "Company related to this journal"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields,help:l10n_th_tax_invoice.field_account_move_line__manual_tax_invoice
+msgid "Create Tax Invoice for this debit/credit line"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
@@ -114,6 +119,11 @@ msgstr ""
 #. module: l10n_th_tax_invoice
 #: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_tax_invoice__write_date
 msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_line__manual_tax_invoice
+msgid "Manual Tax Invoice"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
