@@ -41,6 +41,10 @@ class TaxReport(models.TransientModel):
         self.ensure_one()
         self._cr.execute(
             """
+            select company_id, account_id, partner_id,
+                tax_invoice_number, tax_date, name,
+                sum(tax_base_amount) tax_base_amount, sum(tax_amount) tax_amount
+            from (
             select t.id, t.company_id, ml.account_id, ml.partner_id,
               case when ml.parent_state = 'posted' and t.reversing_id is null
                 then t.tax_invoice_number else
@@ -50,9 +54,11 @@ class TaxReport(models.TransientModel):
                 then t.tax_base_amount else 0.0 end as tax_base_amount,
               case when ml.parent_state = 'posted' and t.reversing_id is null
                 then t.balance else 0.0 end as tax_amount,
-              ml.move_name as name
+              case when p.communication is not null
+                then p.communication else ml.move_name end as name
             from account_move_tax_invoice t
               join account_move_line ml on ml.id = t.move_line_id
+              left outer join account_payment p on p.id = t.payment_id
             where ml.parent_state in ('posted', 'cancel')
               and t.tax_invoice_number is not null
               and ml.account_id in (select distinct account_id
@@ -62,7 +68,10 @@ class TaxReport(models.TransientModel):
               and ml.date >= %s and ml.date <= %s
               and ml.company_id = %s
               and t.reversed_id is null
-            order by date, t.tax_invoice_number
+            ) a
+            group by company_id, account_id, partner_id,
+                tax_invoice_number, tax_date, name
+            order by tax_date, tax_invoice_number
         """,
             (
                 self.tax_id.id,
