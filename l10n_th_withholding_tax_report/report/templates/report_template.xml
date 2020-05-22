@@ -34,4 +34,9 @@
         <field name="tag">withholding_tax_report_backend</field>
         <field name="context" eval="{'active_model': 'withholding.tax.report'}" />
     </record>
+    <template id="report_withholding_tax_text">
+        <t t-foreach="docs" t-as="o">
+            <t t-esc="o._create_text(o)" />
+        </t>
+    </template>
 </odoo>
