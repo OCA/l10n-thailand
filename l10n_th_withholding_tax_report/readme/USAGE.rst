@@ -7,3 +7,4 @@ To use this module, you need to:
 * View - Report type html.
   Export PDF - Report type pdf.
   Export XLSX - Report type xlsx.
+  Export TXT - Report type text.

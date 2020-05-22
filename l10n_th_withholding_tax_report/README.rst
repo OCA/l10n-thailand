@@ -26,7 +26,7 @@ Thailand Localization - Withholding Tax Report
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
 Note: This module add new feature
-      Report withholding tax to - view, pdf and xlsx.
+      Report withholding tax to - view, pdf, xlsx and text file.
 
 **Table of contents**
 
@@ -45,6 +45,7 @@ To use this module, you need to:
 * View - Report type html.
   Export PDF - Report type pdf.
   Export XLSX - Report type xlsx.
+  Export TXT - Report type text.
 
 Changelog
 =========
@@ -59,6 +60,17 @@ Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 * Fix variable name in for loop
+
+13.0.1.0.0 (2020-01-20)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Migration to V13
+
+13.0.1.0.1 (2020-05-27)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* [ENH] generate text file
+* Fix amount in csv file to 2 digits
 
 Bug Tracker
 ===========
