@@ -12,7 +12,6 @@
         "account",
         "report_xlsx",
         "report_xlsx_helper",
-        "report_csv",
         "date_range",
         "l10n_th_partner",
         "l10n_th_tax_invoice",

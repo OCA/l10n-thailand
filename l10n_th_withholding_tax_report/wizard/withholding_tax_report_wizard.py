@@ -44,9 +44,9 @@ class WithHoldingTaxReportWizard(models.TransientModel):
         report_type = "xlsx"
         return self._export(report_type)
 
-    def button_export_csv(self):
+    def button_export_txt(self):
         self.ensure_one()
-        report_type = "csv"
+        report_type = "qweb-text"
         return self._export(report_type)
 
     def _prepare_wt_report(self):
