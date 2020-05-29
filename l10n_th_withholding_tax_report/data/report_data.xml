@@ -6,7 +6,8 @@
         string="Withholding Tax Report (HTML)"
         report_type="qweb-html"
         name="l10n_th_withholding_tax_report.report_withholding_tax_html"
-        file="l10n_th_withholding_tax_report.report_withholding_tax_html"/>
+        file="l10n_th_withholding_tax_report.report_withholding_tax_html"
+    />
     <!-- PDF REPORTS -->
     <report
         id="action_withholding_tax_report_qweb"
@@ -15,7 +16,8 @@
         report_type="qweb-pdf"
         name="l10n_th_withholding_tax_report.report_withholding_tax_qweb"
         file="l10n_th_withholding_tax_report.report_withholding_tax_qweb"
-        paperformat='l10n_th_withholding_tax_report.report_qweb_paperformat'/>
+        paperformat='l10n_th_withholding_tax_report.report_qweb_paperformat'
+    />
     <!-- CSV REPORTS -->
     <report
         id="action_withholding_tax_report_csv"
@@ -34,5 +36,4 @@
         <field name="report_type">xlsx</field>
         <field name="report_file">withholding_tax</field>
     </record>
-
 </odoo>

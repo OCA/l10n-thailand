@@ -1,31 +1,52 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="view_account_payment_form" model="ir.ui.view">
         <field name="name">account.view.account.payment.form</field>
         <field name="model">account.payment</field>
-        <field eval="2" name="priority"/>
-        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field eval="2" name="priority" />
+        <field name="inherit_id" ref="account.view_account_payment_form" />
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <button name="post" position="after">
-                <field name="to_clear_tax" invisible="1"/>
-                <button name="clear_tax_cash_basis" type="object" string="Clear Tax" class="oe_highlight"
-                  attrs="{'invisible': ['|', ('to_clear_tax', '=', False), ('state', '!=', 'posted')]}"/>
+                <field name="to_clear_tax" invisible="1" />
+                <button
+                    name="clear_tax_cash_basis"
+                    type="object"
+                    string="Clear Tax"
+                    class="oe_highlight"
+                    attrs="{'invisible': ['|', ('to_clear_tax', '=', False), ('state', '!=', 'posted')]}"
+                />
             </button>
             <group position="after">
                 <notebook attrs="{'invisible': [('tax_invoice_ids', '=', [])]}">
                     <page string="Tax Invoice" name="tax_invoice">
                         <field name="tax_invoice_ids">
-                            <tree editable="bottom" string="Tax Invoices" create="0" delete="1">
-                                <field name="to_clear_tax" invisible="1"/>
-                                <field name="account_id" optional="hide"/>
-                                <field name="partner_id" optional="hide"/>
-                                <field name="tax_invoice_number" attrs="{'readonly': [('to_clear_tax', '=', False)]}"/>
-                                <field name="tax_invoice_date" attrs="{'readonly': [('to_clear_tax', '=', False)]}"/>
-                                <field name="tax_base_amount"/>
-                                <field name="balance" sum="Total Tax"/>
-                                <button name="copy" string="Split" type="object" icon="fa-files-o" attrs="{'invisible': [('to_clear_tax', '=', False)]}"/>
+                            <tree
+                                editable="bottom"
+                                string="Tax Invoices"
+                                create="0"
+                                delete="1"
+                            >
+                                <field name="to_clear_tax" invisible="1" />
+                                <field name="account_id" optional="hide" />
+                                <field name="partner_id" optional="hide" />
+                                <field
+                                    name="tax_invoice_number"
+                                    attrs="{'readonly': [('to_clear_tax', '=', False)]}"
+                                />
+                                <field
+                                    name="tax_invoice_date"
+                                    attrs="{'readonly': [('to_clear_tax', '=', False)]}"
+                                />
+                                <field name="tax_base_amount" />
+                                <field name="balance" sum="Total Tax" />
+                                <button
+                                    name="copy"
+                                    string="Split"
+                                    type="object"
+                                    icon="fa-files-o"
+                                    attrs="{'invisible': [('to_clear_tax', '=', False)]}"
+                                />
                             </tree>
                         </field>
                     </page>
@@ -33,5 +54,4 @@
             </group>
         </field>
     </record>
-
 </odoo>
