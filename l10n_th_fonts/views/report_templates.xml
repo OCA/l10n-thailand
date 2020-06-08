@@ -1,0 +1,15 @@
+<odoo>
+    <template
+        id="report_assets_common"
+        name="l10n_th_fonts common assets"
+        inherit_id="web.report_assets_common"
+    >
+        <xpath expr="." position="inside">
+            <link
+                rel="stylesheet"
+                type="text/scss"
+                href="/l10n_th_fonts/static/scss/fonts_style.scss"
+            />
+        </xpath>
+    </template>
+</odoo>
