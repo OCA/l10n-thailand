@@ -8,6 +8,7 @@ setuptools.setup(
     description="Meta package for oca-l10n-thailand Odoo addons",
     version=version,
     install_requires=[
+        'odoo13-addon-l10n_th_amount_to_text',
         'odoo13-addon-l10n_th_base_location',
         'odoo13-addon-l10n_th_partner',
         'odoo13-addon-l10n_th_tax_invoice',
