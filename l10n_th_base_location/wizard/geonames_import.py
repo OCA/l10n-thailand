@@ -21,14 +21,17 @@ class CityZipGeonamesImport(models.TransientModel):
         [("th", "Thai"), ("en", "English")], string="Language", default="th"
     )
 
-    @api.depends("country_id")
+    @api.depends("country_ids")
     def _compute_is_thailand(self):
         self.ensure_one()
-        self.is_thailand = self.country_id.code == "TH"
+        if "TH" in self.country_ids.mapped("code"):
+            self.is_thailand = True
+        else:
+            self.is_thailand = False
 
     @api.model
-    def get_and_parse_csv(self):
-        if self.is_thailand:
+    def get_and_parse_csv(self, country):
+        if country.code == "TH":
             path = os.path.join(os.path.dirname(os.path.abspath(__file__)))
             if self.location_thailand_language == "th":
                 file_path = os.path.join(path[:-6], "data/TH_th.txt")
@@ -40,4 +43,4 @@ class CityZipGeonamesImport(models.TransientModel):
             parsed_csv = [row for i, row in enumerate(reader)]
             data_file.close()
             return parsed_csv
-        return super().get_and_parse_csv()
+        return super().get_and_parse_csv(country)
