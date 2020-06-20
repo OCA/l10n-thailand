@@ -17,6 +17,7 @@
         name="l10n_th_withholding_tax_report.report_withholding_tax_qweb"
         file="l10n_th_withholding_tax_report.report_withholding_tax_qweb"
         paperformat='l10n_th_withholding_tax_report.report_qweb_paperformat'
+        print_report_name="'WHT-%s-%s' % (object.format_pnd(object.income_tax_form), object.format_date())"
     />
     <!-- TEXT REPORTS -->
     <report
@@ -26,7 +27,7 @@
         report_type="qweb-text"
         name="l10n_th_withholding_tax_report.report_withholding_tax_text"
         file="l10n_th_withholding_tax_report.report_withholding_tax_text"
-        print_report_name="'%sOZZZZZ%s%s0000' % (object.company_id.vat, object.format_pnd(object.income_tax_form), object.format_date())"
+        print_report_name="'WHT-%s-%s' % (object.format_pnd(object.income_tax_form), object.format_date())"
     />
     <!-- XLSX REPORTS -->
     <record id="action_withholding_tax_report_xlsx" model="ir.actions.report">
