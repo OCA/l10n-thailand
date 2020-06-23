@@ -12,7 +12,7 @@ class TestBaseLocation(TransactionCase):
         self.Company = self.env["res.company"]
         self.Partner = self.env["res.partner"]
         self.zip_id = self.env["res.city.zip"]
-        self.env["city.zip.geonames.import"].create(
+        self.env["city.zip.geonames.import"].with_context({"import_test": True}).create(
             {
                 "country_ids": [(6, 0, [self.thailand.id, self.belgium.id])],
                 "location_thailand_language": "th",

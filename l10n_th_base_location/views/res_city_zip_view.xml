@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="city_zip_tree" model="ir.ui.view">
+        <field name="model">res.city.zip</field>
+        <field name="inherit_id" ref="base_location.city_zip_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="district_code" />
+                <field name="sub_district_code" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
