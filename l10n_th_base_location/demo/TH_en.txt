@@ -1,0 +1,3 @@
+TH	10200	Phra Borom Maha Ratchawang, Phra Nakhon	Bangkok	10	1001	100101
+TH	10200	Wang Burapha Phirom, Phra Nakhon	Bangkok	10	1001	100102
+TH	10200	Wat Ratchabophit, Phra Nakhon	Bangkok	10	1001	100103
