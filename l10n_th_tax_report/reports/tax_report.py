@@ -45,7 +45,7 @@ class TaxReport(models.TransientModel):
                 tax_invoice_number, tax_date, name,
                 sum(tax_base_amount) tax_base_amount, sum(tax_amount) tax_amount
             from (
-            select t.id, t.company_id, ml.account_id, ml.partner_id,
+            select t.id, t.company_id, ml.account_id, t.partner_id,
               case when ml.parent_state = 'posted' and t.reversing_id is null
                 then t.tax_invoice_number else
                 t.tax_invoice_number || ' (VOID)' end as tax_invoice_number,
