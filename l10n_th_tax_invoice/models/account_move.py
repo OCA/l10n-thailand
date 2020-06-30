@@ -115,7 +115,11 @@ class AccountMoveLine(models.Model):
                         "tax_invoice_date": sign < 0 and fields.Date.today() or False,
                         "tax_base_amount": sign * abs(line.tax_base_amount),
                         "balance": sign * abs(line.balance),
-                        "reversed_id": line.move_id.reversed_entry_id.id,
+                        "reversed_id": (
+                            line.move_id.type == "entry"
+                            and line.move_id.reversed_entry_id.id
+                            or False
+                        ),
                     }
                 )
                 line.tax_invoice_ids |= taxinv
@@ -205,13 +209,24 @@ class AccountMove(models.Model):
         return res
 
     def _get_tax_invoice_number(self, move, tax_invoice, tax):
+        """ Tax Invoice Numbering for Customer Invioce / Receipt
+        - If type in ("out_invoice", "out_refund")
+          - If number is (False, "/"), consider it no valid number then,
+            - If sequence -> use sequence
+            - If not sequence -> use move number
+        - Else,
+          - If no number
+            - If type = "entry" and has reversed entry, use origin number
+        """
         origin_move = move.type == "entry" and move.reversed_entry_id or move
         sequence = tax_invoice.tax_line_id.taxinv_sequence_id
         number = tax_invoice.tax_invoice_number
         invoice_date = tax_invoice.tax_invoice_date or origin_move.date
+        if move.type in ("out_invoice", "out_refund"):
+            number = False if number in (False, "/") else number
         if not number:
             if sequence:
-                if move.reversed_entry_id:  # Find sequence of origin move
+                if move != origin_move:  # Case reversed entry, use origin
                     tax_invoices = origin_move.tax_invoice_ids.filtered(
                         lambda l: l.tax_line_id == tax
                     )
@@ -222,7 +237,7 @@ class AccountMove(models.Model):
                         raise ValidationError(
                             _("Cannot set tax invoice number, number already exists.")
                         )
-                else:  # New sequence
+                else:  # Normal case, use new sequence
                     number = sequence.next_by_id(sequence_date=move.date)
             else:  # Now sequence for this tax, use document number
                 number = tax_invoice.payment_id.name or origin_move.name
