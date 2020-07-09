@@ -25,7 +25,17 @@ Thai Localization - Convert Amount Text to Thai
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-This module provides base for convert amount text to thai.
+Normally, Core odoo has function ``amount_to_text`` and
+return text language from context or user setting
+
+Example : 45.75 Baht
+
+* User Language 'Thai' -> สี่สิบห้า Baht และ เจ็ดสิบห้า Satang
+* User Language 'English' -> Forty-Five Baht and Seventy-Five Satang
+
+Which is incorrect when converted into thai.
+
+This module provides base for convert number to text thai.
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -43,6 +53,31 @@ Configuration
 To configure this module, you need to:
 
 * Module num2words version >= 0.5.7
+
+Usage
+=====
+
+Call function amount_to_text in model currency (res.currency).
+
+For example if you need to convert amount to text in the QWEB your report,
+add this code to your report::
+
+    <t t-foreach="docs" t-as="o">
+        <t t-set="currency" t-value="o.currency_id"/>
+        # Convert to Thai Text
+        <t t-esc="currency.with_context({'lang': 'th_TH'}).amount_to_text(45.75)"/>
+
+        # Convert to Text, By core odoo
+        <t t-esc="currency.amount_to_text(45.75)"/>
+    </t>
+
+If you send context lang th_TH
+
+* Currency is THB, result is ``สี่สิบห้าบาทเจ็ดสิบห้าสตางค์``
+* Currency is EUR, result is ``สี่สิบห้ายูโรเจ็ดสิบห้าเซนต์``
+* Currency is USD, result is ``สี่สิบห้าดอลลาร์เจ็ดสิบห้าเซนต์``
+
+if not send context, result will call core odoo
 
 Bug Tracker
 ===========
