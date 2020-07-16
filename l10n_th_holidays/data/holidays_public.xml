@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="th_holidays_public" model="hr.holidays.public">
+        <field name="year" eval="time.strftime('%Y')"/>
+        <field name="country_id" ref="base.th"/>
+    </record>
+
+    <!-- Holidays -->
+    <record id="th_holidays_01" model="hr.holidays.public.line">
+        <field name="name">New Year's Day</field>
+        <field name="date" eval="time.strftime('%Y-01-01')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="True"/>
+    </record>
+    <record id="th_holidays_02" model="hr.holidays.public.line">
+        <field name="name">Chakri Memorial Day</field>
+        <field name="date" eval="time.strftime('%Y-04-06')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="True"/>
+    </record>
+    <record id="th_holidays_03" model="hr.holidays.public.line">
+        <field name="name">Songkran Festival</field>
+        <field name="date" eval="time.strftime('%Y-04-13')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="True"/>
+    </record>
+    <record id="th_holidays_04" model="hr.holidays.public.line">
+        <field name="name">Songkran Festival</field>
+        <field name="date" eval="time.strftime('%Y-04-14')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="True"/>
+    </record>
+    <record id="th_holidays_05" model="hr.holidays.public.line">
+        <field name="name">Songkran Festival</field>
+        <field name="date" eval="time.strftime('%Y-04-15')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="True"/>
+    </record>
+    <record id="th_holidays_06" model="hr.holidays.public.line">
+        <field name="name">National Labour Day</field>
+        <field name="date" eval="time.strftime('%Y-05-01')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="True"/>
+    </record>
+    <record id="th_holidays_07" model="hr.holidays.public.line">
+        <field name="name">Coronation Day</field>
+        <field name="date" eval="time.strftime('%Y-05-04')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="True"/>
+    </record>
+    <record id="th_holidays_08" model="hr.holidays.public.line">
+        <field name="name">Queen Suthida's Birthday</field>
+        <field name="date" eval="time.strftime('%Y-06-03')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="True"/>
+    </record>
+    <record id="th_holidays_09" model="hr.holidays.public.line">
+        <field name="name">King Maha Vajiralongkorn's Birthday</field>
+        <field name="date" eval="time.strftime('%Y-07-28')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="True"/>
+    </record>
+    <record id="th_holidays_10" model="hr.holidays.public.line">
+        <field name="name">Queen Sirikit The King Mother's Birthday/Mother's Day</field>
+        <field name="date" eval="time.strftime('%Y-08-12')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="True"/>
+    </record>
+    <record id="th_holidays_11" model="hr.holidays.public.line">
+        <field name="name">King Bhumibol Adulyadej Memorial Day</field>
+        <field name="date" eval="time.strftime('%Y-10-13')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="True"/>
+    </record>
+    <record id="th_holidays_12" model="hr.holidays.public.line">
+        <field name="name">King Chulalongkorn Memorial Day</field>
+        <field name="date" eval="time.strftime('%Y-10-23')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="True"/>
+    </record>
+    <record id="th_holidays_13" model="hr.holidays.public.line">
+        <field name="name">King Bhumibol Adulyadej's Birthday/National Day/Father's Day</field>
+        <field name="date" eval="time.strftime('%Y-12-05')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="True"/>
+    </record>
+    <record id="th_holidays_14" model="hr.holidays.public.line">
+        <field name="name">Constitution Day</field>
+        <field name="date" eval="time.strftime('%Y-12-10')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="True"/>
+    </record>
+    <record id="th_holidays_15" model="hr.holidays.public.line">
+        <field name="name">New Year's Eve</field>
+        <field name="date" eval="time.strftime('%Y-12-31')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="True"/>
+    </record>
+
+    <!-- Buddhist holidays -->
+    <record id="th_buddhist_holidays_01" model="hr.holidays.public.line">
+        <field name="name">Makha Bucha Day</field>
+        <field name="date" eval="time.strftime('%Y-02-08')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="False"/>
+    </record>
+    <record id="th_buddhist_holidays_02" model="hr.holidays.public.line">
+        <field name="name">Visakha Bucha Day</field>
+        <field name="date" eval="time.strftime('%Y-05-06')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="False"/>
+    </record>
+    <record id="th_buddhist_holidays_03" model="hr.holidays.public.line">
+        <field name="name">Asarnha Bucha Day</field>
+        <field name="date" eval="time.strftime('%Y-07-04')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="False"/>
+    </record>
+    <record id="th_buddhist_holidays_04" model="hr.holidays.public.line">
+        <field name="name">Buddhist Lent Day</field>
+        <field name="date" eval="time.strftime('%Y-07-05')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="False"/>
+    </record>
+    <record id="th_buddhist_holidays_05" model="hr.holidays.public.line">
+        <field name="name">Royal Ploughing Ceremony Day</field>
+        <field name="date" eval="time.strftime('%Y-05-11')"/>
+        <field name="year_id" ref="l10n_th_holidays.th_holidays_public"/>
+        <field name="variable_date" eval="False"/>
+    </record>
+
+</odoo>
