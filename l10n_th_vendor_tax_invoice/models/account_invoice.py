@@ -9,7 +9,7 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def action_invoice_open(self):
-        """ If any purchase tax, user must fill in tax invoice / date """
+        # If any purchase tax, user must fill in tax invoice / date
         vendor_tax_invoices = self.filtered(
             lambda inv: inv.state != 'open').mapped('tax_line_ids').filtered(
                 lambda l: l.tax_id.type_tax_use == 'purchase')
@@ -25,6 +25,23 @@ class AccountInvoice(models.Model):
                     (l.tax_invoice_manual or l.tax_date_manual)):
                 raise UserError(
                     _("Please do not fill in tax invoice for undue tax"))
+
+        # For customer tax, if has taxeinv_sequence_id, use it
+        customer_tax_invoices = self.filtered(
+            lambda inv: inv.state != 'open').mapped('tax_line_ids').filtered(
+                lambda l: l.tax_id.type_tax_use == 'sale')
+        for tax_invoice in customer_tax_invoices:
+            invoice_date = tax_invoice.invoice_id.date_invoice or fields.Date.today()
+            sequence = tax_invoice.tax_id.taxinv_sequence_id
+            if sequence:
+                number = sequence.with_context(
+                    ir_sequence_date=invoice_date).next_by_id()
+            else:
+                number = (tax_invoice.invoice_id.reference or
+                          tax_invoice.invoice_id.number)
+            tax_invoice.write({'tax_date_manual': invoice_date,
+                               'tax_invoice_manual': number})
+
         return super().action_invoice_open()
 
 
@@ -63,7 +80,9 @@ class AccountInvoiceTax(models.Model):
                 tax_line.tax_invoice = tax_line.tax_invoice_manual
                 tax_line.tax_date = tax_line.tax_date_manual
             else:  # Customer Tax
-                tax_line.tax_invoice = (tax_line.invoice_id.reference or
+                tax_line.tax_invoice = (tax_line.tax_invoice_manual or
+                                        tax_line.invoice_id.reference or
                                         tax_line.invoice_id.number)
-                tax_line.tax_date = tax_line.invoice_id.date_invoice
+                tax_line.tax_date = (tax_line.tax_date_manual or
+                                     tax_line.invoice_id.date_invoice)
         return True

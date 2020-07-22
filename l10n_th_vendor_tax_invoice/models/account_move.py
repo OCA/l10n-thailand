@@ -16,7 +16,20 @@ class AccountMove(models.Model):
                      l.tax_line_id.tax_exigibility == 'on_payment')
         if move_lines.filtered(lambda l: not l.tax_invoice_manual):
             return False
-        return super().post(invoice=invoice)
+
+        res = super().post(invoice=invoice)
+
+        # Cleanup, delete lines with same account_id and sum(amount) == 0
+        for move in self:
+            accounts = move.line_ids.mapped("account_id")
+            for account in accounts:
+                lines = move.line_ids.filtered(lambda l: l.account_id == account)
+                if sum(lines.mapped("balance")) == 0:
+                    self._cr.execute("""
+                        delete from account_move_line where id in %s
+                    """, (tuple(lines.ids), ))
+
+        return res
 
     @api.multi
     def _reverse_move(self, date=None, journal_id=None, auto=False):
@@ -66,13 +79,21 @@ class AccountMoveLine(models.Model):
             move_line = self._context['cash_basis_entry_move_line']
             payment = self._context.get('payment')
             invoice_tax_line = move_line.invoice_tax_line_id
+            sequence = invoice_tax_line.tax_id.taxinv_sequence_id
             payment_tax_line_id = False
             if move_line.tax_line_id.tax_exigibility == 'on_payment' and \
-                    move_line.tax_line_id.type_tax_use == 'purchase':
+                    (move_line.tax_line_id.type_tax_use == 'purchase' or
+                     sequence):
                 payment_tax = self.env['account.payment.tax'].\
                     search([('invoice_tax_line_id', '=', invoice_tax_line.id),
                             ('payment_id', '=', payment.id)])
                 if not payment_tax:  # If not already created for this payment
+                    tax_date = False
+                    number = False
+                    if sequence:
+                        tax_date = vals.get('date') or fields.Date.today()
+                        number = sequence.with_context(
+                            ir_sequence_date=tax_date).next_by_id()
                     currency = self.env.user.company_id.currency_id
                     payment_tax = self.env['account.payment.tax'].create({
                         'partner_id': payment.partner_id.id,
@@ -80,6 +101,8 @@ class AccountMoveLine(models.Model):
                         'name': invoice_tax_line.name,
                         'company_currency_id': currency.id,
                         'payment_id': payment.id,
+                        'tax_invoice_manual': number,
+                        'tax_date_manual': tax_date,
                     })
                 payment_tax_line_id = payment_tax.id
             vals.update({
@@ -142,13 +165,3 @@ class AccountPartialReconcile(models.Model):
         ctx = {'cash_basis_entry_move_line': move_line,
                'payment': payment}
         return self.with_context(ctx)
-
-    def create_tax_cash_basis_entry(self, percentage_before_rec):
-        """Only for Thai localization, delete unused account move lines."""
-        res = super(AccountPartialReconcile, self).create_tax_cash_basis_entry(
-            percentage_before_rec)
-        move_line = self.env['account.move.line'].search([
-            ('move_id.tax_cash_basis_rec_id', '=', self.id)]).filtered(
-            lambda l: not l.payment_tax_line_id)
-        move_line.unlink()
-        return res
