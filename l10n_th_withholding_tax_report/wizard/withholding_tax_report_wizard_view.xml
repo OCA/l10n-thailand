@@ -29,8 +29,8 @@
                         type="object"
                     />
                     <button
-                        name="button_export_csv"
-                        string="Export CSV"
+                        name="button_export_txt"
+                        string="Export TXT"
                         type="object"
                     />
                     or

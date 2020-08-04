@@ -17,15 +17,17 @@
         name="l10n_th_withholding_tax_report.report_withholding_tax_qweb"
         file="l10n_th_withholding_tax_report.report_withholding_tax_qweb"
         paperformat='l10n_th_withholding_tax_report.report_qweb_paperformat'
+        print_report_name="'WHT-%s-%s' % (object.format_pnd(object.income_tax_form), object.format_date())"
     />
-    <!-- CSV REPORTS -->
+    <!-- TEXT REPORTS -->
     <report
-        id="action_withholding_tax_report_csv"
+        id="action_withholding_tax_report_txt"
         model="withholding.tax.report"
-        string="Withholding Tax Report (CSV)"
-        report_type="csv"
-        name="report_withholding_tax_csv"
-        file="report_withholding_tax_csv"
+        string="Withholding Tax Report (TXT)"
+        report_type="qweb-text"
+        name="l10n_th_withholding_tax_report.report_withholding_tax_text"
+        file="l10n_th_withholding_tax_report.report_withholding_tax_text"
+        print_report_name="'WHT-%s-%s' % (object.format_pnd(object.income_tax_form), object.format_date())"
     />
     <!-- XLSX REPORTS -->
     <record id="action_withholding_tax_report_xlsx" model="ir.actions.report">
