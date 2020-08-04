@@ -70,7 +70,7 @@ Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 * [ENH] generate text file
-* Fix amount in csv file to 2 digits
+* [DEL] csv button (not used)
 
 Bug Tracker
 ===========
