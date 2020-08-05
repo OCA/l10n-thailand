@@ -19,11 +19,7 @@ class WithHoldingTaxReport(models.TransientModel):
         required=True,
     )
     company_id = fields.Many2one(
-        comodel_name="res.company",
-        default=lambda self: self.env.company,
-        string="Company",
-        required=True,
-        ondelete="cascade",
+        comodel_name="res.company", string="Company", required=True, ondelete="cascade",
     )
     date_range_id = fields.Many2one(
         comodel_name="date.range", string="Date range", required=True
@@ -135,4 +131,8 @@ class WithHoldingTaxReport(models.TransientModel):
             domain += [("cert_id.date", ">=", self.date_from)]
         if self.date_to:
             domain += [("cert_id.date", "<=", self.date_to)]
+        if self.company_id:
+            domain += [
+                ("cert_id.company_partner_id", "=", self.company_id.partner_id.id)
+            ]
         self.results = Result.search(domain)
