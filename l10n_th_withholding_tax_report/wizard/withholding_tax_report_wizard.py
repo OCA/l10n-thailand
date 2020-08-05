@@ -17,6 +17,20 @@ class WithHoldingTaxReportWizard(models.TransientModel):
     date_range_id = fields.Many2one(
         comodel_name="date.range", string="Date Range", required=True
     )
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        default=lambda self: self.env.company,
+        domain=lambda self: self._get_domain_company_id(),
+        string="Company",
+        required=True,
+        ondelete="cascade",
+    )
+
+    def _get_domain_company_id(self):
+        selected_companies = self.env["res.company"].browse(
+            self._context.get("allowed_company_ids")
+        )
+        return [("id", "in", selected_companies.ids)]
 
     def button_export_html(self):
         self.ensure_one()
@@ -56,6 +70,7 @@ class WithHoldingTaxReportWizard(models.TransientModel):
             "date_range_id": self.date_range_id.id,
             "date_from": self.date_range_id.date_start,
             "date_to": self.date_range_id.date_end,
+            "company_id": self.company_id.id,
         }
 
     def _export(self, report_type):
