@@ -3,7 +3,7 @@
 
 {
     "name": "Thai Localization - Base Location",
-    "version": "13.0.1.2.0",
+    "version": "13.0.1.2.1",
     "category": "Localisation/Asia",
     "license": "AGPL-3",
     "author": "Ecosoft, Odoo Community Association (OCA)",
