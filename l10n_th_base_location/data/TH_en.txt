@@ -10,7 +10,7 @@ TH	10200	Chana Songkhram, Phra Nakhon	Bangkok	10	1001	100109
 TH	10200	Ban Phan Thom, Phra Nakhon	Bangkok	10	1001	100110
 TH	10200	Bang Khun Phrom, Phra Nakhon	Bangkok	10	1001	100111
 TH	10200	Wat Sam Phraya, Phra Nakhon	Bangkok	10	1001	100112
-TH	10300	Dusit Dusit	Bangkok	10	1002	100201
+TH	10300	Dusit, Dusit	Bangkok	10	1002	100201
 TH	10300	Wachira Phayaban, Dusit	Bangkok	10	1002	100202
 TH	10300	Suan Chitlada, Dusit	Bangkok	10	1002	100203
 TH	10300	Si Yaek Maha Nak, Dusit	Bangkok	10	1002	100204
@@ -61,8 +61,8 @@ TH	10600	Hiranruchi, Thon Buri	Bangkok	10	1015	101502
 TH	10600	Bang Yi Ruea, Thon Buri	Bangkok	10	1015	101503
 TH	10600	Bukkhalo, Thon Buri	Bangkok	10	1015	101504
 TH	10600	Talat Phlu, Thon Buri	Bangkok	10	1015	101505
-TH	10600	Dao Khanong, Thon Buri	Bangkok	10	1015
-TH	10600	Samre, Thon Buri	Bangkok	10	1015
+TH	10600	Dao Khanong, Thon Buri	Bangkok	10	1015	101506
+TH	10600	Samre, Thon Buri	Bangkok	10	1015	101507
 TH	10600	Wat Arun, Bangkok Yai	Bangkok	10	1016	101601
 TH	10600	Wat Tha Phra, Bangkok Yai	Bangkok	10	1016	101602
 TH	10310	Huai Khwang, Huai Khwang	Bangkok	10	1017	101701
@@ -102,18 +102,18 @@ TH	10700	Bang Bumru, Bang Phlat	Bangkok	10	1025	102503
 TH	10700	Bang Yi Khan, Bang Phlat	Bangkok	10	1025	102504
 TH	10400	Din Daeng, Din Daeng	Bangkok	10	1026	102601
 TH	10240	Khlong Kum, Bueng Kum	Bangkok	10	1027	102701
-TH	10240	Nawamin, Bueng Kum	Bangkok	10	1027
-TH	10240	Nuanchan, Bueng Kum	Bangkok	10	1027
+TH	10240	Nawamin, Bueng Kum	Bangkok	10	1027	102704
+TH	10240	Nuanchan, Bueng Kum	Bangkok	10	1027	102705
 TH	10120	Thung Wat Don, Sathon	Bangkok	10	1028	102801
 TH	10120	Yan Nawa, Sathon	Bangkok	10	1028	102802
 TH	10120	Thung Maha Mek, Sathon	Bangkok	10	1028	102803
 TH	10800	Bang Sue, Bang Sue	Bangkok	10	1029	102901
-TH	10800	Wong Sawang, Bang Sue	Bangkok	10	1029
+TH	10800	Wong Sawang, Bang Sue	Bangkok	10	1029	102902
 TH	10900	Lat Yao, Chatuchak	Bangkok	10	1030	103001
-TH	10900	Sena Nikhom, Chatuchak	Bangkok	10	1030
-TH	10900	Chan Kasem, Chatuchak	Bangkok	10	1030
-TH	10900	Chom Phon, Chatuchak	Bangkok	10	1030
-TH	10900	Chatuchak, Chatuchak	Bangkok	10	1030
+TH	10900	Sena Nikhom, Chatuchak	Bangkok	10	1030	103002
+TH	10900	Chan Kasem, Chatuchak	Bangkok	10	1030	103003
+TH	10900	Chom Phon, Chatuchak	Bangkok	10	1030	103004
+TH	10900	Chatuchak, Chatuchak	Bangkok	10	1030	103005
 TH	10120	Bang Kho Laem, Bang Kho Laem	Bangkok	10	1031	103101
 TH	10120	Wat Phraya Krai, Bang Kho Laem	Bangkok	10	1031	103102
 TH	10120	Bang Khlo, Bang Kho Laem	Bangkok	10	1031	103103
@@ -129,8 +129,8 @@ TH	10150	Bang Kho, Chom Thong	Bangkok	10	1035	103502
 TH	10150	Bang Mot, Chom Thong	Bangkok	10	1035	103503
 TH	10150	Chom Thong, Chom Thong	Bangkok	10	1035	103504
 TH	10210	Si Kan, Don Mueang	Bangkok	10	1036	103602
-TH	10210	Don Mueang, Don Mueang	Bangkok	10	1036
-TH	10210	Sanambin, Don Mueang	Bangkok	10	1036
+TH	10210	Don Mueang, Don Mueang	Bangkok	10	1036	103604
+TH	10210	Sanambin, Don Mueang	Bangkok	10	1036	103605
 TH	10400	Thung Phaya Thai, Ratchathewi	Bangkok	10	1037	103701
 TH	10400	Thanon Phaya Thai, Ratchathewi	Bangkok	10	1037	103702
 TH	10400	Thanon Phetchaburi, Ratchathewi	Bangkok	10	1037	103703
@@ -150,12 +150,12 @@ TH	10220	Sai Mai, Sai Mai	Bangkok	10	1042	104201
 TH	10220	Ao Ngoen, Sai Mai	Bangkok	10	1042	104202
 TH	10220	Khlong Thanon, Sai Mai	Bangkok	10	1042	104203
 TH	10230	Khan Na Yao, Khan Na Yao	Bangkok	10	1043	104301
-TH	10230	Ram Inthra, Khan Na Yao	Bangkok	10	1043
+TH	10230	Ram Inthra, Khan Na Yao	Bangkok	10	1043	104302
 TH	10240	Saphan Sung, Saphan Sung	Bangkok	10	1044	104401
 TH	10310	Wang Thonglang, Wang Thonglang	Bangkok	10	1045	104501
-TH	10310	Saphansong, Wang Thonglang	Bangkok	10	1045
-TH	10310	Khlong Chaokhunsing, Wang Thonglang	Bangkok	10	1045
-TH	10310	Phlabphla, Wang Thonglang	Bangkok	10	1045
+TH	10310	Saphansong, Wang Thonglang	Bangkok	10	1045	104502
+TH	10310	Khlong Chaokhunsing, Wang Thonglang	Bangkok	10	1045	104503
+TH	10310	Phlabphla, Wang Thonglang	Bangkok	10	1045	104504
 TH	10510	Sam Wa Tawan Tok, Khlong Sam Wa	Bangkok	10	1046	104601
 TH	10510	Sam Wa Tawan Ok, Khlong Sam Wa	Bangkok	10	1046	104602
 TH	10510	Bang Chan, Khlong Sam Wa	Bangkok	10	1046	104603
@@ -176,7 +176,7 @@ TH	10280	Bang Pu Mai, Mueang Samut Prakan	Samut Prakan	11	1101	110110
 TH	10280	Phraeksa, Mueang Samut Prakan	Samut Prakan	11	1101	110111
 TH	10270	Bang Prong, Mueang Samut Prakan	Samut Prakan	11	1101	110112
 TH	10280	Bang Pu, Mueang Samut Prakan	Samut Prakan	11	1101	110113
-TH	10270	Bang Duan, Mueang Samut Prakan	Samut Prakan	11	110114
+TH	10270	Bang Duan, Mueang Samut Prakan	Samut Prakan	11	1101	110114
 TH	10270	Thepharak, Mueang Samut Prakan	Samut Prakan	11	1101	110115
 TH	10280	Thai Ban Mai, Mueang Samut Prakan	Samut Prakan	11	1101	110116
 TH	10280	Phraeksa Mai, Mueang Samut Prakan	Samut Prakan	11	1051	110117
@@ -897,7 +897,7 @@ TH	18130	Horathep, Ban Mo	Saraburi	19	1906	190605
 TH	18130	Khok Yai, Ban Mo	Saraburi	19	1906	190606
 TH	18130	Phai Khwang, Ban Mo	Saraburi	19	1906	190607
 TH	18270	Ban Krua, Ban Mo	Saraburi	19	1906	190608
-TH	18130	Nong Bua, Ban Mo	Saraburi	19	1906
+TH	18130	Nong Bua, Ban Mo	Saraburi	19	1906	190609
 TH	18210	Don Phut, Don Phut	Saraburi	19	1907	190701
 TH	18210	Phai Lio, Don Phut	Saraburi	19	1907	190702
 TH	18210	Ban Luang, Don Phut	Saraburi	19	1907	190703
@@ -1478,7 +1478,7 @@ TH	30000	Hua Thale, Mueang Nakhon Ratchasima	Nakhon Ratchasima	30	3001	300111
 TH	30000	Ban Ko, Mueang Nakhon Ratchasima	Nakhon Ratchasima	30	3001	300112
 TH	30000	Ban Mai, Mueang Nakhon Ratchasima	Nakhon Ratchasima	30	3001	300113
 TH	30000	Phut Sa, Mueang Nakhon Ratchasima	Nakhon Ratchasima	30	3001	300114
-TH	30310	Ban Pho, Mueang Nakhon Ratchasima	Nakhon Ratchasima	30	3001
+TH	30310	Ban Pho, Mueang Nakhon Ratchasima	Nakhon Ratchasima	30	3001	300115
 TH	30310	Cho Ho, Mueang Nakhon Ratchasima	Nakhon Ratchasima	30	3001	300116
 TH	30280	Khok Kruat, Mueang Nakhon Ratchasima	Nakhon Ratchasima	30	3001	300117
 TH	30000	Chai Mongkhon, Mueang Nakhon Ratchasima	Nakhon Ratchasima	30	3001	300118
@@ -2623,7 +2623,7 @@ TH	36000	Huai Bong, Mueang Chaiyaphum	Chaiyaphum	36	3601	360115
 TH	36240	Non Samran, Mueang Chaiyaphum	Chaiyaphum	36	3601	360116
 TH	36000	Khok Sung, Mueang Chaiyaphum	Chaiyaphum	36	3601	360117
 TH	36000	Bung Khla, Mueang Chaiyaphum	Chaiyaphum	36	3601	360118
-TH	36000	Sap Si Thong, Mueang Chaiyaphum	Chaiyaphum	36
+TH	36000	Sap Si Thong, Mueang Chaiyaphum	Chaiyaphum	36	3601	360119
 TH	36170	Ban Khwao, Ban Khwao	Chaiyaphum	36	3602	360201
 TH	36170	Talat Raeng, Ban Khwao	Chaiyaphum	36	3602	360202
 TH	36170	Lum Lam Chi, Ban Khwao	Chaiyaphum	36	3602	360203
@@ -2657,7 +2657,7 @@ TH	36210	Nang Daet, Nong Bua Daeng	Chaiyaphum	36	3605	360504
 TH	36210	Nong Waeng, Nong Bua Daeng	Chaiyaphum	36	3605	360507
 TH	36210	Khu Mueang, Nong Bua Daeng	Chaiyaphum	36	3605	360508
 TH	36210	Tha Yai, Nong Bua Daeng	Chaiyaphum	36	3605	360509
-TH	36210	Wang Chomphu, Nong Bua Daeng	Chaiyaphum	36
+TH	36210	Wang Chomphu, Nong Bua Daeng	Chaiyaphum	36	3605	360511
 TH	36130	Ban Kok, Chatturat	Chaiyaphum	36	3606	360601
 TH	36130	Nong Bua Ban, Chatturat	Chaiyaphum	36	3606	360602
 TH	36130	Ban Kham, Chatturat	Chaiyaphum	36	3606	360603
@@ -2785,59 +2785,59 @@ TH	37000	Dong Bang, Lue Amnat	Amnat Charoen	37	3707	370704
 TH	37000	Rai Khi, Lue Amnat	Amnat Charoen	37	3707	370705
 TH	37000	Maet, Lue Amnat	Amnat Charoen	37	3707	370706
 TH	37000	Khok Klang, Lue Amnat	Amnat Charoen	37	3707	370707
-TH	38000	Bueng Kan, Mueang Bueng Kan	Bueng Kan	38
-TH	38000	Non Sombun, Mueang Bueng Kan	Bueng Kan	38
-TH	38000	Non Sawang, Mueang Bueng Kan	Bueng Kan	38
-TH	38000	Ho Kham, Mueang Bueng Kan	Bueng Kan	38
-TH	38000	Nong Loeng, Mueang Bueng Kan	Bueng Kan	38
-TH	38000	Khok Kong, Mueang Bueng Kan	Bueng Kan	38
-TH	38000	Na Sawan, Mueang Bueng Kan	Bueng Kan	38
-TH	38000	Khai Si, Mueang Bueng Kan	Bueng Kan	38
-TH	38000	Chiyaphon, Mueang Bueng Kan	Bueng Kan	38
-TH	38000	Wisit, Mueang Bueng Kan	Bueng Kan	38
-TH	38000	Kham Na Di, Mueang Bueng Kan	Bueng Kan	38
-TH	38000	Pong Pueai, Mueang Bueng Kan	Bueng Kan	38
-TH	38180	Si Chomphu, Phon Charoen	Bueng Kan	38
-TH	38180	Don Ya Nang, Phon Charoen	Bueng Kan	38
-TH	38180	Phon Charoen, Phon Charoen	Bueng Kan	38
-TH	38180	Nong Hua Chang, Phon Charoen	Bueng Kan	38
-TH	38180	Wang Chomphu, Phon Charoen	Bueng Kan	38
-TH	38180	Pa Faek, Phon Charoen	Bueng Kan	38
-TH	38180	Si Samran, Phon Charoen	Bueng Kan	38
-TH	38170	So, So Phisai	Bueng Kan	38
-TH	38170	Nong Phan Tha, So Phisai	Bueng Kan	38
-TH	38170	Si Chomphu, So Phisai	Bueng Kan	38
-TH	38170	Kham Kaeo, So Phisai	Bueng Kan	38
-TH	38170	Bua Tum, So Phisai	Bueng Kan	38
-TH	38170	Tham Charoen, So Phisai	Bueng Kan	38
-TH	38170	Lao Thong, So Phisai	Bueng Kan	38
-TH	38150	Seka, Seka	Bueng Kan	38
-TH	38150	Sang, Seka	Bueng Kan	38
-TH	38150	Tha Kok Daeng, Seka	Bueng Kan	38
-TH	38150	Ban Tong, Seka	Bueng Kan	38
-TH	38150	Pong Hai, Seka	Bueng Kan	38
-TH	38150	Nam Chan, Seka	Bueng Kan	38
-TH	38150	Tha Sa-at, Seka	Bueng Kan	38
-TH	38150	Nong Thum, Seka	Bueng Kan	38
-TH	38150	Sok Kam, Seka	Bueng Kan	38
-TH	38190	Pak Khat, Pak Khat	Bueng Kan	38
-TH	38190	Nong Yong, Pak Khat	Bueng Kan	38
-TH	38190	Na Kang, Pak Khat	Bueng Kan	38
-TH	38190	Non Sila, Pak Khat	Bueng Kan	38
-TH	38190	Som Sanuk, Pak Khat	Bueng Kan	38
-TH	38190	Na Dong, Pak Khat	Bueng Kan	38
-TH	38220	Bueng Khong Long, Bueng Khong Long	Bueng Kan	38
-TH	38220	Pho Mak Khaeng, Bueng Khong Long	Bueng Kan	38
-TH	38220	Dong Bang, Bueng Khong Long	Bueng Kan	38
-TH	38220	Tha Dok Kham, Bueng Khong Long	Bueng Kan	38
-TH	38210	Si Wilai, Si Wilai	Bueng Kan	38
-TH	38210	Chumphu Phon, Si Wilai	Bueng Kan	38
-TH	38210	Na Saeng, Si Wilai	Bueng Kan	38
-TH	38210	Na Sabaeng, Si Wilai	Bueng Kan	38
-TH	38210	Na Sing, Si Wilai	Bueng Kan	38
-TH	38000	Bung Khla, Bung Khla	Bueng Kan	38
-TH	38000	Nong Doen, Bung Khla	Bueng Kan	38
-TH	38000	Khok Kwang, Bung Khla	Bueng Kan	38
+TH	38000	Bueng Kan, Mueang Bueng Kan	Bueng Kan	38	3801	380101
+TH	38000	Non Sombun, Mueang Bueng Kan	Bueng Kan	38	3801	380102
+TH	38000	Non Sawang, Mueang Bueng Kan	Bueng Kan	38	3801	380103
+TH	38000	Ho Kham, Mueang Bueng Kan	Bueng Kan	38	3801	380104
+TH	38000	Nong Loeng, Mueang Bueng Kan	Bueng Kan	38	3801	380105
+TH	38000	Khok Kong, Mueang Bueng Kan	Bueng Kan	38	3801	380106
+TH	38000	Na Sawan, Mueang Bueng Kan	Bueng Kan	38	3801	380107
+TH	38000	Khai Si, Mueang Bueng Kan	Bueng Kan	38	3801	380108
+TH	38000	Chiyaphon, Mueang Bueng Kan	Bueng Kan	38	3801	380109
+TH	38000	Wisit, Mueang Bueng Kan	Bueng Kan	38	3801	380110
+TH	38000	Kham Na Di, Mueang Bueng Kan	Bueng Kan	38	3801	380111
+TH	38000	Pong Pueai, Mueang Bueng Kan	Bueng Kan	38	3801	380112
+TH	38180	Si Chomphu, Phon Charoen	Bueng Kan	38	3802	380201
+TH	38180	Don Ya Nang, Phon Charoen	Bueng Kan	38	3802	380202
+TH	38180	Phon Charoen, Phon Charoen	Bueng Kan	38	3802	380203
+TH	38180	Nong Hua Chang, Phon Charoen	Bueng Kan	38	3802	380204
+TH	38180	Wang Chomphu, Phon Charoen	Bueng Kan	38	3802	380205
+TH	38180	Pa Faek, Phon Charoen	Bueng Kan	38	3802	380206
+TH	38180	Si Samran, Phon Charoen	Bueng Kan	38	3802	380207
+TH	38170	So, So Phisai	Bueng Kan	38	3803	380301
+TH	38170	Nong Phan Tha, So Phisai	Bueng Kan	38	3803	380302
+TH	38170	Si Chomphu, So Phisai	Bueng Kan	38	3803	380303
+TH	38170	Kham Kaeo, So Phisai	Bueng Kan	38	3803	380304
+TH	38170	Bua Tum, So Phisai	Bueng Kan	38	3803	380305
+TH	38170	Tham Charoen, So Phisai	Bueng Kan	38	3803	380306
+TH	38170	Lao Thong, So Phisai	Bueng Kan	38	3803	380307
+TH	38150	Seka, Seka	Bueng Kan	38	3804	380401
+TH	38150	Sang, Seka	Bueng Kan	38	3804	380402
+TH	38150	Tha Kok Daeng, Seka	Bueng Kan	38	3804	380403
+TH	38150	Ban Tong, Seka	Bueng Kan	38	3804	380404
+TH	38150	Pong Hai, Seka	Bueng Kan	38	3804	380405
+TH	38150	Nam Chan, Seka	Bueng Kan	38	3804	380406
+TH	38150	Tha Sa-at, Seka	Bueng Kan	38	3804	380407
+TH	38150	Nong Thum, Seka	Bueng Kan	38	3804	380408
+TH	38150	Sok Kam, Seka	Bueng Kan	38	3804	380409
+TH	38190	Pak Khat, Pak Khat	Bueng Kan	38	3805	380501
+TH	38190	Nong Yong, Pak Khat	Bueng Kan	38	3805	380502
+TH	38190	Na Kang, Pak Khat	Bueng Kan	38	3805	380503
+TH	38190	Non Sila, Pak Khat	Bueng Kan	38	3805	380504
+TH	38190	Som Sanuk, Pak Khat	Bueng Kan	38	3805	380505
+TH	38190	Na Dong, Pak Khat	Bueng Kan	38	3805	380506
+TH	38220	Bueng Khong Long, Bueng Khong Long	Bueng Kan	38	3806	380601
+TH	38220	Pho Mak Khaeng, Bueng Khong Long	Bueng Kan	38	3806	380602
+TH	38220	Dong Bang, Bueng Khong Long	Bueng Kan	38	3806	380603
+TH	38220	Tha Dok Kham, Bueng Khong Long	Bueng Kan	38	3806	380604
+TH	38210	Si Wilai, Si Wilai	Bueng Kan	38	3807	380701
+TH	38210	Chumphu Phon, Si Wilai	Bueng Kan	38	3807	380702
+TH	38210	Na Saeng, Si Wilai	Bueng Kan	38	3807	380703
+TH	38210	Na Sabaeng, Si Wilai	Bueng Kan	38	3807	380704
+TH	38210	Na Sing, Si Wilai	Bueng Kan	38	3807	380705
+TH	38000	Bung Khla, Bung Khla	Bueng Kan	38	3808	380801
+TH	38000	Nong Doen, Bung Khla	Bueng Kan	38	3808	380802
+TH	38000	Khok Kwang, Bung Khla	Bueng Kan	38	3808	380803
 TH	39000	Nong Bua, Mueang Nong Bua Lam Phu	Nong Bua Lam Phu	39	3901	390101
 TH	39000	Nong Phai Sun, Mueang Nong Bua Lam Phu	Nong Bua Lam Phu	39	3901	390102
 TH	39000	Pho Chai, Mueang Nong Bua Lam Phu	Nong Bua Lam Phu	39	3901	390103
@@ -3078,7 +3078,7 @@ TH	40170	Ban Non, Sam Sung	Khon Kaen	40	4021	402103
 TH	40170	Khu Kham, Sam Sung	Khon Kaen	40	4021	402104
 TH	40170	Huai Toei, Sam Sung	Khon Kaen	40	4021	402105
 TH	40160	Ban Khok, Khok Pho Chai	Khon Kaen	40	4022	402201
-TH	40160	Pho Chai Khok Pho Chai	Khon Kaen	40	4022	402202
+TH	40160	Pho Chai, Khok Pho Chai	Khon Kaen	40	4022	402202
 TH	40160	Sap Sombun, Khok Pho Chai	Khon Kaen	40	4022	402203
 TH	40160	Na Phaeng, Khok Pho Chai	Khon Kaen	40	4022	402204
 TH	40150	Kut That, Nong Na Kham	Khon Kaen	40	4023	402301
@@ -3093,9 +3093,9 @@ TH	40110	Nong Pla Mo, Non Sila	Khon Kaen	40	4025	402502
 TH	40110	Ban Han, Non Sila	Khon Kaen	40	4025	402503
 TH	40110	Pueai Yai, Non Sila	Khon Kaen	40	4025	402504
 TH	40110	Non Daeng, Non Sila	Khon Kaen	40	4025	402505
-TH	40150	Nai Mueang, Wiang Kao	Khon Kaen	40
-TH	40150	Mueang Kao Phatthana, Wiang Kao	Khon Kaen	40
-TH	40150	Khao Noi, Wiang Kao	Khon Kaen	40
+TH	40150	Nai Mueang, Wiang Kao	Khon Kaen	40	4029	402901
+TH	40150	Mueang Kao Phatthana, Wiang Kao	Khon Kaen	40	4029	402902
+TH	40150	Khao Noi, Wiang Kao	Khon Kaen	40	4029	402903
 TH	41000	Mak Khaeng, Mueang Udon Thani	Udon Thani	41	4101	410101
 TH	41000	Nikhom Song Khro, Mueang Udon Thani	Udon Thani	41	4101	410102
 TH	41000	Ban Khao, Mueang Udon Thani	Udon Thani	41	4101	410103
@@ -3990,363 +3990,363 @@ TH	47180	Sang Kho, Phu Phan	Sakon Nakhon	47	4718	471801
 TH	47180	Lup Lao, Phu Phan	Sakon Nakhon	47	4718	471802
 TH	47180	Khok Phu, Phu Phan	Sakon Nakhon	47	4718	471803
 TH	47180	Kok Pla Sio, Phu Phan	Sakon Nakhon	47	4718	471804
-TH	48000	Nai Mueang, Mueang Nakhon Phanom	Nakhon Phanom	48
-TH	48000	Nong Saeng, Mueang Nakhon Phanom	Nakhon Phanom	48
-TH	48000	Na Sai, Mueang Nakhon Phanom	Nakhon Phanom	48
-TH	48000	Na Ratchakhwai, Mueang Nakhon Phanom	Nakhon Phanom	48
-TH	48000	Kurukhu, Mueang Nakhon Phanom	Nakhon Phanom	48
-TH	48000	Ban Phueng, Mueang Nakhon Phanom	Nakhon Phanom	48
-TH	48000	At Samat, Mueang Nakhon Phanom	Nakhon Phanom	48
-TH	48000	Kham Thao, Mueang Nakhon Phanom	Nakhon Phanom	48
-TH	48000	Ban Klang, Mueang Nakhon Phanom	Nakhon Phanom	48
-TH	48000	Tha Kho, Mueang Nakhon Phanom	Nakhon Phanom	48
-TH	48000	Kham Toei, Mueang Nakhon Phanom	Nakhon Phanom	48
-TH	48000	Nong Yat, Mueang Nakhon Phanom	Nakhon Phanom	48
-TH	48000	Dong Khwang, Mueang Nakhon Phanom	Nakhon Phanom	48
-TH	48000	Wang Ta Mua, Mueang Nakhon Phanom	Nakhon Phanom	48
-TH	48000	Pho Tak, Mueang Nakhon Phanom	Nakhon Phanom	48
-TH	48160	Pla Pak, Pla Pak	Nakhon Phanom	48
-TH	48160	Nong Hi, Pla Pak	Nakhon Phanom	48
-TH	48160	Kut Takai, Pla Pak	Nakhon Phanom	48
-TH	48160	Khok Sawang, Pla Pak	Nakhon Phanom	48
-TH	48160	Khok Sung, Pla Pak	Nakhon Phanom	48
-TH	48160	Mahachai, Pla Pak	Nakhon Phanom	48
-TH	48160	Na Makhuea, Pla Pak	Nakhon Phanom	48
-TH	48160	Nong Thao Yai, Pla Pak	Nakhon Phanom	48
-TH	48120	Tha Uthen, Tha Uthen	Nakhon Phanom	48
-TH	48120	Non Tan, Tha Uthen	Nakhon Phanom	48
-TH	48120	Tha Champa, Tha Uthen	Nakhon Phanom	48
-TH	48120	Chai Buri, Tha Uthen	Nakhon Phanom	48
-TH	48120	Phanom, Tha Uthen	Nakhon Phanom	48
-TH	48120	Phathai, Tha Uthen	Nakhon Phanom	48
-TH	48120	Woen Phrabat, Tha Uthen	Nakhon Phanom	48
-TH	48120	Ram Rat, Tha Uthen	Nakhon Phanom	48
-TH	48120	Nong Thao, Tha Uthen	Nakhon Phanom	48
-TH	48140	Ban Phaeng, Ban Phaeng	Nakhon Phanom	48
-TH	48140	Phai Lom, Ban Phaeng	Nakhon Phanom	48
-TH	48140	Phon Thong, Ban Phaeng	Nakhon Phanom	48
-TH	48140	Nong Waeng, Ban Phaeng	Nakhon Phanom	48
-TH	48140	Na Ngua, Ban Phaeng	Nakhon Phanom	48
-TH	48140	Na Khe, Ban Phaeng	Nakhon Phanom	48
-TH	48110	That Phanom, That Phanom	Nakhon Phanom	48
-TH	48110	Fang Daeng, That Phanom	Nakhon Phanom	48
-TH	48110	Phon Phaeng, That Phanom	Nakhon Phanom	48
-TH	48110	Phra Klang Thung, That Phanom	Nakhon Phanom	48
-TH	48110	Na Thon, That Phanom	Nakhon Phanom	48
-TH	48110	Saen Phan, That Phanom	Nakhon Phanom	48
-TH	48110	Don Nang Hong, That Phanom	Nakhon Phanom	48
-TH	48110	Nam Kam, That Phanom	Nakhon Phanom	48
-TH	48110	Um Mao, That Phanom	Nakhon Phanom	48
-TH	48110	Na Nat, That Phanom	Nakhon Phanom	48
-TH	48110	Kut Chim, That Phanom	Nakhon Phanom	48
-TH	48110	That Phanom Nuea, That Phanom	Nakhon Phanom	48
-TH	48170	Renu, Renu Nakhon	Nakhon Phanom	48
-TH	48170	Phon Thong, Renu Nakhon	Nakhon Phanom	48
-TH	48170	Tha Lat, Renu Nakhon	Nakhon Phanom	48
-TH	48170	Na Ngam, Renu Nakhon	Nakhon Phanom	48
-TH	48170	Khok Hin Hae, Renu Nakhon	Nakhon Phanom	48
-TH	48170	Nong Yang Chin, Renu Nakhon	Nakhon Phanom	48
-TH	48170	Renu Tai, Renu Nakhon	Nakhon Phanom	48
-TH	48170	Nakham, Renu Nakhon	Nakhon Phanom	48
-TH	48130	Na Kae, Na Kae	Nakhon Phanom	48
-TH	48130	Phra Song, Na Kae	Nakhon Phanom	48
-TH	48130	Nong Sang, Na Kae	Nakhon Phanom	48
-TH	48130	Na Khu,่ Na Kae	Nakhon Phanom	48
-TH	48130	Phiman, Na Kae	Nakhon Phanom	48
-TH	48130	Phum Kae, Na Kae	Nakhon Phanom	48
-TH	48130	Kan Lueang, Na Kae	Nakhon Phanom	48
-TH	48130	Nong Bo, Na Kae	Nakhon Phanom	48
-TH	48130	Na Liang, Na Kae	Nakhon Phanom	48
-TH	48130	Ban Kaeng, Na Kae	Nakhon Phanom	48
-TH	48130	Kham Phi, Na Kae	Nakhon Phanom	48
-TH	48130	Si Chomphu, Na Kae	Nakhon Phanom	48
-TH	48150	Si Songkhram, Si Songkhram	Nakhon Phanom	48
-TH	48150	Na Duea, Si Songkhram	Nakhon Phanom	48
-TH	48150	Ban Ueang, Si Songkhram	Nakhon Phanom	48
-TH	48150	Sam Phong, Si Songkhram	Nakhon Phanom	48
-TH	48150	Tha Bo Songkhram, Si Songkhram	Nakhon Phanom	48
-TH	48150	Ban Kha, Si Songkhram	Nakhon Phanom	48
-TH	48150	Na Kham, Si Songkhram	Nakhon Phanom	48
-TH	48150	Phon Sawang, Si Songkhram	Nakhon Phanom	48
-TH	48150	Hat Phaeng, Si Songkhram	Nakhon Phanom	48
-TH	48180	Na Wa, Na Wa	Nakhon Phanom	48
-TH	48180	Na Ngua, Na Wa	Nakhon Phanom	48
-TH	48180	Ban Siao, Na Wa	Nakhon Phanom	48
-TH	48180	Na Khun Yai, Na Wa	Nakhon Phanom	48
-TH	48180	Lao Phatthana, Na Wa	Nakhon Phanom	48
-TH	48180	Tha Ruea, Na Wa	Nakhon Phanom	48
-TH	48190	Phon Sawan, Phon Sawan	Nakhon Phanom	48
-TH	48190	Na Hua Bo, Phon Sawan	Nakhon Phanom	48
-TH	48190	Na Khamin, Phon Sawan	Nakhon Phanom	48
-TH	48190	Phon Bok, Phon Sawan	Nakhon Phanom	48
-TH	48190	Ban Kho, Phon Sawan	Nakhon Phanom	48
-TH	48190	Phon Chan, Phon Sawan	Nakhon Phanom	48
-TH	48190	Na Nai, Phon Sawan	Nakhon Phanom	48
-TH	48140	Na Thom, Na Thom	Nakhon Phanom	48
-TH	48140	Nong Son, Na Thom	Nakhon Phanom	48
-TH	48140	Don Toei, Na Thom	Nakhon Phanom	48
-TH	48130	Wang Yang, Wang Yang	Nakhon Phanom	48
-TH	48130	Yot Chat, Wang Yang	Nakhon Phanom	48
-TH	48130	Khok Si, Wang Yang	Nakhon Phanom	48
-TH	48130	Nong Pho, Wang Yang	Nakhon Phanom	48
-TH	49000	Mukdahan, Mueang Mukdahan	Mukdahan	49
-TH	49000	Si Bunrueang, Mueang Mukdahan	Mukdahan	49
-TH	49000	Ban Khok, Mueang Mukdahan	Mukdahan	49
-TH	49000	Bang Sai Yai, Mueang Mukdahan	Mukdahan	49
-TH	49000	Phon Sai, Mueang Mukdahan	Mukdahan	49
-TH	49000	Phueng Daet, Mueang Mukdahan	Mukdahan	49
-TH	49000	Na Sok, Mueang Mukdahan	Mukdahan	49
-TH	49000	Na Si Nuan, Mueang Mukdahan	Mukdahan	49
-TH	49000	Kham Pa Lai, Mueang Mukdahan	Mukdahan	49
-TH	49000	Kham A Huan, Mueang Mukdahan	Mukdahan	49
-TH	49000	Dong Yen, Mueang Mukdahan	Mukdahan	49
-TH	49000	Dong Mon, Mueang Mukdahan	Mukdahan	49
-TH	49000	Kut Khae, Mueang Mukdahan	Mukdahan	49
-TH	49130	Nikhom Kham Soi, Nikhom Kham Soi	Mukdahan	49
-TH	49130	Na Kok, Nikhom Kham Soi	Mukdahan	49
-TH	49130	Nong Waeng, Nikhom Kham Soi	Mukdahan	49
-TH	49130	Kok Daeng, Nikhom Kham Soi	Mukdahan	49
-TH	49130	Na Udom, Nikhom Kham Soi	Mukdahan	49
-TH	49130	Chok Chai, Nikhom Kham Soi	Mukdahan	49
-TH	49130	Romklao, Nikhom Kham Soi	Mukdahan	49
-TH	49120	Don Tan, Don Tan	Mukdahan	49
-TH	49120	Pho Sai, Don Tan	Mukdahan	49
-TH	49120	Pa Rai, Don Tan	Mukdahan	49
-TH	49120	Lao Mi, Don Tan	Mukdahan	49
-TH	49120	Ban Bak, Don Tan	Mukdahan	49
-TH	49120	Na Sameng, Don Tan	Mukdahan	49
-TH	49120	Ban Kaeng, Don Tan	Mukdahan	49
-TH	49140	Dong Luang, Dong Luang	Mukdahan	49
-TH	49140	Nong Bua, Dong Luang	Mukdahan	49
-TH	49140	Kok Tum, Dong Luang	Mukdahan	49
-TH	49140	Nong Khae,น Dong Luang	Mukdahan	49
-TH	49140	Chanot Noi, Dong Luang	Mukdahan	49
-TH	49140	Phang Daeng, Dong Luang	Mukdahan	49
-TH	49110	Ban Song, Khamcha-i	Mukdahan	49
-TH	49110	Khamcha-i, Khamcha-i	Mukdahan	49
-TH	49110	Nong Ian, Khamcha-i	Mukdahan	49
-TH	49110	Ban Kho, Khamcha-i	Mukdahan	49
-TH	49110	Ban Lao, Khamcha-i	Mukdahan	49
-TH	49110	Phon Ngam, Khamcha-i	Mukdahan	49
-TH	49110	Lao Sang Tho, Khamcha-i	Mukdahan	49
-TH	49110	Kham Bok, Khamcha-i	Mukdahan	49
-TH	49110	Nam Thiang, Khamcha-i	Mukdahan	49
-TH	49150	Wan Yai, Wan Yai	Mukdahan	49
-TH	49150	Pong Kham, Wan Yai	Mukdahan	49
-TH	49150	Bang Sai Noi, Wan Yai	Mukdahan	49
-TH	49150	Chanot, Wan Yai	Mukdahan	49
-TH	49150	Dong Mu, Wan Yai	Mukdahan	49
-TH	49160	Nong Sung, Nong Sung	Mukdahan	49
-TH	49160	Non Yang, Nong Sung	Mukdahan	49
-TH	49160	Phu Wong, Nong Sung	Mukdahan	49
-TH	49160	Ban Pao, Nong Sung	Mukdahan	49
-TH	49160	Nong Sung Tai, Nong Sung	Mukdahan	49
-TH	49160	Nong Sung Nuea, Nong Sung	Mukdahan	49
-TH	50200	Si Phum, Mueang Chiang Mai	Chiang Mai	50
-TH	50200	Phra Sing, Mueang Chiang Mai	Chiang Mai	50
-TH	50100	Hai Ya, Mueang Chiang Mai	Chiang Mai	50
-TH	50300	Chang Moi, Mueang Chiang Mai	Chiang Mai	50
-TH	50100	Chang Khlan, Mueang Chiang Mai	Chiang Mai	50
-TH	50000	Wat Ket, Mueang Chiang Mai	Chiang Mai	50
-TH	50300	Chang Phueak, Mueang Chiang Mai	Chiang Mai	50
-TH	50200	Suthep, Mueang Chiang Mai	Chiang Mai	50
-TH	50100	Mae Hia, Mueang Chiang Mai	Chiang Mai	50
-TH	50100	Pa Daet, Mueang Chiang Mai	Chiang Mai	50
-TH	50000	Nong Hoi, Mueang Chiang Mai	Chiang Mai	50
-TH	50000	Tha Sala, Mueang Chiang Mai	Chiang Mai	50
-TH	50000	Nong Pa Khrang, Mueang Chiang Mai	Chiang Mai	50
-TH	50000	Fa Ham, Mueang Chiang Mai	Chiang Mai	50
-TH	50300	Pa Tan, Mueang Chiang Mai	Chiang Mai	50
-TH	50300	San Phisuea, Mueang Chiang Mai	Chiang Mai	50
-TH	50160	Ban Luang, Chom Thong	Chiang Mai	50
-TH	50160	Khuang Pao, Chom Thong	Chiang Mai	50
-TH	50160	Sop Tia, Chom Thong	Chiang Mai	50
-TH	50240	Ban Pae, Chom Thong	Chiang Mai	50
-TH	50160	Doi Kaeo, Chom Thong	Chiang Mai	50
-TH	50240	Mae Soi, Chom Thong	Chiang Mai	50
-TH	50270	Chang Khoeng, Mae Chaem	Chiang Mai	50
-TH	50270	Tha Pha, Mae Chaem	Chiang Mai	50
-TH	50270	Ban Thap, Mae Chaem	Chiang Mai	50
-TH	50270	Mae Suek, Mae Chaem	Chiang Mai	50
-TH	50270	Mae Na Chon, Mae Chaem	Chiang Mai	50
-TH	50270	Pang Hin Fon, Mae Chaem	Chiang Mai	50
-TH	50270	Kong Khaek, Mae Chaem	Chiang Mai	50
-TH	50170	Chiang Dao, Chiang Dao	Chiang Mai	50
-TH	50170	Mueang Na, Chiang Dao	Chiang Mai	50
-TH	50170	Mueang Ngai, Chiang Dao	Chiang Mai	50
-TH	50170	Mae Na, Chiang Dao	Chiang Mai	50
-TH	50170	Mueang Khong, Chiang Dao	Chiang Mai	50
-TH	50170	Ping Khong, Chiang Dao	Chiang Mai	50
-TH	50170	Thung Khao Phuang, Chiang Dao	Chiang Mai	50
-TH	50220	Choeng Doi, Doi Saket	Chiang Mai	50
-TH	50220	San Pu Loei, Doi Saket	Chiang Mai	50
-TH	50220	Luang Nuea, Doi Saket	Chiang Mai	50
-TH	50220	Pa Pong, Doi Saket	Chiang Mai	50
-TH	50220	Sa-Nga Ban, Doi Saket	Chiang Mai	50
-TH	50220	Pa Lan, Doi Saket	Chiang Mai	50
-TH	50220	Talat Khwan, Doi Saket	Chiang Mai	50
-TH	50220	Samran Rat, Doi Saket	Chiang Mai	50
-TH	50220	Mae Khue, Doi Saket	Chiang Mai	50
-TH	50220	Bang Phueng Yai, Doi Saket	Chiang Mai	50
-TH	50220	Mae Hoi Ngoen, Doi Saket	Chiang Mai	50
-TH	50220	Mae Pong, Doi Saket	Chiang Mai	50
-TH	50220	Pa Miang, Doi Saket	Chiang Mai	50
-TH	50220	Thep Sadet, Doi Saket	Chiang Mai	50
-TH	50150	San Mahaphon, Mae Taeng	Chiang Mai	50
-TH	50150	Mae Taeng, Mae Taeng	Chiang Mai	50
-TH	50150	Khi Lek, Mae Taeng	Chiang Mai	50
-TH	50150	Cho Lae, Mae Taeng	Chiang Mai	50
-TH	50150	Mae Ho Phra, Mae Taeng	Chiang Mai	50
-TH	50150	Sop Poeng, Mae Taeng	Chiang Mai	50
-TH	50150	Ban Pao, Mae Taeng	Chiang Mai	50
-TH	50330	San Pa Yang, Mae Taeng	Chiang Mai	50
-TH	50150	Pa Pae, Mae Taeng	Chiang Mai	50
-TH	50150	Mueang Kai, Mae Taeng	Chiang Mai	50
-TH	50150	Ban Chang, Mae Taeng	Chiang Mai	50
-TH	50150	Kuet Chang, Mae Taeng	Chiang Mai	50
-TH	50150	Inthakhin, Mae Taeng	Chiang Mai	50
-TH	50150	Som Kai, Mae Taeng	Chiang Mai	50
-TH	50180	Rim Tai, Mae Rim	Chiang Mai	50
-TH	50180	Rim Nuea, Mae Rim	Chiang Mai	50
-TH	50180	San Pong, Mae Rim	Chiang Mai	50
-TH	50180	Khi Lek, Mae Rim	Chiang Mai	50
-TH	50330	Saluang, Mae Rim	Chiang Mai	50
-TH	50180	Huai Sai, Mae Rim	Chiang Mai	50
-TH	50180	Mae Raem, Mae Rim	Chiang Mai	50
-TH	50180	Pong Yaeng, Mae Rim	Chiang Mai	50
-TH	50180	Mae Sa, Mae Rim	Chiang Mai	50
-TH	50180	Don Kaeo, Mae Rim	Chiang Mai	50
-TH	50180	Mueang Kaeo, Mae Rim	Chiang Mai	50
-TH	50250	Samoeng Tai, Samoeng	Chiang Mai	50
-TH	50250	Samoeng Nuea, Samoeng	Chiang Mai	50
-TH	50250	Mae Sap, Samoeng	Chiang Mai	50
-TH	50250	Bo Kaeo, Samoeng	Chiang Mai	50
-TH	50250	Yung Moen, Samoeng	Chiang Mai	50
-TH	50110	Wiang, Fang	Chiang Mai	50
-TH	50110	Mon Pin, Fang	Chiang Mai	50
-TH	50320	Mae Ngon, Fang	Chiang Mai	50
-TH	50110	Mae Sun, Fang	Chiang Mai	50
-TH	50110	San Sai, Fang	Chiang Mai	50
-TH	50110	Mae Kha, Fang	Chiang Mai	50
-TH	50320	Mae Kha, Fang	Chiang Mai	50
-TH	50110	Pong Nam Ron, Fang	Chiang Mai	50
-TH	50280	Mae Ai, Mae Ai	Chiang Mai	50
-TH	50280	Mae Sao, Mae Ai	Chiang Mai	50
-TH	50280	San Ton Mue, Mae Ai	Chiang Mai	50
-TH	50280	Mae Na Wang, Mae Ai	Chiang Mai	50
-TH	50280	Tha Ton, Mae Ai	Chiang Mai	50
-TH	50280	Ban Luang, Mae Ai	Chiang Mai	50
-TH	50280	Malika, Mae Ai	Chiang Mai	50
-TH	50190	Wiang, Phrao	Chiang Mai	50
-TH	50190	Thung Luang, Phrao	Chiang Mai	50
-TH	50190	Pa Tum, Phrao	Chiang Mai	50
-TH	50190	Pa Nai, Phrao	Chiang Mai	50
-TH	50190	San Sai, Phrao	Chiang Mai	50
-TH	50190	Ban Pong, Phrao	Chiang Mai	50
-TH	50190	Nam Phrae, Phrao	Chiang Mai	50
-TH	50190	Khuean Phak, Phrao	Chiang Mai	50
-TH	50190	Mae Waen, Phrao	Chiang Mai	50
-TH	50190	Mae Pang, Phrao	Chiang Mai	50
-TH	50190	Long Khot, Phrao	Chiang Mai	50
-TH	50120	Yu Wa, San Pa Tong	Chiang Mai	50
-TH	50120	San Klang, San Pa Tong	Chiang Mai	50
-TH	50120	Tha Wang Prao, San Pa Tong	Chiang Mai	50
-TH	50120	Makham Luang, San Pa Tong	Chiang Mai	50
-TH	50120	Mae Ka, San Pa Tong	Chiang Mai	50
-TH	50120	Ban Mae, San Pa Tong	Chiang Mai	50
-TH	50120	Ban Klang, San Pa Tong	Chiang Mai	50
-TH	50120	Thung Satok, San Pa Tong	Chiang Mai	50
-TH	50120	Thung Tom, San Pa Tong	Chiang Mai	50
-TH	50120	Nam Bo Luang, San Pa Tong	Chiang Mai	50
-TH	50120	Makhun Wan, San Pa Tong	Chiang Mai	50
-TH	50130	San Kamphaeng, San Kamphaeng	Chiang Mai	50
-TH	50130	Sai Mun, San Kamphaeng	Chiang Mai	50
-TH	50130	Rong Wua Daeng, San Kamphaeng	Chiang Mai	50
-TH	50130	Buak Khang, San Kamphaeng	Chiang Mai	50
-TH	50130	Chae Chang, San Kamphaeng	Chiang Mai	50
-TH	50130	On Tai, San Kamphaeng	Chiang Mai	50
-TH	50130	Mae Pu Kha, San Kamphaeng	Chiang Mai	50
-TH	50130	Huai Sai, San Kamphaeng	Chiang Mai	50
-TH	50130	Ton Pao, San Kamphaeng	Chiang Mai	50
-TH	50130	San Klang, San Kamphaeng	Chiang Mai	50
-TH	50210	San Sai Luang, San Sai	Chiang Mai	50
-TH	50210	San Sai Noi, San Sai	Chiang Mai	50
-TH	50210	San Phranet, San Sai	Chiang Mai	50
-TH	50210	San Na Meng, San Sai	Chiang Mai	50
-TH	50210	San Pa Pao, San Sai	Chiang Mai	50
-TH	50210	Nong Yaeng, San Sai	Chiang Mai	50
-TH	50210	Nong Chom, San Sai	Chiang Mai	50
-TH	50290	Nong Han, San Sai	Chiang Mai	50
-TH	50290	Mae Faek, San Sai	Chiang Mai	50
-TH	50290	Mae Faek Mai, San Sai	Chiang Mai	50
-TH	50210	Mueang Len, San Sai	Chiang Mai	50
-TH	50210	Pa Phai, San Sai	Chiang Mai	50
-TH	50230	Hang Dong, Hang Dong	Chiang Mai	50
-TH	50230	Nong Kaeo, Hang Dong	Chiang Mai	50
-TH	50230	Han Kaeo, Hang Dong	Chiang Mai	50
-TH	50340	Nong Tong, Hang Dong	Chiang Mai	50
-TH	50230	Khun Khong, Hang Dong	Chiang Mai	50
-TH	50230	Sop Mae Kha, Hang Dong	Chiang Mai	50
-TH	50230	Ban Waen, Hang Dong	Chiang Mai	50
-TH	50230	San Phak Wan, Hang Dong	Chiang Mai	50
-TH	50230	Nong Khwai, Hang Dong	Chiang Mai	50
-TH	50230	Ban Pong, Hang Dong	Chiang Mai	50
-TH	50230	Nam Phrae, Hang Dong	Chiang Mai	50
-TH	50240	Hang Dong, Hot	Chiang Mai	50
-TH	50240	Hot, Hot	Chiang Mai	50
-TH	50240	Ban Tan, Hot	Chiang Mai	50
-TH	50240	Bo Luang, Hot	Chiang Mai	50
-TH	50240	Bo Sali, Hot	Chiang Mai	50
-TH	50240	Na Kho Ruea, Hot	Chiang Mai	50
-TH	50260	Doi Tao, Doi Tao	Chiang Mai	50
-TH	50260	Tha Duea, Doi Tao	Chiang Mai	50
-TH	50260	Muet Ka, Doi Tao	Chiang Mai	50
-TH	50260	Ban Aen, Doi Tao	Chiang Mai	50
-TH	50260	Bong Tan, Doi Tao	Chiang Mai	50
-TH	50260	Pong Thung, Doi Tao	Chiang Mai	50
-TH	50310	Omkoi, Omkoi	Chiang Mai	50
-TH	50310	Yang Piang, Omkoi	Chiang Mai	50
-TH	50310	Mae Tuen, Omkoi	Chiang Mai	50
-TH	50310	Mon Chong, Omkoi	Chiang Mai	50
-TH	50310	Sop Khong, Omkoi	Chiang Mai	50
-TH	50310	Na Kian, Omkoi	Chiang Mai	50
-TH	50140	Yang Noeng, Saraphi	Chiang Mai	50
-TH	50140	Saraphi, Saraphi	Chiang Mai	50
-TH	50140	Chomphu, Saraphi	Chiang Mai	50
-TH	50140	Chaiya Sathan, Saraphi	Chiang Mai	50
-TH	50140	Khua Mung, Saraphi	Chiang Mai	50
-TH	50140	Nong Faek, Saraphi	Chiang Mai	50
-TH	50140	Nong Phueng, Saraphi	Chiang Mai	50
-TH	50140	Tha Kwang, Saraphi	Chiang Mai	50
-TH	50140	Don Kaeo, Saraphi	Chiang Mai	50
-TH	50140	Tha Wang Tan, Saraphi	Chiang Mai	50
-TH	50140	San Sai, Saraphi	Chiang Mai	50
-TH	50140	Pa Bong, Saraphi	Chiang Mai	50
-TH	50350	Mueang Haeng, Wiang Haeng	Chiang Mai	50
-TH	50350	Piang Luang, Wiang Haeng	Chiang Mai	50
-TH	50350	Saen Hai, Wiang Haeng	Chiang Mai	50
-TH	50320	Pong Tam, Chai Prakan	Chiang Mai	50
-TH	50320	Si Dong Yen, Chai Prakan	Chiang Mai	50
-TH	50320	Mae Thalop, Chai Prakan	Chiang Mai	50
-TH	50320	Nong Bua, Chai Prakan	Chiang Mai	50
-TH	50360	Ban Kat, Mae Wang	Chiang Mai	50
-TH	50360	Thung Pi, Mae Wang	Chiang Mai	50
-TH	50360	Thung Ruang Thong, Mae Wang	Chiang Mai	50
-TH	50360	Mae Win, Mae Wang	Chiang Mai	50
-TH	50360	Don Pao, Mae Wang	Chiang Mai	50
-TH	50130	On Nuea, Mae On	Chiang Mai	50
-TH	50130	On Klang, Mae On	Chiang Mai	50
-TH	50130	Ban Sahakon, Mae On	Chiang Mai	50
-TH	50130	Huai Kaeo, Mae On	Chiang Mai	50
-TH	50130	Mae Tha, Mae On	Chiang Mai	50
-TH	50130	Tha Nuea, Mae On	Chiang Mai	50
+TH	48000	Nai Mueang, Mueang Nakhon Phanom	Nakhon Phanom	48	4801	480101
+TH	48000	Nong Saeng, Mueang Nakhon Phanom	Nakhon Phanom	48	4801	480102
+TH	48000	Na Sai, Mueang Nakhon Phanom	Nakhon Phanom	48	4801	480103
+TH	48000	Na Ratchakhwai, Mueang Nakhon Phanom	Nakhon Phanom	48	4801	480104
+TH	48000	Kurukhu, Mueang Nakhon Phanom	Nakhon Phanom	48	4801	480105
+TH	48000	Ban Phueng, Mueang Nakhon Phanom	Nakhon Phanom	48	4801	480106
+TH	48000	At Samat, Mueang Nakhon Phanom	Nakhon Phanom	48	4801	480107
+TH	48000	Kham Thao, Mueang Nakhon Phanom	Nakhon Phanom	48	4801	480108
+TH	48000	Ban Klang, Mueang Nakhon Phanom	Nakhon Phanom	48	4801	480109
+TH	48000	Tha Kho, Mueang Nakhon Phanom	Nakhon Phanom	48	4801	480110
+TH	48000	Kham Toei, Mueang Nakhon Phanom	Nakhon Phanom	48	4801	480111
+TH	48000	Nong Yat, Mueang Nakhon Phanom	Nakhon Phanom	48	4801	480112
+TH	48000	Dong Khwang, Mueang Nakhon Phanom	Nakhon Phanom	48	4801	480113
+TH	48000	Wang Ta Mua, Mueang Nakhon Phanom	Nakhon Phanom	48	4801	480114
+TH	48000	Pho Tak, Mueang Nakhon Phanom	Nakhon Phanom	48	4801	480115
+TH	48160	Pla Pak, Pla Pak	Nakhon Phanom	48	4802	480201
+TH	48160	Nong Hi, Pla Pak	Nakhon Phanom	48	4802	480202
+TH	48160	Kut Takai, Pla Pak	Nakhon Phanom	48	4802	480203
+TH	48160	Khok Sawang, Pla Pak	Nakhon Phanom	48	4802	480204
+TH	48160	Khok Sung, Pla Pak	Nakhon Phanom	48	4802	480205
+TH	48160	Mahachai, Pla Pak	Nakhon Phanom	48	4802	480206
+TH	48160	Na Makhuea, Pla Pak	Nakhon Phanom	48	4802	480207
+TH	48160	Nong Thao Yai, Pla Pak	Nakhon Phanom	48	4802	480208
+TH	48120	Tha Uthen, Tha Uthen	Nakhon Phanom	48	4803	480301
+TH	48120	Non Tan, Tha Uthen	Nakhon Phanom	48	4803	480302
+TH	48120	Tha Champa, Tha Uthen	Nakhon Phanom	48	4803	480303
+TH	48120	Chai Buri, Tha Uthen	Nakhon Phanom	48	4803	480304
+TH	48120	Phanom, Tha Uthen	Nakhon Phanom	48	4803	480305
+TH	48120	Phathai, Tha Uthen	Nakhon Phanom	48	4803	480306
+TH	48120	Woen Phrabat, Tha Uthen	Nakhon Phanom	48	4803	480311
+TH	48120	Ram Rat, Tha Uthen	Nakhon Phanom	48	4803	480312
+TH	48120	Nong Thao, Tha Uthen	Nakhon Phanom	48	4803	480314
+TH	48140	Ban Phaeng, Ban Phaeng	Nakhon Phanom	48	4804	480401
+TH	48140	Phai Lom, Ban Phaeng	Nakhon Phanom	48	4804	480402
+TH	48140	Phon Thong, Ban Phaeng	Nakhon Phanom	48	4804	480403
+TH	48140	Nong Waeng, Ban Phaeng	Nakhon Phanom	48	4804	480404
+TH	48140	Na Ngua, Ban Phaeng	Nakhon Phanom	48	4804	480408
+TH	48140	Na Khe, Ban Phaeng	Nakhon Phanom	48	4804	480409
+TH	48110	That Phanom, That Phanom	Nakhon Phanom	48	4805	480501
+TH	48110	Fang Daeng, That Phanom	Nakhon Phanom	48	4805	480502
+TH	48110	Phon Phaeng, That Phanom	Nakhon Phanom	48	4805	480503
+TH	48110	Phra Klang Thung, That Phanom	Nakhon Phanom	48	4805	480504
+TH	48110	Na Thon, That Phanom	Nakhon Phanom	48	4805	480505
+TH	48110	Saen Phan, That Phanom	Nakhon Phanom	48	4805	480506
+TH	48110	Don Nang Hong, That Phanom	Nakhon Phanom	48	4805	480507
+TH	48110	Nam Kam, That Phanom	Nakhon Phanom	48	4805	480508
+TH	48110	Um Mao, That Phanom	Nakhon Phanom	48	4805	480509
+TH	48110	Na Nat, That Phanom	Nakhon Phanom	48	4805	480510
+TH	48110	Kut Chim, That Phanom	Nakhon Phanom	48	4805	480511
+TH	48110	That Phanom Nuea, That Phanom	Nakhon Phanom	48	4805	480512
+TH	48170	Renu, Renu Nakhon	Nakhon Phanom	48	4806	480601
+TH	48170	Phon Thong, Renu Nakhon	Nakhon Phanom	48	4806	480602
+TH	48170	Tha Lat, Renu Nakhon	Nakhon Phanom	48	4806	480603
+TH	48170	Na Ngam, Renu Nakhon	Nakhon Phanom	48	4806	480604
+TH	48170	Khok Hin Hae, Renu Nakhon	Nakhon Phanom	48	4806	480605
+TH	48170	Nong Yang Chin, Renu Nakhon	Nakhon Phanom	48	4806	480606
+TH	48170	Renu Tai, Renu Nakhon	Nakhon Phanom	48	4806	480607
+TH	48170	Nakham, Renu Nakhon	Nakhon Phanom	48	4806	480608
+TH	48130	Na Kae, Na Kae	Nakhon Phanom	48	4807	480701
+TH	48130	Phra Song, Na Kae	Nakhon Phanom	48	4807	480702
+TH	48130	Nong Sang, Na Kae	Nakhon Phanom	48	4807	480703
+TH	48130	Na Khu,่ Na Kae	Nakhon Phanom	48	4807	480704
+TH	48130	Phiman, Na Kae	Nakhon Phanom	48	4807	480705
+TH	48130	Phum Kae, Na Kae	Nakhon Phanom	48	4807	480706
+TH	48130	Kan Lueang, Na Kae	Nakhon Phanom	48	4807	480707
+TH	48130	Nong Bo, Na Kae	Nakhon Phanom	48	4807	480708
+TH	48130	Na Liang, Na Kae	Nakhon Phanom	48	4807	480709
+TH	48130	Ban Kaeng, Na Kae	Nakhon Phanom	48	4807	480712
+TH	48130	Kham Phi, Na Kae	Nakhon Phanom	48	4807	480713
+TH	48130	Si Chomphu, Na Kae	Nakhon Phanom	48	4807	480715
+TH	48150	Si Songkhram, Si Songkhram	Nakhon Phanom	48	4808	480801
+TH	48150	Na Duea, Si Songkhram	Nakhon Phanom	48	4808	480802
+TH	48150	Ban Ueang, Si Songkhram	Nakhon Phanom	48	4808	480803
+TH	48150	Sam Phong, Si Songkhram	Nakhon Phanom	48	4808	480804
+TH	48150	Tha Bo Songkhram, Si Songkhram	Nakhon Phanom	48	4808	480805
+TH	48150	Ban Kha, Si Songkhram	Nakhon Phanom	48	4808	480806
+TH	48150	Na Kham, Si Songkhram	Nakhon Phanom	48	4808	480807
+TH	48150	Phon Sawang, Si Songkhram	Nakhon Phanom	48	4808	480808
+TH	48150	Hat Phaeng, Si Songkhram	Nakhon Phanom	48	4808	480809
+TH	48180	Na Wa, Na Wa	Nakhon Phanom	48	4809	480901
+TH	48180	Na Ngua, Na Wa	Nakhon Phanom	48	4809	480902
+TH	48180	Ban Siao, Na Wa	Nakhon Phanom	48	4809	480903
+TH	48180	Na Khun Yai, Na Wa	Nakhon Phanom	48	4809	480904
+TH	48180	Lao Phatthana, Na Wa	Nakhon Phanom	48	4809	480905
+TH	48180	Tha Ruea, Na Wa	Nakhon Phanom	48	4809	480906
+TH	48190	Phon Sawan, Phon Sawan	Nakhon Phanom	48	4810	481001
+TH	48190	Na Hua Bo, Phon Sawan	Nakhon Phanom	48	4810	481002
+TH	48190	Na Khamin, Phon Sawan	Nakhon Phanom	48	4810	481003
+TH	48190	Phon Bok, Phon Sawan	Nakhon Phanom	48	4810	481004
+TH	48190	Ban Kho, Phon Sawan	Nakhon Phanom	48	4810	481005
+TH	48190	Phon Chan, Phon Sawan	Nakhon Phanom	48	4810	481006
+TH	48190	Na Nai, Phon Sawan	Nakhon Phanom	48	4810	481007
+TH	48140	Na Thom, Na Thom	Nakhon Phanom	48	4811	481101
+TH	48140	Nong Son, Na Thom	Nakhon Phanom	48	4811	481102
+TH	48140	Don Toei, Na Thom	Nakhon Phanom	48	4811	481103
+TH	48130	Wang Yang, Wang Yang	Nakhon Phanom	48	4812	481201
+TH	48130	Yot Chat, Wang Yang	Nakhon Phanom	48	4812	481202
+TH	48130	Khok Si, Wang Yang	Nakhon Phanom	48	4812	481203
+TH	48130	Nong Pho, Wang Yang	Nakhon Phanom	48	4812	481204
+TH	49000	Mukdahan, Mueang Mukdahan	Mukdahan	49	4901	490101
+TH	49000	Si Bunrueang, Mueang Mukdahan	Mukdahan	49	4901	490102
+TH	49000	Ban Khok, Mueang Mukdahan	Mukdahan	49	4901	490103
+TH	49000	Bang Sai Yai, Mueang Mukdahan	Mukdahan	49	4901	490104
+TH	49000	Phon Sai, Mueang Mukdahan	Mukdahan	49	4901	490105
+TH	49000	Phueng Daet, Mueang Mukdahan	Mukdahan	49	4901	490106
+TH	49000	Na Sok, Mueang Mukdahan	Mukdahan	49	4901	490107
+TH	49000	Na Si Nuan, Mueang Mukdahan	Mukdahan	49	4901	490108
+TH	49000	Kham Pa Lai, Mueang Mukdahan	Mukdahan	49	4901	490109
+TH	49000	Kham A Huan, Mueang Mukdahan	Mukdahan	49	4901	490110
+TH	49000	Dong Yen, Mueang Mukdahan	Mukdahan	49	4901	490111
+TH	49000	Dong Mon, Mueang Mukdahan	Mukdahan	49	4901	490112
+TH	49000	Kut Khae, Mueang Mukdahan	Mukdahan	49	4901	490113
+TH	49130	Nikhom Kham Soi, Nikhom Kham Soi	Mukdahan	49	4902	490201
+TH	49130	Na Kok, Nikhom Kham Soi	Mukdahan	49	4902	490202
+TH	49130	Nong Waeng, Nikhom Kham Soi	Mukdahan	49	4902	490203
+TH	49130	Kok Daeng, Nikhom Kham Soi	Mukdahan	49	4902	490204
+TH	49130	Na Udom, Nikhom Kham Soi	Mukdahan	49	4902	490205
+TH	49130	Chok Chai, Nikhom Kham Soi	Mukdahan	49	4902	490206
+TH	49130	Romklao, Nikhom Kham Soi	Mukdahan	49	4902	490207
+TH	49120	Don Tan, Don Tan	Mukdahan	49	4903	490301
+TH	49120	Pho Sai, Don Tan	Mukdahan	49	4903	490302
+TH	49120	Pa Rai, Don Tan	Mukdahan	49	4903	490303
+TH	49120	Lao Mi, Don Tan	Mukdahan	49	4903	490304
+TH	49120	Ban Bak, Don Tan	Mukdahan	49	4903	490305
+TH	49120	Na Sameng, Don Tan	Mukdahan	49	4903	490306
+TH	49120	Ban Kaeng, Don Tan	Mukdahan	49	4903	490307
+TH	49140	Dong Luang, Dong Luang	Mukdahan	49	4904	490401
+TH	49140	Nong Bua, Dong Luang	Mukdahan	49	4904	490402
+TH	49140	Kok Tum, Dong Luang	Mukdahan	49	4904	490403
+TH	49140	Nong Khae,น Dong Luang	Mukdahan	49	4904	490404
+TH	49140	Chanot Noi, Dong Luang	Mukdahan	49	4904	490405
+TH	49140	Phang Daeng, Dong Luang	Mukdahan	49	4904	490406
+TH	49110	Ban Song, Khamcha-i	Mukdahan	49	4905	490503
+TH	49110	Khamcha-i, Khamcha-i	Mukdahan	49	4905	490504
+TH	49110	Nong Ian, Khamcha-i	Mukdahan	49	4905	490505
+TH	49110	Ban Kho, Khamcha-i	Mukdahan	49	4905	490506
+TH	49110	Ban Lao, Khamcha-i	Mukdahan	49	4905	490507
+TH	49110	Phon Ngam, Khamcha-i	Mukdahan	49	4905	490508
+TH	49110	Lao Sang Tho, Khamcha-i	Mukdahan	49	4905	490511
+TH	49110	Kham Bok, Khamcha-i	Mukdahan	49	4905	490512
+TH	49110	Nam Thiang, Khamcha-i	Mukdahan	49	4905	490514
+TH	49150	Wan Yai, Wan Yai	Mukdahan	49	4906	490601
+TH	49150	Pong Kham, Wan Yai	Mukdahan	49	4906	490602
+TH	49150	Bang Sai Noi, Wan Yai	Mukdahan	49	4906	490603
+TH	49150	Chanot, Wan Yai	Mukdahan	49	4906	490604
+TH	49150	Dong Mu, Wan Yai	Mukdahan	49	4906	490605
+TH	49160	Nong Sung, Nong Sung	Mukdahan	49	4907	490701
+TH	49160	Non Yang, Nong Sung	Mukdahan	49	4907	490702
+TH	49160	Phu Wong, Nong Sung	Mukdahan	49	4907	490703
+TH	49160	Ban Pao, Nong Sung	Mukdahan	49	4907	490704
+TH	49160	Nong Sung Tai, Nong Sung	Mukdahan	49	4907	490705
+TH	49160	Nong Sung Nuea, Nong Sung	Mukdahan	49	4907	490706
+TH	50200	Si Phum, Mueang Chiang Mai	Chiang Mai	50	5001	500101
+TH	50200	Phra Sing, Mueang Chiang Mai	Chiang Mai	50	5001	500102
+TH	50100	Hai Ya, Mueang Chiang Mai	Chiang Mai	50	5001	500103
+TH	50300	Chang Moi, Mueang Chiang Mai	Chiang Mai	50	5001	500104
+TH	50100	Chang Khlan, Mueang Chiang Mai	Chiang Mai	50	5001	500105
+TH	50000	Wat Ket, Mueang Chiang Mai	Chiang Mai	50	5001	500106
+TH	50300	Chang Phueak, Mueang Chiang Mai	Chiang Mai	50	5001	500107
+TH	50200	Suthep, Mueang Chiang Mai	Chiang Mai	50	5001	500108
+TH	50100	Mae Hia, Mueang Chiang Mai	Chiang Mai	50	5001	500109
+TH	50100	Pa Daet, Mueang Chiang Mai	Chiang Mai	50	5001	500110
+TH	50000	Nong Hoi, Mueang Chiang Mai	Chiang Mai	50	5001	500111
+TH	50000	Tha Sala, Mueang Chiang Mai	Chiang Mai	50	5001	500112
+TH	50000	Nong Pa Khrang, Mueang Chiang Mai	Chiang Mai	50	5001	500113
+TH	50000	Fa Ham, Mueang Chiang Mai	Chiang Mai	50	5001	500114
+TH	50300	Pa Tan, Mueang Chiang Mai	Chiang Mai	50	5001	500115
+TH	50300	San Phisuea, Mueang Chiang Mai	Chiang Mai	50	5001	500116
+TH	50160	Ban Luang, Chom Thong	Chiang Mai	50	5002	500203
+TH	50160	Khuang Pao, Chom Thong	Chiang Mai	50	5002	500204
+TH	50160	Sop Tia, Chom Thong	Chiang Mai	50	5002	500205
+TH	50240	Ban Pae, Chom Thong	Chiang Mai	50	5002	500206
+TH	50160	Doi Kaeo, Chom Thong	Chiang Mai	50	5002	500207
+TH	50240	Mae Soi, Chom Thong	Chiang Mai	50	5002	500209
+TH	50270	Chang Khoeng, Mae Chaem	Chiang Mai	50	5003	500301
+TH	50270	Tha Pha, Mae Chaem	Chiang Mai	50	5003	500302
+TH	50270	Ban Thap, Mae Chaem	Chiang Mai	50	5003	500303
+TH	50270	Mae Suek, Mae Chaem	Chiang Mai	50	5003	500304
+TH	50270	Mae Na Chon, Mae Chaem	Chiang Mai	50	5003	500305
+TH	50270	Pang Hin Fon, Mae Chaem	Chiang Mai	50	5003	500307
+TH	50270	Kong Khaek, Mae Chaem	Chiang Mai	50	5003	500308
+TH	50170	Chiang Dao, Chiang Dao	Chiang Mai	50	5004	500401
+TH	50170	Mueang Na, Chiang Dao	Chiang Mai	50	5004	500402
+TH	50170	Mueang Ngai, Chiang Dao	Chiang Mai	50	5004	500403
+TH	50170	Mae Na, Chiang Dao	Chiang Mai	50	5004	500404
+TH	50170	Mueang Khong, Chiang Dao	Chiang Mai	50	5004	500405
+TH	50170	Ping Khong, Chiang Dao	Chiang Mai	50	5004	500406
+TH	50170	Thung Khao Phuang, Chiang Dao	Chiang Mai	50	5004	500407
+TH	50220	Choeng Doi, Doi Saket	Chiang Mai	50	5005	500501
+TH	50220	San Pu Loei, Doi Saket	Chiang Mai	50	5005	500502
+TH	50220	Luang Nuea, Doi Saket	Chiang Mai	50	5005	500503
+TH	50220	Pa Pong, Doi Saket	Chiang Mai	50	5005	500504
+TH	50220	Sa-Nga Ban, Doi Saket	Chiang Mai	50	5005	500505
+TH	50220	Pa Lan, Doi Saket	Chiang Mai	50	5005	500506
+TH	50220	Talat Khwan, Doi Saket	Chiang Mai	50	5005	500507
+TH	50220	Samran Rat, Doi Saket	Chiang Mai	50	5005	500508
+TH	50220	Mae Khue, Doi Saket	Chiang Mai	50	5005	500509
+TH	50220	Bang Phueng Yai, Doi Saket	Chiang Mai	50	5005	500510
+TH	50220	Mae Hoi Ngoen, Doi Saket	Chiang Mai	50	5005	500511
+TH	50220	Mae Pong, Doi Saket	Chiang Mai	50	5005	500512
+TH	50220	Pa Miang, Doi Saket	Chiang Mai	50	5005	500513
+TH	50220	Thep Sadet, Doi Saket	Chiang Mai	50	5005	500514
+TH	50150	San Mahaphon, Mae Taeng	Chiang Mai	50	5006	500601
+TH	50150	Mae Taeng, Mae Taeng	Chiang Mai	50	5006	500602
+TH	50150	Khi Lek, Mae Taeng	Chiang Mai	50	5006	500603
+TH	50150	Cho Lae, Mae Taeng	Chiang Mai	50	5006	500604
+TH	50150	Mae Ho Phra, Mae Taeng	Chiang Mai	50	5006	500605
+TH	50150	Sop Poeng, Mae Taeng	Chiang Mai	50	5006	500606
+TH	50150	Ban Pao, Mae Taeng	Chiang Mai	50	5006	500607
+TH	50330	San Pa Yang, Mae Taeng	Chiang Mai	50	5006	500608
+TH	50150	Pa Pae, Mae Taeng	Chiang Mai	50	5006	500609
+TH	50150	Mueang Kai, Mae Taeng	Chiang Mai	50	5006	500610
+TH	50150	Ban Chang, Mae Taeng	Chiang Mai	50	5006	500611
+TH	50150	Kuet Chang, Mae Taeng	Chiang Mai	50	5006	500612
+TH	50150	Inthakhin, Mae Taeng	Chiang Mai	50	5006	500613
+TH	50150	Som Kai, Mae Taeng	Chiang Mai	50	5006	500614
+TH	50180	Rim Tai, Mae Rim	Chiang Mai	50	5007	500701
+TH	50180	Rim Nuea, Mae Rim	Chiang Mai	50	5007	500702
+TH	50180	San Pong, Mae Rim	Chiang Mai	50	5007	500703
+TH	50180	Khi Lek, Mae Rim	Chiang Mai	50	5007	500704
+TH	50330	Saluang, Mae Rim	Chiang Mai	50	5007	500705
+TH	50180	Huai Sai, Mae Rim	Chiang Mai	50	5007	500706
+TH	50180	Mae Raem, Mae Rim	Chiang Mai	50	5007	500707
+TH	50180	Pong Yaeng, Mae Rim	Chiang Mai	50	5007	500708
+TH	50180	Mae Sa, Mae Rim	Chiang Mai	50	5007	500709
+TH	50180	Don Kaeo, Mae Rim	Chiang Mai	50	5007	500710
+TH	50180	Mueang Kaeo, Mae Rim	Chiang Mai	50	5007	500711
+TH	50250	Samoeng Tai, Samoeng	Chiang Mai	50	5008	500801
+TH	50250	Samoeng Nuea, Samoeng	Chiang Mai	50	5008	500802
+TH	50250	Mae Sap, Samoeng	Chiang Mai	50	5008	500803
+TH	50250	Bo Kaeo, Samoeng	Chiang Mai	50	5008	500804
+TH	50250	Yung Moen, Samoeng	Chiang Mai	50	5008	500805
+TH	50110	Wiang, Fang	Chiang Mai	50	5009	500901
+TH	50110	Mon Pin, Fang	Chiang Mai	50	5009	500903
+TH	50320	Mae Ngon, Fang	Chiang Mai	50	5009	500904
+TH	50110	Mae Sun, Fang	Chiang Mai	50	5009	500905
+TH	50110	San Sai, Fang	Chiang Mai	50	5009	500906
+TH	50110	Mae Kha, Fang	Chiang Mai	50	5009	500910
+TH	50320	Mae Kha, Fang	Chiang Mai	50	5009	500911
+TH	50110	Pong Nam Ron, Fang	Chiang Mai	50	5009	500912
+TH	50280	Mae Ai, Mae Ai	Chiang Mai	50	5010	501001
+TH	50280	Mae Sao, Mae Ai	Chiang Mai	50	5010	501002
+TH	50280	San Ton Mue, Mae Ai	Chiang Mai	50	5010	501003
+TH	50280	Mae Na Wang, Mae Ai	Chiang Mai	50	5010	501004
+TH	50280	Tha Ton, Mae Ai	Chiang Mai	50	5010	501005
+TH	50280	Ban Luang, Mae Ai	Chiang Mai	50	5010	501006
+TH	50280	Malika, Mae Ai	Chiang Mai	50	5010	501007
+TH	50190	Wiang, Phrao	Chiang Mai	50	5011	501101
+TH	50190	Thung Luang, Phrao	Chiang Mai	50	5011	501102
+TH	50190	Pa Tum, Phrao	Chiang Mai	50	5011	501103
+TH	50190	Pa Nai, Phrao	Chiang Mai	50	5011	501104
+TH	50190	San Sai, Phrao	Chiang Mai	50	5011	501105
+TH	50190	Ban Pong, Phrao	Chiang Mai	50	5011	501106
+TH	50190	Nam Phrae, Phrao	Chiang Mai	50	5011	501107
+TH	50190	Khuean Phak, Phrao	Chiang Mai	50	5011	501108
+TH	50190	Mae Waen, Phrao	Chiang Mai	50	5011	501109
+TH	50190	Mae Pang, Phrao	Chiang Mai	50	5011	501110
+TH	50190	Long Khot, Phrao	Chiang Mai	50	5011	501111
+TH	50120	Yu Wa, San Pa Tong	Chiang Mai	50	5012	501201
+TH	50120	San Klang, San Pa Tong	Chiang Mai	50	5012	501202
+TH	50120	Tha Wang Prao, San Pa Tong	Chiang Mai	50	5012	501203
+TH	50120	Makham Luang, San Pa Tong	Chiang Mai	50	5012	501204
+TH	50120	Mae Ka, San Pa Tong	Chiang Mai	50	5012	501205
+TH	50120	Ban Mae, San Pa Tong	Chiang Mai	50	5012	501206
+TH	50120	Ban Klang, San Pa Tong	Chiang Mai	50	5012	501207
+TH	50120	Thung Satok, San Pa Tong	Chiang Mai	50	5012	501208
+TH	50120	Thung Tom, San Pa Tong	Chiang Mai	50	5012	501210
+TH	50120	Nam Bo Luang, San Pa Tong	Chiang Mai	50	5012	501214
+TH	50120	Makhun Wan, San Pa Tong	Chiang Mai	50	5012	501215
+TH	50130	San Kamphaeng, San Kamphaeng	Chiang Mai	50	5013	501301
+TH	50130	Sai Mun, San Kamphaeng	Chiang Mai	50	5013	501302
+TH	50130	Rong Wua Daeng, San Kamphaeng	Chiang Mai	50	5013	501303
+TH	50130	Buak Khang, San Kamphaeng	Chiang Mai	50	5013	501304
+TH	50130	Chae Chang, San Kamphaeng	Chiang Mai	50	5013	501305
+TH	50130	On Tai, San Kamphaeng	Chiang Mai	50	5013	501306
+TH	50130	Mae Pu Kha, San Kamphaeng	Chiang Mai	50	5013	501310
+TH	50130	Huai Sai, San Kamphaeng	Chiang Mai	50	5013	501311
+TH	50130	Ton Pao, San Kamphaeng	Chiang Mai	50	5013	501312
+TH	50130	San Klang, San Kamphaeng	Chiang Mai	50	5013	501313
+TH	50210	San Sai Luang, San Sai	Chiang Mai	50	5014	501401
+TH	50210	San Sai Noi, San Sai	Chiang Mai	50	5014	501402
+TH	50210	San Phranet, San Sai	Chiang Mai	50	5014	501403
+TH	50210	San Na Meng, San Sai	Chiang Mai	50	5014	501404
+TH	50210	San Pa Pao, San Sai	Chiang Mai	50	5014	501405
+TH	50210	Nong Yaeng, San Sai	Chiang Mai	50	5014	501406
+TH	50210	Nong Chom, San Sai	Chiang Mai	50	5014	501407
+TH	50290	Nong Han, San Sai	Chiang Mai	50	5014	501408
+TH	50290	Mae Faek, San Sai	Chiang Mai	50	5014	501409
+TH	50290	Mae Faek Mai, San Sai	Chiang Mai	50	5014	501410
+TH	50210	Mueang Len, San Sai	Chiang Mai	50	5014	501411
+TH	50210	Pa Phai, San Sai	Chiang Mai	50	5014	501412
+TH	50230	Hang Dong, Hang Dong	Chiang Mai	50	5015	501501
+TH	50230	Nong Kaeo, Hang Dong	Chiang Mai	50	5015	501502
+TH	50230	Han Kaeo, Hang Dong	Chiang Mai	50	5015	501503
+TH	50340	Nong Tong, Hang Dong	Chiang Mai	50	5015	501504
+TH	50230	Khun Khong, Hang Dong	Chiang Mai	50	5015	501505
+TH	50230	Sop Mae Kha, Hang Dong	Chiang Mai	50	5015	501506
+TH	50230	Ban Waen, Hang Dong	Chiang Mai	50	5015	501507
+TH	50230	San Phak Wan, Hang Dong	Chiang Mai	50	5015	501508
+TH	50230	Nong Khwai, Hang Dong	Chiang Mai	50	5015	501509
+TH	50230	Ban Pong, Hang Dong	Chiang Mai	50	5015	501510
+TH	50230	Nam Phrae, Hang Dong	Chiang Mai	50	5015	501511
+TH	50240	Hang Dong, Hot	Chiang Mai	50	5016	501601
+TH	50240	Hot, Hot	Chiang Mai	50	5016	501602
+TH	50240	Ban Tan, Hot	Chiang Mai	50	5016	501603
+TH	50240	Bo Luang, Hot	Chiang Mai	50	5016	501604
+TH	50240	Bo Sali, Hot	Chiang Mai	50	5016	501605
+TH	50240	Na Kho Ruea, Hot	Chiang Mai	50	5016	501606
+TH	50260	Doi Tao, Doi Tao	Chiang Mai	50	5017	501701
+TH	50260	Tha Duea, Doi Tao	Chiang Mai	50	5017	501702
+TH	50260	Muet Ka, Doi Tao	Chiang Mai	50	5017	501703
+TH	50260	Ban Aen, Doi Tao	Chiang Mai	50	5017	501704
+TH	50260	Bong Tan, Doi Tao	Chiang Mai	50	5017	501705
+TH	50260	Pong Thung, Doi Tao	Chiang Mai	50	5017	501706
+TH	50310	Omkoi, Omkoi	Chiang Mai	50	5018	501801
+TH	50310	Yang Piang, Omkoi	Chiang Mai	50	5018	501802
+TH	50310	Mae Tuen, Omkoi	Chiang Mai	50	5018	501803
+TH	50310	Mon Chong, Omkoi	Chiang Mai	50	5018	501804
+TH	50310	Sop Khong, Omkoi	Chiang Mai	50	5018	501805
+TH	50310	Na Kian, Omkoi	Chiang Mai	50	5018	501806
+TH	50140	Yang Noeng, Saraphi	Chiang Mai	50	5019	501901
+TH	50140	Saraphi, Saraphi	Chiang Mai	50	5019	501902
+TH	50140	Chomphu, Saraphi	Chiang Mai	50	5019	501903
+TH	50140	Chaiya Sathan, Saraphi	Chiang Mai	50	5019	501904
+TH	50140	Khua Mung, Saraphi	Chiang Mai	50	5019	501905
+TH	50140	Nong Faek, Saraphi	Chiang Mai	50	5019	501906
+TH	50140	Nong Phueng, Saraphi	Chiang Mai	50	5019	501907
+TH	50140	Tha Kwang, Saraphi	Chiang Mai	50	5019	501908
+TH	50140	Don Kaeo, Saraphi	Chiang Mai	50	5019	501909
+TH	50140	Tha Wang Tan, Saraphi	Chiang Mai	50	5019	501910
+TH	50140	San Sai, Saraphi	Chiang Mai	50	5019	501911
+TH	50140	Pa Bong, Saraphi	Chiang Mai	50	5019	501912
+TH	50350	Mueang Haeng, Wiang Haeng	Chiang Mai	50	5020	502001
+TH	50350	Piang Luang, Wiang Haeng	Chiang Mai	50	5020	502002
+TH	50350	Saen Hai, Wiang Haeng	Chiang Mai	50	5020	502003
+TH	50320	Pong Tam, Chai Prakan	Chiang Mai	50	5021	502101
+TH	50320	Si Dong Yen, Chai Prakan	Chiang Mai	50	5021	502102
+TH	50320	Mae Thalop, Chai Prakan	Chiang Mai	50	5021	502103
+TH	50320	Nong Bua, Chai Prakan	Chiang Mai	50	5021	502104
+TH	50360	Ban Kat, Mae Wang	Chiang Mai	50	5022	502201
+TH	50360	Thung Pi, Mae Wang	Chiang Mai	50	5022	502202
+TH	50360	Thung Ruang Thong, Mae Wang	Chiang Mai	50	5022	502203
+TH	50360	Mae Win, Mae Wang	Chiang Mai	50	5022	502204
+TH	50360	Don Pao, Mae Wang	Chiang Mai	50	5022	502205
+TH	50130	On Nuea, Mae On	Chiang Mai	50	5023	502301
+TH	50130	On Klang, Mae On	Chiang Mai	50	5023	502302
+TH	50130	Ban Sahakon, Mae On	Chiang Mai	50	5023	502303
+TH	50130	Huai Kaeo, Mae On	Chiang Mai	50	5023	502304
+TH	50130	Mae Tha, Mae On	Chiang Mai	50	5023	502305
+TH	50130	Tha Nuea, Mae On	Chiang Mai	50	5023	502306
 TH	50160	Doi Lo, Doi Lo	Chiang Mai	50	5024	502401
 TH	50160	Song Khwae, Doi Lo	Chiang Mai	50	5024	502402
 TH	50160	Yang Khram, Doi Lo	Chiang Mai	50	5024	502403
 TH	50160	Santi Suk, Doi Lo	Chiang Mai	50	5024	502404
-TH	58130	Ban Chan, Kalayaniwattana	Chiang Mai	50
-TH	58130	Mae Daet, Kalayaniwattana	Chiang Mai	50
-TH	58130	Chaem Luang, Kalayaniwattana	Chiang Mai	50
+TH	58130	Ban Chan, Kalayaniwattana	Chiang Mai	50	5025	502501
+TH	58130	Mae Daet, Kalayaniwattana	Chiang Mai	50	5025	502502
+TH	58130	Chaem Luang, Kalayaniwattana	Chiang Mai	50	5025	502503
 TH	51000	Nai Mueang, Mueang Lamphun	Lamphun	51	5101	510101
 TH	51000	Mueang Nga, Mueang Lamphun	Lamphun	51	5101	510102
 TH	51150	Umong, Mueang Lamphun	Lamphun	51	5101	510103
