@@ -14,7 +14,7 @@ class TestBaseLocation(TransactionCase):
         self.zip_id = self.env["res.city.zip"]
         self.env["city.zip.geonames.import"].with_context({"import_test": True}).create(
             {
-                "country_ids": [(6, 0, [self.thailand.id, self.belgium.id])],
+                "country_ids": [(6, 0, [self.thailand.id])],
                 "location_thailand_language": "th",
             }
         ).run_import()
@@ -28,13 +28,6 @@ class TestBaseLocation(TransactionCase):
             }
         )
         self.assertTrue(Wizard.is_thailand)
-        Wizard = self.env["city.zip.geonames.import"].create(
-            {
-                "country_ids": [(6, 0, [self.belgium.id])],
-                "location_thailand_language": "th",
-            }
-        )
-        self.assertFalse(Wizard.is_thailand)
         state_count = self.env["res.country.state"].search_count(
             [("country_id", "=", self.thailand.id)]
         )
