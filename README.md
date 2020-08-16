@@ -12,10 +12,6 @@ Repository นี้เป็นที่สำหรับพัฒนาแล
 
 ท่านสามารถเปิด Issue ได้ที่นี่เลย https://github.com/OCA/l10n-thailand/issues
 
-สำหรับคำถามเกี่ยวกับการทำงานหรือการช่วยเหลือในชุมชนผู้ใช้ Odoo ไทย ติดต่อที่:
-
-https://www.ocathailand.org/forum/1
-
 Translation Status
 ------------------
 [![Transifex Status](https://www.transifex.com/projects/p/OCA-l10n-thailand-13-0/chart/image_png)](https://www.transifex.com/projects/p/OCA-l10n-thailand-13-0)
