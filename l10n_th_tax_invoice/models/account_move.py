@@ -184,10 +184,14 @@ class AccountMove(models.Model):
         # Cleanup, delete lines with same account_id and sum(amount) == 0
         for move in self:
             accounts = move.line_ids.mapped("account_id")
+            partners = move.line_ids.mapped("partner_id")
             for account in accounts:
-                lines = move.line_ids.filtered(lambda l: l.account_id == account)
-                if sum(lines.mapped("balance")) == 0:
-                    lines.unlink()
+                for partner in partners:
+                    lines = move.line_ids.filtered(
+                        lambda l: l.account_id == account and l.partner_id == partner
+                    )
+                    if sum(lines.mapped("balance")) == 0:
+                        lines.unlink()
 
         res = super().post()
 
