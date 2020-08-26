@@ -60,6 +60,7 @@ msgstr ""
 
 #. module: l10n_th_withholding_tax_report
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report__company_id
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report_wizard__company_id
 msgid "Company"
 msgstr ""
 
