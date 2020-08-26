@@ -178,17 +178,28 @@ class AccountMove(models.Model):
                     if tax_invoice.payment_id:  # Defer posting for payment
                         tax_invoice.payment_id.write({"to_clear_tax": True})
                         return False
+                    elif len(move.tax_invoice_ids) > 1:
+                        # Case Invoice reconcile with Refund, not perfect yet!
+                        return False
                     else:
                         raise UserError(_("Please fill in tax invoice and tax date"))
 
         # Cleanup, delete lines with same account_id and sum(amount) == 0
+        cash_basis_account_ids = (
+            self.env["account.tax"]
+            .search([("cash_basis_transition_account_id", "!=", False)])
+            .mapped("cash_basis_transition_account_id.id")
+        )
         for move in self:
             accounts = move.line_ids.mapped("account_id")
             partners = move.line_ids.mapped("partner_id")
             for account in accounts:
                 for partner in partners:
                     lines = move.line_ids.filtered(
-                        lambda l: l.account_id == account and l.partner_id == partner
+                        lambda l: l.account_id == account
+                        and l.partner_id == partner
+                        and not l.tax_invoice_ids
+                        and l.account_id.id not in cash_basis_account_ids
                     )
                     if sum(lines.mapped("balance")) == 0:
                         lines.unlink()
