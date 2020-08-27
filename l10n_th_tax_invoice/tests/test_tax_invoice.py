@@ -194,6 +194,14 @@ class TestTaxInvoice(SingleTransactionCase):
             cls.env.ref("account.data_account_type_expenses"),
             cls.undue_input_vat,
         )
+        cls.supplier_refund_undue_vat = create_invoice(
+            "Test Supplier Refund UndueVAT",
+            cls.env.ref("base.res_partner_12"),
+            cls.journal_purchase,
+            "in_refund",
+            cls.env.ref("account.data_account_type_expenses"),
+            cls.undue_input_vat,
+        )
 
         # Prepare Customer Invoices
         cls.customer_invoice_vat = create_invoice(
@@ -354,3 +362,28 @@ class TestTaxInvoice(SingleTransactionCase):
         self.assertEquals(len(payment.move_line_ids.mapped("move_id")), 2)
         payment.action_draft()  # Unlink the relation
         self.assertFalse(payment.move_line_ids)
+
+    def test_supplier_invoice_refund_reconcile(self):
+        """ Case on undue vat, to net refund with vendor bill.
+        In this case, cash basis journal entry will be created, make sure it
+        can not post until all Tax Invoice number is filled  """
+        # Post suupplier invoice
+        invoice = self.supplier_invoice_undue_vat.copy()
+        invoice.action_post()
+        # Post supplier refund
+        refund = self.supplier_refund_undue_vat.copy()
+        refund.action_post()
+        # At invoice add refund to reconcile
+        payable_account = refund.partner_id.property_account_payable_id
+        refund_ml = refund.line_ids.filtered(lambda l: l.account_id == payable_account)
+        invoice.js_assign_outstanding_line(refund_ml.id)
+        cash_basis_entry = self.env["account.move"].search([("ref", "=", refund.name)])
+        cash_basis_entry.action_post()
+        # Not yet add tax invoice number, posting not affected
+        self.assertEqual(cash_basis_entry.state, "draft")
+        for tax_invoice in cash_basis_entry.tax_invoice_ids:
+            tax_invoice.tax_invoice_number = "/"
+            tax_invoice.tax_invoice_date = fields.Date.today()
+        # After tax invoice is filled, can now posted
+        cash_basis_entry.action_post()
+        self.assertEqual(cash_basis_entry.state, "posted")
