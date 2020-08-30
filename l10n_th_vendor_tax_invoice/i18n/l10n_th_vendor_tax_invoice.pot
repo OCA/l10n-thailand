@@ -125,6 +125,16 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_th_vendor_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_tax__sequence_number_next
+msgid "Next Number"
+msgstr ""
+
+#. module: l10n_th_vendor_tax_invoice
+#: model:ir.model.fields,help:l10n_th_vendor_tax_invoice.field_account_tax__taxinv_sequence_id
+msgid "Optional sequence as Tax Invoice number"
+msgstr ""
+
+#. module: l10n_th_vendor_tax_invoice
 #: model:ir.model,name:l10n_th_vendor_tax_invoice.model_account_partial_reconcile
 msgid "Partial Reconcile"
 msgstr ""
@@ -195,6 +205,7 @@ msgid "Product"
 msgstr ""
 
 #. module: l10n_th_vendor_tax_invoice
+#: model:ir.model,name:l10n_th_vendor_tax_invoice.model_account_tax
 #: model_terms:ir.ui.view,arch_db:l10n_th_vendor_tax_invoice.tax_adjustments_wizard
 msgid "Tax"
 msgstr ""
@@ -264,6 +275,11 @@ msgid "Tax Invoice Ready"
 msgstr ""
 
 #. module: l10n_th_vendor_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_tax__taxinv_sequence_id
+msgid "Tax Invoice Sequence"
+msgstr ""
+
+#. module: l10n_th_vendor_tax_invoice
 #: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_abstract_payment__tax_line_ids
 #: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_payment__tax_line_ids
 #: model:ir.model.fields,field_description:l10n_th_vendor_tax_invoice.field_account_register_payments__tax_line_ids
@@ -298,6 +314,11 @@ msgstr ""
 #. module: l10n_th_vendor_tax_invoice
 #: model:ir.model.fields,help:l10n_th_vendor_tax_invoice.field_account_payment_tax__move_id
 msgid "The move of this entry line."
+msgstr ""
+
+#. module: l10n_th_vendor_tax_invoice
+#: model:ir.model.fields,help:l10n_th_vendor_tax_invoice.field_account_tax__sequence_number_next
+msgid "The next sequence number will be used for the next tax invoice."
 msgstr ""
 
 #. module: l10n_th_vendor_tax_invoice
