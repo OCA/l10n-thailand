@@ -12,12 +12,28 @@ class TestBaseLocation(TransactionCase):
         self.Company = self.env["res.company"]
         self.Partner = self.env["res.partner"]
         self.zip_id = self.env["res.city.zip"]
-        self.env["city.zip.geonames.import"].with_context({"import_test": True}).create(
-            {
-                "country_ids": [(6, 0, [self.thailand.id])],
-                "location_thailand_language": "th",
-            }
-        ).run_import()
+        self.import_th_lang_th = (
+            self.env["city.zip.geonames.import"]
+            .with_context({"import_test": True})
+            .create(
+                {
+                    "country_ids": [(6, 0, [self.thailand.id])],
+                    "location_thailand_language": "th",
+                }
+            )
+        )
+        self.import_th_lang_en = (
+            self.env["city.zip.geonames.import"]
+            .with_context({"import_test": True})
+            .create(
+                {
+                    "country_ids": [(6, 0, [self.thailand.id])],
+                    "location_thailand_language": "en",
+                }
+            )
+        )
+        self.import_th_lang_th.run_import()
+        self.import_th_lang_en.run_import()
 
     def test_01_import_base_location_th(self):
         """Test Import Thailand Location"""
@@ -33,7 +49,21 @@ class TestBaseLocation(TransactionCase):
         )
         self.assertTrue(state_count)
 
-    def test_02_onchange_zip_id(self):
+    def test_02_import_not_th(self):
+        """Test Import NOT Thailand Location"""
+        import_be = (
+            self.env["city.zip.geonames.import"]
+            .with_context({"import_test": True})
+            .create(
+                {
+                    "country_ids": [(6, 0, [self.belgium.id])],
+                    "location_thailand_language": "th",
+                }
+            )
+        )
+        import_be.run_import()
+
+    def test_03_onchange_zip_id(self):
         """Test select zip_id in res_partner and res_company"""
         city_zip = self.zip_id.search(
             [("city_id.country_id", "=", self.thailand.id)], limit=1
