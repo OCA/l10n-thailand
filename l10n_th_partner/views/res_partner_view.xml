@@ -13,7 +13,7 @@
             <xpath expr="//h1//field[@name='name']/.." position="after">
                 <div class="oe_edit_only">
                     <field
-                        name="company_name"
+                        name="name_company"
                         placeholder="Company name"
                         attrs="{'invisible': [('is_company', '=', False)], 'required': [('is_company', '=', True)]}"
                     />
