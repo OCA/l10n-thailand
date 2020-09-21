@@ -79,6 +79,12 @@
                         <group>
                             <field name="tax_invoice_number" />
                             <field name="tax_invoice_date" />
+                            <label for="report_date" />
+                            <div class="o_row">
+                                <field name="report_late_mo" />
+                                <span> = </span>
+                                <field name="report_date" />
+                            </div>
                             <field name="partner_id" />
                             <field name="account_id" readonly="1" />
                             <field name="tax_line_id" readonly="1" />
@@ -115,6 +121,8 @@
             <tree string="Tax Invoices">
                 <field name="tax_invoice_number" />
                 <field name="tax_invoice_date" />
+                <field name="report_late_mo" />
+                <field name="report_date" />
                 <field name="partner_id" />
                 <field name="account_id" />
                 <field name="tax_line_id" />
