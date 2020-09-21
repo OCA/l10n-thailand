@@ -65,7 +65,7 @@ class TaxReport(models.TransientModel):
                                     from account_tax_repartition_line
                                     where account_id is not null
                                     and invoice_tax_id = %s or refund_tax_id = %s)
-              and ml.date >= %s and ml.date <= %s
+              and t.report_date >= %s and t.report_date <= %s
               and ml.company_id = %s
               and t.reversed_id is null
             ) a
