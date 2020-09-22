@@ -25,7 +25,7 @@ Thai Localization - Withholding Tax Certificate
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-This module allow user to create Withholding Tax Certificate from any payment document
+This module allow user to create Withholding Tax Certificate from any payment or journal entry document
 that contain accounting entry on withholding tax.
 
 **Table of contents**
@@ -33,10 +33,14 @@ that contain accounting entry on withholding tax.
 .. contents::
    :local:
 
-Installation
-============
+Configuration
+=============
 
-No special requirement to install this module
+Setup account related to withholding tax will help set default tax amount
+when create certificate from payment.
+
+* Open chart of account window, and search for withholding tax related account
+* Check "WT Account"
 
 Usage
 =====
@@ -79,6 +83,7 @@ Contributors
 ~~~~~~~~~~~~
 
 * Kitti Upariphutthiphong. <kittiu@gmail.com> (http://ecosoft.co.th)
+* Saran Lim. <saranl@ecosoft.co.th>
 
 Maintainers
 ~~~~~~~~~~~

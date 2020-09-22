@@ -6,7 +6,7 @@
     "version": "13.0.1.0.0",
     "author": "Ecosoft,Odoo Community Association (OCA)",
     "license": "AGPL-3",
-    "website": "https://github.com/OCA/l10n-thailand/",
+    "website": "https://github.com/OCA/l10n-thailand",
     "category": "Localization / Accounting",
     "depends": ["account"],
     "data": [
@@ -14,6 +14,7 @@
         "wizard/create_withholding_tax_cert.xml",
         "views/withholding_tax_cert.xml",
         "views/account_payment_view.xml",
+        "views/account_move_view.xml",
         "views/account_view.xml",
     ],
     "installable": True,
