@@ -33,10 +33,18 @@
                 </header>
                 <sheet>
                     <h1>
-                        <field name="payment_id" />
+                        <field
+                            name="payment_id"
+                            attrs="{'invisible': [('move_id', '!=', False)]}"
+                        />
+                        <field
+                            name="move_id"
+                            attrs="{'invisible': [('payment_id', '!=', False)]}"
+                        />
                     </h1>
                     <group>
                         <group>
+                            <field name="name" invisible="1" />
                             <field name="company_partner_id" />
                             <field name="company_taxid" string="Tax ID" />
                         </group>
@@ -51,6 +59,8 @@
                             <field name="tax_payer" />
                         </group>
                         <group string="References">
+                            <field name="company_id" invisible="1" />
+                            <field name="currency_id" invisible="1" />
                             <field name="date" />
                         </group>
                     </group>
@@ -76,7 +86,7 @@
         <field name="model">withholding.tax.cert</field>
         <field name="arch" type="xml">
             <tree string="Withholding Tax Cert." create="1" edit="1" delete="1">
-                <field name="payment_id" />
+                <field name="name" />
                 <field name="supplier_partner_id" />
                 <field name="income_tax_form" />
                 <field name="tax_payer" />
@@ -91,6 +101,16 @@
             <search string="WHT Cert.">
                 <field name="name" string="WHT Cert." />
                 <field name="supplier_partner_id" />
+                <filter
+                    string="Payment"
+                    name="payment"
+                    domain="[('payment_id','!=',False)]"
+                />
+                <filter
+                    string="Journal"
+                    name="journal"
+                    domain="[('move_id','!=',False)]"
+                />
                 <group expand="0" string="Group By">
                     <filter
                         name="income_tax_form"
