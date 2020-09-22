@@ -36,28 +36,11 @@ This module used :
 .. contents::
    :local:
 
-Installation
-============
-
-To install this module, you need to:
-
-#. install **l10n_th_withholding_tax_cert**.
-
-Configuration
-=============
-
-To configure this module, you need to:
-
-* Module num2words version >= 0.5.7
-
 Usage
 =====
 
-From WT Certificates menu ,
-
-- User can also print out Withholding Tax Cert. as PDF
-
-All Withholding Tax Certs will be accessible from menu Invoicing > Withholding Tax > WT Certificates
+#. Go to *Invoicing > Vendors > WT Certificates*
+#. Select document > Print 'WT Certificates (pdf)'
 
 Bug Tracker
 ===========
@@ -80,7 +63,7 @@ Authors
 Contributors
 ~~~~~~~~~~~~
 
-* Saran Limpajitkutaporn <saranl@ecosoft.co.th> (https://ecosoft.co.th)
+* Saran Lim. <saranl@ecosoft.co.th>
 * Pimolnat Suntian <pimolnats@ecosoft.co.th>
 
 Maintainers
