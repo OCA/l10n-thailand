@@ -31,9 +31,7 @@ class WithholdingTaxCert(models.Model):
     _name = "withholding.tax.cert"
     _description = "Withholding Tax Certificate"
 
-    name = fields.Char(
-        string="Number", readonly=True, related="payment_id.name", store=True
-    )
+    name = fields.Char(string="Number")
     date = fields.Date(
         string="Date",
         required=True,
@@ -56,6 +54,15 @@ class WithholdingTaxCert(models.Model):
         domain="[('partner_id', '=', supplier_partner_id)]",
         ondelete="restrict",
     )
+    move_id = fields.Many2one(
+        comodel_name="account.move",
+        string="Move",
+        copy=False,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        domain="[('partner_id', '=', supplier_partner_id)]",
+        ondelete="restrict",
+    )
     company_partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Company",
@@ -72,6 +79,20 @@ class WithholdingTaxCert(models.Model):
         states={"draft": [("readonly", False)]},
         copy=False,
         ondelete="restrict",
+    )
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        string="Main Company",
+        required=True,
+        readonly=True,
+        default=lambda self: self._default_company_id(),
+    )
+    currency_id = fields.Many2one(
+        comodel_name="res.currency",
+        related="company_id.currency_id",
+        store=True,
+        string="Currency",
+        readonly=True,
     )
     company_taxid = fields.Char(
         related="company_partner_id.vat", string="Company Tax ID", readonly=True
@@ -105,14 +126,31 @@ class WithholdingTaxCert(models.Model):
         copy=False,
     )
 
+    @api.model
+    def _default_company_id(self):
+        return self.env.company
+
     @api.onchange("payment_id")
-    def _onchange_payment_id(self):
+    def _onchange_payment_move_id(self):
         """ Prepare withholding cert """
         wt_account_ids = self._context.get("wt_account_ids", [])
-        self.date = self.payment_id.payment_date
-        self.supplier_partner_id = self.payment_id.partner_id
         # Hook to find wt move lines
-        wt_move_lines = self._get_wt_move_line(self.payment_id, wt_account_ids)
+        wt_move_lines = self._get_wt_move_line(
+            self.payment_id, self.move_id, wt_account_ids
+        )
+        partner_id = self.payment_id.partner_id or self.move_id.partner_id
+        # Create Direct Journal Entry and Same Partner in line.
+        if self.move_id and self.move_id.type == "entry":
+            partner = wt_move_lines.mapped("partner_id")
+            if len(partner) == 1:
+                partner_id = wt_move_lines[0].partner_id
+        self.write(
+            {
+                "name": self.payment_id.name or self.move_id.name,
+                "date": self.payment_id.payment_date or self.move_id.date,
+                "supplier_partner_id": partner_id,
+            }
+        )
         CertLine = self.env["withholding.tax.cert.line"]
         for line in wt_move_lines:
             self.wt_line += CertLine.new(self._prepare_wt_line(line))
@@ -130,11 +168,16 @@ class WithholdingTaxCert(models.Model):
         return vals
 
     @api.model
-    def _get_wt_move_line(self, payment, wt_account_ids):
+    def _get_wt_move_line(self, payment, move, wt_account_ids):
         """ Hook point to get wt_move_lines """
-        wt_move_lines = payment.move_line_ids.filtered(
-            lambda l: l.account_id.id in wt_account_ids
-        )
+        if payment:
+            wt_move_lines = payment.move_line_ids.filtered(
+                lambda l: l.account_id.id in wt_account_ids
+            )
+        elif move:
+            wt_move_lines = move.line_ids.filtered(
+                lambda l: l.account_id.id in wt_account_ids
+            )
         return wt_move_lines
 
     def action_draft(self):
