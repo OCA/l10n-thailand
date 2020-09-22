@@ -1,8 +1,8 @@
 # Copyright 2019 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import _, fields, models
-from odoo.exceptions import ValidationError
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 
 class CreateWithholdingTaxCert(models.TransientModel):
@@ -18,17 +18,43 @@ class CreateWithholdingTaxCert(models.TransientModel):
         ),
     )
 
+    @api.model
+    def default_get(self, fields):
+        res = super().default_get(fields)
+        model = self._context.get("active_model", False)
+        if model == "account.move":
+            active_ids = self._context.get("active_ids", False)
+            move_ids = self.env[model].browse(active_ids)
+            not_entry = move_ids.filtered(lambda l: l.type != "entry")
+            if not_entry:
+                raise UserError(
+                    _(
+                        "You can create withholding tax from "
+                        "Payment or Journal Entry only."
+                    )
+                )
+        return res
+
     def create_wt_cert(self):
         self.ensure_one()
         ctx = self._context.copy()
+        model = ctx.get("active_model", False)
         if len(ctx.get("active_ids", [])) != 1:
             raise ValidationError(_("Please select only 1 payment"))
-        ctx.update(
-            {
-                "default_payment_id": ctx.get("active_id"),
-                "wt_account_ids": self.wt_account_ids.ids,
-            }
-        )
+        if model == "account.move":
+            ctx.update(
+                {
+                    "default_move_id": ctx.get("active_id"),
+                    "wt_account_ids": self.wt_account_ids.ids,
+                }
+            )
+        else:
+            ctx.update(
+                {
+                    "default_payment_id": ctx.get("active_id"),
+                    "wt_account_ids": self.wt_account_ids.ids,
+                }
+            )
         return {
             "name": _("Create Withholding Tax Cert."),
             "view_mode": "form",
