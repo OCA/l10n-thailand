@@ -17,7 +17,7 @@
         name="l10n_th_withholding_tax_report.report_withholding_tax_qweb"
         file="l10n_th_withholding_tax_report.report_withholding_tax_qweb"
         paperformat='l10n_th_withholding_tax_report.report_qweb_paperformat'
-        print_report_name="'WHT-%s-%s' % (object.format_pnd(object.income_tax_form), object.format_date())"
+        print_report_name="'WT-%s-%s' % (object.format_pnd(object.income_tax_form), object.format_date())"
     />
     <!-- TEXT REPORTS -->
     <report
@@ -27,7 +27,7 @@
         report_type="qweb-text"
         name="l10n_th_withholding_tax_report.report_withholding_tax_text"
         file="l10n_th_withholding_tax_report.report_withholding_tax_text"
-        print_report_name="'WHT-%s-%s' % (object.format_pnd(object.income_tax_form), object.format_date())"
+        print_report_name="'WT-%s-%s' % (object.format_pnd(object.income_tax_form), object.format_date())"
     />
     <!-- XLSX REPORTS -->
     <record id="action_withholding_tax_report_xlsx" model="ir.actions.report">
@@ -36,6 +36,8 @@
         <field name="type">ir.actions.report</field>
         <field name="report_name">withholding.tax.report.xlsx</field>
         <field name="report_type">xlsx</field>
-        <field name="report_file">withholding_tax</field>
+        <field
+            name="print_report_name"
+        >'WT-%s-%s' % (object.format_pnd(object.income_tax_form), object.format_date())</field>
     </record>
 </odoo>

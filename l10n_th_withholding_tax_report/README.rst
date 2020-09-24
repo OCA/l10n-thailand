@@ -25,8 +25,7 @@ Thailand Localization - Withholding Tax Report
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-Note: This module add new feature
-      Report withholding tax to - view, pdf, xlsx and text file.
+This module add the withholding tax cert report - view, pdf, xlsx and text file.
 
 **Table of contents**
 
@@ -36,16 +35,21 @@ Note: This module add new feature
 Usage
 =====
 
-To use this module, you need to:
+- Go to Invoicing -> Reporting -> WT Income Tax Report.
+- Select income tax form (pnd3, pnd53) and Date Range.
+- Click button that you need generate report type.
 
-- Go to Invoicing -> Reporting -> Withholding Tax Reports.
-    - Select income tax form(pnd3, pnd53).
-    - Create "Date Range".
+===========================
 
-* View - Report type html.
-  Export PDF - Report type pdf.
-  Export XLSX - Report type xlsx.
-  Export TXT - Report type text.
+**Buttons Type**
+
+View - Report type html.
+
+Export PDF - Report type pdf.
+
+Export XLSX - Report type xlsx.
+
+Export TXT - Report type text.
 
 Changelog
 =========
