@@ -13,25 +13,68 @@ _logger = logging.getLogger(__name__)
 class TestWithholdingTaxReport(common.TransactionCase):
     def setUp(self):
         super().setUp()
+        Journal = self.env["account.journal"]
+        Account = self.env["account.account"]
+        DateRange = self.env["date.range"]
+        DateRangeType = self.env["date.range.type"]
+        Payment = self.env["account.payment"]
+        WTCert = self.env["withholding.tax.cert"]
+        WTCertLine = self.env["withholding.tax.cert.line"]
+        Report = self.env["ir.actions.report"]
+        self.report_name = "withholding.tax.report.xlsx"
+        self.report = Report._get_report_from_name(self.report_name)
         self.model = self.env["withholding.tax.report"]
         self.wizard = self.env["withholding.tax.report.wizard"]
-        Journal = self.env["account.journal"]
+        receivable_account = self.env.ref("account.data_account_type_receivable")
+        payable_account = self.env.ref("account.data_account_type_payable")
         self.partner_id = self.env.ref("base.res_partner_12")
-        self.journal_bank = Journal.search([("type", "=", "bank")])[0]
+        self.company_id = self.env.ref("base.main_company")
+        self.date_from = time.strftime("%Y-%m-01")
+        self.date_to = time.strftime("%Y-%m-28")
+
+        self.journal_bank = Journal.search([("type", "=", "bank")], limit=1)
         if not self.journal_bank:
             self.journal_bank = Journal.create(
                 {"name": "Bank", "type": "bank", "code": "BNK67"}
             )
 
+        self.account_receivable = Account.search(
+            [("user_type_id", "=", receivable_account.id)], limit=1,
+        )
+        if not self.account_receivable:
+            self.account_receivable = Account.create(
+                {
+                    "code": 11111990,
+                    "name": "Receivable Test",
+                    "user_type_id": receivable_account.id,
+                    "reconcile": True,
+                }
+            )
+        self.account_payable = Account.search(
+            [("user_type_id", "=", payable_account.id)], limit=1,
+        )
+        if not self.account_payable:
+            self.account_payable = Account.create(
+                {
+                    "code": 21111990,
+                    "name": "Payable Test",
+                    "user_type_id": payable_account.id,
+                    "reconcile": True,
+                }
+            )
+        if not self.partner_id.property_account_receivable_id:
+            self.partner_id.write(
+                {
+                    "property_account_receivable_id": self.account_receivable.id,
+                    "property_account_payable_id": self.account_payable.id,
+                }
+            )
+
         # Create date_range
-        date_range = self.env["date.range"]
-        self.type = self.env["date.range.type"].create(
+        self.type = DateRangeType.create(
             {"name": "Month", "company_id": False, "allow_overlap": False}
         )
-        self.date_from = time.strftime("%Y-%m-01")
-        self.date_to = time.strftime("%Y-%m-28")
-        self.company_id = self.env.ref("base.main_company")
-        self.date_range_id = date_range.create(
+        self.date_range_id = DateRange.create(
             {
                 "name": "FiscalYear",
                 "date_start": self.date_from,
@@ -41,7 +84,7 @@ class TestWithholdingTaxReport(common.TransactionCase):
         )
 
         # Create Withholding Tax
-        payment = self.env["account.payment"].create(
+        payment = Payment.create(
             {
                 "payment_type": "outbound",
                 "partner_type": "supplier",
@@ -52,7 +95,7 @@ class TestWithholdingTaxReport(common.TransactionCase):
             }
         )
         payment.post()
-        self.withholding_tax = self.env["withholding.tax.cert"].create(
+        self.withholding_tax = WTCert.create(
             {
                 "payment_id": payment.id,
                 "income_tax_form": "pnd3",
@@ -60,7 +103,7 @@ class TestWithholdingTaxReport(common.TransactionCase):
                 "supplier_partner_id": self.partner_id.id,
             }
         )
-        self.env["withholding.tax.cert.line"].create(
+        WTCertLine.create(
             {
                 "cert_id": self.withholding_tax.id,
                 "wt_cert_income_type": "1",
@@ -96,3 +139,8 @@ class TestWithholdingTaxReport(common.TransactionCase):
         text = self.withholding_tax_report._create_text(self.withholding_tax_report)
         text.split("|")
         self.assertEqual(text[0], "1")
+
+    def test_03_create_xlsx_file(self):
+        report = self.report
+        self.assertEqual(report.report_type, "xlsx")
+        report.render_xlsx(self.withholding_tax_report.id, None)

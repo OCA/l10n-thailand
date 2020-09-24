@@ -124,15 +124,11 @@ class WithHoldingTaxReport(models.TransientModel):
     def _compute_results(self):
         self.ensure_one()
         Result = self.env["withholding.tax.cert.line"]
-        domain = []
-        if self.income_tax_form:
-            domain += [("cert_id.income_tax_form", "=", self.income_tax_form)]
-        if self.date_from:
-            domain += [("cert_id.date", ">=", self.date_from)]
-        if self.date_to:
-            domain += [("cert_id.date", "<=", self.date_to)]
-        if self.company_id:
-            domain += [
-                ("cert_id.company_partner_id", "=", self.company_id.partner_id.id)
-            ]
+        # fields required
+        domain = [
+            ("cert_id.income_tax_form", "=", self.income_tax_form),
+            ("cert_id.date", ">=", self.date_from),
+            ("cert_id.date", "<=", self.date_to),
+            ("cert_id.company_partner_id", "=", self.company_id.partner_id.id),
+        ]
         self.results = Result.search(domain)
