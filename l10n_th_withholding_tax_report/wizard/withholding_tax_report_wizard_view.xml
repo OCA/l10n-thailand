@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="view_withholding_tax_report_wizard" model="ir.ui.view">
         <field name="name">withholding.tax.report.wizard.view</field>
@@ -49,10 +50,4 @@
         <field name="view_id" ref="view_withholding_tax_report_wizard" />
         <field name="target">new</field>
     </record>
-    <menuitem
-        parent="account.menu_finance_reports"
-        id="menu_withholding_tax_report"
-        action="action_withholding_tax_report_wizard"
-        sequence="20"
-    />
 </odoo>
