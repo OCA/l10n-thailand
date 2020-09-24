@@ -29,6 +29,7 @@ TAX_PAYER = [("withholding", "Withholding"), ("paid_one_time", "Paid One Time")]
 
 class WithholdingTaxCert(models.Model):
     _name = "withholding.tax.cert"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Withholding Tax Certificate"
 
     name = fields.Char(string="Number")
@@ -44,6 +45,7 @@ class WithholdingTaxCert(models.Model):
         string="Status",
         default="draft",
         copy=False,
+        tracking=True,
     )
     payment_id = fields.Many2one(
         comodel_name="account.payment",
@@ -51,8 +53,9 @@ class WithholdingTaxCert(models.Model):
         copy=False,
         readonly=True,
         states={"draft": [("readonly", False)]},
-        domain="[('partner_id', '=', supplier_partner_id)]",
+        domain=lambda self: self._get_domain_payment_id(),
         ondelete="restrict",
+        tracking=True,
     )
     move_id = fields.Many2one(
         comodel_name="account.move",
@@ -60,8 +63,9 @@ class WithholdingTaxCert(models.Model):
         copy=False,
         readonly=True,
         states={"draft": [("readonly", False)]},
-        domain="[('partner_id', '=', supplier_partner_id)]",
+        domain=lambda self: self._get_domain_move_id(),
         ondelete="restrict",
+        tracking=True,
     )
     company_partner_id = fields.Many2one(
         comodel_name="res.partner",
@@ -126,6 +130,20 @@ class WithholdingTaxCert(models.Model):
         copy=False,
     )
 
+    def _get_domain_payment_id(self):
+        domain = (
+            "[('partner_id', '=', supplier_partner_id), ('wt_cert_ids', '=', False)]"
+        )
+        return domain
+
+    def _get_domain_move_id(self):
+        domain = [
+            ("journal_id.type", "=", "general"),
+            ("wt_cert_ids", "=", False),
+            ("state", "=", "posted"),
+        ]
+        return domain
+
     @api.model
     def _default_company_id(self):
         return self.env.company
@@ -170,6 +188,7 @@ class WithholdingTaxCert(models.Model):
     @api.model
     def _get_wt_move_line(self, payment, move, wt_account_ids):
         """ Hook point to get wt_move_lines """
+        wt_move_lines = []
         if payment:
             wt_move_lines = payment.move_line_ids.filtered(
                 lambda l: l.account_id.id in wt_account_ids

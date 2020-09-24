@@ -12,10 +12,17 @@ class CreateWithholdingTaxCert(models.TransientModel):
     wt_account_ids = fields.Many2many(
         comodel_name="account.account",
         string="Withholing Tax Accounts",
+        required=True,
         help="If accounts are specified, system will auto fill tax amount",
         default=lambda self: self.env["account.account"].search(
             [("wt_account", "=", True)]
         ),
+    )
+    substitute = fields.Boolean(string="Substitute For WT Cert")
+    wt_cert_id = fields.Many2one(
+        comodel_name="withholding.tax.cert",
+        domain=[("state", "=", "done")],
+        help="Withholding Tax is state 'done' only",
     )
 
     @api.model
@@ -23,14 +30,20 @@ class CreateWithholdingTaxCert(models.TransientModel):
         res = super().default_get(fields)
         model = self._context.get("active_model", False)
         if model == "account.move":
-            active_ids = self._context.get("active_ids", False)
-            move_ids = self.env[model].browse(active_ids)
-            not_entry = move_ids.filtered(lambda l: l.type != "entry")
-            if not_entry:
+            active_id = self._context.get("active_id", False)
+            move_id = self.env[model].browse(active_id)
+            if move_id.type != "entry":
                 raise UserError(
                     _(
                         "You can create withholding tax from "
                         "Payment or Journal Entry only."
+                    )
+                )
+            if move_id.state != "posted":
+                raise UserError(
+                    _(
+                        "You can create withholding tax from "
+                        "Journal Entry state 'Paid' only."
                     )
                 )
         return res
@@ -39,21 +52,39 @@ class CreateWithholdingTaxCert(models.TransientModel):
         self.ensure_one()
         ctx = self._context.copy()
         model = ctx.get("active_model", False)
+        active_id = ctx.get("active_id")
+        object_id = self.env[model].browse(active_id)
         if len(ctx.get("active_ids", [])) != 1:
             raise ValidationError(_("Please select only 1 payment"))
         if model == "account.move":
             ctx.update(
                 {
-                    "default_move_id": ctx.get("active_id"),
+                    "default_move_id": active_id,
                     "wt_account_ids": self.wt_account_ids.ids,
                 }
             )
         else:
+            payment_wt = object_id.move_line_ids.filtered(
+                lambda l: l.account_id.id in self.wt_account_ids.ids
+            )
+            if not payment_wt:
+                raise UserError(
+                    _(
+                        "Can not create withholding tax cert. Selected account "
+                        "does not match with Journal Items."
+                    )
+                )
             ctx.update(
                 {
-                    "default_payment_id": ctx.get("active_id"),
+                    "default_payment_id": active_id,
                     "wt_account_ids": self.wt_account_ids.ids,
                 }
+            )
+        # Substitute WT Cert
+        if self.substitute:
+            self.wt_cert_id.write({"state": "cancel"})
+            self.wt_cert_id.message_post(
+                body=_("This document was substituted with %s." % (object_id.name))
             )
         return {
             "name": _("Create Withholding Tax Cert."),
