@@ -1,0 +1,300 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_withholding_tax_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: th\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.actions.report,print_report_name:l10n_th_withholding_tax_report.action_withholding_tax_report_qweb
+#: model:ir.actions.report,print_report_name:l10n_th_withholding_tax_report.action_withholding_tax_report_txt
+msgid ""
+"'WHT-%s-%s' % (object.format_pnd(object.income_tax_form), "
+"object.format_date())"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.report_buttons
+msgid "<span class=\"fa fa-download\">Export</span>"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.report_buttons
+msgid "<span class=\"fa fa-print\">Print</span>"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.report_withholding_tax
+msgid "Address"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.footer_report_withholding_tax
+msgid "Balance"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.report_withholding_tax
+msgid "Base Amount"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: code:addons/l10n_th_withholding_tax_report/report/report_withholding_tax_xlsx.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.header_report_withholding_tax
+#, python-format
+msgid "Branch ID"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.view_withholding_tax_report_wizard
+msgid "Cancel"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report__company_id
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report_wizard__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report__create_uid
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report__create_date
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.report_withholding_tax
+msgid "Cus./Sup."
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.report_withholding_tax
+msgid "Date"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report__date_from
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.header_report_withholding_tax
+msgid "Date From"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report_wizard__date_range_id
+msgid "Date Range"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report__date_to
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.header_report_withholding_tax
+msgid "Date To"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report__date_range_id
+msgid "Date range"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: code:addons/l10n_th_withholding_tax_report/report/report_withholding_tax_xlsx.py:0
+#, python-format
+msgid "Date range filter"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_report_withholding_tax_report_xlsx__display_name
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report__display_name
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.view_withholding_tax_report_wizard
+msgid "Export PDF"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.view_withholding_tax_report_wizard
+msgid "Export TXT"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.view_withholding_tax_report_wizard
+msgid "Export XLSX"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_report_withholding_tax_report_xlsx__id
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report__id
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: code:addons/l10n_th_withholding_tax_report/report/report_withholding_tax_xlsx.py:0
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report__income_tax_form
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report_wizard__income_tax_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.header_report_withholding_tax
+#, python-format
+msgid "Income Tax Form"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_report_withholding_tax_report_xlsx____last_update
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report____last_update
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report_wizard____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report__write_uid
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report__write_date
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.report_withholding_tax
+msgid "No."
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_report.selection__withholding_tax_report__income_tax_form__pnd3
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_report.selection__withholding_tax_report_wizard__income_tax_form__pnd3
+msgid "PND3"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_report.selection__withholding_tax_report__income_tax_form__pnd53
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_report.selection__withholding_tax_report_wizard__income_tax_form__pnd53
+msgid "PND53"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.report_withholding_tax
+msgid "Ref Doc."
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.model,name:l10n_th_withholding_tax_report.model_ir_actions_report
+msgid "Report Action"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.model,name:l10n_th_withholding_tax_report.model_report_withholding_tax_report_xlsx
+msgid "Report Withholding Tax xlsx"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report__results
+msgid "Results"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.report_withholding_tax
+msgid "Tax"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.report_withholding_tax
+msgid "Tax Amount"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.report_withholding_tax
+msgid "Tax Description"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: code:addons/l10n_th_withholding_tax_report/report/report_withholding_tax_xlsx.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.header_report_withholding_tax
+#, python-format
+msgid "Tax ID"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.report_withholding_tax
+msgid "Tax Invoice"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.report_withholding_tax
+msgid "Tax Payer"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.model.fields,help:l10n_th_withholding_tax_report.field_withholding_tax_report__results
+msgid "Use compute fields, so there is nothing store in database"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.view_withholding_tax_report_wizard
+msgid "View"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.actions.act_window,name:l10n_th_withholding_tax_report.action_withholding_tax_report_wizard
+#: model:ir.ui.menu,name:l10n_th_withholding_tax_report.menu_withholding_tax_report
+msgid "WT Income Tax Report"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.actions.client,name:l10n_th_withholding_tax_report.action_withholding_tax_report
+#: model:ir.model,name:l10n_th_withholding_tax_report.model_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.report_withholding_tax
+msgid "Withholding Tax Report"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.actions.report,name:l10n_th_withholding_tax_report.action_withholding_tax_report_html
+msgid "Withholding Tax Report (HTML)"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.actions.report,name:l10n_th_withholding_tax_report.action_withholding_tax_report_qweb
+msgid "Withholding Tax Report (PDF)"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.actions.report,name:l10n_th_withholding_tax_report.action_withholding_tax_report_txt
+msgid "Withholding Tax Report (TXT)"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.actions.report,name:l10n_th_withholding_tax_report.action_withholding_tax_report_xlsx
+msgid "Withholding Tax Report (XLSX)"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.view_withholding_tax_report_wizard
+msgid "Withholding Tax Report Options"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.model,name:l10n_th_withholding_tax_report.model_withholding_tax_report_wizard
+msgid "Withholding Tax Report Wizard"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.view_withholding_tax_report_wizard
+msgid "or"
+msgstr ""
