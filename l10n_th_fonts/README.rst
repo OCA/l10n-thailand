@@ -28,7 +28,7 @@ Thai Localization - Fonts Thai
 This module collects fonts thai :
 
 * Font 'THSarabunNew'
-* Font 'THSarabunNew Bold'
+* Font 'AngsanaNew'
 
 **Table of contents**
 
