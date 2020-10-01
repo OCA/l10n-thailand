@@ -11,6 +11,7 @@ setuptools.setup(
         'odoo13-addon-l10n_th_amount_to_text',
         'odoo13-addon-l10n_th_base_location',
         'odoo13-addon-l10n_th_expense_tax_invoice',
+        'odoo13-addon-l10n_th_fonts',
         'odoo13-addon-l10n_th_partner',
         'odoo13-addon-l10n_th_tax_invoice',
         'odoo13-addon-l10n_th_tax_report',
