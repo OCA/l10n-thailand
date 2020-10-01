@@ -3,7 +3,7 @@
 
 {
     "name": "Thailand Localization - TAX Reports",
-    "version": "13.0.1.1.2",
+    "version": "13.0.1.1.3",
     "author": "Ecosoft, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-thailand",
     "license": "AGPL-3",
