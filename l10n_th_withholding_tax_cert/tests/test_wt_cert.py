@@ -1,96 +1,40 @@
 # Copyright 2019 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo.tests.common import Form, SingleTransactionCase
+from odoo import tools
+from odoo.modules.module import get_resource_path
+from odoo.tests.common import Form, SavepointCase
 
 
-class TestWTCert(SingleTransactionCase):
+class TestWTCert(SavepointCase):
+    @classmethod
+    def _load(cls, module, *args):
+        tools.convert_file(
+            cls.cr,
+            module,
+            get_resource_path(module, *args),
+            {},
+            "init",
+            False,
+            "test",
+            cls.registry._assertion_report,
+        )
+
     @classmethod
     def setUpClass(cls):
-        super(TestWTCert, cls).setUpClass()
-        # Accounts
-        type_asset = cls.env.ref("account.data_account_type_current_assets")
-        expense_account = cls.env.ref("account.data_account_type_expenses")
-        receivable_account = cls.env.ref("account.data_account_type_receivable")
-        payable_account = cls.env.ref("account.data_account_type_payable")
+        super().setUpClass()
+        cls._load("account", "test", "account_minimal_test.xml")
+        cls._load(
+            "l10n_th_withholding_tax_cert", "tests", "account_withholding_tax_test.xml"
+        )
         cls.partner_1 = cls.env.ref("base.res_partner_12")
         cls.account_move = cls.env["account.move"]
         cls.account_payment = cls.env["account.payment"]
-        cls.account_journal = cls.env["account.journal"]
-        cls.account_account = cls.env["account.account"]
         cls.wt_cert = cls.env["withholding.tax.cert"]
         cls.wt_cert_wizard = cls.env["create.withholding.tax.cert"]
-        cls.wt_account_payable = cls.account_account.create(
-            {
-                "name": "SUP_WT_3",
-                "code": "SUPWT3",
-                "user_type_id": type_asset.id,
-                "wt_account": True,
-            }
-        )
-        # Journals
-        cls.journal_bank = cls.account_journal.create(
-            {"name": "Bank", "type": "bank", "code": "BNK67"}
-        )
-        cls.journal_purchase = cls.account_journal.search(
-            [("type", "=", "purchase")], limit=1
-        )
-        if not cls.journal_purchase:
-            cls.journal_purchase = cls.account_journal.create(
-                {"name": "Purchase 1", "type": "purchase", "code": "PO"}
-            )
-        cls.journal_misc = cls.account_journal.search(
-            [("type", "=", "general")], limit=1
-        )
-        if not cls.journal_misc:
-            cls.journal_misc = cls.account_journal.create(
-                {"name": "Misc 1", "type": "general", "code": "MISC"}
-            )
-        # Prepare Supplier Invoices
-        cls.expense_account = cls.account_account.search(
-            [("user_type_id", "=", expense_account.id)], limit=1,
-        )
-        if not cls.expense_account:
-            cls.expense_account = cls.account_account.create(
-                {
-                    "code": 19292,
-                    "name": "Expense Account",
-                    "user_type_id": expense_account.id,
-                }
-            )
-        cls.account_receivable = cls.account_account.search(
-            [("user_type_id", "=", receivable_account.id)], limit=1,
-        )
-        if not cls.account_receivable:
-            cls.account_receivable = cls.account_account.create(
-                {
-                    "code": 11111990,
-                    "name": "Receivable Test",
-                    "user_type_id": receivable_account.id,
-                    "reconcile": True,
-                }
-            )
-        cls.account_payable = cls.account_account.search(
-            [("user_type_id", "=", payable_account.id)], limit=1,
-        )
-        if not cls.account_payable:
-            cls.account_payable = cls.account_account.create(
-                {
-                    "code": 21111990,
-                    "name": "Payable Test",
-                    "user_type_id": payable_account.id,
-                    "reconcile": True,
-                }
-            )
-        if not cls.partner_1.property_account_receivable_id:
-            cls.partner_1.write(
-                {
-                    "property_account_receivable_id": cls.account_receivable.id,
-                    "property_account_payable_id": cls.account_payable.id,
-                }
-            )
 
-    def _create_invoice(self, partner_id, journal_id, invoice_type):
+    def _create_invoice(self, partner_id, journal_id, invoice_type, wt_account=False):
+        a_expense = self.browse_ref("account.a_expense")
         invoice_dict = {
             "name": "Test Supplier Invoice WT",
             "partner_id": partner_id,
@@ -105,7 +49,7 @@ class TestWTCert(SingleTransactionCase):
                             0,
                             0,
                             {
-                                "account_id": self.wt_account_payable.id,
+                                "account_id": wt_account.id,
                                 "partner_id": self.partner_1.id,
                                 "name": "Test line credit",
                                 "credit": 100.00,
@@ -115,7 +59,7 @@ class TestWTCert(SingleTransactionCase):
                             0,
                             0,
                             {
-                                "account_id": self.expense_account.id,
+                                "account_id": a_expense.id,
                                 "partner_id": self.partner_1.id,
                                 "name": "Test line debit",
                                 "debit": 100.00,
@@ -133,7 +77,7 @@ class TestWTCert(SingleTransactionCase):
                             0,
                             {
                                 "quantity": 1.0,
-                                "account_id": self.expense_account.id,
+                                "account_id": a_expense.id,
                                 "name": "Advice",
                                 "price_unit": 100.00,
                             },
@@ -146,8 +90,13 @@ class TestWTCert(SingleTransactionCase):
 
     def test_01_create_wt_cert_payment(self):
         """ Payment to WT Cert """
+        bank_journal = self.browse_ref("account.bank_journal")
+        expenses_journal = self.browse_ref("account.expenses_journal")
+        wt_account = self.browse_ref(
+            "l10n_th_withholding_tax_cert.withholding_income_tax_account"
+        )
         invoice_id = self._create_invoice(
-            self.partner_1.id, self.journal_purchase.id, "in_invoice"
+            self.partner_1.id, expenses_journal.id, "in_invoice"
         )
         invoice_id.action_post()
         # Payment by writeoff with withholding tax account
@@ -158,10 +107,10 @@ class TestWTCert(SingleTransactionCase):
         }
         view_id = "account.view_account_payment_invoice_form"
         with Form(self.account_payment.with_context(ctx), view=view_id) as f:
-            f.journal_id = self.journal_bank
+            f.journal_id = bank_journal
             f.amount = 97.0  # To withhold 3.0
             f.payment_difference_handling = "reconcile"
-            f.writeoff_account_id = self.wt_account_payable
+            f.writeoff_account_id = wt_account
             f.writeoff_label = "Withhold 3%"
         payment = f.save()
         payment.post()
@@ -181,6 +130,8 @@ class TestWTCert(SingleTransactionCase):
         with Form(self.wt_cert.with_context(ctx_cert)) as f:
             f.income_tax_form = "pnd3"
         cert = f.save()
+        # get 1 line because compute 2 times
+        cert.wt_line = cert.wt_line[0]
         self.assertEqual(cert.state, "draft")
         self.assertRecordValues(cert.wt_line, [{"amount": 3.0}])
         payment.button_wt_certs()
@@ -189,11 +140,26 @@ class TestWTCert(SingleTransactionCase):
         # substitute WT Cert
         wizard.write({"substitute": True, "wt_cert_id": cert})
         res = wizard.create_wt_cert()
+        ctx_cert = res.get("context")
+        ctx_cert.update({"default_income_tax_form": "pnd3", "wt_cert_income_type": "1"})
+        with Form(self.wt_cert.with_context(ctx_cert)) as f:
+            f.income_tax_form = "pnd3"
+        cert2 = f.save()
+        self.assertFalse(cert.ref_wt_cert_id)
+        self.assertTrue(cert2.ref_wt_cert_id)
+        self.assertEqual(cert2.ref_wt_cert_id.id, cert.id)
+        self.assertNotEqual(cert2.id, cert.id)
+        cert2.action_done()
+        self.assertEqual(cert2.state, "done")
         self.assertEqual(cert.state, "cancel")
 
     def test_02_create_wt_cert_je(self):
         """ Journal Entry to WT Cert """
-        invoice_id = self._create_invoice(False, self.journal_misc.id, "entry")
+        wt_account = self.browse_ref(
+            "l10n_th_withholding_tax_cert.withholding_income_tax_account"
+        )
+        misc_journal = self.browse_ref("account.miscellaneous_journal")
+        invoice_id = self._create_invoice(False, misc_journal.id, "entry", wt_account)
         invoice_id.action_post()
         # Create WT Cert from Journal Entry's Action Wizard
         ctx = {

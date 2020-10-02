@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="withholding_income_tax_account" model="account.account">
+        <field name="code">X152000</field>
+        <field name="name">Withholding Income Tax - (test)</field>
+        <field name="user_type_id" ref="account.data_account_type_current_assets" />
+        <field name="wt_account" eval="True" />
+    </record>
+</odoo>

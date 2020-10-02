@@ -16,6 +16,7 @@
                     icon="fa-bars"
                 />
                 <field name="wt_cert_ids" invisible="1" />
+                <field name="wt_cert_cancel" invisible="1" />
             </div>
         </field>
     </record>
