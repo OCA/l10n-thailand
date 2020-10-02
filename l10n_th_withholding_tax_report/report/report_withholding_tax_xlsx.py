@@ -130,6 +130,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
         ws.freeze_panes(row_pos, 0)
         index = 1
         for line in obj.results:
+            cancel = line.cert_id.state == "cancel"
             row_pos = self._write_line(
                 ws,
                 row_pos,
@@ -138,13 +139,17 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 render_space={
                     "sequence": index,
                     "vat": line.cert_id.supplier_partner_id.vat or "",
-                    "display_name": line.cert_id.supplier_partner_id.display_name or "",
-                    "street": line.cert_id.supplier_partner_id.street,
+                    "display_name": not cancel
+                    and line.cert_id.supplier_partner_id.display_name
+                    or "Cancelled",
+                    "street": not cancel
+                    and line.cert_id.supplier_partner_id.street
+                    or "",
                     "date": line.cert_id.date,
                     "income_desc": line.wt_cert_income_desc or "",
                     "tax": line.wt_percent / 100 or 0.00,
-                    "base_amount": line.base or 0.00,
-                    "tax_amount": line.amount or 0.00,
+                    "base_amount": not cancel and line.base or 0.00,
+                    "tax_amount": not cancel and line.amount or 0.00,
                     "tax_payer": line.cert_id.tax_payer,
                     "payment_id": line.cert_id.name,
                 },
@@ -154,13 +159,14 @@ class WithholdingTaxReportXslx(models.AbstractModel):
         return row_pos
 
     def _write_ws_footer(self, row_pos, ws, obj):
+        results = obj.results.filtered(lambda l: l.cert_id.state == "done")
         ws.merge_range(row_pos, 0, row_pos, 6, "")
         ws.merge_range(row_pos, 9, row_pos, 10, "")
         ws.write_row(row_pos, 0, ["Total Balance"], self.format_theader_blue_right)
         ws.write_row(
             row_pos,
             7,
-            [sum(obj.results.mapped("base")), sum(obj.results.mapped("amount")), ""],
+            [sum(results.mapped("base")), sum(results.mapped("amount")), ""],
             self.format_theader_blue_amount_right,
         )
         return row_pos

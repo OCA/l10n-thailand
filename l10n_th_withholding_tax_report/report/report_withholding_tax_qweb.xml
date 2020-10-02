@@ -63,6 +63,7 @@
                 </div>
                 <t t-set="i" t-value="1" />
                 <t t-foreach="o.results" t-as="o">
+                    <t t-set="cancel" t-value="o.cert_id.state == 'cancel'" />
                     <div class="act_as_row lines">
                         <div class="act_as_cell" style="width: 4%;">
                             <span t-esc="i" />
@@ -73,11 +74,13 @@
                         </div>
                         <div class="act_as_cell left" style="width: 13%;">
                             <span
-                                t-field="o.cert_id.supplier_partner_id.display_name"
+                                t-esc="not cancel and o.cert_id.supplier_partner_id.display_name or 'Cancelled'"
                             />
                         </div>
                         <div class="act_as_cell left" style="width: 13%;">
-                            <span t-field="o.cert_id.supplier_partner_id.street" />
+                            <span
+                                t-esc="not cancel and o.cert_id.supplier_partner_id.street or ''"
+                            />
                         </div>
                         <div class="act_as_cell" style="width: 6%;">
                             <span t-esc="o.cert_id.date.strftime('%d/%m/%Y')" />
@@ -91,13 +94,13 @@
                         </div>
                         <div class="act_as_cell amount" style="width: 9%;">
                             <span
-                                t-field="o.base"
+                                t-esc="not cancel and o.base or 0.0"
                                 t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
                             />
                         </div>
                         <div class="act_as_cell amount" style="width: 7%;">
                             <span
-                                t-field="o.amount"
+                                t-esc="not cancel and o.amount or 0.0"
                                 t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
                             />
                         </div>
@@ -115,8 +118,14 @@
     <template id="footer_report_withholding_tax">
         <div class="act_as_table data_table" style="width: 100%;">
             <div class="act_as_row" style="font-weight: bold;">
-                <t t-set="final_base" t-value="sum(o.results.mapped('base'))" />
-                <t t-set="final_amount" t-value="sum(o.results.mapped('amount'))" />
+                <t
+                    t-set="final_base"
+                    t-value="sum(o.results.filtered(lambda l: l.cert_id.state == 'done').mapped('base'))"
+                />
+                <t
+                    t-set="final_amount"
+                    t-value="sum(o.results.filtered(lambda l: l.cert_id.state == 'done').mapped('amount'))"
+                />
                 <!-- BUG: width in act_as_cell is not equal lines -->
                 <div class="act_as_cell" style="width: 65%;">Balance</div>
                 <div class="act_as_cell right" style="width: 9%;">
