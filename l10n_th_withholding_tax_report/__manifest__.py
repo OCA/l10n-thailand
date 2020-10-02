@@ -20,7 +20,7 @@
         "data/report_data.xml",
         "templates/layouts.xml",
         "templates/report_template.xml",
-        "report/report_withholding_tax_pdf.xml",
+        "report/report_withholding_tax_qweb.xml",
         "wizard/withholding_tax_report_wizard_view.xml",
         "views/menu.xml",
     ],
