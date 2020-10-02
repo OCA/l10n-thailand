@@ -36,7 +36,9 @@ class AccountMoveTaxInvoice(models.Model):
     move_line_id = fields.Many2one(
         comodel_name="account.move.line", index=True, copy=True, ondelete="cascade"
     )
-    partner_id = fields.Many2one(comodel_name="res.partner", string="Partner")
+    partner_id = fields.Many2one(
+        comodel_name="res.partner", string="Partner", ondelete="restrict",
+    )
     move_id = fields.Many2one(comodel_name="account.move", index=True, copy=True)
     move_state = fields.Selection(
         [("draft", "Draft"), ("posted", "Posted"), ("cancel", "Cancelled")],
