@@ -62,11 +62,16 @@
                         <group string="References">
                             <field name="company_id" invisible="1" />
                             <field name="currency_id" invisible="1" />
+                            <field
+                                name="ref_wt_cert_id"
+                                attrs="{'invisible': [('id', '=', False)]}"
+                            />
                             <field name="date" />
                         </group>
                     </group>
                     <field name="wt_line">
                         <tree editable="bottom">
+                            <field name="company_id" invisible="1" />
                             <field name="wt_cert_income_type" />
                             <field name="wt_cert_income_desc" />
                             <field name="amount" sum="Total Tax" />

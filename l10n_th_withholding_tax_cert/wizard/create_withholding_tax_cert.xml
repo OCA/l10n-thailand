@@ -13,11 +13,23 @@
                         <field name="wt_account_ids" widget="many2many_tags" />
                     </group>
                     <group>
-                        <field name="substitute" />
-                        <field
-                            name="wt_cert_id"
+                        <label for="substitute" />
+                        <div class="o_row">
+                            <field name="substitute" />
+                            <field
+                                name="wt_cert_id"
+                                placeholder="for withholding tax cert."
+                                attrs="{'invisible': [('substitute', '=', False)], 'required': [('substitute', '!=', False)]}"
+                                options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                            />
+                        </div>
+                        <label for="" />
+                        <span
+                            class="text-muted"
                             attrs="{'invisible': [('substitute', '=', False)], 'required': [('substitute', '!=', False)]}"
-                        />
+                        >
+                            Substituted withholding tax cert. will be cancelled
+                        </span>
                     </group>
                 </group>
                 <footer>

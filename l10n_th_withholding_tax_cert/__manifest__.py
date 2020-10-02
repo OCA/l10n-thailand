@@ -10,6 +10,7 @@
     "category": "Localization / Accounting",
     "depends": ["account"],
     "data": [
+        "security/account_security.xml",
         "security/ir.model.access.csv",
         "wizard/create_withholding_tax_cert.xml",
         "views/withholding_tax_cert.xml",
