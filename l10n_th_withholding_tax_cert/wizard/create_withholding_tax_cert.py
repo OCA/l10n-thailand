@@ -18,7 +18,7 @@ class CreateWithholdingTaxCert(models.TransientModel):
             [("wt_account", "=", True)]
         ),
     )
-    substitute = fields.Boolean(string="Substitute For WT Cert")
+    substitute = fields.Boolean(string="Substitute")
     wt_cert_id = fields.Many2one(
         comodel_name="withholding.tax.cert",
         domain=[("state", "=", "done")],
@@ -82,10 +82,7 @@ class CreateWithholdingTaxCert(models.TransientModel):
             )
         # Substitute WT Cert
         if self.substitute:
-            self.wt_cert_id.write({"state": "cancel"})
-            self.wt_cert_id.message_post(
-                body=_("This document was substituted with %s." % (object_id.name))
-            )
+            ctx.update({"wt_ref_id": self.wt_cert_id.id})
         return {
             "name": _("Create Withholding Tax Cert."),
             "view_mode": "form",
