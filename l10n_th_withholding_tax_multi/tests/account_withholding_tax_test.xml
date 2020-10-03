@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="account_withholding_tax_data_5" model="account.withholding.tax">
+        <field name="name">Withholding Tax 5%</field>
+        <field
+            name="account_id"
+            ref="l10n_th_withholding_tax_cert.withholding_income_tax_account"
+        />
+        <field name="amount" eval="5" />
+    </record>
+</odoo>
