@@ -219,10 +219,13 @@ class WithholdingTaxCert(models.Model):
     @api.model
     def _prepare_wt_line(self, move_line):
         """ Hook point to prepare wt_line """
+        wt_percent = move_line.wt_tax_id.amount
         vals = {
             "wt_cert_income_type": self._context.get("wt_cert_income_type"),
-            "wt_percent": False,
-            "base": False,
+            "wt_percent": wt_percent,
+            "base": (abs(move_line.balance) / wt_percent * 100)
+            if wt_percent
+            else False,
             "amount": abs(move_line.balance),
             "ref_move_line_id": move_line.id,
         }
