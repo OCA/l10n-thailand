@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-10-02 05:16+0000\n"
-"Last-Translator: Kitti U. @ Ecosoft <kittiu@ecosoft.co.th>\n"
+"PO-Revision-Date: 2020-10-04 17:16+0000\n"
+"Last-Translator: Saran @ Ecosoft <saranl@ecosoft.co.th>\n"
 "Language-Team: none\n"
 "Language: th\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgstr ""
 #. module: l10n_th_tax_report
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_report.tax_report_wizard_form
 msgid "Cancel"
-msgstr ""
+msgstr "ยกเลิก"
 
 #. module: l10n_th_tax_report
 #: model:ir.model.fields,field_description:l10n_th_tax_report.field_report_tax_report__company_id
