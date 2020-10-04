@@ -14,6 +14,41 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_th_tax_invoice
+#: model:ir.model.fields.selection,name:l10n_th_tax_invoice.selection__account_move_tax_invoice__report_late_mo__0
+msgid "0 month"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields.selection,name:l10n_th_tax_invoice.selection__account_move_tax_invoice__report_late_mo__1
+msgid "1 month"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields.selection,name:l10n_th_tax_invoice.selection__account_move_tax_invoice__report_late_mo__2
+msgid "2 months"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields.selection,name:l10n_th_tax_invoice.selection__account_move_tax_invoice__report_late_mo__3
+msgid "3 months"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields.selection,name:l10n_th_tax_invoice.selection__account_move_tax_invoice__report_late_mo__4
+msgid "4 months"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields.selection,name:l10n_th_tax_invoice.selection__account_move_tax_invoice__report_late_mo__5
+msgid "5 months"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields.selection,name:l10n_th_tax_invoice.selection__account_move_tax_invoice__report_late_mo__6
+msgid "6 months"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
 #: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_tax_invoice__account_id
 msgid "Account"
 msgstr ""
@@ -93,7 +128,7 @@ msgstr ""
 #. module: l10n_th_tax_invoice
 #: code:addons/l10n_th_tax_invoice/models/account_move.py:0
 #, python-format
-msgid "Invalid Tax Base/Amount"
+msgid "Invalid Tax Amount"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
@@ -182,6 +217,16 @@ msgstr ""
 #: code:addons/l10n_th_tax_invoice/models/account_payment.py:0
 #, python-format
 msgid "Please fill in tax invoice and tax date"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_tax_invoice__report_date
+msgid "Report Date"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_move_tax_invoice__report_late_mo
+msgid "Report Late"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
