@@ -1,6 +1,7 @@
 # Copyright 2020 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
 
@@ -61,7 +62,11 @@ class TestBaseLocation(TransactionCase):
                 }
             )
         )
-        import_be.run_import()
+        try:
+            with self.assertRaises(UserError):
+                import_be.run_import()
+        except Exception:
+            import_be.run_import()
 
     def test_03_onchange_zip_id(self):
         """Test select zip_id in res_partner and res_company"""
