@@ -219,25 +219,29 @@ class AccountMove(models.Model):
                     else:
                         raise UserError(_("Please fill in tax invoice and tax date"))
 
+        # TOFIX: this operation does cause serious impact in some case.
+        # I.e., When a normal invoice with amount 0.0 line, deletion is prohibited,
+        #       because it can set back the invoice status of invoice.
+        #       Until there is better way to resolve, please keep this commented.
         # Cleanup, delete lines with same account_id and sum(amount) == 0
-        cash_basis_account_ids = (
-            self.env["account.tax"]
-            .search([("cash_basis_transition_account_id", "!=", False)])
-            .mapped("cash_basis_transition_account_id.id")
-        )
-        for move in self:
-            accounts = move.line_ids.mapped("account_id")
-            partners = move.line_ids.mapped("partner_id")
-            for account in accounts:
-                for partner in partners:
-                    lines = move.line_ids.filtered(
-                        lambda l: l.account_id == account
-                        and l.partner_id == partner
-                        and not l.tax_invoice_ids
-                        and l.account_id.id not in cash_basis_account_ids
-                    )
-                    if sum(lines.mapped("balance")) == 0:
-                        lines.unlink()
+        # cash_basis_account_ids = (
+        #     self.env["account.tax"]
+        #     .search([("cash_basis_transition_account_id", "!=", False)])
+        #     .mapped("cash_basis_transition_account_id.id")
+        # )
+        # for move in self:
+        #     accounts = move.line_ids.mapped("account_id")
+        #     partners = move.line_ids.mapped("partner_id")
+        #     for account in accounts:
+        #         for partner in partners:
+        #             lines = move.line_ids.filtered(
+        #                 lambda l: l.account_id == account
+        #                 and l.partner_id == partner
+        #                 and not l.tax_invoice_ids
+        #                 and l.account_id.id not in cash_basis_account_ids
+        #             )
+        #             if sum(lines.mapped("balance")) == 0:
+        #                 lines.unlink()
 
         res = super().post()
 
