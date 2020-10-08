@@ -4,16 +4,15 @@
 from odoo import _, api, fields, models
 
 
-class AccountPayment(models.Model):
-    _inherit = "account.payment"
+class AccountMove(models.Model):
+    _inherit = "account.move"
 
     wt_cert_ids = fields.One2many(
         comodel_name="withholding.tax.cert",
-        inverse_name="payment_id",
+        inverse_name="move_id",
         string="Withholding Tax Cert.",
         readonly=True,
     )
-
     wt_cert_cancel = fields.Boolean(
         compute="_compute_wt_cert_cancel",
         store=True,
