@@ -3,7 +3,7 @@
 
 {
     'name': 'Thailand Localization - VAT Reports',
-    'version': '12.0.1.1.0',
+    'version': '12.0.1.1.1',
     'author': 'Ecosoft, Odoo Community Association (OCA)',
     'website': 'https://github.com/OCA/l10n-thailand',
     'license': 'AGPL-3',
