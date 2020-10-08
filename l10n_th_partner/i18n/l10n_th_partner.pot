@@ -32,8 +32,6 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_th_partner
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__company_name
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__company_name
 #: model_terms:ir.ui.view,arch_db:l10n_th_partner.view_partner_form
 msgid "Company name"
 msgstr ""
@@ -46,6 +44,12 @@ msgstr ""
 #. module: l10n_th_partner
 #: model_terms:ir.ui.view,arch_db:l10n_th_partner.view_res_partner_filter
 msgid "Legal Form"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__name_company
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__name_company
+msgid "Name Company"
 msgstr ""
 
 #. module: l10n_th_partner
