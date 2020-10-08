@@ -198,7 +198,7 @@ class ReportVatReportXlsx(models.TransientModel):
             total_tax = 0.00
             for line in obj.results:
                 total_base += line.tax_base_amount
-                total_tax += abs(line.tax_amount)
+                total_tax += line.tax_amount
                 row_pos = self._write_line(
                     ws, row_pos, ws_params, col_specs_section='data',
                     render_space={
@@ -209,7 +209,7 @@ class ReportVatReportXlsx(models.TransientModel):
                         'partner_vat': line.partner_id.vat or '',
                         'partner_branch': line.partner_id.branch or '',
                         'tax_base_amount': line.tax_base_amount or 0.00,
-                        'tax_amount': abs(line.tax_amount) or 0.00,
+                        'tax_amount': line.tax_amount or 0.00,
                         'doc_ref': line.name or '',
                     },
                     default_format=self.format_tcell_left,
