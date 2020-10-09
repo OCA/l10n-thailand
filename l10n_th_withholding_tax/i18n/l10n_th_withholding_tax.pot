@@ -1,0 +1,138 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_withholding_tax
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model,name:l10n_th_withholding_tax.model_account_account
+msgid "Account"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model,name:l10n_th_withholding_tax.model_account_withholding_tax
+msgid "Account Withholding Tax"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_withholding_tax__amount
+msgid "Amount"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_withholding_tax__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_withholding_tax__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_withholding_tax__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_withholding_tax__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model.fields,help:l10n_th_withholding_tax.field_account_account__wt_account
+msgid "If check, this account is for withholding tax"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model,name:l10n_th_withholding_tax.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_withholding_tax____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_withholding_tax__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_withholding_tax__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_withholding_tax__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model.fields,help:l10n_th_withholding_tax.field_account_payment__wt_tax_id
+msgid "Optional hidden field to keep wt_tax. Useful for case 1 tax only"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model,name:l10n_th_withholding_tax.model_account_payment
+msgid "Payments"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model,name:l10n_th_withholding_tax.model_product_template
+msgid "Product Template"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: code:addons/l10n_th_withholding_tax/models/account_withholding_tax.py:0
+#, python-format
+msgid "Selected account is not for withholding tax"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_product_product__supplier_wt_tax_id
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_product_template__supplier_wt_tax_id
+msgid "Supplier Wt Tax"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_move_line__wt_tax_id
+msgid "WT"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_account__wt_account
+msgid "WT Account"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.actions.act_window,name:l10n_th_withholding_tax.action_account_withholding_tax_menu
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_payment__wt_tax_id
+#: model:ir.ui.menu,name:l10n_th_withholding_tax.menu_account_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax.product_template_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax.view_account_payment_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax.view_account_withholding_tax_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax.view_account_withholding_tax_tree
+msgid "Withholding Tax"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_withholding_tax__account_id
+msgid "Withholding Tax Account"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_product_product__wt_tax_id
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_product_template__wt_tax_id
+msgid "Wt Tax"
+msgstr ""
