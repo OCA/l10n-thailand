@@ -17,9 +17,10 @@ msgstr ""
 #. module: l10n_th_withholding_tax_report
 #: model:ir.actions.report,print_report_name:l10n_th_withholding_tax_report.action_withholding_tax_report_qweb
 #: model:ir.actions.report,print_report_name:l10n_th_withholding_tax_report.action_withholding_tax_report_txt
+#: model:ir.actions.report,print_report_name:l10n_th_withholding_tax_report.action_withholding_tax_report_xlsx
 msgid ""
-"'WHT-%s-%s' % (object.format_pnd(object.income_tax_form), "
-"object.format_date())"
+"'WT-%s-%s' % (object.format_pnd(object.income_tax_form), object."
+"format_date())"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_report
@@ -48,9 +49,7 @@ msgid "Base Amount"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_report
-#: code:addons/l10n_th_withholding_tax_report/report/report_withholding_tax_xlsx.py:0
 #: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.header_report_withholding_tax
-#, python-format
 msgid "Branch ID"
 msgstr ""
 
@@ -110,12 +109,6 @@ msgid "Date range"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_report
-#: code:addons/l10n_th_withholding_tax_report/report/report_withholding_tax_xlsx.py:0
-#, python-format
-msgid "Date range filter"
-msgstr ""
-
-#. module: l10n_th_withholding_tax_report
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_report_withholding_tax_report_xlsx__display_name
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report__display_name
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report_wizard__display_name
@@ -145,11 +138,9 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_report
-#: code:addons/l10n_th_withholding_tax_report/report/report_withholding_tax_xlsx.py:0
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report__income_tax_form
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report_wizard__income_tax_form
 #: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.header_report_withholding_tax
-#, python-format
 msgid "Income Tax Form"
 msgstr ""
 
@@ -225,9 +216,7 @@ msgid "Tax Description"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_report
-#: code:addons/l10n_th_withholding_tax_report/report/report_withholding_tax_xlsx.py:0
 #: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.header_report_withholding_tax
-#, python-format
 msgid "Tax ID"
 msgstr ""
 
