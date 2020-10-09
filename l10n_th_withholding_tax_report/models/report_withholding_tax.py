@@ -38,20 +38,24 @@ class WithHoldingTaxReport(models.TransientModel):
         for obj in docs:
             text = ""
             for idx, line in enumerate(obj.results):
+                cancel = line.cert_id.state == "cancel"
                 text += "{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}\n".format(
                     idx + 1,
                     line.cert_id.supplier_partner_id.vat or "",
                     "",  # Title name
-                    line.cert_id.supplier_partner_id.display_name or "",
-                    line.cert_id.supplier_partner_id._display_address(
+                    not cancel
+                    and line.cert_id.supplier_partner_id.display_name
+                    or "Cancelled",
+                    not cancel
+                    and line.cert_id.supplier_partner_id._display_address(
                         without_company=True
                     )
                     or "",
                     self.format_date_dmy(line.cert_id.date),
                     "ค่าบริการ",  # line.wt_cert_income_desc or "",
                     "{:,.2f}".format(line.wt_percent / 100) or 0.00,
-                    "{:,.2f}".format(line.base) or 0.00,
-                    "{:,.2f}".format(line.amount) or 0.00,
+                    not cancel and "{:,.2f}".format(line.base) or 0.00,
+                    not cancel and "{:,.2f}".format(line.amount) or 0.00,
                     self._convert_tax_payer(line.cert_id.tax_payer),
                 )
         return text
@@ -124,15 +128,12 @@ class WithHoldingTaxReport(models.TransientModel):
     def _compute_results(self):
         self.ensure_one()
         Result = self.env["withholding.tax.cert.line"]
-        domain = []
-        if self.income_tax_form:
-            domain += [("cert_id.income_tax_form", "=", self.income_tax_form)]
-        if self.date_from:
-            domain += [("cert_id.date", ">=", self.date_from)]
-        if self.date_to:
-            domain += [("cert_id.date", "<=", self.date_to)]
-        if self.company_id:
-            domain += [
-                ("cert_id.company_partner_id", "=", self.company_id.partner_id.id)
-            ]
+        # fields required
+        domain = [
+            ("cert_id.income_tax_form", "=", self.income_tax_form),
+            ("cert_id.date", ">=", self.date_from),
+            ("cert_id.date", "<=", self.date_to),
+            ("cert_id.company_partner_id", "=", self.company_id.partner_id.id),
+            ("cert_id.state", "!=", "draft"),
+        ]
         self.results = Result.search(domain)

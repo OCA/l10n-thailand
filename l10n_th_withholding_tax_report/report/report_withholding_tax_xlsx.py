@@ -1,7 +1,7 @@
 # Copyright 2019 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import _, models
+from odoo import models
 
 
 class WithholdingTaxReportXslx(models.AbstractModel):
@@ -9,9 +9,16 @@ class WithholdingTaxReportXslx(models.AbstractModel):
     _inherit = "report.report_xlsx.abstract"
     _description = "Report Withholding Tax xlsx"
 
-    def _get_ws_params(self, wb, data, objects):
+    def _define_formats(self, workbook):
+        super()._define_formats(workbook)
+        date_format = "DD/MM/YYYY"
+        self.format_date_dmy_right = workbook.add_format(
+            {"align": "right", "num_format": date_format}
+        )
+
+    def _get_ws_params(self, wb, data, obj):
         withholding_tax_template = {
-            "sequence": {
+            "01_sequence": {
                 "header": {"value": "No."},
                 "data": {
                     "value": self._render("sequence"),
@@ -19,7 +26,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 },
                 "width": 3,
             },
-            "vat": {
+            "02_vat": {
                 "header": {"value": "Tax Invoice"},
                 "data": {
                     "value": self._render("vat"),
@@ -27,31 +34,31 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 },
                 "width": 16,
             },
-            "display_name": {
+            "03_display_name": {
                 "header": {"value": "Cus./Sup."},
                 "data": {"value": self._render("display_name")},
                 "width": 18,
             },
-            "street": {
+            "04_street": {
                 "header": {"value": "Address"},
                 "data": {"value": self._render("street")},
                 "width": 20,
             },
-            "date": {
+            "05_date": {
                 "header": {"value": "Date"},
                 "data": {
                     "value": self._render("date"),
                     "type": "datetime",
-                    "format": self.format_tcell_date_right,
+                    "format": self.format_date_dmy_right,
                 },
                 "width": 10,
             },
-            "income_desc": {
+            "06_income_desc": {
                 "header": {"value": "Income Description"},
                 "data": {"value": self._render("income_desc")},
                 "width": 18,
             },
-            "tax": {
+            "07_tax": {
                 "header": {"value": "Tax"},
                 "data": {
                     "value": self._render("tax"),
@@ -60,7 +67,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 },
                 "width": 8,
             },
-            "base_amount": {
+            "08_base_amount": {
                 "header": {"value": "Base Amount"},
                 "data": {
                     "value": self._render("base_amount"),
@@ -69,7 +76,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 },
                 "width": 13,
             },
-            "tax_amount": {
+            "09_tax_amount": {
                 "header": {"value": "Tax Amount"},
                 "data": {
                     "value": self._render("tax_amount"),
@@ -78,7 +85,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 },
                 "width": 13,
             },
-            "tax_payer": {
+            "10_tax_payer": {
                 "header": {"value": "Tax Payer"},
                 "data": {
                     "value": self._render("tax_payer"),
@@ -86,7 +93,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 },
                 "width": 12,
             },
-            "payment_id": {
+            "11_payment_id": {
                 "header": {"value": "Doc Ref."},
                 "data": {"value": self._render("payment_id")},
                 "width": 19,
@@ -96,59 +103,23 @@ class WithholdingTaxReportXslx(models.AbstractModel):
         ws_params = {
             "ws_name": "Withholding Tax Report",
             "generate_ws_method": "_withholding_tax_report",
-            "title": "Withholding Tax Report - %s" % (objects.company_id.name),
-            "wanted_list": [x for x in withholding_tax_template],
+            "title": "Withholding Tax Report - %s" % (obj.company_id.name),
+            "wanted_list": [x for x in sorted(withholding_tax_template.keys())],
             "col_specs": withholding_tax_template,
         }
 
         return [ws_params]
 
-    def _withholding_tax_report(self, workbook, ws, ws_params, data, objects):
-        ws.set_portrait()
-        ws.fit_to_pages(1, 0)
-        ws.set_header(self.xls_headers["standard"])
-        ws.set_footer(self.xls_footers["standard"])
+    def _write_ws_header(self, row_pos, ws, data_list):
+        for data in data_list:
+            ws.merge_range(row_pos, 0, row_pos, 1, "")
+            ws.write_row(row_pos, 0, [data[0]], self.format_theader_blue_center)
+            ws.merge_range(row_pos, 2, row_pos, 3, "")
+            ws.write_row(row_pos, 2, [data[1]], self.format_center)
+            row_pos += 1
+        return row_pos + 1
 
-        self._set_column_width(ws, ws_params)
-
-        row_pos = 0
-        row_pos = self._write_ws_title(ws, row_pos, ws_params, merge_range=True)
-        ws.merge_range(row_pos, 0, row_pos, 1, "")
-        ws.write_row(
-            row_pos, 0, [_("Date range filter")], self.format_theader_yellow_center
-        )
-        ws.merge_range(row_pos, 2, row_pos, 3, "")
-        ws.write_row(
-            row_pos,
-            2,
-            [str(objects.date_to) + " - " + str(objects.date_to)],
-            self.format_center,
-        )
-        row_pos += 1
-        ws.merge_range(row_pos, 0, row_pos, 1, "")
-        ws.write_row(
-            row_pos, 0, [_("Income Tax Form")], self.format_theader_yellow_center
-        )
-        ws.merge_range(row_pos, 2, row_pos, 3, "")
-        ws.write_row(row_pos, 2, [(objects.income_tax_form)], self.format_center)
-        row_pos += 1
-        ws.merge_range(row_pos, 0, row_pos, 1, "")
-        ws.write_row(row_pos, 0, [_("Tax ID")], self.format_theader_yellow_center)
-        ws.merge_range(row_pos, 2, row_pos, 3, "")
-        ws.write_row(
-            row_pos, 2, [(objects.company_id.partner_id.vat) or "-"], self.format_center
-        )
-        row_pos += 1
-        ws.merge_range(row_pos, 0, row_pos, 1, "")
-        ws.write_row(row_pos, 0, [_("Branch ID")], self.format_theader_yellow_center)
-        ws.merge_range(row_pos, 2, row_pos, 3, "")
-        ws.write_row(
-            row_pos,
-            2,
-            [(objects.company_id.partner_id.branch) or "-"],
-            self.format_center,
-        )
-        row_pos += 2
+    def _write_ws_lines(self, row_pos, ws, ws_params, obj):
         row_pos = self._write_line(
             ws,
             row_pos,
@@ -157,39 +128,70 @@ class WithholdingTaxReportXslx(models.AbstractModel):
             default_format=self.format_theader_blue_center,
         )
         ws.freeze_panes(row_pos, 0)
-        for obj in objects:
-            for line in obj.results:
-                row_pos = self._write_line(
-                    ws,
-                    row_pos,
-                    ws_params,
-                    col_specs_section="data",
-                    render_space={
-                        "sequence": row_pos - 7,
-                        "vat": line.cert_id.supplier_partner_id.vat or "",
-                        "display_name": line.cert_id.supplier_partner_id.display_name
-                        or "",
-                        "street": line.cert_id.supplier_partner_id.street,
-                        "date": line.cert_id.date,
-                        "income_desc": line.wt_cert_income_desc or "",
-                        "tax": line.wt_percent / 100 or 0.00,
-                        "base_amount": line.base or 0.00,
-                        "tax_amount": line.amount or 0.00,
-                        "tax_payer": line.cert_id.tax_payer,
-                        "payment_id": line.cert_id.payment_id.name,
-                    },
-                    default_format=self.format_tcell_left,
-                )
+        index = 1
+        for line in obj.results:
+            cancel = line.cert_id.state == "cancel"
+            row_pos = self._write_line(
+                ws,
+                row_pos,
+                ws_params,
+                col_specs_section="data",
+                render_space={
+                    "sequence": index,
+                    "vat": line.cert_id.supplier_partner_id.vat or "",
+                    "display_name": not cancel
+                    and line.cert_id.supplier_partner_id.display_name
+                    or "Cancelled",
+                    "street": not cancel
+                    and line.cert_id.supplier_partner_id.street
+                    or "",
+                    "date": line.cert_id.date,
+                    "income_desc": line.wt_cert_income_desc or "",
+                    "tax": line.wt_percent / 100 or 0.00,
+                    "base_amount": not cancel and line.base or 0.00,
+                    "tax_amount": not cancel and line.amount or 0.00,
+                    "tax_payer": line.cert_id.tax_payer,
+                    "payment_id": line.cert_id.name,
+                },
+                default_format=self.format_tcell_left,
+            )
+            index += 1
+        return row_pos
+
+    def _write_ws_footer(self, row_pos, ws, obj):
+        results = obj.results.filtered(lambda l: l.cert_id.state == "done")
         ws.merge_range(row_pos, 0, row_pos, 6, "")
         ws.merge_range(row_pos, 9, row_pos, 10, "")
-        ws.write_row(row_pos, 0, ["Total Balance"], self.format_theader_blue_center)
+        ws.write_row(row_pos, 0, ["Total Balance"], self.format_theader_blue_right)
         ws.write_row(
             row_pos,
             7,
-            [
-                sum(objects.results.mapped("base")),
-                sum(objects.results.mapped("amount")),
-                "",
-            ],
+            [sum(results.mapped("base")), sum(results.mapped("amount")), ""],
             self.format_theader_blue_amount_right,
         )
+        return row_pos
+
+    def _withholding_tax_report(self, workbook, ws, ws_params, data, obj):
+        ws.set_portrait()
+        ws.fit_to_pages(1, 0)
+        ws.set_header(self.xls_headers["standard"])
+        ws.set_footer(self.xls_footers["standard"])
+        self._set_column_width(ws, ws_params)
+        row_pos = 0
+        header_data_list = [
+            (
+                "Date range filter",
+                obj.date_from.strftime("%d/%m/%Y")
+                + " - "
+                + obj.date_to.strftime("%d/%m/%Y"),
+            ),
+            ("Income Tax Form", obj.income_tax_form),
+            ("Currency", obj.company_id.currency_id.name),
+            ("Tax ID", obj.company_id.partner_id.vat or "-"),
+            ("Branch ID", obj.company_id.partner_id.branch or "-"),
+        ]
+        row_pos = self._write_ws_title(ws, row_pos, ws_params, merge_range=True)
+        row_pos = self._write_ws_header(row_pos, ws, header_data_list)
+        row_pos = self._write_ws_lines(row_pos, ws, ws_params, obj)
+        row_pos = self._write_ws_footer(row_pos, ws, obj)
+        return row_pos
