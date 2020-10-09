@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_withholding_tax_form" model="ir.ui.view">
+        <field name="name">view.account.withholding.tax.form</field>
+        <field name="model">account.withholding.tax</field>
+        <field name="arch" type="xml">
+            <form string="Withholding Tax">
+                <group>
+                    <group>
+                        <field name="name" />
+                        <label for="amount" />
+                        <div>
+                            <field name="amount" class="oe_inline" />
+                            <span class="o_form_label oe_inline">%</span>
+                        </div>
+                    </group>
+                    <group>
+                        <field
+                            name="account_id"
+                            context="{'default_wt_account': True}"
+                        />
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="view_account_withholding_tax_tree" model="ir.ui.view">
+        <field name="name">view.account.withholding.tax.tree</field>
+        <field name="model">account.withholding.tax</field>
+        <field name="arch" type="xml">
+            <tree string="Withholding Tax">
+                <field name="name" />
+                <field name="account_id" />
+            </tree>
+        </field>
+    </record>
+    <record id="action_account_withholding_tax_menu" model="ir.actions.act_window">
+        <field name="name">Withholding Tax</field>
+        <field name="res_model">account.withholding.tax</field>
+        <field name="view_id" ref="view_account_withholding_tax_tree" />
+    </record>
+    <menuitem
+        id="menu_account_withholding_tax"
+        action="action_account_withholding_tax_menu"
+        parent="account.account_invoicing_menu"
+        sequence="30"
+    />
+</odoo>
