@@ -25,9 +25,6 @@ class TestWithholdingTax(SavepointCase):
         super().setUpClass()
         cls._load("account", "test", "account_minimal_test.xml")
         cls._load(
-            "l10n_th_withholding_tax_cert", "tests", "account_withholding_tax_test.xml"
-        )
-        cls._load(
             "l10n_th_withholding_tax", "tests", "account_withholding_tax_test.xml"
         )
         cls._load(
