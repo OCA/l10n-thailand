@@ -15,7 +15,11 @@ TODO: add repo description.
 
 [//]: # (addons)
 
-This part will be replaced when running the oca-gen-addons-table script from OCA/maintainer-tools.
+Available addons
+----------------
+addon | version | summary
+--- | --- | ---
+[l10n_th_amount_to_text](l10n_th_amount_to_text/) | 14.0.1.0.0 | Convert Amount Text to Thai
 
 [//]: # (end addons)
 
