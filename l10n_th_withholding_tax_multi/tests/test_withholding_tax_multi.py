@@ -212,3 +212,58 @@ class TestWithholdingTax(SavepointCase):
             payment.amount,
             (price_unit * 2) + sum(payment.deduction_ids.mapped("amount")),
         )
+
+    def test_04_create_payment_multi_withholding_keep_open(self):
+        """ Create payment with 2 withholding tax on 2 line and keep open 1"""
+        price_unit = 100.0
+        invoice_id = self._create_invoice(
+            self.partner_1.id,
+            self.expenses_journal.id,
+            "in_invoice",
+            self.a_expense.id,
+            price_unit,
+            multi=True,
+        )
+        self.assertFalse(invoice_id.invoice_line_ids.wt_tax_id)
+        invoice_id.invoice_line_ids[0].wt_tax_id = self.wt_account_3
+        invoice_id.invoice_line_ids[1].wt_tax_id = self.wt_account_5
+        self.assertTrue(invoice_id.invoice_line_ids.wt_tax_id)
+        invoice_id.action_post()
+        # Payment by writeoff with withholding tax account
+        ctx = {
+            "active_ids": [invoice_id.id],
+            "active_id": invoice_id.id,
+            "active_model": "account.move",
+        }
+        view_id = "account.view_account_payment_invoice_form"
+        with Form(self.account_payment.with_context(ctx), view=view_id) as f:
+            payment = f.save()
+        self.assertEqual(
+            payment.payment_difference_handling, "reconcile_multi_deduct",
+        )
+        self.assertTrue(payment.deduction_ids)
+        # Keep 3% and deduct 5%
+        deduct_3 = payment.deduction_ids.filtered(
+            lambda l: l.wt_tax_id == self.wt_account_3
+        )
+        with Form(deduct_3) as deduct:
+            deduct.open = True
+        self.assertFalse(deduct.wt_tax_id)
+        payment.post()
+        self.assertEqual(len(payment.invoice_ids), 1)
+        line_wt_3 = payment.move_line_ids.filtered(
+            lambda l: l.wt_tax_id == self.wt_account_3
+        )
+        line_wt_5 = payment.move_line_ids.filtered(
+            lambda l: l.wt_tax_id == self.wt_account_5
+        )
+        self.assertTrue(line_wt_5)
+        self.assertFalse(line_wt_3)
+        # cehck reconcile
+        self.assertFalse(payment.move_line_ids.mapped("full_reconcile_id"))
+        # paid residual, it should be reconcile
+        with Form(self.account_payment.with_context(ctx), view=view_id) as f:
+            f.amount = price_unit * 0.03
+            payment = f.save()
+        payment.post()
+        self.assertTrue(payment.move_line_ids.mapped("full_reconcile_id"))
