@@ -391,6 +391,15 @@ ul.auto-toc {
 <li>Post &gt; Register Payment.</li>
 <li>System will auto computed amount include multi withholding tax.</li>
 </ul>
+<p>User can flag some line in deduction table, to keep some amount open.
+i..e, 100.0 will be reduced from AR/AP account, in order to keep it open.</p>
+<p>Step to keep some amount open.</p>
+<ul class="simple">
+<li>Create invoice and multi invoice lines.</li>
+<li>Fill withholding tax in Field WT each invoice lines.</li>
+<li>Post &gt; Register Payment &gt; check Open in deduction table that you need keep it. &gt; Post</li>
+<li>Next time, Register Payment &gt; Fill amount residual manual &gt; Post</li>
+</ul>
 <p>Note : if you configured withholding tax on product,
 it fill withholding tax in field WT automatic.</p>
 </div>

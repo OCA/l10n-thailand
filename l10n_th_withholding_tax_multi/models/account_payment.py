@@ -1,6 +1,7 @@
 # Copyright 2020 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 from odoo import api, fields, models
+from odoo.tools import float_compare
 
 
 class AccountPayment(models.Model):
@@ -8,7 +9,11 @@ class AccountPayment(models.Model):
 
     def _update_payment_register(self, amount_wt, inv_lines):
         super()._update_payment_register(amount_wt, inv_lines)
-        if len(inv_lines) > 1:
+        move_id = inv_lines.mapped("move_id")
+        if (
+            float_compare(move_id.amount_residual, move_id.amount_total, 2) == 0
+            and len(inv_lines) > 1
+        ):
             self.payment_difference_handling = "reconcile_multi_deduct"
         return True
 
