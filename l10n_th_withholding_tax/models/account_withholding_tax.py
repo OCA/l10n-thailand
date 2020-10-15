@@ -16,7 +16,9 @@ class AccountWithholdingTax(models.Model):
         required=True,
         ondelete="restrict",
     )
-    amount = fields.Float(string="Amount",)
+    amount = fields.Float(
+        string="Amount",
+    )
 
     @api.constrains("account_id")
     def _check_account_id(self):
