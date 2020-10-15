@@ -25,13 +25,16 @@ class TestWTCert(SavepointCase):
         super().setUpClass()
         cls._load("account", "test", "account_minimal_test.xml")
         cls._load(
-            "l10n_th_withholding_tax_cert", "tests", "account_withholding_tax_test.xml"
+            "l10n_th_withholding_tax", "tests", "account_withholding_tax_test.xml"
         )
         cls.partner_1 = cls.env.ref("base.res_partner_12")
         cls.account_move = cls.env["account.move"]
         cls.account_payment = cls.env["account.payment"]
         cls.wt_cert = cls.env["withholding.tax.cert"]
         cls.wt_cert_wizard = cls.env["create.withholding.tax.cert"]
+        cls.wt_account = cls.browse_ref(
+            cls, "l10n_th_withholding_tax.withholding_income_tax_account"
+        )
 
     def _create_invoice(self, partner_id, journal_id, invoice_type, wt_account=False):
         a_expense = self.browse_ref("account.a_expense")
@@ -92,9 +95,6 @@ class TestWTCert(SavepointCase):
         """ Payment to WT Cert """
         bank_journal = self.browse_ref("account.bank_journal")
         expenses_journal = self.browse_ref("account.expenses_journal")
-        wt_account = self.browse_ref(
-            "l10n_th_withholding_tax_cert.withholding_income_tax_account"
-        )
         invoice_id = self._create_invoice(
             self.partner_1.id, expenses_journal.id, "in_invoice"
         )
@@ -110,7 +110,7 @@ class TestWTCert(SavepointCase):
             f.journal_id = bank_journal
             f.amount = 97.0  # To withhold 3.0
             f.payment_difference_handling = "reconcile"
-            f.writeoff_account_id = wt_account
+            f.writeoff_account_id = self.wt_account
             f.writeoff_label = "Withhold 3%"
         payment = f.save()
         payment.post()
@@ -155,11 +155,10 @@ class TestWTCert(SavepointCase):
 
     def test_02_create_wt_cert_je(self):
         """ Journal Entry to WT Cert """
-        wt_account = self.browse_ref(
-            "l10n_th_withholding_tax_cert.withholding_income_tax_account"
-        )
         misc_journal = self.browse_ref("account.miscellaneous_journal")
-        invoice_id = self._create_invoice(False, misc_journal.id, "entry", wt_account)
+        invoice_id = self._create_invoice(
+            False, misc_journal.id, "entry", self.wt_account
+        )
         invoice_id.action_post()
         # Create WT Cert from Journal Entry's Action Wizard
         ctx = {
