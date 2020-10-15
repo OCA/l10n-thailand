@@ -118,11 +118,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
-#: model:ir.model,name:l10n_th_withholding_tax_cert.model_account_account
-msgid "Account"
-msgstr ""
-
-#. module: l10n_th_withholding_tax_cert
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_withholding_tax_cert__message_needaction
 msgid "Action Needed"
 msgstr ""
@@ -287,11 +282,6 @@ msgstr ""
 #. module: l10n_th_withholding_tax_cert
 #: model:ir.model.fields,help:l10n_th_withholding_tax_cert.field_create_withholding_tax_cert__wt_account_ids
 msgid "If accounts are specified, system will auto fill tax amount"
-msgstr ""
-
-#. module: l10n_th_withholding_tax_cert
-#: model:ir.model.fields,help:l10n_th_withholding_tax_cert.field_account_account__wt_account
-msgid "If check, this account is for withholding tax"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
@@ -623,11 +613,6 @@ msgstr ""
 #. module: l10n_th_withholding_tax_cert
 #: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_cert.view_withholding_tax_cert_search
 msgid "WHT Cert."
-msgstr ""
-
-#. module: l10n_th_withholding_tax_cert
-#: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_account_account__wt_account
-msgid "WT Account"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
