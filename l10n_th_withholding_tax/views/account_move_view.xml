@@ -9,7 +9,7 @@
                 expr="//page/field[@name='invoice_line_ids']/tree/field[@name='tax_ids']"
                 position="after"
             >
-                <field name="wt_tax_id" options="{'no_create': True}" optional="hide" />
+                <field name="wt_tax_id" options="{'no_create': True}" optional="show" />
             </xpath>
             <xpath
                 expr="//page/field[@name='invoice_line_ids']/form//field[@name='tax_ids']"

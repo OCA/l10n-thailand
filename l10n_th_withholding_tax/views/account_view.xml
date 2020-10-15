@@ -5,11 +5,9 @@
         <field name="model">account.account</field>
         <field name="inherit_id" ref="account.view_account_form" />
         <field name="arch" type="xml">
-            <data>
-                <field name="deprecated" position="before">
-                    <field name="wt_account" groups="account.group_account_manager" />
-                </field>
-            </data>
+            <field name="deprecated" position="before">
+                <field name="wt_account" groups="account.group_account_manager" />
+            </field>
         </field>
     </record>
 </odoo>

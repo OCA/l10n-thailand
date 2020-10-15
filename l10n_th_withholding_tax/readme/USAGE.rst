@@ -4,5 +4,7 @@ From bills / invoices that require withheld tax,
 - Post > Register Payment.
 - System will auto computed amount include withholding tax.
 
-Note : if you configured withholding tax on product,
-it fill withholding tax in field WT automatic.
+**Note**
+
+- if you configured withholding tax on product, it fill withholding tax in field WT automatic.
+- you can't register a payment with multi invoices, when there is withholding tax in line.
