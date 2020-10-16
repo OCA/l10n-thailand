@@ -31,13 +31,17 @@ class AccountMoveTaxInvoice(models.Model):
         required=True,
     )
     report_date = fields.Date(
-        string="Report Date", compute="_compute_report_date", store=True,
+        string="Report Date",
+        compute="_compute_report_date",
+        store=True,
     )
     move_line_id = fields.Many2one(
         comodel_name="account.move.line", index=True, copy=True, ondelete="cascade"
     )
     partner_id = fields.Many2one(
-        comodel_name="res.partner", string="Partner", ondelete="restrict",
+        comodel_name="res.partner",
+        string="Partner",
+        ondelete="restrict",
     )
     move_id = fields.Many2one(comodel_name="account.move", index=True, copy=True)
     move_state = fields.Selection(
@@ -197,9 +201,9 @@ class AccountMove(models.Model):
     )
 
     def post(self):
-        """ Additional tax invoice info (tax_invoice_number, tax_invoice_date)
-            Case sales tax, use Odoo's info, as document is issued out.
-            Case purchase tax, use vendor's info to fill back. """
+        """Additional tax invoice info (tax_invoice_number, tax_invoice_date)
+        Case sales tax, use Odoo's info, as document is issued out.
+        Case purchase tax, use vendor's info to fill back."""
         # Purchase Taxes
         for move in self:
             for tax_invoice in move.tax_invoice_ids.filtered(
@@ -263,7 +267,7 @@ class AccountMove(models.Model):
         return res
 
     def _get_tax_invoice_number(self, move, tax_invoice, tax):
-        """ Tax Invoice Numbering for Customer Invioce / Receipt
+        """Tax Invoice Numbering for Customer Invioce / Receipt
         - If type in ("out_invoice", "out_refund")
           - If number is (False, "/"), consider it no valid number then,
             - If sequence -> use sequence
@@ -325,9 +329,9 @@ class AccountPartialReconcile(models.Model):
     _inherit = "account.partial.reconcile"
 
     def create_tax_cash_basis_entry(self, percentage_before_rec):
-        """ This method is called from the move lines that
-            create cash basis entry. We want to use the same payment_id when
-            create account.move.tax.invoice """
+        """This method is called from the move lines that
+        create cash basis entry. We want to use the same payment_id when
+        create account.move.tax.invoice"""
         move_lines = self.debit_move_id | self.credit_move_id
         payment = move_lines.mapped("payment_id")
         if len(payment) == 1:

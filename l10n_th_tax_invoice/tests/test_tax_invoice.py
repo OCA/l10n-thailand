@@ -224,8 +224,8 @@ class TestTaxInvoice(SingleTransactionCase):
         cls.customer_invoice_undue_vat_seq = cls.customer_invoice_undue_vat.copy()
 
     def test_supplier_invoice_vat(self):
-        """ Supplier Invoice with VAT,
-        user must fill in Tax Invoice/Date on Invoice """
+        """Supplier Invoice with VAT,
+        user must fill in Tax Invoice/Date on Invoice"""
         # User have not filled in Tax Invoice / Date in account_invoice_tax
         with self.assertRaises(UserError) as e:
             self.supplier_invoice_vat.action_post()
@@ -281,8 +281,8 @@ class TestTaxInvoice(SingleTransactionCase):
         self.assertFalse(payment.move_line_ids)
 
     def test_customer_invoice_vat(self):
-        """ Supplier Invoice with VAT,
-        system auto fill in Tax Invoice/Date on Invoice """
+        """Supplier Invoice with VAT,
+        system auto fill in Tax Invoice/Date on Invoice"""
         self.customer_invoice_vat.action_post()
         tax_invoices = self.customer_invoice_vat.tax_invoice_ids
         tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
@@ -321,8 +321,8 @@ class TestTaxInvoice(SingleTransactionCase):
         self.assertFalse(payment.move_line_ids)
 
     def test_customer_invoice_vat_sequence(self):
-        """ Supplier Invoice with VAT,
-        system auto fill in Tax Invoice using sequence """
+        """Supplier Invoice with VAT,
+        system auto fill in Tax Invoice using sequence"""
         # Assign opptional sequence to vat
         self.cust_vat_sequence.prefix = "CTX"
         self.cust_vat_sequence.number_next_actual = 1  # CTX0001
@@ -333,8 +333,8 @@ class TestTaxInvoice(SingleTransactionCase):
         self.assertEqual(tax_invoice_number, "CTX0001")
 
     def test_customer_invoice_undue_vat_sequence(self):
-        """ Register Payment from Customer Invoice
-        system auto fill in Tax Invoice using sequence """
+        """Register Payment from Customer Invoice
+        system auto fill in Tax Invoice using sequence"""
         # Assign opptional sequence to undue vat
         self.cust_vat_sequence.prefix = "CTX"
         self.cust_vat_sequence.number_next_actual = 2  # CTX0002
@@ -370,9 +370,9 @@ class TestTaxInvoice(SingleTransactionCase):
         self.assertFalse(payment.move_line_ids)
 
     def test_supplier_invoice_refund_reconcile(self):
-        """ Case on undue vat, to net refund with vendor bill.
+        """Case on undue vat, to net refund with vendor bill.
         In this case, cash basis journal entry will be created, make sure it
-        can not post until all Tax Invoice number is filled  """
+        can not post until all Tax Invoice number is filled"""
         # Post suupplier invoice
         invoice = self.supplier_invoice_undue_vat.copy()
         invoice.action_post()

@@ -82,7 +82,7 @@
                             <label for="report_date" />
                             <div class="o_row">
                                 <field name="report_late_mo" />
-                                <span> = </span>
+                                <span>=</span>
                                 <field name="report_date" />
                             </div>
                             <field name="partner_id" />
