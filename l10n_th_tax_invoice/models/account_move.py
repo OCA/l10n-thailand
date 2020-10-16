@@ -44,11 +44,7 @@ class AccountMoveTaxInvoice(models.Model):
         ondelete="restrict",
     )
     move_id = fields.Many2one(comodel_name="account.move", index=True, copy=True)
-    move_state = fields.Selection(
-        [("draft", "Draft"), ("posted", "Posted"), ("cancel", "Cancelled")],
-        related="move_id.state",
-        store=True,
-    )
+    move_state = fields.Selection(related="move_id.state", store=True)
     payment_id = fields.Many2one(
         comodel_name="account.payment",
         compute="_compute_payment_id",
@@ -136,10 +132,9 @@ class AccountMoveLine(models.Model):
                 if float_compare(abs(line.balance), abs(tax), 2) != 0:
                     raise UserError(_("Invalid Tax Amount"))
 
-    def create(self, vals):
-        if vals and self._context.get("payment_id"):
-            vals["payment_id"] = self._context["payment_id"]
-        move_lines = super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        move_lines = super().create(vals_list)
         TaxInvoice = self.env["account.move.tax.invoice"]
         sign = self._context.get("reverse_tax_invoice") and -1 or 1
         for line in move_lines:
@@ -154,7 +149,7 @@ class AccountMoveLine(models.Model):
                         "tax_base_amount": sign * abs(line.tax_base_amount),
                         "balance": sign * abs(line.balance),
                         "reversed_id": (
-                            line.move_id.type == "entry"
+                            line.move_id.move_type == "entry"
                             and line.move_id.reversed_entry_id.id
                             or False
                         ),
@@ -200,7 +195,14 @@ class AccountMove(models.Model):
         copy=False,
     )
 
-    def post(self):
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:  # For cash basis
+            if not vals.get("payment_id") and self._context.get("payment_id"):
+                vals["payment_id"] = self._context["payment_id"]
+        return super().create(vals_list)
+
+    def _post(self, soft=True):
         """Additional tax invoice info (tax_invoice_number, tax_invoice_date)
         Case sales tax, use Odoo's info, as document is issued out.
         Case purchase tax, use vendor's info to fill back."""
@@ -208,7 +210,7 @@ class AccountMove(models.Model):
         for move in self:
             for tax_invoice in move.tax_invoice_ids.filtered(
                 lambda l: l.tax_line_id.type_tax_use == "purchase"
-                or (l.move_id.type == "entry" and not l.payment_id)
+                or (l.move_id.move_type == "entry" and not l.payment_id)
             ):
                 if (
                     not tax_invoice.tax_invoice_number
@@ -217,7 +219,7 @@ class AccountMove(models.Model):
                     if tax_invoice.payment_id:  # Defer posting for payment
                         tax_invoice.payment_id.write({"to_clear_tax": True})
                         return False
-                    elif len(move.tax_invoice_ids) > 1:
+                    elif self.mapped("move_type") == ["entry", "entry"]:
                         # Case Invoice reconcile with Refund, not perfect yet!
                         return False
                     else:
@@ -247,7 +249,7 @@ class AccountMove(models.Model):
         #             if sum(lines.mapped("balance")) == 0:
         #                 lines.unlink()
 
-        res = super().post()
+        res = super()._post(soft)
 
         # Sales Taxes
         for move in self:
@@ -268,19 +270,19 @@ class AccountMove(models.Model):
 
     def _get_tax_invoice_number(self, move, tax_invoice, tax):
         """Tax Invoice Numbering for Customer Invioce / Receipt
-        - If type in ("out_invoice", "out_refund")
+        - If move_type in ("out_invoice", "out_refund")
           - If number is (False, "/"), consider it no valid number then,
             - If sequence -> use sequence
             - If not sequence -> use move number
         - Else,
           - If no number
-            - If type = "entry" and has reversed entry, use origin number
+            - If move_type = "entry" and has reversed entry, use origin number
         """
-        origin_move = move.type == "entry" and move.reversed_entry_id or move
+        origin_move = move.move_type == "entry" and move.reversed_entry_id or move
         sequence = tax_invoice.tax_line_id.taxinv_sequence_id
         number = tax_invoice.tax_invoice_number
         invoice_date = tax_invoice.tax_invoice_date or origin_move.date
-        if move.type in ("out_invoice", "out_refund"):
+        if move.move_type in ("out_invoice", "out_refund"):
             number = False if number in (False, "/") else number
         if not number:
             if sequence:
@@ -312,7 +314,7 @@ class AccountMove(models.Model):
         # They are move "entry" with tax invoice line and are not manual tax
         moves = self.filtered(
             lambda m: not (
-                m.type == "entry"
+                m.move_type == "entry"
                 and m.tax_invoice_ids
                 and not m.line_ids.filtered("manual_tax_invoice")
             )
@@ -321,14 +323,18 @@ class AccountMove(models.Model):
 
     def unlink(self):
         # Do not unlink cash basis move on payment, they will be reversed
-        moves = self.filtered(lambda m: not (m.type == "entry" and m.tax_invoice_ids))
+        moves = self.filtered(
+            lambda m: not (m.move_type == "entry" and m.tax_invoice_ids)
+        )
         return super(AccountMove, moves).unlink()
 
 
 class AccountPartialReconcile(models.Model):
     _inherit = "account.partial.reconcile"
 
-    def create_tax_cash_basis_entry(self, percentage_before_rec):
+    def _create_tax_cash_basis_moves(
+        self,
+    ):
         """This method is called from the move lines that
         create cash basis entry. We want to use the same payment_id when
         create account.move.tax.invoice"""
@@ -336,4 +342,4 @@ class AccountPartialReconcile(models.Model):
         payment = move_lines.mapped("payment_id")
         if len(payment) == 1:
             self = self.with_context(payment_id=payment.id)
-        return super().create_tax_cash_basis_entry(percentage_before_rec)
+        return super()._create_tax_cash_basis_moves()

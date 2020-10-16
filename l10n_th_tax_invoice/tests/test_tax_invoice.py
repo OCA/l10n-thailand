@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 from odoo import fields
 from odoo.exceptions import UserError
-from odoo.tests.common import SingleTransactionCase
+from odoo.tests.common import Form, SingleTransactionCase
 
 
 class TestTaxInvoice(SingleTransactionCase):
@@ -95,7 +95,6 @@ class TestTaxInvoice(SingleTransactionCase):
                     ),
                 ],
                 "cash_basis_transition_account_id": cls.undue_output_vat_acct.id,
-                "cash_basis_base_account_id": cls.output_vat_acct.id,
             }
         )
         cls.input_vat = cls.env["account.tax"].create(
@@ -141,7 +140,6 @@ class TestTaxInvoice(SingleTransactionCase):
                     ),
                 ],
                 "cash_basis_transition_account_id": cls.undue_input_vat_acct.id,
-                "cash_basis_base_account_id": cls.input_vat_acct.id,
             }
         )
         cls.payment_term_immediate = cls.env["account.payment.term"].create(
@@ -158,7 +156,7 @@ class TestTaxInvoice(SingleTransactionCase):
                 "name": name,
                 "partner_id": partner.id,
                 "journal_id": journal.id,
-                "type": invoice_type,
+                "move_type": invoice_type,
                 "invoice_line_ids": [
                     (
                         0,
@@ -229,7 +227,7 @@ class TestTaxInvoice(SingleTransactionCase):
         # User have not filled in Tax Invoice / Date in account_invoice_tax
         with self.assertRaises(UserError) as e:
             self.supplier_invoice_vat.action_post()
-        self.assertEqual(e.exception.name, "Please fill in tax invoice and tax date")
+        self.assertEqual(e.exception.args[0], "Please fill in tax invoice and tax date")
         tax_invoice = "SINV-10001"
         tax_date = fields.Date.today()
         self.supplier_invoice_vat.tax_invoice_ids.write(
@@ -243,27 +241,21 @@ class TestTaxInvoice(SingleTransactionCase):
         tax_invoice = "SINV-10001"
         tax_date = fields.Date.today()
         self.supplier_invoice_undue_vat.action_post()
+        action = self.supplier_invoice_undue_vat.action_register_payment()
+        ctx = action.get("context")
+
         # Make full payment from invoice
-        payment = self.env["account.payment"].create(
-            {
-                "payment_date": fields.Date.today(),
-                "payment_type": "outbound",
-                "amount": 107.00,
-                "journal_id": self.journal_bank.id,
-                "partner_type": "supplier",
-                "partner_id": self.env.ref("base.res_partner_10").id,
-                "payment_method_id": self.payment_method_manual_out.id,
-                "invoice_ids": [(4, self.supplier_invoice_undue_vat.id, None)],
-            }
-        )
-        payment.post()
+        with Form(self.env["account.payment.register"].with_context(ctx)) as f:
+            f.journal_id = self.journal_bank
+        payment_wiz = f.save()
+        res = payment_wiz.action_create_payments()
+        payment = self.env["account.payment"].browse(res.get("res_id"))
         self.assertTrue(payment.tax_invoice_ids)
         # Clear tax cash basis
         with self.assertRaises(UserError) as e:
             payment.clear_tax_cash_basis()
-        self.assertEqual(e.exception.name, "Please fill in tax invoice and tax date")
+        self.assertEqual(e.exception.args[0], "Please fill in tax invoice and tax date")
         # Fill in tax invoice and clear undue vat
-        # with self.assertRaises(UserError) as e:
         payment.tax_invoice_ids.write(
             {"tax_invoice_number": tax_invoice, "tax_invoice_date": tax_date}
         )
@@ -274,9 +266,9 @@ class TestTaxInvoice(SingleTransactionCase):
         payment.tax_invoice_ids.write({"balance": 7.0})
         payment.clear_tax_cash_basis()
         # Cash basis journal is now posted
-        self.assertEquals(payment.tax_invoice_ids.mapped("move_id").state, "posted")
+        self.assertEqual(payment.tax_invoice_ids.mapped("move_id").state, "posted")
         # Check the move_line_ids, from both Bank and Cash Basis journal
-        self.assertEquals(len(payment.move_line_ids.mapped("move_id")), 2)
+        self.assertEqual(len(payment.move_line_ids.mapped("move_id")), 2)
         payment.action_draft()  # Unlink the relation
         self.assertFalse(payment.move_line_ids)
 
@@ -292,31 +284,24 @@ class TestTaxInvoice(SingleTransactionCase):
         """ Register Payment from Customer Invoice"""
         # Do not allow user to fill in Tax Invoice/Date
         self.customer_invoice_undue_vat.action_post()
+        action = self.customer_invoice_undue_vat.action_register_payment()
+        ctx = action.get("context")
         # Make full payment from invoice
-        payment = self.env["account.payment"].create(
-            {
-                "name": "Cust Receipt",
-                "payment_date": fields.Date.today(),
-                "payment_type": "inbound",
-                "amount": 107.00,
-                "journal_id": self.journal_bank.id,
-                "partner_type": "customer",
-                "partner_id": self.env.ref("base.res_partner_10").id,
-                "payment_method_id": self.payment_method_manual_out.id,
-                "invoice_ids": [(4, self.customer_invoice_undue_vat.id, None)],
-            }
-        )
-        payment.post()
+        with Form(self.env["account.payment.register"].with_context(ctx)) as f:
+            f.journal_id = self.journal_bank
+        payment_wiz = f.save()
+        res = payment_wiz.action_create_payments()
+        payment = self.env["account.payment"].browse(res.get("res_id"))
         self.assertTrue(payment.tax_invoice_ids)
         # Clear tax cash basis
         payment.clear_tax_cash_basis()
         # Cash basis journal is now posted
         tax_invoices = payment.tax_invoice_ids
-        self.assertEquals(tax_invoices.mapped("move_id").state, "posted")
+        self.assertEqual(tax_invoices.mapped("move_id").state, "posted")
         tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
-        self.assertEqual(tax_invoice_number, "Cust Receipt")
+        self.assertEqual(tax_invoice_number, payment.name)
         # Check the move_line_ids, from both Bank and Cash Basis journal
-        self.assertEquals(len(payment.move_line_ids.mapped("move_id")), 2)
+        self.assertEqual(len(payment.move_line_ids.mapped("move_id")), 2)
         payment.action_draft()  # Unlink the relation
         self.assertFalse(payment.move_line_ids)
 
@@ -342,30 +327,23 @@ class TestTaxInvoice(SingleTransactionCase):
         # Do not allow user to fill in Tax Invoice/Date
         self.customer_invoice_undue_vat_seq.action_post()
         # Make full payment from invoice
-        payment = self.env["account.payment"].create(
-            {
-                "name": "Cust Receipt",
-                "payment_date": fields.Date.today(),
-                "payment_type": "inbound",
-                "amount": 107.00,
-                "journal_id": self.journal_bank.id,
-                "partner_type": "customer",
-                "partner_id": self.env.ref("base.res_partner_10").id,
-                "payment_method_id": self.payment_method_manual_out.id,
-                "invoice_ids": [(4, self.customer_invoice_undue_vat_seq.id, None)],
-            }
-        )
-        payment.post()
+        action = self.customer_invoice_undue_vat_seq.action_register_payment()
+        ctx = action.get("context")
+        with Form(self.env["account.payment.register"].with_context(ctx)) as f:
+            f.journal_id = self.journal_bank
+        payment_wiz = f.save()
+        res = payment_wiz.action_create_payments()
+        payment = self.env["account.payment"].browse(res.get("res_id"))
         self.assertTrue(payment.tax_invoice_ids)
         # Clear tax cash basis
         payment.clear_tax_cash_basis()
         # Cash basis journal is now posted
         tax_invoices = payment.tax_invoice_ids
-        self.assertEquals(tax_invoices.mapped("move_id").state, "posted")
+        self.assertEqual(tax_invoices.mapped("move_id").state, "posted")
         tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
         self.assertEqual(tax_invoice_number, "CTX0002")
         # Check the move_line_ids, from both Bank and Cash Basis journal
-        self.assertEquals(len(payment.move_line_ids.mapped("move_id")), 2)
+        self.assertEqual(len(payment.move_line_ids.mapped("move_id")), 2)
         payment.action_draft()  # Unlink the relation
         self.assertFalse(payment.move_line_ids)
 
@@ -383,13 +361,17 @@ class TestTaxInvoice(SingleTransactionCase):
         payable_account = refund.partner_id.property_account_payable_id
         refund_ml = refund.line_ids.filtered(lambda l: l.account_id == payable_account)
         invoice.js_assign_outstanding_line(refund_ml.id)
-        cash_basis_entry = self.env["account.move"].search([("ref", "=", refund.name)])
-        cash_basis_entry.action_post()
+        cash_basis_entries = self.env["account.move"].search(
+            [("ref", "in", [invoice.name, refund.name])]
+        )
+        cash_basis_entries.action_post()
         # Not yet add tax invoice number, posting not affected
-        self.assertEqual(cash_basis_entry.state, "draft")
-        for tax_invoice in cash_basis_entry.tax_invoice_ids:
+        self.assertEqual(cash_basis_entries[0].state, "draft")
+        self.assertEqual(cash_basis_entries[1].state, "draft")
+        for tax_invoice in cash_basis_entries.mapped("tax_invoice_ids"):
             tax_invoice.tax_invoice_number = "/"
             tax_invoice.tax_invoice_date = fields.Date.today()
         # After tax invoice is filled, can now posted
-        cash_basis_entry.action_post()
-        self.assertEqual(cash_basis_entry.state, "posted")
+        cash_basis_entries.action_post()
+        self.assertEqual(cash_basis_entries[0].state, "posted")
+        self.assertEqual(cash_basis_entries[1].state, "posted")
