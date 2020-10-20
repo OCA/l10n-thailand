@@ -3,7 +3,7 @@
 
 {
     "name": "Thai Localization - Partner",
-    "version": "13.0.1.2.0",
+    "version": "14.0.1.0.0",
     "author": "Ecosoft, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-thailand",
     "license": "AGPL-3",
@@ -19,6 +19,6 @@
     ],
     "post_init_hook": "post_init_hook",
     "installable": True,
-    "development_status": "alpha",
+    "development_status": "Beta",
     "maintainers": ["kittiu"],
 }
