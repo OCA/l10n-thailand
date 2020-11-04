@@ -10,7 +10,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
 
     def _get_ws_params(self, wb, data, objects):
         withholding_tax_template = {
-            'sequence': {
+            '01_sequence': {
                 'header': {
                     'value': 'No.',
                 },
@@ -20,7 +20,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 },
                 'width': 3,
             },
-            'vat': {
+            '02_vat': {
                 'header': {
                     'value': 'Tax Invoice',
                 },
@@ -30,7 +30,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 },
                 'width': 16,
             },
-            'display_name': {
+            '03_display_name': {
                 'header': {
                     'value': 'Cus./Sup.',
                 },
@@ -39,7 +39,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 },
                 'width': 18,
             },
-            'street': {
+            '04_street': {
                 'header': {
                     'value': 'Address',
                 },
@@ -48,7 +48,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 },
                 'width': 20,
             },
-            'date': {
+            '05_date': {
                 'header': {
                     'value': 'Date',
                 },
@@ -59,7 +59,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 },
                 'width': 10,
             },
-            'income_desc': {
+            '06_income_desc': {
                 'header': {
                     'value': 'Income Description',
                 },
@@ -68,7 +68,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 },
                 'width': 18,
             },
-            'tax': {
+            '07_tax': {
                 'header': {
                     'value': 'Tax',
                 },
@@ -79,7 +79,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 },
                 'width': 8,
             },
-            'base_amount': {
+            '08_base_amount': {
                 'header': {
                     'value': 'Base Amount',
                 },
@@ -90,7 +90,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 },
                 'width': 13,
             },
-            'tax_amount': {
+            '09_tax_amount': {
                 'header': {
                     'value': 'Tax Amount',
                 },
@@ -101,7 +101,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 },
                 'width': 13,
             },
-            'tax_payer': {
+            '10_tax_payer': {
                 'header': {
                     'value': 'Tax Payer',
                 },
@@ -111,7 +111,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 },
                 'width': 12,
             },
-            'payment_id': {
+            '11_payment_id': {
                 'header': {
                     'value': 'Doc Ref.',
                 },
@@ -126,7 +126,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
             'ws_name': 'Withholding Tax Report',
             'generate_ws_method': '_withholding_tax_report',
             'title': 'Withholding Tax Report - %s' % (objects.company_id.name),
-            'wanted_list': [x for x in withholding_tax_template],
+            'wanted_list': [x for x in sorted(withholding_tax_template.keys())],
             'col_specs': withholding_tax_template,
         }
 
