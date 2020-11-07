@@ -157,7 +157,8 @@ class TestWithholdingTax(SavepointCase):
         with Form(self.account_payment.with_context(ctx), view=view_id) as f:
             payment = f.save()
         self.assertEqual(
-            payment.payment_difference_handling, "reconcile_multi_deduct",
+            payment.payment_difference_handling,
+            "reconcile_multi_deduct",
         )
         self.assertTrue(payment.deduction_ids)
         deduct_3 = payment.deduction_ids.filtered(
@@ -200,7 +201,8 @@ class TestWithholdingTax(SavepointCase):
         with Form(self.account_payment.with_context(ctx), view=view_id) as f:
             payment = f.save()
         self.assertEqual(
-            payment.payment_difference_handling, "reconcile_multi_deduct",
+            payment.payment_difference_handling,
+            "reconcile_multi_deduct",
         )
         self.assertTrue(payment.deduction_ids)
         self.assertEqual(
@@ -239,7 +241,8 @@ class TestWithholdingTax(SavepointCase):
         with Form(self.account_payment.with_context(ctx), view=view_id) as f:
             payment = f.save()
         self.assertEqual(
-            payment.payment_difference_handling, "reconcile_multi_deduct",
+            payment.payment_difference_handling,
+            "reconcile_multi_deduct",
         )
         self.assertTrue(payment.deduction_ids)
         # Keep 3% and deduct 5%
