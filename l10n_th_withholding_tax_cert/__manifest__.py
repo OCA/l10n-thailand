@@ -18,6 +18,6 @@
         "views/account_move_view.xml",
     ],
     "installable": True,
-    "development_status": "beta",
+    "development_status": "Beta",
     "maintainers": ["kittiu"],
 }
