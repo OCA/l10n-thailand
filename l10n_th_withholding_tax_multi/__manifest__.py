@@ -11,6 +11,6 @@
     "depends": ["l10n_th_withholding_tax", "account_payment_multi_deduction"],
     "data": ["views/account_payment_view.xml"],
     "installable": True,
-    "development_status": "beta",
+    "development_status": "Beta",
     "maintainers": ["kittiu"],
 }
