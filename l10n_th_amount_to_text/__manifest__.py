@@ -13,6 +13,6 @@
     "external_dependencies": {"python": ["num2words"]},
     "data": [],
     "installable": True,
-    "development_status": "alpha",
+    "development_status": "Alpha",
     "maintainers": ["Saran440"],
 }
