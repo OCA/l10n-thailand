@@ -18,7 +18,11 @@ class AccountMoveLine(models.Model):
     def _compute_wt_tax_id(self):
         for rec in self:
             # From invoice, default from product
-            if rec.move_id.move_type in ("out_invoice", "out_refund"):
+            if rec.move_id.move_type in ("out_invoice", "out_refund", "in_receipt"):
                 rec.wt_tax_id = rec.product_id.wt_tax_id
-            elif rec.move_id.move_type in ("in_invoice", "in_refund"):
+            elif rec.move_id.move_type in ("in_invoice", "in_refund", "out_receipt"):
                 rec.wt_tax_id = rec.product_id.supplier_wt_tax_id
+            elif rec.payment_id:
+                rec.wt_tax_id = rec.payment_id.wt_tax_id
+            else:
+                rec.wt_tax_id = False
