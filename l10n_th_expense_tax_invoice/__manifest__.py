@@ -12,6 +12,6 @@
     "data": ["views/hr_expense_view.xml"],
     "installable": True,
     "auto_install": True,
-    "development_status": "alpha",
+    "development_status": "Alpha",
     "maintainers": ["kittiu"],
 }

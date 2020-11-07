@@ -19,6 +19,6 @@
     ],
     "post_init_hook": "post_init_hook",
     "installable": True,
-    "development_status": "alpha",
+    "development_status": "Alpha",
     "maintainers": ["kittiu"],
 }
