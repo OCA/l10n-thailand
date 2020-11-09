@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="withholding_income_tax_account" model="account.account">
+        <field name="code">X152000</field>
+        <field name="name">Withholding Income Tax - (test)</field>
+        <field name="user_type_id" ref="account.data_account_type_current_assets" />
+        <field name="wt_account" eval="True" />
+    </record>
+    <record id="account_withholding_tax_data" model="account.withholding.tax">
+        <field name="name">Withholding Tax 3%</field>
+        <field name="account_id" ref="withholding_income_tax_account" />
+        <field name="amount" eval="3" />
+    </record>
+</odoo>

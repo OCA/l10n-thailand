@@ -1,40 +1,48 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-
     <record id="view_partner_form" model="ir.ui.view">
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
-
             <field name="vat" position="after">
-                <field name="branch" placeholder="Branch, e.g., 00000"/>
+                <field name="branch" placeholder="Branch, e.g., 00000" />
             </field>
-
             <xpath expr="//field[@name='name']" position="attributes">
                 <attribute name="readonly">1</attribute>
             </xpath>
-
             <xpath expr="//h1//field[@name='name']/.." position="after">
                 <div class="oe_edit_only">
-                    <field name="company_name" placeholder="Company name"
-                           attrs="{'invisible': [('is_company', '=', False)], 'required': [('is_company', '=', True)]}"/>
+                    <field
+                        name="name_company"
+                        placeholder="Company name"
+                        attrs="{'invisible': [('is_company', '=', False)], 'required': [('is_company', '=', True)]}"
+                    />
                 </div>
             </xpath>
-
         </field>
     </record>
-
     <record id="view_res_partner_filter" model="ir.ui.view">
-         <field name="name">res.partner.select</field>
-         <field name="model">res.partner</field>
-         <field name="inherit_id" ref="base.view_res_partner_filter" />
-         <field name="arch" type="xml">
+        <field name="name">res.partner.select</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter" />
+        <field name="arch" type="xml">
             <xpath expr="//filter[@name='group_company']" position="before">
-                <filter name="group_company_type" string="Legal Form"
-                        domain="[('is_company', '=', True)]"
-                        context="{'group_by': 'partner_company_type_id'}"/>
+                <filter
+                    name="group_company_type"
+                    string="Legal Form"
+                    domain="[('is_company', '=', True)]"
+                    context="{'group_by': 'partner_company_type_id'}"
+                />
             </xpath>
-         </field>
-     </record>
-
+        </field>
+    </record>
+    <record id="view_partner_form_firstname" model="ir.ui.view">
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="partner_firstname.view_partner_form_firstname" />
+        <field name="arch" type="xml">
+            <field name="firstname" position="after">
+                <field name="lastname" position="move" />
+            </field>
+        </field>
+    </record>
 </odoo>

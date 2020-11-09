@@ -3,12 +3,12 @@
 
 {
     "name": "Thai Localization - Base Location",
-    "version": "13.0.1.1.0",
+    "version": "13.0.1.2.4",
     "category": "Localisation/Asia",
     "license": "AGPL-3",
     "author": "Ecosoft, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-thailand",
     "depends": ["base_location_geonames_import"],
-    "data": ["wizard/geonames_import_view.xml"],
+    "data": ["views/res_city_zip_view.xml", "wizard/geonames_import_view.xml"],
     "installable": True,
 }

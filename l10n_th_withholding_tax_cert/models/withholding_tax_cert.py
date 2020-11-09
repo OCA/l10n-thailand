@@ -17,10 +17,50 @@ WHT_CERT_INCOME_TYPE = [
     ("1", "1. เงินเดือน ค่าจ้าง ฯลฯ 40(1)"),
     ("2", "2. ค่าธรรมเนียม ค่านายหน้า ฯลฯ 40(2)"),
     ("3", "3. ค่าแห่งลิขสิทธิ์ ฯลฯ 40(3)"),
-    ("5", "5. ค่าจ้างทำของ ค่าบริการ ฯลฯ 3 เตรส"),
-    ("6", "6. ค่าบริการ/ค่าสินค้าภาครัฐ"),
-    ("7", "7. ค่าจ้างทำของ ค่ารับเหมา"),
-    ("8", "8. ธุรกิจพาณิชย์ เกษตร อื่นๆ"),
+    ("4A", "4. ดอกเบี้ย ฯลฯ 40(4)ก"),
+    (
+        "4B11",
+        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.1) "
+        "กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ 30 ของกำไรสุทธิ",
+    ),
+    (
+        "4B12",
+        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.2) "
+        "กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ 25 ของกำไรสุทธิ",
+    ),
+    (
+        "4B13",
+        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.3) "
+        "กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ 20 ของกำไรสุทธิ",
+    ),
+    (
+        "4B14",
+        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.4) "
+        "กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ อื่นๆ (ระบุ) ของกำไรสุทธิ",
+    ),
+    (
+        "4B21",
+        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.1) "
+        "กำไรสุทธิกิจการที่ได้รับยกเว้นภาษีเงินได้นิติบุคคล",
+    ),
+    (
+        "4B22",
+        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.2) "
+        "ได้รับยกเว้นไม่ต้องนำมารวมคำนวณเป็นรายได้",
+    ),
+    (
+        "4B23",
+        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.3) "
+        "กำไรสุทธิส่วนที่หักผลขาดทุนสุทธิยกมาไม่เกิน 5 ปี",
+    ),
+    (
+        "4B24",
+        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.4) "
+        "กำไรที่รับรู้ทางบัญชีโดยวิธีส่วนได้เสีย",
+    ),
+    ("4B25", "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.5) อื่นๆ (ระบุ)"),
+    ("5", "5. ค่าจ้างทำของ ค่าบริการ ค่าเช่า ค่าขนส่ง ฯลฯ 3 เตรส"),
+    ("6", "6. อื่นๆ (ระบุ)"),
 ]
 
 
@@ -29,23 +69,33 @@ TAX_PAYER = [("withholding", "Withholding"), ("paid_one_time", "Paid One Time")]
 
 class WithholdingTaxCert(models.Model):
     _name = "withholding.tax.cert"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Withholding Tax Certificate"
 
     name = fields.Char(
-        string="Number", readonly=True, related="payment_id.name", store=True
+        string="Number",
+        compute="_compute_wt_cert_data",
+        states={"draft": [("readonly", False)]},
+        store=True,
+        tracking=True,
     )
     date = fields.Date(
         string="Date",
         required=True,
-        readonly=True,
-        copy=False,
+        compute="_compute_wt_cert_data",
+        store=True,
         states={"draft": [("readonly", False)]},
+        tracking=True,
     )
     state = fields.Selection(
         selection=[("draft", "Draft"), ("done", "Done"), ("cancel", "Cancelled")],
         string="Status",
         default="draft",
         copy=False,
+        tracking=True,
+    )
+    ref_wt_cert_id = fields.Many2one(
+        comodel_name="withholding.tax.cert", help="This field related from Old WT Cert."
     )
     payment_id = fields.Many2one(
         comodel_name="account.payment",
@@ -53,8 +103,21 @@ class WithholdingTaxCert(models.Model):
         copy=False,
         readonly=True,
         states={"draft": [("readonly", False)]},
-        domain="[('partner_id', '=', supplier_partner_id)]",
+        domain="[('partner_id', '=', supplier_partner_id),"
+        "('wt_cert_cancel', '=', True)]",
         ondelete="restrict",
+        tracking=True,
+    )
+    move_id = fields.Many2one(
+        comodel_name="account.move",
+        string="Move",
+        copy=False,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        domain="[('journal_id.type', '=', 'general'),"
+        "('wt_cert_cancel', '=', True), ('state', '=', 'posted')]",
+        ondelete="restrict",
+        tracking=True,
     )
     company_partner_id = fields.Many2one(
         comodel_name="res.partner",
@@ -68,10 +131,24 @@ class WithholdingTaxCert(models.Model):
         comodel_name="res.partner",
         string="Supplier",
         required=True,
-        readonly=True,
+        compute="_compute_wt_cert_data",
+        store=True,
         states={"draft": [("readonly", False)]},
-        copy=False,
         ondelete="restrict",
+    )
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        string="Main Company",
+        required=True,
+        readonly=True,
+        default=lambda self: self._default_company_id(),
+    )
+    currency_id = fields.Many2one(
+        comodel_name="res.currency",
+        related="company_id.currency_id",
+        store=True,
+        string="Currency",
+        readonly=True,
     )
     company_taxid = fields.Char(
         related="company_partner_id.vat", string="Company Tax ID", readonly=True
@@ -105,36 +182,67 @@ class WithholdingTaxCert(models.Model):
         copy=False,
     )
 
-    @api.onchange("payment_id")
-    def _onchange_payment_id(self):
-        """ Prepare withholding cert """
+    @api.model
+    def _default_company_id(self):
+        return self.env.company
+
+    @api.depends("payment_id", "move_id")
+    def _compute_wt_cert_data(self):
         wt_account_ids = self._context.get("wt_account_ids", [])
-        self.date = self.payment_id.payment_date
-        self.supplier_partner_id = self.payment_id.partner_id
-        # Hook to find wt move lines
-        wt_move_lines = self._get_wt_move_line(self.payment_id, wt_account_ids)
+        wt_ref_id = self._context.get("wt_ref_id", False)
         CertLine = self.env["withholding.tax.cert.line"]
-        for line in wt_move_lines:
-            self.wt_line += CertLine.new(self._prepare_wt_line(line))
+        Cert = self.env["withholding.tax.cert"]
+        if wt_account_ids:
+            wt_reference = Cert.browse(wt_ref_id)
+            for record in self:
+                # Hook to find wt move lines
+                wt_move_lines = record._get_wt_move_line(
+                    record.payment_id, record.move_id, wt_account_ids
+                )
+                partner_id = record.payment_id.partner_id or record.move_id.partner_id
+                # WHT from journal entry, use partner from line.
+                if record.move_id and record.move_id.type == "entry":
+                    partner = wt_move_lines.mapped("partner_id")
+                    if len(partner) == 1:
+                        partner_id = wt_move_lines[0].partner_id
+                record.write(
+                    {
+                        "name": record.payment_id.name or record.move_id.name,
+                        "date": record.payment_id.payment_date or record.move_id.date,
+                        "ref_wt_cert_id": wt_reference or False,
+                        "supplier_partner_id": partner_id,
+                    }
+                )
+                for line in wt_move_lines:
+                    record.wt_line += CertLine.new(record._prepare_wt_line(line))
 
     @api.model
     def _prepare_wt_line(self, move_line):
         """ Hook point to prepare wt_line """
+        wt_percent = move_line.wt_tax_id.amount
         vals = {
             "wt_cert_income_type": self._context.get("wt_cert_income_type"),
-            "wt_percent": False,
-            "base": False,
+            "wt_percent": wt_percent,
+            "base": (abs(move_line.balance) / wt_percent * 100)
+            if wt_percent
+            else False,
             "amount": abs(move_line.balance),
             "ref_move_line_id": move_line.id,
         }
         return vals
 
     @api.model
-    def _get_wt_move_line(self, payment, wt_account_ids):
+    def _get_wt_move_line(self, payment, move, wt_account_ids):
         """ Hook point to get wt_move_lines """
-        wt_move_lines = payment.move_line_ids.filtered(
-            lambda l: l.account_id.id in wt_account_ids
-        )
+        wt_move_lines = []
+        if payment:
+            wt_move_lines = payment.move_line_ids.filtered(
+                lambda l: l.account_id.id in wt_account_ids
+            )
+        elif move:
+            wt_move_lines = move.line_ids.filtered(
+                lambda l: l.account_id.id in wt_account_ids
+            )
         return wt_move_lines
 
     def action_draft(self):
@@ -142,6 +250,12 @@ class WithholdingTaxCert(models.Model):
         return True
 
     def action_done(self):
+        for rec in self:
+            if rec.ref_wt_cert_id:
+                rec.ref_wt_cert_id.write({"state": "cancel"})
+                rec.ref_wt_cert_id.message_post(
+                    body=_("This document was substituted by %s." % (rec.name))
+                )
         self.write({"state": "done"})
         return True
 
@@ -171,6 +285,9 @@ class WithholdingTaxCertLine(models.Model):
         string="Ref Journal Item",
         readonly=False,
         help="Reference back to journal item which create wt move",
+    )
+    company_id = fields.Many2one(
+        comodel_name="res.company", related="cert_id.company_id"
     )
 
     @api.constrains("base", "wt_percent", "amount")

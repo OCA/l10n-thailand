@@ -12,9 +12,11 @@ Repository นี้เป็นที่สำหรับพัฒนาแล
 
 ท่านสามารถเปิด Issue ได้ที่นี่เลย https://github.com/OCA/l10n-thailand/issues
 
-สำหรับคำถามเกี่ยวกับการทำงานหรือการช่วยเหลือในชุมชนผู้ใช้ Odoo ไทย ติดต่อที่:
 
-https://www.ocathailand.org/forum/1
+Other Resources
+===============
+
+* Unofficial Docker Image: https://hub.docker.com/r/poonlap/odoo-th
 
 Translation Status
 ------------------
