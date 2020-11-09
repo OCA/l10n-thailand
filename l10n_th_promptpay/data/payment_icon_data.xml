@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="payment_icon_promptpay" model="payment.icon">
+        <field name="name">PromptPay</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/promptpay_logo.png"/>
+    </record>
+    <record id="payment_icon_bbl" model="payment.icon">
+        <field name="name">Bangkok Bank</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/bbl.png"/>
+    </record>
+    <record id="payment_icon_kbank" model="payment.icon">
+        <field name="name">Kasikornbank</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/kbank.png"/>
+    </record>
+</odoo>

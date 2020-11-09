@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_l10n_th_promptpay_l10n_th_promptpay,l10n_th_promptpay.l10n_th_promptpay,model_l10n_th_promptpay_l10n_th_promptpay,base.group_user,1,1,1,1
