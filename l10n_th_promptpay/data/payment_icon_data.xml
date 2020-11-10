@@ -12,9 +12,9 @@
         <field name="name">Kasikornbank</field>
         <field name="image" type="base64" file="l10n_th_promptpay/static/img/kbank.png"/>
     </record>
-    <record id="payment_icon_rsb" model="payment.icon">
+    <record id="payment_icon_rbs" model="payment.icon">
         <field name="name">Royal Bank of Scotland</field>
-        <field name="image" type="base64" file="l10n_th_promptpay/static/img/rsb.png"/>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/rbs.png"/>
     </record>
     <record id="payment_icon_ktb" model="payment.icon">
         <field name="name">Krungthai Bank</field>
@@ -26,7 +26,7 @@
     </record>
     <record id="payment_icon_mufg" model="payment.icon">
         <field name="name">Bank of Tokyo-Mitsubishi UFJ</field>
-        <field name="image" type="base64" file="l10n_th_promptpay/static/img/mufh.png"/>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/mufg.png"/>
     </record>
     <record id="payment_icon_tmb" model="payment.icon">
         <field name="name">TMB Bank</field>
@@ -127,5 +127,9 @@
     <record id="payment_icon_lhb" model="payment.icon">
         <field name="name">Land and Houses Bank</field>
         <field name="image" type="base64" file="l10n_th_promptpay/static/img/lhb.png"/>
+    </record>
+    <record id="payment_icon_thaiqr" model="payment.icon">
+        <field name="name">Thai QR Payment</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/thai_qr_payment.png"/>
     </record>
 </odoo>
