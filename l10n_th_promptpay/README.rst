@@ -27,3 +27,4 @@ Other credits
 
 * https://github.com/jojoee/promptpay
 * https://github.com/poommitol-sse2017/payment_promptpayqr
+* https://github.com/omise/banks-logo
