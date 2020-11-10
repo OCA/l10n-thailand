@@ -1,17 +1,15 @@
 <odoo>
-  <data>
-    <record id="acquirer_form_inherit_promptpay" model="ir.ui.view">
-      <field name="name">payment.acquirer.form.inherit.sale.payment</field>
-      <field name="model">payment.acquirer</field>
-      <field name="inherit_id" ref="payment.acquirer_form"/>
-      <field name="arch" type="xml">
-        <xpath expr="//group[@name='payment_form']" position="after">
-          <group string="PromptPay QR code" name="promptpay_group">
-            <field name="qr_code_promptpay" attrs="{'invisible': [('provider', '!=', 'transfer')]}"/>
-            <field name="promptpay_id" attrs="{'invisible': [('provider', '!=', 'transfer')]}"/>
-          </group>
-        </xpath>
-      </field>
-    </record>
-  </data>
+  <record id="acquirer_form_inherit_promptpay" model="ir.ui.view">
+    <field name="name">payment.acquirer.form.inherit.sale.payment</field>
+    <field name="model">payment.acquirer</field>
+    <field name="inherit_id" ref="payment.acquirer_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//group[@name='payment_form']" position="after">
+        <group string="PromptPay QR code" name="promptpay_group">
+          <field name="qr_code_promptpay" attrs="{'invisible': [('provider', '!=', 'transfer')]}"/>
+          <field name="promptpay_id" attrs="{'invisible': [('provider', '!=', 'transfer')]}"/>
+        </group>
+      </xpath>
+    </field>
+  </record>
 </odoo>
