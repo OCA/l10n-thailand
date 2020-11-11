@@ -14,7 +14,7 @@
         "views/payment_transfer_acquirer_form.xml",
         "views/views.xml",
     ],
-    "external_dependencies": {"python": ["promptpay"],},
+    "external_dependencies": {"python": ["promptpay"]},
     "installable": True,
     "application": False,
 }
