@@ -187,9 +187,10 @@ msgid "Create Withholding Tax Cert Wizard"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: code:addons/l10n_th_withholding_tax_cert/models/withholding_tax_cert.py:0
 #: code:addons/l10n_th_withholding_tax_cert/wizard/create_withholding_tax_cert.py:0
-#: model:ir.actions.act_window,name:l10n_th_withholding_tax_cert.action_create_withholding_tax_cert
-#: model:ir.actions.act_window,name:l10n_th_withholding_tax_cert.action_move_create_withholding_tax_cert
+#: model:ir.actions.server,name:l10n_th_withholding_tax_cert.action_create_withholding_tax_cert
+#: model:ir.actions.server,name:l10n_th_withholding_tax_cert.action_move_create_withholding_tax_cert
 #, python-format
 msgid "Create Withholding Tax Cert."
 msgstr ""
