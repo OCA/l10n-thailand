@@ -31,7 +31,6 @@ class TestWTCert(SavepointCase):
         cls.account_move = cls.env["account.move"]
         cls.account_payment = cls.env["account.payment"]
         cls.wt_cert = cls.env["withholding.tax.cert"]
-        cls.wt_cert_wizard = cls.env["create.withholding.tax.cert"]
         cls.wt_account = cls.browse_ref(
             cls, "l10n_th_withholding_tax.withholding_income_tax_account"
         )
@@ -121,7 +120,8 @@ class TestWTCert(SavepointCase):
             "active_ids": [payment.id],
             "active_model": "account.payment",
         }
-        f = Form(self.wt_cert_wizard.with_context(ctx))
+        res = self.wt_cert.with_context(ctx).action_create_withholding_tax_cert()
+        f = Form(self.env[res["res_model"]].with_context(res["context"]))
         wizard = f.save()
         res = wizard.create_wt_cert()
         # New WT Cert
@@ -166,7 +166,8 @@ class TestWTCert(SavepointCase):
             "active_ids": [invoice_id.id],
             "active_model": "account.move",
         }
-        f = Form(self.wt_cert_wizard.with_context(ctx))
+        res = self.wt_cert.with_context(ctx).action_create_withholding_tax_cert()
+        f = Form(self.env[res["res_model"]].with_context(res["context"]))
         wizard = f.save()
         wizard.write({"wt_account_ids": invoice_id.line_ids.mapped("account_id")})
         res = wizard.create_wt_cert()
