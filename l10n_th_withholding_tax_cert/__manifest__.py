@@ -8,7 +8,7 @@
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-thailand",
     "category": "Localization / Accounting",
-    "depends": ["account", "l10n_th_withholding_tax"],
+    "depends": ["l10n_th_withholding_tax"],
     "data": [
         "security/account_security.xml",
         "security/ir.model.access.csv",

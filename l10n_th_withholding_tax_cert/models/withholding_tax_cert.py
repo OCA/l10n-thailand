@@ -95,7 +95,9 @@ class WithholdingTaxCert(models.Model):
         tracking=True,
     )
     ref_wt_cert_id = fields.Many2one(
-        comodel_name="withholding.tax.cert", help="This field related from Old WT Cert."
+        string="Ref WHT Cert.",
+        comodel_name="withholding.tax.cert",
+        help="This field related from Old WT Cert.",
     )
     payment_id = fields.Many2one(
         comodel_name="account.payment",
@@ -190,6 +192,7 @@ class WithholdingTaxCert(models.Model):
     def _compute_wt_cert_data(self):
         wt_account_ids = self._context.get("wt_account_ids", [])
         wt_ref_id = self._context.get("wt_ref_id", False)
+        income_tax_form = self._context.get("income_tax_form", False)
         CertLine = self.env["withholding.tax.cert.line"]
         Cert = self.env["withholding.tax.cert"]
         if wt_account_ids:
@@ -205,12 +208,13 @@ class WithholdingTaxCert(models.Model):
                     partner = wt_move_lines.mapped("partner_id")
                     if len(partner) == 1:
                         partner_id = wt_move_lines[0].partner_id
-                record.write(
+                record.update(
                     {
                         "name": record.payment_id.name or record.move_id.name,
                         "date": record.payment_id.payment_date or record.move_id.date,
                         "ref_wt_cert_id": wt_reference or False,
                         "supplier_partner_id": partner_id,
+                        "income_tax_form": income_tax_form,
                     }
                 )
                 for line in wt_move_lines:
@@ -220,8 +224,12 @@ class WithholdingTaxCert(models.Model):
     def _prepare_wt_line(self, move_line):
         """ Hook point to prepare wt_line """
         wt_percent = move_line.wt_tax_id.amount
+        wt_cert_income_type = self._context.get("wt_cert_income_type")
+        select_dict = dict(WHT_CERT_INCOME_TYPE)
+        wt_cert_income_desc = select_dict.get(wt_cert_income_type, False)
         vals = {
-            "wt_cert_income_type": self._context.get("wt_cert_income_type"),
+            "wt_cert_income_type": wt_cert_income_type,
+            "wt_cert_income_desc": wt_cert_income_desc,
             "wt_percent": wt_percent,
             "base": (abs(move_line.balance) / wt_percent * 100)
             if wt_percent
@@ -265,9 +273,10 @@ class WithholdingTaxCert(models.Model):
 
     def _get_wth_cert_model_view(self):
         res_model = "create.withholding.tax.cert"
-        view_id = self.env.ref(
-            "l10n_th_withholding_tax_cert.create_withholding_tax_cert"
-        ).id
+        view = "l10n_th_withholding_tax_cert.create_withholding_tax_cert"
+        if len(self._context.get("active_ids")) > 1:
+            view = "l10n_th_withholding_tax_cert.create_withholding_tax_cert_multi"
+        view_id = self.env.ref(view).id
         return res_model, view_id
 
     def action_create_withholding_tax_cert(self):
