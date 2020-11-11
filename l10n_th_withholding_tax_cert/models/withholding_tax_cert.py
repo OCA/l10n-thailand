@@ -263,6 +263,28 @@ class WithholdingTaxCert(models.Model):
         self.write({"state": "cancel"})
         return True
 
+    def _get_wth_cert_model_view(self):
+        res_model = "create.withholding.tax.cert"
+        view_id = self.env.ref(
+            "l10n_th_withholding_tax_cert.create_withholding_tax_cert"
+        ).id
+        return res_model, view_id
+
+    def action_create_withholding_tax_cert(self):
+        """ This function is called from either account.move or account.payment """
+        if not self._context.get("active_ids"):
+            return
+        res_model, view_id = self._get_wth_cert_model_view()
+        return {
+            "name": _("Create Withholding Tax Cert."),
+            "res_model": res_model,
+            "view_mode": "form",
+            "view_id": view_id,
+            "context": self.env.context,
+            "target": "new",
+            "type": "ir.actions.act_window",
+        }
+
 
 class WithholdingTaxCertLine(models.Model):
     _name = "withholding.tax.cert.line"
