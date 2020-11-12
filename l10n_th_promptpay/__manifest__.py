@@ -17,4 +17,5 @@
     "external_dependencies": {"python": ["promptpay"]},
     "installable": True,
     "application": False,
+    "development_statue": "Alpha",   # Or Beta when it is used lightly, or Production/Stable
 }
