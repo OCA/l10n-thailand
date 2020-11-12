@@ -3,7 +3,7 @@
 {
     "name": "Thai Localization - PromptPay",
     "version": "13.0.1.0.0",
-    "author": "Poonlap V., " "Odoo Community Association (OCA)",
+    "author": "Poonlap V.,Odoo Community Association (OCA)",
     "website": "https://github.com/poonlap",
     "license": "AGPL-3",
     "category": "Accounting / Payment",
