@@ -20,26 +20,31 @@ msgid "% Tax"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__create_withholding_tax_cert__wt_cert_income_type__1
 #: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__withholding_tax_cert_line__wt_cert_income_type__1
 msgid "1. เงินเดือน ค่าจ้าง ฯลฯ 40(1)"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__create_withholding_tax_cert__wt_cert_income_type__2
 #: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__withholding_tax_cert_line__wt_cert_income_type__2
 msgid "2. ค่าธรรมเนียม ค่านายหน้า ฯลฯ 40(2)"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__create_withholding_tax_cert__wt_cert_income_type__3
 #: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__withholding_tax_cert_line__wt_cert_income_type__3
 msgid "3. ค่าแห่งลิขสิทธิ์ ฯลฯ 40(3)"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__create_withholding_tax_cert__wt_cert_income_type__4a
 #: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__withholding_tax_cert_line__wt_cert_income_type__4a
 msgid "4. ดอกเบี้ย ฯลฯ 40(4)ก"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__create_withholding_tax_cert__wt_cert_income_type__4b11
 #: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__withholding_tax_cert_line__wt_cert_income_type__4b11
 msgid ""
 "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.1) กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ 30 "
@@ -47,6 +52,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__create_withholding_tax_cert__wt_cert_income_type__4b12
 #: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__withholding_tax_cert_line__wt_cert_income_type__4b12
 msgid ""
 "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.2) กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ 25 "
@@ -54,6 +60,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__create_withholding_tax_cert__wt_cert_income_type__4b13
 #: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__withholding_tax_cert_line__wt_cert_income_type__4b13
 msgid ""
 "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.3) กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ 20 "
@@ -61,6 +68,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__create_withholding_tax_cert__wt_cert_income_type__4b14
 #: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__withholding_tax_cert_line__wt_cert_income_type__4b14
 msgid ""
 "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.4) กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ "
@@ -68,6 +76,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__create_withholding_tax_cert__wt_cert_income_type__4b21
 #: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__withholding_tax_cert_line__wt_cert_income_type__4b21
 msgid ""
 "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.1) "
@@ -75,12 +84,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__create_withholding_tax_cert__wt_cert_income_type__4b22
 #: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__withholding_tax_cert_line__wt_cert_income_type__4b22
 msgid ""
 "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.2) ได้รับยกเว้นไม่ต้องนำมารวมคำนวณเป็นรายได้"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__create_withholding_tax_cert__wt_cert_income_type__4b23
 #: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__withholding_tax_cert_line__wt_cert_income_type__4b23
 msgid ""
 "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.3) กำไรสุทธิส่วนที่หักผลขาดทุนสุทธิยกมาไม่เกิน 5 "
@@ -88,21 +99,25 @@ msgid ""
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__create_withholding_tax_cert__wt_cert_income_type__4b24
 #: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__withholding_tax_cert_line__wt_cert_income_type__4b24
 msgid "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.4) กำไรที่รับรู้ทางบัญชีโดยวิธีส่วนได้เสีย"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__create_withholding_tax_cert__wt_cert_income_type__4b25
 #: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__withholding_tax_cert_line__wt_cert_income_type__4b25
 msgid "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.5) อื่นๆ (ระบุ)"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__create_withholding_tax_cert__wt_cert_income_type__5
 #: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__withholding_tax_cert_line__wt_cert_income_type__5
 msgid "5. ค่าจ้างทำของ ค่าบริการ ค่าเช่า ค่าขนส่ง ฯลฯ 3 เตรส"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__create_withholding_tax_cert__wt_cert_income_type__6
 #: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__withholding_tax_cert_line__wt_cert_income_type__6
 msgid "6. อื่นๆ (ระบุ)"
 msgstr ""
@@ -157,6 +172,7 @@ msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
 #: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_cert.create_withholding_tax_cert
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_cert.create_withholding_tax_cert_multi
 #: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_cert.view_withholding_tax_cert_form
 msgid "Cancel"
 msgstr ""
@@ -178,7 +194,15 @@ msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
 #: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_cert.create_withholding_tax_cert
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_cert.create_withholding_tax_cert_multi
 msgid "Create"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert
+#: code:addons/l10n_th_withholding_tax_cert/wizard/create_withholding_tax_cert.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_cert.create_withholding_tax_cert_multi
+#, python-format
+msgid "Create Multi Withholding Tax Cert."
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
@@ -196,9 +220,16 @@ msgid "Create Withholding Tax Cert."
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_cert.create_withholding_tax_cert_multi
+msgid ""
+"Create multiple withholding tax certs, based on account move for withholding "
+"tax."
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert
 #: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_cert.create_withholding_tax_cert
 msgid ""
-"Create new witholding tax cert. based on account move for withholding tax."
+"Create new withholding tax cert. based on account move for withholding tax."
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
@@ -303,6 +334,7 @@ msgid "Income Description"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_create_withholding_tax_cert__income_tax_form
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_withholding_tax_cert__income_tax_form
 msgid "Income Tax Form"
 msgstr ""
@@ -420,21 +452,25 @@ msgid "Options"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__create_withholding_tax_cert__income_tax_form__pnd1
 #: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__withholding_tax_cert__income_tax_form__pnd1
 msgid "PND1"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__create_withholding_tax_cert__income_tax_form__pnd3
 #: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__withholding_tax_cert__income_tax_form__pnd3
 msgid "PND3"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__create_withholding_tax_cert__income_tax_form__pnd3a
 #: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__withholding_tax_cert__income_tax_form__pnd3a
 msgid "PND3a"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__create_withholding_tax_cert__income_tax_form__pnd53
 #: model:ir.model.fields.selection,name:l10n_th_withholding_tax_cert.selection__withholding_tax_cert__income_tax_form__pnd53
 msgid "PND53"
 msgstr ""
@@ -473,7 +509,7 @@ msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_withholding_tax_cert__ref_wt_cert_id
-msgid "Ref Wt Cert"
+msgid "Ref WHT Cert."
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
@@ -587,6 +623,7 @@ msgid "Total Tax"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_create_withholding_tax_cert__wt_cert_income_type
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_withholding_tax_cert_line__wt_cert_income_type
 msgid "Type of Income"
 msgstr ""
