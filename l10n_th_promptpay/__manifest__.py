@@ -4,7 +4,7 @@
     "name": "Thai Localization - PromptPay",
     "version": "13.0.1.0.0",
     "author": "Poonlap V.,Odoo Community Association (OCA)",
-    "website": "https://github.com/poonlap",
+    "website": "https://github.com/OCA/l10n-thailand",
     "license": "AGPL-3",
     "category": "Accounting / Payment",
     "summary": "Use PromptPay QR code with transfer acquirer.",
