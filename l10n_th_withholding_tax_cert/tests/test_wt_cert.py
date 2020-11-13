@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
 from odoo import tools
+from odoo.exceptions import UserError
 from odoo.modules.module import get_resource_path
 from odoo.tests.common import Form, SavepointCase
 
@@ -37,6 +38,7 @@ class TestWTCert(SavepointCase):
 
     def _create_invoice(self, partner_id, journal_id, invoice_type, wt_account=False):
         a_expense = self.browse_ref("account.a_expense")
+        bank_usd = self.browse_ref("account.usd_bnk")
         invoice_dict = {
             "name": "Test Supplier Invoice WT",
             "partner_id": partner_id,
@@ -53,8 +55,18 @@ class TestWTCert(SavepointCase):
                             {
                                 "account_id": wt_account.id,
                                 "partner_id": self.partner_1.id,
+                                "name": "Test line wht",
+                                "credit": 3.00,
+                            },
+                        ),
+                        (
+                            0,
+                            0,
+                            {
+                                "account_id": bank_usd.id,
+                                "partner_id": self.partner_1.id,
                                 "name": "Test line credit",
-                                "credit": 100.00,
+                                "credit": 97.00,
                             },
                         ),
                         (
@@ -87,21 +99,15 @@ class TestWTCert(SavepointCase):
                     ]
                 }
             )
-        invoice_id = self.account_move.create(invoice_dict)
-        return invoice_id
+        invoice = self.account_move.create(invoice_dict)
+        return invoice
 
-    def test_01_create_wt_cert_payment(self):
-        """ Payment to WT Cert """
+    def _register_payment(self, invoice):
         bank_journal = self.browse_ref("account.bank_journal")
-        expenses_journal = self.browse_ref("account.expenses_journal")
-        invoice_id = self._create_invoice(
-            self.partner_1.id, expenses_journal.id, "in_invoice"
-        )
-        invoice_id.action_post()
         # Payment by writeoff with withholding tax account
         ctx = {
-            "active_ids": [invoice_id.id],
-            "active_id": invoice_id.id,
+            "active_ids": [invoice.id],
+            "active_id": invoice.id,
             "active_model": "account.move",
         }
         view_id = "account.view_account_payment_invoice_form"
@@ -113,7 +119,16 @@ class TestWTCert(SavepointCase):
             f.writeoff_label = "Withhold 3%"
         payment = f.save()
         payment.post()
-        self.assertEqual(payment.state, "posted")
+        return payment
+
+    def test_01_create_wt_cert_payment(self):
+        """ Payment to WT Cert """
+        expenses_journal = self.browse_ref("account.expenses_journal")
+        invoice = self._create_invoice(
+            self.partner_1.id, expenses_journal.id, "in_invoice"
+        )
+        invoice.action_post()
+        payment = self._register_payment(invoice)
         # Create WT Cert from Payment's Action Wizard
         ctx = {
             "active_id": payment.id,
@@ -121,12 +136,14 @@ class TestWTCert(SavepointCase):
             "active_model": "account.payment",
         }
         res = self.wt_cert.with_context(ctx).action_create_withholding_tax_cert()
-        f = Form(self.env[res["res_model"]].with_context(res["context"]))
+        view = self.env["ir.ui.view"].browse(res["view_id"]).xml_id
+        f = Form(self.env[res["res_model"]].with_context(res["context"]), view=view)
         wizard = f.save()
+        wizard.write({"wt_account_ids": [self.wt_account.id]})
         res = wizard.create_wt_cert()
         # New WT Cert
         ctx_cert = res.get("context")
-        ctx_cert.update({"default_income_tax_form": "pnd3", "wt_cert_income_type": "1"})
+        ctx_cert.update({"income_tax_form": "pnd3", "wt_cert_income_type": "1"})
         with Form(self.wt_cert.with_context(ctx_cert)) as f:
             f.income_tax_form = "pnd3"
         cert = f.save()
@@ -141,7 +158,7 @@ class TestWTCert(SavepointCase):
         wizard.write({"substitute": True, "wt_cert_id": cert})
         res = wizard.create_wt_cert()
         ctx_cert = res.get("context")
-        ctx_cert.update({"default_income_tax_form": "pnd3", "wt_cert_income_type": "1"})
+        ctx_cert.update({"income_tax_form": "pnd3", "wt_cert_income_type": "1"})
         with Form(self.wt_cert.with_context(ctx_cert)) as f:
             f.income_tax_form = "pnd3"
         cert2 = f.save()
@@ -156,26 +173,96 @@ class TestWTCert(SavepointCase):
     def test_02_create_wt_cert_je(self):
         """ Journal Entry to WT Cert """
         misc_journal = self.browse_ref("account.miscellaneous_journal")
-        invoice_id = self._create_invoice(
-            False, misc_journal.id, "entry", self.wt_account
-        )
-        invoice_id.action_post()
+        invoice = self._create_invoice(False, misc_journal.id, "entry", self.wt_account)
+        self.assertEqual(invoice.state, "draft")
+        invoice.action_post()
+        self.assertEqual(invoice.state, "posted")
         # Create WT Cert from Journal Entry's Action Wizard
         ctx = {
-            "active_id": invoice_id.id,
-            "active_ids": [invoice_id.id],
+            "active_id": invoice.id,
+            "active_ids": [invoice.id],
             "active_model": "account.move",
         }
         res = self.wt_cert.with_context(ctx).action_create_withholding_tax_cert()
-        f = Form(self.env[res["res_model"]].with_context(res["context"]))
+        view = self.env["ir.ui.view"].browse(res["view_id"]).xml_id
+        f = Form(self.env[res["res_model"]].with_context(res["context"]), view=view)
         wizard = f.save()
-        wizard.write({"wt_account_ids": invoice_id.line_ids.mapped("account_id")})
+        wizard.write({"wt_account_ids": [self.wt_account.id]})
         res = wizard.create_wt_cert()
         # New WT Cert
         ctx_cert = res.get("context")
-        ctx_cert.update({"default_income_tax_form": "pnd3", "wt_cert_income_type": "1"})
+        ctx_cert.update({"income_tax_form": "pnd3", "wt_cert_income_type": "1"})
         with Form(self.wt_cert.with_context(ctx_cert)) as f:
             f.income_tax_form = "pnd3"
         wt_cert = f.save()
         self.assertEqual(wt_cert.supplier_partner_id, self.partner_1)
-        invoice_id.button_wt_certs()
+        invoice.button_wt_certs()
+
+    def test_03_create_wt_cert_payment_multi(self):
+        """ Payments to WT Certs """
+        expenses_journal = self.browse_ref("account.expenses_journal")
+        invoice = self._create_invoice(
+            self.partner_1.id, expenses_journal.id, "in_invoice"
+        )
+        invoice2 = invoice.copy()
+        invoice.action_post()
+        invoice2.action_post()
+        payment = self._register_payment(invoice)
+        payment2 = self._register_payment(invoice2)
+        # Create WT Cert from Payment's Action Wizard
+        ctx = {
+            "active_ids": [payment.id, payment2.id],
+            "active_model": "account.payment",
+        }
+        res = self.wt_cert.with_context(ctx).action_create_withholding_tax_cert()
+        view = self.env["ir.ui.view"].browse(res["view_id"]).xml_id
+        with Form(
+            self.env[res["res_model"]].with_context(res["context"]), view=view
+        ) as f:
+            f.income_tax_form = "pnd3"
+            f.wt_cert_income_type = "1"
+        wizard = f.save()
+        wizard.write({"wt_account_ids": [self.wt_account.id]})
+        res = wizard.create_wt_cert_multi()
+        certs = self.wt_cert.search(res["domain"])
+        self.assertEqual(len(certs), 2)
+        for cert in certs:
+            self.assertEqual(cert.wt_line.amount, 3)
+
+    def test_04_create_wt_cert_je_multi(self):
+        """ Journal Entries to WT Certs """
+        misc_journal = self.browse_ref("account.miscellaneous_journal")
+        invoice = self._create_invoice(False, misc_journal.id, "entry", self.wt_account)
+        self.assertEqual(invoice.state, "draft")
+        invoice.action_post()
+        self.assertEqual(invoice.state, "posted")
+        invoice2 = invoice.copy()
+        self.assertEqual(invoice2.state, "draft")
+        # Create WT Cert from Journal Entry's Action Wizard
+        ctx = {
+            "active_ids": [invoice.id, invoice2.id],
+            "active_model": "account.move",
+        }
+        res = self.wt_cert.with_context(ctx).action_create_withholding_tax_cert()
+        view = self.env["ir.ui.view"].browse(res["view_id"]).xml_id
+        # Error when create WT Cert with draft invoice
+        with self.assertRaises(UserError):
+            with Form(
+                self.env[res["res_model"]].with_context(res["context"]), view=view
+            ) as f:
+                f.income_tax_form = "pnd3"
+                f.wt_cert_income_type = "1"
+            wizard = f.save()
+        invoice2.action_post()
+        with Form(
+            self.env[res["res_model"]].with_context(res["context"]), view=view
+        ) as f:
+            f.income_tax_form = "pnd3"
+            f.wt_cert_income_type = "1"
+        wizard = f.save()
+        wizard.write({"wt_account_ids": [self.wt_account.id]})
+        res = wizard.create_wt_cert_multi()
+        certs = self.wt_cert.search(res["domain"])
+        self.assertEqual(len(certs), 2)
+        for cert in certs:
+            self.assertEqual(cert.wt_line.amount, 3)

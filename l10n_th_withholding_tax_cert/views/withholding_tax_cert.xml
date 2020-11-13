@@ -64,7 +64,7 @@
                             <field name="currency_id" invisible="1" />
                             <field
                                 name="ref_wt_cert_id"
-                                attrs="{'invisible': [('id', '=', False)]}"
+                                attrs="{'invisible': [('ref_wt_cert_id', '=', False)]}"
                             />
                             <field name="date" />
                         </group>
