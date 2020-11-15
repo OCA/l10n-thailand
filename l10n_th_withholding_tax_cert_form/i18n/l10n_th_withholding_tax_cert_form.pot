@@ -15,7 +15,17 @@ msgstr ""
 
 #. module: l10n_th_withholding_tax_cert_form
 #: model:ir.actions.report,print_report_name:l10n_th_withholding_tax_cert_form.withholding_tax_pdf_report
-msgid "'WHT - [%s]' % object.display_name"
+msgid "'WT Certificates - %s' % object.display_name"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_cert_form.withholding_layout_report
+msgid "<span class=\"opacity\">ยกเลิก</span>"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_cert_form.withholding_layout_report
+msgid "<span class=\"wt_reference_text\">ออกแทนเอกสารเลขที่</span>"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert_form
@@ -35,7 +45,7 @@ msgstr ""
 
 #. module: l10n_th_withholding_tax_cert_form
 #: model:ir.actions.report,name:l10n_th_withholding_tax_cert_form.withholding_tax_pdf_report
-msgid "Withholding Cert (pdf)"
+msgid "WT Certificates (pdf)"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert_form
