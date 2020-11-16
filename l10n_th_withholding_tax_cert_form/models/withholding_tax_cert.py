@@ -16,8 +16,8 @@ class WithholdingTaxCert(models.Model):
         return desc
 
     def _group_wt_line(self, lines):
-        groups = lines.read_group(
-            domain=[],
+        groups = self.env["withholding.tax.cert.line"].read_group(
+            domain=[("id", "in", lines.ids)],
             fields=["wt_cert_income_type", "base", "amount"],
             groupby=["wt_cert_income_type"],
             lazy=False,
