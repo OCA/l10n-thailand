@@ -1,4 +1,4 @@
-First, you need to create a eCommerce website. 
+First, you need to create a eCommerce website.
 
 To configure this module, you need to:
 
