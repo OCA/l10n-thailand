@@ -1,2 +1,2 @@
 * Poonlap V. <poonlap@tanabutr.co.th>
-* Kitti U. @ Ecosoft <kittiu@gmail.com>
+* Kitti U. <kittiu@ecosoft.co.th>
