@@ -204,7 +204,11 @@ class AccountMove(models.Model):
         for move in self:
             for tax_invoice in move.tax_invoice_ids.filtered(
                 lambda l: l.tax_line_id.type_tax_use == "purchase"
-                or (l.move_id.type == "entry" and not l.payment_id)
+                or (
+                    l.move_id.type == "entry"
+                    and not l.payment_id
+                    and l.move_id.journal_id.type != "sale"
+                )
             ):
                 if (
                     not tax_invoice.tax_invoice_number
@@ -249,6 +253,7 @@ class AccountMove(models.Model):
         for move in self:
             for tax_invoice in move.tax_invoice_ids.filtered(
                 lambda l: l.tax_line_id.type_tax_use == "sale"
+                or l.move_id.journal_id.type == "sale"
             ):
                 tinv_number, tinv_date = self._get_tax_invoice_number(
                     move, tax_invoice, tax_invoice.tax_line_id
