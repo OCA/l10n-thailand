@@ -210,7 +210,11 @@ class AccountMove(models.Model):
         for move in self:
             for tax_invoice in move.tax_invoice_ids.filtered(
                 lambda l: l.tax_line_id.type_tax_use == "purchase"
-                or (l.move_id.move_type == "entry" and not l.payment_id)
+                or (
+                    l.move_id.type == "entry"
+                    and not l.payment_id
+                    and l.move_id.journal_id.type != "sale"
+                )
             ):
                 if (
                     not tax_invoice.tax_invoice_number
@@ -218,10 +222,10 @@ class AccountMove(models.Model):
                 ):
                     if tax_invoice.payment_id:  # Defer posting for payment
                         tax_invoice.payment_id.write({"to_clear_tax": True})
-                        return False
+                        return self.browse()  # return False
                     elif self.mapped("move_type") == ["entry", "entry"]:
                         # Case Invoice reconcile with Refund, not perfect yet!
-                        return False
+                        return self.browse()  # return False
                     else:
                         raise UserError(_("Please fill in tax invoice and tax date"))
 
@@ -255,6 +259,7 @@ class AccountMove(models.Model):
         for move in self:
             for tax_invoice in move.tax_invoice_ids.filtered(
                 lambda l: l.tax_line_id.type_tax_use == "sale"
+                or l.move_id.journal_id.type == "sale"
             ):
                 tinv_number, tinv_date = self._get_tax_invoice_number(
                     move, tax_invoice, tax_invoice.tax_line_id
@@ -332,9 +337,7 @@ class AccountMove(models.Model):
 class AccountPartialReconcile(models.Model):
     _inherit = "account.partial.reconcile"
 
-    def _create_tax_cash_basis_moves(
-        self,
-    ):
+    def _create_tax_cash_basis_moves(self):
         """This method is called from the move lines that
         create cash basis entry. We want to use the same payment_id when
         create account.move.tax.invoice"""
