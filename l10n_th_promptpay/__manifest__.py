@@ -1,5 +1,5 @@
 # Copyright 2020 Poonlap V.
-# Licensed AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# Licensed AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 {
     "name": "Thai Localization - PromptPay",
     "version": "13.0.1.0.0",
