@@ -8,7 +8,7 @@
     "license": "AGPL-3",
     "category": "Accounting / Payment",
     "summary": "Use PromptPay QR code with transfer acquirer.",
-    "depends": ["payment", "payment_transfer", "website_sale"],
+    "depends": ["payment_transfer", "website_sale"],
     "data": [
         "data/payment_icon_data.xml",
         "views/payment_transfer_acquirer_form.xml",
