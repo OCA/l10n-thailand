@@ -12,7 +12,7 @@
     "data": [
         "data/payment_icon_data.xml",
         "views/payment_transfer_acquirer_form.xml",
-        "views/views.xml",
+        "views/payment_views.xml",
     ],
     "external_dependencies": {"python": ["promptpay"]},
     "installable": True,
