@@ -13,6 +13,7 @@ setuptools.setup(
         'odoo13-addon-l10n_th_expense_tax_invoice',
         'odoo13-addon-l10n_th_fonts',
         'odoo13-addon-l10n_th_partner',
+        'odoo13-addon-l10n_th_promptpay',
         'odoo13-addon-l10n_th_tax_invoice',
         'odoo13-addon-l10n_th_tax_report',
         'odoo13-addon-l10n_th_withholding_tax',
