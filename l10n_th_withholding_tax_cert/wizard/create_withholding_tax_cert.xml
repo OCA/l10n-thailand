@@ -6,8 +6,10 @@
         <field name="model">create.withholding.tax.cert</field>
         <field name="arch" type="xml">
             <form string="Post Journal Entries">
-                <p
-                >Create new withholding tax cert. based on account move for withholding tax.</p>
+                <p>
+                    Create new withholding tax cert. based on account move for
+                    withholding tax.
+                </p>
                 <group>
                     <group>
                         <field name="wt_account_ids" widget="many2many_tags" />
@@ -53,8 +55,10 @@
         <field name="model">create.withholding.tax.cert</field>
         <field name="arch" type="xml">
             <form string="Create Multi Withholding Tax Cert.">
-                <p
-                >Create multiple withholding tax certs, based on account move for withholding tax.</p>
+                <p>
+                    Create multiple withholding tax certs, based on account move for
+                    withholding tax.
+                </p>
                 <group>
                     <group name="left">
                         <field name="wt_account_ids" widget="many2many_tags" />
