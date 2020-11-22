@@ -27,7 +27,7 @@
                                 options="{'no_create': True, 'no_edit': True, 'no_open': True}"
                             />
                         </div>
-                        <label for="" />
+                        <label for="substitute" string="" />
                         <span
                             class="text-muted"
                             attrs="{'invisible': [('substitute', '=', False)], 'required': [('substitute', '!=', False)]}"

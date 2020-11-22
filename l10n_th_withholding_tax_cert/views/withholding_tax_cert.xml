@@ -101,6 +101,7 @@
                 <field name="supplier_partner_id" />
                 <field name="income_tax_form" />
                 <field name="tax_payer" />
+                <field name="date" />
                 <field name="state" />
             </tree>
         </field>
