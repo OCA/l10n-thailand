@@ -204,21 +204,22 @@ class WithholdingTaxCert(models.Model):
                 )
                 partner_id = record.payment_id.partner_id or record.move_id.partner_id
                 # WHT from journal entry, use partner from line.
-                if record.move_id and record.move_id.type == "entry":
+                if record.move_id and record.move_id.move_type == "entry":
                     partner = wt_move_lines.mapped("partner_id")
                     if len(partner) == 1:
                         partner_id = wt_move_lines[0].partner_id
+
                 record.update(
                     {
                         "name": record.payment_id.name or record.move_id.name,
-                        "date": record.payment_id.payment_date or record.move_id.date,
+                        "date": record.payment_id.date or record.move_id.date,
                         "ref_wt_cert_id": wt_reference or False,
                         "supplier_partner_id": partner_id,
                         "income_tax_form": income_tax_form,
                     }
                 )
                 for line in wt_move_lines:
-                    record.wt_line += CertLine.new(record._prepare_wt_line(line))
+                    record.wt_line = CertLine.new(record._prepare_wt_line(line))
 
     @api.model
     def _prepare_wt_line(self, move_line):
@@ -244,7 +245,7 @@ class WithholdingTaxCert(models.Model):
         """ Hook point to get wt_move_lines """
         wt_move_lines = []
         if payment:
-            wt_move_lines = payment.move_line_ids.filtered(
+            wt_move_lines = payment.move_id.line_ids.filtered(
                 lambda l: l.account_id.id in wt_account_ids
             )
         elif move:

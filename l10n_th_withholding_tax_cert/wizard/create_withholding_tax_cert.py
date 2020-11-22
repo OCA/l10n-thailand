@@ -41,7 +41,7 @@ class CreateWithholdingTaxCert(models.TransientModel):
         for active_id in self._context.get("active_ids", []):
             if model == "account.move":
                 move = self.env[model].browse(active_id)
-                if move.type != "entry":
+                if move.move_type != "entry":
                     raise UserError(
                         _(
                             "You can create withholding tax from "
@@ -64,7 +64,7 @@ class CreateWithholdingTaxCert(models.TransientModel):
         active_id = ctx.get("active_id")
         object_id = self.env[model].browse(active_id)
         if len(ctx.get("active_ids", [])) != 1:
-            raise ValidationError(_("Please select only 1 payment"))
+            raise ValidationError(_("Please select only 1 document"))
         if model == "account.move":
             ctx.update(
                 {
@@ -73,7 +73,7 @@ class CreateWithholdingTaxCert(models.TransientModel):
                 }
             )
         else:
-            payment_wt = object_id.move_line_ids.filtered(
+            payment_wt = object_id.move_id.line_ids.filtered(
                 lambda l: l.account_id.id in self.wt_account_ids.ids
             )
             if not payment_wt:
