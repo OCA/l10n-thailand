@@ -1,49 +1,95 @@
 # Copyright 2019 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import tools
 from odoo.exceptions import UserError
-from odoo.modules.module import get_resource_path
 from odoo.tests.common import Form, SavepointCase
 
 
 class TestWTCert(SavepointCase):
     @classmethod
-    def _load(cls, module, *args):
-        tools.convert_file(
-            cls.cr,
-            module,
-            get_resource_path(module, *args),
-            {},
-            "init",
-            False,
-            "test",
-            cls.registry._assertion_report,
-        )
-
-    @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls._load("account", "test", "account_minimal_test.xml")
-        cls._load(
-            "l10n_th_withholding_tax", "tests", "account_withholding_tax_test.xml"
-        )
-        cls.partner_1 = cls.env.ref("base.res_partner_12")
+        cls.register_view_id = "account.view_account_payment_register_form"
         cls.account_move = cls.env["account.move"]
-        cls.account_payment = cls.env["account.payment"]
+        cls.account_payment_register = cls.env["account.payment.register"]
+        cls.account_account = cls.env["account.account"]
+        cls.account_journal = cls.env["account.journal"]
         cls.wt_cert = cls.env["withholding.tax.cert"]
-        cls.wt_account = cls.browse_ref(
-            cls, "l10n_th_withholding_tax.withholding_income_tax_account"
+        cls.account_wtax = cls.env["account.withholding.tax"]
+        cls.partner_1 = cls.env.ref("base.res_partner_12")
+        cls.current_asset = cls.env.ref("account.data_account_type_current_assets")
+        cls.expenses = cls.env.ref("account.data_account_type_expenses")
+        cls.revenue = cls.env.ref("account.data_account_type_revenue")
+        cls.liquidity = cls.env.ref("account.data_account_type_liquidity")
+        cls.currency_usd = cls.env.ref("base.USD")
+        cls.main_company = cls.env.ref("base.main_company")
+        cls.env.cr.execute(
+            """UPDATE res_company SET currency_id = %s
+            WHERE id = %s""",
+            (cls.main_company.id, cls.currency_usd.id),
+        )
+        cls.wt_account = cls.account_account.create(
+            {
+                "code": "X152000",
+                "name": "Withholding Tax Account Test",
+                "user_type_id": cls.current_asset.id,
+                "wt_account": True,
+            }
+        )
+        cls.wt_3 = cls.account_wtax.create(
+            {
+                "name": "Withholding Tax 3%",
+                "account_id": cls.wt_account.id,
+                "amount": 3,
+            }
+        )
+        cls.expense_account = cls.account_account.search(
+            [
+                ("user_type_id", "=", cls.expenses.id),
+                ("company_id", "=", cls.main_company.id),
+            ],
+            limit=1,
+        )
+        cls.sale_account = cls.account_account.search(
+            [
+                ("user_type_id", "=", cls.revenue.id),
+                ("company_id", "=", cls.main_company.id),
+            ],
+            limit=1,
+        )
+        cls.liquidity_account = cls.account_account.search(
+            [
+                ("user_type_id", "=", cls.liquidity.id),
+                ("company_id", "=", cls.main_company.id),
+            ],
+            limit=1,
+        )
+        cls.expenses_journal = cls.account_journal.search(
+            [
+                ("type", "=", "purchase"),
+                ("company_id", "=", cls.main_company.id),
+            ],
+            limit=1,
+        )
+        cls.sales_journal = cls.account_journal.search(
+            [("type", "=", "sale"), ("company_id", "=", cls.main_company.id)],
+            limit=1,
+        )
+        cls.bank_journal = cls.account_journal.search(
+            [("type", "=", "bank"), ("company_id", "=", cls.main_company.id)],
+            limit=1,
+        )
+        cls.misc_journal = cls.account_journal.search(
+            [("type", "=", "general"), ("company_id", "=", cls.main_company.id)],
+            limit=1,
         )
 
     def _create_invoice(self, partner_id, journal_id, invoice_type, wt_account=False):
-        a_expense = self.browse_ref("account.a_expense")
-        bank_usd = self.browse_ref("account.usd_bnk")
         invoice_dict = {
             "name": "Test Supplier Invoice WT",
             "partner_id": partner_id,
             "journal_id": journal_id,
-            "type": invoice_type,
+            "move_type": invoice_type,
         }
         if invoice_type == "entry":
             invoice_dict.update(
@@ -63,7 +109,7 @@ class TestWTCert(SavepointCase):
                             0,
                             0,
                             {
-                                "account_id": bank_usd.id,
+                                "account_id": self.liquidity_account.id,
                                 "partner_id": self.partner_1.id,
                                 "name": "Test line credit",
                                 "credit": 97.00,
@@ -73,7 +119,7 @@ class TestWTCert(SavepointCase):
                             0,
                             0,
                             {
-                                "account_id": a_expense.id,
+                                "account_id": self.expense_account.id,
                                 "partner_id": self.partner_1.id,
                                 "name": "Test line debit",
                                 "debit": 100.00,
@@ -91,7 +137,7 @@ class TestWTCert(SavepointCase):
                             0,
                             {
                                 "quantity": 1.0,
-                                "account_id": a_expense.id,
+                                "account_id": self.expense_account.id,
                                 "name": "Advice",
                                 "price_unit": 100.00,
                             },
@@ -103,29 +149,29 @@ class TestWTCert(SavepointCase):
         return invoice
 
     def _register_payment(self, invoice):
-        bank_journal = self.browse_ref("account.bank_journal")
         # Payment by writeoff with withholding tax account
         ctx = {
             "active_ids": [invoice.id],
             "active_id": invoice.id,
             "active_model": "account.move",
         }
-        view_id = "account.view_account_payment_invoice_form"
-        with Form(self.account_payment.with_context(ctx), view=view_id) as f:
-            f.journal_id = bank_journal
+        with Form(self.account_payment_register.with_context(ctx), view=self.register_view_id) as f:
+            f.journal_id = self.bank_journal
             f.amount = 97.0  # To withhold 3.0
             f.payment_difference_handling = "reconcile"
             f.writeoff_account_id = self.wt_account
             f.writeoff_label = "Withhold 3%"
-        payment = f.save()
-        payment.post()
+        register_payment = f.save()
+        action_payment = register_payment.action_create_payments()
+        payment = self.env[action_payment["res_model"]].browse(
+            action_payment["res_id"]
+        )
         return payment
 
     def test_01_create_wt_cert_payment(self):
         """ Payment to WT Cert """
-        expenses_journal = self.browse_ref("account.expenses_journal")
         invoice = self._create_invoice(
-            self.partner_1.id, expenses_journal.id, "in_invoice"
+            self.partner_1.id, self.expenses_journal.id, "in_invoice"
         )
         invoice.action_post()
         payment = self._register_payment(invoice)
@@ -147,8 +193,6 @@ class TestWTCert(SavepointCase):
         with Form(self.wt_cert.with_context(ctx_cert)) as f:
             f.income_tax_form = "pnd3"
         cert = f.save()
-        # get 1 line because compute 2 times
-        cert.wt_line = cert.wt_line[0]
         self.assertEqual(cert.state, "draft")
         self.assertRecordValues(cert.wt_line, [{"amount": 3.0}])
         payment.button_wt_certs()
@@ -172,8 +216,7 @@ class TestWTCert(SavepointCase):
 
     def test_02_create_wt_cert_je(self):
         """ Journal Entry to WT Cert """
-        misc_journal = self.browse_ref("account.miscellaneous_journal")
-        invoice = self._create_invoice(False, misc_journal.id, "entry", self.wt_account)
+        invoice = self._create_invoice(False, self.misc_journal.id, "entry", self.wt_account)
         self.assertEqual(invoice.state, "draft")
         invoice.action_post()
         self.assertEqual(invoice.state, "posted")
@@ -200,9 +243,8 @@ class TestWTCert(SavepointCase):
 
     def test_03_create_wt_cert_payment_multi(self):
         """ Payments to WT Certs """
-        expenses_journal = self.browse_ref("account.expenses_journal")
         invoice = self._create_invoice(
-            self.partner_1.id, expenses_journal.id, "in_invoice"
+            self.partner_1.id, self.expenses_journal.id, "in_invoice"
         )
         invoice2 = invoice.copy()
         invoice.action_post()
@@ -231,8 +273,7 @@ class TestWTCert(SavepointCase):
 
     def test_04_create_wt_cert_je_multi(self):
         """ Journal Entries to WT Certs """
-        misc_journal = self.browse_ref("account.miscellaneous_journal")
-        invoice = self._create_invoice(False, misc_journal.id, "entry", self.wt_account)
+        invoice = self._create_invoice(False, self.misc_journal.id, "entry", self.wt_account)
         self.assertEqual(invoice.state, "draft")
         invoice.action_post()
         self.assertEqual(invoice.state, "posted")
