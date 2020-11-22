@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo14-addon-l10n_th_amount_to_text',
+        'odoo14-addon-l10n_th_tax_invoice',
     ],
     classifiers=[
         'Programming Language :: Python',
