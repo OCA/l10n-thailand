@@ -4,8 +4,15 @@ from odoo import api, fields, models
 from odoo.tools import float_compare
 
 
-class AccountPayment(models.Model):
-    _inherit = "account.payment"
+class AccountPaymentRegister(models.TransientModel):
+    _inherit = "account.payment.register"
+
+    @api.depends("amount")
+    def _compute_payment_difference(self):
+        super()._compute_payment_difference()
+        for rec in self:
+            if float_compare(rec.payment_difference, 0.0, 2) == 0:
+                rec.payment_difference_handling = "open"
 
     def _update_payment_register(self, amount_wt, inv_lines):
         super()._update_payment_register(amount_wt, inv_lines)
@@ -32,7 +39,7 @@ class AccountPayment(models.Model):
                         "wt_tax_id": line.wt_tax_id.id,
                         "account_id": line.wt_tax_id.account_id.id,
                         "name": line.wt_tax_id.display_name,
-                        "amount": -line.wt_tax_id.amount / 100 * line.price_subtotal,
+                        "amount": line.wt_tax_id.amount / 100 * line.price_subtotal,
                     }
                     deductions.append((0, 0, deduct))
                 self.deduction_ids = deductions
@@ -43,7 +50,7 @@ class AccountPayment(models.Model):
         return res
 
 
-class AccountPaymentDeduction(models.Model):
+class AccountPaymentDeduction(models.TransientModel):
     _inherit = "account.payment.deduction"
 
     wt_tax_id = fields.Many2one(
