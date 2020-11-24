@@ -21,6 +21,6 @@
              'report_pnd/templates.xml',
              ],
     'installable': True,
-    'development_status': 'alpha',
+    'development_status': 'Alpha',
     'maintainers': ['kittiu'],
 }
