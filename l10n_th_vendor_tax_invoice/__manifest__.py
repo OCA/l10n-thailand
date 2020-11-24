@@ -17,6 +17,6 @@
              'views/account_view.xml',
              'wizard/wizard_tax_adjustments_view.xml', ],
     'installable': True,
-    'development_status': 'alpha',
+    'development_status': 'Alpha',
     'maintainers': ['kittiu'],
 }
