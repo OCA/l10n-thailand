@@ -276,7 +276,8 @@ class TestTaxInvoice(SingleTransactionCase):
         # Cash basis journal is now posted
         self.assertEquals(payment.tax_invoice_ids.mapped("move_id").state, "posted")
         # Check the move_line_ids, from both Bank and Cash Basis journal
-        self.assertEquals(len(payment.move_line_ids.mapped("move_id")), 2)
+        self.assertTrue(payment.move_id)
+        self.assertTrue(payment.tax_invoice_move_id)
         payment.action_draft()  # Unlink the relation
         self.assertFalse(payment.move_line_ids)
 
@@ -316,7 +317,8 @@ class TestTaxInvoice(SingleTransactionCase):
         tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
         self.assertEqual(tax_invoice_number, "Cust Receipt")
         # Check the move_line_ids, from both Bank and Cash Basis journal
-        self.assertEquals(len(payment.move_line_ids.mapped("move_id")), 2)
+        self.assertTrue(payment.move_id)
+        self.assertTrue(payment.tax_invoice_move_id)
         payment.action_draft()  # Unlink the relation
         self.assertFalse(payment.move_line_ids)
 
@@ -365,7 +367,8 @@ class TestTaxInvoice(SingleTransactionCase):
         tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
         self.assertEqual(tax_invoice_number, "CTX0002")
         # Check the move_line_ids, from both Bank and Cash Basis journal
-        self.assertEquals(len(payment.move_line_ids.mapped("move_id")), 2)
+        self.assertTrue(payment.move_id)
+        self.assertTrue(payment.tax_invoice_move_id)
         payment.action_draft()  # Unlink the relation
         self.assertFalse(payment.move_line_ids)
 

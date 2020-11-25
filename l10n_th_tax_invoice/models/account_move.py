@@ -133,8 +133,6 @@ class AccountMoveLine(models.Model):
                     raise UserError(_("Invalid Tax Amount"))
 
     def create(self, vals):
-        if vals and self._context.get("payment_id"):
-            vals["payment_id"] = self._context["payment_id"]
         move_lines = super().create(vals)
         TaxInvoice = self.env["account.move.tax.invoice"]
         sign = self._context.get("reverse_tax_invoice") and -1 or 1
@@ -307,18 +305,6 @@ class AccountMove(models.Model):
         return super()._reverse_moves(
             default_values_list=default_values_list, cancel=cancel
         )
-
-    def button_draft(self):
-        # Do not set draft cash basis move tax invoice created from payment
-        # They are move "entry" with tax invoice line and are not manual tax
-        moves = self.filtered(
-            lambda m: not (
-                m.type == "entry"
-                and m.tax_invoice_ids
-                and not m.line_ids.filtered("manual_tax_invoice")
-            )
-        )
-        return super(AccountMove, moves).button_draft()
 
     def unlink(self):
         # Do not unlink cash basis move on payment, they will be reversed
