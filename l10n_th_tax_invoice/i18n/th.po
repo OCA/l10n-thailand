@@ -138,6 +138,11 @@ msgid "Journal Entries"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_payment__move_id
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
 #: model:ir.model,name:l10n_th_tax_invoice.model_account_move_line
 msgid "Journal Item"
 msgstr ""
@@ -299,6 +304,11 @@ msgstr ""
 #. module: l10n_th_tax_invoice
 #: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_tax__taxinv_sequence_id
 msgid "Tax Invoice Sequence"
+msgstr ""
+
+#. module: l10n_th_tax_invoice
+#: model:ir.model.fields,field_description:l10n_th_tax_invoice.field_account_payment__tax_invoice_move_id
+msgid "Tax Invoice's Journal Entry"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
