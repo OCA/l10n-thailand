@@ -195,13 +195,6 @@ class AccountMove(models.Model):
         copy=False,
     )
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        for vals in vals_list:  # For cash basis
-            if not vals.get("payment_id") and self._context.get("payment_id"):
-                vals["payment_id"] = self._context["payment_id"]
-        return super().create(vals_list)
-
     def _post(self, soft=True):
         """Additional tax invoice info (tax_invoice_number, tax_invoice_date)
         Case sales tax, use Odoo's info, as document is issued out.
@@ -211,7 +204,7 @@ class AccountMove(models.Model):
             for tax_invoice in move.tax_invoice_ids.filtered(
                 lambda l: l.tax_line_id.type_tax_use == "purchase"
                 or (
-                    l.move_id.type == "entry"
+                    l.move_id.move_type == "entry"
                     and not l.payment_id
                     and l.move_id.journal_id.type != "sale"
                 )
@@ -313,25 +306,6 @@ class AccountMove(models.Model):
         return super()._reverse_moves(
             default_values_list=default_values_list, cancel=cancel
         )
-
-    def button_draft(self):
-        # Do not set draft cash basis move tax invoice created from payment
-        # They are move "entry" with tax invoice line and are not manual tax
-        moves = self.filtered(
-            lambda m: not (
-                m.move_type == "entry"
-                and m.tax_invoice_ids
-                and not m.line_ids.filtered("manual_tax_invoice")
-            )
-        )
-        return super(AccountMove, moves).button_draft()
-
-    def unlink(self):
-        # Do not unlink cash basis move on payment, they will be reversed
-        moves = self.filtered(
-            lambda m: not (m.move_type == "entry" and m.tax_invoice_ids)
-        )
-        return super(AccountMove, moves).unlink()
 
 
 class AccountPartialReconcile(models.Model):
