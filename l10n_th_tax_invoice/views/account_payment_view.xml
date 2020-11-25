@@ -17,6 +17,16 @@
                     attrs="{'invisible': ['|', ('to_clear_tax', '=', False), ('state', '!=', 'posted')]}"
                 />
             </button>
+            <field name="payment_method_id" position="after">
+                <field
+                    name="move_id"
+                    attrs="{'invisible': [('move_id', '=', False)]}"
+                />
+                <field
+                    name="tax_invoice_move_id"
+                    attrs="{'invisible': [('tax_invoice_move_id', '=', False)]}"
+                />
+            </field>
             <group position="after">
                 <notebook attrs="{'invisible': [('tax_invoice_ids', '=', [])]}">
                     <page string="Tax Invoice" name="tax_invoice">
