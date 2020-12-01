@@ -20,7 +20,7 @@ Available addons
 addon | version | summary
 --- | --- | ---
 [l10n_th_amount_to_text](l10n_th_amount_to_text/) | 14.0.1.0.0 | Convert Amount Text to Thai
-[l10n_th_tax_invoice](l10n_th_tax_invoice/) | 14.0.1.0.0 | Thai Localization - Account Tax Invoice
+[l10n_th_tax_invoice](l10n_th_tax_invoice/) | 14.0.1.0.1 | Thai Localization - Account Tax Invoice
 
 [//]: # (end addons)
 
