@@ -18,12 +18,10 @@ class AccountPayment(models.Model):
         copy=False,
         domain=[("reversing_id", "=", False), ("reversed_id", "=", False)],
     )
-    move_line_ids = fields.One2many(
-        comodel_name="account.move.line",
-        inverse_name="payment_id",
-        readonly=True,
-        copy=False,
-        ondelete="restrict",
+    tax_invoice_move_id = fields.Many2one(
+        comodel_name="account.move",
+        string="Tax Invoice's Journal Entry",
+        compute="_compute_tax_invoice_move_id",
     )
 
     def clear_tax_cash_basis(self):
@@ -41,11 +39,9 @@ class AccountPayment(models.Model):
                 move.action_post()
         return True
 
-    def action_draft(self):
-        res = super().action_draft()
-        # Clear any move line still relate to this payment
-        self.mapped("move_line_ids").write({"payment_id": False})
-        return res
+    def _compute_tax_invoice_move_id(self):
+        for payment in self:
+            payment.tax_invoice_move_id = payment.tax_invoice_ids.mapped("move_id")[:1]
 
     def button_journal_entries(self):
         return {
@@ -54,5 +50,5 @@ class AccountPayment(models.Model):
             "res_model": "account.move",
             "view_id": False,
             "type": "ir.actions.act_window",
-            "domain": [("id", "in", self.move_line_ids.mapped("move_id").ids)],
+            "domain": [("id", "in", [self.move_id.id, self.tax_invoice_move_id.id])],
         }

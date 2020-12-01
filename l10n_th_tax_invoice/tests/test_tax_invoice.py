@@ -268,9 +268,11 @@ class TestTaxInvoice(SingleTransactionCase):
         # Cash basis journal is now posted
         self.assertEqual(payment.tax_invoice_ids.mapped("move_id").state, "posted")
         # Check the move_line_ids, from both Bank and Cash Basis journal
-        self.assertEqual(len(payment.move_line_ids.mapped("move_id")), 2)
+        self.assertTrue(payment.move_id)
+        self.assertTrue(payment.tax_invoice_move_id)
         payment.action_draft()  # Unlink the relation
-        self.assertFalse(payment.move_line_ids)
+        self.assertEqual(payment.move_id.state, "draft")
+        self.assertFalse(payment.tax_invoice_move_id)
 
     def test_customer_invoice_vat(self):
         """Supplier Invoice with VAT,
@@ -301,9 +303,11 @@ class TestTaxInvoice(SingleTransactionCase):
         tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
         self.assertEqual(tax_invoice_number, payment.name)
         # Check the move_line_ids, from both Bank and Cash Basis journal
-        self.assertEqual(len(payment.move_line_ids.mapped("move_id")), 2)
+        self.assertTrue(payment.move_id)
+        self.assertTrue(payment.tax_invoice_move_id)
         payment.action_draft()  # Unlink the relation
-        self.assertFalse(payment.move_line_ids)
+        self.assertEqual(payment.move_id.state, "draft")
+        self.assertFalse(payment.tax_invoice_move_id)
 
     def test_customer_invoice_vat_sequence(self):
         """Supplier Invoice with VAT,
@@ -343,9 +347,11 @@ class TestTaxInvoice(SingleTransactionCase):
         tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
         self.assertEqual(tax_invoice_number, "CTX0002")
         # Check the move_line_ids, from both Bank and Cash Basis journal
-        self.assertEqual(len(payment.move_line_ids.mapped("move_id")), 2)
+        self.assertTrue(payment.move_id)
+        self.assertTrue(payment.tax_invoice_move_id)
         payment.action_draft()  # Unlink the relation
-        self.assertFalse(payment.move_line_ids)
+        self.assertEqual(payment.move_id.state, "draft")
+        self.assertFalse(payment.tax_invoice_move_id)
 
     def test_supplier_invoice_refund_reconcile(self):
         """Case on undue vat, to net refund with vendor bill.
