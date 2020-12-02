@@ -54,11 +54,11 @@ class TaxReport(models.TransientModel):
                 then t.tax_base_amount else 0.0 end as tax_base_amount,
               case when ml.parent_state = 'posted' and t.reversing_id is null
                 then t.balance else 0.0 end as tax_amount,
-              case when p.communication is not null
-                then p.communication else ml.move_name end as name
+              case when m.ref is not null
+                then m.ref else ml.move_name end as name
             from account_move_tax_invoice t
               join account_move_line ml on ml.id = t.move_line_id
-              left outer join account_payment p on p.id = t.payment_id
+              join account_move m on m.id = ml.move_id
             where ml.parent_state in ('posted', 'cancel')
               and t.tax_invoice_number is not null
               and ml.account_id in (select distinct account_id

@@ -4,23 +4,25 @@
         <field name="tag">l10n_th_tax_report_backend</field>
         <field name="context" eval="{'active_model': 'report.tax.report'}" />
     </record>
-    <report
-        id="action_tax_report_pdf"
-        model="report.tax.report"
-        string="TAX Report PDF"
-        name="l10n_th_tax_report.report_tax_report_pdf"
-        file="l10n_th_tax_report.report_tax_report_pdf"
-        report_type="qweb-pdf"
-        print_report_name="'TAX Report - [%s]' % object.date_range_id.display_name"
-        paperformat="l10n_th_tax_report.paperformat_tax_report"
-    />
-    <report
-        id="action_tax_report_xlsx"
-        model="report.tax.report"
-        string="TAX Report XLSX"
-        name="l10n_th_tax_report.report_tax_report_xlsx"
-        file="TAX Report"
-        report_type="xlsx"
-        attachment_use="False"
-    />
+    <record id="action_tax_report_pdf" model="ir.actions.report">
+        <field name="name">TAX Report PDF</field>
+        <field name="model">report.tax.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_th_tax_report.report_tax_report_pdf</field>
+        <field name="report_file">l10n_th_tax_report.report_tax_report_pdf</field>
+        <field
+            name="print_report_name"
+        >'TAX Report - [%s]' % object.date_range_id.display_name</field>
+        <field name="paperformat_id" ref="l10n_th_tax_report.paperformat_tax_report" />
+    </record>
+    <record id="action_tax_report_xlsx" model="ir.actions.report">
+        <field name="name">TAX Report XLSX</field>
+        <field name="model">report.tax.report</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">l10n_th_tax_report.report_tax_report_xlsx</field>
+        <field name="report_file">Tax Report</field>
+        <field
+            name="print_report_name"
+        >'TAX Report - [%s]' % object.date_range_id.display_name</field>
+    </record>
 </odoo>

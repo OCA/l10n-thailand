@@ -31,19 +31,23 @@
                     />
                 </div>
                 <div class="col-6 text-right custom_footer">
-                    <span class="page" />/<span class="topage" />
+                    <span class="page" />
+                    /
+                    <span class="topage" />
                 </div>
             </div>
         </div>
     </template>
     <template id="l10n_th_tax_report.report_buttons">
         <div class="button_row">
-            <button class="o_l10n_th_tax_report_print btn btn-sm oe_button"><span
-                    class="fa fa-print"
-                />Print</button>
-            <button class="o_l10n_th_tax_report_export btn btn-sm oe_button"><span
-                    class="fa fa-download"
-                />Export</button>
+            <button class="o_l10n_th_tax_report_print btn btn-sm oe_button">
+                <span class="fa fa-print" />
+                Print
+            </button>
+            <button class="o_l10n_th_tax_report_export btn btn-sm oe_button">
+                <span class="fa fa-download" />
+                Export
+            </button>
         </div>
     </template>
     <template id="l10n_th_tax_report.report_tax_report_html">
