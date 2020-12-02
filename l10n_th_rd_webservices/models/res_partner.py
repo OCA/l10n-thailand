@@ -1,6 +1,7 @@
 # Copyright 2020 Poonlap V. <poonlap@tanabutr.co.th>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 import logging
+from logging import INFO
 
 from odoo import api, fields, models, exceptions, _
 
@@ -20,8 +21,6 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     branch = fields.Char(string="Tax Branch", help="Branch ID, e.g., 0000, 0001, ...", default='00000')
-
-
 
     @staticmethod
     def check_rd_tin_service(tin):
@@ -45,7 +44,8 @@ class ResPartner(models.Model):
             cl = Client(tin_web_service_url, transport=transp)
         result = cl.service.ServiceTIN('anonymous', 'anonymous', tin)
         res_ord_dict = helpers.serialize_object(result)
-        _logger.log(logging.INFO, pprint.pformat( res_ord_dict))
+        _logger.log(logging.INFO, "*** Check TIN ***")
+        _logger.log(logging.INFO, pprint.pformat(res_ord_dict))
         return res_ord_dict['vIsExist'] is not None
 
     @staticmethod
@@ -81,29 +81,23 @@ class ResPartner(models.Model):
         data = OrderedDict()
         if odata['vmsgerr'] is None:           
             for key, value in odata.items():
-                if value is None or value['anyType'][0] == '-' or key in {'vNID', 'vtitleName','vName','vBusinessFirstDate'}:
+                if value is None or value['anyType'][0] == '-' or key in {'vNID', 'vBusinessFirstDate'}:
                     continue
                 data[key] = value['anyType'][0]
         _logger.log(logging.INFO, pprint.pformat( data ))
         return data
         
 
-    __check_tin_re = re.compile(r'^\s*$|\d{13}')
-    __check_branch_re = re.compile(r'^\s*$|\d{5}')
-    @api.constrains('tax', 'branch')
-    def _simple_validate(self):
-        tin_match = self.__check_tin_re.match(self.vat) if self.vat is None else True
-        branch_match = self.__check_branch_re.match(self.branch)
-
-        if not (tin_match and branch_match):
-            raise exceptions.ValidationError(_("TIN (VAT) must be 13 digits and Branch number must be 5 digits."))
-
-    @api.onchange
-    def action_auto_fill_info(self):
-        pass
-
     @api.onchange('vat')
     def _onchange_vat(self):
+        self._onchange_rd_services()
+
+    @api.onchange('branch')
+    def _onchange_branch(self):
+        self._onchange_rd_services()
+
+
+    def _onchange_rd_services(self):
         _logger.log(logging.INFO, self.vat)
         word_map = {
             'vBuildingName' : 'อาคาร ',
@@ -125,11 +119,22 @@ class ResPartner(models.Model):
         map_state = ['vProvince']
         map_zip = ['vPostCode']
 
+        if self.env.context.get('company_id'):
+            company = self.env['res.company'].browse(self.env.context['company_id'])
+        else:
+            company = self.env.company
+
         if self.vat == False or len(self.vat) != 13:
             return {}
-        else:
+        elif  company.tin_check_webservices:
             if ResPartner.check_rd_tin_service(self.vat):
                 data = ResPartner.get_info_rd_vat_service(self.vat, self.branch)
+                if len(data) == 0:
+                    warning_mess = {
+                    'title': _("%s is valid but no address information." % self.vat),
+                    'message': _("%s is valid but no address information." % self.vat)
+                     }
+                    return {'warning': warning_mess}    
                 street = ''
                 for i in map_street:
                     if i in data.keys():
@@ -137,7 +142,7 @@ class ResPartner(models.Model):
                 thambol  = word_map['vThambol'] + data['vThambol'] if data['vProvince'] != 'กรุงเทพมหานคร' else 'แขวง' + data['vThambol']
                 amphur  = word_map['vAmphur'] + data['vAmphur'] if data['vProvince'] != 'กรุงเทพมหานคร' else 'เขต' + data['vAmphur']
                 self.update({
-                    'name_company' : data['vBranchTitleName'] + ' ' + data['vBranchName'],
+                    'name_company' : data['vtitleName'] + ' ' + data['vName'],
                     'street' : street,
                     'street2' : thambol,
                     'city' : amphur,

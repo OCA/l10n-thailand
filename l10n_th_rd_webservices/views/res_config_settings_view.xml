@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_tin_form" model="ir.ui.view">
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <div id="eu_service" position="after">
+                <div class="col-12 col-lg-6 o_setting_box"
+                    id="th_tin_check"
+                    title="Tick this checkbox to use web services.">
+                    <div class="o_setting_left_pane">
+                        <field name="tin_check_webservices"/>
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="tin_check_webservices"/>
+                        <div class="text-muted">
+                           Verify VAT number and get address information from the Thailand Revenue Department web services.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </field>
+    </record>
+
+</odoo>
