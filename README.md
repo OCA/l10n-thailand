@@ -23,6 +23,7 @@ addon | version | summary
 [l10n_th_fonts](l10n_th_fonts/) | 14.0.1.0.0 | Collection of all fonts thai
 [l10n_th_partner](l10n_th_partner/) | 14.0.1.0.0 | Thai Localization - Partner
 [l10n_th_tax_invoice](l10n_th_tax_invoice/) | 14.0.1.0.1 | Thai Localization - Account Tax Invoice
+[l10n_th_withholding_tax](l10n_th_withholding_tax/) | 14.0.1.0.0 | Thai Localization - Withholding Tax
 
 [//]: # (end addons)
 
