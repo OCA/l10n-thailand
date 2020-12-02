@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 13.0\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -39,12 +39,22 @@ msgid "Created on"
 msgstr ""
 
 #. module: l10n_th_withholding_tax
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_account__display_name
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_payment__display_name
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_payment_register__display_name
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_withholding_tax__display_name
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_product_template__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: l10n_th_withholding_tax
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_account__id
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_payment__id
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_payment_register__id
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_withholding_tax__id
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_product_template__id
 msgid "ID"
 msgstr ""
 
@@ -59,7 +69,12 @@ msgid "Journal Item"
 msgstr ""
 
 #. module: l10n_th_withholding_tax
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_account____last_update
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_move_line____last_update
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_payment____last_update
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_payment_register____last_update
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_withholding_tax____last_update
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_product_template____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -80,6 +95,7 @@ msgstr ""
 
 #. module: l10n_th_withholding_tax
 #: model:ir.model.fields,help:l10n_th_withholding_tax.field_account_payment__wt_tax_id
+#: model:ir.model.fields,help:l10n_th_withholding_tax.field_account_payment_register__wt_tax_id
 msgid "Optional hidden field to keep wt_tax. Useful for case 1 tax only"
 msgstr ""
 
@@ -91,6 +107,11 @@ msgstr ""
 #. module: l10n_th_withholding_tax
 #: model:ir.model,name:l10n_th_withholding_tax.model_product_template
 msgid "Product Template"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model,name:l10n_th_withholding_tax.model_account_payment_register
+msgid "Register Payment"
 msgstr ""
 
 #. module: l10n_th_withholding_tax
@@ -118,9 +139,10 @@ msgstr ""
 #. module: l10n_th_withholding_tax
 #: model:ir.actions.act_window,name:l10n_th_withholding_tax.action_account_withholding_tax_menu
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_payment__wt_tax_id
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_payment_register__wt_tax_id
 #: model:ir.ui.menu,name:l10n_th_withholding_tax.menu_account_withholding_tax
 #: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax.product_template_form_view
-#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax.view_account_payment_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax.view_account_payment_register_form
 #: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax.view_account_withholding_tax_form
 #: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax.view_account_withholding_tax_tree
 msgid "Withholding Tax"
@@ -135,4 +157,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_product_product__wt_tax_id
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_product_template__wt_tax_id
 msgid "Wt Tax"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: code:addons/l10n_th_withholding_tax/wizard/account_payment_register.py:0
+#, python-format
+msgid ""
+"You can't register a payment on tree view because there is withholding tax "
+"in line."
 msgstr ""
