@@ -22,4 +22,26 @@
             </div>
         </field>
     </record>
+    <record id="view_partner_form_move_vat" model="ir.ui.view">
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <field name="name_company" position="before">
+            <group name="gvat">
+                <field name="vat" class="oe_edit_only" position="move"/>
+                <field name="branch" class="oe_edit_only" position="move"/>
+            </group>
+            </field>
+        </field>
+    </record>
+    <!-- <record id="view_partner_form_move_branch" model="ir.ui.view">
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <field name="name_company" position="before">
+                <field name="branch" position="move"/>
+            </field>
+        </field>
+    </record> -->
+    
 </odoo>
