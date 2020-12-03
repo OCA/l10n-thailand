@@ -7,6 +7,10 @@ from odoo import models
 class WithholdingTaxCert(models.Model):
     _inherit = "withholding.tax.cert"
 
+    def _get_report_base_filename(self):
+        self.ensure_one()
+        return "WT Certificates - {}".format(self.display_name)
+
     def _compute_desc_type_other(self, lines, ttype, income_type):
         base_type_other = lines.filtered(
             lambda l: l.wt_cert_income_type in [income_type]
