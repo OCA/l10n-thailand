@@ -2,7 +2,10 @@ from odoo import fields, models
 
 
 class ResConfigSettings(models.TransientModel):
-    _inherit = 'res.config.settings'
+    _inherit = "res.config.settings"
 
-    tin_check_webservices = fields.Boolean(related='company_id.tin_check_webservices', readonly=False,
-        string='Use Thailand Revenue Department web services.')
+    tin_check_webservices = fields.Boolean(
+        related="company_id.tin_check_webservices",
+        readonly=False,
+        string="Use Thailand Revenue Department web services.",
+    )

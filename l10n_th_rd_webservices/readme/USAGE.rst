@@ -3,16 +3,18 @@ Preparation
 ***********
 After installation
 
-* Go to Setting > Invoicing 
+* Go to Setting > Invoicing
   Check "Use Thailand Revenue Department web services".
-   .. figure:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_rd_webservices/static/description/settings.png
+
+.. figure:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_rd_webservices/static/description/settings.png
     :alt: Tax Setting
     :width: 80 %
     :align: center
 
 * Go to Contacts > Configuration > Import from Geonames.
   Select "Thailand" and import. This will populate provices and other information.
-   .. figure:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_rd_webservices/static/description/geonames.png
+
+.. figure:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_rd_webservices/static/description/geonames.png
     :alt: Import geonames
     :width: 80 %
     :align: center
@@ -20,8 +22,8 @@ After installation
 **********
 How to Use
 **********
-Create a contact. This module is mainly for TIN (VAT) validation. It is supposed that you already know a partner's (company) TIN. 
-TIN is 13 digits number. Type the number in "Tax ID" field. 
+Create a contact. This module is mainly for TIN (VAT) validation. It is supposed that you already know a partner's (company) TIN.
+TIN is 13 digits number. Type the number in "Tax ID" field.
 
  .. figure:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_rd_webservices/static/description/input_tin.png
     :alt: Input Tax Indentification Number, VAT
@@ -71,7 +73,3 @@ Validate Branch format
     :alt: Verify Branch number format
     :width: 80 %
     :align: center
-
-
-
-
