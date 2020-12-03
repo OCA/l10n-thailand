@@ -14,4 +14,5 @@
     "installable": True,
     "application": False,
     "development_statue": "Alpha",
+    "maintainers": ["poonlap"],
 }
