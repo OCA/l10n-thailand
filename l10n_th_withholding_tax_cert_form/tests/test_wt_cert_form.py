@@ -40,4 +40,8 @@ class TestWTCertForm(SingleTransactionCase):
 
     def test_01_print_wt_cert_form(self):
         wt_cert = self._create_direct_wt_cert()
-        self.withholdin_tax_cert_form.render_qweb_pdf(wt_cert.id)
+        content = self.withholdin_tax_cert_form._render_qweb_pdf(wt_cert.id)
+        self.assertEqual(content[1], "html")
+        # check report name pdf
+        # display name is False because create wt direct.
+        self.assertEqual(wt_cert._get_report_base_filename(), "WT Certificates - False")

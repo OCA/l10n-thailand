@@ -8,7 +8,16 @@
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-thailand",
     "category": "Report",
-    "depends": ["web", "l10n_th_withholding_tax_cert", "l10n_th_amount_to_text"],
-    "data": ["data/paper_format.xml", "reports/layout.xml", "data/report_data.xml"],
+    "depends": [
+        "web",
+        "l10n_th_withholding_tax_cert",
+        "l10n_th_amount_to_text",
+        "l10n_th_fonts",
+    ],
+    "data": [
+        "data/paper_format.xml",
+        "reports/withholding_tax_cert_form_view.xml",
+        "reports/withholding_tax_cert_form.xml",
+    ],
     "installable": True,
 }
