@@ -1,7 +1,7 @@
 # Copyright 2020 Poonlap V. <poonlap@tanabutr.co.th>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 import logging
-from logging import INFO
+from logging import INFO, log
 
 from odoo import api, fields, models, exceptions, _
 
@@ -44,7 +44,6 @@ class ResPartner(models.Model):
             cl = Client(tin_web_service_url, transport=transp)
         result = cl.service.ServiceTIN('anonymous', 'anonymous', tin)
         res_ord_dict = helpers.serialize_object(result)
-        _logger.log(logging.INFO, "*** Check TIN ***")
         _logger.log(logging.INFO, pprint.pformat(res_ord_dict))
         return res_ord_dict['vIsExist'] is not None
 
@@ -84,21 +83,13 @@ class ResPartner(models.Model):
                 if value is None or value['anyType'][0] == '-' or key in {'vNID', 'vBusinessFirstDate'}:
                     continue
                 data[key] = value['anyType'][0]
-        _logger.log(logging.INFO, pprint.pformat( data ))
-        return data
+            return data
+        else:
+            return False
         
 
-    @api.onchange('vat')
-    def _onchange_vat(self):
-        self._onchange_rd_services()
-
-    @api.onchange('branch')
-    def _onchange_branch(self):
-        self._onchange_rd_services()
-
-
-    def _onchange_rd_services(self):
-        _logger.log(logging.INFO, self.vat)
+    @api.onchange('vat','branch')
+    def _onchange_vat_branch(self):
         word_map = {
             'vBuildingName' : 'อาคาร ',
             'vFloorNumber' : 'ชั้นที่ ',
@@ -119,6 +110,8 @@ class ResPartner(models.Model):
         map_state = ['vProvince']
         map_zip = ['vPostCode']
 
+        check_branch = re.compile(r'^\d{5}$')
+
         if self.env.context.get('company_id'):
             company = self.env['res.company'].browse(self.env.context['company_id'])
         else:
@@ -128,13 +121,27 @@ class ResPartner(models.Model):
             return {}
         elif  company.tin_check_webservices:
             if ResPartner.check_rd_tin_service(self.vat):
+                match = check_branch.match(self.branch)
+                if match is None:
+                    warning_message = {
+                        'title': _("Branch validation failed"),
+                        'message': _("Branch number %s must be 5 digits." % self.branch)
+                    }
+                    return {'warning' : warning_message}
                 data = ResPartner.get_info_rd_vat_service(self.vat, self.branch)
+                _logger.log(logging.INFO, pprint.pformat( data ))
+                if not data:
+                    warning_message = {
+                    'title': _("Validation failed."),
+                    'message': _("TIN %s is valid. Branch %s is not valid." % (self.vat, self.branch)),
+                    }
+                    return {'warning': warning_message}    
                 if len(data) == 0:
-                    warning_mess = {
-                    'title': _("%s is valid but no address information." % self.vat),
+                    warning_message = {
+                    'title': _("Can not get info from TIN" % self.vat),
                     'message': _("%s is valid but no address information." % self.vat)
                      }
-                    return {'warning': warning_mess}    
+                    return {'warning': warning_message}    
                 street = ''
                 for i in map_street:
                     if i in data.keys():
@@ -155,9 +162,8 @@ class ResPartner(models.Model):
                 #         'street' : data['vBuildingName'],
                 #          })
             else:
-                warning_mess = {
-                    'title': _("The TIN %s is not valid." % self.vat),
-                    'message': _("Connected to RD's web service and failed to verify TIN or PIN %s." % self.vat)
+                warning_message = {
+                    'title': _("Validation failed."),
+                    'message': _("Connected to RD's web service but failed to verify TIN or PIN %s." % self.vat)
                 }
-                return {'warning': warning_mess}    
-
+                return {'warning': warning_message}    
