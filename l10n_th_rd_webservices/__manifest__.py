@@ -8,7 +8,7 @@
     "license": "AGPL-3",
     "category": "Localisation/Asia",
     "summary": "Verify Tax Identification ID and get partner's information from Revenue Department web services (SOAP).",
-    "depends": ["account", "l10n_th_partner"],
+    "depends": ["l10n_th", "l10n_th_partner", "l10n_th_base_location"],
     "data": [
         "views/res_partner_view.xml",
         "views/res_config_settings_view.xml",

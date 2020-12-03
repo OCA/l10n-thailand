@@ -1,27 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <record id="view_partner_form_tong_test1" model="ir.ui.view">
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form" />
-        <field name="arch" type="xml">
-            <xpath expr="//div[@name='button_box']" position="before">
-                Test checking tax id with Revenue Department
-            </xpath>
-        </field>
-    </record>
-    <record id="view_partner_form_check_vat" model="ir.ui.view">
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form" />
-        <field name="arch" type="xml">
-            <div name="button_box" position="inside">
-                <button type="object" class="oe_stat_button" icon="fa-check-square-o" name="action_auto_fill_info">
-                    <div class="o_form_field o_stat_info">
-                        <span class="o_stat_text">Check Tax ID</span>
-                    </div>
-                </button>
-            </div>
-        </field>
-    </record>
     <record id="view_partner_form_move_vat" model="ir.ui.view">
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
@@ -34,14 +12,4 @@
             </field>
         </field>
     </record>
-    <!-- <record id="view_partner_form_move_branch" model="ir.ui.view">
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form" />
-        <field name="arch" type="xml">
-            <field name="name_company" position="before">
-                <field name="branch" position="move"/>
-            </field>
-        </field>
-    </record> -->
-    
 </odoo>

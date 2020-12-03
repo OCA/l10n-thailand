@@ -3,7 +3,7 @@
 import logging
 from logging import INFO, log
 
-from odoo import api, fields, models, exceptions, _
+from odoo import api, fields, models, _
 
 from zeep import Client, Transport, helpers
 import requests
@@ -38,13 +38,13 @@ class ResPartner(models.Model):
         try:
             cl = Client(tin_web_service_url, transport=transp)
         except requests.exceptions.SSLError:
-            _logger.log(logging.INFO, 'Fall back to unverifed HTTPS request.')
+            _logger.log(INFO, 'Fall back to unverifed HTTPS request.')
             sess.verify = False
             transp = Transport(session=sess)
             cl = Client(tin_web_service_url, transport=transp)
         result = cl.service.ServiceTIN('anonymous', 'anonymous', tin)
         res_ord_dict = helpers.serialize_object(result)
-        _logger.log(logging.INFO, pprint.pformat(res_ord_dict))
+        _logger.log(INFO, pprint.pformat(res_ord_dict))
         return res_ord_dict['vIsExist'] is not None
 
     @staticmethod
@@ -63,7 +63,7 @@ class ResPartner(models.Model):
         try:
             cl = Client(vat_web_service_url, transport=transp)
         except requests.exceptions.SSLError:
-            _logger.log(logging.INFO, 'Fall back to unverifed HTTPS request.')
+            _logger.log(INFO, 'Fall back to unverifed HTTPS request.')
             sess.verify = False
             transp = Transport(session=sess)
             cl = Client(vat_web_service_url, transport=transp)
@@ -76,7 +76,7 @@ class ResPartner(models.Model):
             AmphurCode=0,
         )
         odata = helpers.serialize_object(result)
-        _logger.log(logging.INFO, pprint.pformat(odata))
+        _logger.log(INFO, pprint.pformat(odata))
         data = OrderedDict()
         if odata['vmsgerr'] is None:           
             for key, value in odata.items():
@@ -99,17 +99,13 @@ class ResPartner(models.Model):
             'vMooNumber' : 'หมู่ที่ ',
             'vSoiName' : 'ซอย ',
             'vStreetName' : 'ถนน ',
-            'vThambol' : 'ตำบล',
-            'vAmphur' : 'อำเภอ',
-            'vProvince' : 'จังหวัด',
+            'vThambol' : 'ต.',
+            'vAmphur' : 'อ.',
+            'vProvince' : 'จ.',
             'vPostCode' : '',
         }
         map_street = ['vBuildingName', 'vRoomNumber', 'vFloorNumber', 'vHouseNumber','vStreetName', 'vSoiName' ]
-        map_street2 = ['vThambol']
-        map_city = ['vAmphur']
-        map_state = ['vProvince']
-        map_zip = ['vPostCode']
-
+        map_street2 = ['vVillageName', 'vMooNumber', 'vThambol']
         check_branch = re.compile(r'^\d{5}$')
 
         if self.env.context.get('company_id'):
@@ -129,7 +125,7 @@ class ResPartner(models.Model):
                     }
                     return {'warning' : warning_message}
                 data = ResPartner.get_info_rd_vat_service(self.vat, self.branch)
-                _logger.log(logging.INFO, pprint.pformat( data ))
+                _logger.log(INFO, pprint.pformat( data ))
                 if not data:
                     warning_message = {
                     'title': _("Validation failed."),
@@ -142,25 +138,27 @@ class ResPartner(models.Model):
                     'message': _("%s is valid but no address information." % self.vat)
                      }
                     return {'warning': warning_message}    
-                street = ''
+                street = street2 = ''
                 for i in map_street:
                     if i in data.keys():
                         street += word_map[i] + data[i] + ' '
-                thambol  = word_map['vThambol'] + data['vThambol'] if data['vProvince'] != 'กรุงเทพมหานคร' else 'แขวง' + data['vThambol']
+                for i in map_street2:
+                    if i in data.keys():
+                        if i == 'vThambol':
+                            street2 += word_map['vThambol'] + data['vThambol'] + ' ' if data['vProvince'] != 'กรุงเทพมหานคร' else 'แขวง' + data['vThambol'] + ' '
+                            continue
+                        street2 += word_map[i] + data[i] + ' '
                 amphur  = word_map['vAmphur'] + data['vAmphur'] if data['vProvince'] != 'กรุงเทพมหานคร' else 'เขต' + data['vAmphur']
+                province_id = self.env['res.country.state'].search([['name','ilike',data['vProvince']]])
                 self.update({
                     'name_company' : data['vtitleName'] + ' ' + data['vName'],
                     'street' : street,
-                    'street2' : thambol,
+                    'street2' : street2,
                     'city' : amphur,
                     'zip' : data['vPostCode'],
-                    # 'state' : data['vProvince']
+                    'state_id' : province_id,
+                    'country_id' : self.env.ref('base.th').id
                 })
-                # if data['vmsgerr'] is None:
-                #     self.update({
-                #         'name_company' : data['vtitleName'] + " " + data['vName'],
-                #         'street' : data['vBuildingName'],
-                #          })
             else:
                 warning_message = {
                     'title': _("Validation failed."),
