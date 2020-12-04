@@ -8,8 +8,8 @@ class IrActionsReport(models.Model):
     _inherit = "ir.actions.report"
 
     def _convert_entities_char(self, text):
-        """ Hook Convert HTML Entities to characters
-            Example : text.replace(b"&quot;", b'"')
+        """Hook Convert HTML Entities to characters
+        Example : text.replace(b"&quot;", b'"')
         """
         return text
 

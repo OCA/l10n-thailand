@@ -19,7 +19,10 @@ class WithHoldingTaxReport(models.TransientModel):
         required=True,
     )
     company_id = fields.Many2one(
-        comodel_name="res.company", string="Company", required=True, ondelete="cascade",
+        comodel_name="res.company",
+        string="Company",
+        required=True,
+        ondelete="cascade",
     )
     date_range_id = fields.Many2one(
         comodel_name="date.range", string="Date range", required=True
