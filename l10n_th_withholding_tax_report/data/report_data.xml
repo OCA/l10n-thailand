@@ -1,34 +1,53 @@
 <odoo>
     <!-- HMTL REPORTS -->
-    <report
-        id="action_withholding_tax_report_html"
-        model="withholding.tax.report"
-        string="Withholding Tax Report (HTML)"
-        report_type="qweb-html"
-        name="l10n_th_withholding_tax_report.report_withholding_tax_html"
-        file="l10n_th_withholding_tax_report.report_withholding_tax_html"
-    />
+    <record id="action_withholding_tax_report_html" model="ir.actions.report">
+        <field name="name">Withholding Tax Report (HTML)</field>
+        <field name="model">withholding.tax.report</field>
+        <field name="type">ir.actions.report</field>
+        <field
+            name="report_name"
+        >l10n_th_withholding_tax_report.report_withholding_tax_html</field>
+        <field
+            name="report_file"
+        >l10n_th_withholding_tax_report.report_withholding_tax_html</field>
+        <field name="report_type">qweb-html</field>
+    </record>
     <!-- PDF REPORTS -->
-    <report
-        id="action_withholding_tax_report_qweb"
-        model="withholding.tax.report"
-        string="Withholding Tax Report (PDF)"
-        report_type="qweb-pdf"
-        name="l10n_th_withholding_tax_report.report_withholding_tax_qweb"
-        file="l10n_th_withholding_tax_report.report_withholding_tax_qweb"
-        paperformat='l10n_th_withholding_tax_report.report_qweb_paperformat'
-        print_report_name="'WT-%s-%s' % (object.format_pnd(object.income_tax_form), object.format_date())"
-    />
+    <record id="action_withholding_tax_report_qweb" model="ir.actions.report">
+        <field name="name">Withholding Tax Report (PDF)</field>
+        <field name="model">withholding.tax.report</field>
+        <field name="type">ir.actions.report</field>
+        <field
+            name="report_name"
+        >l10n_th_withholding_tax_report.report_withholding_tax_qweb</field>
+        <field
+            name="report_file"
+        >l10n_th_withholding_tax_report.report_withholding_tax_qweb</field>
+        <field name="report_type">qweb-pdf</field>
+        <field
+            name="paperformat_id"
+            ref="l10n_th_withholding_tax_report.report_qweb_paperformat"
+        />
+        <field name="print_report_name">object._get_report_base_filename()</field>
+    </record>
     <!-- TEXT REPORTS -->
-    <report
-        id="action_withholding_tax_report_txt"
-        model="withholding.tax.report"
-        string="Withholding Tax Report (TXT)"
-        report_type="qweb-text"
-        name="l10n_th_withholding_tax_report.report_withholding_tax_text"
-        file="l10n_th_withholding_tax_report.report_withholding_tax_text"
-        print_report_name="'WT-%s-%s' % (object.format_pnd(object.income_tax_form), object.format_date())"
-    />
+    <record id="action_withholding_tax_report_txt" model="ir.actions.report">
+        <field name="name">Withholding Tax Report (TXT)</field>
+        <field name="model">withholding.tax.report</field>
+        <field name="type">ir.actions.report</field>
+        <field
+            name="report_name"
+        >l10n_th_withholding_tax_report.report_withholding_tax_text</field>
+        <field
+            name="report_file"
+        >l10n_th_withholding_tax_report.report_withholding_tax_text</field>
+        <field name="report_type">qweb-text</field>
+        <field
+            name="paperformat_id"
+            ref="l10n_th_withholding_tax_report.report_qweb_paperformat"
+        />
+        <field name="print_report_name">object._get_report_base_filename()</field>
+    </record>
     <!-- XLSX REPORTS -->
     <record id="action_withholding_tax_report_xlsx" model="ir.actions.report">
         <field name="name">Withholding Tax Report (XLSX)</field>
@@ -36,8 +55,6 @@
         <field name="type">ir.actions.report</field>
         <field name="report_name">withholding.tax.report.xlsx</field>
         <field name="report_type">xlsx</field>
-        <field
-            name="print_report_name"
-        >'WT-%s-%s' % (object.format_pnd(object.income_tax_form), object.format_date())</field>
+        <field name="print_report_name">object._get_report_base_filename()</field>
     </record>
 </odoo>
