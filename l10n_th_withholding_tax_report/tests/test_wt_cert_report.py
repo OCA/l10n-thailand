@@ -1,36 +1,43 @@
 # Copyright 2020 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import tools
-from odoo.modules.module import get_resource_path
+import datetime
+
+from dateutil.rrule import MONTHLY
+
 from odoo.tests.common import SavepointCase
 
 
 class TestWithholdingTaxReport(SavepointCase):
     @classmethod
-    def _load(cls, module, *args):
-        tools.convert_file(
-            cls.cr,
-            module,
-            get_resource_path(module, *args),
-            {},
-            "init",
-            False,
-            "test",
-            cls.registry._assertion_report,
-        )
-
-    @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.wizard_object = cls.env["withholding.tax.report.wizard"]
+        cls.date_range_object = cls.env["date.range"]
+        cls.range_type_object = cls.env["date.range.type"]
+        cls.wt_report_object = cls.env["withholding.tax.report"]
+        cls.report_object = cls.env["ir.actions.report"]
+        cls.date_range_type = cls.range_type_object.create({"name": "TestQuarter"})
+        cls.year = datetime.datetime.now().year
+        cls._create_date_range_year(cls)
+        cls.date_range = cls.date_range_object.search([], limit=1)
+        cls.report = cls.report_object._get_report_from_name(
+            "withholding.tax.report.xlsx"
+        )
 
-        cls._load("account", "test", "account_minimal_test.xml")
-        cls._load("l10n_th_withholding_tax_report", "tests", "date_range_test_data.xml")
-        Report = cls.env["ir.actions.report"]
-        cls.report_name = "withholding.tax.report.xlsx"
-        cls.report = Report._get_report_from_name(cls.report_name)
-        cls.model = cls.env["withholding.tax.report"]
-        cls.wizard = cls.env["withholding.tax.report.wizard"]
+    def _create_date_range_year(self):
+        Generator = self.env["date.range.generator"]
+        generator = Generator.create(
+            {
+                "date_start": "%s-01-01" % self.year,
+                "name_prefix": "%s/Test/Y-" % self.year,
+                "type_id": self.date_range_type.id,
+                "duration_count": 12,
+                "unit_of_time": str(MONTHLY),
+                "count": 1,
+            }
+        )
+        generator.action_apply()
 
     def _getBaseFilters(self, date_range):
         return {
@@ -42,9 +49,8 @@ class TestWithholdingTaxReport(SavepointCase):
         }
 
     def test_01_withholding_tax_report(self):
-        date_range = self.browse_ref("l10n_th_withholding_tax_report.date_range_test")
-        report = self.wizard.create(
-            {"income_tax_form": "pnd3", "date_range_id": date_range.id}
+        report = self.wizard_object.create(
+            {"income_tax_form": "pnd3", "date_range_id": self.date_range.id}
         )
         report.button_export_html()
         report.button_export_pdf()
@@ -52,18 +58,21 @@ class TestWithholdingTaxReport(SavepointCase):
         report.button_export_txt()
 
     def test_02_create_text_file(self):
-        date_range = self.browse_ref("l10n_th_withholding_tax_report.date_range_test")
-        withholding_tax_report = self.model.create(self._getBaseFilters(date_range))
+        withholding_tax_report = self.wt_report_object.create(
+            self._getBaseFilters(self.date_range)
+        )
         withholding_tax_report._compute_results()
+        report_name = withholding_tax_report._get_report_base_filename()
+        self.assertEqual(report_name, "WT-P03-%s01" % (self.year + 543))
         text = withholding_tax_report._create_text(withholding_tax_report)
         if text:
             text.split("|")
             self.assertEqual(text[0], "1")
 
     def test_03_create_xlsx_file(self):
-        date_range = self.browse_ref("l10n_th_withholding_tax_report.date_range_test")
-        withholding_tax_report = self.model.create(self._getBaseFilters(date_range))
+        withholding_tax_report = self.wt_report_object.create(
+            self._getBaseFilters(self.date_range)
+        )
         withholding_tax_report._compute_results()
-        report = self.report
-        self.assertEqual(report.report_type, "xlsx")
-        report.render_xlsx(withholding_tax_report.id, None)
+        self.assertEqual(self.report.report_type, "xlsx")
+        self.report._render_xlsx(withholding_tax_report.id, None)

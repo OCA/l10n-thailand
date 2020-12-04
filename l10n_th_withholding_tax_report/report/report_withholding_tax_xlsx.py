@@ -3,6 +3,11 @@
 
 from odoo import models
 
+from odoo.addons.report_xlsx_helper.report.report_xlsx_format import (
+    FORMATS,
+    XLS_HEADERS,
+)
+
 
 class WithholdingTaxReportXslx(models.AbstractModel):
     _name = "report.withholding.tax.report.xlsx"
@@ -12,7 +17,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
     def _define_formats(self, workbook):
         super()._define_formats(workbook)
         date_format = "DD/MM/YYYY"
-        self.format_date_dmy_right = workbook.add_format(
+        FORMATS["format_date_dmy_right"] = workbook.add_format(
             {"align": "right", "num_format": date_format}
         )
 
@@ -22,7 +27,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 "header": {"value": "No."},
                 "data": {
                     "value": self._render("sequence"),
-                    "format": self.format_tcell_center,
+                    "format": FORMATS["format_tcell_center"],
                 },
                 "width": 3,
             },
@@ -30,7 +35,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 "header": {"value": "Tax Invoice"},
                 "data": {
                     "value": self._render("vat"),
-                    "format": self.format_tcell_center,
+                    "format": FORMATS["format_tcell_center"],
                 },
                 "width": 16,
             },
@@ -49,7 +54,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 "data": {
                     "value": self._render("date"),
                     "type": "datetime",
-                    "format": self.format_date_dmy_right,
+                    "format": FORMATS["format_date_dmy_right"],
                 },
                 "width": 10,
             },
@@ -63,7 +68,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 "data": {
                     "value": self._render("tax"),
                     "type": "number",
-                    "format": self.format_tcell_percent_conditional_right,
+                    "format": FORMATS["format_tcell_percent_conditional_right"],
                 },
                 "width": 8,
             },
@@ -72,7 +77,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 "data": {
                     "value": self._render("base_amount"),
                     "type": "number",
-                    "format": self.format_tcell_amount_right,
+                    "format": FORMATS["format_tcell_amount_right"],
                 },
                 "width": 13,
             },
@@ -81,7 +86,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 "data": {
                     "value": self._render("tax_amount"),
                     "type": "number",
-                    "format": self.format_tcell_amount_right,
+                    "format": FORMATS["format_tcell_amount_right"],
                 },
                 "width": 13,
             },
@@ -89,7 +94,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 "header": {"value": "Tax Payer"},
                 "data": {
                     "value": self._render("tax_payer"),
-                    "format": self.format_tcell_center,
+                    "format": FORMATS["format_tcell_center"],
                 },
                 "width": 12,
             },
@@ -113,9 +118,9 @@ class WithholdingTaxReportXslx(models.AbstractModel):
     def _write_ws_header(self, row_pos, ws, data_list):
         for data in data_list:
             ws.merge_range(row_pos, 0, row_pos, 1, "")
-            ws.write_row(row_pos, 0, [data[0]], self.format_theader_blue_center)
+            ws.write_row(row_pos, 0, [data[0]], FORMATS["format_theader_blue_center"])
             ws.merge_range(row_pos, 2, row_pos, 3, "")
-            ws.write_row(row_pos, 2, [data[1]], self.format_center)
+            ws.write_row(row_pos, 2, [data[1]], FORMATS["format_center"])
             row_pos += 1
         return row_pos + 1
 
@@ -125,7 +130,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
             row_pos,
             ws_params,
             col_specs_section="header",
-            default_format=self.format_theader_blue_center,
+            default_format=FORMATS["format_theader_blue_center"],
         )
         ws.freeze_panes(row_pos, 0)
         index = 1
@@ -153,7 +158,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                     "tax_payer": line.cert_id.tax_payer,
                     "payment_id": line.cert_id.name,
                 },
-                default_format=self.format_tcell_left,
+                default_format=FORMATS["format_tcell_left"],
             )
             index += 1
         return row_pos
@@ -162,20 +167,22 @@ class WithholdingTaxReportXslx(models.AbstractModel):
         results = obj.results.filtered(lambda l: l.cert_id.state == "done")
         ws.merge_range(row_pos, 0, row_pos, 6, "")
         ws.merge_range(row_pos, 9, row_pos, 10, "")
-        ws.write_row(row_pos, 0, ["Total Balance"], self.format_theader_blue_right)
+        ws.write_row(
+            row_pos, 0, ["Total Balance"], FORMATS["format_theader_blue_right"]
+        )
         ws.write_row(
             row_pos,
             7,
             [sum(results.mapped("base")), sum(results.mapped("amount")), ""],
-            self.format_theader_blue_amount_right,
+            FORMATS["format_theader_blue_amount_right"],
         )
         return row_pos
 
     def _withholding_tax_report(self, workbook, ws, ws_params, data, obj):
         ws.set_portrait()
         ws.fit_to_pages(1, 0)
-        ws.set_header(self.xls_headers["standard"])
-        ws.set_footer(self.xls_footers["standard"])
+        ws.set_header(XLS_HEADERS["xls_headers"]["standard"])
+        ws.set_footer(XLS_HEADERS["xls_footers"]["standard"])
         self._set_column_width(ws, ws_params)
         row_pos = 0
         header_data_list = [

@@ -3,7 +3,7 @@
 
 {
     "name": "Thailand Localization - Withholding Tax Report",
-    "version": "13.0.1.3.0",
+    "version": "14.0.1.0.0",
     "author": "Ecosoft, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-thailand",
     "license": "AGPL-3",
@@ -16,6 +16,7 @@
         "l10n_th_withholding_tax_cert",
     ],
     "data": [
+        "security/ir.model.access.csv",
         "data/paper_format.xml",
         "data/report_data.xml",
         "templates/layouts.xml",
