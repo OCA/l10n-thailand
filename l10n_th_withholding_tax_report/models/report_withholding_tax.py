@@ -116,7 +116,7 @@ class WithHoldingTaxReport(models.TransientModel):
             rcontext["o"] = report
             result["html"] = self.env.ref(
                 "l10n_th_withholding_tax_report.report_withholding_tax_html"
-            ).render(rcontext)
+            )._render(rcontext)
         return result
 
     @api.model
