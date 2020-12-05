@@ -20,10 +20,6 @@ _logger = logging.getLogger(__name__)
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    # branch = fields.Char(
-    #     string="Tax Branch", help="Branch ID, e.g., 0000, 0001, ...", default="00000"
-    # )
-
     @staticmethod
     def check_rd_tin_service(tin):
         """Return bool after verifiying Tax Identification Number (TIN)
@@ -123,11 +119,6 @@ class ResPartner(models.Model):
         ]
         map_street2 = ["vVillageName", "vMooNumber", "vThambol"]
         check_branch = re.compile(r"^\d{5}$")
-
-        # if self.env.context.get("company_id"):
-        #     company = self.env["res.company"].browse(self.env.context["company_id"])
-        # else:
-        #     company = self.env.company
 
         if self.vat is False:
             return {}
