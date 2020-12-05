@@ -12,7 +12,7 @@ import requests
 from requests import Session
 from zeep import Client, Transport, helpers
 
-from odoo import _, api, fields, models
+from odoo import _, api, models
 
 _logger = logging.getLogger(__name__)
 
@@ -20,9 +20,9 @@ _logger = logging.getLogger(__name__)
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    branch = fields.Char(
-        string="Tax Branch", help="Branch ID, e.g., 0000, 0001, ...", default="00000"
-    )
+    # branch = fields.Char(
+    #     string="Tax Branch", help="Branch ID, e.g., 0000, 0001, ...", default="00000"
+    # )
 
     @staticmethod
     def check_rd_tin_service(tin):
@@ -124,79 +124,76 @@ class ResPartner(models.Model):
         map_street2 = ["vVillageName", "vMooNumber", "vThambol"]
         check_branch = re.compile(r"^\d{5}$")
 
-        if self.env.context.get("company_id"):
-            company = self.env["res.company"].browse(self.env.context["company_id"])
-        else:
-            company = self.env.company
+        # if self.env.context.get("company_id"):
+        #     company = self.env["res.company"].browse(self.env.context["company_id"])
+        # else:
+        #     company = self.env.company
 
-        if self.vat is False or len(self.vat) != 13:
+        if self.vat is False:
             return {}
-        elif company.tin_check_webservices:
-            if ResPartner.check_rd_tin_service(self.vat):
-                match = check_branch.match(self.branch)
-                if match is None:
-                    warning_message = {
-                        "title": _("Branch validation failed"),
-                        "message": _(
-                            "Branch number %s must be 5 digits." % self.branch
-                        ),
-                    }
-                    return {"warning": warning_message}
-                data = ResPartner.get_info_rd_vat_service(self.vat, self.branch)
-                _logger.log(INFO, pprint.pformat(data))
-                if not data:
-                    warning_message = {
-                        "title": _("Validation failed."),
-                        "message": _(
-                            "TIN %s is valid. Branch %s is not valid."
-                            % (self.vat, self.branch)
-                        ),
-                    }
-                    return {"warning": warning_message}
-                if len(data) == 0:
-                    warning_message = {
-                        "title": _("Can not get info from TIN" % self.vat),
-                        "message": _(
-                            "%s is valid but no address information." % self.vat
-                        ),
-                    }
-                    return {"warning": warning_message}
-                street = street2 = ""
-                for i in map_street:
-                    if i in data.keys():
-                        street += word_map[i] + data[i] + " "
-                for i in map_street2:
-                    if i in data.keys():
-                        if i == "vThambol":
-                            street2 += (
-                                word_map["vThambol"] + data["vThambol"] + " "
-                                if data["vProvince"] != "กรุงเทพมหานคร"
-                                else "แขวง" + data["vThambol"] + " "
-                            )
-                            continue
-                        street2 += word_map[i] + data[i] + " "
-                amphur = (
-                    word_map["vAmphur"] + data["vAmphur"]
-                    if data["vProvince"] != "กรุงเทพมหานคร"
-                    else "เขต" + data["vAmphur"]
-                )
-                province_id = self.env["res.country.state"].search(
-                    [["name", "ilike", data["vProvince"]]]
-                )
-                self.update(
-                    {
-                        "name_company": data["vtitleName"] + " " + data["vName"],
-                        "street": street,
-                        "street2": street2,
-                        "city": amphur,
-                        "zip": data["vPostCode"],
-                        "state_id": province_id,
-                        "country_id": self.env.ref("base.th").id,
-                    }
-                )
-            else:
+        if ResPartner.check_rd_tin_service(self.vat):
+            if self.branch is False:
+                self.branch = "00000"
+            match = check_branch.match(self.branch)
+            if match is None:
                 warning_message = {
-                    "title": _("Validation failed."),
-                    "message": _("Failed to verify TIN or PIN %s." % self.vat),
+                    "title": _("Branch validation failed"),
+                    "message": _("Branch number %s must be 5 digits." % self.branch),
                 }
                 return {"warning": warning_message}
+            data = ResPartner.get_info_rd_vat_service(self.vat, self.branch)
+            _logger.log(INFO, pprint.pformat(data))
+            if not data:
+                warning_message = {
+                    "title": _("Validation failed."),
+                    "message": _(
+                        "TIN %s is valid. Branch %s is not valid."
+                        % (self.vat, self.branch)
+                    ),
+                }
+                return {"warning": warning_message}
+            if len(data) == 0:
+                warning_message = {
+                    "title": _("Can not get info from TIN" % self.vat),
+                    "message": _("%s is valid but no address information." % self.vat),
+                }
+                return {"warning": warning_message}
+            street = street2 = ""
+            for i in map_street:
+                if i in data.keys():
+                    street += word_map[i] + data[i] + " "
+            for i in map_street2:
+                if i in data.keys():
+                    if i == "vThambol":
+                        street2 += (
+                            word_map["vThambol"] + data["vThambol"] + " "
+                            if data["vProvince"] != "กรุงเทพมหานคร"
+                            else "แขวง" + data["vThambol"] + " "
+                        )
+                        continue
+                    street2 += word_map[i] + data[i] + " "
+            amphur = (
+                word_map["vAmphur"] + data["vAmphur"]
+                if data["vProvince"] != "กรุงเทพมหานคร"
+                else "เขต" + data["vAmphur"]
+            )
+            province_id = self.env["res.country.state"].search(
+                [["name", "ilike", data["vProvince"]]]
+            )
+            self.update(
+                {
+                    "name_company": data["vtitleName"] + " " + data["vName"],
+                    "street": street,
+                    "street2": street2,
+                    "city": amphur,
+                    "zip": data["vPostCode"],
+                    "state_id": province_id,
+                    "country_id": self.env.ref("base.th").id,
+                }
+            )
+        else:
+            warning_message = {
+                "title": _("Validation failed."),
+                "message": _("Failed to verify TIN or PIN %s." % self.vat),
+            }
+            return {"warning": warning_message}
