@@ -19,6 +19,10 @@ _logger = logging.getLogger(__name__)
 
 class ResPartner(models.Model):
     _inherit = "res.partner"
+    tin_web_service_url = (
+        "https://rdws.rd.go.th/serviceRD3/checktinpinservice.asmx?wsdl"
+    )
+    vat_web_service_url = "https://rdws.rd.go.th/serviceRD3/vatserviceRD3.asmx?wsdl"
 
     @staticmethod
     def check_rd_tin_service(tin):
@@ -28,21 +32,18 @@ class ResPartner(models.Model):
            :param tin: a string for TIN or PIN
         """
 
-        tin_web_service_url = (
-            "https://rdws.rd.go.th/serviceRD3/checktinpinservice.asmx?wsdl"
-        )
         sess = Session()
         mod_dir = path.dirname(path.realpath(__file__))
         cert_path = str(Path(mod_dir).parents[0]) + "/static/cert/adhq1_ADHQ5.cer"
         sess.verify = cert_path
         transp = Transport(session=sess)
         try:
-            cl = Client(tin_web_service_url, transport=transp)
+            cl = Client(ResPartner.tin_web_service_url, transport=transp)
         except requests.exceptions.SSLError:
             _logger.log(INFO, "Fall back to unverifed HTTPS request.")
             sess.verify = False
             transp = Transport(session=sess)
-            cl = Client(tin_web_service_url, transport=transp)
+            cl = Client(ResPartner.tin_web_service_url, transport=transp)
         result = cl.service.ServiceTIN("anonymous", "anonymous", tin)
         res_ord_dict = helpers.serialize_object(result)
         _logger.log(INFO, pprint.pformat(res_ord_dict))
@@ -56,19 +57,18 @@ class ResPartner(models.Model):
            :param branch: one digit of branch number
         """
         branch = int(branch)
-        vat_web_service_url = "https://rdws.rd.go.th/serviceRD3/vatserviceRD3.asmx?wsdl"
         sess = Session()
         mod_dir = path.dirname(path.realpath(__file__))
         cert_path = str(Path(mod_dir).parents[0]) + "/static/cert/adhq1_ADHQ5.cer"
         sess.verify = cert_path
         transp = Transport(session=sess)
         try:
-            cl = Client(vat_web_service_url, transport=transp)
+            cl = Client(ResPartner.vat_web_service_url, transport=transp)
         except requests.exceptions.SSLError:
             _logger.log(INFO, "Fall back to unverifed HTTPS request.")
             sess.verify = False
             transp = Transport(session=sess)
-            cl = Client(vat_web_service_url, transport=transp)
+            cl = Client(ResPartner.vat_web_service_url, transport=transp)
         result = cl.service.Service(
             "anonymous",
             "anonymous",
