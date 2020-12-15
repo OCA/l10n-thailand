@@ -4,7 +4,7 @@ import logging
 import pprint
 import re
 from collections import OrderedDict
-from logging import INFO
+from logging import DEBUG, INFO
 from os import path
 from pathlib import Path
 
@@ -46,7 +46,7 @@ class ResPartner(models.Model):
             cl = Client(ResPartner.tin_web_service_url, transport=transp)
         result = cl.service.ServiceTIN("anonymous", "anonymous", tin)
         res_ord_dict = helpers.serialize_object(result)
-        _logger.log(INFO, pprint.pformat(res_ord_dict))
+        _logger.log(DEBUG, pprint.pformat(res_ord_dict))
         return res_ord_dict["vIsExist"] is not None
 
     @staticmethod
@@ -78,7 +78,7 @@ class ResPartner(models.Model):
             AmphurCode=0,
         )
         odata = helpers.serialize_object(result)
-        _logger.log(INFO, pprint.pformat(odata))
+        _logger.log(DEBUG, pprint.pformat(odata))
         data = OrderedDict()
         if odata["vmsgerr"] is None:
             for key, value in odata.items():
@@ -133,7 +133,7 @@ class ResPartner(models.Model):
                 }
                 return {"warning": warning_message}
             data = ResPartner.get_info_rd_vat_service(self.vat, self.branch)
-            _logger.log(INFO, pprint.pformat(data))
+            _logger.log(DEBUG, pprint.pformat(data))
             if not data:
                 warning_message = {
                     "title": _("Validation failed."),

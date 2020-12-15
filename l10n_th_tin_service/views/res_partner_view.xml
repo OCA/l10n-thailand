@@ -6,8 +6,16 @@
         <field name="arch" type="xml">
             <field name="name_company" position="after">
                 <group>
-                    <field name="vat" class="oe_edit_only" />
-                    <field name="branch" class="oe_edit_only" />
+                    <field
+                        name="vat"
+                        class="oe_edit_only"
+                        attrs="{'invisible': [('is_company', '=', False)], 'required': [('is_company', '=', True)]}"
+                    />
+                    <field
+                        name="branch"
+                        class="oe_edit_only"
+                        attrs="{'invisible': [('is_company', '=', False)], 'required': [('is_company', '=', True)]}"
+                    />
                 </group>
             </field>
         </field>

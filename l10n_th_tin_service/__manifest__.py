@@ -13,6 +13,6 @@
     "external_dependencies": {"python": ["zeep"]},
     "installable": True,
     "application": False,
-    "development_statue": "Alpha",
+    "development_status": "Alpha",
     "maintainers": ["poonlap"],
 }
