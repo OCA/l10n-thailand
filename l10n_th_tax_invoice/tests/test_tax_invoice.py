@@ -1,5 +1,7 @@
 # Copyright 2019 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
+from dateutil.relativedelta import relativedelta
+
 from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests.common import SingleTransactionCase
@@ -241,7 +243,9 @@ class TestTaxInvoice(SingleTransactionCase):
         """ Register Payment from Vendor Invoice"""
         # Do not allow user to fill in Tax Invoice/Date
         tax_invoice = "SINV-10001"
-        tax_date = fields.Date.today()
+        today = fields.Date.today()
+        tax_date = today + relativedelta(day=1)
+
         self.supplier_invoice_undue_vat.action_post()
         # Make full payment from invoice
         payment = self.env["account.payment"].create(
@@ -258,6 +262,12 @@ class TestTaxInvoice(SingleTransactionCase):
         )
         payment.post()
         self.assertTrue(payment.tax_invoice_ids)
+        # Receive tax date, to 1 day later assign it to tax cash basis journal entry
+        self.assertNotEqual(today, tax_date)
+        for cash_basis_move in payment.tax_invoice_ids.mapped("move_id"):
+            self.assertTrue(cash_basis_move.tax_cash_basis_rec_id)
+            cash_basis_move._onchange_currency()
+            cash_basis_move.write({"date": tax_date})
         # Clear tax cash basis
         with self.assertRaises(UserError) as e:
             payment.clear_tax_cash_basis()

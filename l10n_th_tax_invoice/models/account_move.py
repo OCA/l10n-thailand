@@ -194,6 +194,13 @@ class AccountMove(models.Model):
         copy=False,
     )
 
+    @api.onchange("date", "currency_id")
+    def _onchange_currency(self):
+        """ For tax cash basis entry, do not recalc lines """
+        if self.tax_cash_basis_rec_id:
+            return
+        super()._onchange_currency()
+
     def post(self):
         """ Additional tax invoice info (tax_invoice_number, tax_invoice_date)
             Case sales tax, use Odoo's info, as document is issued out.
