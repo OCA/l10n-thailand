@@ -157,28 +157,26 @@ class ResPartner(models.Model):
                         }
                     }
 
+                if data["vProvince"] == "กรุงเทพมหานคร":
+                    word_map["vThambol"] = "แขวง"
+                    word_map["vAmphur"] = "เขต"
+
                 street = street2 = ""
+
                 for i in map_street:
                     if i in data.keys():
                         street += word_map[i] + data[i] + " "
+
                 for i in map_street2:
                     if i in data.keys():
-                        if i == "vThambol":
-                            street2 += (
-                                word_map["vThambol"] + data["vThambol"] + " "
-                                if data["vProvince"] != "กรุงเทพมหานคร"
-                                else "แขวง" + data["vThambol"] + " "
-                            )
-                            continue
                         street2 += word_map[i] + data[i] + " "
-                amphur = (
-                    word_map["vAmphur"] + data["vAmphur"]
-                    if data["vProvince"] != "กรุงเทพมหานคร"
-                    else "เขต" + data["vAmphur"]
-                )
+
+                amphur = word_map["vAmphur"] + data["vAmphur"]
+
                 province_id = self.env["res.country.state"].search(
                     [["name", "ilike", data["vProvince"]]]
                 )
+
                 self.update(
                     {
                         "name_company": data["vtitleName"] + " " + data["vName"],
@@ -190,7 +188,6 @@ class ResPartner(models.Model):
                         "country_id": self.env.ref("base.th").id,
                     }
                 )
-
             else:
                 return {
                     "warning": {
