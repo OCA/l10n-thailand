@@ -108,15 +108,17 @@ class ResPartner(models.Model):
             "vProvince": "จ.",
             "vPostCode": "",
         }
-        map_street = [
-            "vBuildingName",
-            "vRoomNumber",
-            "vFloorNumber",
-            "vHouseNumber",
-            "vStreetName",
-            "vSoiName",
+        street_map = [
+            [
+                "vBuildingName",
+                "vRoomNumber",
+                "vFloorNumber",
+                "vHouseNumber",
+                "vStreetName",
+                "vSoiName",
+            ],
+            ["vVillageName", "vMooNumber", "vThambol"],
         ]
-        map_street2 = ["vVillageName", "vMooNumber", "vThambol"]
         check_branch = re.compile(r"^\d{5}$")
         if self.branch is False:
             self.branch = "00000"
@@ -161,15 +163,12 @@ class ResPartner(models.Model):
                     word_map["vThambol"] = "แขวง"
                     word_map["vAmphur"] = "เขต"
 
-                street = street2 = ""
+                street = ["", ""]
 
-                for i in map_street:
-                    if i in data.keys():
-                        street += word_map[i] + data[i] + " "
-
-                for i in map_street2:
-                    if i in data.keys():
-                        street2 += word_map[i] + data[i] + " "
+                for j in range(len(street)):
+                    for i in street_map[j]:
+                        if i in data.keys():
+                            street[j] += word_map[i] + data[i] + " "
 
                 amphur = word_map["vAmphur"] + data["vAmphur"]
 
@@ -180,8 +179,8 @@ class ResPartner(models.Model):
                 self.update(
                     {
                         "name_company": data["vtitleName"] + " " + data["vName"],
-                        "street": street,
-                        "street2": street2,
+                        "street": street[0],
+                        "street2": street[1],
                         "city": amphur,
                         "zip": data["vPostCode"],
                         "state_id": province_id,
