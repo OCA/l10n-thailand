@@ -4,6 +4,8 @@ import logging
 
 from odoo import api, fields, models
 
+from odoo.addons.partner_firstname import exceptions
+
 _logger = logging.getLogger(__name__)
 
 
@@ -64,3 +66,13 @@ class ResPartner(models.Model):
         records = self.search([("name_company", "=", False)])
         records._inverse_name_company()
         _logger.info("%d partners updated installing module.", len(records))
+
+    @api.constrains("firstname", "lastname", "name_company")
+    def _check_name(self):
+        """Ensure at least one name is set."""
+        try:
+            super(ResPartner, self)._check_name()
+        except exceptions.EmptyNamesError:
+            for partner in self:
+                if not partner.name_company:
+                    raise
