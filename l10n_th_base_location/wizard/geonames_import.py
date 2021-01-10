@@ -12,7 +12,6 @@ class CityZipGeonamesImport(models.TransientModel):
 
     is_thailand = fields.Boolean(
         compute="_compute_is_thailand",
-        readonly=True,
         help="For Thailand only, data is from TH_th.txt and TH_en.txt stored "
         "in the module's data folder. To get data from Geonames.org, "
         "please uninstall l10n_th_base_location.",
