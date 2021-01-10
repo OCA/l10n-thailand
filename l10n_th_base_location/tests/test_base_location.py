@@ -1,11 +1,17 @@
 # Copyright 2020 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
+import logging
+
+import requests
+
 from odoo.exceptions import UserError
-from odoo.tests.common import TransactionCase
+from odoo.tests import Form, common
+
+logger = logging.getLogger(__name__)
 
 
-class TestBaseLocation(TransactionCase):
+class TestBaseLocation(common.TransactionCase):
     def setUp(self):
         super().setUp()
         self.thailand = self.env.ref("base.th")
@@ -65,6 +71,8 @@ class TestBaseLocation(TransactionCase):
         try:
             with self.assertRaises(UserError):
                 import_be.run_import()
+        except requests.exceptions.ConnectionError as e:
+            logger.exception("Connection Error: " + str(e))
         except Exception:
             import_be.run_import()
 
@@ -75,10 +83,13 @@ class TestBaseLocation(TransactionCase):
         )
         address = city_zip.city_id.name.split(", ")
         # partner
-        partner = self.Partner.new({"zip_id": city_zip.id})
-        partner._onchange_zip_id()
+        partner = Form(self.env["res.partner"])
+        partner.zip_id = city_zip
+        self.assertEqual(partner.zip, city_zip.name)
         self.assertEqual(partner.street2, address[0])
         self.assertEqual(partner.city, address[1])
+        self.assertEqual(partner.state_id, city_zip.city_id.state_id)
+        self.assertEqual(partner.country_id, city_zip.city_id.country_id)
         # company
         company = self.Company.new({"zip_id": city_zip.id})
         company._onchange_zip_id()
