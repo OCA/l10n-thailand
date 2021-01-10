@@ -7,10 +7,10 @@ from odoo import api, models
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    @api.onchange("zip_id")
-    def _onchange_zip_id(self):
-        res = super()._onchange_zip_id()
-        if self.zip_id and self.country_id.code == "TH":
-            address = self.zip_id.city_id.name.split(", ")
-            self.update({"street2": address[0], "city": address[1]})
-        return res
+    @api.depends("zip_id")
+    def _compute_city(self):
+        super()._compute_city()
+        for record in self:
+            if record.zip_id and record.country_id.code == "TH":
+                address = record.zip_id.city_id.name.split(", ")
+                record.update({"street2": address[0], "city": address[1]})
