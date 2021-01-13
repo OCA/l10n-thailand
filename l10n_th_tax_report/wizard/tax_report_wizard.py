@@ -8,6 +8,7 @@ from odoo.tools.safe_eval import safe_eval
 class TaxReportWizard(models.TransientModel):
     _name = "tax.report.wizard"
     _description = "Wizard for Tax Report"
+
     # Search Criteria
     company_id = fields.Many2one(
         comodel_name="res.company",

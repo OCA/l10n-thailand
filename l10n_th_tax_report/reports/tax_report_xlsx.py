@@ -5,6 +5,11 @@ import logging
 
 from odoo import models
 
+from odoo.addons.report_xlsx_helper.report.report_xlsx_format import (
+    FORMATS,
+    XLS_HEADERS,
+)
+
 _logger = logging.getLogger(__name__)
 
 
@@ -49,7 +54,7 @@ class ReportTaxReportXlsx(models.TransientModel):
                 "header": {"value": "Base Amount"},
                 "data": {
                     "value": self._render("tax_base_amount"),
-                    "format": self.format_tcell_amount_right,
+                    "format": FORMATS["format_tcell_amount_right"],
                 },
                 "width": 21,
             },
@@ -57,7 +62,7 @@ class ReportTaxReportXlsx(models.TransientModel):
                 "header": {"value": "Tax Amount"},
                 "data": {
                     "value": self._render("tax_amount"),
-                    "format": self.format_tcell_amount_right,
+                    "format": FORMATS["format_tcell_amount_right"],
                 },
                 "width": 21,
             },
@@ -86,14 +91,16 @@ class ReportTaxReportXlsx(models.TransientModel):
     def _vat_report(self, wb, ws, ws_params, data, objects):
         ws.set_portrait()
         ws.fit_to_pages(1, 0)
-        ws.set_header(self.xls_headers["standard"])
-        ws.set_footer(self.xls_footers["standard"])
+        ws.set_header(XLS_HEADERS["xls_headers"]["standard"])
+        ws.set_footer(XLS_HEADERS["xls_footers"]["standard"])
         self._set_column_width(ws, ws_params)
         row_pos = 0
         # title
         row_pos = self._write_ws_title(ws, row_pos, ws_params, True)
         # company data
-        ws.write_column(row_pos, 1, ["Period :", "Partner :"], self.format_left_bold)
+        ws.write_column(
+            row_pos, 1, ["Period :", "Partner :"], FORMATS["format_left_bold"]
+        )
         ws.write_column(
             row_pos,
             2,
@@ -102,7 +109,9 @@ class ReportTaxReportXlsx(models.TransientModel):
                 (objects.company_id.display_name) or "",
             ],
         )
-        ws.write_column(row_pos, 5, ["Tax ID :", "Branch ID :"], self.format_left_bold)
+        ws.write_column(
+            row_pos, 5, ["Tax ID :", "Branch ID :"], FORMATS["format_left_bold"]
+        )
         ws.write_column(
             row_pos,
             6,
@@ -118,7 +127,7 @@ class ReportTaxReportXlsx(models.TransientModel):
             row_pos,
             ws_params,
             col_specs_section="header",
-            default_format=self.format_theader_blue_left,
+            default_format=FORMATS["format_theader_blue_left"],
         )
         ws.freeze_panes(row_pos, 0)
         for obj in objects:
@@ -143,8 +152,11 @@ class ReportTaxReportXlsx(models.TransientModel):
                         "tax_amount": line.tax_amount or 0.00,
                         "doc_ref": line.name or "",
                     },
-                    default_format=self.format_tcell_left,
+                    default_format=FORMATS["format_tcell_left"],
                 )
         ws.write_row(
-            row_pos, 6, [total_base, total_tax], self.format_theader_blue_amount_right
+            row_pos,
+            6,
+            [total_base, total_tax],
+            FORMATS["format_theader_blue_amount_right"],
         )

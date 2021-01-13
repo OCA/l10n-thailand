@@ -105,7 +105,7 @@ class TaxReport(models.TransientModel):
             rcontext["o"] = report
             result["html"] = self.env.ref(
                 "l10n_th_tax_report.report_tax_report_html"
-            ).render(rcontext)
+            )._render(rcontext)
         return result
 
     @api.model
