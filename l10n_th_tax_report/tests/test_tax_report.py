@@ -18,6 +18,7 @@ class TestTaxReport(SavepointCase):
         cls._create_date_range(cls)
         cls.company = cls.env.company
         cls.tax = cls.env.ref("l10n_generic_coa.1_sale_tax_template")
+        cls.taxp = cls.env.ref("l10n_generic_coa.1_purchase_tax_template")
         cls.date_range = cls.date_range_obj.search([], limit=1, order="date_start asc")
 
     def _create_date_range(self):
@@ -76,6 +77,35 @@ class TestTaxReport(SavepointCase):
             {
                 "company_id": self.company.id,
                 "tax_id": self.tax.id,
+                "date_range_id": self.date_range.id,
+            }
+        )
+        report = wizard.button_export_xlsx()
+        self.assertEqual(report["name"], "TAX Report XLSX")
+        self.assertEqual(report["type"], "ir.actions.report")
+        self.assertEqual(report["report_type"], "xlsx")
+        self.assertEqual(
+            report["report_name"], "l10n_th_tax_report.report_tax_report_xlsx"
+        )
+        self.assertEqual(report["report_file"], "Tax Report")
+        tax_report = self.tax_report_obj.browse(report["context"]["active_ids"])
+        tax_report._compute_results()
+        action = self.env.ref("l10n_th_tax_report.action_tax_report_xlsx")
+        action._render_xlsx(
+            report["context"]["active_ids"],
+            {
+                "data": "['/report/xlsx/{}/{}','xlsx']".format(
+                    report["report_name"], str(report["context"]["active_ids"][0])
+                ),
+                "token": "dummy-because-api-expects-one",
+            },
+        )
+
+    def test_04_button_export_xlsx_purchase(self):
+        wizard = self.wizard_obj.create(
+            {
+                "company_id": self.company.id,
+                "tax_id": self.taxp.id,
                 "date_range_id": self.date_range.id,
             }
         )
