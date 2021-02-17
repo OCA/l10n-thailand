@@ -29,6 +29,11 @@ msgid "Contact"
 msgstr ""
 
 #. module: l10n_th_base_location
+#: model:ir.model,name:l10n_th_base_location.model_res_country_state
+msgid "Country state"
+msgstr ""
+
+#. module: l10n_th_base_location
 #: model:ir.model.fields,field_description:l10n_th_base_location.field_res_city_zip__district_code
 msgid "District Code"
 msgstr ""
