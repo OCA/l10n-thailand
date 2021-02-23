@@ -87,26 +87,30 @@ class TestBaseLocation(TransactionCase):
         
     def test_04_th_address(self):
         """Test name_get() for Thai address"""
-        state_id = self.env['res.country.state'].search([('name', 'like', 'กรุงเทพ')])
-        record = self.env['res.partner'].create({
-            'name': 'ทำเนียบรัฐบาล',
-            'street': '1 ถนนนครปฐม',
-            'street2': 'แขวงถนนนครไชยศรี',
-            'city': 'เขตดุสิต',
-            'state_id': state_id.id,
-        })
+        state_id = self.env["res.country.state"].search([("name", "like", "กรุงเทพ")])
+        record = self.env["res.partner"].create(
+            {
+                "name": "ทำเนียบรัฐบาล",
+                "street": "1 ถนนนครปฐม",
+                "street2": "แขวงถนนนครไชยศรี",
+                "city": "เขตดุสิต",
+                "state_id": state_id.id,
+            }
+        )
         name = record.state_id.name_get()
-        self.assertNotEqual(name[0][1][-4:], '(TH)')
+        self.assertNotEqual(name[0][1][-4:], "(TH)")
 
     def test_05_us_address(self):
         """Test name_get() for USA address"""
-        state_id = self.env['res.country.state'].search([('code', '=', 'NY')])
-        record = self.env['res.partner'].create({
-            'name': 'United Nations Headquarters',
-            'street': '405 East 42nd Street',
-            'street2': '',
-            'city': 'New York',
-            'state_id': state_id.id,
-        })
+        state_id = self.env["res.country.state"].search([("code", "=", "NY")])
+        record = self.env["res.partner"].create(
+            {
+                "name": "United Nations Headquarters",
+                "street": "405 East 42nd Street",
+                "street2": "",
+                "city": "New York",
+                "state_id": state_id.id,
+            }
+        )
         name = record.state_id.name_get()
-        self.assertEqual(name[0][1][-4:], '(US)')
+        self.assertEqual(name[0][1][-4:], "(US)")
