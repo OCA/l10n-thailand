@@ -84,7 +84,7 @@ class TestBaseLocation(TransactionCase):
         company._onchange_zip_id()
         self.assertEqual(company.street2, address[0])
         self.assertEqual(company.city, address[1])
-        
+
     def test_04_th_address(self):
         """Test name_get() for Thai address"""
         state_id = self.env["res.country.state"].search([("name", "like", "กรุงเทพ")])
