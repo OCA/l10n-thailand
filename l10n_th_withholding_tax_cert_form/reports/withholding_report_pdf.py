@@ -32,14 +32,11 @@ class WithholdingTaxCert(models.Model):
             return num2words(amount, to='currency', lang='en')
 
     @api.multi
-    def _compute_sum_type_other(self, lines, ttype):
-        base_type_other = sum(lines.filtered(
-            lambda l: l.wt_cert_income_type in ['6', '7', '8']).mapped(ttype))
-        return base_type_other
-
-    @api.multi
-    def _compute_desc_type_other(self, lines, ttype):
+    def _compute_desc_type_other(self, lines, ttype, income_type):
         base_type_other = lines.filtered(
-            lambda l: l.wt_cert_income_type in ['6', '7', '8']).mapped(ttype)
+            lambda l: l.wt_cert_income_type in [income_type]
+        ).mapped(ttype)
+        base_type_other = [x or "" for x in base_type_other]
         desc = ", ".join(base_type_other)
         return desc
+    
