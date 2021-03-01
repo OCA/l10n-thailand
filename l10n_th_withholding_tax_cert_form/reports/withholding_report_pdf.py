@@ -39,4 +39,3 @@ class WithholdingTaxCert(models.Model):
         base_type_other = [x or "" for x in base_type_other]
         desc = ", ".join(base_type_other)
         return desc
-    
