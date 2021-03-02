@@ -13,7 +13,5 @@ class CountryState(models.Model):
             if record.country_id.code == "TH":
                 result.append((record.id, record.name))
             else:
-                result.append(
-                    (record.id, "{} ({})".format(record.name, record.country_id.code))
-                )
+                result.append(super(CountryState, record).name_get()[0])
         return result
