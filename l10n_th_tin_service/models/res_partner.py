@@ -92,8 +92,10 @@ class ResPartner(models.Model):
             return data
         return False
 
-    @api.onchange("vat", "branch")
+    @api.onchange("vat", "branch", "country_id")
     def _onchange_vat_branch(self):
+        if "TH" != record.country_id.code or not (record.branch and record.vat):
+            return
         word_map = {
             "vBuildingName": "อาคาร ",
             "vFloorNumber": "ชั้นที่ ",
