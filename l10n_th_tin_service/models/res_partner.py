@@ -120,8 +120,10 @@ class ResPartner(models.Model):
             ["vVillageName", "vMooNumber", "vThambol"],
         ]
         check_branch = re.compile(r"^\d{5}$")
-        if self.branch is False:
+        if not self.branch:
             self.branch = "00000"
+        else:
+            self.branch = "{:05d}".format(int(self.branch))
 
         if self.vat:
             if ResPartner.check_rd_tin_service(self.vat):
