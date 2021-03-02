@@ -140,8 +140,11 @@ class ResPartner(models.Model):
                             "title": _("Branch validation failed"),
                             "message": _("Branch number %s must be 5 digits." % self.branch), }
                         }            
-                data = ResPartner.get_info_rd_vat_service(self.vat, self.branch)
-                _logger.log(DEBUG, pprint.pformat(data))
+                try:
+                    data = ResPartner.get_info_rd_vat_service(self.vat, self.branch)
+                    _logger.log(DEBUG, pprint.pformat(data))
+                except:
+                    _logger.log(DEBUG, _("There is an error calling RD's API"))  # or other suitable error message
 
                 if not data:
                     return {
