@@ -36,7 +36,7 @@ If the TIN is valid, the module will get other information such as, name, addres
 For a company which has many branches. You can change the branch number which is 5 digits number.
 The module will change the address accordingly.
 
- .. figure:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_tin_service/static/description/main_branch.png
+ .. figure:: ../static/description/main_branch.png
     :alt: Main branch
     :width: 80 %
     :align: center
