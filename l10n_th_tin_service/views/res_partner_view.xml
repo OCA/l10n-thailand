@@ -9,6 +9,7 @@
                     <field
                         name="vat"
                         class="oe_edit_only"
+                        placeholder="e.g. 0105519005906"
                         attrs="{'invisible': [('is_company', '=', False)], 'required': [('is_company', '=', True)]}"
                     />
                     <field
