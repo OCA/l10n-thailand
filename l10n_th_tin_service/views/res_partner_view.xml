@@ -19,6 +19,12 @@
                     />
                 </group>
             </field>
+            <field name="vat" position="attributes">
+                <attribute name="attrs">{'invisible': [('country_code', '!=', 'TH')]}</attribute>
+            </field>
+            <field name="branch" position="attributes">
+                <attribute name="attrs">{'invisible': [('country_code', '!=', 'TH')]}</attribute>
+            </field>
         </field>
     </record>
 </odoo>
