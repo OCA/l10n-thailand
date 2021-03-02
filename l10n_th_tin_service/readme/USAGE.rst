@@ -19,7 +19,7 @@ Go to "Contacts" and create a new contact. This module is mainly for TIN (VAT) v
 It is supposed that you already know a partner's (company) TIN which 13 digits number.
 Type the number in "Tax ID" field.
 
- .. figure:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_tin_service/static/description/input_tin.png
+ .. figure:: ../static/description/input_tin.png
     :alt: Input Tax Indentification Number, VAT
     :width: 80 %
     :align: center
