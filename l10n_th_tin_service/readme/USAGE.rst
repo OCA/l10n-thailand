@@ -59,7 +59,7 @@ Verify TIN
     :align: center
 
 Verify Branch number
- .. figure:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_tin_service/static/description/branch_validation.png
+ .. figure:: ../static/description/branch_validation.png
     :alt: Validate Branch
     :width: 80 %
     :align: center
