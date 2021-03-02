@@ -41,7 +41,7 @@ The module will change the address accordingly.
     :width: 80 %
     :align: center
 
- .. figure:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_tin_service/static/description/another_branch.png
+ .. figure:: ../static/description/another_branch.png
     :alt: Another branch
     :width: 80 %
     :align: center
