@@ -3,7 +3,7 @@ Configuration
 *************
 After installation
 
-* Go to Contacts > Configuration > Import from Geonames.
+* Go to Contacts > Configuration > Localization > Import from Geonames.
   Select "Thailand" with "Thai" language, then click the import button.
   This will populate all province names in Thai language and other information.
 
