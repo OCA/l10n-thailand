@@ -65,7 +65,7 @@ Verify Branch number
     :align: center
 
 Validate Branch format
- .. figure:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_tin_service/static/description/branch_format.png
+ .. figure:: ../static/description/branch_format.png
     :alt: Verify Branch number format
     :width: 80 %
     :align: center
