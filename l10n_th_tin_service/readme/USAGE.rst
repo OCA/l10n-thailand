@@ -28,7 +28,7 @@ Press the tab key to move the cursor to another field, or click somewhere outsid
 This will activate TIN validation with a web service which provided by Revenue Department of Thailand.
 If the TIN is valid, the module will get other information such as, name, address and fill out in the form automatically.
 
- .. figure:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_tin_service/static/description/autofill_sample.png
+ .. figure:: ../static/description/autofill_sample.png
     :alt: Auto-fill result
     :width: 80 %
     :align: center
