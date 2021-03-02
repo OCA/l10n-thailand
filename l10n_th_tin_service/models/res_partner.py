@@ -151,11 +151,24 @@ class ResPartner(models.Model):
                         "warning": {
                             "title": _("Validation failed."),
                             "message": _(
-                                "TIN %s is valid. Branch %s is not valid."
-                                % (self.vat, self.branch)
+                                "TIN: %s and branch: %s is not found on the RD database." % (self.vat, self.branch)
                             ),
                         }
                     }
+
+    # put this outside of the _onchange_vat_branch() method
+    @api.constrain('vat', 'country_id')
+    def _check_vat(self):
+        for record in self:
+            if "TH" != record.country_id.code or not record.vat:
+                continue
+            vat= record.vat
+            if len(vat) != 13 or not _id.isdigit():
+                raise UserError(_("TIN must be 13 digits"))
+            x = sum([(13 - i) * int(vat[i]) for i in range(12)]) % 11
+            checksum = (11 - x) % 10
+            if int(vat[12]) != checksum:
+                raise UserError(_("Invalid TIN"))
 
                 if len(data) == 0:
                     return {
