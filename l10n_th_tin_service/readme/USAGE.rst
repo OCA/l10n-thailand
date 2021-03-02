@@ -7,7 +7,7 @@ After installation
   Select "Thailand" with "Thai" language, then click the import button.
   This will populate all province names in Thai language and other information.
 
-.. figure:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_tin_service/static/description/geonames.png
+.. figure:: ../static/description/geonames.png
     :alt: Import geonames
     :width: 80 %
     :align: center
