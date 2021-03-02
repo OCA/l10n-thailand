@@ -127,16 +127,19 @@ class ResPartner(models.Model):
 
         if self.vat:
             if ResPartner.check_rd_tin_service(self.vat):
-                match = check_branch.match(self.branch)
-                if match is None:
-                    return {
-                        "warning": {
+    # put this outside of the _onchange_vat_branch() method
+    @api.constrains('branch', 'country_id')
+    def _check_branch(self):
+        for record in self:
+            if "TH" != record.country_id.code or not record.branch:
+                continue
+            check_branch = re.compile(r"^\d{5}$")
+            match = check_branch.match(self.branch)
+            if match is None:
+                return {"warning": {
                             "title": _("Branch validation failed"),
-                            "message": _(
-                                "Branch number %s must be 5 digits." % self.branch
-                            ),
-                        }
-                    }
+                            "message": _("Branch number %s must be 5 digits." % self.branch), }
+                        }            
                 data = ResPartner.get_info_rd_vat_service(self.vat, self.branch)
                 _logger.log(DEBUG, pprint.pformat(data))
 
