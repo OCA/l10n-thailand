@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="report_assets_common"
+        name="withholding tax cert common assets"
+        inherit_id="web.report_assets_common"
+    >
+        <xpath expr="." position="inside">
+            <link
+                rel="stylesheet"
+                type="text/scss"
+                href="/l10n_th_check_scb_bank/static/scss/style_check_scb.scss"
+            />
+        </xpath>
+    </template>
+    <template id="report_check_scb_base">
+        <t t-call="web.html_container">
+            <div class="header" />
+            <div class="article">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="currency_id" t-value="o.currency_id" />
+                    <div class="page o_report_check_scb_bank">
+                        <div style="padding-top:1mm;">
+                            <span class="payee_only">A/C PAYEE ONLY</span>
+                            <span
+                                class="check_date"
+                                t-esc="format_date(o.check_date)"
+                            />
+                            <span class="pay_to" t-esc="o.partner_id.name" />
+                            <span class="bearer">\\\\\</span>
+                            <span
+                                class="amount_word"
+                                t-esc="fill_bracket_amount_text(o.amount, currency_id)"
+                            />
+                            <span class="amount" t-esc="fill_equal_number(o.amount)" />
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

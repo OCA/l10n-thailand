@@ -1,0 +1,54 @@
+@font-face {
+    font-family: "THSarabunNew";
+    src: url("/l10n_th_check_scb_bank/fonts/THSarabunNew.ttf") format("truetype");
+}
+
+.o_report_check_scb_bank {
+    font-family: THSarabunNew;
+    font-size: 16px;
+    .payee_only {
+        position: fixed;
+        left: 20mm;
+        box-sizing: content-box;
+        width: 60mm;
+        height: 5mm;
+        padding: 1px;
+    }
+    .check_date {
+        position: fixed;
+        right: 27mm;
+    }
+    .pay_to {
+        position: fixed;
+        top: 11mm;
+        left: 25mm;
+        box-sizing: content-box;
+        width: 120mm;
+        height: 10mm;
+        padding: 1px;
+    }
+    .bearer {
+        position: fixed;
+        top: 11mm;
+        right: 17mm;
+    }
+    .amount_word {
+        position: fixed;
+        top: 21mm;
+        left: 45mm;
+        box-sizing: content-box;
+        width: 110mm;
+        height: 10mm;
+        padding: 1px;
+    }
+    .amount {
+        position: fixed;
+        top: 30mm;
+        right: 27mm;
+        box-sizing: content-box;
+        width: 60mm;
+        height: 5mm;
+        padding-right: 1px;
+        text-align: right;
+    }
+}

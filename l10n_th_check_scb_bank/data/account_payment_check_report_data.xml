@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record
+        id="account_payment_check_scb_bank_base"
+        model="account.payment.check.report"
+    >
+        <field name="name">SCB Check</field>
+        <field name="report">l10n_th_check_scb_bank.report_check_scb_base</field>
+    </record>
+</odoo>
