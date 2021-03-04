@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <act_window
+        id="account_send_withholding_tax_cert_by_email_action"
+        name="Send by email"
+        res_model="mail.compose.message"
+        binding_model="withholding.tax.cert"
+        view_mode="form"
+        binding_views="form"
+        target="new"
+        context="{
+                    'default_model': 'withholding.tax.cert',
+                    'mail_post_autofollow': True,
+                    'default_composition_mode': 'comment',
+                    'default_use_template': True,
+                    'default_res_id': active_id,
+                    'default_template_id': ref('withholding_tax_cert_form_email_template'),
+                    'force_email': True,
+                    'custom_layout': 'mail.mail_notification_light',
+                }"
+    />
+</odoo>
