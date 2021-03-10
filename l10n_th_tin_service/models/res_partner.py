@@ -143,7 +143,7 @@ class ResPartner(models.Model):
                 if not data:
                     return {
                         "warning": {
-                            "title": _("Validation failed."),
+                            "title": _("Warning: Validation failed."),
                             "message": _(
                                 "TIN %s is valid. Branch %s is not valid."
                                 % (self.vat, self.branch)
@@ -192,7 +192,7 @@ class ResPartner(models.Model):
             else:
                 return {
                     "warning": {
-                        "title": _("Validation failed."),
+                        "title": _("Warning: TIN may not be valid."),
                         "message": _("Failed to verify TIN or PIN %s." % self.vat),
                     },
                 }
