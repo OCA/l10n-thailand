@@ -4,7 +4,7 @@
 import http.client
 import json
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 
@@ -12,9 +12,8 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 class ResCurrencyRateProviderBOT(models.Model):
     _inherit = "res.currency.rate.provider"
 
-    service = fields.Selection(selection_add=[("BOT", "Bank of Thailand")],)
+    service = fields.Selection(selection_add=[("BOT", "Bank of Thailand")])
 
-    @api.multi
     def _get_supported_currencies(self):
         self.ensure_one()
         if self.service != "BOT":
@@ -73,7 +72,6 @@ class ResCurrencyRateProviderBOT(models.Model):
             "HUF",
         ]
 
-    @api.multi
     def _obtain_rates(self, base_currency, currencies, date_from, date_to):
         self.ensure_one()
         if self.service == "BOT":
