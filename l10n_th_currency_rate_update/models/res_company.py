@@ -7,4 +7,4 @@ from odoo import fields, models
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    bot_client_id = fields.Char(string="BOT Client ID",)
+    bot_client_id = fields.Char(string="BOT Client ID")
