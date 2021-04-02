@@ -8,5 +8,7 @@ class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
     bot_client_id = fields.Char(
-        string="Client ID", related="company_id.bot_client_id", readonly=False,
+        string="Client ID",
+        related="company_id.bot_client_id",
+        readonly=False,
     )

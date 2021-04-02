@@ -12,7 +12,10 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 class ResCurrencyRateProviderBOT(models.Model):
     _inherit = "res.currency.rate.provider"
 
-    service = fields.Selection(selection_add=[("BOT", "Bank of Thailand")])
+    service = fields.Selection(
+        selection_add=[("BOT", "Bank of Thailand")],
+        ondelete={"BOT": "set default"},
+    )
 
     def _get_supported_currencies(self):
         self.ensure_one()
