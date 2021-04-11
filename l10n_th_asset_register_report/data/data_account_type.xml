@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- account.account.type -->
+        <record id="data_account_type_credit_card" model="account.account.type">
+            <field name="name">Accumulated Depreciation</field>
+            <field name="type">other</field>
+        </record>
+    </data>
+</odoo>

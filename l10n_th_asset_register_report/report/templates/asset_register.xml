@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="l10n_th_asset_register_report.internal_layout">
+        <div class="article">
+            <link href="/l10n_th_asset_register_report/static/src/css/report.css" rel="stylesheet"/>
+          <t t-raw="0" />
+        </div>
+    </template>
+
+    <template id="l10n_th_asset_register_report.report_asset_register_qweb">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="l10n_th_asset_register_report.internal_layout">
+                    <t t-call="l10n_th_asset_register_report.report_asset_register_base"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_asset_register_base">
+        <!-- Defines global variables used by internal layout -->
+        <t t-set="title">Asset Register - <t t-raw="o.company_id.name"/> - <t t-raw="o.company_id.currency_id.name"/></t>
+        <div class="page">
+            <div class="row">
+                <h4 class="mt0" t-esc="title or 'Odoo Report'" style="text-align: center;"/>
+            </div>
+            <!-- Display filters -->
+            <t t-call="l10n_th_asset_register_report.report_asset_register_filters"/>
+            <div class="act_as_table list_table" style="margin-top: 10px;"/>
+
+            <!-- Display account lines -->
+            <div class="act_as_table data_table" style="width: 100%;">
+                <!-- Display account header -->
+                <t t-call="l10n_th_asset_register_report.report_asset_register_lines_header"/>
+                <!-- Display each lines -->
+                <t t-foreach="o.results" t-as="line">
+                    <t t-call="l10n_th_asset_register_report.report_asset_register_lines"/>
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <template id="l10n_th_asset_register_report.report_asset_register_filters">
+        <div class="act_as_table data_table" style="width: 100%;">
+            <div class="act_as_row labels">
+                <div class="act_as_cell">Date range filter</div>
+                <div class="act_as_cell">Asset filter</div>
+                <div class="act_as_cell">Asset Profile filter</div>
+                <div class="act_as_cell">Asset Status</div>
+            </div>
+            <div class="act_as_row">
+                <div class="act_as_cell">
+                    From: <span t-field="o.date_from"/> To: <span t-field="o.date_to"/>
+                </div>
+                <div class="act_as_cell">
+                    <t t-if="o.asset_ids">
+                        <t t-set="asset_name" t-value="o._get_asset_ids(o.asset_ids)"/>
+                        <span t-esc="asset_name"/>
+                    </t>
+                </div>
+                <div class="act_as_cell">
+                    <t t-if="o.asset_profile_ids">
+                        <t t-set="asset_profile_name" t-value="o._get_asset_ids(o.asset_profile_ids)"/>
+                        <span t-esc="asset_profile_name"/>
+                    </t>
+                </div>
+                <div class="act_as_cell">
+                    <t t-if="o.asset_status">
+                        <span t-field="o.asset_status"/>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="l10n_th_asset_register_report.report_asset_register_lines_header">
+        <!-- Display table headers for lines -->
+        <div class="act_as_thead">
+            <div class="act_as_row labels">
+                <div class="act_as_cell">รหัสกลุ่มสินทรัพย์</div>
+                <div class="act_as_cell">ชื่อสินทรัพย์</div>
+                <div class="act_as_cell">วันที่เริ่มคำนวณค่าเสื่อม</div>
+                <div class="act_as_cell">ราคาทรัพย์สินที่ซื้อหรือได้มา</div>
+                <div class="act_as_cell">มูลค่าต้นทุนในวันสุดท้ายของรอบระยะบัญชีก่อน</div>
+                <div class="act_as_cell">อัตราร้อยละ</div>
+                <div class="act_as_cell">มูลค่าที่คิดค่าเสื่อม</div>
+                <div class="act_as_cell">ราคาซาก</div>
+                <div class="act_as_cell">ค่าเสื่อมราคาที่หักในรอบระยะเวลาบัญชีนี้</div>
+                <div class="act_as_cell">ค่าเสื่อมราคาสะสมจนถึงปัจจุบัน</div>
+                <div class="act_as_cell">มูลค่าต้นทุนหลังหักค่าเสื่อมราคาแล้ว จนถึงปัจจุบัน</div>
+                <div class="act_as_cell">เอกสารอ้างอิง</div>
+                <div class="act_as_cell">หมายเหตุ</div>
+            </div>
+        </div>
+    </template>
+
+    <template id="l10n_th_asset_register_report.report_asset_register_lines">
+        <div class="act_as_row lines">
+            <div class="act_as_cell left">
+                <t t-esc="line.profile_id.name"/>
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.name"/>
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.date_start"/>
+            </div>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(line.purchase_value)"/>
+            </div>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(line.accumulated_bf)"/>
+            </div>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(line.percent_depreciation)"/>
+            </div>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(line.depreciation_base)"/>
+            </div>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(line.salvage_value)"/>
+            </div>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(line.depreciation)"/>
+            </div>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(line.accumulated_cf)"/>
+            </div>
+            <div class="act_as_cell right">
+                <t t-set="present_residual" t-value="line.purchase_value - line.accumulated_cf"/>
+                <t t-esc="'{0:,.2f}'.format(present_residual)"/>
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.code"/>
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.note"/>
+            </div>
+        </div>
+    </template>
+</odoo>

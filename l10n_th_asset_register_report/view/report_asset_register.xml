@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_asset_register">
+        <div class="o_l10n_th_asset_register_reports_page">
+            <t t-call="l10n_th_asset_register_report.report_buttons"/>
+            <t t-call="l10n_th_asset_register_report.report_asset_register_base"/>
+        </div>
+    </template>
+</odoo>
