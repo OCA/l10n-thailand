@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="l10n_th_bank_statement_report_assets_backend"
+              name="l10n_th_bank_statement_report" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link href="/l10n_th_bank_statement_report/static/src/css/report.css" rel="stylesheet"/>
+            <script type="text/javascript"
+                    src="/l10n_th_bank_statement_report/static/src/js/l10n_th_bank_statement_report_backend.js"/>
+        </xpath>
+    </template>
+
+    <template id="report_buttons">
+        <div class="button_row">
+            <button class="o_l10n_th_bank_statement_reports_print btn btn-sm oe_button"><span class="fa fa-print"/> Print</button>
+            <button class="o_l10n_th_bank_statement_reports_export btn btn-sm oe_button"><span class="fa fa-download"/> Export</button>
+        </div>
+    </template>
+
+    <record id="action_report_bank_statement" model="ir.actions.client">
+        <field name="name">Bank Statement</field>
+        <field name="tag">l10n_th_bank_statement_report_backend</field>
+        <field name="context" eval="{'active_model': 'report.bank.statement'}" />
+    </record>
+
+</odoo>
