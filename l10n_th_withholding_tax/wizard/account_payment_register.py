@@ -47,7 +47,11 @@ class AccountPaymentRegister(models.TransientModel):
             invoices = self.env["account.move"].browse(active_ids)
             inv_lines = invoices.mapped("invoice_line_ids").filtered("wt_tax_id")
             amount_wt = sum(
-                inv_lines.mapped(lambda l: l.wt_tax_id.amount / 100 * l.price_subtotal)
+                inv_lines.mapped(
+                    lambda l: l.wt_tax_id.amount
+                    / 100
+                    * (l.wt_base_on == "untaxed" and l.price_subtotal or l.price_total)
+                )
             )
             if amount_wt:
                 self._update_payment_register(amount_wt, inv_lines)

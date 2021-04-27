@@ -1,2 +1,2 @@
-This module allow user to register payment and
-compute amount include withholding tax automatic.
+This module helps calculate withholding tax amount based on
+WT selected in invoice line on payment register wizard.

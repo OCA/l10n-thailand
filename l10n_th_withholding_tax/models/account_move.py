@@ -13,6 +13,16 @@ class AccountMoveLine(models.Model):
         store=True,
         readonly=False,
     )
+    wt_base_on = fields.Selection(
+        selection=[
+            ("taxed", "Taxed"),
+            ("untaxed", "Untaxed"),
+        ],
+        string="WT Base On",
+        required=True,
+        default="untaxed",
+        help="Calcuate WHT amount based on Taxed or Untaxed Amount",
+    )
 
     @api.depends("product_id", "account_id")
     def _compute_wt_tax_id(self):
