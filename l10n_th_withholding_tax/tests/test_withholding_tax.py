@@ -1,6 +1,6 @@
 # Copyright 2020 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
-
+from odoo import fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import Form, SavepointCase
 
@@ -75,6 +75,7 @@ class TestWithholdingTax(SavepointCase):
             "partner_id": partner_id,
             "journal_id": journal_id,
             "move_type": invoice_type,
+            "invoice_date": fields.Date.today(),
             "invoice_line_ids": [
                 (
                     0,

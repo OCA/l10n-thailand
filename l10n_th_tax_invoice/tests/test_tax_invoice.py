@@ -157,6 +157,7 @@ class TestTaxInvoice(SingleTransactionCase):
                 "partner_id": partner.id,
                 "journal_id": journal.id,
                 "move_type": invoice_type,
+                "invoice_date": fields.Date.today(),
                 "invoice_line_ids": [
                     (
                         0,
@@ -359,9 +360,11 @@ class TestTaxInvoice(SingleTransactionCase):
         can not post until all Tax Invoice number is filled"""
         # Post suupplier invoice
         invoice = self.supplier_invoice_undue_vat.copy()
+        invoice.invoice_date = invoice.date
         invoice.action_post()
         # Post supplier refund
         refund = self.supplier_refund_undue_vat.copy()
+        refund.invoice_date = refund.date
         refund.action_post()
         # At invoice add refund to reconcile
         payable_account = refund.partner_id.property_account_payable_id
