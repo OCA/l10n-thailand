@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- View for create single cert -->
+    <record id="create_withholding_tax_cert" model="ir.ui.view">
+        <field name="name">Create Withholding Tax Cert.</field>
+        <field name="model">create.withholding.tax.cert</field>
+        <field name="arch" type="xml">
+            <form string="Post Journal Entries">
+                <p>
+                    Create new withholding tax cert. based on account move for
+                    withholding tax.
+                </p>
+                <group>
+                    <group>
+                        <field name="wt_account_ids" widget="many2many_tags" />
+                    </group>
+                    <group>
+                        <field name="income_tax_form" />
+                        <field name="wt_cert_income_type" />
+                        <label for="substitute" />
+                        <div class="o_row">
+                            <field name="substitute" />
+                            <field
+                                name="wt_cert_id"
+                                placeholder="for withholding tax cert."
+                                attrs="{'invisible': [('substitute', '=', False)], 'required': [('substitute', '!=', False)]}"
+                                options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                            />
+                        </div>
+                        <label for="substitute" string="" />
+                        <span
+                            class="text-muted"
+                            attrs="{'invisible': [('substitute', '=', False)], 'required': [('substitute', '!=', False)]}"
+                        >
+                            Substituted withholding tax cert. will be cancelled
+                        </span>
+                    </group>
+                </group>
+                <footer>
+                    <button
+                        string="Create"
+                        name="create_wt_cert"
+                        type="object"
+                        default_focus="1"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <!-- View for create multi certs -->
+    <record id="create_withholding_tax_cert_multi" model="ir.ui.view">
+        <field name="name">Create Multi Withholding Tax Cert.</field>
+        <field name="model">create.withholding.tax.cert</field>
+        <field name="arch" type="xml">
+            <form string="Create Multi Withholding Tax Cert.">
+                <p>
+                    Create multiple withholding tax certs, based on account move for
+                    withholding tax.
+                </p>
+                <group>
+                    <group name="left">
+                        <field name="wt_account_ids" widget="many2many_tags" />
+                    </group>
+                    <group name="right">
+                        <field name="income_tax_form" required="1" />
+                        <field name="wt_cert_income_type" required="1" />
+                    </group>
+                </group>
+                <footer>
+                    <button
+                        string="Create"
+                        name="create_wt_cert_multi"
+                        type="object"
+                        default_focus="1"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <!-- Server actions on JE and Payment -->
+    <record id="action_create_withholding_tax_cert" model="ir.actions.server">
+        <field name="name">Create Withholding Tax Cert.</field>
+        <field
+            name="model_id"
+            ref="l10n_th_withholding_tax_cert.model_create_withholding_tax_cert"
+        />
+        <field name="binding_model_id" ref="account.model_account_payment" />
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = env['withholding.tax.cert'].action_create_withholding_tax_cert()
+        </field>
+    </record>
+    <record id="action_move_create_withholding_tax_cert" model="ir.actions.server">
+        <field name="name">Create Withholding Tax Cert.</field>
+        <field
+            name="model_id"
+            ref="l10n_th_withholding_tax_cert.model_create_withholding_tax_cert"
+        />
+        <field name="binding_model_id" ref="account.model_account_move" />
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = env['withholding.tax.cert'].action_create_withholding_tax_cert()
+        </field>
+    </record>
+</odoo>
