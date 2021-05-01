@@ -1,0 +1,60 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_withholding_tax_cert_form
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: th\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: l10n_th_withholding_tax_cert_form
+#: model:ir.actions.report,print_report_name:l10n_th_withholding_tax_cert_form.withholding_tax_pdf_report
+msgid "'WT Certificates - %s' % object.display_name"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_cert_form.withholding_layout_report
+msgid "<span class=\"opacity\">ยกเลิก</span>"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_cert_form.withholding_layout_report
+msgid "<span class=\"wt_reference_text\">ออกแทนเอกสารเลขที่</span>"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert_form
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert_form.field_report_withholding_tax_pdf__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert_form
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert_form.field_report_withholding_tax_pdf__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert_form
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert_form.field_report_withholding_tax_pdf____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert_form
+#: model:ir.actions.report,name:l10n_th_withholding_tax_cert_form.withholding_tax_pdf_report
+msgid "WT Certificates (pdf)"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert_form
+#: model:ir.model,name:l10n_th_withholding_tax_cert_form.model_withholding_tax_cert
+msgid "Withholding Tax Certificate"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert_form
+#: model:ir.model,name:l10n_th_withholding_tax_cert_form.model_report_withholding_tax_pdf
+msgid "Withholding tax cert report with pdf preprint"
+msgstr ""

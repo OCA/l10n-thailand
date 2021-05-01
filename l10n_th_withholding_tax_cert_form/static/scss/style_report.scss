@@ -1,0 +1,418 @@
+// Change Font
+@font-face {
+    font-family: "THSarabun";
+    src: url("../fonts/THSarabunNew Bold.ttf") format("truetype");
+}
+
+.o_report_withholding_tax_cert {
+    font-family: "THSarabun";
+    font-size: 24px;
+
+    .state_cancel {
+        font-weight: bold;
+        font-size: 280px;
+        position: fixed;
+        top: 148.5mm;
+        right: 75mm;
+        color: gray;
+        opacity: 0.4;
+        transform: rotate(320deg);
+        -webkit-transform: rotate(320deg);
+    }
+    .opacity {
+        opacity: 0.4;
+    }
+    .wt_reference_text {
+        position: fixed;
+        top: 20px;
+        right: 50px;
+    }
+    .wt_reference {
+        position: fixed;
+        top: 45px;
+        right: 50px;
+    }
+    .number_payment {
+        font-size: 28px;
+        font-weight: bold;
+        position: fixed;
+        top: 100px;
+        right: 200px;
+    }
+    .company_vat {
+        margin-left: 730px;
+        position: fixed;
+        top: 156px;
+    }
+    .company_name {
+        margin-left: 107px;
+        position: fixed;
+        top: 187px;
+        box-sizing: content-box;
+        width: 650px;
+        height: 40px;
+        padding: 1px;
+    }
+    .company_address {
+        margin-left: 113px;
+        position: fixed;
+        top: 231px;
+        box-sizing: content-box;
+        width: 1000px;
+        height: 40px;
+        padding: 1px;
+    }
+    .supplier_vat {
+        margin-left: 730px;
+        position: fixed;
+        top: 288px;
+    }
+    .supplier_name {
+        margin-left: 107px;
+        position: fixed;
+        top: 325px;
+        box-sizing: content-box;
+        width: 650px;
+        height: 40px;
+        padding: 1px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    .supplier_address {
+        margin-left: 113px;
+        position: fixed;
+        top: 376px;
+        box-sizing: content-box;
+        width: 1000px;
+        height: 40px;
+        padding: 1px;
+    }
+    .sequence_number {
+        margin-left: 150px;
+        position: fixed;
+        top: 430px;
+        box-sizing: content-box;
+        width: 110px;
+        height: 20px;
+        padding: 1px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    .choice_pnd1a {
+        position: fixed;
+        top: 430px;
+        left: 420px;
+        font-size: 28px;
+    }
+    .choice_pnd3 {
+        position: fixed;
+        top: 430px;
+        right: 217px;
+        font-size: 28px;
+    }
+    .choice_pnd3a {
+        position: fixed;
+        top: 463px;
+        right: 568px;
+        font-size: 28px;
+    }
+    .choice_pnd53 {
+        position: fixed;
+        top: 463px;
+        right: 365px;
+        font-size: 28px;
+    }
+    .type_1_date {
+        position: fixed;
+        top: 561px;
+        right: 400px;
+    }
+    .type_1_base {
+        position: fixed;
+        top: 561px;
+        right: 209px;
+    }
+    .type_1_tax {
+        position: fixed;
+        top: 561px;
+        right: 73px;
+    }
+    .type_2_date {
+        position: fixed;
+        top: 588px;
+        right: 400px;
+    }
+    .type_2_base {
+        position: fixed;
+        top: 588px;
+        right: 209px;
+    }
+    .type_2_tax {
+        position: fixed;
+        top: 588px;
+        right: 73px;
+    }
+    .type_3_date {
+        position: fixed;
+        top: 615px;
+        right: 400px;
+    }
+    .type_3_base {
+        position: fixed;
+        top: 615px;
+        right: 209px;
+    }
+    .type_3_tax {
+        position: fixed;
+        top: 615px;
+        right: 73px;
+    }
+    .type_4A_date {
+        position: fixed;
+        top: 642px;
+        right: 400px;
+    }
+    .type_4A_base {
+        position: fixed;
+        top: 642px;
+        right: 209px;
+    }
+    .type_4A_tax {
+        position: fixed;
+        top: 642px;
+        right: 73px;
+    }
+    .type_4B11_date {
+        position: fixed;
+        top: 753px;
+        right: 400px;
+    }
+    .type_4B11_base {
+        position: fixed;
+        top: 753px;
+        right: 209px;
+    }
+    .type_4B11_tax {
+        position: fixed;
+        top: 753px;
+        right: 73px;
+    }
+    .type_4B12_date {
+        position: fixed;
+        top: 780px;
+        right: 400px;
+    }
+    .type_4B12_base {
+        position: fixed;
+        top: 780px;
+        right: 209px;
+    }
+    .type_4B12_tax {
+        position: fixed;
+        top: 780px;
+        right: 73px;
+    }
+    .type_4B13_date {
+        position: fixed;
+        top: 808px;
+        right: 400px;
+    }
+    .type_4B13_base {
+        position: fixed;
+        top: 808px;
+        right: 209px;
+    }
+    .type_4B13_tax {
+        position: fixed;
+        top: 808px;
+        right: 73px;
+    }
+    .type_4B14_description {
+        position: fixed;
+        box-sizing: content-box;
+        width: 300px;
+        height: 40px;
+        top: 835px;
+        left: 325px;
+    }
+    .type_4B14_date {
+        position: fixed;
+        top: 836px;
+        right: 400px;
+    }
+    .type_4B14_base {
+        position: fixed;
+        top: 836px;
+        right: 209px;
+    }
+    .type_4B14_tax {
+        position: fixed;
+        top: 836px;
+        right: 73px;
+    }
+    .type_4B21_date {
+        position: fixed;
+        top: 890px;
+        right: 400px;
+    }
+    .type_4B21_base {
+        position: fixed;
+        top: 890px;
+        right: 209px;
+    }
+    .type_4B21_tax {
+        position: fixed;
+        top: 890px;
+        right: 73px;
+    }
+    .type_4B22_date {
+        position: fixed;
+        top: 945px;
+        right: 400px;
+    }
+    .type_4B22_base {
+        position: fixed;
+        top: 945px;
+        right: 209px;
+    }
+    .type_4B22_tax {
+        position: fixed;
+        top: 945px;
+        right: 73px;
+    }
+    .type_4B23_date {
+        position: fixed;
+        top: 1000px;
+        right: 400px;
+    }
+    .type_4B23_base {
+        position: fixed;
+        top: 1000px;
+        right: 209px;
+    }
+    .type_4B23_tax {
+        position: fixed;
+        top: 1000px;
+        right: 73px;
+    }
+    .type_4B24_date {
+        position: fixed;
+        top: 1030px;
+        right: 400px;
+    }
+    .type_4B24_base {
+        position: fixed;
+        top: 1030px;
+        right: 209px;
+    }
+    .type_4B24_tax {
+        position: fixed;
+        top: 1030px;
+        right: 73px;
+    }
+    .type_4B25_description {
+        position: fixed;
+        box-sizing: content-box;
+        width: 350px;
+        height: 40px;
+        top: 1056px;
+        left: 290px;
+    }
+    .type_4B25_date {
+        position: fixed;
+        top: 1056px;
+        right: 400px;
+    }
+    .type_4B25_base {
+        position: fixed;
+        top: 1056px;
+        right: 209px;
+    }
+    .type_4B25_tax {
+        position: fixed;
+        top: 1056px;
+        right: 73px;
+    }
+    .type_5_date {
+        position: fixed;
+        top: 1167px;
+        right: 400px;
+    }
+    .type_5_base {
+        position: fixed;
+        top: 1167px;
+        right: 209px;
+    }
+    .type_5_tax {
+        position: fixed;
+        top: 1167px;
+        right: 73px;
+    }
+    .type_6_description {
+        position: fixed;
+        box-sizing: content-box;
+        width: 450px;
+        height: 40px;
+        top: 1197px;
+        left: 200px;
+    }
+    .type_6_date {
+        position: fixed;
+        top: 1195px;
+        right: 400px;
+    }
+    .type_6_base {
+        position: fixed;
+        top: 1195px;
+        right: 209px;
+    }
+    .type_6_tax {
+        position: fixed;
+        top: 1195px;
+        right: 73px;
+    }
+    .total_amount {
+        position: fixed;
+        top: 1233px;
+        right: 209px;
+    }
+    .total_tax {
+        position: fixed;
+        top: 1233px;
+        right: 73px;
+    }
+    .text_amount {
+        position: fixed;
+        box-sizing: content-box;
+        width: 700px;
+        height: 40px;
+        top: 1272px;
+        right: 80px;
+        text-align: center;
+    }
+    .choich_withholding_tax {
+        position: fixed;
+        top: 1350px;
+        left: 180px;
+        font-size: 23px;
+        font-weight: bold;
+    }
+    .choich_paid_one_time {
+        position: fixed;
+        top: 1350px;
+        right: 577px;
+        font-size: 23px;
+        font-weight: bold;
+    }
+    .box-vat {
+        box-sizing: content-box;
+        width: 21px;
+        height: 23px;
+        text-align: center;
+        margin-bottom: 0px;
+        padding-left: 2px;
+    }
+    .vat_tab {
+        margin-left: 11px;
+    }
+}
