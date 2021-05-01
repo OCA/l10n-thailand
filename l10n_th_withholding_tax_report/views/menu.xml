@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem
+        id="menu_withholding_tax_report"
+        parent="account.menu_finance_reports"
+        action="action_withholding_tax_report_wizard"
+        sequence="20"
+    />
+</odoo>
