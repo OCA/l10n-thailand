@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="res_currency_rate_provider_form_view">
+        <field name="name">res.currency.rate.provider.form</field>
+        <field name="model">res.currency.rate.provider</field>
+        <field
+            name="inherit_id"
+            ref="currency_rate_update.res_currency_rate_provider_form_view"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='currency_name']" position="after">
+                <div
+                    attrs="{'invisible':['|',('service','!=','BOT'),('currency_name','=','THB')]}"
+                    class="alert alert-warning"
+                    colspan="2"
+                    role="alert"
+                >
+                  <strong
+                    >! </strong>You are using Bank of Thailand exchange rate service with a base currency different from THB.<br
+                    />
+                  As long as the Bank of Thailand only provides exchange rates based on THB, other foreign currency rates are recalculated and might differ from real rates.
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
