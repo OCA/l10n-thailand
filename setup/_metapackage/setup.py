@@ -11,6 +11,7 @@ setuptools.setup(
         'odoo14-addon-l10n_th_amount_to_text',
         'odoo14-addon-l10n_th_fonts',
         'odoo14-addon-l10n_th_partner',
+        'odoo14-addon-l10n_th_promptpay',
         'odoo14-addon-l10n_th_tax_invoice',
         'odoo14-addon-l10n_th_tax_report',
         'odoo14-addon-l10n_th_withholding_tax',
