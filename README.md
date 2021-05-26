@@ -22,6 +22,7 @@ addon | version | summary
 [l10n_th_amount_to_text](l10n_th_amount_to_text/) | 14.0.1.0.0 | Convert Amount Text to Thai
 [l10n_th_fonts](l10n_th_fonts/) | 14.0.1.0.0 | Collection of all fonts thai
 [l10n_th_partner](l10n_th_partner/) | 14.0.1.0.0 | Thai Localization - Partner
+[l10n_th_promptpay](l10n_th_promptpay/) | 14.0.1.0.0 | Use PromptPay QR code with transfer acquirer.
 [l10n_th_tax_invoice](l10n_th_tax_invoice/) | 14.0.1.0.2 | Thai Localization - Account Tax Invoice
 [l10n_th_tax_report](l10n_th_tax_report/) | 14.0.1.0.0 | Thailand Localization - TAX Reports
 [l10n_th_withholding_tax](l10n_th_withholding_tax/) | 14.0.1.0.1 | Thai Localization - Withholding Tax
