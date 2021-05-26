@@ -1,0 +1,50 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_promptpay
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_th_promptpay
+#: model:ir.model.fields,help:l10n_th_promptpay.field_payment_acquirer__promptpay_id
+msgid "13 digits for company's tax ID or 10 digits for mobile phone number"
+msgstr ""
+
+#. module: l10n_th_promptpay
+#: model_terms:ir.ui.view,arch_db:l10n_th_promptpay.payment_promptpay_web_display
+msgid "Amount"
+msgstr ""
+
+#. module: l10n_th_promptpay
+#: model:ir.model,name:l10n_th_promptpay.model_payment_acquirer
+msgid "Payment Acquirer"
+msgstr ""
+
+#. module: l10n_th_promptpay
+#: model:ir.model.fields,field_description:l10n_th_promptpay.field_payment_acquirer__promptpay_id
+#: model_terms:ir.ui.view,arch_db:l10n_th_promptpay.payment_promptpay_web_display
+msgid "PromptPay ID"
+msgstr ""
+
+#. module: l10n_th_promptpay
+#: model_terms:ir.ui.view,arch_db:l10n_th_promptpay.payment_promptpay_web_display
+msgid "PromptPay QR Code"
+msgstr ""
+
+#. module: l10n_th_promptpay
+#: model_terms:ir.ui.view,arch_db:l10n_th_promptpay.acquirer_form_inherit_promptpay
+msgid "PromptPay QR code"
+msgstr ""
+
+#. module: l10n_th_promptpay
+#: model:ir.model.fields,field_description:l10n_th_promptpay.field_payment_acquirer__qr_code_promptpay
+msgid "Use PromptPay QR code"
+msgstr ""
