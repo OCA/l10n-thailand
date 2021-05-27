@@ -26,3 +26,7 @@ class AccountMoveLine(models.Model):
                 rec.wt_tax_id = rec.payment_id.wt_tax_id
             else:
                 rec.wt_tax_id = False
+
+    def _get_wt_base_amount(self):
+        """ HOOK point for future extension """
+        return self.price_subtotal
