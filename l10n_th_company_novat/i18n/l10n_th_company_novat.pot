@@ -1,0 +1,129 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_company_novat
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_th_company_novat
+#: model:ir.model,name:l10n_th_company_novat.model_base_company_novat
+msgid "Base Company NoVAT"
+msgstr ""
+
+#. module: l10n_th_company_novat
+#: model:ir.model,name:l10n_th_company_novat.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_th_company_novat
+#: model:ir.model,name:l10n_th_company_novat.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_th_company_novat
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_account_fiscal_position__display_name
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_base_company_novat__display_name
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_hr_expense__display_name
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_purchase_order_line__display_name
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_res_partner__display_name
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_sale_order_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_th_company_novat
+#: model:ir.model,name:l10n_th_company_novat.model_hr_expense
+msgid "Expense"
+msgstr ""
+
+#. module: l10n_th_company_novat
+#: model:ir.model,name:l10n_th_company_novat.model_account_fiscal_position
+msgid "Fiscal Position"
+msgstr ""
+
+#. module: l10n_th_company_novat
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_account_fiscal_position__id
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_base_company_novat__id
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_hr_expense__id
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_purchase_order_line__id
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_res_partner__id
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_sale_order_line__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_th_company_novat
+#: model:ir.model.fields,help:l10n_th_company_novat.field_res_company__novat
+msgid "If checked, all documents must not contain any VAT"
+msgstr ""
+
+#. module: l10n_th_company_novat
+#: model:ir.model,name:l10n_th_company_novat.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_th_company_novat
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_account_fiscal_position____last_update
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_account_move_line____last_update
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_base_company_novat____last_update
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_hr_expense____last_update
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_purchase_order_line____last_update
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_res_company____last_update
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_res_partner____last_update
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_sale_order_line____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_th_company_novat
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_res_company__novat
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_res_partner__novat
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_res_users__novat
+msgid "Not VAT Registered"
+msgstr ""
+
+#. module: l10n_th_company_novat
+#: model:ir.model.fields,help:l10n_th_company_novat.field_account_move_line__wtvat
+msgid ""
+"Only with No-VAT registered company, set default tax  to calculate base "
+"amount used for withholding amount"
+msgstr ""
+
+#. module: l10n_th_company_novat
+#: model:ir.model,name:l10n_th_company_novat.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr ""
+
+#. module: l10n_th_company_novat
+#: model:ir.model,name:l10n_th_company_novat.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: l10n_th_company_novat
+#: code:addons/l10n_th_company_novat/models/res_company.py:0
+#: code:addons/l10n_th_company_novat/models/res_company.py:0
+#, python-format
+msgid "Taxes not allowed for Non-VAT registered company, %s"
+msgstr ""
+
+#. module: l10n_th_company_novat
+#: model:ir.model.fields,help:l10n_th_company_novat.field_res_partner__novat
+#: model:ir.model.fields,help:l10n_th_company_novat.field_res_users__novat
+msgid ""
+"This partner is not a vat registered vendor/customer. Odoo will try to "
+"remove taxes from document"
+msgstr ""
+
+#. module: l10n_th_company_novat
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_account_move_line__wtvat
+msgid "Vat%"
+msgstr ""
