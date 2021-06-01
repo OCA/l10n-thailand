@@ -7,7 +7,7 @@
     "author": "Ecosoft, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-thailand",
     "license": "AGPL-3",
-    "category": "Localisation/Asia",
+    "category": "Localization/Asia",
     "depends": ["partner_company_type", "partner_firstname"],
     "data": [
         "data/res.partner.company.type.csv",
