@@ -1,0 +1,48 @@
+<odoo noupdate="1">
+
+    <!-- Default product, for procurement type -->
+    <record id="product_type_001" model="product.product">
+        <field name="name">ซื้อ/จ้าง/เช่า</field>
+        <field name="type">service</field>
+        <field name="sale_ok" eval="False" />
+        <field name="purchase_ok" eval="True" />
+        <field name="supplier_taxes_id" eval="False" />
+        <field name="taxes_id" eval="False" />
+        <field name="purchase_method">purchase</field>
+    </record>
+    <record id="product_type_002" model="product.product">
+        <field name="name">จ้างที่ปรึกษา</field>
+        <field name="type">service</field>
+        <field name="sale_ok" eval="False" />
+        <field name="purchase_ok" eval="True" />
+        <field name="supplier_taxes_id" eval="False" />
+        <field name="taxes_id" eval="False" />
+        <field name="purchase_method">purchase</field>
+    </record>
+    <record id="product_type_003" model="product.product">
+        <field name="name">จ้างออกแบบและควบคุมงานก่อสร้าง</field>
+        <field name="type">service</field>
+        <field name="sale_ok" eval="False" />
+        <field name="purchase_ok" eval="True" />
+        <field name="supplier_taxes_id" eval="False" />
+        <field name="taxes_id" eval="False" />
+        <field name="purchase_method">purchase</field>
+    </record>
+    <!-- Procurement type -->
+    <record id="procurement_type_001" model="procurement.type">
+        <field name="name">ซื้อ/จ้าง/เช่า</field>
+        <field name="product_id" ref="product_type_001" />
+        <field name="sequence">10</field>
+    </record>
+    <record id="procurement_type_002" model="procurement.type">
+        <field name="name">จ้างที่ปรึกษา</field>
+        <field name="product_id" ref="product_type_002" />
+        <field name="sequence">20</field>
+    </record>
+    <record id="procurement_type_003" model="procurement.type">
+        <field name="name">จ้างออกแบบและควบคุมงานก่อสร้าง</field>
+        <field name="product_id" ref="product_type_003" />
+        <field name="sequence">30</field>
+    </record>
+
+</odoo>
