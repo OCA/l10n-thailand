@@ -1,0 +1,38 @@
+<odoo>
+
+    <record id="view_work_acceptance_form" model="ir.ui.view">
+        <field name="name">view.work.acceptance.form</field>
+        <field name="model">work.acceptance</field>
+        <field
+            name="inherit_id"
+            ref="purchase_work_acceptance.view_work_acceptance_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/notebook" position="inside">
+                <page string="Committee">
+                    <group name="committee">
+                        <field
+                            name="work_acceptance_committee_ids"
+                            nolabel="1"
+                            attrs="{'readonly': [('state', '!=', 'draft')]}"
+                        >
+                            <tree editable="bottom">
+                                <field
+                                    name="employee_id"
+                                    string="Name"
+                                    options="{'no_create': True, 'no_open': True}"
+                                />
+                                <field name="approve_role" />
+                                <field name="department_id" />
+                                <field name="email" />
+                                <field name="phone" />
+                                <field name="note" />
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
