@@ -1,0 +1,196 @@
+<odoo>
+
+    <record id="view_purchase_request_tree" model="ir.ui.view">
+        <field name="name">purchase.request.tree</field>
+        <field name="model">purchase.request</field>
+        <field name="priority">30</field>
+        <field name="inherit_id" ref="purchase_request.view_purchase_request_tree" />
+        <field name="arch" type="xml">
+            <field name="origin" position="after">
+                <field name="assigned_to" />
+                <field name="purchase_type_id" optional="hide" />
+                <field name="procurement_method_id" optional="hide" />
+            </field>
+            <field name="state" position="before">
+                <field name="substate_sequence" invisible="1" />
+                <field
+                    name="substate_id"
+                    widget="badge"
+                    decoration-muted="substate_sequence == 1"
+                    decoration-warning="substate_sequence == 2"
+                    decoration-success="substate_sequence == 3"
+                    optional="hide"
+                />
+            </field>
+        </field>
+    </record>
+
+    <record id="view_purchase_request_search" model="ir.ui.view">
+        <field name="name">purchase.request.list.select</field>
+        <field name="model">purchase.request</field>
+        <field name="priority">30</field>
+        <field name="inherit_id" ref="purchase_request.view_purchase_request_search" />
+        <field name="arch" type="xml">
+            <field name="requested_by" position="before">
+                <field name="purchase_type_id" />
+                <field name="procurement_method_id" />
+            </field>
+            <field name="picking_type_id" position="after">
+                <separator orientation="vertical" />
+                <filter
+                    name="toverify"
+                    string="Subsate = To Verify"
+                    domain="[('substate_sequence','=',10)]"
+                />
+                <filter
+                    name="verified"
+                    string="Subsate = Verified"
+                    domain="[('substate_sequence','=',20)]"
+                />
+                <separator orientation="vertical" />
+                <filter
+                    name="toassign"
+                    string="To Assign Representative"
+                    domain="[('assigned_to','=',False), ('state','=','to_approve')]"
+                />
+            </field>
+            <group position="inside">
+                <filter
+                    string="Purchase Type"
+                    name="purchase_type"
+                    domain="[]"
+                    context="{'group_by': 'purchase_type_id'}"
+                />
+                <filter
+                    string="Procurement Method"
+                    name="procurement_method"
+                    domain="[]"
+                    context="{'group_by': 'procurement_method_id'}"
+                />
+            </group>
+        </field>
+    </record>
+
+    <record id="view_purchase_request_form" model="ir.ui.view">
+        <field name="name">purchase.request.form</field>
+        <field name="model">purchase.request</field>
+        <field name="inherit_id" ref="purchase_request.view_purchase_request_form" />
+        <field name="arch" type="xml">
+            <!-- Custom fields -->
+            <field name="requested_by" position="before">
+                <field
+                    name="procurement_type_id"
+                    required="True"
+                    attrs="{'readonly': [('is_editable','=', False)]}"
+                />
+                <field
+                    name="purchase_type_id"
+                    widget="radio"
+                    required="True"
+                    attrs="{'readonly': [('is_editable','=', False)]}"
+                />
+                <field name="to_create" invisible="True" />
+                <field
+                    name="expense_reason"
+                    attrs="{'invisible': [('to_create', '!=', 'expense')], 'required': [('to_create', '=', 'expense')], 'readonly': [('is_editable','=', False)]}"
+                />
+                <field name="procurement_method_ids" invisible="True" />
+                <field
+                    name="procurement_method_id"
+                    required="True"
+                    domain="[('id', 'in', procurement_method_ids)]"
+                    attrs="{'readonly': [('is_editable','=', False)]}"
+                />
+            </field>
+            <field name="assigned_to" position="after">
+                <field name="verified_by" readonly="1" />
+                <field name="date_verified" readonly="1" />
+                <field name="approved_by" readonly="1" />
+                <field name="date_approved" readonly="1" />
+            </field>
+            <xpath expr="//form/sheet/notebook" position="inside">
+                <page name="committee" string="Committee">
+                    <group name="wa_committee" string="Work Acceptance Committee">
+                        <field
+                            name="work_acceptance_committee_ids"
+                            nolabel="1"
+                            context="{'default_committee_type': 'work_acceptance'}"
+                            attrs="{'readonly': [('is_editable', '=', False)]}"
+                        >
+                            <tree editable="bottom">
+                                <field name="committee_type" invisible="1" />
+                                <field
+                                    name="employee_id"
+                                    string="Name"
+                                    options="{'no_create': True, 'no_open': True}"
+                                />
+                                <field name="approve_role" />
+                                <field name="department_id" />
+                                <field name="email" />
+                                <field name="phone" />
+                                <field name="note" />
+                            </tree>
+                        </field>
+                    </group>
+                    <group name="procure_committee" string="Procurement Committee">
+                        <field
+                            name="procurement_committee_ids"
+                            nolabel="1"
+                            context="{'default_committee_type': 'procurement'}"
+                            attrs="{'readonly': [('is_editable', '=', False)]}"
+                        >
+                            <tree editable="bottom">
+                                <field name="committee_type" invisible="1" />
+                                <field
+                                    name="employee_id"
+                                    string="Name"
+                                    options="{'no_create': True, 'no_open': True}"
+                                />
+                                <field name="approve_role" />
+                                <field name="department_id" />
+                                <field name="email" />
+                                <field name="phone" />
+                                <field name="note" />
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_purchase_request_form_substate" model="ir.ui.view">
+        <field name="name">view.purchase.request.form.substate</field>
+        <field name="model">purchase.request</field>
+        <field
+            name="inherit_id"
+            ref="purchase_request_substate.view_purchase_request_form"
+        />
+        <field name="arch" type="xml">
+            <field name="substate_id" position="attributes">
+                <attribute name="options">{'clickable': False,}</attribute>
+            </field>
+            <!-- Action button for substate -->
+            <button name="button_draft" position="before">
+                <field name="substate_sequence" invisible="1" />
+                <button
+                    id="button_substate_verify"
+                    name="action_to_substate"
+                    type="object"
+                    string="Verify"
+                    context="{'to_substate_sequence': 20}"
+                    attrs="{'invisible': ['|', ('substate_sequence', '!=', 10), ('state', '!=', 'to_approve')]}"
+                    groups="l10n_th_gov_purchase_request.group_purchase_request_verify"
+                    class="oe_highlight"
+                />
+            </button>
+            <button name="button_approved" position="attributes">
+                <attribute name="states" />
+                <attribute
+                    name="attrs"
+                >{'invisible': ['|', ('substate_sequence', '!=', 20), ('state', '!=', 'to_approve')]}</attribute>
+            </button>
+        </field>
+    </record>
+
+</odoo>
