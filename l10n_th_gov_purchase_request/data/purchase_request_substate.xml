@@ -1,0 +1,19 @@
+<odoo>
+    <!-- Disable demo substate, if any -->
+    <record id="base_substate_to_verify" model="base.substate">
+        <field name="name">To Verify</field>
+        <field name="sequence">10</field>
+        <field
+            name="target_state_value_id"
+            ref="purchase_request_substate.target_state_value_to_approve"
+        />
+    </record>
+    <record id="base_substate_verified" model="base.substate">
+        <field name="name">Verified</field>
+        <field name="sequence">20</field>
+        <field
+            name="target_state_value_id"
+            ref="purchase_request_substate.target_state_value_to_approve"
+        />
+    </record>
+</odoo>
