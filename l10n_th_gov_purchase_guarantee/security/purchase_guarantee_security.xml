@@ -1,0 +1,23 @@
+<odoo>
+    <!-- Purchase user should see Invoice Ref -->
+    <record id="purchase_guarantee_account_move_line_rule" model="ir.rule">
+        <field name="name">Purchase Guarantee: Account Move Line</field>
+        <field name="model_id" ref="account.model_account_move_line" />
+        <field name="domain_force">[('move_id.move_type', '=', 'out_invoice')]</field>
+        <field name="perm_read" eval="1" />
+        <field name="perm_create" eval="0" />
+        <field name="perm_write" eval="0" />
+        <field name="perm_unlink" eval="0" />
+        <field name="groups" eval="[(4, ref('purchase.group_purchase_user'))]" />
+    </record>
+    <record id="purchase_guarantee_account_move_rule" model="ir.rule">
+        <field name="name">Purchase Guarantee: Account Move</field>
+        <field name="model_id" ref="account.model_account_move" />
+        <field name="domain_force">[('move_type', '=', 'out_invoice')]</field>
+        <field name="perm_read" eval="1" />
+        <field name="perm_create" eval="0" />
+        <field name="perm_write" eval="0" />
+        <field name="perm_unlink" eval="0" />
+        <field name="groups" eval="[(4, ref('purchase.group_purchase_user'))]" />
+    </record>
+</odoo>

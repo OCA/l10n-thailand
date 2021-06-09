@@ -1,0 +1,271 @@
+<odoo>
+
+    <record model="ir.actions.act_window" id="action_open_guarantee_invoices">
+        <field name="name">Invoices</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_id" ref="account.view_out_invoice_tree" />
+        <field name="search_view_id" ref="account.view_account_invoice_filter" />
+        <field
+            name="domain"
+        >[('move_type', '=', 'out_invoice'), ('guarantee_ids','in',[active_id])]</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_open_guarantee_bills">
+        <field name="name">Bills</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_id" ref="account.view_in_invoice_tree" />
+        <field name="search_view_id" ref="account.view_account_invoice_filter" />
+        <field
+            name="domain"
+        >[('move_type', '=', 'in_invoice'), ('return_guarantee_ids','in',[active_id])]</field>
+    </record>
+
+    <record id="view_purchase_guarantee_tree" model="ir.ui.view">
+        <field name="name">view.purchase.guarantee.tree</field>
+        <field name="model">purchase.guarantee</field>
+        <field name="arch" type="xml">
+            <tree multi_edit="1" string="Guarantee">
+                <field name="name" readonly="1" force_save="1" />
+                <field
+                    name="reference"
+                    readonly="context.get('default_reference')"
+                    force_save="1"
+                    required="1"
+                    options="{'no_create': True, 'no_open': True}"
+                />
+                <field name="requisition_id" invisible="1" />
+                <field name="purchase_id" invisible="1" />
+                <field name="reference_model" invisible="1" />
+                <field name="can_edit_guarantee_method" invisible="1" />
+                <field
+                    name="guarantee_method_id"
+                    attrs="{'readonly': [('can_edit_guarantee_method', '=', False)]}"
+                    required="1"
+                    force_save="1"
+                    domain="[('default_for_model', '=', reference_model)]"
+                    options="{'no_create': True, 'no_open': True}"
+                />
+                <field
+                    name="partner_id"
+                    attrs="{'readonly': [('purchase_id', '!=', False)]}"
+                    required="1"
+                    force_save="1"
+                    options="{'no_create': True, 'no_open': True}"
+                />
+                <field
+                    name="guarantee_type_id"
+                    required="1"
+                    options="{'no_create': True, 'no_open': True}"
+                />
+                <field name="currency_id" invisible="1" />
+                <field name="amount" required="1" optional="show" />
+                <field
+                    name="date_guarantee_receive"
+                    required="1"
+                    string="Receive Date"
+                />
+                <field name="document_ref" required="1" />
+                <field name="date_due_guarantee" string="Due Date" />
+                <field
+                    name="invoice_ids"
+                    widget="many2many_tags"
+                    domain="[('move_type', '=', 'out_invoice')]"
+                    options="{'no_create': True, 'no_open': True}"
+                    readonly="1"
+                    force_save="1"
+                />
+                <field name="amount_received" optional="hide" />
+                <field name="date_return" />
+                <field
+                    name="bill_ids"
+                    widget="many2many_tags"
+                    domain="[('move_type', '=', 'in_invoice')]"
+                    options="{'no_create': True, 'no_open': True}"
+                    readonly="1"
+                    force_save="1"
+                />
+                <field name="amount_returned" optional="hide" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_purchase_guarantee_form" model="ir.ui.view">
+        <field name="name">view.purchase.guarantee.form</field>
+        <field name="model">purchase.guarantee</field>
+        <field name="arch" type="xml">
+            <form string="Purchase Agreements">
+                <sheet>
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '=', True)]}"
+                    />
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            name="%(action_open_guarantee_invoices)d"
+                            type="action"
+                            string="Invoices"
+                            class="oe_stat_button"
+                            icon="fa-list-alt"
+                            attrs="{'invisible': [('invoice_ids', '=', False)]}"
+                            context="{'default_partner_id': partner_id, 'default_move_type': 'out_invoice'}"
+                        />
+                        <button
+                            name="%(action_open_guarantee_bills)d"
+                            type="action"
+                            string="Bills"
+                            class="oe_stat_button"
+                            icon="fa-list-alt"
+                            attrs="{'invisible': [('bill_ids', '=', False)]}"
+                            context="{'default_partner_id': partner_id, 'default_move_type': 'in_invoice'}"
+                        />
+                    </div>
+                    <div class="float-left">
+                        <label for="name" class="oe_edit_only oe_inline" />
+                        <h1>
+                            <field name="name" readonly="1" force_save="1" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field
+                                name="reference"
+                                readonly="context.get('default_reference')"
+                                force_save="1"
+                                required="1"
+                                options="{'no_create': True, 'no_open': True}"
+                            />
+                            <field name="active" invisible="1" />
+                            <field name="requisition_id" invisible="1" />
+                            <field name="purchase_id" invisible="1" />
+                            <field name="reference_model" invisible="1" />
+                            <field name="can_edit_guarantee_method" invisible="1" />
+                            <field
+                                name="guarantee_method_id"
+                                attrs="{'readonly': [('can_edit_guarantee_method', '=', False)]}"
+                                required="1"
+                                force_save="1"
+                                domain="[('default_for_model', '=', reference_model)]"
+                                options="{'no_create': True, 'no_open': True}"
+                            />
+                            <field
+                                name="partner_id"
+                                attrs="{'readonly': [('purchase_id', '!=', False)]}"
+                                required="1"
+                                force_save="1"
+                                options="{'no_create': True, 'no_open': True}"
+                            />
+                            <field
+                                name="guarantee_type_id"
+                                required="1"
+                                options="{'no_create': True, 'no_open': True}"
+                            />
+                            <field name="currency_id" invisible="1" />
+                            <field name="amount" required="1" />
+                            <field name="date_guarantee_receive" required="1" />
+                            <field name="document_ref" required="1" />
+                        </group>
+                        <group>
+                            <field name="date_due_guarantee" />
+                            <field
+                                name="domain_analytic_account_ids"
+                                groups="analytic.group_analytic_accounting"
+                                widget="many2many_tags"
+                            />
+                            <field
+                                name="analytic_account_id"
+                                groups="analytic.group_analytic_accounting"
+                                domain="[('id', 'in', domain_analytic_account_ids)]"
+                            />
+                            <field
+                                name="analytic_tag_ids"
+                                groups="analytic.group_analytic_tags"
+                                widget="many2many_tags"
+                            />
+                            <field
+                                name="invoice_ids"
+                                widget="many2many_tags"
+                                domain="[('move_type', '=', 'out_invoice')]"
+                                options="{'no_create': True, 'no_open': True}"
+                                readonly="1"
+                                force_save="1"
+                            />
+                            <field
+                                name="bill_ids"
+                                widget="many2many_tags"
+                                domain="[('move_type', '=', 'in_invoice')]"
+                                options="{'no_create': True, 'no_open': True}"
+                                readonly="1"
+                                force_save="1"
+                            />
+                            <field name="date_return" />
+                            <field name="note" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="purchase_guarantee_search_view" model="ir.ui.view">
+        <field name="name">purchase.guarantee.search.view</field>
+        <field name="model">purchase.guarantee</field>
+        <field name="arch" type="xml">
+            <search string="Guarantee">
+                <field name="name" />
+                <field
+                    name="reference"
+                    filter_domain="['|', ('requisition_id', 'ilike', self), ('purchase_id', 'ilike', self)]"
+                />
+                <field name="guarantee_method_id" />
+                <field name="partner_id" />
+                <field name="guarantee_type_id" />
+                <field name="invoice_ids" />
+                <field name="document_ref" />
+                <field name="bill_ids" />
+                <filter
+                    name="active"
+                    string="Active"
+                    domain="[('active','=',True)]"
+                    help="Show active taxes"
+                />
+                <filter
+                    name="inactive"
+                    string="Archived"
+                    domain="[('active', '=', False)]"
+                />
+                <separator />
+            </search>
+        </field>
+    </record>
+
+    <record id="purchase_guarantee_action" model="ir.actions.act_window">
+        <field name="name">Guarantee</field>
+        <field name="res_model">purchase.guarantee</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_purchase_guarantee_tree" />
+    </record>
+
+    <menuitem
+        action="purchase_guarantee_action"
+        parent="purchase.menu_procurement_management"
+        id="purchase_guarantee_menu"
+        name="Guarantee"
+        sequence="14"
+    />
+
+    <menuitem
+        parent="purchase.menu_purchase_config"
+        id="purchase_guarantee_config_menu"
+        name="Guarantee"
+        sequence="20"
+    />
+</odoo>

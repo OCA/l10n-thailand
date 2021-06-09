@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="bid_guarantee" model="purchase.guarantee.method">
+        <field name="name">หลักประกันการเสนอราคา</field>
+        <field name="default_for_model">purchase.requisition</field>
+    </record>
+    <record id="performance_bond" model="purchase.guarantee.method">
+        <field name="name">เงินประกันสัญญา</field>
+        <field name="default_for_model">purchase.order.rfq</field>
+    </record>
+    <record id="advance_payment_guarantee" model="purchase.guarantee.method">
+        <field name="name">หลักประกันการจ่ายเงินล่วงหน้า</field>
+        <field name="default_for_model">purchase.order.po</field>
+    </record>
+</odoo>
