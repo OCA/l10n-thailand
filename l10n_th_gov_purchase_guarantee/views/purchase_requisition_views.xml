@@ -1,0 +1,26 @@
+<odoo>
+    <record id="view_purchase_requisition_form" model="ir.ui.view">
+        <field name="name">purchase.requisition.form</field>
+        <field name="model">purchase.requisition</field>
+        <field
+            name="inherit_id"
+            ref="purchase_requisition.view_purchase_requisition_form"
+        />
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button
+                    name="action_view_purchase_guarantee"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-list-alt"
+                >
+                    <field
+                        name="purchase_guarantee_count"
+                        widget="statinfo"
+                        string="Guarantee"
+                    />
+                </button>
+            </div>
+        </field>
+    </record>
+</odoo>
