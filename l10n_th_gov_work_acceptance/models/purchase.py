@@ -1,11 +1,19 @@
 # Copyright 2021 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models
+from odoo import fields, models
 
 
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
+
+    wa_tier_validation = fields.Boolean(
+        string="Paperless WA",
+        help="If checked, WA created will be approved by committee by tier valiation."
+        "Each committee will be notified (by email or inbox) to approve WA.\n"
+        "If not checked, WA will be approved by paper outside Odoo, "
+        "and the result of WA will be filled in by procurement officer",
+    )
 
     def _prepare_committee_line(self, line):
         return {
@@ -24,4 +32,5 @@ class PurchaseOrder(models.Model):
             if line not in committee_lines:
                 committee_lines.append(line)
         result["context"]["default_work_acceptance_committee_ids"] = committee_lines
+        result["context"]["default_wa_tier_validation"] = self.wa_tier_validation
         return result

@@ -1,5 +1,33 @@
 <odoo>
 
+    <record id="view_work_acceptance_tree" model="ir.ui.view">
+        <field name="name">view.work.acceptance.tree</field>
+        <field name="model">work.acceptance</field>
+        <field
+            name="inherit_id"
+            ref="purchase_work_acceptance.view_work_acceptance_tree"
+        />
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="completeness" widget="progressbar" optional="show" />
+                <field name="validated" invisible="1" />
+                <field name="rejected" invisible="1" />
+            </field>
+        </field>
+    </record>
+
+    <record id="view_work_acceptance_tree_decoration" model="ir.ui.view">
+        <field name="name">view.work.acceptance.tree.decoration</field>
+        <field name="model">work.acceptance</field>
+        <field name="inherit_id" ref="view_work_acceptance_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="decoration-success">validated==True</attribute>
+                <attribute name="decoration-danger">rejected==True</attribute>
+            </xpath>
+        </field>
+    </record>
+
     <record id="view_work_acceptance_form" model="ir.ui.view">
         <field name="name">view.work.acceptance.form</field>
         <field name="model">work.acceptance</field>
@@ -8,6 +36,18 @@
             ref="purchase_work_acceptance.view_work_acceptance_form"
         />
         <field name="arch" type="xml">
+            <button name="button_accept" position="attributes">
+                <attribute name="groups">purchase.group_purchase_user</attribute>
+            </button>
+            <button name="button_cancel" position="attributes">
+                <attribute name="groups">purchase.group_purchase_user</attribute>
+            </button>
+            <button name="button_draft" position="attributes">
+                <attribute name="groups">purchase.group_purchase_user</attribute>
+            </button>
+            <field name="company_id" position="before">
+                <field name="wa_tier_validation" />
+            </field>
             <xpath expr="//form/sheet/notebook" position="inside">
                 <page string="Committee">
                     <group name="committee">
@@ -26,11 +66,124 @@
                                 <field name="department_id" />
                                 <field name="email" />
                                 <field name="phone" />
+                                <field
+                                    name="status"
+                                    widget="badge"
+                                    decoration-success="status == 'approved'"
+                                    decoration-info="status == 'other'"
+                                    decoration-danger="status == 'rejected'"
+                                />
                                 <field name="note" />
                             </tree>
                         </field>
                     </group>
                 </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Custom View, because we need more buttons than standard -->
+    <record id="view_work_acceptance_form_tier_validation" model="ir.ui.view">
+        <field name="name">view.work.acceptance.form.tier_validation</field>
+        <field name="model">work.acceptance</field>
+        <field
+            name="inherit_id"
+            ref="purchase_work_acceptance.view_work_acceptance_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="///form/header/button[last()]" position="after">
+                 <button
+                    name="request_validation"
+                    string="Request Validation"
+                    attrs="{'invisible': ['|','|',('need_validation', '!=', True),('rejected','=',True),('state', 'not in', ['draft'])]}"
+                    type="object"
+                    groups="purchase.group_purchase_user"
+                />
+                <button
+                    name="restart_validation"
+                    string="Restart Validation"
+                    attrs="{'invisible': ['|',('review_ids', '=', []),('state', 'not in', ['draft'])]}"
+                    type="object"
+                    groups="purchase.group_purchase_user"
+                />
+            </xpath>
+            <header position="after">
+                <field name="need_validation" invisible="1" />
+                <field name="validated" invisible="1" />
+                <field name="rejected" invisible="1" />
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    attrs="{'invisible': ['|', '|', '|',
+                     ('validated', '=', True), ('state', 'not in', ['draft']),
+                     ('rejected', '=', True), ('review_ids', '=', [])]}"
+                    style="margin-bottom:0px;"
+                >
+                    <p>
+                        <i class="fa fa-info-circle" />
+                        This Record needs to be
+                        validated.
+                        <field name="can_review" invisible="1" />
+                        <button
+                            name="validate_tier"
+                            string="Validate"
+                            attrs="{'invisible': [('can_review', '=', False)]}"
+                            type="object"
+                            class="oe_inline oe_button btn-success"
+                            icon="fa-thumbs-up"
+                        />
+                        <button
+                            name="reject_tier"
+                            string="Reject"
+                            attrs="{'invisible': [('can_review', '=', False)]}"
+                            type="object"
+                            class="btn-icon btn-danger"
+                            icon="fa-thumbs-down"
+                        />
+                        <button
+                            name="validate_tier"
+                            string="Other"
+                            attrs="{'invisible': [('can_review', '=', False)]}"
+                            type="object"
+                            class="btn-icon btn-warning"
+                            icon="fa-arrow-circle-right"
+                            context="{'validate_as_other': True, 'default_comment': 'ไม่ตรวจรับเพราะ...'}"
+                        />
+                    </p>
+                </div>
+                <div
+                    class="alert alert-success"
+                    role="alert"
+                    attrs="{'invisible': ['|', '|', ('validated', '!=', True), ('state', 'not in', ['draft']), ('review_ids', '=', [])]}"
+                    style="margin-bottom:0px;"
+                >
+                    <p>
+                        <i class="fa fa-thumbs-up" />
+                        Operation has been
+                        <b>validated</b>
+                        !
+                    </p>
+                </div>
+                <div
+                    class="alert alert-danger"
+                    role="alert"
+                    attrs="{'invisible': ['|', '|', ('rejected', '!=', True), ('state', 'not in', ['draft']), ('review_ids', '=', [])]}"
+                    style="margin-bottom:0px;"
+                >
+                    <p>
+                        <i class="fa fa-thumbs-down" />
+                        Operation has been
+                        <b>rejected</b>
+                        .
+                    </p>
+                </div>
+            </header>
+            <xpath expr="//form/div[hasclass('oe_chatter')]" position="before">
+                <field
+                    name="review_ids"
+                    widget="tier_validation"
+                    attrs="{'invisible':[('review_ids', '=', [])]}"
+                />
             </xpath>
         </field>
     </record>
