@@ -26,6 +26,7 @@ class WorkAcceptance(models.Model):
     completeness = fields.Float(
         string="Progress",
         compute="_compute_completeness",
+        store=True,
     )
 
     @api.depends("work_acceptance_committee_ids.status")

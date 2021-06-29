@@ -68,7 +68,6 @@
                                 <field name="phone" />
                                 <field
                                     name="status"
-                                    widget="badge"
                                     decoration-success="status == 'approved'"
                                     decoration-info="status == 'other'"
                                     decoration-danger="status == 'rejected'"
@@ -79,6 +78,41 @@
                     </group>
                 </page>
             </xpath>
+        </field>
+    </record>
+
+    <record id="view_work_acceptance_search" model="ir.ui.view">
+        <field name="name">view.work.acceptance.search</field>
+        <field name="model">work.acceptance</field>
+        <field
+            name="inherit_id"
+            ref="purchase_work_acceptance.view_work_acceptance_search"
+        />
+        <field name="arch" type="xml">
+            <separator position="before">
+                <separator />
+                <filter
+                    name="wa_tier_validation"
+                    string="Paperless WA"
+                    domain="[('wa_tier_validation', '=', True)]"
+                />
+                <separator />
+                <filter
+                    name="committee_completed"
+                    string="All Committee WA"
+                    domain="[('completeness', '=', 100)]"
+                />
+                <filter
+                    name="committee_inprogress"
+                    string="Partial Committee WA"
+                    domain="[('completeness', '&gt;', 0), ('completeness', '&lt;', 100)]"
+                />
+                <filter
+                    name="committee_none"
+                    string="None Committee WA"
+                    domain="[('completeness', '=', 0)]"
+                />
+            </separator>
         </field>
     </record>
 
