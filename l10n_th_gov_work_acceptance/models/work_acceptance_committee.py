@@ -43,8 +43,8 @@ class WorkAcceptanceCommittee(models.Model):
     )
     status = fields.Selection(
         selection=[
-            ("approved", "Approved"),
-            ("rejected", "Rejected"),
+            ("accept", "Accepted"),
+            ("not_accept", "No Accepted"),
             ("other", "Other"),
         ],
     )
