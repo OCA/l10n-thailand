@@ -68,11 +68,12 @@
                                 <field name="phone" />
                                 <field
                                     name="status"
-                                    decoration-success="status == 'approved'"
+                                    decoration-success="status == 'accept'"
                                     decoration-info="status == 'other'"
-                                    decoration-danger="status == 'rejected'"
+                                    decoration-danger="status == 'not_accept'"
+                                    readonly="1"
                                 />
-                                <field name="note" />
+                                <field name="note" readonly="1" />
                             </tree>
                         </field>
                     </group>
@@ -160,19 +161,20 @@
                         <field name="can_review" invisible="1" />
                         <button
                             name="validate_tier"
-                            string="Validate"
+                            string="Accept"
                             attrs="{'invisible': [('can_review', '=', False)]}"
                             type="object"
                             class="oe_inline oe_button btn-success"
                             icon="fa-thumbs-up"
                         />
                         <button
-                            name="reject_tier"
-                            string="Reject"
+                            name="validate_tier"
+                            string="Not Accept"
                             attrs="{'invisible': [('can_review', '=', False)]}"
                             type="object"
                             class="btn-icon btn-danger"
                             icon="fa-thumbs-down"
+                            context="{'validate_as_not_accept': True, 'default_comment': 'ไม่รับเพราะ...'}"
                         />
                         <button
                             name="validate_tier"
@@ -181,7 +183,7 @@
                             type="object"
                             class="btn-icon btn-warning"
                             icon="fa-arrow-circle-right"
-                            context="{'validate_as_other': True, 'default_comment': 'ไม่ตรวจรับเพราะ...'}"
+                            context="{'validate_as_other': True, 'default_comment': 'ไม่เข้าร่วมเพราะ...'}"
                         />
                     </p>
                 </div>
@@ -217,6 +219,7 @@
                     name="review_ids"
                     widget="tier_validation"
                     attrs="{'invisible':[('review_ids', '=', [])]}"
+                    invisible="1"
                 />
             </xpath>
         </field>
