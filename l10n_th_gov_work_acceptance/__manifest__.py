@@ -26,6 +26,7 @@
         "data/tier.definition.csv",
         "views/work_acceptance_views.xml",
         "views/purchase_views.xml",
+        "views/expense_views.xml",
     ],
     "installable": True,
     "development_status": "Beta",
