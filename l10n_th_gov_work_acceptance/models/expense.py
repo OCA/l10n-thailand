@@ -34,6 +34,6 @@ class HRExpenseSheet(models.Model):
             "hr_expense_work_acceptance.group_enable_wa_on_exp"
         ):
             return
-        sheets = self.filtered("purchase_request_id")
+        sheets = self.filtered(lambda l: l.purchase_request_id and not l.advance)
         if sheets.filtered(lambda l: not l.wa_accepted):
             raise UserError(_("WA is not yet accepted!"))
