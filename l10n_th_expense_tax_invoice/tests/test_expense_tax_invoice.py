@@ -25,7 +25,7 @@ class TestAccountEntry(TestExpenseCommon):
         )
 
     def test_expense_tax_invoice(self):
-        """ hr.expense's reference & date is used as Tax Invoice and Date
+        """hr.expense's reference & date is used as Tax Invoice and Date
         if not filled, do not allow journal entry posting
         """
         expense = self.env["hr.expense.sheet"].create(

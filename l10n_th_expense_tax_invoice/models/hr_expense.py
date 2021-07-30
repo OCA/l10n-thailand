@@ -6,4 +6,7 @@ from odoo import fields, models
 class HrExpense(models.Model):
     _inherit = "hr.expense"
 
-    bill_partner_id = fields.Many2one(comodel_name="res.partner", string="Vendor",)
+    bill_partner_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Vendor",
+    )
