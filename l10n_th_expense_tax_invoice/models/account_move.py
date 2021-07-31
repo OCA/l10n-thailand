@@ -6,7 +6,7 @@ from odoo import models
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    def post(self):
+    def _post(self, soft=True):
         """ Use Bill Reference and Date from Expense Line as Tax Invoice """
         # Expense Taxes
         for move in self:
@@ -25,4 +25,4 @@ class AccountMove(models.Model):
                     bill_partner = tax_invoice.move_line_id.expense_id.bill_partner_id
                     if bill_partner:
                         tax_invoice.write({"partner_id": bill_partner.id})
-        return super().post()
+        return super()._post(soft)
