@@ -29,4 +29,5 @@ class AccountMoveLine(models.Model):
 
     def _get_wt_base_amount(self):
         """ HOOK point for future extension """
-        return self.price_subtotal
+        self.ensure_one()
+        return self.amount_currency
