@@ -8,8 +8,8 @@ from odoo.exceptions import UserError
 
 class IrSequence(models.Model):
     """
-    This sub-class is to refactor the ir.sequence by changing
-    the inextensible inner function `_interpolation_dict()` to a normal private class function.
+    This sub-class is to refactor the ir.sequence by changing the inextensible
+    inner function `_interpolation_dict()` to a normal private class function.
     """
 
     _inherit = "ir.sequence"
@@ -50,8 +50,8 @@ class IrSequence(models.Model):
 
     def _get_prefix_suffix(self):
         """
-        Override the `_get_prefix_suffix()` to utilize the private `_interpolation_dict()`
-        instead of an inner function.
+        Override the `_get_prefix_suffix()` to utilize the private
+        `_interpolation_dict()` instead of an inner function.
         Note: the date and date_range parameters are dropped,
         because they have never been assigned by the invoking method.
         """
@@ -70,8 +70,10 @@ class IrSequence(models.Model):
 
 class IrSequenceExt(models.Model):
     """
-    This sub-class is to extend the functionality by adding more legend for prefix and suffix of sequences.
+    This sub-class is to extend the functionality by adding
+    more legend for prefix and suffix of sequences.
     """
+
     _inherit = "ir.sequence"
 
     preview = fields.Char("Preview", computed="_compute_preview")
