@@ -8,7 +8,7 @@ class AccountFiscalPosition(models.Model):
 
     def map_tax(self, taxes, product=None, partner=None):
         """ For non-VAT company, always result with no taxes """
-        if self.env.company.novat or partner.novat:
+        if self.env.company.novat or (partner and partner.novat):
             return self.env["account.tax"]
         return super().map_tax(taxes, product=product, partner=partner)
 
