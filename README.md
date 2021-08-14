@@ -14,9 +14,9 @@ It extends Odoo to add needed functionalities to use Odoo in Thailand.
 
 Available addons
 ----------------
-addon | version | summary
---- | --- | ---
-[l10n_th_address](l10n_th_address/) | 10.0.0.1.0 | Partner Address in Thai
+addon | version | maintainers | summary
+--- | --- | --- | ---
+[l10n_th_address](l10n_th_address/) | 10.0.0.1.0 |  | Partner Address in Thai
 
 [//]: # (end addons)
 
