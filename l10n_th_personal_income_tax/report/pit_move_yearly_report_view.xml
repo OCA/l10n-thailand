@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_pit_move_yearly_report_tree" model="ir.ui.view">
+        <field name="name">pit.move.yearly.report.tree</field>
+        <field name="model">pit.move.yearly</field>
+        <field name="arch" type="xml">
+            <tree string="Personal Income Tax Yearly Monitoring">
+                <field name="partner_id" optional="show" />
+                <field name="calendar_year" />
+                <field name="amount_income" />
+                <field name="amount_wht" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_pit_move_yearly_report_pivot" model="ir.ui.view">
+        <field name="name">pit.move.yearly.report.pivot</field>
+        <field name="model">pit.move.yearly</field>
+        <field name="arch" type="xml">
+            <pivot string="Personal Income Tax Yearly Monitoring">
+                <field name="partner_id" type="row" />
+                <field name="calendar_year" type="col" />
+                <field name="amount_income" type="measure" />
+                <field name="amount_wht" type="measure" />
+            </pivot>
+        </field>
+    </record>
+    <record id="view_pit_move_yearly_report_graph" model="ir.ui.view">
+        <field name="name">pit.move.yearly.report.graph</field>
+        <field name="model">pit.move.yearly</field>
+        <field name="arch" type="xml">
+            <graph string="Personal Income Tax Yearly Monitoring">
+                <field name="calendar_year" />
+                <field name="amount_income" type="measure" />
+                <field name="amount_wht" type="measure" />
+            </graph>
+        </field>
+    </record>
+    <record id="view_pit_move_yearly_report_search" model="ir.ui.view">
+        <field name="name">view.pit.move.yearly.report.search</field>
+        <field name="model">pit.move.yearly</field>
+        <field name="arch" type="xml">
+            <search string="PIT Yearly Monitoring">
+                <field name="calendar_year" string="Calendar Year" />
+                <!-- <separator orientation="vertical" /> -->
+                <group expand="1" string="Group By">
+                    <separator orientation="vertical_groupby" />
+                    <filter
+                        name="group_by_partner_id"
+                        string="Partner"
+                        context="{'group_by':'partner_id'}"
+                    />
+                    <filter
+                        name="group_by_calendar_year"
+                        string="Calendar Year"
+                        context="{'group_by':'calendar_year'}"
+                    />
+                    <filter
+                        name="group_by_payment_id"
+                        string="Payment"
+                        context="{'group_by':'payment_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_pit_move_yearly_report" model="ir.actions.act_window">
+        <field name="name">Personal Income Tax Move Yearly Summary</field>
+        <field name="res_model">pit.move.yearly</field>
+        <field name="view_mode">pivot,tree,graph</field>
+        <field name="context">{'group_by':[], 'group_by_no_leaf':1}</field>
+    </record>
+
+    <!-- New menu on Reporting menu -->
+    <menuitem
+        id="account_reports_pit_menu"
+        name="Personal Income Tax"
+        action="action_pit_move_yearly_report"
+        parent="account.menu_finance_reports"
+    />
+</odoo>

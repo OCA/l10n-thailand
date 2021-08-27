@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_personal_income_tax,access_personal_income_tax,model_personal_income_tax,,1,1,1,1
+access_personal_income_tax_rate,access_personal_income_tax_rate,model_personal_income_tax_rate,,1,1,1,1
+access_pit_move,access_pit_move,model_pit_move,,1,1,1,1
+access_pit_move_yearly,access_pit_move_yearly,model_pit_move_yearly,,1,1,1,1
