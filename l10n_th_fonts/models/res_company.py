@@ -8,5 +8,22 @@ class Company(models.Model):
     _inherit = "res.company"
 
     font = fields.Selection(
-        selection_add=[("THSarabunNew", "THSarabunNew"), ("AngsanaNew", "AngsanaNew")]
+        selection_add=[
+            ("THSrisakdi", "THSrisakdi"),
+            ("THSarabunNew", "THSarabunNew"),
+            ("THSarabun", "THSarabun"),
+            ("THNiramitAS", "THNiramitAS"),
+            ("THMaliGrade6", "THMaliGrade6"),
+            ("THKrub", "THKrub"),
+            ("THKoHo", "THKoHo"),
+            ("THKodchasal", "THKodchasal"),
+            ("THK2DJuly8", "THK2DJuly8"),
+            ("THFahkwang", "THFahkwang"),
+            ("THCharmonman", "THCharmonman"),
+            ("THCharmofAU", "THCharmofAU"),
+            ("THChakraPetch", "THChakraPetch"),
+            ("THBaijam", "THBaijam"),
+            ("AngsanaNew", "AngsanaNew"),
+            ("Webdings", "Webdings"),
+        ]
     )
