@@ -44,6 +44,76 @@ msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thbaijam
+msgid "THBaijam"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thchakrapetch
+msgid "THChakraPetch"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thcharmofau
+msgid "THCharmofAU"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thcharmonman
+msgid "THCharmonman"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thfahkwang
+msgid "THFahkwang"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thk2djuly8
+msgid "THK2DJuly8"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thkoho
+msgid "THKoHo"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thkodchasal
+msgid "THKodchasal"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thkrub
+msgid "THKrub"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thmaligrade6
+msgid "THMaliGrade6"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thniramitas
+msgid "THNiramitAS"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thsarabun
+msgid "THSarabun"
+msgstr ""
+
+#. module: l10n_th_fonts
 #: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thsarabunnew
 msgid "THSarabunNew"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thsrisakdi
+msgid "THSrisakdi"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__webdings
+msgid "Webdings"
 msgstr ""
