@@ -56,15 +56,29 @@ class AccountPaymentRegister(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
+        res = super().default_get(fields_list)
         if self._context.get("active_model") == "account.move":
             active_ids = self._context.get("active_ids", False)
             move_ids = self.env["account.move"].browse(active_ids)
-            wt_tax_line = move_ids.line_ids.filtered(lambda l: l.wt_tax_id)
-            if len(move_ids) > 1 and wt_tax_line:
+            partner_ids = move_ids.mapped("partner_id")
+            wt_tax_line = move_ids.line_ids.filtered("wt_tax_id")
+            if len(partner_ids) > 1 and wt_tax_line:
                 raise UserError(
                     _(
-                        "You can't register a payment on tree view "
-                        "because there is withholding tax in line."
+                        "You can't register a payment for invoices "
+                        "(with withholding tax) belong to multiple partners."
                     )
                 )
-        return super().default_get(fields_list)
+            res["group_payment"] = True
+        return res
+
+    def _create_payments(self):
+        self.ensure_one()
+        if self.wt_tax_id and not self.group_payment:
+            raise UserError(
+                _(
+                    "Please check Group Payments when dealing "
+                    "with multiple invoices that has withholding tax."
+                )
+            )
+        return super()._create_payments()
