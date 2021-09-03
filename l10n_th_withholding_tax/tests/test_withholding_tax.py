@@ -10,6 +10,7 @@ class TestWithholdingTax(SavepointCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.partner_1 = cls.env.ref("base.res_partner_12")
+        cls.partner_2 = cls.env.ref("base.res_partner_2")
         cls.product_1 = cls.env.ref("product.product_product_4")
         cls.current_asset = cls.env.ref("account.data_account_type_current_assets")
         cls.expenses = cls.env.ref("account.data_account_type_expenses")
@@ -114,28 +115,10 @@ class TestWithholdingTax(SavepointCase):
             self.expense_account.id,
             price_unit,
         )
-        invoice2_id = self._create_invoice(
-            self.partner_1.id,
-            self.expenses_journal.id,
-            "in_invoice",
-            self.expense_account.id,
-            price_unit,
-        )
         self.assertFalse(invoice_id.invoice_line_ids.wt_tax_id)
         invoice_id.invoice_line_ids.write({"wt_tax_id": self.wt_3.id})
         self.assertTrue(invoice_id.invoice_line_ids.wt_tax_id)
         invoice_id.action_post()
-        # Test multi invoice and withholding tax in line
-        ctx = {
-            "active_ids": [invoice_id.id, invoice2_id.id],
-            "active_model": "account.move",
-        }
-        with self.assertRaises(UserError):
-            f = Form(
-                self.account_payment_register.with_context(ctx),
-                view=self.register_view_id,
-            )
-
         # Payment by writeoff with withholding tax account
         ctx = {
             "active_ids": [invoice_id.id],
@@ -201,8 +184,7 @@ class TestWithholdingTax(SavepointCase):
         self.assertEqual(payment_id.amount, price_unit * 0.97)
 
     def test_03_withholding_tax_customer_invoice(self):
-        """ Test Case Withholding Tax from customer invoice"""
-        # a_sale = self.browse_ref("account.a_sale")
+        """ Test case withholding tax from customer invoice"""
         price_unit = 100.0
         product_id = self._config_product_withholding_tax(
             self.product_1, self.wt_3.id, customer=True
@@ -219,3 +201,72 @@ class TestWithholdingTax(SavepointCase):
         self.assertTrue(wt_tax_id)
         self.assertEqual(wt_tax_id.account_id, self.wt_3.account_id)
         invoice_id.action_post()
+
+    def test_04_withholding_tax_multi_invoice(self):
+        """ Test case withholding tax with multi invoices"""
+        price_unit = 100.0
+        invoice = self._create_invoice(
+            self.partner_1.id,
+            self.expenses_journal.id,
+            "in_invoice",
+            self.expense_account.id,
+            price_unit,
+        )
+        self.assertFalse(invoice.invoice_line_ids.wt_tax_id)
+        invoice.invoice_line_ids.write({"wt_tax_id": self.wt_3.id})
+        self.assertTrue(invoice.invoice_line_ids.wt_tax_id)
+        # Duplicate invoice
+        invoice_dict = {
+            "invoice1": invoice.copy(),
+            "invoice2": invoice.copy(),
+            "invoice3": invoice.copy(),
+        }
+        for k in invoice_dict.keys():
+            invoice_dict[k]["invoice_date"] = fields.Date.today()
+        invoice_dict["invoice3"]["partner_id"] = (self.partner_2.id,)
+        for invoice in invoice_dict.values():
+            invoice.action_post()
+        # Test multi partners
+        ctx = {
+            "active_ids": [invoice_dict["invoice1"].id, invoice_dict["invoice3"].id],
+            "active_model": "account.move",
+        }
+        with self.assertRaises(UserError):
+            with Form(
+                self.account_payment_register.with_context(ctx),
+                view=self.register_view_id,
+            ) as f:
+                register_payment = f.save()
+            register_payment.action_create_payments()
+        # Test same partner and not group payments
+        ctx = {
+            "active_ids": [invoice_dict["invoice1"].id, invoice_dict["invoice2"].id],
+            "active_model": "account.move",
+        }
+        with self.assertRaises(UserError):
+            with Form(
+                self.account_payment_register.with_context(ctx),
+                view=self.register_view_id,
+            ) as f:
+                register_payment = f.save()
+            register_payment.group_payment = False
+            register_payment.action_create_payments()
+        # Test same partner and group payments
+        ctx = {
+            "active_ids": [invoice_dict["invoice1"].id, invoice_dict["invoice2"].id],
+            "active_model": "account.move",
+        }
+        with Form(
+            self.account_payment_register.with_context(ctx), view=self.register_view_id
+        ) as f:
+            register_payment = f.save()
+        self.assertEqual(
+            register_payment.writeoff_account_id,
+            invoice.invoice_line_ids.wt_tax_id.account_id,
+        )
+        self.assertEqual(register_payment.payment_difference, 2 * price_unit * 0.03)
+        self.assertEqual(register_payment.writeoff_label, "Withholding Tax 3%")
+        action_payment = register_payment.action_create_payments()
+        payment = self.env[action_payment["res_model"]].browse(action_payment["res_id"])
+        self.assertEqual(payment.state, "posted")
+        self.assertEqual(payment.amount, 2 * price_unit * 0.97)
