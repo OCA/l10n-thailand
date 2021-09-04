@@ -1,6 +1,7 @@
 # Copyright 2020 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
+from odoo import fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import Form, SavepointCase
 
@@ -9,6 +10,7 @@ class TestWithholdingTax(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.payment_model = cls.env["account.payment"]
         cls.partner_1 = cls.env.ref("base.res_partner_12")
         cls.product_1 = cls.env.ref("product.product_product_4")
         cls.current_asset = cls.env.ref("account.data_account_type_current_assets")
@@ -83,6 +85,7 @@ class TestWithholdingTax(SavepointCase):
             "partner_id": partner_id,
             "journal_id": journal_id,
             "move_type": invoice_type,
+            "invoice_date": fields.Date.today(),
             "invoice_line_ids": [
                 (
                     0,
@@ -172,12 +175,10 @@ class TestWithholdingTax(SavepointCase):
         )
         self.assertEqual(register_payment.payment_difference, price_unit * 0.03)
         self.assertEqual(register_payment.writeoff_label, "Withholding Tax 3%")
-        action_payment = register_payment.action_create_payments()
-        payment_id = self.env[action_payment["res_model"]].browse(
-            action_payment["res_id"]
-        )
-        self.assertEqual(payment_id.state, "posted")
-        self.assertEqual(payment_id.amount, price_unit * 0.97)
+        payment_id = register_payment._create_payments()
+        payment = self.payment_model.browse(payment_id.id)
+        self.assertEqual(payment.state, "posted")
+        self.assertEqual(payment.amount, price_unit * 0.97)
 
     def test_02_create_payment_multi_withholding_tax_multi_line(self):
         """ Create payment with 2 withholding tax on 2 line"""
@@ -220,8 +221,8 @@ class TestWithholdingTax(SavepointCase):
             register_payment.payment_difference,
             sum(register_payment.deduction_ids.mapped("amount")),
         )
-        action_payment = register_payment.action_create_payments()
-        payment = self.env[action_payment["res_model"]].browse(action_payment["res_id"])
+        payment_id = register_payment._create_payments()
+        payment = self.payment_model.browse(payment_id.id)
         self.assertEqual(payment.state, "posted")
         self.assertEqual(
             payment.amount,
@@ -263,8 +264,8 @@ class TestWithholdingTax(SavepointCase):
             register_payment.payment_difference,
             sum(register_payment.deduction_ids.mapped("amount")),
         )
-        action_payment = register_payment.action_create_payments()
-        payment = self.env[action_payment["res_model"]].browse(action_payment["res_id"])
+        payment_id = register_payment._create_payments()
+        payment = self.payment_model.browse(payment_id.id)
         self.assertEqual(payment.state, "posted")
         self.assertEqual(
             payment.amount,
@@ -309,8 +310,8 @@ class TestWithholdingTax(SavepointCase):
         with Form(deduct_3) as deduct:
             deduct.open = True
         self.assertFalse(deduct.wt_tax_id)
-        action_payment = register_payment.action_create_payments()
-        payment = self.env[action_payment["res_model"]].browse(action_payment["res_id"])
+        payment_id = register_payment._create_payments()
+        payment = self.payment_model.browse(payment_id.id)
         self.assertEqual(len(payment.line_ids.mapped("move_id")), 1)
         # cehck reconcile
         self.assertEqual(invoice_id.payment_state, "partial")
@@ -321,6 +322,6 @@ class TestWithholdingTax(SavepointCase):
         ) as f:
             f.amount = price_unit * 0.03
             register_payment = f.save()
-        action_payment = register_payment.action_create_payments()
+        register_payment.action_create_payments()
         self.assertEqual(invoice_id.payment_state, "paid")
         self.assertTrue(payment.line_ids.mapped("full_reconcile_id"))

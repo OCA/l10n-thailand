@@ -16,12 +16,12 @@ class AccountPaymentRegister(models.TransientModel):
 
     def _update_payment_register(self, amount_wt, inv_lines):
         super()._update_payment_register(amount_wt, inv_lines)
-        move_id = inv_lines.mapped("move_id")
-        if (
-            float_compare(move_id.amount_residual, move_id.amount_total, 2) == 0
-            and len(inv_lines) > 1
-        ):
+        move_ids = inv_lines.mapped("move_id")
+        amount_residual = sum(move_ids.mapped("amount_residual"))
+        amount_total = sum(move_ids.mapped("amount_total"))
+        if float_compare(amount_residual, amount_total, 2) == 0 and len(inv_lines) > 1:
             self.payment_difference_handling = "reconcile_multi_deduct"
+            self._onchange_payment_difference_handling()
         return True
 
     @api.onchange("payment_difference_handling")
@@ -33,13 +33,18 @@ class AccountPaymentRegister(models.TransientModel):
             invoices = self.env["account.move"].browse(active_ids)
             inv_lines = invoices.mapped("invoice_line_ids").filtered("wt_tax_id")
             if inv_lines:
+                # Case WHT only, ensure only 1 wizard
+                self.ensure_one()
                 deductions = [(5, 0, 0)]
                 for line in inv_lines:
+                    base_amount = line._get_wt_base_amount(
+                        self.currency_id, self.payment_date
+                    )
                     deduct = {
                         "wt_tax_id": line.wt_tax_id.id,
                         "account_id": line.wt_tax_id.account_id.id,
                         "name": line.wt_tax_id.display_name,
-                        "amount": line.wt_tax_id.amount / 100 * line.price_subtotal,
+                        "amount": line.wt_tax_id.amount / 100 * base_amount,
                     }
                     deductions.append((0, 0, deduct))
                 self.deduction_ids = deductions
