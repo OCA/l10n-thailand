@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_payment_check_ktb_base" model="account.payment.check.report">
+        <field name="name">KTB Check</field>
+        <field name="report">l10n_th_check_ktb.report_check_ktb_base</field>
+    </record>
+</odoo>

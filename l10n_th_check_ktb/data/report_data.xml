@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="paperformat_check_ktb" model="report.paperformat">
+        <field name="name">KTB Check</field>
+        <field name="default" eval="True" />
+        <field name="format">custom</field>
+        <field name="page_height">90</field>
+        <field name="page_width">200</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">3</field>
+        <field name="margin_bottom">3</field>
+        <field name="margin_left">3</field>
+        <field name="margin_right">3</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">3</field>
+        <field name="dpi">80</field>
+    </record>
+
+    <report
+        id="action_report_check_ktb_base"
+        string="KTB Check"
+        model="account.payment"
+        name="l10n_th_check_ktb.report_check_ktb_base"
+        file="l10n_th_check_ktb.report_check_ktb_base"
+        report_type="qweb-pdf"
+        paperformat="l10n_th_check_ktb.paperformat_check_ktb"
+    />
+</odoo>
