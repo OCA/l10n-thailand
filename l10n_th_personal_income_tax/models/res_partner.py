@@ -12,7 +12,6 @@ class ResPartner(models.Model):
         inverse_name="partner_id",
         string="Personal Income Tax",
         domain=[("payment_state", "!=", "draft")],
-        # readonly=False,
     )
     pit_yearly = fields.One2many(
         comodel_name="pit.move.yearly",

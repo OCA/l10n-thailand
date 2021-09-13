@@ -4,7 +4,7 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from ...l10n_th_withholding_tax_cert.models.withholding_tax_cert import (
+from odoo.addons.l10n_th_withholding_tax_cert.models.withholding_tax_cert import (
     WHT_CERT_INCOME_TYPE,
 )
 
@@ -62,7 +62,7 @@ class AccountPaymentRegister(models.TransientModel):
         res = super()._compute_amount()
         move_id = self.env["account.move"].browse(self._context.get("active_ids", []))
         if (
-            move_id
+            len(move_id) == 1
             and move_id.account_pit
             and not any(line.wt_tax_id for line in move_id.line_ids)
         ):
@@ -88,7 +88,7 @@ class AccountPaymentRegister(models.TransientModel):
         if self._context.get("active_model") == "account.move":
             active_ids = self._context.get("active_ids", False)
             move_ids = self.env["account.move"].browse(active_ids)
-            account_pits = move_ids.mapped("account_pit")
+            account_pits = move_ids.filtered("account_pit")
             if len(move_ids) > 1 and account_pits:
                 raise UserError(
                     _("You can't register a payment on tree view with account pit.")

@@ -3,7 +3,7 @@
 
 from odoo import fields, models
 
-from ...l10n_th_withholding_tax_cert.models.withholding_tax_cert import (
+from odoo.addons.l10n_th_withholding_tax_cert.models.withholding_tax_cert import (
     WHT_CERT_INCOME_TYPE,
 )
 

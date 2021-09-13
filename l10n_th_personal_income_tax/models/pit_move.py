@@ -3,7 +3,7 @@
 
 from odoo import api, fields, models
 
-from ...l10n_th_withholding_tax_cert.models.withholding_tax_cert import (
+from odoo.addons.l10n_th_withholding_tax_cert.models.withholding_tax_cert import (
     WHT_CERT_INCOME_TYPE,
 )
 
@@ -11,13 +11,7 @@ from ...l10n_th_withholding_tax_cert.models.withholding_tax_cert import (
 class PersonalIncomeTaxMove(models.Model):
     _name = "pit.move"
     _description = "Personal Income Tax Move"
-    # _order = "calendar_year, sequence, id"
 
-    # sequence = fields.Char( # TODO: change it to code
-    #     string='Sequence',
-    #     readonly=True,
-    #     size=500,
-    # )
     payment_id = fields.Many2one(
         comodel_name="account.payment",
         string="Payment",
@@ -34,15 +28,7 @@ class PersonalIncomeTaxMove(models.Model):
         required=True,
         ondelete="cascade",
     )
-    #     posted = fields.Boolean(
-    #         string='Posted',
-    #         readonly=True,
-    #         help="Once posted, sequence will run and WHT will be calculated"
-    #     )
     cancelled = fields.Boolean(readonly=True, help="for filtered Payment is cancel")
-    #     manual = fields.Boolean(
-    #       help="Manually add line in Vendor window",
-    #     )
     date = fields.Date(
         compute="_compute_date",
         store=True,
@@ -67,9 +53,3 @@ class PersonalIncomeTaxMove(models.Model):
         for rec in self:
             rec.date = rec.payment_id and rec.payment_id.date or False
             rec.calendar_year = rec.date and rec.date.strftime("%Y")
-
-
-#     def unlink(self):
-#         if len(self.filtered('posted')) > 0:
-#             raise ValidationError(_('Posted records can not be deleted!'))
-#         return super(PersonalIncomeTax, self).unlink()

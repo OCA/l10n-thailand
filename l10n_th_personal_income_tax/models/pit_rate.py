@@ -67,9 +67,6 @@ class PersonalIncomeTax(models.Model):
                 _("No PIT Rate Table found for calendar year %s") % (calendar_year,)
             )
         rate_ranges = pit.rate_ids.filtered(lambda l: abs(total_income) > l.income_from)
-        # if not rate_ranges:
-        #     raise ValidationError(_("No valid PIT Rate Range found"))
-        # reverse check rate
         current_amount = 0.0
         income_residual = income
         total_income_residual = total_income
