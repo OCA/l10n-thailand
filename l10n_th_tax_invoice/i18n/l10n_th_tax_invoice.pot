@@ -76,11 +76,6 @@ msgid "Company"
 msgstr ""
 
 #. module: l10n_th_tax_invoice
-#: model:ir.model.fields,help:l10n_th_tax_invoice.field_account_move_tax_invoice__company_id
-msgid "Company related to this journal"
-msgstr ""
-
-#. module: l10n_th_tax_invoice
 #: model:ir.model.fields,help:l10n_th_tax_invoice.field_account_move_line__manual_tax_invoice
 msgid "Create Tax Invoice for this debit/credit line"
 msgstr ""
