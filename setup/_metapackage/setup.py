@@ -10,6 +10,7 @@ setuptools.setup(
     install_requires=[
         'odoo14-addon-l10n_th_amount_to_text',
         'odoo14-addon-l10n_th_company_novat',
+        'odoo14-addon-l10n_th_expense_withholding_tax',
         'odoo14-addon-l10n_th_fonts',
         'odoo14-addon-l10n_th_partner',
         'odoo14-addon-l10n_th_promptpay',
