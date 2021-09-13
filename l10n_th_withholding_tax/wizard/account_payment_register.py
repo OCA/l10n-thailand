@@ -45,13 +45,13 @@ class AccountPaymentRegister(models.TransientModel):
         if self._context.get("active_model") == "account.move":
             active_ids = self._context.get("active_ids", [])
             invoices = self.env["account.move"].browse(active_ids)
-            inv_lines = invoices.mapped("invoice_line_ids").filtered("wt_tax_id")
+            move_lines = invoices.mapped("line_ids").filtered("wt_tax_id")
             amount_wt = 0
-            for line in inv_lines:
+            for line in move_lines:
                 base_amount = line._get_wt_base_amount()
                 amount_wt += line.wt_tax_id.amount / 100 * base_amount
             if amount_wt:
-                self._update_payment_register(amount_wt, inv_lines)
+                self._update_payment_register(amount_wt, move_lines)
         return res
 
     @api.model
