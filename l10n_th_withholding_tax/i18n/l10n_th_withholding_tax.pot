@@ -105,6 +105,14 @@ msgid "Payments"
 msgstr ""
 
 #. module: l10n_th_withholding_tax
+#: code:addons/l10n_th_withholding_tax/wizard/account_payment_register.py:0
+#, python-format
+msgid ""
+"Please check Group Payments when dealing with multiple invoices that has "
+"withholding tax."
+msgstr ""
+
+#. module: l10n_th_withholding_tax
 #: model:ir.model,name:l10n_th_withholding_tax.model_product_template
 msgid "Product Template"
 msgstr ""
@@ -163,6 +171,6 @@ msgstr ""
 #: code:addons/l10n_th_withholding_tax/wizard/account_payment_register.py:0
 #, python-format
 msgid ""
-"You can't register a payment on tree view because there is withholding tax "
-"in line."
+"You can't register a payment for invoices (with withholding tax) belong to "
+"multiple partners."
 msgstr ""
