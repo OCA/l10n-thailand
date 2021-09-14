@@ -29,7 +29,7 @@ addon | version | maintainers | summary
 [l10n_th_promptpay](l10n_th_promptpay/) | 14.0.1.0.0 |  | Use PromptPay QR code with transfer acquirer.
 [l10n_th_tax_invoice](l10n_th_tax_invoice/) | 14.0.1.0.2 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Account Tax Invoice
 [l10n_th_tax_report](l10n_th_tax_report/) | 14.0.1.0.0 |  | Thailand Localization - TAX Reports
-[l10n_th_withholding_tax](l10n_th_withholding_tax/) | 14.0.1.0.1 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Withholding Tax
+[l10n_th_withholding_tax](l10n_th_withholding_tax/) | 14.0.1.0.2 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Withholding Tax
 [l10n_th_withholding_tax_cert](l10n_th_withholding_tax_cert/) | 14.0.1.0.0 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Withholding Tax Certificate
 
 [//]: # (end addons)
