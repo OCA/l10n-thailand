@@ -17,6 +17,9 @@
                         readonly="1"
                     />
                 </xpath>
+                <xpath expr="//field[@name='date_range_ids']/tree/field[last()]" position="after">
+                    <field name="preview" string="Preview" class="oe_edit_only" readonly="1" />
+                </xpath>
                 <xpath expr="//page/group[2]/group[1]/span[2]" position="after">
                     <span
                         colspan="2"

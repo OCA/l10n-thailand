@@ -10,12 +10,13 @@ class IrSequence(models.Model):
     """
     This sub-class is to refactor the ir.sequence by changing the inextensible
     inner function `_interpolation_dict()` to a normal private class function.
+    This sub-class also adds support for `range_end_` prefix.
     """
 
     _inherit = "ir.sequence"
 
     def _interpolation_dict(self):
-        now = range_date = effective_date = datetime.now(
+        now = range_end_date = range_date = effective_date = datetime.now(
             pytz.timezone(self._context.get("tz") or "UTC")
         )
         if self._context.get("ir_sequence_date"):
@@ -25,6 +26,10 @@ class IrSequence(models.Model):
         if self._context.get("ir_sequence_date_range"):
             range_date = fields.Datetime.from_string(
                 self._context.get("ir_sequence_date_range")
+            )
+        if self._context.get("ir_sequence_date_range_end"):
+            range_end_date = fields.Datetime.from_string(
+                self._context.get("ir_sequence_date_range_end")
             )
 
         sequences = {
@@ -41,10 +46,11 @@ class IrSequence(models.Model):
             "sec": "%S",
         }
         res = {}
-        for key, format in sequences.items():
-            res[key] = effective_date.strftime(format)
-            res["range_" + key] = range_date.strftime(format)
-            res["current_" + key] = now.strftime(format)
+        for key, fmt in sequences.items():
+            res[key] = effective_date.strftime(fmt)
+            res["range_" + key] = range_date.strftime(fmt)
+            res["range_end_" + key] = range_end_date.strftime(fmt)
+            res["current_" + key] = now.strftime(fmt)
 
         return res
 
@@ -76,11 +82,15 @@ class IrSequenceExt(models.Model):
 
     _inherit = "ir.sequence"
 
-    preview = fields.Char("Preview", computed="_compute_preview")
+    preview = fields.Char("Preview", compute="_compute_preview")
 
-    @api.onchange("prefix", "suffix", "padding", "number_increment", "use_date_range")
+    @api.onchange("prefix", "suffix", "padding", "use_date_range", "number_next_actual")
     def _compute_preview(self):
-        self.preview = self.get_next_char(self.number_next_actual)
+        if self.use_date_range:
+            self.date_range_ids.onchange_sequence_id()
+            self.preview = None
+        else:
+            self.preview = self.get_next_char(self.number_next_actual)
 
     def _interpolation_dict(self):
         res = super(IrSequenceExt, self)._interpolation_dict()
@@ -88,6 +98,7 @@ class IrSequenceExt(models.Model):
             {
                 "year_be": str(int(res["year"]) + 543),
                 "range_year_be": str(int(res["range_year"]) + 543),
+                "range_end_year_be": str(int(res["range_end_year"]) + 543),
                 "current_year_be": str(int(res["current_year"]) + 543),
             }
         )
@@ -95,6 +106,7 @@ class IrSequenceExt(models.Model):
             {
                 "y_be": res["year_be"][-2:],
                 "range_y_be": res["range_year_be"][-2:],
+                "range_end_y_be": res["range_end_year_be"][-2:],
                 "current_y_be": res["current_year_be"][-2:],
             }
         )
@@ -102,12 +114,12 @@ class IrSequenceExt(models.Model):
             {
                 "qoy": str((int(res["month"]) - 1) // 3 + 1),
                 "range_qoy": str((int(res["range_month"]) - 1) // 3 + 1),
+                "range_end_qoy": str((int(res["range_end_month"]) - 1) // 3 + 1),
                 "current_qoy": str((int(res["current_month"]) - 1) // 3 + 1),
             }
         )
-        company_id = self.env.company if len(self.company_id) == 0 else self.company_id
         branch = (
-            company_id.branch.zfill(5) if hasattr(company_id, "branch") else "00000"
+            self.company_id.branch.zfill(5) if self.company_id.branch else ""
         )
         res.update(
             {
