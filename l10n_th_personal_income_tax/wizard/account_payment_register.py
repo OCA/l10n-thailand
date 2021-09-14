@@ -49,6 +49,14 @@ class AccountPaymentRegister(models.TransientModel):
             lambda l: l.calendar_year == calendar_year
         )
         return sum(pit_year.mapped("amount_income"))
+    
+    def _default_pit_wht_account_id(self, date=False):
+        if not date:
+            date = fields.Date.context_today(self)
+        pit = self.env["personal.income.tax"].search(
+            [("effective_date", "<=", date)], order="effective_date desc", limit=1
+        )
+        return pit.wht_account_id or False
 
     @api.depends(
         "source_amount",
@@ -68,13 +76,17 @@ class AccountPaymentRegister(models.TransientModel):
         ):
             PIT = self.env["personal.income.tax"]
             pit_date = self._context.get("pit_date", False)
+            wht_account_id = self._default_pit_wht_account_id(date=pit_date)
+            # Total previous amount personal income tax
             pit_amount_year = self._get_pit_amount_yearly(self.partner_id)
+            # Amount bills
             base_amount = move_id.amount_untaxed or 0.0
             total_pit = pit_amount_year + base_amount
             expected_wht = PIT.calculate_rate_wht(total_pit, base_amount, date=pit_date)
             if expected_wht:
                 self.amount -= expected_wht
                 self.payment_difference_handling = "reconcile"
+                self.writeoff_account_id = wht_account_id and wht_account_id.id or False
                 self.writeoff_label = (
                     dict(WHT_CERT_INCOME_TYPE).get(
                         move_id.pit_wht_cert_income_type, False

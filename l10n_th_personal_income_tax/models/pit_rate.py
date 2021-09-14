@@ -5,6 +5,9 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools.float_utils import float_compare
 
+from odoo.addons.l10n_th_withholding_tax_cert.models.withholding_tax_cert import (
+    WHT_CERT_INCOME_TYPE,
+)
 
 class PersonalIncomeTax(models.Model):
     _name = "personal.income.tax"
@@ -24,6 +27,16 @@ class PersonalIncomeTax(models.Model):
         comodel_name="personal.income.tax.rate",
         inverse_name="pit_id",
         string="Withholding Tax Rates",
+    )
+    wht_account_id = fields.Many2one(
+        comodel_name="account.account",
+        string="Withholding Tax Account",
+        help="Default wht account before payment",
+    )
+    wht_cert_income_type = fields.Selection(
+        WHT_CERT_INCOME_TYPE,
+        string="Type of Income",
+        help="Default wht income type",
     )
     active = fields.Boolean(default=True)
 
