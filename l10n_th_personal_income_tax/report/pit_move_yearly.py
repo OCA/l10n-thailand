@@ -13,7 +13,7 @@ class PersonalIncomeTaxMoveYearly(models.Model):
     partner_id = fields.Many2one(comodel_name="res.partner")
     calendar_year = fields.Char(string="Calendar Year")
     amount_income = fields.Float(string="Income")
-    amount_wht = fields.Float(string="Withholding Amount")
+    amount_wt = fields.Float(string="Withholding Amount")
 
     @property
     def _table_query(self):
@@ -23,7 +23,7 @@ class PersonalIncomeTaxMoveYearly(models.Model):
         return """
             ROW_NUMBER() OVER() AS id,
             pm.partner_id, pm.calendar_year, pm.payment_id,
-            pm.amount_income, pm.amount_wht
+            pm.amount_income, pm.amount_wt
         """
 
     def _from_pit_yearly(self):

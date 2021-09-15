@@ -8,7 +8,7 @@
                 <field name="partner_id" optional="show" />
                 <field name="calendar_year" />
                 <field name="amount_income" />
-                <field name="amount_wht" />
+                <field name="amount_wt" />
             </tree>
         </field>
     </record>
@@ -20,7 +20,7 @@
                 <field name="partner_id" type="row" />
                 <field name="calendar_year" type="col" />
                 <field name="amount_income" type="measure" />
-                <field name="amount_wht" type="measure" />
+                <field name="amount_wt" type="measure" />
             </pivot>
         </field>
     </record>
@@ -31,7 +31,7 @@
             <graph string="Personal Income Tax Yearly Monitoring">
                 <field name="calendar_year" />
                 <field name="amount_income" type="measure" />
-                <field name="amount_wht" type="measure" />
+                <field name="amount_wt" type="measure" />
             </graph>
         </field>
     </record>

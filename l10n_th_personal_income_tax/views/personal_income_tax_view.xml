@@ -32,8 +32,8 @@
                     <group>
                         <group>
                             <field name="effective_date" />
-                            <field name="wht_account_id" />
-                            <field name="wht_cert_income_type" />
+                            <field name="wt_account_id" />
+                            <field name="wt_cert_income_type" />
                         </group>
                         <group>
                             <field name="active" />

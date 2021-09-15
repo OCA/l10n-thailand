@@ -11,7 +11,7 @@
                     attrs="{'invisible': [('move_type', '!=', 'in_invoice')]}"
                 />
                 <field
-                    name="pit_wht_cert_income_type"
+                    name="pit_wt_cert_income_type"
                     attrs="{'invisible': [('account_pit', '=', False)]}"
                 />
             </xpath>

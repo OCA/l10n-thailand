@@ -28,10 +28,13 @@
                             <tree editable="bottom" string="PIT" create="1" delete="0">
                                 <field name="payment_id" />
                                 <field name="date" optional="show" />
-                                <field name="calendar_year" />
-                                <field name="wht_cert_income_type" />
+                                <field name="calendar_year" optional="show" />
+                                <field name="wt_cert_income_type" />
                                 <field name="amount_income" sum="Total Income" />
-                                <field name="amount_wht" sum="Total WHT" />
+                                <field
+                                    name="amount_wt"
+                                    sum="Total Amount Withholding Tax"
+                                />
                                 <field name="cancelled" optional="show" />
                                 <field
                                     name="payment_state"

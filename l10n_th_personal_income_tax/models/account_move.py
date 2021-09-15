@@ -16,20 +16,21 @@ class AccountMove(models.Model):
         readonly=True,
         states={"draft": [("readonly", "=", False)]},
     )
-    pit_wht_cert_income_type = fields.Selection(
+    pit_wt_cert_income_type = fields.Selection(
         WHT_CERT_INCOME_TYPE,
         string="Type of Income",
-        compute="_compute_pit_wht_cert_income_type",
+        compute="_compute_pit_wt_cert_income_type",
         store=True,
         states={"draft": [("readonly", "=", False)]},
     )
 
     @api.depends("account_pit")
-    def _compute_pit_wht_cert_income_type(self):
+    def _compute_pit_wt_cert_income_type(self):
         today = fields.Date.context_today(self)
         pit = self.env["personal.income.tax"].search(
             [("effective_date", "<=", today)], order="effective_date desc", limit=1
         )
         for rec in self:
-            rec.pit_wht_cert_income_type =\
-                 rec.account_pit and pit.wht_cert_income_type or False
+            rec.pit_wt_cert_income_type = (
+                rec.account_pit and pit.wt_cert_income_type or False
+            )

@@ -42,8 +42,8 @@ class PersonalIncomeTaxMove(models.Model):
         string="Income",
         required=True,
     )
-    amount_wht = fields.Float(string="Withholding Amount")
-    wht_cert_income_type = fields.Selection(
+    amount_wt = fields.Float(string="Withholding Amount")
+    wt_cert_income_type = fields.Selection(
         WHT_CERT_INCOME_TYPE,
         string="Type of Income",
     )

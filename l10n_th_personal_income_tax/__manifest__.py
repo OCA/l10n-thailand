@@ -13,6 +13,7 @@
     "data": [
         "data/pit_rate_data.xml",
         "security/ir.model.access.csv",
+        "wizard/create_pit_withholding_tax_cert.xml",
         "views/personal_income_tax_view.xml",
         "views/account_move_view.xml",
         "views/res_partner_view.xml",

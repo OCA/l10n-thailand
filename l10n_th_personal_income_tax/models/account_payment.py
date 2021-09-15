@@ -23,7 +23,7 @@ class AccountPayment(models.Model):
                 line.copy(
                     {
                         "amount_income": -line.amount_income,
-                        "amount_wht": -line.amount_wht,
+                        "amount_wt": -line.amount_wt,
                     }
                 )
                 line.cancelled = True

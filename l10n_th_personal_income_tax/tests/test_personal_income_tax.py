@@ -59,7 +59,7 @@ class TestPersonalIncomeTax(SavepointCase):
                 "invoice_date": fields.Date.today(),
                 "journal_id": self.journal_purchase.id,
                 "account_pit": pit,
-                "pit_wht_cert_income_type": income_type,
+                "pit_wt_cert_income_type": income_type,
                 "invoice_line_ids": [
                     (
                         0,
@@ -159,19 +159,19 @@ class TestPersonalIncomeTax(SavepointCase):
         self.assertTrue(payment_id.pit_line)
         self.assertTrue(self.partner1.pit_line)
         self.assertEqual(sum(self.partner1.pit_line.mapped("amount_income")), 70000.0)
-        self.assertEqual(sum(self.partner1.pit_line.mapped("amount_wht")), 0.0)
+        self.assertEqual(sum(self.partner1.pit_line.mapped("amount_wt")), 0.0)
 
         # Case increase amount:  70,000 -> 210,000 (Tax: 5%)
-        amount_wht = 3000.0  # calculated from steps WHT Thailand
+        amount_wt = 3000.0  # calculated from steps WHT Thailand
         self._auto_create_bill_to_payment(self.partner1, 140000.0, 3000)
         self.assertEqual(sum(self.partner1.pit_line.mapped("amount_income")), 210000.0)
-        self.assertEqual(sum(self.partner1.pit_line.mapped("amount_wht")), amount_wht)
+        self.assertEqual(sum(self.partner1.pit_line.mapped("amount_wt")), amount_wt)
 
         # Case reduct amount: PIT 210,000 -> 250,000 (Tax: 10%)
-        amount_wht += 2000
+        amount_wt += 2000
         payment_id = self._auto_create_bill_to_payment(self.partner1, 40000.0, 2000)
         self.assertEqual(sum(self.partner1.pit_line.mapped("amount_income")), 250000.0)
-        self.assertEqual(sum(self.partner1.pit_line.mapped("amount_wht")), amount_wht)
+        self.assertEqual(sum(self.partner1.pit_line.mapped("amount_wt")), amount_wt)
 
         # Case cancel payment with PIT
         self.assertEqual(len(self.partner1.pit_line.filtered("cancelled")), 0)
@@ -181,7 +181,7 @@ class TestPersonalIncomeTax(SavepointCase):
         self.assertEqual(len(self.partner1.pit_line.filtered("cancelled")), 1)
         self.assertEqual(sum(self.partner1.pit_line.mapped("amount_income")), 210000.0)
         self.assertEqual(
-            sum(self.partner1.pit_line.mapped("amount_wht")), amount_wht - 2000
+            sum(self.partner1.pit_line.mapped("amount_wt")), amount_wt - 2000
         )
 
         # Action view summary PIT yearly

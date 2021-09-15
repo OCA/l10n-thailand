@@ -9,6 +9,7 @@ from odoo.addons.l10n_th_withholding_tax_cert.models.withholding_tax_cert import
     WHT_CERT_INCOME_TYPE,
 )
 
+
 class PersonalIncomeTax(models.Model):
     _name = "personal.income.tax"
     _description = "PIT Table"
@@ -28,15 +29,15 @@ class PersonalIncomeTax(models.Model):
         inverse_name="pit_id",
         string="Withholding Tax Rates",
     )
-    wht_account_id = fields.Many2one(
+    wt_account_id = fields.Many2one(
         comodel_name="account.account",
         string="Withholding Tax Account",
-        help="Default wht account before payment",
+        help="Default withholding tax account before payment",
     )
-    wht_cert_income_type = fields.Selection(
+    wt_cert_income_type = fields.Selection(
         WHT_CERT_INCOME_TYPE,
         string="Type of Income",
-        help="Default wht income type",
+        help="Default withholding tax income type",
     )
     active = fields.Boolean(default=True)
 
@@ -64,11 +65,11 @@ class PersonalIncomeTax(models.Model):
                 accum_tax += rate.amount_tax_max
                 rate.amount_tax_max_accum = accum_tax
 
-    def _compute_total_wht(self, rate_amount, tax_rate):
+    def _compute_total_wt(self, rate_amount, tax_rate):
         return rate_amount * (tax_rate / 100)
 
     @api.model
-    def calculate_rate_wht(self, total_income, income, date=False):
+    def calculate_rate_wt(self, total_income, income, date=False):
         if not date:
             date = fields.Date.context_today(self)
         calendar_year = date.strftime("%Y")
@@ -88,11 +89,11 @@ class PersonalIncomeTax(models.Model):
             if income > rate_amount and income_residual >= rate_amount:
                 total_income_residual -= rate_amount
                 income_residual -= rate_amount
-                current_amount += self._compute_total_wht(
+                current_amount += self._compute_total_wt(
                     rate_amount, rate_range.tax_rate
                 )
             else:
-                current_amount += self._compute_total_wht(
+                current_amount += self._compute_total_wt(
                     income_residual, rate_range.tax_rate
                 )
                 break

@@ -5,3 +5,4 @@ from . import pit_move
 from . import res_partner
 from . import account_move
 from . import account_payment
+from . import withholding_tax_cert
