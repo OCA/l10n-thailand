@@ -395,18 +395,19 @@ Only for development or testing purpose, do not use in production.
 <p>You can config PIT Rate following,</p>
 <ol class="arabic simple">
 <li>Go to Invoicing &gt; Configuration &gt; Accounting &gt; PIT Rate</li>
-<li>Change range or tax rate</li>
+<li>Add default field ‘Withholding Tax Account’ and ‘Type of Income’ when you selected bills is PIT (if any)</li>
+<li>Change range or tax rate (if any)</li>
 </ol>
 <p>After you config PIT Rate,</p>
 <ol class="arabic simple">
 <li>Create Vendor Bills</li>
-<li>Check Account PIT &gt; Select Type of Income</li>
+<li>Check Account PIT. It will default ‘Type of Income’ from PIT Rate menu</li>
 <li>Confirm &gt; Register Payment</li>
-<li>It will compute amount withholding tax</li>
-<li>If calculated tax with partner and there is a tax, it will auto deduct amount to withholding tax</li>
-<li>Check amount and Create Payment</li>
-<li>It keep amount income to partner and calculate when you register payment next time</li>
+<li>It will compute amount withholding tax. If calculated tax with partner and there is a tax, it will auto deduct amount to withholding tax</li>
+<li>Check amount and Click Create Payment</li>
+<li>It keep ‘amount income’ to partner and calculate when you register payment next time</li>
 </ol>
+<p><strong>Note:</strong> You can’t register payment between check PIT and not check PIT on 1 time.</p>
 </div>
 <div class="section" id="bug-tracker">
 <h1><a class="toc-backref" href="#id2">Bug Tracker</a></h1>

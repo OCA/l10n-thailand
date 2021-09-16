@@ -12,7 +12,22 @@
                 />
                 <field
                     name="pit_wt_cert_income_type"
-                    attrs="{'invisible': [('account_pit', '=', False)]}"
+                    attrs="{'invisible': [('account_pit', '=', False)], 'required': [('account_pit', '=', True)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_invoice_filter" model="ir.ui.view">
+        <field name="name">account.invoice.select</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='to_check']" position="after">
+                <filter
+                    name="account_pit"
+                    string="PIT"
+                    domain="[('account_pit', '=', True)]"
                 />
             </xpath>
         </field>
