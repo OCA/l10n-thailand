@@ -11,6 +11,7 @@
     "depends": ["purchase", "l10n_th_company_novat"],
     "data": [
         "views/purchase_view.xml",
+        "views/account_move_view.xml",
     ],
     "installable": True,
     "development_status": "Alpha",
