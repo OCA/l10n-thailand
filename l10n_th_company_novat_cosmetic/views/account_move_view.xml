@@ -11,7 +11,7 @@
                     attrs="{'invisible': [('company_novat', '=', False)]}"
                 >
                     <field name="company_novat" invisible="1" />
-                    <label for="cosmetic_vat" />
+                    <label for="cosmetic_vat" string="Calculate VAT" />
                     <field
                         name="cosmetic_vat"
                         force_save="1"

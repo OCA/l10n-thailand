@@ -12,6 +12,7 @@
     "data": [
         "views/purchase_view.xml",
         "views/account_move_view.xml",
+        "views/hr_expense_view.xml",
     ],
     "installable": True,
     "development_status": "Alpha",
