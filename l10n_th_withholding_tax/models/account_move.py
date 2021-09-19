@@ -27,7 +27,18 @@ class AccountMoveLine(models.Model):
             else:
                 rec.wt_tax_id = False
 
-    def _get_wt_base_amount(self):
-        """ HOOK point for future extension """
+    def _get_wt_base_amount(self, currency, currency_date):
         self.ensure_one()
-        return self.amount_currency
+        wt_base_amount = 0
+        if not currency or self.currency_id == currency:
+            # Same currency
+            wt_base_amount = self.amount_currency
+        elif currency == self.company_currency_id:
+            # Payment expressed on the company's currency.
+            wt_base_amount = self.balance
+        else:
+            # Foreign currency on payment different than the one set on the journal entries.
+            wt_base_amount = self.company_currency_id._convert(
+                self.balance, currency, self.company_id, currency_date
+            )
+        return wt_base_amount
