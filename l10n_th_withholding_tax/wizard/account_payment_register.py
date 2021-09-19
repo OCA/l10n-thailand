@@ -46,9 +46,15 @@ class AccountPaymentRegister(models.TransientModel):
             active_ids = self._context.get("active_ids", [])
             invoices = self.env["account.move"].browse(active_ids)
             move_lines = invoices.mapped("line_ids").filtered("wt_tax_id")
+            if not move_lines:
+                return res
+            # Case WHT only, ensure only 1 wizard
+            self.ensure_one()
             amount_wt = 0
             for line in move_lines:
-                base_amount = line._get_wt_base_amount()
+                base_amount = line._get_wt_base_amount(
+                    self.currency_id, self.payment_date
+                )
                 amount_wt += line.wt_tax_id.amount / 100 * base_amount
             if amount_wt:
                 self._update_payment_register(amount_wt, move_lines)
