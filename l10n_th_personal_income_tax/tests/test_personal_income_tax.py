@@ -185,5 +185,5 @@ class TestPersonalIncomeTax(SavepointCase):
         )
 
         # Action view summary PIT yearly
-        report_yearly = self.partner1.action_view_pit_yearly_summary()
-        self.assertEqual(report_yearly.get("res_model"), "pit.move.yearly")
+        report_yearly = self.partner1.action_view_pit_move_yearly_summary()
+        self.assertEqual(report_yearly.get("res_model"), "pit.move")

@@ -13,23 +13,20 @@ class ResPartner(models.Model):
         string="Personal Income Tax",
         domain=[("payment_state", "!=", "draft")],
     )
-    pit_yearly = fields.One2many(
-        comodel_name="pit.move.yearly",
-        inverse_name="partner_id",
-        string="PIT Yearly",
-        readonly=True,
-    )
 
     def _get_context_pit_monitoring(self):
-        ctx = self._context.copy()
+        ctx = self.env.context.copy()
+        ctx.update({"search_default_group_by_calendar_year": 1})
         return ctx
 
-    def action_view_pit_yearly_summary(self):
+    def action_view_pit_move_yearly_summary(self):
         ctx = self._get_context_pit_monitoring()
+        domain = [("partner_id", "=", self.id)]
         return {
             "name": _("Personal Income Tax Yearly"),
-            "res_model": "pit.move.yearly",
+            "res_model": "pit.move",
             "view_mode": "pivot,tree,graph",
             "context": ctx,
+            "domain": domain,
             "type": "ir.actions.act_window",
         }

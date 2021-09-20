@@ -18,7 +18,7 @@
         "views/account_move_view.xml",
         "views/res_partner_view.xml",
         "views/account_payment.xml",
-        "report/pit_move_yearly_report_view.xml",
+        "views/pit_move_view.xml",
     ],
     "installable": True,
     "development_status": "Alpha",

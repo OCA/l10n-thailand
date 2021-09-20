@@ -53,8 +53,7 @@ class CreatePITWithholdingTaxCert(models.TransientModel):
             )
         partner_id = self.env[model].browse(active_id)
         # Create new withholding.tax.cert
-        cert = Cert.new()
-        cert.write(
+        cert = Cert.new(
             {
                 "supplier_partner_id": partner_id.id,
                 "income_tax_form": self.income_tax_form,

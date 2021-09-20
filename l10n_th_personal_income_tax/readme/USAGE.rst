@@ -1,7 +1,7 @@
 You can config PIT Rate following,
 
 #. Go to Invoicing > Configuration > Accounting > PIT Rate
-#. Add default field 'Withholding Tax Account' and 'Type of Income' when you selected bills is PIT (if any)
+#. Add default field 'Withholding Tax Account' and 'Type of Income' when your selected bill is PIT (if any)
 #. Change range or tax rate (if any)
 
 After you config PIT Rate,

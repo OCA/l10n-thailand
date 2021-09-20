@@ -28,7 +28,7 @@ class PersonalIncomeTaxMove(models.Model):
         required=True,
         ondelete="cascade",
     )
-    cancelled = fields.Boolean(readonly=True, help="for filtered Payment is cancel")
+    cancelled = fields.Boolean(readonly=True, help="For filtering cancelled payment")
     date = fields.Date(
         compute="_compute_date",
         store=True,
@@ -37,6 +37,7 @@ class PersonalIncomeTaxMove(models.Model):
         string="Calendar Year",
         compute="_compute_date",
         store=True,
+        index=True,
     )
     amount_income = fields.Float(
         string="Income",

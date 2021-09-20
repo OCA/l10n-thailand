@@ -32,5 +32,7 @@ class AccountMove(models.Model):
         )
         for rec in self:
             rec.pit_wt_cert_income_type = (
-                rec.account_pit and pit.wt_cert_income_type or False
+                rec.account_pit
+                and pit.wt_cert_income_type
+                or rec.pit_wt_cert_income_type
             )

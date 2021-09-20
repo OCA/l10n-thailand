@@ -13,37 +13,14 @@
                 >
                     <div class="oe_right" name="buttons">
                         <button
-                            name="action_view_pit_yearly_summary"
+                            name="action_view_pit_move_yearly_summary"
                             string="View Yearly Summary"
-                            icon="fa-refresh"
+                            icon="fa-bar-chart-o"
                             type="object"
                         />
                     </div>
                     <group name="pit" string="Personal Income Tax">
-                        <field
-                            name="pit_line"
-                            nolabel="1"
-                            context="{'default_manual': True}"
-                        >
-                            <tree editable="bottom" string="PIT" create="1" delete="0">
-                                <field name="payment_id" />
-                                <field name="date" optional="show" />
-                                <field name="calendar_year" optional="show" />
-                                <field name="wt_cert_income_type" />
-                                <field name="amount_income" sum="Total Income" />
-                                <field
-                                    name="amount_wt"
-                                    sum="Total Amount Withholding Tax"
-                                />
-                                <field name="cancelled" optional="show" />
-                                <field
-                                    name="payment_state"
-                                    widget="badge"
-                                    decoration-info="payment_state == 'draft'"
-                                    decoration-success="payment_state == 'posted'"
-                                />
-                            </tree>
-                        </field>
+                        <field name="pit_line" nolabel="1" />
                     </group>
                 </page>
             </xpath>

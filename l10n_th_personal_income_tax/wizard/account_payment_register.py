@@ -15,7 +15,7 @@ class AccountPaymentRegister(models.TransientModel):
     @api.onchange("group_payment")
     def _onchange_group_payment(self):
         """ Compute payment difference from tree view """
-        model = self._context.get("active_model", False)
+        model = self.env.context.get("active_model", False)
         if model == "account.move" and self.group_payment:
             self._compute_amount()
 
@@ -103,18 +103,18 @@ class AccountPaymentRegister(models.TransientModel):
     )
     def _compute_amount(self):
         res = super()._compute_amount()
-        model = self._context.get("active_model", False)
+        model = self.env.context.get("active_model", False)
         batches = self._get_batches()
         edit_mode = self.can_edit_wizard and (
             len(batches[0]["lines"]) == 1 or self.group_payment
         )
         # Compute amount for case group payment, register payment on form view
         if model == "account.move" and edit_mode:
-            move_ids = self.env[model].browse(self._context.get("active_ids", []))
+            move_ids = self.env[model].browse(self.env.context.get("active_ids", []))
             # Check there isn't account pit on account.move
             if not any(list(set(move_ids.mapped("account_pit")))):
                 return res
-            pit_date = self._context.get("pit_date", False)
+            pit_date = self.env.context.get("pit_date", False)
             wt_account_id = self._default_pit_wt_account_id(date=pit_date)
             expected_wt = self._compute_expected_wt(move_ids, pit_date)
             if expected_wt:
@@ -143,8 +143,8 @@ class AccountPaymentRegister(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        if self._context.get("active_model") == "account.move":
-            active_ids = self._context.get("active_ids", False)
+        if self.env.context.get("active_model") == "account.move":
+            active_ids = self.env.context.get("active_ids", False)
             move_ids = self.env["account.move"].browse(active_ids)
             if len(set(move_ids.mapped("account_pit"))) > 1:
                 raise UserError(
