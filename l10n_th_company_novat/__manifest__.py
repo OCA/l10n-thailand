@@ -14,11 +14,13 @@
         "purchase",
         "account",
         "l10n_th_withholding_tax",
+        "l10n_th_expense_withholding_tax",
     ],
     "data": [
         "views/res_company_view.xml",
         "views/res_partner_view.xml",
         "views/account_move_view.xml",
+        "views/hr_expense_view.xml",
     ],
     "installable": True,
     "development_status": "Beta",
