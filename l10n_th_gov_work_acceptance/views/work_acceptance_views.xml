@@ -36,15 +36,6 @@
             ref="purchase_work_acceptance.view_work_acceptance_form"
         />
         <field name="arch" type="xml">
-            <button name="button_accept" position="attributes">
-                <attribute name="groups">purchase.group_purchase_user</attribute>
-            </button>
-            <button name="button_cancel" position="attributes">
-                <attribute name="groups">purchase.group_purchase_user</attribute>
-            </button>
-            <button name="button_draft" position="attributes">
-                <attribute name="groups">purchase.group_purchase_user</attribute>
-            </button>
             <field name="company_id" position="before">
                 <field name="wa_tier_validation" />
             </field>
