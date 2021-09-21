@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+    <record id="export_payment_bbl_customer_batch_ref" model="ir.config_parameter">
+        <field name="key">export.payment.bbl.customer_batch_ref</field>
+        <field name="value" />
+    </record>
+</odoo>

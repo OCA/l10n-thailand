@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- TEXT REPORTS -->
+    <record id="action_payment_bbl_smart_txt" model="ir.actions.report">
+        <field name="name">Payment BBL Smart (TXT)</field>
+        <field name="model">export.bank.payment</field>
+        <field name="type">ir.actions.report</field>
+        <field
+            name="report_name"
+        >l10n_th_export_payment.export_payment_text_file</field>
+        <field
+            name="report_file"
+        >l10n_th_export_payment.export_payment_text_file</field>
+        <field name="report_type">qweb-text</field>
+        <field name="binding_model_id" ref="account.model_account_payment" />
+        <field name="print_report_name">object._get_report_base_filename()</field>
+    </record>
+</odoo>
