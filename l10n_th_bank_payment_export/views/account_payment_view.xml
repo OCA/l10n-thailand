@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_payment_tree" model="ir.ui.view">
+        <field name="name">account.view.account.payment.tree</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="is_export" optional="show" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_payment_form" model="ir.ui.view">
+        <field name="name">account.view.account.payment.form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='group2']" position="inside">
+                <field name="is_export" groups="account.group_account_user" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_payment_search" model="ir.ui.view">
+        <field name="name">account.payment.search</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='reconciled']" position="after">
+                <filter
+                    name="is_export"
+                    string="Is Export"
+                    domain="[('is_export', '=', True)]"
+                />
+            </xpath>
+            <xpath expr="//filter[@name='groupby_date']" position="before">
+                <filter
+                    name="groupby_is_export"
+                    string="Is Export"
+                    context="{'group_by': 'is_export'}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
