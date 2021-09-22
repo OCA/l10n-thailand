@@ -20,6 +20,7 @@ setuptools.setup(
         'odoo14-addon-l10n_th_tax_report',
         'odoo14-addon-l10n_th_withholding_tax',
         'odoo14-addon-l10n_th_withholding_tax_cert',
+        'odoo14-addon-l10n_th_withholding_tax_cert_form',
     ],
     classifiers=[
         'Programming Language :: Python',
