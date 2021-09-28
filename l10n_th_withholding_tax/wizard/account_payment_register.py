@@ -12,6 +12,18 @@ class AccountPaymentRegister(models.TransientModel):
         string="Withholding Tax",
         help="Optional hidden field to keep wt_tax. Useful for case 1 tax only",
     )
+    wt_amount_base = fields.Monetary(
+        string="Withholding Base",
+        help="Based amount for the tax amount",
+    )
+
+    @api.onchange("wt_tax_id", "wt_amount_base")
+    def _onchange_wt_tax_id(self):
+        if self.wt_tax_id and self.wt_amount_base:
+            amount_wt = self.wt_tax_id.amount / 100 * self.wt_amount_base
+            self.amount = self.source_amount_currency - amount_wt
+            self.writeoff_account_id = self.wt_tax_id.account_id
+            self.writeoff_label = self.wt_tax_id.display_name
 
     def _create_payment_vals_from_wizard(self):
         payment_vals = super()._create_payment_vals_from_wizard()
@@ -20,9 +32,10 @@ class AccountPaymentRegister(models.TransientModel):
             payment_vals.update({"wt_tax_id": self.wt_tax_id.id})
         return payment_vals
 
-    def _update_payment_register(self, amount_wt, inv_lines):
+    def _update_payment_register(self, amount_base, amount_wt, inv_lines):
         self.ensure_one()
         self.amount -= amount_wt
+        self.wt_amount_base = amount_base
         self.payment_difference_handling = "reconcile"
         wt_tax = inv_lines.mapped("wt_tax_id")
         if wt_tax and len(wt_tax) == 1:
@@ -50,14 +63,11 @@ class AccountPaymentRegister(models.TransientModel):
                 return res
             # Case WHT only, ensure only 1 wizard
             self.ensure_one()
-            amount_wt = 0
-            for line in move_lines:
-                base_amount = line._get_wt_base_amount(
-                    self.currency_id, self.payment_date
-                )
-                amount_wt += line.wt_tax_id.amount / 100 * base_amount
+            amount_base, amount_wt = move_lines._get_wt_amount(
+                self.currency_id, self.payment_date
+            )
             if amount_wt:
-                self._update_payment_register(amount_wt, move_lines)
+                self._update_payment_register(amount_base, amount_wt, move_lines)
         return res
 
     @api.model
