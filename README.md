@@ -32,6 +32,7 @@ addon | version | maintainers | summary
 [l10n_th_withholding_tax](l10n_th_withholding_tax/) | 14.0.1.0.3 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Withholding Tax
 [l10n_th_withholding_tax_cert](l10n_th_withholding_tax_cert/) | 14.0.1.0.0 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Withholding Tax Certificate
 [l10n_th_withholding_tax_cert_form](l10n_th_withholding_tax_cert_form/) | 14.0.1.0.0 |  | Thai Localization - Withholding Tax Certificate Form
+[l10n_th_withholding_tax_pit](l10n_th_withholding_tax_pit/) | 14.0.1.0.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Withhold Personal Income Tax Calculation
 
 [//]: # (end addons)
 
