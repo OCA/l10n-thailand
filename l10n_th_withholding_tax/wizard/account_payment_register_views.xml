@@ -6,12 +6,26 @@
         <field name="inherit_id" ref="account.view_account_payment_register_form" />
         <field name="arch" type="xml">
             <field name="payment_difference_handling" position="after">
-                <field
-                    name="wt_tax_id"
+                <div
                     attrs="{'invisible': [('payment_difference_handling', '!=', 'reconcile')]}"
-                    placeholder="Withholding Tax"
-                    options="{'no_create': True, 'no_open': True}"
-                />
+                >
+                    <label
+                        for="wt_tax_id"
+                        class="oe_edit_only"
+                        string="Withholding Tax"
+                    />
+                    <field
+                        name="wt_tax_id"
+                        placeholder="Withholding Tax"
+                        options="{'no_create': True, 'no_open': True}"
+                    />
+                    <label
+                        for="wt_amount_base"
+                        class="oe_edit_only"
+                        string="Withholding Base"
+                    />
+                    <field name="wt_amount_base" />
+                </div>
             </field>
         </field>
     </record>

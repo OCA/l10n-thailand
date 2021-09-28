@@ -22,7 +22,9 @@ class AccountMoveLine(models.Model):
                 rec.wt_tax_id = rec.product_id.wt_tax_id
             elif rec.move_id.move_type in ("in_invoice", "in_refund", "out_receipt"):
                 rec.wt_tax_id = rec.product_id.supplier_wt_tax_id
-            elif rec.payment_id:
+            elif (
+                rec.payment_id and rec.payment_id.wt_tax_id.account_id == rec.account_id
+            ):
                 rec.wt_tax_id = rec.payment_id.wt_tax_id
             else:
                 rec.wt_tax_id = False
@@ -42,3 +44,13 @@ class AccountMoveLine(models.Model):
                 self.balance, currency, self.company_id, currency_date
             )
         return wt_base_amount
+
+    def _get_wt_amount(self, currency, currency_date):
+        """ Calculate withholding tax and base amount based on currency """
+        amount_base = 0
+        amount_wt = 0
+        for line in self:
+            base_amount = line._get_wt_base_amount(currency, currency_date)
+            amount_wt += line.wt_tax_id.amount / 100 * base_amount
+            amount_base += base_amount
+        return (amount_base, amount_wt)
