@@ -14,11 +14,11 @@ class AccountPaymentRegister(models.TransientModel):
             if float_compare(rec.payment_difference, 0.0, 2) == 0:
                 rec.payment_difference_handling = "open"
 
-    def _update_payment_register(self, amount_wt, inv_lines):
-        super()._update_payment_register(amount_wt, inv_lines)
-        move_ids = inv_lines.mapped("move_id")
-        amount_residual = sum(move_ids.mapped("amount_residual"))
-        amount_total = sum(move_ids.mapped("amount_total"))
+    def _update_payment_register(self, amount_base, amount_wt, inv_lines):
+        super()._update_payment_register(amount_base, amount_wt, inv_lines)
+        moves = inv_lines.mapped("move_id")
+        amount_residual = sum(moves.mapped("amount_residual"))
+        amount_total = sum(moves.mapped("amount_total"))
         if float_compare(amount_residual, amount_total, 2) == 0 and len(inv_lines) > 1:
             self.payment_difference_handling = "reconcile_multi_deduct"
             self._onchange_payment_difference_handling()
@@ -30,13 +30,13 @@ class AccountPaymentRegister(models.TransientModel):
             return
         if self._context.get("active_model") == "account.move":
             active_ids = self._context.get("active_ids", [])
-            invoices = self.env["account.move"].browse(active_ids)
-            inv_lines = invoices.mapped("invoice_line_ids").filtered("wt_tax_id")
-            if inv_lines:
+            moves = self.env["account.move"].browse(active_ids)
+            move_lines = moves.mapped("line_ids").filtered("wt_tax_id")
+            if move_lines:
                 # Case WHT only, ensure only 1 wizard
                 self.ensure_one()
                 deductions = [(5, 0, 0)]
-                for line in inv_lines:
+                for line in move_lines:
                     base_amount = line._get_wt_base_amount(
                         self.currency_id, self.payment_date
                     )
@@ -53,6 +53,17 @@ class AccountPaymentRegister(models.TransientModel):
         res = super()._prepare_deduct_move_line(deduct)
         res.update({"wt_tax_id": deduct.wt_tax_id.id})
         return res
+
+    def _create_payment_vals_from_wizard(self):
+        payment_vals = super()._create_payment_vals_from_wizard()
+        if (
+            self.payment_difference_handling == "reconcile_multi_deduct"
+            and self.deduction_ids
+        ):
+            wt_tax = self.deduction_ids.mapped("wt_tax_id")
+            if len(wt_tax) == 1:
+                payment_vals.update({"wt_tax_id": wt_tax.id})
+        return payment_vals
 
 
 class AccountPaymentDeduction(models.TransientModel):

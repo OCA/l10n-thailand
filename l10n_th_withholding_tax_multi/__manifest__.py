@@ -9,7 +9,7 @@
     "website": "https://github.com/OCA/l10n-thailand",
     "category": "Localization / Accounting",
     "depends": ["l10n_th_withholding_tax", "account_payment_multi_deduction"],
-    "data": ["views/account_payment_register_view.xml"],
+    "data": ["wizard/account_payment_register_view.xml"],
     "installable": True,
     "development_status": "Beta",
     "maintainers": ["kittiu"],
