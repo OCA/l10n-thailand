@@ -295,6 +295,18 @@ class WithholdingTaxCert(models.Model):
             "type": "ir.actions.act_window",
         }
 
+    def action_create_pit_withholding_tax_cert(self):
+        view = "l10n_th_withholding_tax_cert.create_pit_withholding_tax_cert"
+        return {
+            "name": _("Create Withholding Tax Cert."),
+            "res_model": "create.pit.withholding.tax.cert",
+            "view_mode": "form",
+            "view_id": self.env.ref(view).id,
+            "context": self.env.context,
+            "target": "new",
+            "type": "ir.actions.act_window",
+        }
+
 
 class WithholdingTaxCertLine(models.Model):
     _name = "withholding.tax.cert.line"

@@ -1,7 +1,7 @@
 # Copyright 2019 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 
 class AccountPayment(models.Model):
@@ -13,7 +13,6 @@ class AccountPayment(models.Model):
         string="Withholding Tax Cert.",
         readonly=True,
     )
-
     wt_cert_cancel = fields.Boolean(
         compute="_compute_wt_cert_cancel",
         store=True,
@@ -30,11 +29,10 @@ class AccountPayment(models.Model):
             record.wt_cert_cancel = wt_cancel
 
     def button_wt_certs(self):
-        return {
-            "name": _("Withholding Tax Certs."),
-            "view_mode": "tree,form",
-            "res_model": "withholding.tax.cert",
-            "view_id": False,
-            "type": "ir.actions.act_window",
-            "domain": [("id", "in", self.wt_cert_ids.ids)],
-        }
+        self.ensure_one()
+        action = self.env.ref(
+            "l10n_th_withholding_tax_cert.action_withholding_tax_cert_menu"
+        )
+        result = action.sudo().read()[0]
+        result["domain"] = [("id", "in", self.wt_cert_ids.ids)]
+        return result

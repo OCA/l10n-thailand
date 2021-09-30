@@ -1,4 +1,4 @@
-From supplier payment or journal entry that has already withheld tax,
+From supplier payment, journal entry or partner (for persona tax) that has already withheld tax,
 
 - Click action Create Withholding Tax Cert., this bring user to new Withholding Tax Certificate
 - Fill in required information for Withholding Tax Certificate
