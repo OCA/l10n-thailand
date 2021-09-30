@@ -13,6 +13,7 @@
                 position="before"
             >
                 <field name="wt_tax_id" string="WT" />
+                <field name="wt_amount_base" string="Base" />
             </xpath>
         </field>
     </record>

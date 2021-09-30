@@ -13,4 +13,5 @@
     "installable": True,
     "development_status": "Beta",
     "maintainers": ["kittiu"],
+    "auto_install": True,
 }
