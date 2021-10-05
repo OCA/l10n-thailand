@@ -1,7 +1,7 @@
 # Copyright 2020 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import Form, TransactionCase
 
 
 class TestL10nThPartner(TransactionCase):
@@ -17,9 +17,11 @@ class TestL10nThPartner(TransactionCase):
         )
 
     def create_original(self, firstname, lastname):
-        self.user = self.env["res.users"].create(
-            {"firstname": firstname, "lastname": lastname, "login": firstname}
-        )
+        with Form(self.env["res.users"], view="base.view_users_form") as f:
+            f.firstname = firstname
+            f.lastname = lastname
+            f.login = firstname
+        self.user = f.save()
 
     def test_res_users(self):
         """Test that you change title"""

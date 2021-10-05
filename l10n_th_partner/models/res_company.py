@@ -15,7 +15,7 @@ class ResCompany(models.Model):
     )
 
     def write(self, vals):
-        """ Automation update name when you config no_space_title_name """
+        """Automation update name when you config no_space_title_name"""
         res = super().write(vals)
         if "no_space_title_name" in vals:
             personal_partners = self.env["res.partner"].search([("title", "!=", False)])
