@@ -11,6 +11,7 @@
             <xpath expr="//field[@name='shortcut']" position="after">
                 <field name="prefix" attrs="{'required': [('suffix', '=', False)]}" />
                 <field name="suffix" attrs="{'required': [('prefix', '=', False)]}" />
+                <field name="use_prefix_suffix" />
             </xpath>
         </field>
     </record>
