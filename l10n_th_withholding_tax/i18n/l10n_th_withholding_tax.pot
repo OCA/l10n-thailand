@@ -29,6 +29,11 @@ msgid "Amount"
 msgstr ""
 
 #. module: l10n_th_withholding_tax
+#: model:ir.model.fields,help:l10n_th_withholding_tax.field_account_payment_register__wt_amount_base
+msgid "Based amount for the tax amount"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_withholding_tax__create_uid
 msgid "Created by"
 msgstr ""
@@ -142,6 +147,12 @@ msgstr ""
 #. module: l10n_th_withholding_tax
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_account__wt_account
 msgid "WT Account"
+msgstr ""
+
+#. module: l10n_th_withholding_tax
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax.field_account_payment_register__wt_amount_base
+#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax.view_account_payment_register_form
+msgid "Withholding Base"
 msgstr ""
 
 #. module: l10n_th_withholding_tax
