@@ -1,6 +1,8 @@
 # Copyright 2020 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
+from odoo.tools.misc import format_date
 
 
 class AccountMoveLine(models.Model):
@@ -45,12 +47,50 @@ class AccountMoveLine(models.Model):
             )
         return wt_base_amount
 
-    def _get_wt_amount(self, currency, currency_date):
+    def _get_wt_amount(self, currency, wt_date):
         """ Calculate withholding tax and base amount based on currency """
-        amount_base = 0
-        amount_wt = 0
-        for line in self:
-            base_amount = line._get_wt_base_amount(currency, currency_date)
-            amount_wt += line.wt_tax_id.amount / 100 * base_amount
-            amount_base += base_amount
-        return (amount_base, amount_wt)
+        wt_lines = self.filtered("wt_tax_id")
+        pit_lines = wt_lines.filtered("wt_tax_id.is_pit")
+        wht_lines = wt_lines - pit_lines
+        # Mixing PIT and WHT or > 1 type, no auto deduct
+        if pit_lines and wht_lines:
+            return (0, 0)
+        # WHT
+        if wht_lines:
+            wht_tax = wht_lines.mapped("wt_tax_id")
+            if len(wht_tax) != 1:
+                return (0, 0)
+            amount_base = 0
+            amount_wt = 0
+            for line in wht_lines:
+                base_amount = line._get_wt_base_amount(currency, wt_date)
+                amount_wt += line.wt_tax_id.amount / 100 * base_amount
+                amount_base += base_amount
+            return (amount_base, amount_wt)
+        # PIT
+        if pit_lines:
+            pit_tax = pit_lines.mapped("wt_tax_id")
+            pit_tax.ensure_one()
+            move_lines = self.filtered(lambda l: l.wt_tax_id == pit_tax)
+            amount_invoice_currency = sum(move_lines.mapped("amount_currency"))
+            move = move_lines[0]
+            company = move.company_id
+            partner = move.partner_id
+            # Convert invoice currency to payment currency
+            amount_base = move.currency_id._convert(
+                amount_invoice_currency, currency, company, wt_date
+            )
+            effective_pit = pit_tax.with_context(pit_date=wt_date).pit_id
+            if not effective_pit:
+                raise UserError(
+                    _("No effective PIT rate for date %s")
+                    % format_date(self.env, wt_date)
+                )
+            amount_wt = effective_pit._compute_expected_wt(
+                partner,
+                amount_base,
+                pit_date=wt_date,
+                currency=currency,
+                company=company,
+            )
+            return (amount_base, amount_wt)

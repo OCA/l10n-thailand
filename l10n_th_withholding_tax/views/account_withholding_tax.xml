@@ -8,16 +8,24 @@
                 <group>
                     <group>
                         <field name="name" />
-                        <label for="amount" />
-                        <div>
-                            <field name="amount" class="oe_inline" />
-                            <span class="o_form_label oe_inline">%</span>
-                        </div>
+                        <field name="is_pit" />
                     </group>
                     <group>
                         <field
                             name="account_id"
                             context="{'default_wt_account': True}"
+                        />
+                        <label
+                            for="amount"
+                            attrs="{'invisible': [('is_pit', '=', True)]}"
+                        />
+                        <div attrs="{'invisible': [('is_pit', '=', True)]}">
+                            <field name="amount" class="oe_inline" />
+                            <span class="o_form_label oe_inline">%</span>
+                        </div>
+                        <field
+                            name="pit_id"
+                            attrs="{'invisible': [('is_pit', '=', False)]}"
                         />
                     </group>
                 </group>
