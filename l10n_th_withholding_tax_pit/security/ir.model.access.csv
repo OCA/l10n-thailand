@@ -1,7 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_personal_income_tax,access_personal_income_tax,model_personal_income_tax,account.group_account_user,1,1,1,1
-access_personal_income_tax_user,access_personal_income_tax_user,model_personal_income_tax,,1,0,0,0
-access_personal_income_tax_rate,access_personal_income_tax_rate,model_personal_income_tax_rate,account.group_account_user,1,1,1,1
-access_personal_income_tax_rate_user,access_personal_income_tax_rate_user,model_personal_income_tax_rate,,1,0,0,0
-access_pit_move,access_pit_move,model_pit_move,account.group_account_invoice,1,1,1,1
-access_create_pit_withholding_tax_cert,access_create_pit_withholding_tax_cert,model_create_pit_withholding_tax_cert,account.group_account_user,1,1,1,1
