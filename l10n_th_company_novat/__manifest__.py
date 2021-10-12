@@ -3,7 +3,7 @@
 
 {
     "name": "Thai Localization - Comapny/Partner, VAT/NOVAT setup",
-    "version": "14.0.1.0.1",
+    "version": "14.0.1.1.0",
     "author": "Ecosoft, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-thailand",
