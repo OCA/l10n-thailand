@@ -76,16 +76,16 @@ class TestIrSequenceRangeEndStandard(SingleTransactionCase):
         date1 = datetime.date(year=year - 1, month=12, day=14)
         seq1 = self.env["ir.sequence"].with_context(ir_sequence_date=date1)
         value = seq1.next_by_code("test_range_end")
-        self.assertEqual(value, f"test-12/11/01-316-12/11/01")
+        self.assertEqual(value, "test-12/11/01-316-12/11/01")
         value = seq1.next_by_code("test_range_end")
-        self.assertEqual(value, f"test-12/11/01-317-12/11/01")
+        self.assertEqual(value, "test-12/11/01-317-12/11/01")
 
         date2 = datetime.date(year=year, month=4, day=30)
         seq2 = self.env["ir.sequence"].with_context(ir_sequence_date=date2)
         value = seq2.next_by_code("test_range_end")
-        self.assertEqual(value, f"test-04/02/04-044-04/02/04")
+        self.assertEqual(value, "test-04/02/04-044-04/02/04")
         value = seq2.next_by_code("test_range_end")
-        self.assertEqual(value, f"test-04/02/04-045-04/02/04")
+        self.assertEqual(value, "test-04/02/04-045-04/02/04")
 
     def test_ir_sequence_range_end_4_check_day(self):
         domain = [("code", "=", "test_range_end")]
@@ -100,16 +100,16 @@ class TestIrSequenceRangeEndStandard(SingleTransactionCase):
         date1 = datetime.date(year=year - 1, month=11, day=1)
         seq1 = self.env["ir.sequence"].with_context(ir_sequence_date=date1)
         value = seq1.next_by_code("test_range_end")
-        self.assertEqual(value, f"test-01/01/31-00318-01/01/31")
+        self.assertEqual(value, "test-01/01/31-00318-01/01/31")
         value = seq1.next_by_code("test_range_end")
-        self.assertEqual(value, f"test-01/01/31-00319-01/01/31")
+        self.assertEqual(value, "test-01/01/31-00319-01/01/31")
 
         date2 = datetime.date(year=year, month=4, day=13)
         seq2 = self.env["ir.sequence"].with_context(ir_sequence_date=date2)
         value = seq2.next_by_code("test_range_end")
-        self.assertEqual(value, f"test-13/01/30-00046-13/01/30")
+        self.assertEqual(value, "test-13/01/30-00046-13/01/30")
         value = seq2.next_by_code("test_range_end")
-        self.assertEqual(value, f"test-13/01/30-00047-13/01/30")
+        self.assertEqual(value, "test-13/01/30-00047-13/01/30")
 
     def test_ir_sequence_range_end_5_change_date(self):
         domain = [("code", "=", "test_range_end")]
@@ -135,16 +135,16 @@ class TestIrSequenceRangeEndStandard(SingleTransactionCase):
         date1 = datetime.date(year=year, month=6, day=5)
         seq1 = self.env["ir.sequence"].with_context(ir_sequence_date=date1)
         value = seq1.next_by_code("test_range_end")
-        self.assertEqual(value, f"test-06/05/07-320-05/01/31")
+        self.assertEqual(value, "test-06/05/07-320-05/01/31")
         value = seq1.next_by_code("test_range_end")
-        self.assertEqual(value, f"test-06/05/07-321-05/01/31")
+        self.assertEqual(value, "test-06/05/07-321-05/01/31")
 
         date2 = datetime.date(year=year, month=9, day=22)
         seq2 = self.env["ir.sequence"].with_context(ir_sequence_date=date2)
         value = seq2.next_by_code("test_range_end")
-        self.assertEqual(value, f"test-09/08/10-048-22/01/30")
+        self.assertEqual(value, "test-09/08/10-048-22/01/30")
         value = seq2.next_by_code("test_range_end")
-        self.assertEqual(value, f"test-09/08/10-049-22/01/30")
+        self.assertEqual(value, "test-09/08/10-049-22/01/30")
 
     def test_ir_sequence_range_end_6_unlink(self):
         seq = self.env["ir.sequence"].search([("code", "=", "test_range_end")])
@@ -224,16 +224,16 @@ class TestIrSequenceRangeEndNoGap(SingleTransactionCase):
         date1 = datetime.date(year=year - 1, month=12, day=14)
         seq1 = self.env["ir.sequence"].with_context(ir_sequence_date=date1)
         value = seq1.next_by_code("test_range_end_no_gap")
-        self.assertEqual(value, f"test-12/11/01-316-12/11/01")
+        self.assertEqual(value, "test-12/11/01-316-12/11/01")
         value = seq1.next_by_code("test_range_end_no_gap")
-        self.assertEqual(value, f"test-12/11/01-317-12/11/01")
+        self.assertEqual(value, "test-12/11/01-317-12/11/01")
 
         date2 = datetime.date(year=year, month=4, day=30)
         seq2 = self.env["ir.sequence"].with_context(ir_sequence_date=date2)
         value = seq2.next_by_code("test_range_end_no_gap")
-        self.assertEqual(value, f"test-04/02/04-044-04/02/04")
+        self.assertEqual(value, "test-04/02/04-044-04/02/04")
         value = seq2.next_by_code("test_range_end_no_gap")
-        self.assertEqual(value, f"test-04/02/04-045-04/02/04")
+        self.assertEqual(value, "test-04/02/04-045-04/02/04")
 
     def test_ir_sequence_range_end_4_check_day_no_gap(self):
         domain = [("code", "=", "test_range_end_no_gap")]
@@ -248,16 +248,16 @@ class TestIrSequenceRangeEndNoGap(SingleTransactionCase):
         date1 = datetime.date(year=year - 1, month=11, day=1)
         seq1 = self.env["ir.sequence"].with_context(ir_sequence_date=date1)
         value = seq1.next_by_code("test_range_end_no_gap")
-        self.assertEqual(value, f"test-01/01/31-00318-01/01/31")
+        self.assertEqual(value, "test-01/01/31-00318-01/01/31")
         value = seq1.next_by_code("test_range_end_no_gap")
-        self.assertEqual(value, f"test-01/01/31-00319-01/01/31")
+        self.assertEqual(value, "test-01/01/31-00319-01/01/31")
 
         date2 = datetime.date(year=year, month=4, day=13)
         seq2 = self.env["ir.sequence"].with_context(ir_sequence_date=date2)
         value = seq2.next_by_code("test_range_end_no_gap")
-        self.assertEqual(value, f"test-13/01/30-00046-13/01/30")
+        self.assertEqual(value, "test-13/01/30-00046-13/01/30")
         value = seq2.next_by_code("test_range_end_no_gap")
-        self.assertEqual(value, f"test-13/01/30-00047-13/01/30")
+        self.assertEqual(value, "test-13/01/30-00047-13/01/30")
 
     def test_ir_sequence_range_end_5_change_date_no_gap(self):
         domain = [("code", "=", "test_range_end_no_gap")]
@@ -283,16 +283,16 @@ class TestIrSequenceRangeEndNoGap(SingleTransactionCase):
         date1 = datetime.date(year=year, month=6, day=5)
         seq1 = self.env["ir.sequence"].with_context(ir_sequence_date=date1)
         value = seq1.next_by_code("test_range_end_no_gap")
-        self.assertEqual(value, f"test-06/05/07-320-05/01/31")
+        self.assertEqual(value, "test-06/05/07-320-05/01/31")
         value = seq1.next_by_code("test_range_end_no_gap")
-        self.assertEqual(value, f"test-06/05/07-321-05/01/31")
+        self.assertEqual(value, "test-06/05/07-321-05/01/31")
 
         date2 = datetime.date(year=year, month=9, day=22)
         seq2 = self.env["ir.sequence"].with_context(ir_sequence_date=date2)
         value = seq2.next_by_code("test_range_end_no_gap")
-        self.assertEqual(value, f"test-09/08/10-048-22/01/31")
+        self.assertEqual(value, "test-09/08/10-048-22/01/31")
         value = seq2.next_by_code("test_range_end_no_gap")
-        self.assertEqual(value, f"test-09/08/10-049-22/01/31")
+        self.assertEqual(value, "test-09/08/10-049-22/01/31")
 
     def test_ir_sequence_range_end_6_unlink_no_gap(self):
         seq = self.env["ir.sequence"].search([("code", "=", "test_range_end_no_gap")])

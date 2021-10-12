@@ -37,36 +37,36 @@ class TestIrSequenceQoyStandard(SingleTransactionCase):
         )
         with freeze_time(datetime1):
             value = self.env["ir.sequence"].next_by_code("test_qoy")
-            self.assertEqual(value, f"test-4-0001-4")
+            self.assertEqual(value, "test-4-0001-4")
             value = self.env["ir.sequence"].next_by_code("test_qoy")
-            self.assertEqual(value, f"test-4-0002-4")
+            self.assertEqual(value, "test-4-0002-4")
 
         datetime2 = datetime.datetime(
             year=year, month=3, day=14, hour=15, minute=9, second=26, microsecond=535898
         )
         with freeze_time(datetime2):
             value = self.env["ir.sequence"].next_by_code("test_qoy")
-            self.assertEqual(value, f"test-1-0003-1")
+            self.assertEqual(value, "test-1-0003-1")
             value = self.env["ir.sequence"].next_by_code("test_qoy")
-            self.assertEqual(value, f"test-1-0004-1")
+            self.assertEqual(value, "test-1-0004-1")
 
         datetime3 = datetime.datetime(
             year=year, month=5, day=21, hour=8, minute=19, second=37, microsecond=0
         )
         with freeze_time(datetime3):
             value = self.env["ir.sequence"].next_by_code("test_qoy")
-            self.assertEqual(value, f"test-2-0005-2")
+            self.assertEqual(value, "test-2-0005-2")
             value = self.env["ir.sequence"].next_by_code("test_qoy")
-            self.assertEqual(value, f"test-2-0006-2")
+            self.assertEqual(value, "test-2-0006-2")
 
         datetime4 = datetime.datetime(
             year=year, month=9, day=30, hour=22, minute=59, second=42, microsecond=0
         )
         with freeze_time(datetime4):
             value = self.env["ir.sequence"].next_by_code("test_qoy")
-            self.assertEqual(value, f"test-3-0007-3")
+            self.assertEqual(value, "test-3-0007-3")
             value = self.env["ir.sequence"].next_by_code("test_qoy")
-            self.assertEqual(value, f"test-3-0008-3")
+            self.assertEqual(value, "test-3-0008-3")
 
     def test_ir_sequence_qoy_3_unlink(self):
         seq = self.env["ir.sequence"].search([("code", "=", "test_qoy")])
@@ -129,18 +129,18 @@ class TestIrSequenceQoyDateRange(SingleTransactionCase):
         )
         with freeze_time(datetime1):
             value = self.env["ir.sequence"].next_by_code("test_qoy_date_range")
-            self.assertEqual(value, f"test-4-0314-4")
+            self.assertEqual(value, "test-4-0314-4")
             value = self.env["ir.sequence"].next_by_code("test_qoy_date_range")
-            self.assertEqual(value, f"test-4-0315-4")
+            self.assertEqual(value, "test-4-0315-4")
 
         datetime2 = datetime.datetime(
             year=year, month=3, day=14, hour=15, minute=9, second=26, microsecond=535898
         )
         with freeze_time(datetime2):
             value = self.env["ir.sequence"].next_by_code("test_qoy_date_range")
-            self.assertEqual(value, f"test-1-0042-1")
+            self.assertEqual(value, "test-1-0042-1")
             value = self.env["ir.sequence"].next_by_code("test_qoy_date_range")
-            self.assertEqual(value, f"test-1-0043-1")
+            self.assertEqual(value, "test-1-0043-1")
 
     def test_ir_sequence_qoy_date_range_3_unlink(self):
         seq = self.env["ir.sequence"].search([("code", "=", "test_qoy_date_range")])
@@ -203,18 +203,18 @@ class TestIrSequenceQoyRangeEnd(SingleTransactionCase):
         )
         with freeze_time(datetime1):
             value = self.env["ir.sequence"].next_by_code("test_qoy_range_end")
-            self.assertEqual(value, f"test-1-0314-1")
+            self.assertEqual(value, "test-1-0314-1")
             value = self.env["ir.sequence"].next_by_code("test_qoy_range_end")
-            self.assertEqual(value, f"test-1-0315-1")
+            self.assertEqual(value, "test-1-0315-1")
 
         datetime2 = datetime.datetime(
             year=year, month=3, day=14, hour=15, minute=9, second=26, microsecond=535898
         )
         with freeze_time(datetime2):
             value = self.env["ir.sequence"].next_by_code("test_qoy_range_end")
-            self.assertEqual(value, f"test-2-0042-2")
+            self.assertEqual(value, "test-2-0042-2")
             value = self.env["ir.sequence"].next_by_code("test_qoy_range_end")
-            self.assertEqual(value, f"test-2-0043-2")
+            self.assertEqual(value, "test-2-0043-2")
 
     def test_ir_sequence_qoy_range_end_3_unlink(self):
         seq = self.env["ir.sequence"].search([("code", "=", "test_qoy_range_end")])

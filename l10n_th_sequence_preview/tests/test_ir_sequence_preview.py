@@ -109,7 +109,7 @@ class TestIrSequencePreviewForm(SingleTransactionCase):
                 self.assertTrue(seq_form.preview, f"test-{y}/01-00042")
 
                 seq_form.prefix = "test-%(doy)s-"
-                self.assertTrue(seq_form.preview, f"test-14-00042")
+                self.assertTrue(seq_form.preview, "test-14-00042")
 
                 seq_form.save()
 
