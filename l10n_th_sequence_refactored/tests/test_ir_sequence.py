@@ -1,9 +1,9 @@
 from odoo.addons.base.tests.test_ir_sequence import (
-    TestIrSequenceStandard,
-    TestIrSequenceNoGap,
     TestIrSequenceChangeImplementation,
     TestIrSequenceGenerate,
     TestIrSequenceInit,
+    TestIrSequenceNoGap,
+    TestIrSequenceStandard,
 )
 
 

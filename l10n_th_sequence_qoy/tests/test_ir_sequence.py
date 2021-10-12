@@ -143,7 +143,7 @@ class TestIrSequenceQoyDateRange(SingleTransactionCase):
             self.assertEqual(value, f"test-1-0043-1")
 
     def test_ir_sequence_qoy_date_range_3_unlink(self):
-        seq = self.env["ir.sequence"].search([("code", '=', 'test_qoy_date_range')])
+        seq = self.env["ir.sequence"].search([("code", "=", "test_qoy_date_range")])
         seq.unlink()
 
 
@@ -192,9 +192,14 @@ class TestIrSequenceQoyRangeEnd(SingleTransactionCase):
     def test_ir_sequence_qoy_range_end_2_check_year(self):
         year = fields.Date.today().year
 
-
         datetime1 = datetime.datetime(
-            year=year - 1, month=11, day=14, hour=10, minute=14, second=16, microsecond=0
+            year=year - 1,
+            month=11,
+            day=14,
+            hour=10,
+            minute=14,
+            second=16,
+            microsecond=0,
         )
         with freeze_time(datetime1):
             value = self.env["ir.sequence"].next_by_code("test_qoy_range_end")
@@ -212,5 +217,5 @@ class TestIrSequenceQoyRangeEnd(SingleTransactionCase):
             self.assertEqual(value, f"test-2-0043-2")
 
     def test_ir_sequence_qoy_range_end_3_unlink(self):
-        seq = self.env['ir.sequence'].search([('code', '=', 'test_qoy_range_end')])
+        seq = self.env["ir.sequence"].search([("code", "=", "test_qoy_range_end")])
         seq.unlink()

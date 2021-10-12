@@ -1,7 +1,7 @@
 from odoo.addons.base.tests.test_ir_sequence_date_range import (
-    TestIrSequenceDateRangeStandard,
-    TestIrSequenceDateRangeNoGap,
     TestIrSequenceDateRangeChangeImplementation,
+    TestIrSequenceDateRangeNoGap,
+    TestIrSequenceDateRangeStandard,
 )
 
 
