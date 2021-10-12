@@ -1,7 +1,10 @@
-from odoo.tests import TransactionCase
-from odoo.addons.base.tests.test_ir_sequence import TestIrSequenceStandard, \
-    TestIrSequenceNoGap, TestIrSequenceChangeImplementation, TestIrSequenceGenerate, \
-    TestIrSequenceInit
+from odoo.addons.base.tests.test_ir_sequence import (
+    TestIrSequenceStandard,
+    TestIrSequenceNoGap,
+    TestIrSequenceChangeImplementation,
+    TestIrSequenceGenerate,
+    TestIrSequenceInit,
+)
 
 
 class TestIrSequenceRefactoredStandard(TestIrSequenceStandard):

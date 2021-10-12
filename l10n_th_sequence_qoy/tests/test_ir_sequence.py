@@ -11,21 +11,29 @@ class TestIrSequenceQoyStandard(SingleTransactionCase):
 
     def test_ir_sequence_qoy_1_create(self):
         """Create an ir.sequence record with two ir.sequence.date_range records"""
-        seq = self.env["ir.sequence"].create({
-            "code": "test_qoy",
-            "name": "Test sequence QoY",
-            "use_date_range": False,
-            "prefix": "test-%(qoy)s-",
-            "suffix": "-%(qoy)s",
-            "padding": 4,
-        })
+        seq = self.env["ir.sequence"].create(
+            {
+                "code": "test_qoy",
+                "name": "Test sequence QoY",
+                "use_date_range": False,
+                "prefix": "test-%(qoy)s-",
+                "suffix": "-%(qoy)s",
+                "padding": 4,
+            }
+        )
         self.assertTrue(seq)
 
     def test_ir_sequence_qoy_2_change_date(self):
         year = fields.Date.today().year
 
         datetime1 = datetime.datetime(
-            year=year-1, month=11, day=14, hour=10, minute=14, second=16, microsecond=0
+            year=year - 1,
+            month=11,
+            day=14,
+            hour=10,
+            minute=14,
+            second=16,
+            microsecond=0,
         )
         with freeze_time(datetime1):
             value = self.env["ir.sequence"].next_by_code("test_qoy")
@@ -61,7 +69,7 @@ class TestIrSequenceQoyStandard(SingleTransactionCase):
             self.assertEqual(value, f"test-3-0008-3")
 
     def test_ir_sequence_qoy_3_unlink(self):
-        seq = self.env['ir.sequence'].search([('code', '=', 'test_qoy')])
+        seq = self.env["ir.sequence"].search([("code", "=", "test_qoy")])
         seq.unlink()
 
 
@@ -70,31 +78,37 @@ class TestIrSequenceQoyDateRange(SingleTransactionCase):
 
     def test_ir_sequence_qoy_date_range_1_create(self):
         """Create an ir.sequence record with two ir.sequence.date_range records"""
-        seq = self.env["ir.sequence"].create({
-            "code": "test_qoy_date_range",
-            "name": "Test sequence date_range QoY",
-            "use_date_range": True,
-            "prefix": "test-%(range_qoy)s-",
-            "suffix": "-%(range_qoy)s",
-            "padding": 4,
-        })
+        seq = self.env["ir.sequence"].create(
+            {
+                "code": "test_qoy_date_range",
+                "name": "Test sequence date_range QoY",
+                "use_date_range": True,
+                "prefix": "test-%(range_qoy)s-",
+                "suffix": "-%(range_qoy)s",
+                "padding": 4,
+            }
+        )
         self.assertTrue(seq)
 
         year = fields.Date.today().year
-        date_range_1 = self.env["ir.sequence.date_range"].create({
-            "date_from": datetime.date(year=year-1, month=11, day=1),
-            "date_to": datetime.date(year=year, month=1, day=31),
-            "sequence_id": seq.id,
-            "number_next_actual": 314,
-        })
+        date_range_1 = self.env["ir.sequence.date_range"].create(
+            {
+                "date_from": datetime.date(year=year - 1, month=11, day=1),
+                "date_to": datetime.date(year=year, month=1, day=31),
+                "sequence_id": seq.id,
+                "number_next_actual": 314,
+            }
+        )
         self.assertTrue(date_range_1)
 
-        date_range_2 = self.env["ir.sequence.date_range"].create({
-            "date_from": datetime.date(year=year, month=2, day=1),
-            "date_to": datetime.date(year=year, month=4, day=30),
-            "sequence_id": seq.id,
-            "number_next_actual": 42,
-        })
+        date_range_2 = self.env["ir.sequence.date_range"].create(
+            {
+                "date_from": datetime.date(year=year, month=2, day=1),
+                "date_to": datetime.date(year=year, month=4, day=30),
+                "sequence_id": seq.id,
+                "number_next_actual": 42,
+            }
+        )
         self.assertTrue(date_range_2)
 
         domain = [("sequence_id", "=", seq.id)]
@@ -105,7 +119,13 @@ class TestIrSequenceQoyDateRange(SingleTransactionCase):
         year = fields.Date.today().year
 
         datetime1 = datetime.datetime(
-            year=year-1, month=11, day=14, hour=10, minute=14, second=16, microsecond=0
+            year=year - 1,
+            month=11,
+            day=14,
+            hour=10,
+            minute=14,
+            second=16,
+            microsecond=0,
         )
         with freeze_time(datetime1):
             value = self.env["ir.sequence"].next_by_code("test_qoy_date_range")
@@ -123,7 +143,7 @@ class TestIrSequenceQoyDateRange(SingleTransactionCase):
             self.assertEqual(value, f"test-1-0043-1")
 
     def test_ir_sequence_qoy_date_range_3_unlink(self):
-        seq = self.env['ir.sequence'].search([('code', '=', 'test_qoy_date_range')])
+        seq = self.env["ir.sequence"].search([("code", '=', 'test_qoy_date_range')])
         seq.unlink()
 
 
@@ -132,31 +152,37 @@ class TestIrSequenceQoyRangeEnd(SingleTransactionCase):
 
     def test_ir_sequence_qoy_range_end_1_create(self):
         """Create an ir.sequence record with two ir.sequence.date_range records"""
-        seq = self.env["ir.sequence"].create({
-            "code": "test_qoy_range_end",
-            "name": "Test sequence range end BE",
-            "use_date_range": True,
-            "prefix": "test-%(range_end_qoy)s-",
-            "suffix": "-%(range_end_qoy)s",
-            "padding": 4,
-        })
+        seq = self.env["ir.sequence"].create(
+            {
+                "code": "test_qoy_range_end",
+                "name": "Test sequence range end BE",
+                "use_date_range": True,
+                "prefix": "test-%(range_end_qoy)s-",
+                "suffix": "-%(range_end_qoy)s",
+                "padding": 4,
+            }
+        )
         self.assertTrue(seq)
 
         year = fields.Date.today().year
-        date_range_1 = self.env["ir.sequence.date_range"].create({
-            "date_from": datetime.date(year=year-1, month=11, day=1),
-            "date_to": datetime.date(year=year, month=1, day=31),
-            "sequence_id": seq.id,
-            "number_next_actual": 314,
-        })
+        date_range_1 = self.env["ir.sequence.date_range"].create(
+            {
+                "date_from": datetime.date(year=year - 1, month=11, day=1),
+                "date_to": datetime.date(year=year, month=1, day=31),
+                "sequence_id": seq.id,
+                "number_next_actual": 314,
+            }
+        )
         self.assertTrue(date_range_1)
 
-        date_range_2 = self.env["ir.sequence.date_range"].create({
-            "date_from": datetime.date(year=year, month=2, day=1),
-            "date_to": datetime.date(year=year, month=4, day=30),
-            "sequence_id": seq.id,
-            "number_next_actual": 42,
-        })
+        date_range_2 = self.env["ir.sequence.date_range"].create(
+            {
+                "date_from": datetime.date(year=year, month=2, day=1),
+                "date_to": datetime.date(year=year, month=4, day=30),
+                "sequence_id": seq.id,
+                "number_next_actual": 42,
+            }
+        )
         self.assertTrue(date_range_2)
 
         domain = [("sequence_id", "=", seq.id)]
@@ -168,7 +194,7 @@ class TestIrSequenceQoyRangeEnd(SingleTransactionCase):
 
 
         datetime1 = datetime.datetime(
-            year=year-1, month=11, day=14, hour=10, minute=14, second=16, microsecond=0
+            year=year - 1, month=11, day=14, hour=10, minute=14, second=16, microsecond=0
         )
         with freeze_time(datetime1):
             value = self.env["ir.sequence"].next_by_code("test_qoy_range_end")

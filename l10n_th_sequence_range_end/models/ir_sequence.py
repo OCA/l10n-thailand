@@ -1,5 +1,6 @@
 from odoo import fields, models
 
+
 class IrSequence(models.Model):
     """
     This sub-class adds support for range_end legends
@@ -29,7 +30,8 @@ class IrSequence(models.Model):
             "sec": "%S",
         }
         for key, fmt in sequences.items():
-            res["range_end_" + key] = range_end_date.strftime(fmt) \
-                if range_end_date else None
+            res["range_end_" + key] = (
+                range_end_date.strftime(fmt) if range_end_date else None
+            )
 
         return res

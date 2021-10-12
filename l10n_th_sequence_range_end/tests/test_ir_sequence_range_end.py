@@ -5,35 +5,41 @@ from odoo.tests.common import SingleTransactionCase
 
 
 class TestIrSequenceRangeEndStandard(SingleTransactionCase):
-    """ A few tests for a 'Standard' sequence with date_range. """
+    """ A few tests for a "Standard' sequence with date_range. """
 
     def test_ir_sequence_range_end_1_create(self):
         """Create an ir.sequence record with two ir.sequence.date_range records"""
-        seq = self.env["ir.sequence"].create({
-            "code": "test_range_end",
-            "name": "Test range end",
-            "use_date_range": True,
-            "prefix": "test-%(year)s/%(range_year)s/%(range_end_year)s-",
-            "suffix": "-%(y)s/%(range_y)s/%(range_end_y)s",
-            "padding": 4,
-        })
+        seq = self.env["ir.sequence"].create(
+            {
+                "code": "test_range_end",
+                "name": "Test range end",
+                "use_date_range": True,
+                "prefix": "test-%(year)s/%(range_year)s/%(range_end_year)s-",
+                "suffix": "-%(y)s/%(range_y)s/%(range_end_y)s",
+                "padding": 4,
+            }
+        )
         self.assertTrue(seq)
 
         year = fields.Date.today().year
-        date_range_1 = self.env["ir.sequence.date_range"].create({
-            "date_from": datetime.date(year=year-1, month=11, day=1),
-            "date_to": datetime.date(year=year, month=1, day=31),
-            "sequence_id": seq.id,
-            "number_next_actual": 314,
-        })
+        date_range_1 = self.env["ir.sequence.date_range"].create(
+            {
+                "date_from": datetime.date(year=year - 1, month=11, day=1),
+                "date_to": datetime.date(year=year, month=1, day=31),
+                "sequence_id": seq.id,
+                "number_next_actual": 314,
+            }
+        )
         self.assertTrue(date_range_1)
 
-        date_range_2 = self.env["ir.sequence.date_range"].create({
-            "date_from": datetime.date(year=year, month=2, day=1),
-            "date_to": datetime.date(year=year, month=4, day=30),
-            "sequence_id": seq.id,
-            "number_next_actual": 42,
-        })
+        date_range_2 = self.env["ir.sequence.date_range"].create(
+            {
+                "date_from": datetime.date(year=year, month=2, day=1),
+                "date_to": datetime.date(year=year, month=4, day=30),
+                "sequence_id": seq.id,
+                "number_next_actual": 42,
+            }
+        )
         self.assertTrue(date_range_2)
 
         domain = [("sequence_id", "=", seq.id)]
@@ -67,7 +73,7 @@ class TestIrSequenceRangeEndStandard(SingleTransactionCase):
         seq.padding = 3
 
         year = fields.Date.today().year
-        date1 = datetime.date(year=year-1, month=12, day=14)
+        date1 = datetime.date(year=year - 1, month=12, day=14)
         seq1 = self.env["ir.sequence"].with_context(ir_sequence_date=date1)
         value = seq1.next_by_code("test_range_end")
         self.assertEqual(value, f"test-12/11/01-316-12/11/01")
@@ -91,7 +97,7 @@ class TestIrSequenceRangeEndStandard(SingleTransactionCase):
         seq.padding = 5
 
         year = fields.Date.today().year
-        date1 = datetime.date(year=year-1, month=11, day=1)
+        date1 = datetime.date(year=year - 1, month=11, day=1)
         seq1 = self.env["ir.sequence"].with_context(ir_sequence_date=date1)
         value = seq1.next_by_code("test_range_end")
         self.assertEqual(value, f"test-01/01/31-00318-01/01/31")
@@ -111,7 +117,9 @@ class TestIrSequenceRangeEndStandard(SingleTransactionCase):
         self.assertEqual(len(seq), 1)
 
         domain = [("sequence_id", "=", seq.id)]
-        date_ranges = self.env["ir.sequence.date_range"].search(domain, order="date_from")
+        date_ranges = self.env["ir.sequence.date_range"].search(
+            domain, order="date_from"
+        )
         self.assertEqual(len(date_ranges), 2)
 
         seq.prefix = "test-%(month)s/%(range_month)s/%(range_end_month)s-"
@@ -139,7 +147,7 @@ class TestIrSequenceRangeEndStandard(SingleTransactionCase):
         self.assertEqual(value, f"test-09/08/10-049-22/01/30")
 
     def test_ir_sequence_range_end_6_unlink(self):
-        seq = self.env['ir.sequence'].search([('code', '=', 'test_range_end')])
+        seq = self.env["ir.sequence"].search([("code", "=", "test_range_end")])
         seq.unlink()
 
 
@@ -148,32 +156,38 @@ class TestIrSequenceRangeEndNoGap(SingleTransactionCase):
 
     def test_ir_sequence_range_end_1_create_no_gap(self):
         """Create a sequence with date_range"""
-        seq = self.env["ir.sequence"].create({
-            "code": "test_range_end_no_gap",
-            "name": "Test range end no gap",
-            "use_date_range": True,
-            'implementation': 'no_gap',
-            "prefix": "test-%(year)s/%(range_year)s/%(range_end_year)s-",
-            "suffix": "-%(y)s/%(range_y)s/%(range_end_y)s",
-            "padding": 4,
-        })
+        seq = self.env["ir.sequence"].create(
+            {
+                "code": "test_range_end_no_gap",
+                "name": "Test range end no gap",
+                "use_date_range": True,
+                "implementation": "no_gap",
+                "prefix": "test-%(year)s/%(range_year)s/%(range_end_year)s-",
+                "suffix": "-%(y)s/%(range_y)s/%(range_end_y)s",
+                "padding": 4,
+            }
+        )
         self.assertTrue(seq)
 
         year = fields.Date.today().year
-        date_range_1 = self.env["ir.sequence.date_range"].create({
-            "date_from": datetime.date(year=year-1, month=11, day=1),
-            "date_to": datetime.date(year=year, month=1, day=31),
-            "sequence_id": seq.id,
-            "number_next_actual": 314,
-        })
+        date_range_1 = self.env["ir.sequence.date_range"].create(
+            {
+                "date_from": datetime.date(year=year - 1, month=11, day=1),
+                "date_to": datetime.date(year=year, month=1, day=31),
+                "sequence_id": seq.id,
+                "number_next_actual": 314,
+            }
+        )
         self.assertTrue(date_range_1)
 
-        date_range_2 = self.env["ir.sequence.date_range"].create({
-            "date_from": datetime.date(year=year, month=2, day=1),
-            "date_to": datetime.date(year=year, month=4, day=30),
-            "sequence_id": seq.id,
-            "number_next_actual": 42,
-        })
+        date_range_2 = self.env["ir.sequence.date_range"].create(
+            {
+                "date_from": datetime.date(year=year, month=2, day=1),
+                "date_to": datetime.date(year=year, month=4, day=30),
+                "sequence_id": seq.id,
+                "number_next_actual": 42,
+            }
+        )
         self.assertTrue(date_range_2)
 
         domain = [("sequence_id", "=", seq.id)]
@@ -207,7 +221,7 @@ class TestIrSequenceRangeEndNoGap(SingleTransactionCase):
         seq.padding = 3
 
         year = fields.Date.today().year
-        date1 = datetime.date(year=year-1, month=12, day=14)
+        date1 = datetime.date(year=year - 1, month=12, day=14)
         seq1 = self.env["ir.sequence"].with_context(ir_sequence_date=date1)
         value = seq1.next_by_code("test_range_end_no_gap")
         self.assertEqual(value, f"test-12/11/01-316-12/11/01")
@@ -231,7 +245,7 @@ class TestIrSequenceRangeEndNoGap(SingleTransactionCase):
         seq.padding = 5
 
         year = fields.Date.today().year
-        date1 = datetime.date(year=year-1, month=11, day=1)
+        date1 = datetime.date(year=year - 1, month=11, day=1)
         seq1 = self.env["ir.sequence"].with_context(ir_sequence_date=date1)
         value = seq1.next_by_code("test_range_end_no_gap")
         self.assertEqual(value, f"test-01/01/31-00318-01/01/31")
@@ -251,7 +265,9 @@ class TestIrSequenceRangeEndNoGap(SingleTransactionCase):
         self.assertEqual(len(seq), 1)
 
         domain = [("sequence_id", "=", seq.id)]
-        date_ranges = self.env["ir.sequence.date_range"].search(domain, order="date_from")
+        date_ranges = self.env["ir.sequence.date_range"].search(
+            domain, order="date_from"
+        )
         self.assertEqual(len(date_ranges), 2)
 
         seq.prefix = "test-%(month)s/%(range_month)s/%(range_end_month)s-"
@@ -279,7 +295,7 @@ class TestIrSequenceRangeEndNoGap(SingleTransactionCase):
         self.assertEqual(value, f"test-09/08/10-049-22/01/31")
 
     def test_ir_sequence_range_end_6_unlink_no_gap(self):
-        seq = self.env['ir.sequence'].search([('code', '=', 'test_range_end_no_gap')])
+        seq = self.env["ir.sequence"].search([("code", "=", "test_range_end_no_gap")])
         seq.unlink()
 
 
@@ -288,50 +304,54 @@ class TestIrSequenceRangeEndChangeImplementation(SingleTransactionCase):
 
     def test_ir_sequence_range_end_1_create(self):
         """ Try to create sequence objects. """
-        seq3 = self.env['ir.sequence'].create({
-            'code': 'test_range_end_3',
-            'name': 'Test sequence 3',
-            'use_date_range': True,
-        })
+        seq3 = self.env["ir.sequence"].create(
+            {
+                "code": "test_range_end_3",
+                "name": "Test sequence 3",
+                "use_date_range": True,
+            }
+        )
         self.assertTrue(seq3)
 
-        seq4 = self.env['ir.sequence'].create({
-            'code': 'test_range_end_4',
-            'name': 'Test sequence 4',
-            'use_date_range': True,
-            'implementation': 'no_gap',
-        })
+        seq4 = self.env["ir.sequence"].create(
+            {
+                "code": "test_range_end_4",
+                "name": "Test sequence 4",
+                "use_date_range": True,
+                "implementation": "no_gap",
+            }
+        )
         self.assertTrue(seq4)
 
     def test_ir_sequence_range_end_2_use(self):
         """ Make some use of the sequences to create some subsequences """
         year = fields.Date.today().year
 
-        date1 = datetime.date(year=year-1, month=1, day=14)
+        date1 = datetime.date(year=year - 1, month=1, day=14)
         seq = self.env["ir.sequence"]
         seq1 = self.env["ir.sequence"].with_context(ir_sequence_date=date1)
 
         for i in range(1, 5):
-            value = seq.next_by_code('test_range_end_3')
+            value = seq.next_by_code("test_range_end_3")
             self.assertEqual(value, str(i))
         for i in range(1, 5):
-            value = seq1.next_by_code('test_range_end_3')
+            value = seq1.next_by_code("test_range_end_3")
             self.assertEqual(value, str(i))
         for i in range(1, 5):
-            value = seq.next_by_code('test_range_end_4')
+            value = seq.next_by_code("test_range_end_4")
             self.assertEqual(value, str(i))
         for i in range(1, 5):
-            value = seq1.next_by_code('test_range_end_4')
+            value = seq1.next_by_code("test_range_end_4")
             self.assertEqual(value, str(i))
 
     def test_ir_sequence_range_end_3_write(self):
         """swap the implementation method on both"""
-        domain = [('code', 'in', ['test_range_end_3', 'test_range_end_4'])]
-        seqs = self.env['ir.sequence'].search(domain)
-        seqs.write({'implementation': 'standard'})
-        seqs.write({'implementation': 'no_gap'})
+        domain = [("code", "in", ["test_range_end_3", "test_range_end_4"])]
+        seqs = self.env["ir.sequence"].search(domain)
+        seqs.write({"implementation": "standard"})
+        seqs.write({"implementation": "no_gap"})
 
     def test_ir_sequence_range_end_4_unlink(self):
-        domain = [('code', 'in', ['test_range_end_3', 'test_range_end_4'])]
-        seqs = self.env['ir.sequence'].search(domain)
+        domain = [("code", "in", ["test_range_end_3", "test_range_end_4"])]
+        seqs = self.env["ir.sequence"].search(domain)
         seqs.unlink()

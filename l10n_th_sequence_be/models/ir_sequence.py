@@ -6,6 +6,7 @@ class IrSequenceBe(models.Model):
     This inherited-class adds a Buddhist-Era year
     as legends for prefix and suffix of sequences.
     """
+
     _inherit = "ir.sequence"
 
     def _interpolation_dict(self, date=None, date_range=None):
@@ -24,8 +25,10 @@ class IrSequenceBe(models.Model):
             ("state", "=", "installed"),
         ]
         if self.env["ir.module.module"].search_count(domain) == 1:
-            res["range_end_year_be"] = str(int(res["range_end_year"]) + 543) \
-                if res["range_end_year"] else None
-            res["range_end_y_be"] = res["range_end_year_be"][-2:] \
-                if res["range_end_year"] else None
+            res["range_end_year_be"] = (
+                str(int(res["range_end_year"]) + 543) if res["range_end_year"] else None
+            )
+            res["range_end_y_be"] = (
+                res["range_end_year_be"][-2:] if res["range_end_year"] else None
+            )
         return res

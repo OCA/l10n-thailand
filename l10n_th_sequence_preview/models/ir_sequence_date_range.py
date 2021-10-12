@@ -1,4 +1,5 @@
-from odoo import fields, models, api
+from odoo import api, fields, models
+
 from odoo.addons.base.models.ir_sequence import _predict_nextval
 
 
@@ -25,7 +26,7 @@ class IrSequenceDateRangePreview(models.Model):
             return
 
         for seq in self:
-            if seq.sequence_id.implementation != 'standard':
+            if seq.sequence_id.implementation != "standard":
                 seq.number_next_actual = seq.number_next
             else:
                 seq_id = "%03d_%03d" % (seq.sequence_id._origin.id, seq._origin.id)

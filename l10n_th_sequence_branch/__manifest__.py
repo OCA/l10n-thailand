@@ -8,7 +8,7 @@
         "base",
         "l10n_th_partner",
         "l10n_th_sequence_refactored",
-        "l10n_th_sequence_preview"
+        "l10n_th_sequence_preview",
     ],
     "data": ["views/ir_sequence_view.xml"],
     "license": "AGPL-3",

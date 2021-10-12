@@ -10,15 +10,17 @@ class TestIrSequencePreviewStandard(SingleTransactionCase):
 
     def test_ir_sequence_preview_1_create(self):
         """ Create an ir.sequence record. """
-        seq = self.env["ir.sequence"].create({
-            "code": "test_preview",
-            "name": "Test preview",
-            "use_date_range": False,
-            "prefix": "test-%(year)s/%(y)s/%(month)s/%(day)s-",
-            "suffix": "-%(year)s/%(y)s/%(month)s/%(day)s",
-            "padding": 4,
-            "number_next_actual": 42,
-        })
+        seq = self.env["ir.sequence"].create(
+            {
+                "code": "test_preview",
+                "name": "Test preview",
+                "use_date_range": False,
+                "prefix": "test-%(year)s/%(y)s/%(month)s/%(day)s-",
+                "suffix": "-%(year)s/%(y)s/%(month)s/%(day)s",
+                "padding": 4,
+                "number_next_actual": 42,
+            }
+        )
         self.assertTrue(seq)
 
     def test_ir_sequence_preview_2_change_date(self):
@@ -72,7 +74,7 @@ class TestIrSequencePreviewStandard(SingleTransactionCase):
             self.assertEqual(value, f"test-{y}/03-00042")
 
     def test_ir_sequence_preview_4_unlink(self):
-        seq = self.env['ir.sequence'].search([('code', '=', 'test_preview')])
+        seq = self.env["ir.sequence"].search([("code", "=", "test_preview")])
         seq.unlink()
 
 
@@ -81,14 +83,16 @@ class TestIrSequencePreviewForm(SingleTransactionCase):
 
     def test_ir_sequence_preview_form_1(self):
         """ Create a server-side form with an ir.sequence record. """
-        seq = self.env["ir.sequence"].create({
-            "code": "test_preview_form",
-            "name": "Test preview",
-            "use_date_range": False,
-            "prefix": "test-%(y)s/%(month)s-",
-            "padding": 4,
-            "number_next_actual": 42,
-        })
+        seq = self.env["ir.sequence"].create(
+            {
+                "code": "test_preview_form",
+                "name": "Test preview",
+                "use_date_range": False,
+                "prefix": "test-%(y)s/%(month)s-",
+                "padding": 4,
+                "number_next_actual": 42,
+            }
+        )
         self.assertTrue(seq)
 
         year = fields.Date.today().year

@@ -1,15 +1,12 @@
-from datetime import datetime
+from odoo import models
 
-import pytz
-
-from odoo import _, api, fields, models
-from odoo.exceptions import UserError
 
 class IrSequenceQoy(models.Model):
     """
     This inherited-class adds a Budist-Era year
     as legends for prefix and suffix of sequences.
     """
+
     _inherit = "ir.sequence"
 
     def _interpolation_dict(self, date=None, date_range=None):
@@ -25,6 +22,9 @@ class IrSequenceQoy(models.Model):
             ("state", "=", "installed"),
         ]
         if self.env["ir.module.module"].search_count(domain) == 1:
-            res["range_end_qoy"] = str((int(res["range_end_month"]) - 1) // 3 + 1) \
-                if res["range_end_year"] else None
+            res["range_end_qoy"] = (
+                str((int(res["range_end_month"]) - 1) // 3 + 1)
+                if res["range_end_year"]
+                else None
+            )
         return res

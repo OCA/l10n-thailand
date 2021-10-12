@@ -17,8 +17,16 @@
                         readonly="1"
                     />
                 </xpath>
-                <xpath expr="//field[@name='date_range_ids']/tree/field[last()]" position="after">
-                    <field name="preview" string="Preview" class="oe_edit_only" readonly="1" />
+                <xpath
+                    expr="//field[@name='date_range_ids']/tree/field[last()]"
+                    position="after"
+                >
+                    <field
+                        name="preview"
+                        string="Preview"
+                        class="oe_edit_only"
+                        readonly="1"
+                    />
                 </xpath>
             </field>
         </record>

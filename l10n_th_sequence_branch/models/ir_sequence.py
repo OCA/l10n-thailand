@@ -1,15 +1,12 @@
-from datetime import datetime
+from odoo import models
 
-import pytz
-
-from odoo import _, api, fields, models
-from odoo.exceptions import UserError
 
 class IrSequenceBranch(models.Model):
     """
     This inherited-class adds company branch
     as legends for prefix and suffix of sequences.
     """
+
     _inherit = "ir.sequence"
 
     def _interpolation_dict(self, date=None, date_range=None):

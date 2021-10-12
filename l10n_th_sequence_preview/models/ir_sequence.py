@@ -1,14 +1,11 @@
-from datetime import datetime
+from odoo import api, fields, models
 
-import pytz
-
-from odoo import _, api, fields, models
-from odoo.exceptions import UserError
 
 class IrSequencePreview(models.Model):
     """
     This sub-class adds a preview field.
     """
+
     _inherit = "ir.sequence"
 
     preview = fields.Char("Preview", compute="_compute_preview")
@@ -20,4 +17,3 @@ class IrSequencePreview(models.Model):
             self.preview = None
         else:
             self.preview = self.get_next_char(self.number_next_actual)
-
