@@ -5,6 +5,8 @@ from odoo.addons.base.tests.test_ir_sequence import (
     TestIrSequenceNoGap,
     TestIrSequenceStandard,
 )
+from odoo.exceptions import UserError
+from odoo.tests import SingleTransactionCase
 
 
 class TestIrSequenceRefactoredStandard(TestIrSequenceStandard):
@@ -49,3 +51,28 @@ class TestIrSequenceRefactoredInit(TestIrSequenceInit):
     def setUp(self):
         """ Run the 'init' test """
         super(TestIrSequenceRefactoredInit, self).setUp()
+
+
+class TestIrSequenceInvalid(SingleTransactionCase):
+    """ Test with an invalid legend for prefix and suffix """
+
+    def test_ir_sequence_invalid_1(self):
+        """ Create an ir.sequence record with invalid prefix/suffix. """
+        seq = self.env["ir.sequence"].create(
+            {
+                "code": "test_invalid",
+                "name": "Test invalid",
+                "use_date_range": False,
+                "prefix": "test-%(invalid)s-",
+            }
+        )
+        self.assertTrue(seq)
+
+        with self.assertRaises(UserError):
+            self.env["ir.sequence"].next_by_code("test_invalid")
+
+        seq.prefix = None
+        seq.suffix = "-%(invalid)s"
+
+        with self.assertRaises(UserError):
+            self.env["ir.sequence"].next_by_code("test_invalid")

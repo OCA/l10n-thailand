@@ -1,7 +1,7 @@
 import datetime
 
 from odoo import fields
-from odoo.tests.common import Form, SingleTransactionCase
+from odoo.tests.common import Form, SingleTransactionCase, TransactionCase
 
 
 class TestIrSequenceDateRangePreviewStandard(SingleTransactionCase):
@@ -101,11 +101,11 @@ class TestIrSequenceDateRangePreviewStandard(SingleTransactionCase):
         seq.unlink()
 
 
-class TestIrSequenceDateRangePreviewForm(SingleTransactionCase):
+class TestIrSequenceDateRangePreviewForm(TransactionCase):
     """ Test with server-side form. """
 
-    def test_ir_sequence_date_range_preview_form_1(self):
-        """ Create a server-side form with an ir.sequence record. """
+    def test_ir_sequence_date_range_preview_form_1_update(self):
+        """ Update a server-side form with an existing ir.sequence record. """
         seq = self.env["ir.sequence"].create(
             {
                 "code": "test_date_range_preview_form",
@@ -128,6 +128,7 @@ class TestIrSequenceDateRangePreviewForm(SingleTransactionCase):
                 seq_form.date_range_ids.edit(0).preview,
                 f"test-{y-1}/11-0314",
             )
+            seq_form.save()
 
             with seq_form.date_range_ids.new() as date_range_2:
                 date_range_2.date_from = datetime.date(year=year, month=2, day=1)
@@ -137,6 +138,7 @@ class TestIrSequenceDateRangePreviewForm(SingleTransactionCase):
                 seq_form.date_range_ids.edit(1).preview,
                 f"test-{y}/02-0042",
             )
+            seq_form.save()
 
             seq_form.padding = 5
             self.assertTrue(
@@ -147,7 +149,28 @@ class TestIrSequenceDateRangePreviewForm(SingleTransactionCase):
                 seq_form.date_range_ids.edit(1).preview,
                 f"test-{y}/02-00042",
             )
+            seq_form.save()
 
+            seq_form.prefix = "test-%(range_y)s-"
+            self.assertTrue(
+                seq_form.date_range_ids.edit(0).preview,
+                f"test-{y-1}-00314",
+            )
+            self.assertTrue(
+                seq_form.date_range_ids.edit(1).preview,
+                f"test-{y}-00042",
+            )
+            seq_form.save()
+
+            seq_form.implementation = "no_gap"
+            self.assertTrue(
+                seq_form.date_range_ids.edit(0).preview,
+                f"test-{y-1}-00314",
+            )
+            self.assertTrue(
+                seq_form.date_range_ids.edit(1).preview,
+                f"test-{y}-00042",
+            )
             seq_form.save()
 
         seq.unlink()

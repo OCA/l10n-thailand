@@ -56,13 +56,12 @@ class IrSequence(models.Model):
         Override the `_get_prefix_suffix()`. This utilizes the private
         `_interpolation_dict()` instead of an inner function.
         """
-
         d = self._interpolation_dict(date=date, date_range=date_range)
 
         try:
             interpolated_prefix = (self.prefix % d) if self.prefix else ""
             interpolated_suffix = (self.suffix % d) if self.suffix else ""
-        except ValueError:
+        except KeyError:
             raise UserError(
                 _("Invalid prefix or suffix for sequence '%s'") % (self.get("name"))
             )

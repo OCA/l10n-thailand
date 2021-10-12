@@ -13,6 +13,7 @@ class IrSequenceDateRangePreview(models.Model):
         for record in self:
             record.preview = record.with_context(
                 ir_sequence_date_range=record.date_from,
+                ir_sequence_date_range_end=record.date_to,
             ).sequence_id.get_next_char(record.number_next_actual)
 
     def onchange_sequence_id(self):

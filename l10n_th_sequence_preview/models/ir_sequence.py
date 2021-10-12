@@ -10,7 +10,14 @@ class IrSequencePreview(models.Model):
 
     preview = fields.Char("Preview", compute="_compute_preview")
 
-    @api.onchange("prefix", "suffix", "padding", "use_date_range", "number_next_actual")
+    @api.onchange(
+        "prefix",
+        "suffix",
+        "padding",
+        "use_date_range",
+        "number_next_actual",
+        "implementation",
+    )
     def _compute_preview(self):
         if self.use_date_range:
             self.date_range_ids.onchange_sequence_id()
