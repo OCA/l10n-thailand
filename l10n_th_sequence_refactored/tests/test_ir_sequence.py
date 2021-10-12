@@ -1,3 +1,6 @@
+from odoo.exceptions import UserError
+from odoo.tests import SingleTransactionCase
+
 from odoo.addons.base.tests.test_ir_sequence import (
     TestIrSequenceChangeImplementation,
     TestIrSequenceGenerate,
@@ -5,8 +8,6 @@ from odoo.addons.base.tests.test_ir_sequence import (
     TestIrSequenceNoGap,
     TestIrSequenceStandard,
 )
-from odoo.exceptions import UserError
-from odoo.tests import SingleTransactionCase
 
 
 class TestIrSequenceRefactoredStandard(TestIrSequenceStandard):
