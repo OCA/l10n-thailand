@@ -63,3 +63,18 @@ class WorkAcceptance(models.Model):
             if line not in committee_lines:
                 committee_lines.append(line)
         self.work_acceptance_committee_ids = committee_lines
+
+    # @api.model
+    # def _get_under_validation_exceptions(self):
+    #     res = super()._get_under_validation_exceptions()
+    #     res.append("evaluation_result_ids")
+    #     return res
+
+    def action_view_evaluation(self):
+        self.ensure_one()
+        action = self.env.ref(
+            "l10n_th_gov_work_acceptance.action_view_wa_evaluation_result"
+        )
+        result = action.sudo().read()[0]
+        # result["domain"] = [("wa_id", "=", self.id)]
+        return result
