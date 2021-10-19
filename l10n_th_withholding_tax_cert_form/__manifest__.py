@@ -18,6 +18,8 @@
         "data/paper_format.xml",
         "reports/withholding_tax_cert_form_view.xml",
         "reports/withholding_tax_cert_form.xml",
+        "data/mail_template.xml",
+        "data/withholding_tax_cert_data.xml",
     ],
     "installable": True,
 }
