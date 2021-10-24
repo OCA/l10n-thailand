@@ -3,3 +3,4 @@
 
 from . import tax_report
 from . import tax_report_xlsx
+from . import report_wht_xlsx

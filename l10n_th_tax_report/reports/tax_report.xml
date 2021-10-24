@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template
         id="assets_backend"
@@ -12,6 +13,10 @@
             <script
                 type="text/javascript"
                 src="/l10n_th_tax_report/static/src/js/l10n_th_tax_report_backend.js"
+            />
+            <script
+                type="text/javascript"
+                src="/l10n_th_tax_report/static/src/js/withholding_tax_report_widgets.js"
             />
         </xpath>
     </template>

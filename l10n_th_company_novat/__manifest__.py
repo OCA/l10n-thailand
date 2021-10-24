@@ -13,8 +13,8 @@
         "sale",
         "purchase",
         "account",
-        "l10n_th_withholding_tax",
-        "l10n_th_expense_withholding_tax",
+        "l10n_th_tax",
+        "l10n_th_tax_expense",
     ],
     "data": [
         "views/res_company_view.xml",

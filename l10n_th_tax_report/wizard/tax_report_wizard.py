@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
 from odoo import fields, models
-from odoo.tools.safe_eval import safe_eval
 
 
 class TaxReportWizard(models.TransientModel):
@@ -35,9 +34,7 @@ class TaxReportWizard(models.TransientModel):
         self.ensure_one()
         action = self.env.ref("l10n_th_tax_report.action_report_tax_report_html")
         vals = action.read()[0]
-        context1 = vals.get("context", {})
-        if context1:
-            context1 = safe_eval(context1)
+        context1 = {"active_model": "report.tax.report"}
         model = self.env["report.tax.report"]
         report = model.create(self._prepare_tax_report())
         context1["active_id"] = report.id

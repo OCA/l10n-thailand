@@ -1,4 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    <!-- PDF REPORTS : Paperformat Tax -->
     <record id="paperformat_tax_report" model="report.paperformat">
         <field name="name">TAX Report A4</field>
         <field name="default" eval="True" />
