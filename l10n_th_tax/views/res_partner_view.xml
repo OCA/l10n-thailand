@@ -9,7 +9,7 @@
                 <button
                     class="oe_stat_button"
                     name="button_wht_certs"
-                    string="WT Certs"
+                    string="WHT Certs"
                     type="object"
                     groups="account.group_account_invoice"
                     attrs="{'invisible':[('pit_move_ids','=',[])]}"

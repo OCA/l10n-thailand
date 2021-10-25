@@ -48,10 +48,10 @@ class PersonalIncomeTax(models.Model):
                     )
                 prev_income_to = rate.income_to
 
-    def _compute_total_wt(self, rate_amount, tax_rate):
+    def _compute_total_wht(self, rate_amount, tax_rate):
         return rate_amount * (tax_rate / 100)
 
-    def calculate_rate_wt(self, total_income, income, pit_date=False):
+    def calculate_rate_wht(self, total_income, income, pit_date=False):
         self.ensure_one()
         if not pit_date:
             pit_date = fields.Date.context_today(self)
@@ -67,22 +67,22 @@ class PersonalIncomeTax(models.Model):
             if income > rate_amount and income_residual >= rate_amount:
                 total_income_residual -= rate_amount
                 income_residual -= rate_amount
-                current_amount += self._compute_total_wt(
+                current_amount += self._compute_total_wht(
                     rate_amount, rate_range.tax_rate
                 )
             else:
-                current_amount += self._compute_total_wt(
+                current_amount += self._compute_total_wht(
                     income_residual, rate_range.tax_rate
                 )
                 break
         return current_amount
 
-    def _compute_expected_wt(
+    def _compute_expected_wht(
         self, partner, base_amount, pit_date=False, currency=False, company=False
     ):
         """Calc PIT amount of a partner's yearly income
         - if pit_date=False, pit_date is today
-        - if currency=False, base_amount, and expected_wt are in company currency
+        - if currency=False, base_amount, and expected_wht are in company currency
         - if company=False, company is currency user's company
         """
         self.ensure_one()
@@ -100,12 +100,14 @@ class PersonalIncomeTax(models.Model):
         )
         # Calculate PIT amount from PIT Rate Table
         total_pit = pit_amount_year + base_amount
-        expected_wt = self.calculate_rate_wt(total_pit, base_amount, pit_date=pit_date)
-        # From company currency to currency of base_amount
-        expected_wt = company.currency_id._convert(
-            expected_wt, currency, company, pit_date
+        expected_wht = self.calculate_rate_wht(
+            total_pit, base_amount, pit_date=pit_date
         )
-        return expected_wt
+        # From company currency to currency of base_amount
+        expected_wht = company.currency_id._convert(
+            expected_wht, currency, company, pit_date
+        )
+        return expected_wht
 
     @api.model
     def _get_pit_amount_yearly(self, partner, pit_date=False):

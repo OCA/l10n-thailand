@@ -127,7 +127,7 @@ class AccountMoveLine(models.Model):
     )
     wht_tax_id = fields.Many2one(
         comodel_name="account.withholding.tax",
-        string="WT",
+        string="WHT",
         compute="_compute_wht_tax_id",
         store=True,
         readonly=False,
@@ -179,12 +179,12 @@ class AccountMoveLine(models.Model):
             if len(wht_tax) != 1:
                 return (0, 0)
             amount_base = 0
-            amount_wt = 0
+            amount_wht = 0
             for line in wht_lines:
                 base_amount = line._get_wht_base_amount(currency, wht_date)
-                amount_wt += line.wht_tax_id.amount / 100 * base_amount
+                amount_wht += line.wht_tax_id.amount / 100 * base_amount
                 amount_base += base_amount
-            return (amount_base, amount_wt)
+            return (amount_base, amount_wht)
         # PIT
         if pit_lines:
             pit_tax = pit_lines.mapped("wht_tax_id")
@@ -204,14 +204,14 @@ class AccountMoveLine(models.Model):
                     _("No effective PIT rate for date %s")
                     % format_date(self.env, wht_date)
                 )
-            amount_wt = effective_pit._compute_expected_wt(
+            amount_wht = effective_pit._compute_expected_wht(
                 partner,
                 amount_base,
                 pit_date=wht_date,
                 currency=currency,
                 company=company,
             )
-            return (amount_base, amount_wt)
+            return (amount_base, amount_wht)
 
     def _checkout_tax_invoice_amount(self):
         for line in self:
@@ -291,7 +291,7 @@ class AccountMove(models.Model):
     wht_cert_cancel = fields.Boolean(
         compute="_compute_wht_cert_cancel",
         store=True,
-        help="This document has WT Cert(s) and all are cancelled or not WT Cert",
+        help="This document has WHT Cert(s) and all are cancelled or not WHT Cert",
     )
 
     @api.depends("wht_cert_ids.state")

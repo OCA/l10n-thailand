@@ -35,7 +35,7 @@ class CreatePITWithholdingTaxCert(models.TransientModel):
                     "wht_cert_income_type": line.wht_cert_income_type,
                     "wht_cert_income_desc": select_dict[line.wht_cert_income_type],
                     "base": line.amount_income,
-                    "amount": abs(line.amount_wt),
+                    "amount": abs(line.amount_wht),
                 }
             )
 

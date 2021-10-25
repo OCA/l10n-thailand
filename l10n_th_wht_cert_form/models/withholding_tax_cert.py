@@ -9,7 +9,7 @@ class WithholdingTaxCert(models.Model):
 
     def _get_report_base_filename(self):
         self.ensure_one()
-        return "WT Certificates - {}".format(self.display_name)
+        return "WHT Certificates - {}".format(self.display_name)
 
     def _compute_desc_type_other(self, lines, ttype, income_type):
         base_type_other = lines.filtered(

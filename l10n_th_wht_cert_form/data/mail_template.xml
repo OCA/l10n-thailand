@@ -33,6 +33,6 @@
         />
         <field
             name="report_name"
-        >WT Certificates - ${(object.name or '').replace('/','-')}</field>
+        >WHT Certificates - ${(object.name or '').replace('/','-')}</field>
     </record>
 </odoo>

@@ -41,7 +41,7 @@ class PersonalIncomeTaxMove(models.Model):
         string="Income",
         required=True,
     )
-    amount_wt = fields.Monetary(string="Withholding Amount")
+    amount_wht = fields.Monetary(string="Withholding Amount")
     wht_tax_id = fields.Many2one(
         comodel_name="account.withholding.tax",
         index=True,

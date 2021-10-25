@@ -9,9 +9,9 @@ from odoo.tools.misc import format_date
 class AccountPaymentRegister(models.TransientModel):
     _inherit = "account.payment.register"
 
-    def _update_payment_register(self, amount_base, amount_wt, wht_move_lines):
+    def _update_payment_register(self, amount_base, amount_wht, wht_move_lines):
         updated = super()._update_payment_register(
-            amount_base, amount_wt, wht_move_lines
+            amount_base, amount_wht, wht_move_lines
         )
         if not updated and len(wht_move_lines) > 1:  # good for multi deduct
             self.payment_difference_handling = "reconcile_multi_deduct"
@@ -36,16 +36,16 @@ class AccountPaymentRegister(models.TransientModel):
                     wht_tax_lines = move_lines.filtered(
                         lambda l: l.wht_tax_id == wht_tax
                     )
-                    amount_base, amount_wt = wht_tax_lines._get_wht_amount(
+                    amount_base, amount_wht = wht_tax_lines._get_wht_amount(
                         self.currency_id, self.payment_date
                     )
-                    amount_deduct += amount_wt
+                    amount_deduct += amount_wht
                     deduct = {
                         "wht_amount_base": amount_base,
                         "wht_tax_id": wht_tax.id,
                         "account_id": wht_tax.account_id.id,
                         "name": wht_tax.display_name,
-                        "amount": amount_wt,
+                        "amount": amount_wht,
                     }
                     deductions.append((0, 0, deduct))
                 self.deduction_ids = deductions
@@ -123,8 +123,8 @@ class AccountPaymentDeduction(models.TransientModel):
 
     def _onchange_wht(self):
         """ Onchange set for normal withholding tax """
-        amount_wt = self.wht_tax_id.amount / 100 * self.wht_amount_base
-        self.amount = amount_wt
+        amount_wht = self.wht_tax_id.amount / 100 * self.wht_amount_base
+        self.amount = amount_wht
         self.account_id = self.wht_tax_id.account_id
         self.name = self.wht_tax_id.display_name
 
@@ -143,7 +143,7 @@ class AccountPaymentDeduction(models.TransientModel):
             company,
             payment.payment_date,
         )
-        amount_pit_company = self.wht_tax_id.pit_id._compute_expected_wt(
+        amount_pit_company = self.wht_tax_id.pit_id._compute_expected_wht(
             payment.partner_id,
             amount_base_company,
             pit_date=payment.payment_date,

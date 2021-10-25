@@ -92,7 +92,7 @@ class WithHoldingTaxReport(models.TransientModel):
         self.ensure_one()
         pnd = INCOME_TAX_FORM[self.income_tax_form]
         date_format = self.format_date()
-        return "WT-{}-{}".format(pnd, date_format)
+        return "WHT-{}-{}".format(pnd, date_format)
 
     def print_report(self, report_type="qweb"):
         self.ensure_one()

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="withholding_tax_pdf_report" model="ir.actions.report">
-        <field name="name">WT Certificates (pdf)</field>
+        <field name="name">WHT Certificates (pdf)</field>
         <field name="model">withholding.tax.cert</field>
         <field name="report_name">l10n_th_wht_cert_form.wht_cert_form</field>
         <field name="report_file">l10n_th_wht_cert_form.wht_cert_form</field>

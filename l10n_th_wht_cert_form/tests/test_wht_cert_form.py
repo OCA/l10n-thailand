@@ -5,7 +5,7 @@ from odoo import fields
 from odoo.tests.common import SingleTransactionCase
 
 
-class TestWTCertForm(SingleTransactionCase):
+class TestWHTCertForm(SingleTransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -43,7 +43,7 @@ class TestWTCertForm(SingleTransactionCase):
         content = self.withholdin_tax_cert_form._render_qweb_pdf(wht_cert.id)
         self.assertEqual(content[1], "html")
         # check report name pdf
-        # display name is False because create wt direct.
+        # display name is False because create wht direct.
         self.assertEqual(
-            wht_cert._get_report_base_filename(), "WT Certificates - False"
+            wht_cert._get_report_base_filename(), "WHT Certificates - False"
         )

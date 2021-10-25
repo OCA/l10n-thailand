@@ -13,7 +13,7 @@ class HrExpense(models.Model):
     )
     wht_tax_id = fields.Many2one(
         comodel_name="account.withholding.tax",
-        string="WT",
+        string="WHT",
         compute="_compute_wht_tax_id",
         store=True,
         readonly=False,

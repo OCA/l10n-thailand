@@ -97,7 +97,7 @@ class WithholdingTaxCert(models.Model):
     ref_wht_cert_id = fields.Many2one(
         string="Ref WHT Cert.",
         comodel_name="withholding.tax.cert",
-        help="This field related from Old WT Cert.",
+        help="This field related from Old WHT Cert.",
     )
     payment_id = fields.Many2one(
         comodel_name="account.payment",
@@ -198,7 +198,7 @@ class WithholdingTaxCert(models.Model):
         if wht_account_ids:
             wht_reference = Cert.browse(wht_ref_id)
             for record in self:
-                # Hook to find wt move lines
+                # Hook to find wht move lines
                 wht_move_lines = record._get_wht_move_line(
                     record.payment_id, record.move_id, wht_account_ids
                 )
@@ -272,7 +272,7 @@ class WithholdingTaxCert(models.Model):
         self.write({"state": "cancel"})
         return True
 
-    def _get_wth_cert_model_view(self):
+    def _get_wht_cert_model_view(self):
         res_model = "create.withholding.tax.cert"
         view = "l10n_th_tax.create_withholding_tax_cert"
         if len(self._context.get("active_ids")) > 1:
@@ -284,7 +284,7 @@ class WithholdingTaxCert(models.Model):
         """ This function is called from either account.move or account.payment """
         if not self._context.get("active_ids"):
             return
-        res_model, view_id = self._get_wth_cert_model_view()
+        res_model, view_id = self._get_wht_cert_model_view()
         return {
             "name": _("Create Withholding Tax Cert."),
             "res_model": res_model,
@@ -328,7 +328,7 @@ class WithholdingTaxCertLine(models.Model):
         comodel_name="account.move.line",
         string="Ref Journal Item",
         readonly=False,
-        help="Reference back to journal item which create wt move",
+        help="Reference back to journal item which create wht move",
     )
     company_id = fields.Many2one(
         comodel_name="res.company", related="cert_id.company_id"
@@ -343,7 +343,7 @@ class WithholdingTaxCertLine(models.Model):
                 and float_compare(rec.amount, rec.base * rec.wht_percent / 100, prec)
                 != 0
             ):
-                raise ValidationError(_("WT Base/Percent/Tax mismatch!"))
+                raise ValidationError(_("WHT Base/Percent/Tax mismatch!"))
 
     @api.onchange("wht_cert_income_type")
     def _onchange_wht_cert_income_type(self):

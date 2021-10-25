@@ -7,7 +7,7 @@ class AccountAccount(models.Model):
     _inherit = "account.account"
 
     wht_account = fields.Boolean(
-        string="WT Account",
+        string="WHT Account",
         default=False,
         help="If check, this account is for withholding tax",
     )

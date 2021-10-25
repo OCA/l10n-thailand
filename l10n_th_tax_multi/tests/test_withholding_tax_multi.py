@@ -21,7 +21,7 @@ class TestWithholdingTax(SavepointCase):
         cls.payment_register = cls.env["account.payment.register"]
         cls.account_account = cls.env["account.account"]
         cls.account_journal = cls.env["account.journal"]
-        cls.account_wtax = cls.env["account.withholding.tax"]
+        cls.account_wht = cls.env["account.withholding.tax"]
         cls.wht_account = cls.account_account.create(
             {
                 "code": "X152000",
@@ -30,14 +30,14 @@ class TestWithholdingTax(SavepointCase):
                 "wht_account": True,
             }
         )
-        cls.wht_3 = cls.account_wtax.create(
+        cls.wht_3 = cls.account_wht.create(
             {
                 "name": "Withholding Tax 3%",
                 "account_id": cls.wht_account.id,
                 "amount": 3,
             }
         )
-        cls.wht_5 = cls.account_wtax.create(
+        cls.wht_5 = cls.account_wht.create(
             {
                 "name": "Withholding Tax 5%",
                 "account_id": cls.wht_account.id,
@@ -81,7 +81,7 @@ class TestWithholdingTax(SavepointCase):
         multi=False,
     ):
         invoice_dict = {
-            "name": "Test Supplier Invoice WT",
+            "name": "Test Supplier Invoice WHT",
             "partner_id": partner_id,
             "journal_id": journal_id,
             "move_type": invoice_type,

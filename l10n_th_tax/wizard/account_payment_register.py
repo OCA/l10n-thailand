@@ -28,14 +28,14 @@ class AccountPaymentRegister(models.TransientModel):
 
     def _onchange_wht(self):
         """ Onchange set for normal withholding tax """
-        amount_wt = self.wht_tax_id.amount / 100 * self.wht_amount_base
+        amount_wht = self.wht_tax_id.amount / 100 * self.wht_amount_base
         amount_currency = self.company_id.currency_id._convert(
             self.source_amount,
             self.currency_id,
             self.company_id,
             self.payment_date,
         )
-        self.amount = amount_currency - amount_wt
+        self.amount = amount_currency - amount_wht
         self.writeoff_account_id = self.wht_tax_id.account_id
         self.writeoff_label = self.wht_tax_id.display_name
 
@@ -52,7 +52,7 @@ class AccountPaymentRegister(models.TransientModel):
             self.company_id,
             self.payment_date,
         )
-        amount_pit_company = self.wht_tax_id.pit_id._compute_expected_wt(
+        amount_pit_company = self.wht_tax_id.pit_id._compute_expected_wht(
             self.partner_id,
             amount_base_company,
             pit_date=self.payment_date,
@@ -82,11 +82,11 @@ class AccountPaymentRegister(models.TransientModel):
             payment_vals.update({"wht_tax_id": self.wht_tax_id.id})
         return payment_vals
 
-    def _update_payment_register(self, amount_base, amount_wt, wht_move_lines):
+    def _update_payment_register(self, amount_base, amount_wht, wht_move_lines):
         self.ensure_one()
         if not amount_base:
             return False
-        self.amount -= amount_wt
+        self.amount -= amount_wht
         self.wht_amount_base = amount_base
         self.payment_difference_handling = "reconcile"
         wht_tax = wht_move_lines.mapped("wht_tax_id")
@@ -115,10 +115,10 @@ class AccountPaymentRegister(models.TransientModel):
                 return res
             # Case WHT only, ensure only 1 wizard
             self.ensure_one()
-            amount_base, amount_wt = wht_move_lines._get_wht_amount(
+            amount_base, amount_wht = wht_move_lines._get_wht_amount(
                 self.currency_id, self.payment_date
             )
-            self._update_payment_register(amount_base, amount_wt, wht_move_lines)
+            self._update_payment_register(amount_base, amount_wht, wht_move_lines)
         return res
 
     @api.model
@@ -171,10 +171,10 @@ class AccountPaymentRegister(models.TransientModel):
         self, partner, date, wht_tax, base, amount, currency, company
     ):
         amount_income = currency._convert(base, company.currency_id, company, date)
-        amount_wt = currency._convert(amount, company.currency_id, company, date)
+        amount_wht = currency._convert(amount, company.currency_id, company, date)
         return {
             "partner_id": partner.id,
             "amount_income": amount_income,
             "wht_tax_id": wht_tax.id,
-            "amount_wt": amount_wt,
+            "amount_wht": amount_wht,
         }

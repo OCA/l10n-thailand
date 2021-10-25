@@ -139,7 +139,7 @@
         </field>
     </record>
     <record id="action_withholding_tax_cert_menu" model="ir.actions.act_window">
-        <field name="name">WT Certificates</field>
+        <field name="name">WHT Certificates</field>
         <field name="res_model">withholding.tax.cert</field>
         <field name="view_id" ref="view_withholding_tax_cert_tree" />
     </record>

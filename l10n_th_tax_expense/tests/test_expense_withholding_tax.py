@@ -17,7 +17,7 @@ class TestHrExpenseWithholdingTax(common.SavepointCase):
         cls.account_payment_register = cls.env["account.payment.register"]
         cls.account_account = cls.env["account.account"]
         cls.account_journal = cls.env["account.journal"]
-        cls.account_wtax = cls.env["account.withholding.tax"]
+        cls.account_wht = cls.env["account.withholding.tax"]
         cls.expense = cls.env["hr.expense"]
 
         cls.journal_bank = cls.account_journal.search([("type", "=", "bank")], limit=1)
@@ -29,7 +29,7 @@ class TestHrExpenseWithholdingTax(common.SavepointCase):
                 "wht_account": True,
             }
         )
-        cls.wht_1 = cls.account_wtax.create(
+        cls.wht_1 = cls.account_wht.create(
             {
                 "name": "Withholding Tax 1%",
                 "account_id": cls.wht_account.id,
@@ -44,7 +44,7 @@ class TestHrExpenseWithholdingTax(common.SavepointCase):
         cls.expense_sheet = cls._create_expense_sheet(
             cls, "Buy service 1,000", cls.employee, cls.product_1, 1000.0
         )
-        # Create expense wt cert 1,000
+        # Create expense wht cert 1,000
         cls.expense_sheet_wht_cert = cls._create_expense_sheet(
             cls, "Buy service 1,000", cls.employee, cls.product_1, 1000.0, cls.wht_1
         )

@@ -63,7 +63,7 @@ class TestWithholdingTaxReport(SavepointCase):
         )
         withholding_tax_report._compute_results()
         report_name = withholding_tax_report._get_report_base_filename()
-        self.assertEqual(report_name, "WT-P03-%s01" % (self.year + 543))
+        self.assertEqual(report_name, "WHT-P03-%s01" % (self.year + 543))
         text = withholding_tax_report._create_text(withholding_tax_report)
         if text:
             text.split("|")

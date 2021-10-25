@@ -25,7 +25,7 @@ Thai Localization - Withholding Tax Certificate Form
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-This module add the Thailand standard withholding tax cert report to the WT Certificates menu.
+This module add the Thailand standard withholding tax cert report to the WHT Certificates menu.
 
 This module used :
 
@@ -39,8 +39,8 @@ This module used :
 Usage
 =====
 
-#. Go to *Invoicing > Vendors > WT Certificates*
-#. Select document > Print 'WT Certificates (pdf)'
+#. Go to *Invoicing > Vendors > WHT Certificates*
+#. Select document > Print 'WHT Certificates (pdf)'
 
 Bug Tracker
 ===========

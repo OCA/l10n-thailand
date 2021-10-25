@@ -73,10 +73,10 @@ class CreateWithholdingTaxCert(models.TransientModel):
                 }
             )
         else:
-            payment_wt = object_id.move_id.line_ids.filtered(
+            payment_wht = object_id.move_id.line_ids.filtered(
                 lambda l: l.account_id.id in self.wht_account_ids.ids
             )
-            if not payment_wt:
+            if not payment_wht:
                 raise UserError(
                     _(
                         "Can not create withholding tax cert. Selected account "
@@ -89,7 +89,7 @@ class CreateWithholdingTaxCert(models.TransientModel):
                     "wht_account_ids": self.wht_account_ids.ids,
                 }
             )
-        # Substitute WT Cert
+        # Substitute WHT Cert
         if self.substitute:
             ctx.update({"wht_ref_id": self.wht_cert_id.id})
         # Other defaults

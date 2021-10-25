@@ -133,7 +133,7 @@ class TestWithholdingTaxPIT(TransactionCase):
         wizard.action_create_payments()
         # PIT created but not PIT amount yet.
         self.assertEqual(sum(self.partner.pit_move_ids.mapped("amount_income")), 500)
-        self.assertEqual(sum(self.partner.pit_move_ids.mapped("amount_wt")), 0)
+        self.assertEqual(sum(self.partner.pit_move_ids.mapped("amount_wht")), 0)
 
         # 2nd invoice
         data = [{"amount": 1000, "pit": True}]
@@ -145,7 +145,7 @@ class TestWithholdingTaxPIT(TransactionCase):
         wizard.action_create_payments()
         # Sum up amount_income and withholding amount = 10
         self.assertEqual(sum(self.partner.pit_move_ids.mapped("amount_income")), 1500)
-        self.assertEqual(sum(self.partner.pit_move_ids.mapped("amount_wt")), 10)
+        self.assertEqual(sum(self.partner.pit_move_ids.mapped("amount_wht")), 10)
 
         # 3nd invoice
         data = [{"amount": 1000, "pit": True}]
@@ -157,13 +157,13 @@ class TestWithholdingTaxPIT(TransactionCase):
         res = wizard.action_create_payments()
         # Sum up amount_income and withholding amount = 10 + 30 = 40
         self.assertEqual(sum(self.partner.pit_move_ids.mapped("amount_income")), 2500)
-        self.assertEqual(sum(self.partner.pit_move_ids.mapped("amount_wt")), 40)
+        self.assertEqual(sum(self.partner.pit_move_ids.mapped("amount_wht")), 40)
         # Cancel payment
         payment = self.env[res["res_model"]].browse(res["res_id"])
-        self.assertEqual(sum(payment.pit_move_ids.mapped("amount_wt")), 30)
+        self.assertEqual(sum(payment.pit_move_ids.mapped("amount_wht")), 30)
         payment.action_cancel()
-        self.assertEqual(sum(payment.pit_move_ids.mapped("amount_wt")), 0)
+        self.assertEqual(sum(payment.pit_move_ids.mapped("amount_wht")), 0)
         # Test calling report for this partner, to get remaining = 10
         res = self.partner.action_view_pit_move_yearly_summary()
         moves = self.env[res["res_model"]].search(res["domain"])
-        self.assertEqual(sum(moves.mapped("amount_wt")), 10)
+        self.assertEqual(sum(moves.mapped("amount_wht")), 10)

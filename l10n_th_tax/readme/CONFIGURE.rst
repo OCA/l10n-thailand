@@ -23,7 +23,7 @@ when create certificate from payment.
 
 * Go to Invoicing > Configuration > Accounting > Chart of Accounts
 * Search for withholding tax related account
-* Check "WT Account"
+* Check "WHT Account"
 * Go to Invoicing > Configuration > Invoicing > Withholding Tax
 * Create withholding Tax (normal and personal income tax)
 

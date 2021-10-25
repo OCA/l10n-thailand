@@ -52,7 +52,7 @@ class AccountPayment(models.Model):
     wht_cert_cancel = fields.Boolean(
         compute="_compute_wht_cert_cancel",
         store=True,
-        help="This document has WT Cert(s) and all are cancelled or not WT Cert",
+        help="This document has WHT Cert(s) and all are cancelled or not WHT Cert",
     )
 
     @api.depends("wht_cert_ids.state")
@@ -108,7 +108,7 @@ class AccountPayment(models.Model):
                 line.copy(
                     {
                         "amount_income": -line.amount_income,
-                        "amount_wt": -line.amount_wt,
+                        "amount_wht": -line.amount_wht,
                     }
                 )
                 line.cancelled = True

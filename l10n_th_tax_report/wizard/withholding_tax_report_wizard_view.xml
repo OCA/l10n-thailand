@@ -44,7 +44,7 @@
         </field>
     </record>
     <record id="action_withholding_tax_report_wizard" model="ir.actions.act_window">
-        <field name="name">WT Income Tax Report</field>
+        <field name="name">WHT Income Tax Report</field>
         <field name="res_model">withholding.tax.report.wizard</field>
         <field name="view_mode">form</field>
         <field name="view_id" ref="view_withholding_tax_report_wizard" />

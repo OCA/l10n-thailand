@@ -1,2 +1,2 @@
-#. Go to *Invoicing > Vendors > WT Certificates*
-#. Select document > Print 'WT Certificates (pdf)'
+#. Go to *Invoicing > Vendors > WHT Certificates*
+#. Select document > Print 'WHT Certificates (pdf)'

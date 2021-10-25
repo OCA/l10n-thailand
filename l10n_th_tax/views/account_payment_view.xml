@@ -11,7 +11,7 @@
                 <button
                     class="oe_stat_button"
                     name="button_wht_certs"
-                    string="WT Certs"
+                    string="WHT Certs"
                     type="object"
                     groups="account.group_account_invoice"
                     attrs="{'invisible':[('wht_cert_ids','=',[])]}"
@@ -93,7 +93,7 @@
                             <field name="partner_id" readonly="1" />
                             <field name="wht_cert_income_type" />
                             <field name="amount_income" />
-                            <field name="amount_wt" />
+                            <field name="amount_wht" />
                             <field name="is_pit" />
                         </tree>
                     </field>

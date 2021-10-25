@@ -19,7 +19,7 @@ class TestCompanyNoVat(SavepointCase):
         cls.account_payment_register = cls.env["account.payment.register"]
         cls.account_account = cls.env["account.account"]
         cls.account_journal = cls.env["account.journal"]
-        cls.account_wtax = cls.env["account.withholding.tax"]
+        cls.account_wht = cls.env["account.withholding.tax"]
         cls.wht_account = cls.account_account.create(
             {
                 "code": "X152000",
@@ -28,7 +28,7 @@ class TestCompanyNoVat(SavepointCase):
                 "wht_account": True,
             }
         )
-        cls.wht_1 = cls.account_wtax.create(
+        cls.wht_1 = cls.account_wht.create(
             {
                 "name": "Withholding Tax 1%",
                 "account_id": cls.wht_account.id,
@@ -71,7 +71,7 @@ class TestCompanyNoVat(SavepointCase):
         tax=False,
     ):
         invoice_dict = {
-            "name": "Test Supplier Invoice WT",
+            "name": "Test Supplier Invoice WHT",
             "partner_id": partner_id,
             "journal_id": journal_id,
             "move_type": invoice_type,
@@ -136,7 +136,7 @@ class TestCompanyNoVat(SavepointCase):
             self.expense_account.id,
             price_unit,
         )
-        # Assign WT
+        # Assign WHT
         invoice.invoice_line_ids.write({"wht_tax_id": self.wht_1.id})
         # partner No-VAT, no special whtvat
         whtvat = invoice.invoice_line_ids[:1].whtvat
@@ -171,7 +171,7 @@ class TestCompanyNoVat(SavepointCase):
             self.expense_account.id,
             price_unit,
         )
-        # Assign WT
+        # Assign WHT
         invoice.invoice_line_ids.write({"wht_tax_id": self.wht_1.id})
         # partner No-VAT, no special whtvat
         whtvat = invoice.invoice_line_ids[:1].whtvat
