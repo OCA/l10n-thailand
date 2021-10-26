@@ -113,3 +113,18 @@ class AccountPayment(models.Model):
                 )
                 line.cancelled = True
         return res
+    
+    def _update_partner_move_line_writeoff(self, line_vals_list, write_off_line):
+        for line in line_vals_list:
+            if line["name"] == write_off_line["name"] and write_off_line.get("partner_id", False):
+                line["partner_id"] = write_off_line["partner_id"]
+
+    def _prepare_move_line_default_vals(self, write_off_line_vals=None):
+        """ Overwrite default partner_id from write_off_line """
+        line_vals_list = super()._prepare_move_line_default_vals(write_off_line_vals)
+        if isinstance(write_off_line_vals, list) and write_off_line_vals:
+            for write_off_line in write_off_line_vals:
+                self._update_partner_move_line_writeoff(line_vals_list, write_off_line)
+        elif isinstance(write_off_line_vals, dict) and write_off_line_vals:
+                self._update_partner_move_line_writeoff(line_vals_list, write_off_line_vals)
+        return line_vals_list

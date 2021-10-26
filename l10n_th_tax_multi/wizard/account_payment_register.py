@@ -58,6 +58,7 @@ class AccountPaymentRegister(models.TransientModel):
         res = super()._prepare_deduct_move_line(deduct)
         res.update(
             {
+                "partner_id": deduct.partner_id.id,
                 "wht_tax_id": deduct.wht_tax_id.id,
                 "wht_amount_base": deduct.wht_amount_base,
             }
@@ -104,6 +105,9 @@ class AccountPaymentDeduction(models.TransientModel):
     wht_amount_base = fields.Monetary(
         string="Withholding Base",
         help="Based amount for the tax amount",
+    )
+    partner_id = fields.Many2one(
+        comodel_name="res.partner"
     )
 
     @api.onchange("open")

@@ -12,6 +12,7 @@
                 expr="//field[@name='deduction_ids']/tree/field[@name='account_id']"
                 position="before"
             >
+                <field name="partner_id" />
                 <field name="wht_tax_id" string="WHT" />
                 <field name="wht_amount_base" string="Base" />
             </xpath>
