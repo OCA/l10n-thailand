@@ -37,8 +37,8 @@ class CreateWithholdingTaxCert(models.TransientModel):
     @api.model
     def default_get(self, fields):
         res = super().default_get(fields)
-        model = self._context.get("active_model", False)
-        for active_id in self._context.get("active_ids", []):
+        model = self.env.context_context.get("active_model", False)
+        for active_id in self.env.context.get("active_ids", []):
             if model == "account.move":
                 move = self.env[model].browse(active_id)
                 if move.move_type != "entry":
@@ -59,7 +59,7 @@ class CreateWithholdingTaxCert(models.TransientModel):
 
     def create_wht_cert(self):
         self.ensure_one()
-        ctx = self._context.copy()
+        ctx = self.env.context.copy()
         model = ctx.get("active_model", False)
         active_id = ctx.get("active_id")
         object_id = self.env[model].browse(active_id)
@@ -108,7 +108,7 @@ class CreateWithholdingTaxCert(models.TransientModel):
         }
 
     def create_wht_cert_multi(self):
-        ctx = self._context.copy()
+        ctx = self.env.context.copy()
         active_ids = ctx.get("active_ids")
         Cert = self.env["withholding.tax.cert"]
         cert_ids = []
