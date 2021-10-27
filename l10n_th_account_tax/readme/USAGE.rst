@@ -1,3 +1,6 @@
+Tax Invoice
+===========
+
 With this, 2 new tax related fields will be introduced in account.move.tax.invoice
 
 1. tax_invoice_number : Tax Invoice Number
@@ -7,14 +10,6 @@ In customer invoice, both field will be defaulted by Odoo's document number and 
 But in supplier invoice, both field must be filled by user with tax invoice number and date from vendor.
 
 Note: The new table account.move.tax.invoice is the main source of Thai VAT Report
-
-**Preparing Undue Tax**
-
-- Use Developer Mode
-- In Chart of Account, add new account for Undue Tax, if not already exists.
-- As admin, add access rights ``Show Full Accounting Features``
-- Go to Invoicing > Configuration > Settings and select ``Cash Basis``, this will open cash basis options in Tax master data
-- Go to Invoicing > Configuration > Accounting > Taxes, create new undue tax for both sales and purchase
 
 **Case Customer Invoice and Payment**
 
@@ -37,3 +32,20 @@ Note: The new table account.move.tax.invoice is the main source of Thai VAT Repo
 - From this process, the journal entry (cash basis) for clear undue is created, but it will be in state **Draft**
 - Go to payment document, in tax invoice tab, fill in Tax Invoice Number and Tax Date
 - Click on Clear VAT button, the journal entry (cash basis) for clear undue will now be **Posted**
+
+Withholding Tax
+===============
+
+From bills / invoices that require withheld tax,
+
+- Create invoice and Fill withholding tax in Field WT at Invoice Lines tab.
+- Post > Register Payment.
+- System will auto computed amount include withholding tax.
+
+**Note**
+
+- if you configured withholding tax on product, it fill withholding tax in field WT automatic.
+- for invoices with withholding tax,
+
+    - you can't make payment to multiple invoices belongs to multiple partners.
+    - you can only make payment to multiple invoices belongs to the same partner (using Group Payments).
