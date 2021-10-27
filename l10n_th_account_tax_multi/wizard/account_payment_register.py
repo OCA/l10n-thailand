@@ -22,8 +22,8 @@ class AccountPaymentRegister(models.TransientModel):
     def _onchange_payment_difference_handling(self):
         if not self.payment_difference_handling == "reconcile_multi_deduct":
             return
-        if self._context.get("active_model") == "account.move":
-            active_ids = self._context.get("active_ids", [])
+        if self.env.context.get("active_model") == "account.move":
+            active_ids = self.env.context.get("active_ids", [])
             moves = self.env["account.move"].browse(active_ids)
             move_lines = moves.mapped("line_ids").filtered("wht_tax_id")
             if move_lines:
@@ -33,6 +33,18 @@ class AccountPaymentRegister(models.TransientModel):
                 amount_deduct = 0
                 wht_taxes = move_lines.mapped("wht_tax_id")
                 for wht_tax in wht_taxes:
+                    # Get partner, if any (try with expense case first)
+                    wht_move_lines = move_lines.filtered(
+                        lambda l: l.wht_tax_id == wht_tax
+                    )
+                    if hasattr(wht_move_lines, "expense_id") and wht_move_lines.mapped(
+                        "expense_id"
+                    ):
+                        partners = wht_move_lines.mapped("expense_id.bill_partner_id")
+                    else:
+                        partners = wht_move_lines.mapped("partner_id")
+                    bill_partner_id = partners.id if len(partners) == 1 else False
+                    # --
                     wht_tax_lines = move_lines.filtered(
                         lambda l: l.wht_tax_id == wht_tax
                     )
@@ -41,6 +53,7 @@ class AccountPaymentRegister(models.TransientModel):
                     )
                     amount_deduct += amount_wht
                     deduct = {
+                        "partner_id": bill_partner_id,
                         "wht_amount_base": amount_base,
                         "wht_tax_id": wht_tax.id,
                         "account_id": wht_tax.account_id.id,

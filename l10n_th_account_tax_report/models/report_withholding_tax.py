@@ -102,7 +102,7 @@ class WithHoldingTaxReport(models.TransientModel):
             report_name = "l10n_th_account_tax_report.report_withholding_tax_text"
         else:
             report_name = "l10n_th_account_tax_report.report_withholding_tax_qweb"
-        context = dict(self._context)
+        context = dict(self.env.context)
         action = self.env["ir.actions.report"].search(
             [("report_name", "=", report_name), ("report_type", "=", report_type)],
             limit=1,

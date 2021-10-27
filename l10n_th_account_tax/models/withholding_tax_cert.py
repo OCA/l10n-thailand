@@ -190,9 +190,9 @@ class WithholdingTaxCert(models.Model):
 
     @api.depends("payment_id", "move_id")
     def _compute_wht_cert_data(self):
-        wht_account_ids = self._context.get("wht_account_ids", [])
-        wht_ref_id = self._context.get("wht_ref_id", False)
-        income_tax_form = self._context.get("income_tax_form", False)
+        wht_account_ids = self.env.context.get("wht_account_ids", [])
+        wht_ref_id = self.env.context.get("wht_ref_id", False)
+        income_tax_form = self.env.context.get("income_tax_form", False)
         CertLine = self.env["withholding.tax.cert.line"]
         Cert = self.env["withholding.tax.cert"]
         if wht_account_ids:
@@ -225,7 +225,7 @@ class WithholdingTaxCert(models.Model):
     def _prepare_wht_line(self, move_line):
         """ Hook point to prepare wht_line """
         wht_percent = move_line.wht_tax_id.amount
-        wht_cert_income_type = self._context.get("wht_cert_income_type")
+        wht_cert_income_type = self.env.context.get("wht_cert_income_type")
         select_dict = dict(WHT_CERT_INCOME_TYPE)
         wht_cert_income_desc = select_dict.get(wht_cert_income_type, False)
         vals = {
@@ -275,14 +275,14 @@ class WithholdingTaxCert(models.Model):
     def _get_wht_cert_model_view(self):
         res_model = "create.withholding.tax.cert"
         view = "l10n_th_account_tax.create_withholding_tax_cert"
-        if len(self._context.get("active_ids")) > 1:
+        if len(self.env.context.get("active_ids")) > 1:
             view = "l10n_th_account_tax.create_withholding_tax_cert_multi"
         view_id = self.env.ref(view).id
         return res_model, view_id
 
     def action_create_withholding_tax_cert(self):
         """ This function is called from either account.move or account.payment """
-        if not self._context.get("active_ids"):
+        if not self.env.context.get("active_ids"):
             return
         res_model, view_id = self._get_wht_cert_model_view()
         return {

@@ -27,7 +27,7 @@ class WithHoldingTaxReportWizard(models.TransientModel):
 
     def _get_domain_company_id(self):
         selected_companies = self.env["res.company"].browse(
-            self._context.get("allowed_company_ids")
+            self.env.context.get("allowed_company_ids")
         )
         return [("id", "in", selected_companies.ids)]
 

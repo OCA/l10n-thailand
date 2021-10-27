@@ -115,6 +115,7 @@ class AccountPayment(models.Model):
         return res
 
     def _update_partner_move_line_writeoff(self, line_vals_list, write_off_line):
+        """ Update partner of move line, when write off has partner_id """
         for line in line_vals_list:
             if line["name"] == write_off_line["name"] and write_off_line.get(
                 "partner_id", False

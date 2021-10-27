@@ -85,7 +85,7 @@ class AccountMoveTaxInvoice(models.Model):
                 origin_move = rec.move_id.reversed_entry_id
                 payment = origin_move.tax_invoice_ids.mapped("payment_id")
                 rec.payment_id = (
-                    payment and payment.id or self._context.get("payment_id", False)
+                    payment and payment.id or self.env.context.get("payment_id", False)
                 )
 
     @api.depends("report_late_mo", "tax_invoice_date")
@@ -108,7 +108,7 @@ class AccountMoveTaxInvoice(models.Model):
         for move_line in self.mapped("move_line_id"):
             line_taxinv.update({move_line.id: move_line.tax_invoice_ids.ids})
         for rec in self.filtered("move_line_id"):
-            if len(line_taxinv[rec.move_line_id.id]) == 1 and not self._context.get(
+            if len(line_taxinv[rec.move_line_id.id]) == 1 and not self.env.context.get(
                 "force_remove_tax_invoice"
             ):
                 raise UserError(_("Cannot delete this last tax invoice line"))
@@ -224,7 +224,7 @@ class AccountMoveLine(models.Model):
     def create(self, vals_list):
         move_lines = super().create(vals_list)
         TaxInvoice = self.env["account.move.tax.invoice"]
-        sign = self._context.get("reverse_tax_invoice") and -1 or 1
+        sign = self.env.context.get("reverse_tax_invoice") and -1 or 1
         for line in move_lines:
             if (line.tax_line_id and line.tax_exigible) or line.manual_tax_invoice:
                 taxinv = TaxInvoice.create(

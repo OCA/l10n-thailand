@@ -9,7 +9,11 @@
         <field name="priority">30</field>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='reference']" position="before">
-                <field name="bill_partner_id" />
+                <field
+                    name="bill_partner_id"
+                    force_save="1"
+                    attrs="{'readonly': [('tax_ids', '=', []), ('wht_tax_id', '=', False)]}"
+                />
             </xpath>
             <xpath expr="//field[@name='tax_ids']" position="after">
                 <field
