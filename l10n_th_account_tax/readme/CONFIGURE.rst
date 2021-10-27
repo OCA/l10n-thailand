@@ -1,6 +1,13 @@
-===========
 Tax Invoice
 ===========
+
+**Preparing Undue Tax**
+
+- Use Developer Mode
+- In Chart of Account, add new account for Undue Tax, if not already exists.
+- As admin, add access rights ``Show Full Accounting Features``
+- Go to Invoicing > Configuration > Settings and select ``Cash Basis``, this will open cash basis options in Tax master data
+- Go to Invoicing > Configuration > Accounting > Taxes, create new undue tax for both sales and purchase
 
 For Sales Taxes (tax scope = Sales), there is option to run Tax Invoice number by sequence model.
 If set properly, Tax Invoice Number will be using this sequence instead of customer invoice number / payment number
@@ -12,11 +19,8 @@ If set properly, Tax Invoice Number will be using this sequence instead of custo
 
 Note: this option is not avaiable for purchase tax, because the Tax Invoice Number is from vendor, and are filled manually.
 
--------------------------------------------------------------
-
-=================================================
 Withholding Tax and Personal Income Tax (PIT)
-=================================================
+=============================================
 
 Setup account related to withholding tax will help set default tax amount
 when create certificate from payment.
