@@ -3,7 +3,7 @@
 
 {
     "name": "Thai Localization - Comapny/Partner, VAT/NOVAT setup",
-    "version": "14.0.1.1.0",
+    "version": "14.0.1.1.1",
     "author": "Ecosoft, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-thailand",
@@ -13,8 +13,8 @@
         "sale",
         "purchase",
         "account",
-        "l10n_th_withholding_tax",
-        "l10n_th_expense_withholding_tax",
+        "l10n_th_account_tax",
+        "l10n_th_account_tax_expense",
     ],
     "data": [
         "views/res_company_view.xml",
@@ -22,7 +22,7 @@
         "views/account_move_view.xml",
         "views/hr_expense_view.xml",
     ],
-    "installable": True,
+    "installable": False,
     "development_status": "Beta",
     "maintainers": ["kittiu"],
 }

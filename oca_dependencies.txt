@@ -1,2 +1,4 @@
 # See https://github.com/OCA/odoo-community.org/blob/master/website/Contribution/CONTRIBUTING.rst#oca_dependencies-txt
 partner-contact
+hr-expense
+hr-expense-1 https://github.com/ecosoft-odoo/hr-expense 14.0-add-hr_expense_payment 6d3e3f1

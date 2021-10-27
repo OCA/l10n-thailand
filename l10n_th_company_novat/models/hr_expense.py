@@ -8,9 +8,9 @@ class Expense(models.Model):
     _inherit = ["hr.expense", "base.company.novat"]
     _tax_field_name = "tax_ids"
 
-    wtvat = fields.Float(
+    whtvat = fields.Float(
         string="Vat%",
-        compute="_compute_wtvat",
+        compute="_compute_whtvat",
         store=True,
         copy=True,
         readonly=False,
@@ -19,22 +19,22 @@ class Expense(models.Model):
     )
 
     @api.depends("employee_id")
-    def _compute_wtvat(self):
+    def _compute_whtvat(self):
         if not self.env.company.novat:
-            self.update({"wtvat": False})
+            self.update({"whtvat": False})
             return
         for rec in self:
             partner = rec.employee_id.address_home_id
             percent = False
             if partner and not partner.novat:  # VAT partner
                 percent = self.env.company.account_purchase_tax_id.amount
-            rec.wtvat = percent
+            rec.whtvat = percent
 
     def _get_account_move_line_values(self):
         move_line_values_by_expense = super()._get_account_move_line_values()
         for expense in self:
-            wtvat_dict = {"wtvat": expense.wtvat}
+            whtvat_dict = {"whtvat": expense.whtvat}
             for ml in move_line_values_by_expense[expense.id]:
                 if ml.get("product_id"):
-                    ml.update(wtvat_dict)
+                    ml.update(whtvat_dict)
         return move_line_values_by_expense
