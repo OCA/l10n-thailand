@@ -41,7 +41,7 @@ class CreatePITWithholdingTaxCert(models.TransientModel):
 
     def create_pit_wht_cert(self):
         self.ensure_one()
-        ctx = self._context.copy()
+        ctx = self.env.context.copy()
         model = ctx.get("active_model", False)
         active_id = ctx.get("active_id")
         Cert = self.env["withholding.tax.cert"]

@@ -108,8 +108,8 @@ class AccountPaymentRegister(models.TransientModel):
     def _compute_amount(self):
         res = super()._compute_amount()
         # Get the sum withholding tax amount from invoice line
-        if self._context.get("active_model") == "account.move":
-            active_ids = self._context.get("active_ids", [])
+        if self.env.context.get("active_model") == "account.move":
+            active_ids = self.env.context.get("active_ids", [])
             invoices = self.env["account.move"].browse(active_ids)
             wht_move_lines = invoices.mapped("line_ids").filtered("wht_tax_id")
             if not wht_move_lines:
@@ -125,8 +125,8 @@ class AccountPaymentRegister(models.TransientModel):
     @api.model
     def default_get(self, fields_list):
         res = super().default_get(fields_list)
-        if self._context.get("active_model") == "account.move":
-            active_ids = self._context.get("active_ids", False)
+        if self.env.context.get("active_model") == "account.move":
+            active_ids = self.env.context.get("active_ids", False)
             move_ids = self.env["account.move"].browse(active_ids)
             partner_ids = move_ids.mapped("partner_id")
             wht_tax_line = move_ids.line_ids.filtered("wht_tax_id")
@@ -189,7 +189,7 @@ class AccountPaymentRegister(models.TransientModel):
 
     def action_create_payments(self):
         if self.payment_difference_handling == "reconcile":
-            context = self._context.copy()
+            context = self.env.context.copy()
             context.update({"skip_account_move_synchronization": True})
             self = self.with_context(context)
         return super().action_create_payments()

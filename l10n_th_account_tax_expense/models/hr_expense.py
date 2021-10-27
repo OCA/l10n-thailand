@@ -19,6 +19,10 @@ class HrExpense(models.Model):
         readonly=False,
     )
 
+    @api.onchange("tax_ids", "wht_tax_id")
+    def _onchange_tax(self):
+        self.bill_partner_id = False
+
     @api.depends("product_id", "account_id")
     def _compute_wht_tax_id(self):
         for rec in self:
