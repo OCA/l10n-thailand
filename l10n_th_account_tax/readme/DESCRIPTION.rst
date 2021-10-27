@@ -1,9 +1,15 @@
-This module address the undue tax requirement for Thailand
+This module address 2 main tax requirement in Thailand
 
-In Odoo, cash basis feature is being used to cover case of undue tax (due on payment).
-This can answer the issue about undue tax in Thailand partially.
-For customer invoice/payment, Odoo's cash basis alone is enough.
+1. Tax Invoice (VAT)
+====================
 
-But for supplier invoice/payment and expense, where tax invoice number and tax date is given from vendor.
-This module will provide ways for user to do so on vendor bill (for normal tax) and
-in supplier payment (for undue tax which is due on payment).
+Point of tax invoice can occur either on Invoice (VAT) or on Payment
+(Undue VAT on invoice become VAT on payment)
+
+2. Withholding Tax
+==================
+
+This is the tax that is deducted during payment. There are 2 kinds of withholding tax calculataion.
+
+#. Fixed rate of based amount, i.e., service 3%
+#. Progressive rate of accumulated amount, i.e., personal income tax
