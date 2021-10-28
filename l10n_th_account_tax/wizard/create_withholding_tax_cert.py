@@ -37,7 +37,7 @@ class CreateWithholdingTaxCert(models.TransientModel):
     @api.model
     def default_get(self, fields):
         res = super().default_get(fields)
-        model = self.env.context_context.get("active_model", False)
+        model = self.env.context.get("active_model", False)
         for active_id in self.env.context.get("active_ids", []):
             if model == "account.move":
                 move = self.env[model].browse(active_id)
