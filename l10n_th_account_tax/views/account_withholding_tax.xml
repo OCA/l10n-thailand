@@ -50,7 +50,8 @@
     <menuitem
         id="menu_account_withholding_tax"
         action="action_account_withholding_tax_menu"
-        parent="account.account_invoicing_menu"
-        sequence="30"
+        parent="account.account_account_menu"
+        sequence="2"
+        groups="account.group_account_invoice"
     />
 </odoo>

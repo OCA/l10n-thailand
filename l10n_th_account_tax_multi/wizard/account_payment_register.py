@@ -33,21 +33,18 @@ class AccountPaymentRegister(models.TransientModel):
                 amount_deduct = 0
                 wht_taxes = move_lines.mapped("wht_tax_id")
                 for wht_tax in wht_taxes:
-                    # Get partner, if any (try with expense case first)
-                    wht_move_lines = move_lines.filtered(
-                        lambda l: l.wht_tax_id == wht_tax
-                    )
-                    if hasattr(wht_move_lines, "expense_id") and wht_move_lines.mapped(
-                        "expense_id"
-                    ):
-                        partners = wht_move_lines.mapped("expense_id.bill_partner_id")
-                    else:
-                        partners = wht_move_lines.mapped("partner_id")
-                    bill_partner_id = partners.id if len(partners) == 1 else False
-                    # --
                     wht_tax_lines = move_lines.filtered(
                         lambda l: l.wht_tax_id == wht_tax
                     )
+                    # Get partner, if any (try with expense case first)
+                    if hasattr(wht_tax_lines, "expense_id") and wht_tax_lines.mapped(
+                        "expense_id"
+                    ):
+                        partners = wht_tax_lines.mapped("expense_id.bill_partner_id")
+                    else:
+                        partners = wht_tax_lines.mapped("partner_id")
+                    bill_partner_id = partners.id if len(partners) == 1 else False
+                    # --
                     amount_base, amount_wht = wht_tax_lines._get_wht_amount(
                         self.currency_id, self.payment_date
                     )

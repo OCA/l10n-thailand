@@ -13,6 +13,7 @@
                     name="bill_partner_id"
                     force_save="1"
                     attrs="{'readonly': [('tax_ids', '=', []), ('wht_tax_id', '=', False)]}"
+                    title="Vendor related to tax invoice and withholding tax"
                 />
             </xpath>
             <xpath expr="//field[@name='tax_ids']" position="after">

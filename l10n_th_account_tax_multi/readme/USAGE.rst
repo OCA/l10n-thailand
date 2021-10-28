@@ -1,4 +1,4 @@
-From bills / invoices that require withheld tax,
+From vendor bill that want to withhold tax,
 
 - Create invoice and multi invoice lines.
 - Fill withholding tax in Field WHT each invoice lines.
@@ -14,7 +14,3 @@ Step to keep some amount open.
 - Fill withholding tax in Field WHT each invoice lines.
 - Post > Register Payment > check Open in deduction table that you need keep it. > Post
 - Next time, Register Payment > Fill amount residual manual > Post
-
-
-Note : if you configured withholding tax on product,
-it fill withholding tax in field WHT automatic.
