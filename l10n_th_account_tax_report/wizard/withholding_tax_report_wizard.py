@@ -36,7 +36,7 @@ class WithHoldingTaxReportWizard(models.TransientModel):
         action = self.env.ref(
             "l10n_th_account_tax_report.action_report_tax_report_html"
         )
-        vals = action.read()[0]
+        vals = action.sudo().read()[0]
         context1 = {"active_model": "withholding.tax.report"}
         model = self.env["withholding.tax.report"]
         report = model.create(self._prepare_wht_report())

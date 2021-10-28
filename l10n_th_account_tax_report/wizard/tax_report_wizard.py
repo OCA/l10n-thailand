@@ -35,7 +35,7 @@ class TaxReportWizard(models.TransientModel):
         action = self.env.ref(
             "l10n_th_account_tax_report.action_report_tax_report_html"
         )
-        vals = action.read()[0]
+        vals = action.sudo().read()[0]
         context1 = {"active_model": "report.tax.report"}
         model = self.env["report.tax.report"]
         report = model.create(self._prepare_tax_report())
