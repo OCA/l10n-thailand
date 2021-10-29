@@ -41,7 +41,6 @@
                 position="before"
             >
                 <field name="bill_partner_id" optional="show" />
-                <field name="reference" optional="show" />
             </xpath>
             <xpath
                 expr="//field[@name='expense_line_ids']/tree/field[@name='date']"
