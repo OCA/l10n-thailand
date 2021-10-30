@@ -30,7 +30,7 @@ class AccountPaymentRegister(models.TransientModel):
                 # Case WHT only, ensure only 1 wizard
                 self.ensure_one()
                 (deduction_list, amount_deduct) = move_lines._prepare_deduction_list(
-                    self.currency_id, self.payment_date
+                    currency=self.currency_id, date=self.payment_date
                 )
                 deductions = [(5, 0, 0)]
                 for deduct in deduction_list:
