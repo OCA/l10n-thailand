@@ -1,0 +1,27 @@
+<!-- Copyright 2021 Ecosoft Co., Ltd (http://ecosoft.co.th/)
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html) -->
+<odoo>
+    <record id="view_hr_expense_sheet_form" model="ir.ui.view">
+        <field name="name">view.hr.expense.sheet.form</field>
+        <field name="model">hr.expense.sheet</field>
+        <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form" />
+        <field name="arch" type="xml">
+            <button name="reset_expense_sheets" position="after">
+                <field name="has_wht" invisible="1" />
+                <button
+                    name="action_create_withholding_tax_entry"
+                    string="Create Withholding JV"
+                    type="object"
+                    groups="account.group_account_user"
+                    attrs="{'invisible': ['|', '|', '|', ('state', '!=', 'done'), ('has_wht', '=', False), ('wht_move_id', '!=', False), ('advance_sheet_id', '=', False)]}"
+                />
+            </button>
+            <field name="account_move_id" position="after">
+                <field
+                    name="wht_move_id"
+                    attrs="{'invisible': [('wht_move_id', '=', False)]}"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>

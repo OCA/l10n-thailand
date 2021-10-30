@@ -271,7 +271,7 @@ class AccountMoveLine(models.Model):
                 self.mapped("tax_invoice_ids").unlink()
         return super().write(vals)
 
-    def _prepare_deduction_list(self, currency, date):
+    def _prepare_deduction_list(self, currency=False, date=False):
         def add_deduction(
             wht_lines, wht_tax, partner_id, amount_deduct, currency, date
         ):
@@ -288,6 +288,11 @@ class AccountMoveLine(models.Model):
             deductions.append(deduct)
             return amount_deduct
 
+        if not currency:
+            currency = self.env.company.currency_id
+        if not date:
+            date = fields.Date.context_today(self)
+
         deductions = []
         amount_deduct = 0
         wht_taxes = self.mapped("wht_tax_id")
@@ -299,7 +304,8 @@ class AccountMoveLine(models.Model):
             ):  # From expense, group by bill_partner_id of expense, or default partner
                 partner_ids = list(
                     {
-                        x.bill_partner_id.id or x.partner_id.id
+                        x.bill_partner_id.id
+                        or x.employee_id.sudo().address_home_id.commercial_partner_id.id
                         for x in wht_tax_lines.mapped("expense_id")
                     }
                 )
