@@ -20,7 +20,7 @@ class AccountPaymentRegister(models.TransientModel):
 
     @api.onchange("payment_difference_handling")
     def _onchange_payment_difference_handling(self):
-        if not self.payment_difference_handling == "reconcile_multi_deduct":
+        if self.payment_difference_handling != "reconcile_multi_deduct":
             return
         if self.env.context.get("active_model") == "account.move":
             active_ids = self.env.context.get("active_ids", [])
@@ -29,34 +29,11 @@ class AccountPaymentRegister(models.TransientModel):
             if move_lines:
                 # Case WHT only, ensure only 1 wizard
                 self.ensure_one()
+                (deduction_list, amount_deduct) = move_lines._prepare_deduction_list(
+                    self.currency_id, self.payment_date
+                )
                 deductions = [(5, 0, 0)]
-                amount_deduct = 0
-                wht_taxes = move_lines.mapped("wht_tax_id")
-                for wht_tax in wht_taxes:
-                    wht_tax_lines = move_lines.filtered(
-                        lambda l: l.wht_tax_id == wht_tax
-                    )
-                    # Get partner, if any (try with expense case first)
-                    if hasattr(wht_tax_lines, "expense_id") and wht_tax_lines.mapped(
-                        "expense_id"
-                    ):
-                        partners = wht_tax_lines.mapped("expense_id.bill_partner_id")
-                    else:
-                        partners = wht_tax_lines.mapped("partner_id")
-                    bill_partner_id = partners.id if len(partners) == 1 else False
-                    # --
-                    amount_base, amount_wht = wht_tax_lines._get_wht_amount(
-                        self.currency_id, self.payment_date
-                    )
-                    amount_deduct += amount_wht
-                    deduct = {
-                        "partner_id": bill_partner_id,
-                        "wht_amount_base": amount_base,
-                        "wht_tax_id": wht_tax.id,
-                        "account_id": wht_tax.account_id.id,
-                        "name": wht_tax.display_name,
-                        "amount": amount_wht,
-                    }
+                for deduct in deduction_list:
                     deductions.append((0, 0, deduct))
                 self.deduction_ids = deductions
                 # Set amount only first time

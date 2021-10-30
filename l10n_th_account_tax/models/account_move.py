@@ -271,6 +271,71 @@ class AccountMoveLine(models.Model):
                 self.mapped("tax_invoice_ids").unlink()
         return super().write(vals)
 
+    def _prepare_deduction_list(self, currency, date):
+        def add_deduction(
+            wht_lines, wht_tax, partner_id, amount_deduct, currency, date
+        ):
+            amount_base, amount_wht = partner_wht_lines._get_wht_amount(currency, date)
+            amount_deduct += amount_wht
+            deduct = {
+                "partner_id": partner_id,
+                "wht_amount_base": amount_base,
+                "wht_tax_id": wht_tax.id,
+                "account_id": wht_tax.account_id.id,
+                "name": wht_tax.display_name,
+                "amount": amount_wht,
+            }
+            deductions.append(deduct)
+            return amount_deduct
+
+        deductions = []
+        amount_deduct = 0
+        wht_taxes = self.mapped("wht_tax_id")
+        for wht_tax in wht_taxes:
+            wht_tax_lines = self.filtered(lambda l: l.wht_tax_id == wht_tax)
+            # Get partner, first from extended module (l10n_th_account_tax_expense)
+            if hasattr(wht_tax_lines, "expense_id") and wht_tax_lines.filtered(
+                "expense_id"
+            ):  # From expense, group by bill_partner_id of expense, or default partner
+                partner_ids = list(
+                    {
+                        x.bill_partner_id.id or x.partner_id.id
+                        for x in wht_tax_lines.mapped("expense_id")
+                    }
+                )
+                for partner_id in partner_ids:
+                    partner_wht_lines = wht_tax_lines.filtered(
+                        lambda l: l.expense_id.bill_partner_id.id == partner_id
+                        or (
+                            not l.expense_id.bill_partner_id
+                            and l.partner_id.id == partner_id
+                        )
+                    )
+                    amount_deduct = add_deduction(
+                        partner_wht_lines,
+                        wht_tax,
+                        partner_id,
+                        amount_deduct,
+                        currency,
+                        date,
+                    )
+            else:
+                partner_ids = wht_tax_lines.mapped("partner_id").ids
+                for partner_id in partner_ids:
+                    partner_wht_lines = wht_tax_lines.filtered(
+                        lambda l: l.partner_id.id == partner_id
+                    )
+                    amount_deduct = add_deduction(
+                        partner_wht_lines,
+                        wht_tax,
+                        partner_id,
+                        amount_deduct,
+                        currency,
+                        date,
+                    )
+
+        return (deductions, amount_deduct)
+
 
 class AccountMove(models.Model):
     _inherit = "account.move"
