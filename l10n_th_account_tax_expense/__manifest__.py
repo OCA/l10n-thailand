@@ -8,7 +8,7 @@
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-thailand",
     "category": "Localization / Accounting",
-    "depends": ["l10n_th_account_tax"],
+    "depends": ["l10n_th_account_tax", "hr_expense"],
     "data": [
         "views/hr_expense_view.xml",
         "wizard/account_payment_register_views.xml",
