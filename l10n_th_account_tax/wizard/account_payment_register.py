@@ -104,7 +104,7 @@ class AccountPaymentRegister(models.TransientModel):
             # Case WHT only, ensure only 1 wizard
             self.ensure_one()
             deduction_list, _ = wht_move_lines._prepare_deduction_list(
-                self.currency_id, self.payment_date
+                currency=self.currency_id, date=self.payment_date
             )
             # Support only case single WHT line in this module
             # Use l10n_th_account_tax_mult if there are mixed lines
