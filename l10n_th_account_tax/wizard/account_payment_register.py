@@ -83,6 +83,39 @@ class AccountPaymentRegister(models.TransientModel):
             payment_vals["write_off_line_vals"] = self._prepare_writeoff_move_line()
         return payment_vals
 
+    @api.depends(
+        "source_amount",
+        "source_amount_currency",
+        "source_currency_id",
+        "company_id",
+        "currency_id",
+        "payment_date",
+    )
+    def _compute_amount(self):
+        """ This function is the first entry point, to calculate withholding amount """
+        res = super()._compute_amount()
+        # Get the sum withholding tax amount from invoice line
+        if self.env.context.get("active_model") == "account.move":
+            active_ids = self.env.context.get("active_ids", [])
+            invoices = self.env["account.move"].browse(active_ids)
+            wht_move_lines = invoices.mapped("line_ids").filtered("wht_tax_id")
+            if not wht_move_lines:
+                return res
+            # Case WHT only, ensure only 1 wizard
+            self.ensure_one()
+            deduction_list, _ = wht_move_lines._prepare_deduction_list(
+                self.currency_id, self.payment_date
+            )
+            # Support only case single WHT line in this module
+            # Use l10n_th_account_tax_mult if there are mixed lines
+            amount_base = 0
+            amount_wht = 0
+            if len(deduction_list) == 1:
+                amount_base = deduction_list[0]["wht_amount_base"]
+                amount_wht = deduction_list[0]["amount"]
+            self._update_payment_register(amount_base, amount_wht, wht_move_lines)
+        return res
+
     def _update_payment_register(self, amount_base, amount_wht, wht_move_lines):
         self.ensure_one()
         if not amount_base:
@@ -96,31 +129,6 @@ class AccountPaymentRegister(models.TransientModel):
             self.writeoff_account_id = self.wht_tax_id.account_id
             self.writeoff_label = self.wht_tax_id.display_name
         return True
-
-    @api.depends(
-        "source_amount",
-        "source_amount_currency",
-        "source_currency_id",
-        "company_id",
-        "currency_id",
-        "payment_date",
-    )
-    def _compute_amount(self):
-        res = super()._compute_amount()
-        # Get the sum withholding tax amount from invoice line
-        if self.env.context.get("active_model") == "account.move":
-            active_ids = self.env.context.get("active_ids", [])
-            invoices = self.env["account.move"].browse(active_ids)
-            wht_move_lines = invoices.mapped("line_ids").filtered("wht_tax_id")
-            if not wht_move_lines:
-                return res
-            # Case WHT only, ensure only 1 wizard
-            self.ensure_one()
-            amount_base, amount_wht = wht_move_lines._get_wht_amount(
-                self.currency_id, self.payment_date
-            )
-            self._update_payment_register(amount_base, amount_wht, wht_move_lines)
-        return res
 
     @api.model
     def default_get(self, fields_list):
