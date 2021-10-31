@@ -7,8 +7,38 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     def _post(self, soft=True):
+        res = super()._post(soft)
+        self._assign_tax_invoice()
+        self._reconcile_withholding_tax_entry()
+        return res
+
+    def _reconcile_withholding_tax_entry(self):
+        """ Re-Reconciliation, ensure the wht_move is taken into account """
+        for move in self:
+            clearing = self.env["hr.expense.sheet"].search(
+                [("wht_move_id", "=", move.id)]
+            )
+            if not clearing:
+                continue
+            clearing.ensure_one()
+            move_lines = clearing.account_move_id.line_ids
+            accounts = move_lines.mapped("account_id").filtered("reconcile")
+            # Find clearing and advance moves to unreconcile first
+            r_lines = clearing.account_move_id.line_ids.filtered(
+                lambda l: l.account_id.id in accounts.ids
+            )
+            md_lines = r_lines.mapped("matched_debit_ids.debit_move_id")
+            mc_lines = r_lines.mapped("matched_credit_ids.credit_move_id")
+            # Removes reconcile
+            (r_lines + md_lines + mc_lines).remove_move_reconcile()
+            # Re-reconcile again this time with the wht_tax JV
+            wht_lines = move.line_ids.filtered(
+                lambda l: l.account_id.id in accounts.ids
+            )
+            (r_lines + wht_lines + md_lines + mc_lines).reconcile()
+
+    def _assign_tax_invoice(self):
         """ Use Bill Reference and Date from Expense Line as Tax Invoice """
-        # Expense Taxes
         for move in self:
             for tax_invoice in move.tax_invoice_ids.filtered(
                 lambda l: l.tax_line_id.type_tax_use == "purchase"
@@ -25,4 +55,3 @@ class AccountMove(models.Model):
                     bill_partner = tax_invoice.move_line_id.expense_id.bill_partner_id
                     if bill_partner:
                         tax_invoice.write({"partner_id": bill_partner.id})
-        return super()._post(soft)
