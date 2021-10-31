@@ -94,6 +94,28 @@
                         </tree>
                     </field>
                 </page>
+                <page
+                    id="wht_move"
+                    string="Withholding Moves"
+                    attrs="{'invisible': [('wht_move_ids', '=', [])]}"
+                >
+                    <field name="wht_move_ids" nolabel="1">
+                        <tree
+                            editable="bottom"
+                            string="Withholding Moves"
+                            create="0"
+                            delete="0"
+                        >
+                            <field name="date" invisible="1" />
+                            <field name="calendar_year" invisible="1" />
+                            <field name="partner_id" readonly="1" />
+                            <field name="wht_cert_income_type" />
+                            <field name="amount_income" />
+                            <field name="amount_wht" />
+                            <field name="is_pit" />
+                        </tree>
+                    </field>
+                </page>
             </page>
         </field>
     </record>

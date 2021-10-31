@@ -79,7 +79,6 @@ class AccountPaymentRegister(models.TransientModel):
         payment_vals = super()._create_payment_vals_from_wizard()
         # Check case auto and manual withholding tax
         if self.payment_difference_handling == "reconcile" and self.wht_tax_id:
-            payment_vals.update({"wht_tax_id": self.wht_tax_id.id})
             payment_vals["write_off_line_vals"] = self._prepare_writeoff_move_line()
         return payment_vals
 
@@ -158,40 +157,14 @@ class AccountPaymentRegister(models.TransientModel):
                 )
             )
         payments = super()._create_payments()
-        # Create account.withholding.move from table multi deduction
-        if (
-            self.payment_difference_handling == "reconcile"
-            and self.group_payment
-            and self.wht_tax_id
-        ):
-            vals = self._prepare_withholding_move(
-                self.partner_id,
-                self.payment_date,
-                self.wht_tax_id,
-                self.wht_amount_base,
-                self.payment_difference,
-                self.currency_id,
-                self.company_id,
-            )
-            payments[0].write({"wht_move_ids": [(0, 0, vals)]})
         return payments
-
-    def _prepare_withholding_move(
-        self, partner, date, wht_tax, base, amount, currency, company
-    ):
-        amount_income = currency._convert(base, company.currency_id, company, date)
-        amount_wht = currency._convert(amount, company.currency_id, company, date)
-        return {
-            "partner_id": partner.id,
-            "amount_income": amount_income,
-            "wht_tax_id": wht_tax.id,
-            "amount_wht": amount_wht,
-        }
 
     def _prepare_writeoff_move_line(self):
         return {
             "name": self.writeoff_label,
             "amount": self.payment_difference,
+            "wht_tax_id": self.wht_tax_id.id,
+            "wht_amount_base": self.wht_amount_base,
             "account_id": self.writeoff_account_id.id,
         }
 

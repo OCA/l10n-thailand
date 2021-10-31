@@ -82,12 +82,17 @@
                     </page>
                 </notebook>
                 <group
-                    name="pit"
-                    string="Personal Income Tax"
-                    attrs="{'invisible': [('pit_move_ids', '=', [])]}"
+                    id="wht_move"
+                    string="Withholding Moves"
+                    attrs="{'invisible': [('wht_move_ids', '=', [])]}"
                 >
-                    <field name="pit_move_ids" nolabel="1">
-                        <tree editable="bottom" string="PIT" create="1" delete="1">
+                    <field name="wht_move_ids" nolabel="1">
+                        <tree
+                            editable="bottom"
+                            string="Withholding Moves"
+                            create="0"
+                            delete="0"
+                        >
                             <field name="date" invisible="1" />
                             <field name="calendar_year" invisible="1" />
                             <field name="partner_id" readonly="1" />
