@@ -133,7 +133,7 @@ class AccountMoveLine(models.Model):
         readonly=False,
     )
 
-    @api.depends("product_id", "account_id")
+    @api.depends("product_id")
     def _compute_wht_tax_id(self):
         for rec in self:
             # From invoice, default from product
@@ -141,11 +141,6 @@ class AccountMoveLine(models.Model):
                 rec.wht_tax_id = rec.product_id.wht_tax_id
             elif rec.move_id.move_type in ("in_invoice", "in_refund", "out_receipt"):
                 rec.wht_tax_id = rec.product_id.supplier_wht_tax_id
-            elif (
-                rec.payment_id
-                and rec.payment_id.wht_tax_id.account_id == rec.account_id
-            ):
-                rec.wht_tax_id = rec.payment_id.wht_tax_id
             else:
                 rec.wht_tax_id = False
 
@@ -364,6 +359,13 @@ class AccountMove(models.Model):
         store=True,
         help="This document has WHT Cert(s) and all are cancelled or not WHT Cert",
     )
+    wht_move_ids = fields.One2many(
+        comodel_name="account.withholding.move",
+        inverse_name="move_id",
+        string="Withholding",
+        copy=False,
+        help="All withholding moves, including non-PIT",
+    )
 
     @api.depends("wht_cert_ids.state")
     def _compute_wht_cert_cancel(self):
@@ -450,7 +452,26 @@ class AccountMove(models.Model):
         # Check amount tax invoice with move line
         for move in self:
             move.line_ids._checkout_tax_invoice_amount()
+
+        # Create account.withholding.move, for every withhlding tax line
+        for move in self:
+            wht_moves = move.line_ids.filtered("account_id.wht_account")
+            withholding_moves = [
+                (0, 0, self._prepare_withholding_move(wht_move))
+                for wht_move in wht_moves
+            ]
+            move.write({"wht_move_ids": [(5, 0, 0)] + withholding_moves})
         return res
+
+    def _prepare_withholding_move(self, wht_move):
+        """ Prepare dict for account.withholding.move """
+        return {
+            "partner_id": wht_move.partner_id.id,
+            "amount_income": wht_move.tax_base_amount,
+            "wht_tax_id": wht_move.wht_tax_id.id,
+            "amount_wht": abs(wht_move.balance),
+            "payment_id": wht_move.move_id.payment_id.id,
+        }
 
     def _get_tax_invoice_number(self, move, tax_invoice, tax):
         """Tax Invoice Numbering for Customer Invioce / Receipt
@@ -492,6 +513,20 @@ class AccountMove(models.Model):
         return super()._reverse_moves(
             default_values_list=default_values_list, cancel=cancel
         )
+
+    def button_cancel(self):
+        res = super().button_cancel()
+        for rec in self:
+            # Create the mirror only for those posted
+            for line in rec.wht_move_ids:
+                line.copy(
+                    {
+                        "amount_income": -line.amount_income,
+                        "amount_wht": -line.amount_wht,
+                    }
+                )
+                line.cancelled = True
+        return res
 
 
 class AccountPartialReconcile(models.Model):
