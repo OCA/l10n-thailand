@@ -52,34 +52,6 @@ class AccountPaymentRegister(models.TransientModel):
         )
         return res
 
-    def _create_payments(self):
-        payments = super()._create_payments()
-        # Create account.withholding.move from table multi deduction
-        if (
-            self.payment_difference_handling == "reconcile_multi_deduct"
-            and self.group_payment
-            and self.deduction_ids
-        ):
-            vals = []
-            for deduct in self.deduction_ids:
-                vals.append(
-                    (
-                        0,
-                        0,
-                        self._prepare_withholding_move(
-                            deduct.payment_id.partner_id,
-                            deduct.payment_id.payment_date,
-                            deduct.wht_tax_id,
-                            deduct.wht_amount_base,
-                            deduct.amount,
-                            deduct.payment_id.currency_id,
-                            deduct.payment_id.company_id,
-                        ),
-                    )
-                )
-            payments[0].write({"wht_move_ids": vals})
-        return payments
-
 
 class AccountPaymentDeduction(models.TransientModel):
     _inherit = "account.payment.deduction"
