@@ -6,5 +6,11 @@ from odoo import fields, models
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    wht_tax_id = fields.Many2one(comodel_name="account.withholding.tax")
-    supplier_wht_tax_id = fields.Many2one(comodel_name="account.withholding.tax")
+    wht_tax_id = fields.Many2one(
+        comodel_name="account.withholding.tax",
+        string="Withholding Tax",
+    )
+    supplier_wht_tax_id = fields.Many2one(
+        comodel_name="account.withholding.tax",
+        string="Supplier Withholding Tax",
+    )

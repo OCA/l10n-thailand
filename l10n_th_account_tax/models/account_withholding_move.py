@@ -14,6 +14,13 @@ class PersonalIncomeTaxMove(models.Model):
         comodel_name="account.payment",
         string="Payment",
         index=True,
+        ondelete="cascade",
+        domain=[("state", "not in", ["draft", "cancel"])],
+    )
+    move_id = fields.Many2one(
+        comodel_name="account.move",
+        string="Journal Entry",
+        index=True,
         required=True,
         ondelete="cascade",
         domain=[("state", "not in", ["draft", "cancel"])],

@@ -23,12 +23,6 @@ class AccountPayment(models.Model):
         string="Tax Invoice's Journal Entry",
         compute="_compute_tax_invoice_move_id",
     )
-    wht_tax_id = fields.Many2one(
-        comodel_name="account.withholding.tax",
-        string="Withholding Tax",
-        copy=False,
-        help="Optional hidden field to keep wht_tax. Useful for case 1 tax only",
-    )
     wht_move_ids = fields.One2many(
         comodel_name="account.withholding.move",
         inverse_name="payment_id",
@@ -100,34 +94,29 @@ class AccountPayment(models.Model):
             "domain": [("id", "in", [self.move_id.id, self.tax_invoice_move_id.id])],
         }
 
-    def action_cancel(self):
-        res = super().action_cancel()
-        for payment in self:
-            # Create the mirror only for those posted
-            for line in payment.wht_move_ids:
-                line.copy(
-                    {
-                        "amount_income": -line.amount_income,
-                        "amount_wht": -line.amount_wht,
-                    }
-                )
-                line.cancelled = True
-        return res
-
-    def _update_partner_move_line_writeoff(self, line_vals_list, write_off_line):
+    def _update_move_line_writeoff(self, line_vals_list, write_off_line):
         """ Update partner of move line, when write off has partner_id """
         for line in line_vals_list:
-            if line["name"] == write_off_line["name"] and write_off_line.get(
-                "partner_id", False
-            ):
-                line["partner_id"] = write_off_line["partner_id"]
+            if line["name"] == write_off_line["name"]:
+                # partner
+                if write_off_line.get("partner_id"):
+                    line["partner_id"] = write_off_line["partner_id"]
+                # wht
+                wht_amount_base_company = self.currency_id._convert(
+                    write_off_line["wht_amount_base"],
+                    self.company_id.currency_id,
+                    self.company_id,
+                    self.date,
+                )
+                line["tax_base_amount"] = wht_amount_base_company
+                line["wht_tax_id"] = write_off_line.get("wht_tax_id")
 
     def _prepare_move_line_default_vals(self, write_off_line_vals=None):
         """ Overwrite default partner_id from write_off_line """
         line_vals_list = super()._prepare_move_line_default_vals(write_off_line_vals)
-        if isinstance(write_off_line_vals, list) and write_off_line_vals:
+        if isinstance(write_off_line_vals, list) and write_off_line_vals:  # multi
             for write_off_line in write_off_line_vals:
-                self._update_partner_move_line_writeoff(line_vals_list, write_off_line)
-        elif isinstance(write_off_line_vals, dict) and write_off_line_vals:
-            self._update_partner_move_line_writeoff(line_vals_list, write_off_line_vals)
+                self._update_move_line_writeoff(line_vals_list, write_off_line)
+        elif isinstance(write_off_line_vals, dict) and write_off_line_vals:  # single
+            self._update_move_line_writeoff(line_vals_list, write_off_line_vals)
         return line_vals_list
