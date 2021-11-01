@@ -10,7 +10,11 @@
     "website": "https://github.com/OCA/l10n-thailand",
     "category": "Report",
     "depends": ["web"],
-    "data": ["views/report_templates.xml"],
+    "assets": {
+        "web.report_assets_common": [
+            "l10n_th_fonts/static/src/scss/fonts_style.scss",
+        ],
+    },
     "installable": True,
     "maintainers": ["Saran440"],
 }
