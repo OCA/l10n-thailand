@@ -13,8 +13,6 @@
         "security/account_security.xml",
         "security/ir.model.access.csv",
         "wizard/account_payment_register_views.xml",
-        "wizard/create_withholding_tax_cert.xml",
-        "wizard/create_pit_withholding_tax_cert.xml",
         "views/account_view.xml",
         "views/account_move_view.xml",
         "views/withholding_tax_cert.xml",

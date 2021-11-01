@@ -10,6 +10,8 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_compare
 from odoo.tools.misc import format_date
 
+from .withholding_tax_cert import WHT_CERT_INCOME_TYPE
+
 
 class AccountMoveTaxInvoice(models.Model):
     _name = "account.move.tax.invoice"
@@ -354,11 +356,6 @@ class AccountMove(models.Model):
         string="Withholding Tax Cert.",
         readonly=True,
     )
-    wht_cert_cancel = fields.Boolean(
-        compute="_compute_wht_cert_cancel",
-        store=True,
-        help="This document has WHT Cert(s) and all are cancelled or not WHT Cert",
-    )
     wht_move_ids = fields.One2many(
         comodel_name="account.withholding.move",
         inverse_name="move_id",
@@ -366,15 +363,29 @@ class AccountMove(models.Model):
         copy=False,
         help="All withholding moves, including non-PIT",
     )
+    wht_cert_status = fields.Selection(
+        selection=[
+            ("none", "Not yet created"),
+            ("draft", "Draft"),
+            ("done", "Done"),
+            ("cancel", "Cancelled"),
+        ],
+        compute="_compute_wht_cert_status",
+    )
 
     @api.depends("wht_cert_ids.state")
-    def _compute_wht_cert_cancel(self):
-        for record in self:
-            wht_state = list(set(record.wht_cert_ids.mapped("state")))
-            wht_cancel = False
-            if not wht_state or (len(wht_state) == 1 and "cancel" in wht_state):
-                wht_cancel = True
-            record.wht_cert_cancel = wht_cancel
+    def _compute_wht_cert_status(self):
+        for rec in self:
+            if not rec.wht_cert_ids:
+                rec.wht_cert_status = "none"
+            elif "draft" in rec.wht_cert_ids.mapped("state"):
+                rec.wht_cert_status = "draft"
+            elif rec.wht_cert_ids.mapped("state") == ["done"]:
+                rec.wht_cert_status = "done"
+            elif rec.wht_cert_ids.mapped("state") == ["cancel"]:
+                rec.wht_cert_status = "cancel"
+            else:
+                rec.wht_cert_status = False
 
     def button_wht_certs(self):
         self.ensure_one()
@@ -434,7 +445,7 @@ class AccountMove(models.Model):
         #             if sum(lines.mapped("balance")) == 0:
         #                 lines.unlink()
 
-        res = super()._post(soft)
+        res = super()._post(soft=soft)
 
         # Sales Taxes
         for move in self:
@@ -461,6 +472,8 @@ class AccountMove(models.Model):
                 for wht_move in wht_moves
             ]
             move.write({"wht_move_ids": [(5, 0, 0)] + withholding_moves})
+        # When post, do remove the existing certs
+        self.mapped("wht_cert_ids").unlink()
         return res
 
     def _prepare_withholding_move(self, wht_move):
@@ -526,7 +539,77 @@ class AccountMove(models.Model):
                     }
                 )
                 line.cancelled = True
+            # Cancel all certs
+            rec.wht_cert_ids.action_cancel()
         return res
+
+    def button_draft(self):
+        res = super().button_draft()
+        self.mapped("wht_cert_ids").action_cancel()
+        return res
+
+    def create_wht_cert(self):
+        """
+        Create/replace one withholding tax cert from withholding move
+        Group by partner and income type, regardless of wht_tax_id
+        """
+        self.ensure_one()
+        if self.wht_move_ids.filtered(lambda l: not l.wht_cert_income_type):
+            raise UserError(
+                _("Please select Type of Income on every withholding moves")
+            )
+        certs = self._preapare_wht_certs()
+        self.env["withholding.tax.cert"].create(certs)
+
+    def _preapare_wht_certs(self):
+        """ Create withholding tax certs, 1 cert per partner """
+        self.ensure_one()
+        select_dict = dict(WHT_CERT_INCOME_TYPE)
+        wht_move_groups = self.env["account.withholding.move"].read_group(
+            domain=[("move_id", "=", self.id)],
+            fields=[
+                "partner_id",
+                "wht_cert_income_type",
+                "wht_tax_id",
+                "amount_income",
+                "amount_wht",
+            ],
+            groupby=["partner_id", "wht_cert_income_type", "wht_tax_id"],
+            lazy=False,
+        )
+        # Create 1 cert for 1 vendor
+        partners = self.wht_move_ids.mapped("partner_id")
+        cert_list = []
+        for partner in partners:
+            cert_line_vals = []
+            wht_moves = list(
+                filter(lambda l: l["partner_id"][0] == partner.id, wht_move_groups)
+            )
+            for wht_move in wht_moves:
+                cert_line_vals.append(
+                    (
+                        0,
+                        0,
+                        {
+                            "wht_cert_income_type": wht_move["wht_cert_income_type"],
+                            "wht_cert_income_desc": select_dict[
+                                wht_move["wht_cert_income_type"]
+                            ],
+                            "base": wht_move["amount_income"],
+                            "amount": wht_move["amount_wht"],
+                            "wht_tax_id": wht_move["wht_tax_id"][0],
+                        },
+                    )
+                )
+            cert_vals = {
+                "move_id": self.id,
+                "payment_id": self.payment_id.id,
+                "supplier_partner_id": partner.id,
+                "date": self.date,
+                "wht_line": cert_line_vals,
+            }
+            cert_list.append(cert_vals)
+        return cert_list
 
 
 class AccountPartialReconcile(models.Model):

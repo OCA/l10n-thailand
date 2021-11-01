@@ -16,8 +16,55 @@
                     icon="fa-bars"
                 />
                 <field name="wht_cert_ids" invisible="1" />
-                <field name="wht_cert_cancel" invisible="1" />
             </div>
+            <xpath expr="//header[last()]" position="after">
+                <field name="wht_cert_status" invisible="1" />
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    attrs="{'invisible': ['|', '|', ('move_type', '!=', 'entry'), ('wht_cert_status', '!=', 'none'), ('state', '!=', 'posted')]}"
+                >
+                    This entry containg withholding tax, but no withholding tax certs. created yet.
+                    <button
+                        name="create_wht_cert"
+                        string="⇒ Create withholding tax cert."
+                        type="object"
+                        class="oe_link"
+                        states="posted"
+                        title="Create withholding tax certificate objects, based on withholding moves"
+                    />
+                </div>
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    attrs="{'invisible': ['|', ('move_type', '!=', 'entry'), ('wht_cert_status', '!=', 'draft')]}"
+                >
+                    Withholding tax certs. created but still draft.
+                    <button
+                        id="link_wht_certs"
+                        name="button_wht_certs"
+                        string="⇒ Show withholding tax certs"
+                        type="object"
+                        class="oe_link"
+                    />
+                </div>
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    attrs="{'invisible': ['|', ('move_type', '!=', 'entry'), ('wht_cert_status', '!=', 'cancel')]}"
+                >
+                    All related withholding tax certs. was cancelled.
+                    <button
+                        name="button_wht_certs"
+                        string="⇒ Show withholding tax certs"
+                        type="object"
+                        class="oe_link"
+                    />
+                </div>
+            </xpath>
             <xpath
                 expr="//page/field[@name='invoice_line_ids']/tree/field[@name='tax_ids']"
                 position="after"
