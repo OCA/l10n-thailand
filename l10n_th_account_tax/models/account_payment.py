@@ -84,29 +84,56 @@ class AccountPayment(models.Model):
         self.ensure_one()
         self.move_id.create_wht_cert()
 
-    def _update_move_line_writeoff(self, line_vals_list, write_off_line):
-        """ Update partner of move line, when write off has partner_id """
-        for line in line_vals_list:
-            if line["name"] == write_off_line["name"]:
+    def _prepare_move_line_default_vals(self, write_off_line_vals=None):
+        """
+        Assign some data from write_off_line dict, to matched line_list
+        But because, there are possibility of same ['name', 'amount'],
+        so remove one matched line and return the reduced list
+        """
+        line_list = super()._prepare_move_line_default_vals(write_off_line_vals)
+        if isinstance(write_off_line_vals, dict) and write_off_line_vals:  # single
+            matched_line, line_list = self._update_line_vals_list(
+                line_list, write_off_line_vals
+            )
+            if matched_line:
+                line_list.append(matched_line)
+        elif isinstance(write_off_line_vals, list) and write_off_line_vals:  # multi
+            matched_lines = []
+            for write_off_line in write_off_line_vals:
+                matched_line, line_list = self._update_line_vals_list(
+                    line_list, write_off_line
+                )
+                if matched_line:
+                    matched_lines.append(matched_line)
+            line_list += matched_lines
+        return line_list
+
+    def _update_line_vals_list(self, line_list, write_off_line):
+        matched_line = False
+        reduced_line_list = []
+        for line in line_list:
+            # Find the matched line using account_id, label and amount.
+            if (
+                not matched_line
+                and line["name"] == write_off_line["name"]
+                and line["account_id"] == write_off_line["account_id"]
+                and abs(line["amount_currency"]) == abs(write_off_line["amount"])
+            ):
                 # partner
                 if write_off_line.get("partner_id"):
                     line["partner_id"] = write_off_line["partner_id"]
                 # wht
-                wht_amount_base_company = self.currency_id._convert(
-                    write_off_line["wht_amount_base"],
-                    self.company_id.currency_id,
-                    self.company_id,
-                    self.date,
-                )
-                line["tax_base_amount"] = wht_amount_base_company
-                line["wht_tax_id"] = write_off_line.get("wht_tax_id")
-
-    def _prepare_move_line_default_vals(self, write_off_line_vals=None):
-        """ Overwrite default partner_id from write_off_line """
-        line_vals_list = super()._prepare_move_line_default_vals(write_off_line_vals)
-        if isinstance(write_off_line_vals, list) and write_off_line_vals:  # multi
-            for write_off_line in write_off_line_vals:
-                self._update_move_line_writeoff(line_vals_list, write_off_line)
-        elif isinstance(write_off_line_vals, dict) and write_off_line_vals:  # single
-            self._update_move_line_writeoff(line_vals_list, write_off_line_vals)
-        return line_vals_list
+                if write_off_line.get("wht_tax_id"):
+                    wht_amount_base_company = self.currency_id._convert(
+                        write_off_line["wht_amount_base"],
+                        self.company_id.currency_id,
+                        self.company_id,
+                        self.date,
+                    )
+                    line["tax_base_amount"] = wht_amount_base_company
+                    line["wht_tax_id"] = write_off_line["wht_tax_id"]
+                # Return matched line
+                matched_line = line
+            else:
+                reduced_line_list.append(line)
+        return (matched_line, reduced_line_list)
