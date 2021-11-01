@@ -34,14 +34,7 @@
                 </header>
                 <sheet>
                     <h1>
-                        <field
-                            name="payment_id"
-                            attrs="{'invisible': [('move_id', '!=', False)]}"
-                        />
-                        <field
-                            name="move_id"
-                            attrs="{'invisible': [('payment_id', '!=', False)]}"
-                        />
+                        <field name="move_id" />
                     </h1>
                     <group>
                         <group>
@@ -56,16 +49,13 @@
                     </group>
                     <group>
                         <group string="Options">
-                            <field name="income_tax_form" />
+                            <field name="income_tax_form" required="1" />
                             <field name="tax_payer" />
                         </group>
                         <group string="References">
                             <field name="company_id" invisible="1" />
                             <field name="currency_id" invisible="1" />
-                            <field
-                                name="ref_wht_cert_id"
-                                attrs="{'invisible': [('ref_wht_cert_id', '=', False)]}"
-                            />
+                            <field name="ref_wht_cert_id" />
                             <field name="date" />
                         </group>
                     </group>
@@ -75,12 +65,9 @@
                             <field name="wht_cert_income_type" />
                             <field name="wht_cert_income_desc" />
                             <field name="amount" sum="Total Tax" />
+                            <field name="wht_tax_id" optional="hide" />
                             <field name="wht_percent" required="1" />
                             <field name="base" required="1" sum="Total Base" />
-                            <field
-                                name="ref_move_line_id"
-                                attrs="{'column_invisible': [('parent.payment_id', '!=', False)]}"
-                            />
                         </tree>
                     </field>
                 </sheet>

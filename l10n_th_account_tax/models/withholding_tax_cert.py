@@ -2,8 +2,6 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
-from odoo.tools.float_utils import float_compare
 
 INCOME_TAX_FORM = [
     ("pnd1", "PND1"),
@@ -105,8 +103,7 @@ class WithholdingTaxCert(models.Model):
         copy=False,
         readonly=True,
         states={"draft": [("readonly", False)]},
-        domain="[('partner_id', '=', supplier_partner_id),"
-        "('wht_cert_cancel', '=', True)]",
+        domain="[('partner_id', '=', supplier_partner_id)]",
         ondelete="restrict",
         tracking=True,
     )
@@ -116,8 +113,7 @@ class WithholdingTaxCert(models.Model):
         copy=False,
         readonly=True,
         states={"draft": [("readonly", False)]},
-        domain="[('journal_id.type', '=', 'general'),"
-        "('wht_cert_cancel', '=', True), ('state', '=', 'posted')]",
+        domain="[('journal_id.type', '=', 'general')," "('state', '=', 'posted')]",
         ondelete="restrict",
         tracking=True,
     )
@@ -143,7 +139,7 @@ class WithholdingTaxCert(models.Model):
         string="Main Company",
         required=True,
         readonly=True,
-        default=lambda self: self._default_company_id(),
+        default=lambda self: self.env.company,
     )
     currency_id = fields.Many2one(
         comodel_name="res.currency",
@@ -161,7 +157,7 @@ class WithholdingTaxCert(models.Model):
     income_tax_form = fields.Selection(
         selection=INCOME_TAX_FORM,
         string="Income Tax Form",
-        required=True,
+        required=False,
         readonly=True,
         copy=False,
         states={"draft": [("readonly", False)]},
@@ -184,76 +180,6 @@ class WithholdingTaxCert(models.Model):
         copy=False,
     )
 
-    @api.model
-    def _default_company_id(self):
-        return self.env.company
-
-    @api.depends("payment_id", "move_id")
-    def _compute_wht_cert_data(self):
-        wht_account_ids = self.env.context.get("wht_account_ids", [])
-        wht_ref_id = self.env.context.get("wht_ref_id", False)
-        income_tax_form = self.env.context.get("income_tax_form", False)
-        CertLine = self.env["withholding.tax.cert.line"]
-        Cert = self.env["withholding.tax.cert"]
-        if wht_account_ids:
-            wht_reference = Cert.browse(wht_ref_id)
-            for record in self:
-                # Hook to find wht move lines
-                wht_move_lines = record._get_wht_move_line(
-                    record.payment_id, record.move_id, wht_account_ids
-                )
-                partner_id = record.payment_id.partner_id or record.move_id.partner_id
-                # WHT from journal entry, use partner from line.
-                if record.move_id and record.move_id.move_type == "entry":
-                    partner = wht_move_lines.mapped("partner_id")
-                    if len(partner) == 1:
-                        partner_id = wht_move_lines[0].partner_id
-
-                record.update(
-                    {
-                        "name": record.payment_id.name or record.move_id.name,
-                        "date": record.payment_id.date or record.move_id.date,
-                        "ref_wht_cert_id": wht_reference or False,
-                        "supplier_partner_id": partner_id,
-                        "income_tax_form": income_tax_form,
-                    }
-                )
-                for line in wht_move_lines:
-                    record.wht_line = CertLine.new(record._prepare_wht_line(line))
-
-    @api.model
-    def _prepare_wht_line(self, move_line):
-        """ Hook point to prepare wht_line """
-        wht_percent = move_line.wht_tax_id.amount
-        wht_cert_income_type = self.env.context.get("wht_cert_income_type")
-        select_dict = dict(WHT_CERT_INCOME_TYPE)
-        wht_cert_income_desc = select_dict.get(wht_cert_income_type, False)
-        vals = {
-            "wht_cert_income_type": wht_cert_income_type,
-            "wht_cert_income_desc": wht_cert_income_desc,
-            "wht_percent": wht_percent,
-            "base": (abs(move_line.balance) / wht_percent * 100)
-            if wht_percent
-            else False,
-            "amount": abs(move_line.balance),
-            "ref_move_line_id": move_line.id,
-        }
-        return vals
-
-    @api.model
-    def _get_wht_move_line(self, payment, move, wht_account_ids):
-        """ Hook point to get wht_move_lines """
-        wht_move_lines = []
-        if payment:
-            wht_move_lines = payment.move_id.line_ids.filtered(
-                lambda l: l.account_id.id in wht_account_ids
-            )
-        elif move:
-            wht_move_lines = move.line_ids.filtered(
-                lambda l: l.account_id.id in wht_account_ids
-            )
-        return wht_move_lines
-
     def action_draft(self):
         self.write({"state": "draft"})
         return True
@@ -272,41 +198,6 @@ class WithholdingTaxCert(models.Model):
         self.write({"state": "cancel"})
         return True
 
-    def _get_wht_cert_model_view(self):
-        res_model = "create.withholding.tax.cert"
-        view = "l10n_th_account_tax.create_withholding_tax_cert"
-        if len(self.env.context.get("active_ids")) > 1:
-            view = "l10n_th_account_tax.create_withholding_tax_cert_multi"
-        view_id = self.env.ref(view).id
-        return res_model, view_id
-
-    def action_create_withholding_tax_cert(self):
-        """ This function is called from either account.move or account.payment """
-        if not self.env.context.get("active_ids"):
-            return
-        res_model, view_id = self._get_wht_cert_model_view()
-        return {
-            "name": _("Create Withholding Tax Cert."),
-            "res_model": res_model,
-            "view_mode": "form",
-            "view_id": view_id,
-            "context": self.env.context,
-            "target": "new",
-            "type": "ir.actions.act_window",
-        }
-
-    def action_create_pit_withholding_tax_cert(self):
-        view = "l10n_th_account_tax.create_pit_withholding_tax_cert"
-        return {
-            "name": _("Create Withholding Tax Cert."),
-            "res_model": "create.pit.withholding.tax.cert",
-            "view_mode": "form",
-            "view_id": self.env.ref(view).id,
-            "context": self.env.context,
-            "target": "new",
-            "type": "ir.actions.act_window",
-        }
-
 
 class WithholdingTaxCertLine(models.Model):
     _name = "withholding.tax.cert.line"
@@ -322,28 +213,20 @@ class WithholdingTaxCertLine(models.Model):
         string="Income Description", size=500, required=False
     )
     base = fields.Float(string="Base Amount", readonly=False)
-    wht_percent = fields.Float(string="% Tax")
-    amount = fields.Float(string="Tax Amount", readonly=False)
-    ref_move_line_id = fields.Many2one(
-        comodel_name="account.move.line",
-        string="Ref Journal Item",
+    wht_tax_id = fields.Many2one(
+        comodel_name="account.withholding.tax",
+        string="Tax",
         readonly=False,
-        help="Reference back to journal item which create wht move",
     )
+    wht_percent = fields.Float(
+        string="% Tax",
+        related="wht_tax_id.amount",
+        readonly=True,
+    )
+    amount = fields.Float(string="Tax Amount", readonly=False)
     company_id = fields.Many2one(
         comodel_name="res.company", related="cert_id.company_id"
     )
-
-    @api.constrains("base", "wht_percent", "amount")
-    def _check_wht_line(self):
-        for rec in self:
-            prec = self.env.company.currency_id.decimal_places
-            if (
-                rec.wht_percent
-                and float_compare(rec.amount, rec.base * rec.wht_percent / 100, prec)
-                != 0
-            ):
-                raise ValidationError(_("WHT Base/Percent/Tax mismatch!"))
 
     @api.onchange("wht_cert_income_type")
     def _onchange_wht_cert_income_type(self):
@@ -352,10 +235,3 @@ class WithholdingTaxCertLine(models.Model):
             self.wht_cert_income_desc = select_dict[self.wht_cert_income_type]
         else:
             self.wht_cert_income_desc = False
-
-    @api.onchange("wht_percent")
-    def _onchange_wht_percent(self):
-        if self.wht_percent:
-            self.base = self.amount * 100 / self.wht_percent
-        else:
-            self.base = 0.0
