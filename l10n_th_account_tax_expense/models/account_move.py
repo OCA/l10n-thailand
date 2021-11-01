@@ -7,8 +7,8 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     def _post(self, soft=True):
-        res = super()._post(soft)
         self._assign_tax_invoice()
+        res = super()._post(soft)
         self._reconcile_withholding_tax_entry()
         return res
 
