@@ -1,6 +1,6 @@
 # Copyright 2019 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 
@@ -43,20 +43,6 @@ class AccountPayment(models.Model):
         string="Withholding Tax Cert.",
         readonly=True,
     )
-    wht_cert_cancel = fields.Boolean(
-        compute="_compute_wht_cert_cancel",
-        store=True,
-        help="This document has WHT Cert(s) and all are cancelled or not WHT Cert",
-    )
-
-    @api.depends("wht_cert_ids.state")
-    def _compute_wht_cert_cancel(self):
-        for record in self:
-            wht_state = list(set(record.wht_cert_ids.mapped("state")))
-            wht_cancel = False
-            if not wht_state or (len(wht_state) == 1 and "cancel" in wht_state):
-                wht_cancel = True
-            record.wht_cert_cancel = wht_cancel
 
     def button_wht_certs(self):
         self.ensure_one()
@@ -93,6 +79,10 @@ class AccountPayment(models.Model):
             "type": "ir.actions.act_window",
             "domain": [("id", "in", [self.move_id.id, self.tax_invoice_move_id.id])],
         }
+
+    def create_wht_cert(self):
+        self.ensure_one()
+        self.move_id.create_wht_cert()
 
     def _update_move_line_writeoff(self, line_vals_list, write_off_line):
         """ Update partner of move line, when write off has partner_id """

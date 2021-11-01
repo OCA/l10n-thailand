@@ -6,9 +6,9 @@ from odoo import api, fields, models
 from .withholding_tax_cert import WHT_CERT_INCOME_TYPE
 
 
-class PersonalIncomeTaxMove(models.Model):
+class AccountWithholdingMove(models.Model):
     _name = "account.withholding.move"
-    _description = "Personal Income Tax Move"
+    _description = "Withholding Tax Moves"
 
     payment_id = fields.Many2one(
         comodel_name="account.payment",
@@ -37,6 +37,7 @@ class PersonalIncomeTaxMove(models.Model):
     date = fields.Date(
         compute="_compute_date",
         store=True,
+        readonly=False,
     )
     calendar_year = fields.Char(
         string="Calendar Year",
@@ -65,9 +66,15 @@ class PersonalIncomeTaxMove(models.Model):
         comodel_name="res.currency",
         default=lambda self: self.env.user.company_id.currency_id,
     )
+    cert_id = fields.Many2one(
+        comodel_name="withholding.tax.cert",
+        string="Withholding Cert.",
+        readonly=True,
+        copy=False,
+    )
 
-    @api.depends("payment_id")
+    @api.depends("move_id")
     def _compute_date(self):
         for rec in self:
-            rec.date = rec.payment_id and rec.payment_id.date or False
+            rec.date = rec.move_id and rec.move_id.date or False
             rec.calendar_year = rec.date and rec.date.strftime("%Y")
