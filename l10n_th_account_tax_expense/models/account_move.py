@@ -23,8 +23,9 @@ class AccountMove(models.Model):
             clearing.ensure_one()
             move_lines = clearing.account_move_id.line_ids
             accounts = move_lines.mapped("account_id").filtered("reconcile")
-            # Find clearing and advance moves to unreconcile first
-            r_lines = clearing.account_move_id.line_ids.filtered(
+            # Find all related clearings and advance moves to unreconcile first
+            all_clearings = clearing.advance_sheet_id.clearing_sheet_ids
+            r_lines = all_clearings.mapped("account_move_id.line_ids").filtered(
                 lambda l: l.account_id.id in accounts.ids
             )
             md_lines = r_lines.mapped("matched_debit_ids.debit_move_id")
@@ -32,7 +33,7 @@ class AccountMove(models.Model):
             # Removes reconcile
             (r_lines + md_lines + mc_lines).remove_move_reconcile()
             # Re-reconcile again this time with the wht_tax JV
-            wht_lines = move.line_ids.filtered(
+            wht_lines = all_clearings.mapped("wht_move_id.line_ids").filtered(
                 lambda l: l.account_id.id in accounts.ids
             )
             (r_lines + wht_lines + md_lines + mc_lines).reconcile()
