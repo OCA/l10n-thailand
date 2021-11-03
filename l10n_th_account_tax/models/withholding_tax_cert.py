@@ -129,8 +129,6 @@ class WithholdingTaxCert(models.Model):
         comodel_name="res.partner",
         string="Supplier",
         required=True,
-        compute="_compute_wht_cert_data",
-        store=True,
         states={"draft": [("readonly", False)]},
         ondelete="restrict",
     )
@@ -179,6 +177,12 @@ class WithholdingTaxCert(models.Model):
         states={"draft": [("readonly", False)]},
         copy=False,
     )
+
+    @api.depends("payment_id", "move_id")
+    def _compute_wht_cert_data(self):
+        for rec in self:
+            rec.name = rec.payment_id.name or rec.move_id.name or ""
+            rec.date = rec.payment_id.date or rec.move_id.date
 
     def action_draft(self):
         self.write({"state": "draft"})
