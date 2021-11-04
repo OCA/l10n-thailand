@@ -16,6 +16,9 @@ class AccountWithholdingMove(models.Model):
         index=True,
         ondelete="cascade",
         domain=[("state", "not in", ["draft", "cancel"])],
+        compute="_compute_move_data",
+        store=True,
+        readonly=False,
     )
     move_id = fields.Many2one(
         comodel_name="account.move",
@@ -35,13 +38,13 @@ class AccountWithholdingMove(models.Model):
     )
     cancelled = fields.Boolean(readonly=True, help="For filtering cancelled payment")
     date = fields.Date(
-        compute="_compute_date",
+        compute="_compute_move_data",
         store=True,
         readonly=False,
     )
     calendar_year = fields.Char(
         string="Calendar Year",
-        compute="_compute_date",
+        compute="_compute_move_data",
         store=True,
         index=True,
     )
@@ -74,7 +77,8 @@ class AccountWithholdingMove(models.Model):
     )
 
     @api.depends("move_id")
-    def _compute_date(self):
+    def _compute_move_data(self):
         for rec in self:
             rec.date = rec.move_id and rec.move_id.date or False
             rec.calendar_year = rec.date and rec.date.strftime("%Y")
+            rec.payment_id = rec.move_id.payment_id
