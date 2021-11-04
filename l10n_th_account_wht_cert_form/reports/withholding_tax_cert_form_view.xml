@@ -16,7 +16,7 @@
     <template id="withholding_layout_report">
         <div
             class="article o_report_withholding_tax_cert"
-            t-attf-style="background-image:url('/l10n_th_account_wht_cert_form/static/src/img/WithholdingCert.jpg'); background-size:300mm 424mm; width:300mm; height:424mm;"
+            t-attf-style="background-image:url('/l10n_th_account_wht_cert_form/static/src/img/WithholdingCert.png'); background-size:300mm 424mm; width:300mm; height:424mm;"
         >
             <t t-if="o.state == 'cancel'">
                 <div class="state_cancel">
