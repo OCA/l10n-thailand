@@ -474,26 +474,52 @@ class AccountMove(models.Model):
         for move in self:
             move.line_ids._checkout_tax_invoice_amount()
 
-        # Create account.withholding.move, for every withhlding tax line
+        # Withholding Tax:
+        # - Create account.withholding.move, for every withholding tax line
+        # - For case PIT, it is possible that there is no withholidng amount
+        #   but still need to keep track the withholding.move base amount
         for move in self:
+            # Normal case, create withholding.move only when withholding
             wht_moves = move.line_ids.filtered("account_id.wht_account")
             withholding_moves = [
                 (0, 0, self._prepare_withholding_move(wht_move))
                 for wht_move in wht_moves
             ]
             move.write({"wht_move_ids": [(5, 0, 0)] + withholding_moves})
+            # On payment JE, keep track of move when PIT not withheld, use date from vendor bill
+            if move.payment_id and not move.payment_id.wht_move_ids.mapped("is_pit"):
+                if self.env.context.get("active_model") == "account.move":
+                    bills = self.env["account.move"].browse(
+                        self.env.context.get("active_ids", [])
+                    )
+                    bill_wht_lines = bills.mapped("line_ids").filtered(
+                        "wht_tax_id.is_pit"
+                    )
+                    bill_wht_moves = [
+                        (0, 0, self._prepare_withholding_move(bill_wht_move))
+                        for bill_wht_move in bill_wht_lines
+                    ]
+                    move.write({"wht_move_ids": bill_wht_moves})
         # When post, do remove the existing certs
         self.mapped("wht_cert_ids").unlink()
         return res
 
     def _prepare_withholding_move(self, wht_move):
         """ Prepare dict for account.withholding.move """
+        amount_income = wht_move.tax_base_amount
+        amount_wht = abs(wht_move.balance)
+        # In case, PIT is not withhold, but need to track from invoice
+        if wht_move.move_id.move_type == "in_invoice":
+            amount_income = abs(wht_move.balance)
+            amount_wht = 0.0
+        if wht_move.move_id.move_type == "in_refund":
+            amount_income = -abs(wht_move.balance)
+            amount_wht = 0.0
         return {
             "partner_id": wht_move.partner_id.id,
-            "amount_income": wht_move.tax_base_amount,
+            "amount_income": amount_income,
             "wht_tax_id": wht_move.wht_tax_id.id,
-            "amount_wht": abs(wht_move.balance),
-            "payment_id": wht_move.move_id.payment_id.id,
+            "amount_wht": amount_wht,
         }
 
     def _get_tax_invoice_number(self, move, tax_invoice, tax):
