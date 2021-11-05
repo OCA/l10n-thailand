@@ -26,7 +26,7 @@
                     class="alert alert-warning"
                     role="alert"
                     style="margin-bottom:0px;"
-                    attrs="{'invisible': ['|', '|', ('move_type', '!=', 'entry'), ('wht_cert_status', '!=', 'none'), ('state', '!=', 'posted')]}"
+                    attrs="{'invisible': ['|', ('wht_cert_status', '!=', 'none'), ('state', '!=', 'posted')]}"
                 >
                     This entry containg withholding tax, but no withholding tax certs. created yet.
                     <button
