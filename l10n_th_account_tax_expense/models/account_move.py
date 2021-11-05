@@ -56,3 +56,35 @@ class AccountMove(models.Model):
                     bill_partner = tax_invoice.move_line_id.expense_id.bill_partner_id
                     if bill_partner:
                         tax_invoice.write({"partner_id": bill_partner.id})
+
+    def _compute_has_wht(self):
+        """Has WHT when
+        Is expense's JE when (
+            move_type == 'entry'
+            and lines with expense_id
+            and not lines with payment_id
+        )
+        """
+        super()._compute_has_wht()
+        for rec in self.filtered("has_wht"):
+            exp_move = (
+                rec.move_type == "entry"
+                and rec.line_ids.filtered("expense_id")
+                and not rec.line_ids.filtered("payment_id")
+            )
+            if exp_move:
+                rec.has_wht = False
+
+    def _prepare_withholding_move(self, wht_move):
+        """ Prepare dict for account.withholding.move on Expense"""
+        res = super()._prepare_withholding_move(wht_move)
+        # Is this an expense's journal entry?
+        is_expense = wht_move.expense_id and not wht_move.payment_id
+        if is_expense:
+            res.update(
+                {
+                    "amount_income": abs(wht_move.balance),
+                    "amount_wht": 0.0,
+                }
+            )
+        return res

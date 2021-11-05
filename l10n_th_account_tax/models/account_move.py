@@ -377,8 +377,14 @@ class AccountMove(models.Model):
     )
 
     def _compute_has_wht(self):
+        """Has WHT when
+        1. Has wht_tax_id
+        2. Is not invoice (move_type == 'entry')
+        """
         for rec in self:
-            rec.has_wht = len(rec.line_ids.mapped("wht_tax_id")) > 0
+            wht_tax = True if rec.line_ids.mapped("wht_tax_id") else False
+            not_inv = rec.move_type == "entry"
+            rec.has_wht = wht_tax and not_inv
 
     @api.depends("wht_cert_ids.state")
     def _compute_wht_cert_status(self):
@@ -486,7 +492,7 @@ class AccountMove(models.Model):
                 for wht_move in wht_moves
             ]
             move.write({"wht_move_ids": [(5, 0, 0)] + withholding_moves})
-            # On payment JE, keep track of move when PIT not withheld, use date from vendor bill
+            # On payment JE, keep track of move when PIT not withheld, use data from vendor bill
             if move.payment_id and not move.payment_id.wht_move_ids.mapped("is_pit"):
                 if self.env.context.get("active_model") == "account.move":
                     bills = self.env["account.move"].browse(
