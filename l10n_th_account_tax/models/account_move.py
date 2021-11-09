@@ -168,7 +168,7 @@ class AccountMoveLine(models.Model):
         pit_lines = wht_lines.filtered("wht_tax_id.is_pit")
         wht_lines = wht_lines - pit_lines
         # Mixing PIT and WHT or > 1 type, no auto deduct
-        if pit_lines and wht_lines:
+        if pit_lines and wht_lines or not self:
             return (0, 0)
         # WHT
         if wht_lines:
@@ -272,7 +272,7 @@ class AccountMoveLine(models.Model):
         def add_deduction(
             wht_lines, wht_tax, partner_id, amount_deduct, currency, date
         ):
-            amount_base, amount_wht = partner_wht_lines._get_wht_amount(currency, date)
+            amount_base, amount_wht = wht_lines._get_wht_amount(currency, date)
             amount_deduct += amount_wht
             deduct = {
                 "partner_id": partner_id,
@@ -303,6 +303,7 @@ class AccountMoveLine(models.Model):
                     {
                         x.bill_partner_id.id
                         or x.employee_id.sudo().address_home_id.commercial_partner_id.id
+                        or x.employee_id.sudo().user_partner_id.id
                         for x in wht_tax_lines.mapped("expense_id")
                     }
                 )
