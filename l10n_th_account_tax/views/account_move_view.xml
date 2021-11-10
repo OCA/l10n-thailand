@@ -261,7 +261,7 @@
     <menuitem
         action="action_tax_invoice"
         id="menu_action_tax_invoice"
-        groups="account.group_account_manager"
+        groups="account.group_account_invoice"
         parent="account.menu_finance_entries_accounting_miscellaneous"
         sequence="100"
     />
