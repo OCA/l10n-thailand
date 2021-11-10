@@ -76,10 +76,7 @@
                 expr="//field[@name='expense_line_ids']/tree/field[@name='date']"
                 position="after"
             >
-                <field
-                    name="product_id"
-                    optional="hide"
-                />
+                <field name="product_id" optional="hide" />
             </xpath>
         </field>
     </record>
