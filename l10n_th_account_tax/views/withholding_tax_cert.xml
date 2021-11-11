@@ -63,7 +63,7 @@
                         <tree editable="bottom">
                             <field name="company_id" invisible="1" />
                             <field name="wht_cert_income_type" />
-                            <field name="wht_cert_income_desc" />
+                            <field name="wht_cert_income_desc" optional="show" />
                             <field name="amount" sum="Total Tax" />
                             <field name="wht_tax_id" optional="hide" />
                             <field name="wht_percent" required="1" />
