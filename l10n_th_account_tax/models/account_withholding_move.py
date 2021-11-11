@@ -65,6 +65,10 @@ class AccountWithholdingMove(models.Model):
         WHT_CERT_INCOME_TYPE,
         string="Type of Income",
     )
+    wht_cert_income_desc = fields.Char(
+        string="Income Description",
+        size=500,
+    )
     currency_id = fields.Many2one(
         comodel_name="res.currency",
         default=lambda self: self.env.user.company_id.currency_id,
@@ -82,3 +86,11 @@ class AccountWithholdingMove(models.Model):
             rec.date = rec.move_id and rec.move_id.date or False
             rec.calendar_year = rec.date and rec.date.strftime("%Y")
             rec.payment_id = rec.move_id.payment_id
+    
+    @api.onchange("wht_cert_income_type")
+    def _onchange_wht_cert_income_type(self):
+        if self.wht_cert_income_type:
+            select_dict = dict(WHT_CERT_INCOME_TYPE)
+            self.wht_cert_income_desc = select_dict[self.wht_cert_income_type]
+        else:
+            self.wht_cert_income_desc = False
