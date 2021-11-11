@@ -157,6 +157,7 @@
                             <field name="calendar_year" invisible="1" />
                             <field name="partner_id" readonly="1" />
                             <field name="wht_cert_income_type" />
+                            <field name="wht_cert_income_desc" optional="show" />
                             <field name="amount_income" />
                             <field name="amount_wht" />
                             <field name="is_pit" />
