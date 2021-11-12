@@ -10,8 +10,6 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_compare
 from odoo.tools.misc import format_date
 
-from .withholding_tax_cert import WHT_CERT_INCOME_TYPE
-
 
 class AccountMoveTaxInvoice(models.Model):
     _name = "account.move.tax.invoice"
@@ -607,7 +605,6 @@ class AccountMove(models.Model):
     def _preapare_wht_certs(self):
         """ Create withholding tax certs, 1 cert per partner """
         self.ensure_one()
-        dict(WHT_CERT_INCOME_TYPE)
         wht_move_groups = self.env["account.withholding.move"].read_group(
             domain=[("move_id", "=", self.id)],
             fields=[
