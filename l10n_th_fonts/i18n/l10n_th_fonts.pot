@@ -1,0 +1,119 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_fonts
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__angsananew
+msgid "AngsanaNew"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model,name:l10n_th_fonts.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields,field_description:l10n_th_fonts.field_res_company__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields,field_description:l10n_th_fonts.field_res_company__font
+msgid "Font"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields,field_description:l10n_th_fonts.field_res_company__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields,field_description:l10n_th_fonts.field_res_company____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thbaijam
+msgid "THBaijam"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thchakrapetch
+msgid "THChakraPetch"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thcharmofau
+msgid "THCharmofAU"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thcharmonman
+msgid "THCharmonman"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thfahkwang
+msgid "THFahkwang"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thk2djuly8
+msgid "THK2DJuly8"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thkoho
+msgid "THKoHo"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thkodchasal
+msgid "THKodchasal"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thkrub
+msgid "THKrub"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thmaligrade6
+msgid "THMaliGrade6"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thniramitas
+msgid "THNiramitAS"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thsarabun
+msgid "THSarabun"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thsarabunnew
+msgid "THSarabunNew"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__thsrisakdi
+msgid "THSrisakdi"
+msgstr ""
+
+#. module: l10n_th_fonts
+#: model:ir.model.fields.selection,name:l10n_th_fonts.selection__res_company__font__webdings
+msgid "Webdings"
+msgstr ""

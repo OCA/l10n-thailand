@@ -1,0 +1,18 @@
+This module collects fonts thai :
+
+* Font 'THSrisakdi'
+* Font 'THSarabunNew'
+* Font 'THSarabun'
+* Font 'THNiramitAS'
+* Font 'THMaliGrade6'
+* Font 'THKrub'
+* Font 'THKoHo'
+* Font 'THKodchasal'
+* Font 'THK2DJuly8'
+* Font 'THFahkwang'
+* Font 'THCharmonman'
+* Font 'THCharmofAU'
+* Font 'THChakraPetch'
+* Font 'THBaijam'
+* Font 'AngsanaNew'
+* Font 'Webdings'
