@@ -17,7 +17,7 @@ Thai Localization - Fonts Thai
     :target: https://github.com/OCA/l10n-thailand/tree/15.0/l10n_th_fonts
     :alt: OCA/l10n-thailand
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-thailand-15.0/l10n-thailand-15.0-l10n_th_fonts
+    :target: https://translation.odoo-community.org/projects/l10n-thailand-15-0/l10n-thailand-15-0-l10n_th_fonts
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runbot-Try%20me-875A7B.png
     :target: https://runbot.odoo-community.org/runbot/238/15.0
