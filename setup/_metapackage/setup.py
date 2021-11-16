@@ -9,7 +9,10 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo14-addon-l10n_th_amount_to_text',
+        'odoo14-addon-l10n_th_base_location',
         'odoo14-addon-l10n_th_company_novat',
+        'odoo14-addon-l10n_th_expense_tax_invoice',
+        'odoo14-addon-l10n_th_expense_withholding_tax',
         'odoo14-addon-l10n_th_fonts',
         'odoo14-addon-l10n_th_partner',
         'odoo14-addon-l10n_th_promptpay',
@@ -17,9 +20,11 @@ setuptools.setup(
         'odoo14-addon-l10n_th_tax_report',
         'odoo14-addon-l10n_th_withholding_tax',
         'odoo14-addon-l10n_th_withholding_tax_cert',
+        'odoo14-addon-l10n_th_withholding_tax_cert_form',
     ],
     classifiers=[
         'Programming Language :: Python',
         'Framework :: Odoo',
+        'Framework :: Odoo :: 14.0',
     ]
 )

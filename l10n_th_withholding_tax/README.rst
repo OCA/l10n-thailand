@@ -45,7 +45,9 @@ From bills / invoices that require withheld tax,
 **Note**
 
 - if you configured withholding tax on product, it fill withholding tax in field WT automatic.
-- you can't register a payment with multi invoices, when there is withholding tax in line.
+- for invoices with withholding tax,
+    - you can't make payment to multiple invoices belongs to multiple partners.
+    - you can only make payment to multiple invoices belongs to the same partner (using Group Payments).
 
 Bug Tracker
 ===========
@@ -68,8 +70,11 @@ Authors
 Contributors
 ~~~~~~~~~~~~
 
-* Kitti Upariphutthiphong. <kittiu@gmail.com> (http://ecosoft.co.th)
-* Saran Lim. <saranl@ecosoft.co.th>
+* `Ecosoft <http://ecosoft.co.th>`__:
+
+  * Kitti U. <kittiu@ecosoft.co.th>
+  * Saran Lim. <saranl@ecosoft.co.th>
+  * Pimolnat Suntian <pimolnats@ecosoft.co.th>
 
 Maintainers
 ~~~~~~~~~~~

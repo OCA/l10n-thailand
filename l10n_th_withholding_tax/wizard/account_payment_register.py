@@ -12,6 +12,18 @@ class AccountPaymentRegister(models.TransientModel):
         string="Withholding Tax",
         help="Optional hidden field to keep wt_tax. Useful for case 1 tax only",
     )
+    wt_amount_base = fields.Monetary(
+        string="Withholding Base",
+        help="Based amount for the tax amount",
+    )
+
+    @api.onchange("wt_tax_id", "wt_amount_base")
+    def _onchange_wt_tax_id(self):
+        if self.wt_tax_id and self.wt_amount_base:
+            amount_wt = self.wt_tax_id.amount / 100 * self.wt_amount_base
+            self.amount = self.source_amount_currency - amount_wt
+            self.writeoff_account_id = self.wt_tax_id.account_id
+            self.writeoff_label = self.wt_tax_id.display_name
 
     def _create_payment_vals_from_wizard(self):
         payment_vals = super()._create_payment_vals_from_wizard()
@@ -20,9 +32,10 @@ class AccountPaymentRegister(models.TransientModel):
             payment_vals.update({"wt_tax_id": self.wt_tax_id.id})
         return payment_vals
 
-    def _update_payment_register(self, amount_wt, inv_lines):
+    def _update_payment_register(self, amount_base, amount_wt, inv_lines):
         self.ensure_one()
         self.amount -= amount_wt
+        self.wt_amount_base = amount_base
         self.payment_difference_handling = "reconcile"
         wt_tax = inv_lines.mapped("wt_tax_id")
         if wt_tax and len(wt_tax) == 1:
@@ -45,26 +58,43 @@ class AccountPaymentRegister(models.TransientModel):
         if self._context.get("active_model") == "account.move":
             active_ids = self._context.get("active_ids", [])
             invoices = self.env["account.move"].browse(active_ids)
-            inv_lines = invoices.mapped("invoice_line_ids").filtered("wt_tax_id")
-            amount_wt = 0
-            for line in inv_lines:
-                base_amount = line._get_wt_base_amount()
-                amount_wt += line.wt_tax_id.amount / 100 * base_amount
+            move_lines = invoices.mapped("line_ids").filtered("wt_tax_id")
+            if not move_lines:
+                return res
+            # Case WHT only, ensure only 1 wizard
+            self.ensure_one()
+            amount_base, amount_wt = move_lines._get_wt_amount(
+                self.currency_id, self.payment_date
+            )
             if amount_wt:
-                self._update_payment_register(amount_wt, inv_lines)
+                self._update_payment_register(amount_base, amount_wt, move_lines)
         return res
 
     @api.model
     def default_get(self, fields_list):
+        res = super().default_get(fields_list)
         if self._context.get("active_model") == "account.move":
             active_ids = self._context.get("active_ids", False)
             move_ids = self.env["account.move"].browse(active_ids)
-            wt_tax_line = move_ids.line_ids.filtered(lambda l: l.wt_tax_id)
-            if len(move_ids) > 1 and wt_tax_line:
+            partner_ids = move_ids.mapped("partner_id")
+            wt_tax_line = move_ids.line_ids.filtered("wt_tax_id")
+            if len(partner_ids) > 1 and wt_tax_line:
                 raise UserError(
                     _(
-                        "You can't register a payment on tree view "
-                        "because there is withholding tax in line."
+                        "You can't register a payment for invoices "
+                        "(with withholding tax) belong to multiple partners."
                     )
                 )
-        return super().default_get(fields_list)
+            res["group_payment"] = True
+        return res
+
+    def _create_payments(self):
+        self.ensure_one()
+        if self.wt_tax_id and not self.group_payment:
+            raise UserError(
+                _(
+                    "Please check Group Payments when dealing "
+                    "with multiple invoices that has withholding tax."
+                )
+            )
+        return super()._create_payments()

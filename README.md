@@ -31,7 +31,7 @@ addon | version | maintainers | summary
 [l10n_th_tax_report](l10n_th_tax_report/) | 14.0.1.0.0 |  | Thailand Localization - TAX Reports
 [l10n_th_withholding_tax](l10n_th_withholding_tax/) | 14.0.1.0.3 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Withholding Tax
 [l10n_th_withholding_tax_cert](l10n_th_withholding_tax_cert/) | 14.0.1.0.1 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Withholding Tax Certificate
-[l10n_th_withholding_tax_cert_form](l10n_th_withholding_tax_cert_form/) | 14.0.1.0.0 |  | Thai Localization - Withholding Tax Certificate Form
+[l10n_th_withholding_tax_cert_form](l10n_th_withholding_tax_cert_form/) | 14.0.1.0.1 |  | Thai Localization - Withholding Tax Certificate Form
 
 [//]: # (end addons)
 

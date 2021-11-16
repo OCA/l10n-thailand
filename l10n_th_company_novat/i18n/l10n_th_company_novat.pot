@@ -93,6 +93,7 @@ msgstr ""
 
 #. module: l10n_th_company_novat
 #: model:ir.model.fields,help:l10n_th_company_novat.field_account_move_line__wtvat
+#: model:ir.model.fields,help:l10n_th_company_novat.field_hr_expense__wtvat
 msgid ""
 "Only with No-VAT registered company, set default tax  to calculate base "
 "amount used for withholding amount"
@@ -125,5 +126,6 @@ msgstr ""
 
 #. module: l10n_th_company_novat
 #: model:ir.model.fields,field_description:l10n_th_company_novat.field_account_move_line__wtvat
+#: model:ir.model.fields,field_description:l10n_th_company_novat.field_hr_expense__wtvat
 msgid "Vat%"
 msgstr ""

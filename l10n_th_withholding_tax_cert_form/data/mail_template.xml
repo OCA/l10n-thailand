@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<odoo>
+    <!--Email template -->
+    <record id="wt_cert_email_template" model="mail.template">
+        <field name="name">Withholding Tax Cert : Send by email</field>
+        <field
+            name="model_id"
+            ref="l10n_th_withholding_tax_cert.model_withholding_tax_cert"
+        />
+        <field
+            name="subject"
+        >${object.company_id.name} Withholding Tax Certificate (Ref ${object.name or 'n/a' })</field>
+        <field name="partner_to">${object.supplier_partner_id.id}</field>
+        <field name="body_html" type="xml">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                    Dear ${object.supplier_partner_id.name}<br /><br />
+                    Here is your withholding tax certificate <strong
+                    >${(object.name or "").replace("/","-")}</strong> tax amounting
+                    to <strong
+                    >${format_amount(sum(object.wt_line.mapped("amount")), object.currency_id)}</strong> from ${object.company_id.name}.
+                    <br /><br />
+                    Do not hesitate to contact us if you have any questions.
+                    <br /><br />
+                    Best regards,<br />
+                    % if user and user.signature:
+                    ${user.signature | safe}
+                    % endif
+                </p>
+            </div>
+        </field>
+        <field name="lang">${object.supplier_partner_id.lang}</field>
+        <field
+            name="report_template"
+            ref="l10n_th_withholding_tax_cert_form.withholding_tax_pdf_report"
+        />
+        <field
+            name="report_name"
+        >WT Certificates - ${(object.name or '').replace('/','-')}</field>
+    </record>
+</odoo>
