@@ -32,11 +32,15 @@ class AccountMove(models.Model):
             mc_lines = r_lines.mapped("matched_credit_ids.credit_move_id")
             # Removes reconcile
             (r_lines + md_lines + mc_lines).remove_move_reconcile()
-            # Re-reconcile again this time with the wht_tax JV
+            # Re-reconcile again this time with the wht_tax JV, account by account
             wht_lines = all_clearings.mapped("wht_move_id.line_ids").filtered(
                 lambda l: l.account_id.id in accounts.ids
             )
-            (r_lines + wht_lines + md_lines + mc_lines).reconcile()
+            to_reconciles = (r_lines + wht_lines + md_lines + mc_lines).filtered(
+                lambda l: not l.reconciled
+            )
+            for account in accounts:
+                to_reconciles.filtered(lambda l: l.account_id == account).reconcile()
 
     def _assign_tax_invoice(self):
         """ Use Bill Reference and Date from Expense Line as Tax Invoice """

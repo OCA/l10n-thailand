@@ -75,18 +75,19 @@ class HrExpenseSheet(models.Model):
         # Dr. Reconcilable Account (i.e., AP, Advance)
         partner_id = self.employee_id.sudo().address_home_id.commercial_partner_id.id
         for account in accounts:
-            line_vals_list.append(
-                {
-                    "name": account.name,
-                    "amount_currency": amount_deduct,
-                    "currency_id": currency.id,
-                    "debit": amount_deduct,  # Sum of all credit
-                    "credit": 0.0,
-                    "partner_id": partner_id,
-                    "account_id": account.id,
-                }
-            )
-            amount_deduct = 0.0
+            if amount_deduct:
+                line_vals_list.append(
+                    {
+                        "name": account.name,
+                        "amount_currency": amount_deduct,
+                        "currency_id": currency.id,
+                        "debit": amount_deduct,  # Sum of all credit
+                        "credit": 0.0,
+                        "partner_id": partner_id,
+                        "account_id": account.id,
+                    }
+                )
+                amount_deduct = 0.0
         # Create JV
         move_vals = {
             "move_type": "entry",
