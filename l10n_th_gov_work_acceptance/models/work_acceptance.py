@@ -46,24 +46,6 @@ class WorkAcceptance(models.Model):
             "note": line.note,
         }
 
-    @api.onchange("sheet_id")
-    def _onchange_sheet_id(self):
-        """ Get WA committee from PR's """
-        super()._onchange_sheet_id()
-        if self.env.context.get("default_purchase_id"):
-            return
-        purchase_requests = (
-            self.sheet_id.purchase_request_id
-            + self.sheet_id.advance_sheet_id.purchase_request_id
-        )
-        committees = purchase_requests.mapped("work_acceptance_committee_ids")
-        lines = [(0, 0, self._prepare_committee_line(line)) for line in committees]
-        committee_lines = committee_lines = [(5, 0, 0)]
-        for line in lines:
-            if line not in committee_lines:
-                committee_lines.append(line)
-        self.work_acceptance_committee_ids = committee_lines
-
     # @api.model
     # def _get_under_validation_exceptions(self):
     #     res = super()._get_under_validation_exceptions()
