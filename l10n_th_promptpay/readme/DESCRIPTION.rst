@@ -1,0 +1,1 @@
+The PromptPay QR code which is also known as Thai QR payment allows a customer to pay by scanning a QR code with a bank's mobile application. The Thai QR code payment is a kind of wire transfer. This module allows Odoo to show PromptPay QR code along with a wire transfer information.
