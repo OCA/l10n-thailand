@@ -13,30 +13,47 @@ class AccountMove(models.Model):
         return res
 
     def _reconcile_withholding_tax_entry(self):
-        """ Re-Reconciliation, ensure the wht_move is taken into account """
+        """ Re-Reconciliation, for case wht_move that clear advance only """
         for move in self:
             clearing = self.env["hr.expense.sheet"].search(
                 [("wht_move_id", "=", move.id)]
             )
             if not clearing:
                 continue
+            advance = clearing.advance_sheet_id
             clearing.ensure_one()
-            move_lines = clearing.account_move_id.line_ids
-            accounts = move_lines.mapped("account_id").filtered("reconcile")
+            # Find Advance account (from advance sheet)
+            av_account = advance.expense_line_ids.mapped("account_id")
+            av_account.ensure_one()
             # Find all related clearings and advance moves to unreconcile first
-            all_clearings = clearing.advance_sheet_id.clearing_sheet_ids
-            r_lines = all_clearings.mapped("account_move_id.line_ids").filtered(
-                lambda l: l.account_id.id in accounts.ids
+            if move.line_ids.filtered(lambda l: l.account_id == av_account):
+                all_clearings = clearing.advance_sheet_id.clearing_sheet_ids
+                r_lines = all_clearings.mapped("account_move_id.line_ids").filtered(
+                    lambda l: l.account_id == av_account
+                )
+                md_lines = r_lines.mapped("matched_debit_ids.debit_move_id")
+                mc_lines = r_lines.mapped("matched_credit_ids.credit_move_id")
+                # Removes reconcile
+                (r_lines + md_lines + mc_lines).remove_move_reconcile()
+                # Re-reconcile again this time with the wht_tax JV, account by account
+                wht_lines = all_clearings.mapped("wht_move_id.line_ids").filtered(
+                    lambda l: l.account_id == av_account
+                )
+                to_reconciles = (r_lines + wht_lines + md_lines + mc_lines).filtered(
+                    lambda l: not l.reconciled
+                )
+                to_reconciles.filtered(lambda l: l.account_id == av_account).reconcile()
+            # Then, in case there are left over amount to other AP, do reconcile.
+            ap_accounts = move.line_ids.mapped("account_id").filtered(
+                lambda l: l.reconcile and l != av_account
             )
-            md_lines = r_lines.mapped("matched_debit_ids.debit_move_id")
-            mc_lines = r_lines.mapped("matched_credit_ids.credit_move_id")
-            # Removes reconcile
-            (r_lines + md_lines + mc_lines).remove_move_reconcile()
-            # Re-reconcile again this time with the wht_tax JV
-            wht_lines = all_clearings.mapped("wht_move_id.line_ids").filtered(
-                lambda l: l.account_id.id in accounts.ids
-            )
-            (r_lines + wht_lines + md_lines + mc_lines).reconcile()
+            if not ap_accounts:
+                continue
+            for account in ap_accounts:
+                ml_lines = (
+                    clearing.account_move_id.line_ids + clearing.wht_move_id.line_ids
+                )
+                ml_lines.filtered(lambda l: l.account_id == account).reconcile()
 
     def _assign_tax_invoice(self):
         """ Use Bill Reference and Date from Expense Line as Tax Invoice """

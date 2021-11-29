@@ -50,7 +50,7 @@ class HrExpenseSheet(models.Model):
         self.ensure_one()
         # Prepare Dr. Advance, Cr. WHT lines
         line_vals_list = []
-        move_lines = self.account_move_id.mapped("line_ids")
+        move_lines = self.account_move_id.line_ids
         # Cr. WHT Lines
         wht_move_lines = move_lines.filtered("wht_tax_id")
         currency = self.env.company.currency_id
@@ -71,22 +71,31 @@ class HrExpenseSheet(models.Model):
                     "tax_base_amount": deduction["wht_amount_base"],
                 }
             )
-        accounts = move_lines.mapped("account_id").filtered("reconcile")
         # Dr. Reconcilable Account (i.e., AP, Advance)
+        # amount goes to AP first, then the rest go to Advance
+        av_account = self.advance_sheet_id.expense_line_ids.mapped("account_id")
+        ap_accounts = move_lines.mapped("account_id").filtered(
+            lambda l: l.reconcile and l != av_account
+        )
+        accounts = ap_accounts + av_account
         partner_id = self.employee_id.sudo().address_home_id.commercial_partner_id.id
         for account in accounts:
-            line_vals_list.append(
-                {
-                    "name": account.name,
-                    "amount_currency": amount_deduct,
-                    "currency_id": currency.id,
-                    "debit": amount_deduct,  # Sum of all credit
-                    "credit": 0.0,
-                    "partner_id": partner_id,
-                    "account_id": account.id,
-                }
-            )
-            amount_deduct = 0.0
+            if amount_deduct:
+                account_ml = move_lines.filtered(lambda l: l.account_id == account)
+                credit = sum(account_ml.mapped("credit"))
+                amount = credit if amount_deduct > credit else amount_deduct
+                line_vals_list.append(
+                    {
+                        "name": account.name,
+                        "amount_currency": amount,
+                        "currency_id": currency.id,
+                        "debit": amount,
+                        "credit": 0.0,
+                        "partner_id": partner_id,
+                        "account_id": account.id,
+                    }
+                )
+                amount_deduct -= amount
         # Create JV
         move_vals = {
             "move_type": "entry",
@@ -94,3 +103,10 @@ class HrExpenseSheet(models.Model):
             "line_ids": [(0, 0, line_vals) for line_vals in line_vals_list],
         }
         return move_vals
+
+    def action_register_payment(self):
+        """ For Clearing, never deduct WHT auto """
+        action = super().action_register_payment()
+        if self.filtered("advance_sheet_id"):
+            action["context"].update({"skip_wht_deduct": True})
+        return action
