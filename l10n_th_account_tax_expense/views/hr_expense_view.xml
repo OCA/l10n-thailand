@@ -26,14 +26,14 @@
                 <field
                     name="wht_tax_id"
                     options="{'no_create': True}"
-                    attrs="{'readonly': [('advance', '=', True)]}"
+                    attrs="{'readonly': ['|', ('advance', '=', True), ('state', 'in', ['post', 'done', 'cancel'])]}"
                     force_save="1"
                 />
             </xpath>
             <xpath expr="//field[@name='payment_mode']" position="attributes">
                 <attribute
                     name="attrs"
-                >{'readonly': [('advance', '=', True)]}</attribute>
+                >{'readonly': ['|', ('advance', '=', True), ('state', 'in', ['done', 'approved', 'reported'])]}</attribute>
                 <attribute name="force_save">1</attribute>
             </xpath>
         </field>

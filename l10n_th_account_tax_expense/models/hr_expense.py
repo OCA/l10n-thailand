@@ -10,6 +10,7 @@ class HrExpense(models.Model):
     bill_partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Vendor",
+        tracking=True,
     )
     wht_tax_id = fields.Many2one(
         comodel_name="account.withholding.tax",
@@ -17,6 +18,7 @@ class HrExpense(models.Model):
         compute="_compute_wht_tax_id",
         store=True,
         readonly=False,
+        tracking=True,
     )
 
     @api.onchange("tax_ids", "wht_tax_id")
