@@ -20,18 +20,21 @@
                 <attribute
                     name="attrs"
                 >{'readonly': ['|', ('is_editable', '=', False), ('advance', '=', True)]}</attribute>
+                <attribute name="force_save">1</attribute>
             </xpath>
             <xpath expr="//field[@name='tax_ids']" position="after">
                 <field
                     name="wht_tax_id"
                     options="{'no_create': True}"
                     attrs="{'readonly': [('advance', '=', True)]}"
+                    force_save="1"
                 />
             </xpath>
             <xpath expr="//field[@name='payment_mode']" position="attributes">
                 <attribute
                     name="attrs"
                 >{'readonly': [('advance', '=', True)]}</attribute>
+                <attribute name="force_save">1</attribute>
             </xpath>
         </field>
     </record>
@@ -56,6 +59,7 @@
                     options="{'no_create': True}"
                     optional="show"
                     attrs="{'readonly': [('advance', '=', True)]}"
+                    force_save="1"
                 />
             </xpath>
             <xpath
@@ -65,6 +69,7 @@
                 <attribute
                     name="attrs"
                 >{'readonly': [('advance', '=', True)]}</attribute>
+                <attribute name="force_save">1</attribute>
             </xpath>
             <xpath
                 expr="//field[@name='expense_line_ids']/tree/field[@name='date']"
