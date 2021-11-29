@@ -94,7 +94,9 @@ class AccountPaymentRegister(models.TransientModel):
         """ This function is the first entry point, to calculate withholding amount """
         res = super()._compute_amount()
         # Get the sum withholding tax amount from invoice line
-        if self.env.context.get("active_model") == "account.move":
+        skip_wht_deduct = self.env.context.get("skip_wht_deduct")
+        active_model = self.env.context.get("active_model")
+        if not skip_wht_deduct and active_model == "account.move":
             active_ids = self.env.context.get("active_ids", [])
             invoices = self.env["account.move"].browse(active_ids)
             wht_move_lines = invoices.mapped("line_ids").filtered("wht_tax_id")

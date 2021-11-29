@@ -10,8 +10,6 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_compare
 from odoo.tools.misc import format_date
 
-from .withholding_tax_cert import WHT_CERT_INCOME_TYPE
-
 
 class AccountMoveTaxInvoice(models.Model):
     _name = "account.move.tax.invoice"
@@ -607,17 +605,22 @@ class AccountMove(models.Model):
     def _preapare_wht_certs(self):
         """ Create withholding tax certs, 1 cert per partner """
         self.ensure_one()
-        select_dict = dict(WHT_CERT_INCOME_TYPE)
         wht_move_groups = self.env["account.withholding.move"].read_group(
             domain=[("move_id", "=", self.id)],
             fields=[
                 "partner_id",
                 "wht_cert_income_type",
+                "wht_cert_income_desc",
                 "wht_tax_id",
                 "amount_income",
                 "amount_wht",
             ],
-            groupby=["partner_id", "wht_cert_income_type", "wht_tax_id"],
+            groupby=[
+                "partner_id",
+                "wht_cert_income_type",
+                "wht_tax_id",
+                "wht_cert_income_desc",
+            ],
             lazy=False,
         )
         # Create 1 cert for 1 vendor
@@ -635,9 +638,7 @@ class AccountMove(models.Model):
                         0,
                         {
                             "wht_cert_income_type": wht_move["wht_cert_income_type"],
-                            "wht_cert_income_desc": select_dict[
-                                wht_move["wht_cert_income_type"]
-                            ],
+                            "wht_cert_income_desc": wht_move["wht_cert_income_desc"],
                             "base": wht_move["amount_income"],
                             "amount": wht_move["amount_wht"],
                             "wht_tax_id": wht_move["wht_tax_id"][0],

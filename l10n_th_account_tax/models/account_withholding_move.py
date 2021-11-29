@@ -86,7 +86,7 @@ class AccountWithholdingMove(models.Model):
             rec.date = rec.move_id and rec.move_id.date or False
             rec.calendar_year = rec.date and rec.date.strftime("%Y")
             rec.payment_id = rec.move_id.payment_id
-    
+
     @api.onchange("wht_cert_income_type")
     def _onchange_wht_cert_income_type(self):
         if self.wht_cert_income_type:
