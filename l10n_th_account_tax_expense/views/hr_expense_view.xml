@@ -44,6 +44,17 @@
         <field name="model">hr.expense.sheet</field>
         <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form" />
         <field name="arch" type="xml">
+            <button name="action_register_payment" position="before">
+                <field name="need_wht_entry" invisible="1" />
+                <button
+                    name="action_create_withholding_tax_entry"
+                    type="object"
+                    class="oe_highlight"
+                    attrs="{'invisible': ['|', ('state', 'not in', ('post', 'done')), ('need_wht_entry', '!=', True)]}"
+                    string="Create Withholding Tax JV"
+                    groups="account.group_account_invoice"
+                />
+            </button>
             <field name="account_move_id" position="after">
                 <field
                     name="wht_move_id"
@@ -83,17 +94,6 @@
             >
                 <field name="product_id" optional="hide" />
             </xpath>
-        </field>
-    </record>
-
-    <record id="action_create_withholding_entry" model="ir.actions.server">
-        <field name="name">Create Withholding Tax JV</field>
-        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
-        <field name="binding_model_id" ref="hr_expense.model_hr_expense_sheet" />
-        <field name="binding_view_types">form</field>
-        <field name="state">code</field>
-        <field name="code">
-            action = env['hr.expense.sheet'].action_create_withholding_tax_entry()
         </field>
     </record>
 
