@@ -1,2 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_work_acceptance_committee,procurement.committee,model_work_acceptance_committee,purchase.group_purchase_user,1,1,1,1
+access_work_acceptance_committee,procurement.committee,model_work_acceptance_committee,base.group_user,1,1,1,1
+access_work_acceptance_approver,work.acceptance.approver,purchase_work_acceptance.model_work_acceptance,base.group_user,1,1,0,0
+access_work_acceptance_line_approver,work.acceptance.line.approver,purchase_work_acceptance.model_work_acceptance_line,base.group_user,1,1,0,0
+access_stock_picking_approver,stock.picking.approver,stock.model_stock_picking,base.group_user,1,0,0,0
