@@ -13,26 +13,32 @@ class HrExpenseSheet(models.Model):
         ondelete="set null",
         copy=False,
         readonly=True,
+        tracking=True,
         help="For case clear advance, a JV can be created to record withholding tax",
     )
-    has_wht = fields.Boolean(
-        compute="_compute_has_wht",
+    need_wht_entry = fields.Boolean(
+        compute="_compute_need_wht_entry",
+        help="Tell user that this advance clearing is pending create withholding tax entry.",
     )
 
-    def _compute_has_wht(self):
+    def _compute_need_wht_entry(self):
+        """ Clearing Advance + Expense WHT + No or Cancelled wht_move_id """
         for rec in self:
-            rec.has_wht = len(rec.expense_line_ids.mapped("wht_tax_id")) > 0
+            rec.need_wht_entry = (
+                rec.advance_sheet_id
+                and (not rec.wht_move_id or rec.wht_move_id.state == "cancel")
+                and len(rec.expense_line_ids.mapped("wht_tax_id")) > 0
+            )
 
     def action_create_withholding_tax_entry(self):
         """From expense sheet with WHT lines, this action
         helps create new JV with default withholding entries"""
-        active_id = self.env.context.get("active_id")
-        sheet = self.env["hr.expense.sheet"].browse(active_id)
+        sheet = self
         sheet.ensure_one()
         # Validation
         if sheet.state not in ("done", "post"):
             raise UserError(_("Only posted or paid expense report can create JV"))
-        if sheet.wht_move_id:
+        if sheet.wht_move_id and sheet.wht_move_id.state != "cancel":
             raise UserError(_("Already created withholding tax JV"))
         # Window action
         action = self.env.ref("account.action_move_journal_line")
