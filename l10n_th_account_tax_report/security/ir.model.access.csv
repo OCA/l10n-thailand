@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tax_report_wizard,tax.report.wizard,model_tax_report_wizard,account.group_account_invoice,1,1,1,1
+access_tax_report_view,tax.report.view,model_tax_report_view,account.group_account_invoice,1,1,1,1
+access_report_tax_report,report.tax.report,model_report_tax_report,account.group_account_invoice,1,1,1,1
+access_report_l10n_th_account_tax_report_report_tax_report_xlsx,report.l10n_th_account_tax_report.report_tax_report_xlsx,model_report_l10n_th_account_tax_report_report_tax_report_xlsx,account.group_account_invoice,1,1,1,1
+access_withholding_tax_report_wizard,access_withholding_tax_report_wizard,model_withholding_tax_report_wizard,account.group_account_invoice,1,1,1,1
+access_withholding_tax_report,access_withholding_tax_report,model_withholding_tax_report,account.group_account_invoice,1,1,1,1
