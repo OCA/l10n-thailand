@@ -1,0 +1,44 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_sequence_branch
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_th_sequence_branch
+#: model_terms:ir.ui.view,arch_db:l10n_th_sequence_branch.ir_sequence_form_inherit
+msgid ""
+"<span colspan=\"2\">Company branch number (5-digit): %(b5)s</span>\n"
+"                    <span colspan=\"2\">Company branch number (4-digit): %(b4)s</span>\n"
+"                    <span colspan=\"2\">Company branch number (3-digit): %(b3)s</span>\n"
+"                    <span colspan=\"2\">Company branch number (2-digit): %(b2)s</span>\n"
+"                    <span colspan=\"2\">Company branch number (1-digit): %(b1)s</span>"
+msgstr ""
+
+#. module: l10n_th_sequence_branch
+#: model:ir.model.fields,field_description:l10n_th_sequence_branch.field_ir_sequence__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_th_sequence_branch
+#: model:ir.model.fields,field_description:l10n_th_sequence_branch.field_ir_sequence__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_th_sequence_branch
+#: model:ir.model.fields,field_description:l10n_th_sequence_branch.field_ir_sequence____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_th_sequence_branch
+#: model:ir.model,name:l10n_th_sequence_branch.model_ir_sequence
+msgid "Sequence"
+msgstr ""
