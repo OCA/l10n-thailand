@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="assets_backend"
+        name="l10n_th_account_tax_report assets"
+        inherit_id="web.assets_backend"
+    >
+        <xpath expr="." position="inside">
+            <link
+                href="/l10n_th_account_tax_report/static/src/css/report.css"
+                rel="stylesheet"
+            />
+            <script
+                type="text/javascript"
+                src="/l10n_th_account_tax_report/static/src/js/l10n_th_account_tax_report_backend.js"
+            />
+            <script
+                type="text/javascript"
+                src="/l10n_th_account_tax_report/static/src/js/withholding_tax_report_widgets.js"
+            />
+        </xpath>
+    </template>
+    <template id="l10n_th_account_tax_report.internal_layout">
+        <div class="article">
+            <link
+                href="/l10n_th_account_tax_report/static/src/css/report.css"
+                rel="stylesheet"
+            />
+            <t t-raw="0" />
+        </div>
+        <div class="footer">
+            <div class="row">
+                <div class="col-6 custom_footer">
+                    <span
+                        t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"
+                    />
+                </div>
+                <div class="col-6 text-right custom_footer">
+                    <span class="page" />
+                    /
+                    <span class="topage" />
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="l10n_th_account_tax_report.report_buttons">
+        <div class="button_row">
+            <button class="o_l10n_th_account_tax_report_print btn btn-sm oe_button">
+                <span class="fa fa-print" />
+                Print
+            </button>
+            <button class="o_l10n_th_account_tax_report_export btn btn-sm oe_button">
+                <span class="fa fa-download" />
+                Export
+            </button>
+        </div>
+    </template>
+    <template id="l10n_th_account_tax_report.report_tax_report_html">
+        <div class="o_l10n_th_account_tax_report_page">
+            <t t-call="l10n_th_account_tax_report.report_buttons" />
+            <t t-call="l10n_th_account_tax_report.report_tax_report_base" />
+        </div>
+    </template>
+    <template id="l10n_th_account_tax_report.report_tax_report_pdf">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="l10n_th_account_tax_report.internal_layout">
+                    <t t-call="l10n_th_account_tax_report.report_tax_report_base" />
+                </t>
+            </t>
+        </t>
+    </template>
+    <template id="l10n_th_account_tax_report.report_tax_report_base">
+        <div class="page">
+            <!-- Display Title -->
+            <div class="row">
+                <t t-if="o.tax_id.type_tax_use == 'sale'">
+                    <h4 class="mt0" style="text-align: center;">Sale VAT Report</h4>
+                </t>
+                <t t-elif="o.tax_id.type_tax_use == 'purchase'">
+                    <h4 class="mt0" style="text-align: center;">Purchase VAT Report</h4>
+                </t>
+                <t t-else="">
+                    <h4 class="mt0" style="text-align: center;">VAT Report</h4>
+                </t>
+            </div>
+            <!-- Display filters -->
+            <t t-call="l10n_th_account_tax_report.report_tax_report_filters" />
+            <!-- Display tax report table -->
+            <div class="act_as_table data_table mt8" style="width: 100%;">
+                <!-- Display header line-->
+                <t t-call="l10n_th_account_tax_report.report_tax_report_lines_header" />
+                <!-- Display each lines -->
+                <t t-set="n" t-value="1" />
+                <t t-set="total_base" t-value="0.00" />
+                <t t-set="total_tax" t-value="0.00" />
+                <t t-foreach="o.results" t-as="line">
+                    <t t-call="l10n_th_account_tax_report.report_tax_report_lines" />
+                    <t t-set="n" t-value="n+1" />
+                    <t t-set="total_base" t-value="total_base+line.tax_base_amount" />
+                    <t t-set="total_tax" t-value="total_tax+line.tax_amount" />
+                </t>
+                <!-- Display total lines -->
+                <t t-call="l10n_th_account_tax_report.report_tax_report_total_lines" />
+            </div>
+        </div>
+    </template>
+    <template id="l10n_th_account_tax_report.report_tax_report_filters">
+        <div class="act_as_table data_table" style="width: 100%;">
+            <div class="act_as_row labels">
+                <div class="act_as_cell">Period</div>
+                <div class="act_as_cell">Partner</div>
+                <div class="act_as_cell">Tax ID</div>
+                <div class="act_as_cell">Branch ID</div>
+            </div>
+            <div class="act_as_row">
+                <div class="act_as_cell">
+                    <span t-field="o.date_range_id.display_name" />
+                </div>
+                <div class="act_as_cell">
+                    <span t-field="o.company_id.display_name" />
+                </div>
+                <div class="act_as_cell">
+                    <span t-field="o.company_id.partner_id.vat" />
+                </div>
+                <div class="act_as_cell">
+                    <span t-field="o.company_id.partner_id.branch" />
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="l10n_th_account_tax_report.report_tax_report_lines_header">
+        <div class="act_as_thead">
+            <div class="act_as_row labels">
+                <div class="act_as_cell">#</div>
+                <div class="act_as_cell">Date</div>
+                <div class="act_as_cell">Number</div>
+                <div class="act_as_cell">Cust./Sup.</div>
+                <div class="act_as_cell">Tax ID</div>
+                <div class="act_as_cell">Branch ID</div>
+                <div class="act_as_cell">Base Amount</div>
+                <div class="act_as_cell">Tax Amount</div>
+                <div class="act_as_cell">Doc Ref.</div>
+            </div>
+        </div>
+    </template>
+    <template id="l10n_th_account_tax_report.report_tax_report_lines">
+        <div class="act_as_row lines">
+            <div class="act_as_cell left">
+                <t t-esc="n" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.tax_date" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.tax_invoice_number" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.partner_id.display_name" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.partner_id.vat" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.partner_id.branch" />
+            </div>
+            <div class="act_as_cell amount">
+                <t t-esc="'{0:,.2f}'.format(line.tax_base_amount)" />
+            </div>
+            <div class="act_as_cell amount">
+                <t t-esc="'{0:,.2f}'.format(line.tax_amount)" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.name" />
+            </div>
+        </div>
+    </template>
+    <template id="l10n_th_account_tax_report.report_tax_report_total_lines">
+        <div class="act_as_row totals_table">
+            <div class="act_as_cell" />
+            <div class="act_as_cell" />
+            <div class="act_as_cell" />
+            <div class="act_as_cell" />
+            <div class="act_as_cell" />
+            <div class="act_as_cell" />
+            <div class="act_as_cell amount">
+                <t t-esc="'{0:,.2f}'.format(total_base)" />
+            </div>
+            <div class="act_as_cell amount">
+                <t t-esc="'{0:,.2f}'.format(total_tax)" />
+            </div>
+            <div class="act_as_cell" />
+        </div>
+    </template>
+</odoo>
