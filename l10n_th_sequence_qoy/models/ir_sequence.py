@@ -21,7 +21,7 @@ class IrSequenceQoy(models.Model):
             ("name", "=", "l10n_th_sequence_range_end"),
             ("state", "=", "installed"),
         ]
-        if self.env["ir.module.module"].search_count(domain) == 1:
+        if self.env["ir.module.module"].sudo().search_count(domain) == 1:
             res["range_end_qoy"] = (
                 str((int(res["range_end_month"]) - 1) // 3 + 1)
                 if res["range_end_year"]

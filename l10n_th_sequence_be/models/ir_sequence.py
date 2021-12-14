@@ -24,7 +24,7 @@ class IrSequenceBe(models.Model):
             ("name", "=", "l10n_th_sequence_range_end"),
             ("state", "=", "installed"),
         ]
-        if self.env["ir.module.module"].search_count(domain) == 1:
+        if self.env["ir.module.module"].sudo().search_count(domain) == 1:
             res["range_end_year_be"] = (
                 str(int(res["range_end_year"]) + 543) if res["range_end_year"] else None
             )
