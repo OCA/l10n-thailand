@@ -1,6 +1,6 @@
 {
     "name": "Thai Localization - Sequence with Buddhist Era Year",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.1",
     "category": "Localization",
     "website": "https://github.com/OCA/l10n-thailand",
     "author": "Sansiri Tanachutiwat, Odoo Community Association (OCA)",
