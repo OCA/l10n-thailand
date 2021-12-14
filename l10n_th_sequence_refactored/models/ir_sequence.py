@@ -56,6 +56,7 @@ class IrSequence(models.Model):
         Override the `_get_prefix_suffix()`. This utilizes the private
         `_interpolation_dict()` instead of an inner function.
         """
+        self.ensure_one()
         d = self._interpolation_dict(date=date, date_range=date_range)
 
         try:
