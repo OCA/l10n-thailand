@@ -8,16 +8,17 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <div name="button_box" position="inside">
-                <button
-                    class="oe_stat_button"
-                    name="button_wht_certs"
-                    string="WHT Certs"
-                    type="object"
-                    groups="account.group_account_invoice"
-                    attrs="{'invisible':[('wht_cert_ids','=',[])]}"
-                    icon="fa-bars"
-                />
-                <field name="wht_cert_ids" invisible="1" />
+                <button name="button_wht_certs"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-bars"
+                        attrs="{'invisible': [('wht_certs_count','=', 0)]}"
+                        groups="account.group_account_invoice"
+                >
+                    <field name="wht_certs_count"/>
+                    <span attrs="{'invisible': [('wht_certs_count','&gt;', 1)]}">WHT Cert</span>
+                    <span attrs="{'invisible': [('wht_certs_count','&lt;=', 1)]}">WHT Certs</span>
+                </button>
             </div>
             <xpath expr="//header[last()]" position="after">
                 <field name="wht_cert_status" invisible="1" />

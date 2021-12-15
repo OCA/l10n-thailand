@@ -1,6 +1,6 @@
 # Copyright 2019 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -43,6 +43,15 @@ class AccountPayment(models.Model):
         string="Withholding Tax Cert.",
         readonly=True,
     )
+    wht_certs_count = fields.Integer(
+        string="# Withholding Tax Certs",
+        compute="_compute_wht_certs_count",
+    )
+
+    @api.depends("wht_cert_ids")
+    def _compute_wht_certs_count(self):
+        for payment in self:
+            payment.wht_certs_count = len(payment.wht_cert_ids)
 
     def button_wht_certs(self):
         self.ensure_one()
