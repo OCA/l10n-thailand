@@ -6,7 +6,7 @@ from odoo import api, fields, models
 DEFAULT_DAY_FORMAT_WHT = "%d"
 DEFAULT_MONTH_FORMAT_WHT = "%m"
 DEFAULT_YEAR_FORMAT_WHT = "%Y"
-INCOME_TAX_FORM = {"pnd3": "P03", "pnd53": "P53"}
+INCOME_TAX_FORM = {"pnd1": "P01", "pnd3": "P03", "pnd53": "P53"}
 
 
 class WithHoldingTaxReport(models.TransientModel):
@@ -14,7 +14,7 @@ class WithHoldingTaxReport(models.TransientModel):
     _description = "Withholding Tax Report"
 
     income_tax_form = fields.Selection(
-        selection=[("pnd3", "PND3"), ("pnd53", "PND53")],
+        selection=[("pnd1", "PND1"), ("pnd3", "PND3"), ("pnd53", "PND53")],
         string="Income Tax Form",
         required=True,
     )
