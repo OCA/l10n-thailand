@@ -62,6 +62,7 @@
                         <div class="act_as_cell" style="width: 11%;">Ref Doc.</div>
                     </div>
                 </div>
+                <t t-set="supplier" t-value="o.cert_id.supplier_partner_id" />
                 <t t-set="i" t-value="1" />
                 <t t-foreach="o.results" t-as="o">
                     <t t-set="cancel" t-value="o.cert_id.state == 'cancel'" />
@@ -71,17 +72,38 @@
                             <t t-set="i" t-value="i+1" />
                         </div>
                         <div class="act_as_cell" style="width: 7%;">
-                            <span t-field="o.cert_id.supplier_partner_id.vat" />
+                            <span t-field="supplier.vat" />
                         </div>
                         <div class="act_as_cell left" style="width: 13%;">
                             <span
-                                t-esc="not cancel and o.cert_id.supplier_partner_id.display_name or 'Cancelled'"
+                                t-esc="not cancel and supplier.display_name or 'Cancelled'"
                             />
                         </div>
                         <div class="act_as_cell left" style="width: 13%;">
-                            <span
-                                t-esc="not cancel and o.cert_id.supplier_partner_id.street or ''"
-                            />
+                            <t t-if="not cancel">
+                                <t t-if="supplier.street">
+                                    <span t-field="supplier.street" />
+                                </t>
+                                <t t-if="supplier.street2">
+                                    <span>,</span>
+                                    <span t-field="supplier.street2" />
+                                </t>
+                                <t t-if="supplier.city">
+                                    <span>,</span>
+                                    <span t-field="supplier.city" />
+                                </t>
+                                <t t-if="supplier.state_id">
+                                    <span>,</span>
+                                    <span t-field="supplier.state_id" />
+                                </t>
+                                <t t-if="supplier.zip">
+                                    <span t-field="supplier.zip" />
+                                </t>
+                                <t t-if="supplier.country_id">
+                                    <span>,</span>
+                                    <span t-field="supplier.country_id" />
+                                </t>
+                            </t>
                         </div>
                         <div class="act_as_cell" style="width: 6%;">
                             <span t-esc="o.cert_id.date.strftime('%d/%m/%Y')" />
