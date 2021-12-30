@@ -672,8 +672,9 @@ class AccountPartialReconcile(models.Model):
         del_move_lines = moves.mapped("line_ids").filtered(
             lambda l: l.account_id.internal_group in ["income", "expense"]
         )
-        self.env.cr.execute(
-            "DELETE FROM account_move_line WHERE id in %s", (tuple(del_move_lines.ids),)
-        )
+        if del_move_lines:
+            self.env.cr.execute(
+                "DELETE FROM account_move_line WHERE id in %s", (tuple(del_move_lines.ids),)
+            )
         # --
         return moves
