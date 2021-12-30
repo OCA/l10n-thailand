@@ -667,4 +667,9 @@ class AccountPartialReconcile(models.Model):
         payment = move_lines.mapped("payment_id")
         if len(payment) == 1:
             self = self.with_context(payment_id=payment.id)
-        return super()._create_tax_cash_basis_moves()
+        moves = super()._create_tax_cash_basis_moves()
+        # EXPERIMENT: remove income / expense account move lines
+        del_move_lines = moves.mapped("line_ids").filtered(lambda l: l.account_id.internal_group in ["income", "expense"])
+        self.env.cr.execute("DELETE FROM account_move_line WHERE id in %s", (tuple(del_move_lines.ids),))
+        # --
+        return moves
