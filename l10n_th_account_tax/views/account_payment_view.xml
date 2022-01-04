@@ -98,8 +98,9 @@
             </button>
             <field name="move_id" position="after">
                 <field
-                    name="tax_invoice_move_id"
-                    attrs="{'invisible': [('tax_invoice_move_id', '=', False)]}"
+                    name="tax_invoice_move_ids"
+                    widget="many2many_tags"
+                    attrs="{'invisible': [('tax_invoice_move_ids', '=', False)]}"
                 />
             </field>
             <group position="after">

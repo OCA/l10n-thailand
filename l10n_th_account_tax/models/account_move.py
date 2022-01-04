@@ -219,9 +219,21 @@ class AccountMoveLine(models.Model):
     def create(self, vals_list):
         move_lines = super().create(vals_list)
         TaxInvoice = self.env["account.move.tax.invoice"]
+        AccountCode = self.env["account.account"]
         sign = self.env.context.get("reverse_tax_invoice") and -1 or 1
         for line in move_lines:
+            tax_base_amount = 0.0
             if (line.tax_line_id and line.tax_exigible) or line.manual_tax_invoice:
+                # case multi, find base tax amount each line
+                for vals in vals_list:
+                    account = AccountCode.browse(vals["account_id"])
+                    include_balance = account.user_type_id.include_initial_balance
+                    if (
+                        not include_balance
+                        and vals.get("debit", 0.0)
+                        and vals["move_id"] == line.move_id.id
+                    ):
+                        tax_base_amount = vals["debit"]
                 taxinv = TaxInvoice.create(
                     {
                         "move_id": line.move_id.id,
@@ -229,7 +241,7 @@ class AccountMoveLine(models.Model):
                         "partner_id": line.partner_id.id,
                         "tax_invoice_number": sign < 0 and "/" or False,
                         "tax_invoice_date": sign < 0 and fields.Date.today() or False,
-                        "tax_base_amount": sign * abs(line.tax_base_amount),
+                        "tax_base_amount": sign * tax_base_amount,
                         "balance": sign * abs(line.balance),
                         "reversed_id": (
                             line.move_id.move_type == "entry"
@@ -674,7 +686,8 @@ class AccountPartialReconcile(models.Model):
         )
         if del_move_lines:
             self.env.cr.execute(
-                "DELETE FROM account_move_line WHERE id in %s", (tuple(del_move_lines.ids),)
+                "DELETE FROM account_move_line WHERE id in %s",
+                (tuple(del_move_lines.ids),),
             )
         # --
         return moves
