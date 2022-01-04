@@ -18,10 +18,13 @@ class AccountPayment(models.Model):
         copy=False,
         domain=[("reversing_id", "=", False), ("reversed_id", "=", False)],
     )
-    tax_invoice_move_id = fields.Many2one(
+    tax_invoice_move_ids = fields.Many2many(
         comodel_name="account.move",
+        relation="payment_tax_invoice_rel",
+        column1="payment_id",
+        column2="tax_invoice_id",
         string="Tax Invoice's Journal Entry",
-        compute="_compute_tax_invoice_move_id",
+        compute="_compute_tax_invoice_move_ids",
     )
     wht_move_ids = fields.One2many(
         comodel_name="account.withholding.move",
@@ -75,18 +78,20 @@ class AccountPayment(models.Model):
                 move.action_post()
         return True
 
-    def _compute_tax_invoice_move_id(self):
+    @api.depends("tax_invoice_ids")
+    def _compute_tax_invoice_move_ids(self):
         for payment in self:
-            payment.tax_invoice_move_id = payment.tax_invoice_ids.mapped("move_id")[:1]
+            payment.tax_invoice_move_ids = payment.tax_invoice_ids.mapped("move_id")
 
     def button_journal_entries(self):
+        moves = self.tax_invoice_move_ids + self.move_id
         return {
             "name": _("Journal Entries"),
             "view_mode": "tree,form",
             "res_model": "account.move",
             "view_id": False,
             "type": "ir.actions.act_window",
-            "domain": [("id", "in", [self.move_id.id, self.tax_invoice_move_id.id])],
+            "domain": [("id", "in", moves.ids)],
         }
 
     def create_wht_cert(self):

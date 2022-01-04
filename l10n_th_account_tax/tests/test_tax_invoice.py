@@ -270,10 +270,10 @@ class TestTaxInvoice(SingleTransactionCase):
         self.assertEqual(payment.tax_invoice_ids.mapped("move_id").state, "posted")
         # Check the move_line_ids, from both Bank and Cash Basis journal
         self.assertTrue(payment.move_id)
-        self.assertTrue(payment.tax_invoice_move_id)
+        self.assertTrue(payment.tax_invoice_move_ids)
         payment.action_draft()  # Unlink the relation
         self.assertEqual(payment.move_id.state, "draft")
-        self.assertFalse(payment.tax_invoice_move_id)
+        self.assertFalse(payment.tax_invoice_move_ids)
 
     def test_customer_invoice_vat(self):
         """Supplier Invoice with VAT,
@@ -305,10 +305,10 @@ class TestTaxInvoice(SingleTransactionCase):
         self.assertEqual(tax_invoice_number, payment.name)
         # Check the move_line_ids, from both Bank and Cash Basis journal
         self.assertTrue(payment.move_id)
-        self.assertTrue(payment.tax_invoice_move_id)
+        self.assertTrue(payment.tax_invoice_move_ids)
         payment.action_draft()  # Unlink the relation
         self.assertEqual(payment.move_id.state, "draft")
-        self.assertFalse(payment.tax_invoice_move_id)
+        self.assertFalse(payment.tax_invoice_move_ids)
 
     def test_customer_invoice_vat_sequence(self):
         """Supplier Invoice with VAT,
@@ -349,10 +349,10 @@ class TestTaxInvoice(SingleTransactionCase):
         self.assertEqual(tax_invoice_number, "CTX0002")
         # Check the move_line_ids, from both Bank and Cash Basis journal
         self.assertTrue(payment.move_id)
-        self.assertTrue(payment.tax_invoice_move_id)
+        self.assertTrue(payment.tax_invoice_move_ids)
         payment.action_draft()  # Unlink the relation
         self.assertEqual(payment.move_id.state, "draft")
-        self.assertFalse(payment.tax_invoice_move_id)
+        self.assertFalse(payment.tax_invoice_move_ids)
 
     def test_supplier_invoice_refund_reconcile(self):
         """Case on undue vat, to net refund with vendor bill.
