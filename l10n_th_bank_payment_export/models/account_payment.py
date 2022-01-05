@@ -12,4 +12,5 @@ class AccountPayment(models.Model):
         copy=False,
         readonly=True,
         tracking=True,
+        help="if checked, it means the money has already been sent to the bank.",
     )

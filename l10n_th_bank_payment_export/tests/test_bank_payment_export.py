@@ -10,7 +10,43 @@ class TestBankPaymentExport(CommonBankPaymentExport):
     def setUp(self):
         super().setUp()
 
-    def test_01_create_bank_payment_export_from_payment(self):
+    def test_01_create_payment_default_exported(self):
+        # exported manual on wizard
+        self.payment_exported_from_wizard = self.create_invoice_payment(
+            amount=100,
+            currency_id=self.main_currency_id,
+            payment_method=self.payment_method_manual_out,
+            partner=self.partner_2,
+            journal=self.journal_bank,
+            is_export=True,
+        )
+        # multi invoices
+        self.payment_multi_invoice_not_exported_from_wizard = (
+            self.create_invoice_payment(
+                amount=100,
+                currency_id=self.main_currency_id,
+                payment_method=self.payment_method_manual_out,
+                partner=self.partner_2,
+                journal=self.journal_bank,
+                multi=True,
+            )
+        )
+        self.payment_multi_invoice_exported_from_wizard = self.create_invoice_payment(
+            amount=100,
+            currency_id=self.main_currency_id,
+            payment_method=self.payment_method_manual_out,
+            partner=self.partner_2,
+            journal=self.journal_bank,
+            is_export=True,
+            multi=True,
+        )
+        self.assertTrue(self.payment_exported_from_wizard.is_export)
+        for payment in self.payment_multi_invoice_exported_from_wizard:
+            self.assertTrue(payment.is_export)
+        for payment in self.payment_multi_invoice_not_exported_from_wizard:
+            self.assertFalse(payment.is_export)
+
+    def test_02_create_bank_payment_export_from_payment(self):
         """ Create bank payment export from vendor payment"""
         ctx = {
             "active_model": "account.payment",
@@ -62,7 +98,7 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         ).action_create_bank_payment_export()
         self.assertEqual(len(action["context"]["default_export_line_ids"]), 2)
 
-    def test_02_common_function(self):
+    def test_03_common_function(self):
         bank_payment = self.bank_payment_export_model.create({"name": "/"})
         bank_payment.action_get_all_payments()
         self.assertEqual(len(bank_payment.export_line_ids.ids), 2)
@@ -85,7 +121,7 @@ class TestBankPaymentExport(CommonBankPaymentExport):
                 self.assertTrue(receiver_name)
                 self.assertTrue(receiver_acc_number)
 
-    def test_03_create_bank_payment_export_direct(self):
+    def test_04_create_bank_payment_export_direct(self):
         bank_payment = self.bank_payment_export_model.create({"name": "/"})
         self.assertNotEqual(bank_payment.name, "/")
         self.assertEqual(len(bank_payment.export_line_ids), 0)

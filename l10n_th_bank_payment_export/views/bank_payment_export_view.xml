@@ -124,6 +124,7 @@
         <field name="model">bank.payment.export</field>
         <field name="arch" type="xml">
             <search string="Bank Payment Export">
+                <field name="name" />
                 <filter
                     name="bank_payment_export_state_draft"
                     string="Draft"

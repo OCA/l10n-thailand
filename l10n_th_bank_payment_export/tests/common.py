@@ -139,9 +139,14 @@ class CommonBankPaymentExport(TransactionCase):
         payment_method=False,
         partner=False,
         journal=False,
+        is_export=False,
+        multi=False,
     ):
         invoice = self.create_invoice(amount, inv_type, currency_id, partner)
-        ctx = {"active_model": "account.move", "active_ids": [invoice.id]}
+        if multi:
+            invoice2 = self.create_invoice(amount, inv_type, currency_id, partner)
+            invoice += invoice2
+        ctx = {"active_model": "account.move", "active_ids": invoice.ids}
         register_payments = self.register_payments_model.with_context(ctx).create(
             {
                 "journal_id": journal.id,
@@ -149,13 +154,15 @@ class CommonBankPaymentExport(TransactionCase):
                 "amount": amount,
                 "partner_bank_id": invoice.partner_bank_id.id,
                 "payment_date": fields.Date.today(),
+                "is_export": is_export,
             }
         )
         payment_list = register_payments.action_create_payments()
+        domain = ("id", "=", payment_list.get("res_id", False))
+        if not payment_list.get("res_id", False):
+            domain = ("id", "in", payment_list["domain"][0][2])
         # convert payment list to payment obj
-        payment = self.env[payment_list["res_model"]].search(
-            [("id", "=", payment_list["res_id"])]
-        )
+        payment = self.env[payment_list["res_model"]].search([domain])
         return payment
 
     def action_bank_export_excel(self, bank_payment):
