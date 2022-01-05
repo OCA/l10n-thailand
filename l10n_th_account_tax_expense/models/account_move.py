@@ -105,3 +105,18 @@ class AccountMove(models.Model):
                 }
             )
         return res
+
+
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+
+    def _get_tax_base_amount(self, sign, vals_list):
+        """ Case expense multi line, tax base amount should compute each line """
+        tax_base_amount = super()._get_tax_base_amount(sign, vals_list)
+        for vals in vals_list:
+            tax = vals.get("tax_ids", False) and vals["tax_ids"][0][2] or False
+            if tax and vals["move_id"] == self.move_id.id:
+                tax_base_amount = sign * (
+                    vals["amount_currency"] > 0.0 and vals["debit"] or vals["credit"]
+                )
+        return tax_base_amount
