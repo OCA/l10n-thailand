@@ -113,10 +113,14 @@ class AccountMoveLine(models.Model):
     def _get_tax_base_amount(self, sign, vals_list):
         """ Case expense multi line, tax base amount should compute each line """
         tax_base_amount = super()._get_tax_base_amount(sign, vals_list)
-        for vals in vals_list:
-            tax = vals.get("tax_ids", False) and vals["tax_ids"][0][2] or False
-            if tax and vals["move_id"] == self.move_id.id:
-                tax_base_amount = sign * (
-                    vals["amount_currency"] > 0.0 and vals["debit"] or vals["credit"]
+        taxes_list = list(filter(lambda x: x.get("tax_repartition_line_id"), vals_list))
+        for vals in taxes_list:
+            if vals["move_id"] == self.move_id.id:
+                line_ids = self.move_id.tax_cash_basis_move_id.line_ids
+                move_line_tax_amount = line_ids.filtered(
+                    lambda l: l.tax_base_amount
+                    and l.amount_currency == self.amount_currency
                 )
+                if move_line_tax_amount:
+                    tax_base_amount = move_line_tax_amount[0].tax_base_amount
         return tax_base_amount
