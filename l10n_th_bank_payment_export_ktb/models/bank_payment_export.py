@@ -270,4 +270,16 @@ class BankPaymentExport(models.Model):
                         )
                     )
                 )
+            if rec.ktb_bank_type == "standard" and any(
+                line.payment_bank_id.bic == rec.bank for line in rec.export_line_ids
+            ):
+                raise UserError(
+                    _(
+                        "Bank type '{}' can not export payment to the same bank.".format(
+                            dict(self._fields["ktb_bank_type"].selection).get(
+                                self.ktb_bank_type
+                            )
+                        )
+                    )
+                )
         return res

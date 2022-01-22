@@ -79,8 +79,16 @@ class TestBankPaymentExportKTB(CommonBankPaymentExport):
         with Form(bank_payment) as bp:
             bp.ktb_bank_type = "standard"
             bp.ktb_service_type_standard = "04"
+        # Type standard can't export payment to the same bank
+        origin = []
+        for line in bank_payment.export_line_ids:
+            origin.append(line.payment_partner_bank_id.bank_id.bic)
+            line.payment_partner_bank_id.bank_id.bic = bank_payment.bank
+        with self.assertRaises(UserError):
+            bank_payment.action_confirm()
+        for i, line in enumerate(bank_payment.export_line_ids):
+            line.payment_partner_bank_id.bank_id.bic = origin[i]
         bank_payment.action_confirm()
-
         # Export Excel
         xlsx_data = self.action_bank_export_excel(bank_payment)
         self.assertEqual(xlsx_data[1], "xlsx")
