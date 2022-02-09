@@ -80,7 +80,7 @@ class AccountPaymentRegister(models.TransientModel):
         # Check case auto and manual withholding tax
         if self.payment_difference_handling == "reconcile" and self.wht_tax_id:
             payment_vals["write_off_line_vals"] = self._prepare_writeoff_move_line(
-                payment_vals["write_off_line_vals"]
+                payment_vals.get("write_off_line_vals", False)
             )
         return payment_vals
 
@@ -163,10 +163,19 @@ class AccountPaymentRegister(models.TransientModel):
         payments = super()._create_payments()
         return payments
 
-    def _prepare_writeoff_move_line(self, write_off_line_vals):
-        write_off_line_vals["wht_tax_id"] = self.wht_tax_id.id
-        write_off_line_vals["wht_amount_base"] = self.wht_amount_base
-        return write_off_line_vals
+    def _prepare_writeoff_move_line(self, write_off_line_vals=None):
+        write_off_line_vals = write_off_line_vals or {}
+        if write_off_line_vals:
+            write_off_line_vals["wht_tax_id"] = self.wht_tax_id.id
+            write_off_line_vals["wht_amount_base"] = self.wht_amount_base
+            return write_off_line_vals
+        return {
+            "name": self.writeoff_label,
+            "amount": self.payment_difference,
+            "wht_tax_id": self.wht_tax_id.id,
+            "wht_amount_base": self.wht_amount_base,
+            "account_id": self.writeoff_account_id.id,
+        }
 
     def action_create_payments(self):
         if self.payment_difference_handling == "reconcile":

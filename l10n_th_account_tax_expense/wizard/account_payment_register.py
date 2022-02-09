@@ -28,7 +28,7 @@ class AccountPaymentRegister(models.TransientModel):
             partner = bill_partners.id if len(bill_partners) == 1 else False
             return partner
 
-    def _prepare_writeoff_move_line(self, write_off_line_vals):
+    def _prepare_writeoff_move_line(self, write_off_line_vals=None):
         vals = super()._prepare_writeoff_move_line(write_off_line_vals)
         vals["partner_id"] = self.bill_partner_id.id
         return vals
