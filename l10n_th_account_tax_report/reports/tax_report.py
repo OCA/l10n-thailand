@@ -15,7 +15,7 @@ class TaxReportView(models.TransientModel):
     partner_id = fields.Many2one("res.partner")
     tax_base_amount = fields.Float()
     tax_amount = fields.Float()
-    tax_date = fields.Char()
+    tax_date = fields.Date()
     tax_invoice_number = fields.Char()
 
 

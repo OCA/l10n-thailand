@@ -150,7 +150,7 @@
                 <t t-esc="n" />
             </div>
             <div class="act_as_cell left">
-                <t t-esc="line.tax_date" />
+                <t t-esc="line.tax_date.strftime('%d/%m/%Y')" />
             </div>
             <div class="act_as_cell left">
                 <t t-esc="line.tax_invoice_number" />

@@ -686,8 +686,24 @@ class AccountPartialReconcile(models.Model):
             self = self.with_context(payment_id=payment.id)
         moves = super()._create_tax_cash_basis_moves()
         # EXPERIMENT: remove income / expense account move lines
+        ml_groups = self.env["account.move.line"].read_group(
+            domain=[("move_id", "in", moves.ids)],
+            fields=[
+                "move_id",
+                "account_id",
+                "debit",
+                "credit",
+            ],
+            groupby=[
+                "move_id",
+                "account_id",
+            ],
+            lazy=False,
+        )
+        del_ml_groups = list(filter(lambda l: l["debit"] == l["credit"], ml_groups))
+        account_ids = [g.get("account_id")[0] for g in del_ml_groups]
         del_move_lines = moves.mapped("line_ids").filtered(
-            lambda l: l.account_id.internal_group in ["income", "expense"]
+            lambda l: l.account_id.id in account_ids
         )
         if del_move_lines:
             self.env.cr.execute(
