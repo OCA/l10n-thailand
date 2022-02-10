@@ -18,16 +18,27 @@ class ReportTaxReportXlsx(models.TransientModel):
     _inherit = "report.report_xlsx.abstract"
     _description = "Tax Report Excel"
 
+    def _define_formats(self, workbook):
+        super()._define_formats(workbook)
+        date_format = "DD/MM/YYYY"
+        FORMATS["format_date_dmy_right"] = workbook.add_format(
+            {"align": "right", "num_format": date_format}
+        )
+
     def _get_ws_params(self, wb, data, objects):
         tax_template = {
             "1_index": {
                 "header": {"value": "#"},
-                "data": {"value": self._render("row_pos")},
+                "data": {"value": self._render("index")},
                 "width": 3,
             },
             "2_tax_date": {
                 "header": {"value": "Date"},
-                "data": {"value": self._render("tax_date")},
+                "data": {
+                    "value": self._render("tax_date"),
+                    "type": "datetime",
+                    "format": FORMATS["format_date_dmy_right"],
+                },
                 "width": 12,
             },
             "3_tax_invoice": {
@@ -88,40 +99,16 @@ class ReportTaxReportXlsx(models.TransientModel):
 
         return [ws_params]
 
-    def _vat_report(self, wb, ws, ws_params, data, objects):
-        ws.set_portrait()
-        ws.fit_to_pages(1, 0)
-        ws.set_header(XLS_HEADERS["xls_headers"]["standard"])
-        ws.set_footer(XLS_HEADERS["xls_footers"]["standard"])
-        self._set_column_width(ws, ws_params)
-        row_pos = 0
-        # title
-        row_pos = self._write_ws_title(ws, row_pos, ws_params, True)
-        # company data
-        ws.write_column(
-            row_pos, 1, ["Period :", "Partner :"], FORMATS["format_left_bold"]
-        )
-        ws.write_column(
-            row_pos,
-            2,
-            [
-                (objects.date_range_id.display_name) or "",
-                (objects.company_id.display_name) or "",
-            ],
-        )
-        ws.write_column(
-            row_pos, 5, ["Tax ID :", "Branch ID :"], FORMATS["format_left_bold"]
-        )
-        ws.write_column(
-            row_pos,
-            6,
-            [
-                (objects.company_id.partner_id.vat) or "",
-                (objects.company_id.partner_id.branch) or "",
-            ],
-        )
-        row_pos += 3
-        # vat report table
+    def _write_ws_header(self, row_pos, ws, data_list):
+        for data in data_list:
+            ws.merge_range(row_pos, 0, row_pos, 1, "")
+            ws.write_row(row_pos, 0, [data[0]], FORMATS["format_theader_blue_center"])
+            ws.merge_range(row_pos, 2, row_pos, 3, "")
+            ws.write_row(row_pos, 2, [data[1]], FORMATS["format_tcell_left"])
+            row_pos += 1
+        return row_pos + 1
+
+    def _write_ws_lines(self, row_pos, ws, ws_params, objects):
         row_pos = self._write_line(
             ws,
             row_pos,
@@ -130,33 +117,64 @@ class ReportTaxReportXlsx(models.TransientModel):
             default_format=FORMATS["format_theader_blue_left"],
         )
         ws.freeze_panes(row_pos, 0)
-        for obj in objects:
-            total_base = 0.00
-            total_tax = 0.00
-            for line in obj.results:
-                total_base += line.tax_base_amount
-                total_tax += line.tax_amount
-                row_pos = self._write_line(
-                    ws,
-                    row_pos,
-                    ws_params,
-                    col_specs_section="data",
-                    render_space={
-                        "row_pos": row_pos - 5,
-                        "tax_date": line.tax_date or "",
-                        "tax_invoice_number": line.tax_invoice_number or "",
-                        "partner_name": line.partner_id.display_name or "",
-                        "partner_vat": line.partner_id.vat or "",
-                        "partner_branch": line.partner_id.branch or "",
-                        "tax_base_amount": line.tax_base_amount or 0.00,
-                        "tax_amount": line.tax_amount or 0.00,
-                        "doc_ref": line.name or "",
-                    },
-                    default_format=FORMATS["format_tcell_left"],
-                )
+        index = 1
+        for line in objects.results:
+            row_pos = self._write_line(
+                ws,
+                row_pos,
+                ws_params,
+                col_specs_section="data",
+                render_space={
+                    "index": index,
+                    "tax_date": line.tax_date or "",
+                    "tax_invoice_number": line.tax_invoice_number or "",
+                    "partner_name": line.partner_id.display_name or "",
+                    "partner_vat": line.partner_id.vat or "",
+                    "partner_branch": line.partner_id.branch or "",
+                    "tax_base_amount": line.tax_base_amount or 0.00,
+                    "tax_amount": line.tax_amount or 0.00,
+                    "doc_ref": line.name or "",
+                },
+                default_format=FORMATS["format_tcell_left"],
+            )
+            index += 1
+        return row_pos
+
+    def _write_ws_footer(self, row_pos, ws, objects):
+        results = objects.results
+        ws.merge_range(row_pos, 0, row_pos, 5, "")
+        ws.write_row(
+            row_pos, 0, ["Total Balance"], FORMATS["format_theader_blue_right"]
+        )
         ws.write_row(
             row_pos,
             6,
-            [total_base, total_tax],
+            [
+                sum(results.mapped("tax_base_amount")),
+                sum(results.mapped("tax_amount")),
+                "",
+            ],
             FORMATS["format_theader_blue_amount_right"],
         )
+        return row_pos
+
+    def _vat_report(self, wb, ws, ws_params, data, objects):
+        ws.set_portrait()
+        ws.fit_to_pages(1, 0)
+        ws.set_header(XLS_HEADERS["xls_headers"]["standard"])
+        ws.set_footer(XLS_HEADERS["xls_footers"]["standard"])
+        self._set_column_width(ws, ws_params)
+        row_pos = 0
+        header_data_list = self._get_header_data_list(objects)
+        row_pos = self._write_ws_title(ws, row_pos, ws_params, merge_range=True)
+        row_pos = self._write_ws_header(row_pos, ws, header_data_list)
+        row_pos = self._write_ws_lines(row_pos, ws, ws_params, objects)
+        row_pos = self._write_ws_footer(row_pos, ws, objects)
+
+    def _get_header_data_list(self, objects):
+        return [
+            ("Period", objects.date_range_id.display_name or "-"),
+            ("Company", objects.company_id.display_name or "-"),
+            ("Tax ID", objects.company_id.partner_id.vat or "-"),
+            ("Branch ID", objects.company_id.partner_id.branch or "-"),
+        ]

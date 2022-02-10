@@ -109,7 +109,7 @@
         <div class="act_as_table data_table" style="width: 100%;">
             <div class="act_as_row labels">
                 <div class="act_as_cell">Period</div>
-                <div class="act_as_cell">Partner</div>
+                <div class="act_as_cell">Company</div>
                 <div class="act_as_cell">Tax ID</div>
                 <div class="act_as_cell">Branch ID</div>
             </div>
