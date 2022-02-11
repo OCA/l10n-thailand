@@ -36,6 +36,9 @@ class ResPartner(models.Model):
         name = super()._get_computed_name(lastname, firstname)
         title = self.title.name
         if name and title:
+            # disable space on title and name
+            if self.env.company.no_space_title_name:
+                return "".join(p for p in (title, name) if p)
             return " ".join(p for p in (title, name) if p)
         return name
 
