@@ -9,3 +9,7 @@ class ResCompany(models.Model):
     branch = fields.Char(
         related="partner_id.branch", string="Tax Branch", readonly=False
     )
+    no_space_title_name = fields.Boolean(
+        string="No Space Title and Name",
+        help="If checked, title and name will no space",
+    )
