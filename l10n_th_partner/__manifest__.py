@@ -13,6 +13,7 @@
         "data/res.partner.company.type.csv",
         "data/res.partner.title.csv",
         "views/res_company_view.xml",
+        "views/res_config_settings_views.xml",
         "views/res_partner_company_type_view.xml",
         "views/res_partner_view.xml",
         "views/res_users_view.xml",
