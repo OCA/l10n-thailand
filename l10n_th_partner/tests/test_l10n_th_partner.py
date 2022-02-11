@@ -7,6 +7,7 @@ from odoo.tests.common import TransactionCase
 class TestL10nThPartner(TransactionCase):
     def setUp(self):
         super(TestL10nThPartner, self).setUp()
+        self.main_company = self.env.ref("base.main_company")
         self.create_title()
         self.create_original("Firstname", "Lastname")
 
@@ -36,3 +37,11 @@ class TestL10nThPartner(TransactionCase):
         partner.company_type = "company"
         partner._onchange_company_type()
         self.assertNotEqual(partner.title, self.title)
+
+    def test_res_users_config_no_space(self):
+        """Test that you change title and config title no space"""
+        self.assertEqual(self.user.name, "Firstname Lastname")
+        self.user.title = self.title
+        self.main_company.no_space_title_name = True
+        self.user._compute_name()
+        self.assertEqual(self.user.name, "MissFirstname Lastname")
