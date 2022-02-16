@@ -13,3 +13,14 @@ class ResCompany(models.Model):
         string="No Space Title and Name",
         help="If checked, title and name will no space",
     )
+
+    def write(self, vals):
+        """ Automation update name when you config no_space_title_name """
+        res = super().write(vals)
+        if "no_space_title_name" in vals:
+            personal_partners = self.env["res.partner"].search([("title", "!=", False)])
+            for partner in personal_partners:
+                partner.name = partner._get_computed_name(
+                    partner.lastname, partner.firstname
+                )
+        return res
