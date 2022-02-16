@@ -18,7 +18,7 @@
                     <div class="o_setting_right_pane">
                         <label for="no_space_title_name" />
                         <div class="text-muted">
-                            Disable space between title and name. example:
+                            Disable space between title and name. example:<br />
                             Miss Firstname Lastname -> MissFirstname Lastname
                         </div>
                     </div>
