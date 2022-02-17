@@ -43,6 +43,8 @@ class AccountMove(models.Model):
                     lambda l: not l.reconciled
                 )
                 to_reconciles.filtered(lambda l: l.account_id == av_account).reconcile()
+            # Re-compute residual advance
+            move._update_remaining_advance(advance)
             # Then, in case there are left over amount to other AP, do reconcile.
             ap_accounts = move.line_ids.mapped("account_id").filtered(
                 lambda l: l.reconcile and l != av_account
@@ -105,6 +107,15 @@ class AccountMove(models.Model):
                 }
             )
         return res
+
+    def _update_remaining_advance(self, advance):
+        """ If there is a return advance, update the clearing residual. """
+        self.ensure_one()
+        return_advance_ids = advance.payment_ids.filtered(
+            lambda l: l.payment_type == "inbound"
+        )
+        for return_av in return_advance_ids:
+            advance.clearing_residual -= return_av.move_id.amount_total
 
 
 class AccountMoveLine(models.Model):
