@@ -12,6 +12,7 @@
         "l10n_th_account_tax",
         "hr_expense",
         "hr_expense_advance_clearing",
+        "hr_expense_payment",
     ],
     "data": [
         "views/hr_expense_view.xml",
