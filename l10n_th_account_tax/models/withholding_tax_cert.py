@@ -96,6 +96,8 @@ class WithholdingTaxCert(models.Model):
         string="Ref WHT Cert.",
         comodel_name="withholding.tax.cert",
         tracking=True,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
         help="This field related from Old WHT Cert.",
     )
     payment_id = fields.Many2one(
@@ -130,6 +132,7 @@ class WithholdingTaxCert(models.Model):
         comodel_name="res.partner",
         string="Vendor",
         required=True,
+        readonly=True,
         states={"draft": [("readonly", False)]},
         tracking=True,
         ondelete="restrict",
