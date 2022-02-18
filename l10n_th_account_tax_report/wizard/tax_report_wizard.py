@@ -1,7 +1,7 @@
 # Copyright 2019 Ecosoft Co., Ltd (https://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class TaxReportWizard(models.TransientModel):
@@ -68,3 +68,10 @@ class TaxReportWizard(models.TransientModel):
         model = self.env["report.tax.report"]
         report = model.create(self._prepare_tax_report())
         return report.print_report(report_type)
+
+    @api.onchange("date_range_id")
+    def onchange_date_range_id(self):
+        """Handle date range change."""
+        if self.date_range_id:
+            self.date_from = self.date_range_id.date_start
+            self.date_to = self.date_range_id.date_end
