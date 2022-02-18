@@ -65,7 +65,7 @@
                 <t t-set="i" t-value="1" />
                 <t t-foreach="o.results" t-as="o">
                     <t t-set="cancel" t-value="o.cert_id.state == 'cancel'" />
-                    <t t-set="supplier" t-value="o.cert_id.supplier_partner_id" />
+                    <t t-set="supplier" t-value="o.cert_id.partner_id" />
                     <div class="act_as_row lines">
                         <div class="act_as_cell" style="width: 4%;">
                             <span t-esc="i" />

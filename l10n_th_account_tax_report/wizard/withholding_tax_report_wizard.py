@@ -13,9 +13,9 @@ class WithHoldingTaxReportWizard(models.TransientModel):
         string="Income Tax Form",
         required=True,
     )
-    date_range_id = fields.Many2one(
-        comodel_name="date.range", string="Date Range", required=True
-    )
+    date_range_id = fields.Many2one(comodel_name="date.range", string="Date Range")
+    date_from = fields.Date(string="Date From", required=True)
+    date_to = fields.Date(string="Date To", required=True)
     company_id = fields.Many2one(
         comodel_name="res.company",
         default=lambda self: self.env.company,
@@ -64,9 +64,9 @@ class WithHoldingTaxReportWizard(models.TransientModel):
         self.ensure_one()
         return {
             "income_tax_form": self.income_tax_form,
-            "date_range_id": self.date_range_id.id,
-            "date_from": self.date_range_id.date_start,
-            "date_to": self.date_range_id.date_end,
+            "date_range_id": self.date_range_id and self.date_range_id.id or False,
+            "date_from": self.date_from,
+            "date_to": self.date_to,
             "company_id": self.company_id.id,
         }
 

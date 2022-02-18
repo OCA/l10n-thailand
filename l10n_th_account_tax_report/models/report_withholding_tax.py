@@ -24,11 +24,9 @@ class WithHoldingTaxReport(models.TransientModel):
         required=True,
         ondelete="cascade",
     )
-    date_range_id = fields.Many2one(
-        comodel_name="date.range", string="Date range", required=True
-    )
-    date_from = fields.Date()
-    date_to = fields.Date()
+    date_range_id = fields.Many2one(comodel_name="date.range", string="Date range")
+    date_from = fields.Date(required=True)
+    date_to = fields.Date(required=True)
     results = fields.Many2many(
         comodel_name="withholding.tax.cert.line",
         string="Results",
@@ -41,41 +39,65 @@ class WithHoldingTaxReport(models.TransientModel):
         for obj in docs:
             text = ""
             for idx, line in enumerate(obj.results):
-                cancel = line.cert_id.state == "cancel"
-                text += "{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}\n".format(
-                    idx + 1,
-                    line.cert_id.supplier_partner_id.vat or "",
-                    "",  # Title name
-                    not cancel
-                    and line.cert_id.supplier_partner_id.display_name
-                    or "Cancelled",
-                    not cancel
-                    and line.cert_id.supplier_partner_id._display_address(
-                        without_company=True
+                income_code = (
+                    line.wht_cert_income_code
+                    and "{}|".format(line.wht_cert_income_code.code)
+                    or ""
+                )
+                partner_id = line.cert_id.partner_id
+                vat = partner_id.vat or ""
+                type_income_desc = "{}|{}|".format(
+                    line.wht_cert_income_desc, int(line.wht_percent)
+                )
+                if line.wht_income_tax_form == "pnd53":
+                    name = "{}".format(
+                        partner_id.company_type == "person"
+                        and partner_id.firstname
+                        or partner_id.name_company
                     )
-                    or "",
-                    self.format_date_dmy(line.cert_id.date),
-                    "ค่าบริการ",  # line.wht_cert_income_desc or "",
-                    "{:,.2f}".format(line.wht_percent / 100) or 0.00,
-                    not cancel and "{:,.2f}".format(line.base) or 0.00,
-                    not cancel and "{:,.2f}".format(line.amount) or 0.00,
-                    self._convert_tax_payer(line.cert_id.tax_payer),
+                elif line.wht_income_tax_form == "pnd3":
+                    fullname = " ".join([partner_id.firstname, partner_id.lastname])
+                    if partner_id.company_type == "person":
+                        name = "{}|{}".format(partner_id.title.name or "", fullname)
+                    else:
+                        name = "{}|{}".format("", partner_id.name_company)
+                else:
+                    if partner_id.company_type == "person":
+                        name = "{}|{}|{}".format(
+                            partner_id.title.name or "",
+                            partner_id.firstname or "",
+                            partner_id.lastname or "",
+                        )
+                    else:
+                        name = "{}|{}|{}".format("", partner_id.name_company, "")
+                    type_income_desc = ""
+                text += (
+                    "{income_code}{index}|{vat}|{name}|{date}|{type_income_desc}"
+                    "{base_amount}|{wht_amount}|{tax_payer}\n".format(
+                        income_code=income_code,  # for pnd1 only
+                        index=idx + 1,
+                        vat=vat,
+                        name=name,
+                        date=self.format_date_dmy(line.cert_id.date),
+                        type_income_desc=type_income_desc,
+                        base_amount="{:,.2f}".format(line.base) or 0.00,
+                        wht_amount="{:,.2f}".format(line.amount) or 0.00,
+                        tax_payer=self._convert_tax_payer(line.cert_id.tax_payer),
+                    )
                 )
         return text
 
     def _convert_tax_payer(self, tax_payer):
         if tax_payer == "withholding":
             return 1
-        return 2
+        return 3  # paid one time
 
-    def format_date_dmy(self, date=None):
+    def format_date_dmy(self, date=None, format_date=None):
         if not date:
             date = fields.Date.context_today()
         year_thai = int(date.strftime(DEFAULT_YEAR_FORMAT_WHT)) + 543
         date_format = date.strftime(
-            "{}/{}/{}".format(
-                DEFAULT_DAY_FORMAT_WHT, DEFAULT_MONTH_FORMAT_WHT, year_thai
-            )
+            "{}{}{}".format(DEFAULT_DAY_FORMAT_WHT, DEFAULT_MONTH_FORMAT_WHT, year_thai)
         )
         return date_format
 
@@ -141,4 +163,4 @@ class WithHoldingTaxReport(models.TransientModel):
             ("cert_id.company_partner_id", "=", self.company_id.partner_id.id),
             ("cert_id.state", "!=", "draft"),
         ]
-        self.results = Result.search(domain)
+        self.results = Result.sudo().search(domain)
