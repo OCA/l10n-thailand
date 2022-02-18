@@ -35,8 +35,6 @@ class ResPartner(models.Model):
         self.ensure_one()
         action = self.env.ref("l10n_th_account_tax.action_withholding_tax_cert_menu")
         result = action.sudo().read()[0]
-        certs = self.env["withholding.tax.cert"].search(
-            [("supplier_partner_id", "=", self.id)]
-        )
+        certs = self.env["withholding.tax.cert"].search([("partner_id", "=", self.id)])
         result["domain"] = [("id", "in", certs.ids)]
         return result

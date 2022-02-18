@@ -26,9 +26,9 @@ class TaxReportWizard(models.TransientModel):
             ("include_base_amount", "=", False),
         ],
     )
-    date_range_id = fields.Many2one(
-        comodel_name="date.range", string="Period", required=True
-    )
+    date_range_id = fields.Many2one(comodel_name="date.range", string="Period")
+    date_from = fields.Date(string="Date From", required=True)
+    date_to = fields.Date(string="Date To", required=True)
 
     def button_export_html(self):
         self.ensure_one()
@@ -59,9 +59,9 @@ class TaxReportWizard(models.TransientModel):
         return {
             "company_id": self.company_id.id,
             "tax_id": self.tax_id.id,
-            "date_range_id": self.date_range_id.id,
-            "date_from": self.date_range_id.date_start,
-            "date_to": self.date_range_id.date_end,
+            "date_range_id": self.date_range_id and self.date_range_id.id or False,
+            "date_from": self.date_from,
+            "date_to": self.date_to,
         }
 
     def _export(self, report_type):

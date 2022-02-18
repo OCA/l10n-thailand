@@ -40,11 +40,11 @@
                         <group>
                             <field name="name" invisible="1" />
                             <field name="company_partner_id" />
-                            <field name="company_taxid" string="Tax ID" />
+                            <field name="company_vat" string="Tax ID" />
                         </group>
                         <group>
-                            <field name="supplier_partner_id" />
-                            <field name="supplier_taxid" string="Tax ID" />
+                            <field name="partner_id" />
+                            <field name="partner_vat" string="Tax ID" />
                         </group>
                     </group>
                     <group>
@@ -61,8 +61,15 @@
                     </group>
                     <field name="wht_line">
                         <tree editable="bottom">
+                            <field name="wht_income_tax_form" invisible="1" />
                             <field name="company_id" invisible="1" />
                             <field name="wht_cert_income_type" />
+                            <field
+                                name="wht_cert_income_code"
+                                options="{'no_create': True, 'no_create_edit': True}"
+                                optional="show"
+                                domain="[('income_tax_form', '=', wht_income_tax_form), ('wht_cert_income_type', '=', wht_cert_income_type)]"
+                            />
                             <field name="wht_cert_income_desc" optional="show" />
                             <field name="amount" sum="Total Tax" />
                             <field name="wht_tax_id" optional="hide" />
@@ -85,7 +92,7 @@
         <field name="arch" type="xml">
             <tree string="Withholding Tax Cert." create="1" edit="1" delete="1">
                 <field name="name" />
-                <field name="supplier_partner_id" />
+                <field name="partner_id" />
                 <field name="income_tax_form" />
                 <field name="tax_payer" />
                 <field name="date" />
@@ -99,7 +106,7 @@
         <field name="arch" type="xml">
             <search string="WHT Cert.">
                 <field name="name" string="WHT Cert." />
-                <field name="supplier_partner_id" />
+                <field name="partner_id" />
                 <filter
                     string="Payment"
                     name="payment"

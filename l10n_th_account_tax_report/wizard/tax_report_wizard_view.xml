@@ -21,6 +21,8 @@
                             name="date_range_id"
                             options="{'no_create_edit': True, 'no_open': True}"
                         />
+                        <field name="date_from" />
+                        <field name="date_to" />
                     </group>
                 </group>
                 <footer>

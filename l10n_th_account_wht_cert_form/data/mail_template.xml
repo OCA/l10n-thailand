@@ -10,11 +10,11 @@
         <field
             name="subject"
         >${object.company_id.name} Withholding Tax Certificate (Ref ${object.name or 'n/a' })</field>
-        <field name="partner_to">${object.supplier_partner_id.id}</field>
+        <field name="partner_to">${object.partner_id.id}</field>
         <field name="body_html" type="xml">
             <div style="margin: 0px; padding: 0px;">
                 <p style="margin: 0px; padding: 0px; font-size: 13px;">
-                    Dear ${object.supplier_partner_id.name}<br /><br />
+                    Dear ${object.partner_id.name}<br /><br />
                     Here is your withholding tax certificate <strong
                     >${(object.name or "").replace("/","-")}</strong> tax amounting
                     to <strong
@@ -29,7 +29,7 @@
                 </p>
             </div>
         </field>
-        <field name="lang">${object.supplier_partner_id.lang}</field>
+        <field name="lang">${object.partner_id.lang}</field>
         <field
             name="report_template"
             ref="l10n_th_account_wht_cert_form.withholding_tax_pdf_report"

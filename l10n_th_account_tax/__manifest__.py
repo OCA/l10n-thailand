@@ -10,6 +10,7 @@
     "depends": ["account"],
     "data": [
         "data/pit_rate_data.xml",
+        "data/withholding_tax_type_income_data.xml",
         "security/account_security.xml",
         "security/ir.model.access.csv",
         "wizard/account_payment_register_views.xml",
@@ -17,6 +18,7 @@
         "views/account_move_view.xml",
         "views/withholding_tax_cert.xml",
         "views/account_withholding_tax.xml",
+        "views/withholding_tax_code_income.xml",
         "views/account_withholding_move.xml",
         "views/product_view.xml",
         "views/account_payment_view.xml",

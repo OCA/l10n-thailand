@@ -18,7 +18,7 @@ class TestWHTCertForm(SingleTransactionCase):
     def _create_direct_wht_cert(self):
         wht_cert = self.wht_cert.create(
             {
-                "supplier_partner_id": self.partner_1.id,
+                "partner_id": self.partner_1.id,
                 "income_tax_form": "pnd3",
                 "date": fields.Date.today(),
                 "wht_line": [

@@ -95,6 +95,7 @@ class WithholdingTaxCert(models.Model):
     ref_wht_cert_id = fields.Many2one(
         string="Ref WHT Cert.",
         comodel_name="withholding.tax.cert",
+        tracking=True,
         help="This field related from Old WHT Cert.",
     )
     payment_id = fields.Many2one(
@@ -103,7 +104,7 @@ class WithholdingTaxCert(models.Model):
         copy=False,
         readonly=True,
         states={"draft": [("readonly", False)]},
-        domain="[('partner_id', '=', supplier_partner_id)]",
+        domain="[('partner_id', '=', partner_id)]",
         ondelete="restrict",
         tracking=True,
     )
@@ -125,11 +126,12 @@ class WithholdingTaxCert(models.Model):
         default=lambda self: self.env.company.partner_id,
         ondelete="restrict",
     )
-    supplier_partner_id = fields.Many2one(
+    partner_id = fields.Many2one(
         comodel_name="res.partner",
-        string="Supplier",
+        string="Vendor",
         required=True,
         states={"draft": [("readonly", False)]},
+        tracking=True,
         ondelete="restrict",
     )
     company_id = fields.Many2one(
@@ -146,11 +148,11 @@ class WithholdingTaxCert(models.Model):
         string="Currency",
         readonly=True,
     )
-    company_taxid = fields.Char(
+    company_vat = fields.Char(
         related="company_partner_id.vat", string="Company Tax ID", readonly=True
     )
-    supplier_taxid = fields.Char(
-        related="supplier_partner_id.vat", string="Supplier Tax ID", readonly=True
+    partner_vat = fields.Char(
+        related="partner_id.vat", string="Vendor Tax ID", readonly=True
     )
     income_tax_form = fields.Selection(
         selection=INCOME_TAX_FORM,
@@ -159,6 +161,7 @@ class WithholdingTaxCert(models.Model):
         readonly=True,
         copy=False,
         states={"draft": [("readonly", False)]},
+        tracking=True,
     )
     wht_line = fields.One2many(
         comodel_name="withholding.tax.cert.line",
@@ -176,13 +179,14 @@ class WithholdingTaxCert(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
         copy=False,
+        tracking=True,
     )
 
     @api.depends("payment_id", "move_id")
     def _compute_wht_cert_data(self):
         for rec in self:
             rec.name = rec.payment_id.name or rec.move_id.name or ""
-            rec.date = rec.payment_id.date or rec.move_id.date
+            rec.date = rec.payment_id.date or rec.move_id.date or rec.date
 
     def action_draft(self):
         self.write({"state": "draft"})
@@ -202,6 +206,10 @@ class WithholdingTaxCert(models.Model):
         self.write({"state": "cancel"})
         return True
 
+    @api.onchange("income_tax_form")
+    def _onchange_income_tax_form(self):
+        self.wht_line.write({"wht_cert_income_code": False})
+
 
 class WithholdingTaxCertLine(models.Model):
     _name = "withholding.tax.cert.line"
@@ -212,6 +220,11 @@ class WithholdingTaxCertLine(models.Model):
     )
     wht_cert_income_type = fields.Selection(
         selection=WHT_CERT_INCOME_TYPE, string="Type of Income", required=True
+    )
+    wht_cert_income_code = fields.Many2one(
+        comodel_name="withholding.tax.code.income",
+        string="Income Code",
+        help="For Text File income code",
     )
     wht_cert_income_desc = fields.Char(
         string="Income Description", size=500, required=False
@@ -224,18 +237,44 @@ class WithholdingTaxCertLine(models.Model):
     )
     wht_percent = fields.Float(
         string="% Tax",
-        related="wht_tax_id.amount",
-        readonly=True,
+        compute="_compute_wht_percent",
+    )
+    wht_income_tax_form = fields.Selection(
+        related="cert_id.income_tax_form",
+        index=True,
     )
     amount = fields.Float(string="Tax Amount", readonly=False)
     company_id = fields.Many2one(
         comodel_name="res.company", related="cert_id.company_id"
     )
 
+    @api.depends("wht_tax_id", "amount", "base")
+    def _compute_wht_percent(self):
+        for rec in self:
+            rec.wht_percent = rec.wht_tax_id.amount or (rec.amount / rec.base) * 100
+
     @api.onchange("wht_cert_income_type")
     def _onchange_wht_cert_income_type(self):
+        self.wht_cert_income_code = False
         if self.wht_cert_income_type:
             select_dict = dict(WHT_CERT_INCOME_TYPE)
             self.wht_cert_income_desc = select_dict[self.wht_cert_income_type]
         else:
             self.wht_cert_income_desc = False
+
+
+class WithholdingTaxCodeIncome(models.Model):
+    _name = "withholding.tax.code.income"
+    _description = "Withholding Tax Code of Income"
+
+    name = fields.Char(required=True)
+    code = fields.Char()
+    income_tax_form = fields.Selection(
+        selection=INCOME_TAX_FORM,
+        string="Income Tax Form",
+        required=True,
+        index=True,
+    )
+    wht_cert_income_type = fields.Selection(
+        selection=WHT_CERT_INCOME_TYPE, string="Type of Income", required=True
+    )
