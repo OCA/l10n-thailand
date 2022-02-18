@@ -665,7 +665,7 @@ class AccountMove(models.Model):
             cert_vals = {
                 "move_id": self.id,
                 "payment_id": self.payment_id.id,
-                "supplier_partner_id": partner.id,
+                "partner_id": partner.id,
                 "date": self.date,
                 "wht_line": cert_line_vals,
             }

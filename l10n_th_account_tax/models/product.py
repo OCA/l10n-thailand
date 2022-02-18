@@ -12,5 +12,5 @@ class ProductTemplate(models.Model):
     )
     supplier_wht_tax_id = fields.Many2one(
         comodel_name="account.withholding.tax",
-        string="Supplier Withholding Tax",
+        string="Vendor Withholding Tax",
     )

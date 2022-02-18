@@ -14,3 +14,4 @@ access_withholding_tax_cert,withholding.tax.cert,model_withholding_tax_cert,acco
 access_withholding_tax_cert_line,withholding.tax.cert.line,model_withholding_tax_cert_line,account.group_account_invoice,1,1,1,1
 access_withholding_tax_cert_user,withholding.tax.cert.user,model_withholding_tax_cert,base.group_user,1,1,1,0
 access_withholding_tax_cert_line_user,withholding.tax.cert.line.user,model_withholding_tax_cert_line,base.group_user,1,1,1,0
+access_withholding_tax_code_income,access_withholding_tax_code_income,model_withholding_tax_code_income,account.group_account_invoice,1,1,1,1

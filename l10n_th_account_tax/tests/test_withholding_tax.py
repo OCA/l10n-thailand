@@ -420,7 +420,7 @@ class TestWithholdingTax(SavepointCase):
         with Form(self.wht_cert.with_context(ctx_cert)) as f:
             f.income_tax_form = "pnd3"
         wht_cert = f.save()
-        self.assertEqual(wht_cert.supplier_partner_id, self.partner_1)
+        self.assertEqual(wht_cert.partner_id, self.partner_1)
         invoice.button_wht_certs()
 
     def test_06_create_wht_cert_multi_payment(self):
