@@ -9,6 +9,8 @@
             <tree>
                 <field name="name" />
                 <field name="value" />
+                <field name="field_id" optional="show" />
+                <field name="is_default" optional="show" />
             </tree>
         </field>
     </record>
@@ -41,48 +43,27 @@
             </form>
         </field>
     </record>
-    <!-- <record id="bank_payment_export_view_search" model="ir.ui.view">
-        <field name="name">bank.payment.export.view.search</field>
+    <record id="bank_payment_config_view_search" model="ir.ui.view">
+        <field name="name">bank.payment.config.view.search</field>
         <field name="model">bank.payment.config</field>
         <field name="arch" type="xml">
-            <search string="Bank Payment Export">
+            <search string="Bank Payment Config">
                 <field name="name" />
                 <filter
-                    name="bank_payment_export_state_draft"
-                    string="Draft"
-                    domain="[('state', '=', 'draft')]"
-                />
-                <filter
-                    name="bank_payment_export_state_confirm"
-                    string="Confirmed"
-                    domain="[('state', '=', 'confirm')]"
-                />
-                <filter
-                    name="bank_payment_export_state_done"
-                    string="Done"
-                    domain="[('state', '=', 'done')]"
-                />
-                <filter
-                    name="bank_payment_export_state_cancel"
-                    string="Cancelled"
-                    domain="[('state', '=', 'cancel')]"
+                    name="is_default"
+                    string="Default"
+                    domain="[('is_default', '=', True)]"
                 />
                 <group expand="1" string="Group By">
                     <filter
-                        string="Bank"
-                        name="group_by_bank"
-                        context="{'group_by': 'bank'}"
-                    />
-                    <separator orientation="vertical_groupby" />
-                    <filter
-                        string="Status"
-                        name="group_by_state"
-                        context="{'group_by': 'state'}"
+                        string="Field"
+                        name="group_by_field_id"
+                        context="{'group_by': 'field_id'}"
                     />
                 </group>
             </search>
         </field>
-    </record> -->
+    </record>
 
     <record id="action_bank_payment_config" model="ir.actions.act_window">
         <field name="name">Bank Payment Configuration</field>
