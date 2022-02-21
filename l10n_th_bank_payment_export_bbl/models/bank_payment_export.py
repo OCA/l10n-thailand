@@ -16,28 +16,41 @@ class BankPaymentExport(models.Model):
         ondelete={"BKKBTHBK": "cascade"},
     )
     # Configuration
-    config_bbl_company_code = fields.Char(
-        string="Company Code",
-        compute="_compute_bbl_system_parameter",
+    config_bbl_company_code = fields.Many2one(
+        comodel_name="bank.payment.config",
+        string="BBL Company Code",
+        default=lambda self: self._default_common_config("config_bbl_company_code"),
+        readonly=True,
+        states={"draft": [("readonly", False)]},
         help="""
-            You can config this field from menu Settings > Technical > System Parameters
-            Add value on Key 'export.payment.bbl.company_code'
+            You can config this field from menu
+            Invoicing > Configuration > Payments > Bank Payment Configuration
         """,
     )
-    config_bbl_customer_batch_smart = fields.Char(
-        string="Customer Batch Smart",
-        compute="_compute_bbl_system_parameter",
+    config_bbl_customer_batch_smart = fields.Many2one(
+        comodel_name="bank.payment.config",
+        string="BBL Customer Batch Smart",
+        default=lambda self: self._default_common_config(
+            "config_bbl_customer_batch_smart"
+        ),
+        readonly=True,
+        states={"draft": [("readonly", False)]},
         help="""
-            You can config this field from menu Settings > Technical > System Parameters
-            Add value on Key 'export.payment.bbl.smart.customer_batch_ref'
+            You can config this field from menu
+            Invoicing > Configuration > Payments > Bank Payment Configuration
         """,
     )
-    config_bbl_customer_batch_direct = fields.Char(
-        string="Customer Batch Direct",
-        compute="_compute_bbl_system_parameter",
+    config_bbl_customer_batch_direct = fields.Many2one(
+        comodel_name="bank.payment.config",
+        string="BBL Customer Batch Direct",
+        default=lambda self: self._default_common_config(
+            "config_bbl_customer_batch_direct"
+        ),
+        readonly=True,
+        states={"draft": [("readonly", False)]},
         help="""
-            You can config this field from menu Settings > Technical > System Parameters
-            Add value on Key 'export.payment.bbl.direct.customer_batch_ref'
+            You can config this field from menu
+            Invoicing > Configuration > Payments > Bank Payment Configuration
         """,
     )
     # filter
@@ -56,7 +69,7 @@ class BankPaymentExport(models.Model):
     )
     bbl_company_bank_account = fields.Many2one(
         comodel_name="res.partner.bank",
-        string="Compayn Bank Account",
+        string="Company Bank Account",
         domain=lambda self: self._get_account_number_company_domain(),
         readonly=True,
         states={"draft": [("readonly", False)]},
@@ -122,19 +135,10 @@ class BankPaymentExport(models.Model):
                 export.bbl_is_editable = True
 
     @api.depends("bank")
-    def _compute_bbl_system_parameter(self):
-        icp = self.env["ir.config_parameter"].sudo()
-        bbl_company_code = icp.get_param("export.payment.bbl.company_code")
-        bbl_customer_batch_smart = icp.get_param(
-            "export.payment.bbl.smart.customer_batch_ref"
-        )
-        bbl_customer_batch_direct = icp.get_param(
-            "export.payment.bbl.direct.customer_batch_ref"
-        )
-        for rec in self:
-            rec.config_bbl_company_code = bbl_company_code or ""
-            rec.config_bbl_customer_batch_smart = bbl_customer_batch_smart or ""
-            rec.config_bbl_customer_batch_direct = bbl_customer_batch_direct or ""
+    def _compute_required_effective_date(self):
+        super()._compute_required_effective_date()
+        for rec in self.filtered(lambda l: l.bank == "BKKBTHBK"):
+            rec.is_required_effective_date = False
 
     @api.model
     def _get_account_number_company_domain(self):
@@ -149,12 +153,17 @@ class BankPaymentExport(models.Model):
                 match_direct and "direct" or (match_smart and "smart") or ""
             )
 
+    def action_done(self):
+        res = super().action_done()
+        if self.bank == "BKKBTHBK":
+            self.effective_date = fields.Date.context_today(self)
+        return res
+
     def _get_text_header_bbl(self, company_code):
-        icp = self.env["ir.config_parameter"].sudo()
         customer_batch_ref = (
             self.bbl_bank_type == "smart"
-            and icp.get_param("export.payment.bbl.smart.customer_batch_ref")
-            or icp.get_param("export.payment.bbl.direct.customer_batch_ref")
+            and self.config_bbl_customer_batch_smart.value
+            or self.config_bbl_customer_batch_direct.value
         )
         now_tz = fields.Datetime.context_timestamp(
             self.env["res.users"], datetime.now()
@@ -215,10 +224,8 @@ class BankPaymentExport(models.Model):
         return text
 
     def _format_bbl_text(self):
-        icp = self.env["ir.config_parameter"].sudo()
         company_code = (
-            icp.get_param("export.payment.bbl.company_code")
-            or "**Company Code is not config**"
+            self.config_bbl_company_code.value or "**Company Code is not config**"
         )
         total_amount = 0
         # Header
@@ -230,7 +237,7 @@ class BankPaymentExport(models.Model):
             payment_net_amount_bank = int(payment_net_amount * 100)
             # Details
             text += self._get_text_body_bbl(
-                idx, pe_line, company_code, payment_net_amount_bank
+                idx + 1, pe_line, company_code, payment_net_amount_bank
             )
             total_amount += payment_net_amount_bank
         # Footer

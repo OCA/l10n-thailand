@@ -31,10 +31,6 @@
                     string="Service Type"
                     attrs="{'invisible': [('ktb_bank_type', '!=', 'direct')], 'required': [('ktb_bank_type', '=', 'direct')]}"
                 />
-                <field
-                    name="ktb_effective_date"
-                    attrs="{'invisible': [('ktb_is_editable', '!=', True)], 'required': [('ktb_is_editable', '!=', False)]}"
-                />
             </xpath>
             <xpath
                 expr="//page[@name='information']/group[@name='system_config']"
@@ -42,11 +38,15 @@
             >
                 <field
                     name="config_ktb_company_id"
-                    attrs="{'invisible': [('ktb_is_editable', '!=', True)]}"
+                    options="{'no_create': True, 'no_create_edit': True}"
+                    domain="[('field_id.name', '=', 'config_ktb_company_id')]"
+                    attrs="{'invisible': [('ktb_is_editable', '!=', True)], 'required': [('ktb_is_editable', '!=', False)]}"
                 />
                 <field
                     name="config_ktb_sender_name"
-                    attrs="{'invisible': [('ktb_is_editable', '!=', True)]}"
+                    options="{'no_create': True, 'no_create_edit': True}"
+                    domain="[('field_id.name', '=', 'config_ktb_sender_name')]"
+                    attrs="{'invisible': [('ktb_is_editable', '!=', True)], 'required': [('ktb_is_editable', '!=', False)]}"
                 />
             </xpath>
         </field>

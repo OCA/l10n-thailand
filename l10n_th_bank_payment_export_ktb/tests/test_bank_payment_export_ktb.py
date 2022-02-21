@@ -64,13 +64,13 @@ class TestBankPaymentExportKTB(CommonBankPaymentExport):
             with Form(bank_payment) as bp:
                 bp.ktb_bank_type = "standard"
                 bp.ktb_service_type_standard = "04"
-                bp.ktb_effective_date = fields.Date.today() - timedelta(days=3)
+                bp.effective_date = fields.Date.today() - timedelta(days=3)
         self.assertTrue(bank_payment.ktb_service_type_standard)
         self.assertFalse(bank_payment.ktb_service_type_direct)
         with Form(bank_payment) as bp:
             bp.ktb_bank_type = "direct"
             bp.ktb_service_type_direct = "14"
-            bp.ktb_effective_date = fields.Date.today()
+            bp.effective_date = fields.Date.today()
         self.assertFalse(bank_payment.ktb_service_type_standard)
         self.assertTrue(bank_payment.ktb_service_type_direct)
         # Type direct can't export payment to other bank

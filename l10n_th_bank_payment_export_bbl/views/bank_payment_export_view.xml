@@ -10,6 +10,12 @@
             ref="l10n_th_bank_payment_export.bank_payment_export_view_form"
         />
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='effective_date']" position="attributes">
+                <attribute name="attrs">{
+                    'required': [('is_required_effective_date', '!=', False)],
+                    'readonly': [('bank', '=', 'BKKBTHBK')]
+                }</attribute>
+            </xpath>
             <!-- Information -->
             <xpath
                 expr="//page[@name='information']//group[@name='left_information']"
@@ -55,15 +61,21 @@
             >
                 <field
                     name="config_bbl_company_code"
-                    attrs="{'invisible': [('bbl_is_editable', '!=', True)]}"
+                    options="{'no_create': True, 'no_create_edit': True}"
+                    domain="[('field_id.name', '=', 'config_bbl_company_code')]"
+                    attrs="{'invisible': [('bbl_is_editable', '!=', True)], 'required': [('bbl_is_editable', '!=', False)]}"
                 />
                 <field
                     name="config_bbl_customer_batch_smart"
-                    attrs="{'invisible': [('bbl_is_editable', '!=', True)]}"
+                    options="{'no_create': True, 'no_create_edit': True}"
+                    domain="[('field_id.name', '=', 'config_bbl_customer_batch_smart')]"
+                    attrs="{'invisible': [('bbl_is_editable', '!=', True)], 'required': [('bbl_is_editable', '!=', False), ('bbl_bank_type', '=', 'smart')]}"
                 />
                 <field
                     name="config_bbl_customer_batch_direct"
-                    attrs="{'invisible': [('bbl_is_editable', '!=', True)]}"
+                    options="{'no_create': True, 'no_create_edit': True}"
+                    domain="[('field_id.name', '=', 'config_bbl_customer_batch_direct')]"
+                    attrs="{'invisible': [('bbl_is_editable', '!=', True)], 'required': [('bbl_is_editable', '!=', False), ('bbl_bank_type', '=', 'direct')]}"
                 />
             </xpath>
         </field>

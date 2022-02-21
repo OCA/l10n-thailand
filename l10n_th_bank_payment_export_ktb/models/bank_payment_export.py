@@ -13,20 +13,26 @@ class BankPaymentExport(models.Model):
         ondelete={"KRTHTHBK": "cascade"},
     )
     # Configuration
-    config_ktb_company_id = fields.Char(
+    config_ktb_company_id = fields.Many2one(
+        comodel_name="bank.payment.config",
         string="KTB Company ID",
-        compute="_compute_ktb_system_parameter",
+        default=lambda self: self._default_common_config("config_ktb_company_id"),
+        readonly=True,
+        states={"draft": [("readonly", False)]},
         help="""
-            You can config this field from menu Settings > Technical > System Parameters
-            Add value on Key 'export.payment.ktb.company_id'
+            You can config this field from menu
+            Invoicing > Configuration > Payments > Bank Payment Configuration
         """,
     )
-    config_ktb_sender_name = fields.Char(
+    config_ktb_sender_name = fields.Many2one(
+        comodel_name="bank.payment.config",
         string="KTB Sender Name",
-        compute="_compute_ktb_system_parameter",
+        default=lambda self: self._default_common_config("config_ktb_sender_name"),
+        readonly=True,
+        states={"draft": [("readonly", False)]},
         help="""
-            You can config this field from menu Settings > Technical > System Parameters
-            Add value on Key 'export.payment.ktb.sender_name'
+            You can config this field from menu
+            Invoicing > Configuration > Payments > Bank Payment Configuration
         """,
     )
     # filter
@@ -103,11 +109,6 @@ class BankPaymentExport(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
-    ktb_effective_date = fields.Date(
-        string="Effective Date",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
 
     @api.onchange("ktb_bank_type")
     def _onchange_ktb_bank_type(self):
@@ -117,49 +118,31 @@ class BankPaymentExport(models.Model):
             self.ktb_service_type_standard = False
 
     @api.depends("bank")
+    def _compute_required_effective_date(self):
+        super()._compute_required_effective_date()
+        for rec in self.filtered(lambda l: l.bank == "KRTHTHBK"):
+            rec.is_required_effective_date = True
+
+    @api.depends("bank")
     def _compute_ktb_editable(self):
         for export in self:
             export.ktb_is_editable = False
             if export.bank == "KRTHTHBK":
                 export.ktb_is_editable = True
 
-    @api.depends("bank")
-    def _compute_ktb_system_parameter(self):
-        icp = self.env["ir.config_parameter"].sudo()
-        ktb_company_id = icp.get_param("export.payment.ktb.company_id")
-        ktb_sender_name = icp.get_param("export.payment.ktb.sender_name")
-        for rec in self:
-            rec.config_ktb_company_id = ktb_company_id or ""
-            rec.config_ktb_sender_name = ktb_sender_name or ""
-
-    @api.constrains("ktb_effective_date")
-    def check_ktb_effective_date(self):
-        today = fields.Date.context_today(self)
-        for rec in self:
-            if rec.bank == "KRTHTHBK" and rec.ktb_effective_date < today:
-                raise UserError(
-                    _(
-                        "Effective Date must be more than or equal {}".format(
-                            today.strftime("%d/%m/%Y")
-                        )
-                    )
-                )
-
     def _get_text_header_ktb(self, payment_lines):
-        icp = self.env["ir.config_parameter"].sudo()
         ktb_company_id = (
-            icp.get_param("export.payment.ktb.company_id")
-            or "**Company ID on KTB is not config**"
+            self.config_ktb_company_id.value or "**Company ID on KTB is not config**"
         )
         total_batch = len(payment_lines.ids)
         total_batch_amount = int(sum(payment_lines.mapped("payment_amount")) * 100)
         text = (
             "101{idx}006{total_batch_transaction}{total_batch_amount}"
-            "{ktb_effective_date}C{receiver_no}{ktb_company_id}{space}\r".format(
+            "{effective_date}C{receiver_no}{ktb_company_id}{space}\r".format(
                 idx="1".zfill(6),  # 1 Batch = 1 File, How we can add more than 1 batch?
                 total_batch_transaction=str(total_batch).zfill(7),
                 total_batch_amount=str(total_batch_amount).zfill(19),
-                ktb_effective_date=self.ktb_effective_date.strftime("%d%m%Y"),
+                effective_date=self.effective_date.strftime("%d%m%Y"),
                 receiver_no="0".zfill(8),
                 ktb_company_id=ktb_company_id.ljust(16),
                 space="".ljust(427),  # user id and filter (20 + 407 char)
@@ -168,9 +151,8 @@ class BankPaymentExport(models.Model):
         return text
 
     def _get_text_body_ktb(self, idx, pe_line, payment_net_amount_bank):
-        icp = self.env["ir.config_parameter"].sudo()
         # Sender
-        sender_name = icp.get_param("export.payment.ktb.sender_name")
+        sender_name = self.config_ktb_sender_name.value or self.env.company.display_name
         (
             sender_bank_code,
             sender_branch_code,
@@ -191,7 +173,7 @@ class BankPaymentExport(models.Model):
         text = (
             "102{idx}{receiver_bank_code}{receiver_branch_code}{receiver_acc_number}"
             "{sender_bank_code}{sender_branch_code}{sender_acc_number}"
-            "{ktb_effective_date}{ktb_service_type}00{payment_net_amount_bank}"
+            "{effective_date}{ktb_service_type}00{payment_net_amount_bank}"
             "{receiver_info}{receiver_id}{receiver_name}{sender_name}{space}"
             "{ref_running_number}09{email}{sms}0000{filter}\r".format(
                 idx="1".zfill(6),  # 1 Batch = 1 File, How we can add more than 1 batch?
@@ -201,7 +183,7 @@ class BankPaymentExport(models.Model):
                 sender_bank_code=sender_bank_code.zfill(3),  # 28-30
                 sender_branch_code=sender_branch_code.zfill(4),  # 31-34
                 sender_acc_number=sender_acc_number.zfill(11),  # 35-45
-                ktb_effective_date=self.ktb_effective_date.strftime("%d%m%Y"),  # 46-53
+                effective_date=self.effective_date.strftime("%d%m%Y"),  # 46-53
                 ktb_service_type=ktb_service_type,  # 54-55
                 payment_net_amount_bank=payment_net_amount_bank  # 58-74
                 and str(payment_net_amount_bank).zfill(17)
@@ -211,9 +193,7 @@ class BankPaymentExport(models.Model):
                 receiver_name=receiver_name  # 93-192
                 and receiver_name.ljust(100)
                 or "".ljust(100),  # 192
-                sender_name=sender_name  # 193-292
-                and sender_name.ljust(100)
-                or self.env.company.display_name.ljust(100),
+                sender_name=sender_name.ljust(100),  # 193-292
                 space="".ljust(
                     100
                 ),  # other info1, 2, dda ref1, 2 and reverse (40+18+18+20+4) # 293-392

@@ -105,7 +105,16 @@
                         <page name="information" string="Information Export">
                             <group name="information_filter">
                                 <group name="left_information" />
-                                <group name="right_information" />
+                                <group name="right_information">
+                                    <field
+                                        name="is_required_effective_date"
+                                        invisible="1"
+                                    />
+                                    <field
+                                        name="effective_date"
+                                        attrs="{'required': [('is_required_effective_date', '!=', False)]}"
+                                    />
+                                </group>
                             </group>
                             <group name="system_config" string="System Configuration" />
                         </page>

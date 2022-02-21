@@ -29,7 +29,7 @@ class BankPaymentExportXslx(models.AbstractModel):
                         or "-",
                     ),
                     ("Service Type", name_ktb_service_type),
-                    ("Effective Date", obj.ktb_effective_date.strftime("%d/%m/%Y")),
+                    ("Effective Date", obj.effective_date.strftime("%d/%m/%Y")),
                 ]
             )
         return header_data_list

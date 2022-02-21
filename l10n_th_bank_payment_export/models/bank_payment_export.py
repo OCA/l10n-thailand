@@ -23,6 +23,16 @@ class BankPaymentExport(models.Model):
         states={"draft": [("readonly", False)]},
         tracking=True,
     )
+    effective_date = fields.Date(
+        string="Effective Date",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+    is_required_effective_date = fields.Boolean(
+        compute="_compute_required_effective_date",
+        default=False,
+        copy=False,
+    )
     export_line_ids = fields.One2many(
         comodel_name="bank.payment.export.line",
         inverse_name="payment_export_id",
@@ -52,6 +62,10 @@ class BankPaymentExport(models.Model):
         default="draft",
         tracking=True,
     )
+
+    @api.depends("bank")
+    def _compute_required_effective_date(self):
+        self.is_required_effective_date = False
 
     @api.depends("export_line_ids", "export_line_ids.state")
     def _compute_total_amount(self):
@@ -195,6 +209,29 @@ class BankPaymentExport(models.Model):
         export_lines = [(0, 0, {"payment_id": x}) for x in active_ids]
         ctx.update({"default_export_line_ids": export_lines})
         return ctx
+
+    @api.model
+    def _default_common_config(self, field):
+        field_default_duplicate = self.env["bank.payment.config"].search(
+            [
+                ("field_id.name", "=", field),
+                ("is_default", "=", True),
+            ]
+        )
+        return field_default_duplicate
+
+    @api.constrains("effective_date")
+    def check_effective_date(self):
+        today = fields.Date.context_today(self)
+        for rec in self:
+            if rec.effective_date < today:
+                raise UserError(
+                    _(
+                        "Effective Date must be more than or equal {}".format(
+                            today.strftime("%d/%m/%Y")
+                        )
+                    )
+                )
 
     def _check_constraint_create_bank_payment_export(self, payments):
         method_manual_out = self.env.ref("account.account_payment_method_manual_out")

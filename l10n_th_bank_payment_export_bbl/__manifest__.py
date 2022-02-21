@@ -11,7 +11,6 @@
     "summary": "Bank Payment Export File BBL",
     "depends": ["l10n_th_bank_payment_export"],
     "data": [
-        "data/ir_config_parameter.xml",
         "data/report_action.xml",
         "views/bank_payment_export_view.xml",
     ],
