@@ -25,6 +25,7 @@ class BankPaymentExport(models.Model):
     )
     effective_date = fields.Date(
         string="Effective Date",
+        copy=False,
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -151,6 +152,25 @@ class BankPaymentExport(models.Model):
             "_generate_bank_payment_text() for customize your format."
         )
 
+    def _check_constraint_line(self):
+        # Add condition with line here
+        for line in self.export_line_ids:
+            if not line.payment_partner_bank_id:
+                raise UserError(
+                    _(
+                        "Recipient Bank with {} is not selected.".format(
+                            line.payment_id.name
+                        )
+                    )
+                )
+            acc_number = line.payment_partner_bank_id.acc_number
+            if acc_number and len(acc_number.split("-")) > 1:
+                raise UserError(
+                    _("{} can not use '-' in Recipient Bank (Account Number)").format(
+                        line.payment_id.name
+                    )
+                )
+
     def _check_constraint_confirm(self):
         # Add condition here
         for rec in self:
@@ -158,8 +178,7 @@ class BankPaymentExport(models.Model):
                 raise UserError(_("You need to add a line before confirm."))
             if any(rec.export_line_ids.mapped("payment_id.is_export")):
                 raise UserError(_("Another document was used to export the payment."))
-            if any(not line.payment_partner_bank_id for line in rec.export_line_ids):
-                raise UserError(_("Recipient Bank is not selected."))
+            rec._check_constraint_line()
 
     def action_draft(self):
         self.export_line_ids.clear_payment_exported()
@@ -196,7 +215,7 @@ class BankPaymentExport(models.Model):
     def action_export_text_file(self):
         self.ensure_one()
         report = self.print_report("qweb-text")
-        self.action_done()
+        # self.action_done()
         return report
 
     def action_export_excel_file(self):

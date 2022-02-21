@@ -96,6 +96,45 @@ class BankPaymentExportLine(models.Model):
         payment_net_amount = self.payment_amount
         return payment_net_amount
 
+    def _get_acc_number_digit(self, partner_bank_id):
+        acc_number = partner_bank_id.acc_number
+        if not acc_number:
+            return "**receiver account number is null**"
+        if len(acc_number) <= 11:
+            return acc_number.zfill(11)
+        # BAAC: ธ. เพื่อการเกษตรและสหกรณ์การเกษตร
+        if partner_bank_id.bank_id.bic == "BAABTHBK":
+            return (
+                len(acc_number) == 12
+                and acc_number[1:]
+                or "**Digit account number is not correct**"
+            )
+        # TISCO: ธ. ทิสโก้ จำกัด (มหาชน)
+        # KKP: ธ. เกียรตินาคิน จำกัด (มหาชน)
+        if partner_bank_id.bank_id.bic in ("TFPCTHB1", "KKPBTHBK"):
+            return (
+                len(acc_number) == 14
+                and acc_number[4:].zfill(11)
+                or "**Digit account number is not correct**"
+            )
+        # IBANK: ธ. อิสลามแห่งประเทศไทย (For 12 digits)
+        if partner_bank_id.bank_id.bic == "TIBTTHBK":
+            return (
+                len(acc_number) == 12
+                and acc_number[2:].zfill(11)
+                or "**Digit account number is not correct**"
+            )
+        # GSB: ธ. ออมสิน
+        if partner_bank_id.bank_id.bic == "GSBATHBK":
+            if len(acc_number) == 12:
+                acc_number = "".join(["999", acc_number])
+            return (
+                len(acc_number) == 15
+                and acc_number[5:]
+                or "**Digit account number is not correct**"
+            )
+        return acc_number
+
     def _get_receiver_information(self):
         self.ensure_one()
         partner_bank_id = self.payment_partner_bank_id
@@ -109,9 +148,7 @@ class BankPaymentExportLine(models.Model):
             partner_bank_id.bank_id.bank_branch_code
             or "**receiver branch code is null**"
         )
-        receiver_acc_number = (
-            partner_bank_id.acc_number or "**receiver account number is null**"
-        )
+        receiver_acc_number = self._get_acc_number_digit(partner_bank_id)
         return (
             receiver_name,
             receiver_bank_code,

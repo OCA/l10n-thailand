@@ -182,6 +182,9 @@ class BankPaymentExport(models.Model):
         )
         return text
 
+    def _convert_acc_number_digit(self, acc_number):
+        return acc_number
+
     def _get_text_body_bbl(self, idx, pe_line, company_code, payment_net_amount_bank):
         # Receiver
         (
@@ -199,7 +202,7 @@ class BankPaymentExport(models.Model):
                 company_code=company_code,
                 sequence=idx,
                 bbl_product_code=self.bbl_product_code,
-                receiver_acc_number=receiver_acc_number.zfill(11),
+                receiver_acc_number=receiver_acc_number,
                 value_date=pe_line.payment_date.strftime("%d%m%Y"),
                 currency=pe_line.currency_id.name,
                 internal_ref=pe_line.payment_id.name,

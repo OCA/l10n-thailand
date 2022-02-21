@@ -179,7 +179,7 @@ class BankPaymentExport(models.Model):
                 idx="1".zfill(6),  # 1 Batch = 1 File, How we can add more than 1 batch?
                 receiver_bank_code=receiver_bank_code.zfill(3),  # 10-12
                 receiver_branch_code=receiver_branch_code.zfill(4),  # 13-16
-                receiver_acc_number=receiver_acc_number.zfill(11),  # 17-27
+                receiver_acc_number=receiver_acc_number,  # 17-27
                 sender_bank_code=sender_bank_code.zfill(3),  # 28-30
                 sender_branch_code=sender_branch_code.zfill(4),  # 31-34
                 sender_acc_number=sender_acc_number.zfill(11),  # 35-45
