@@ -59,6 +59,7 @@
                 <field
                     name="wht_move_id"
                     attrs="{'invisible': [('wht_move_id', '=', False)]}"
+                    groups="account.group_account_invoice,account.group_account_readonly"
                 />
             </field>
             <xpath
