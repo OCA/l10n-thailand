@@ -9,6 +9,7 @@
             <tree>
                 <field name="name" />
                 <field name="bank" />
+                <field name="effective_date" />
                 <field name="total_amount" />
                 <field name="currency_id" optional="hide" />
                 <field
@@ -134,6 +135,7 @@
         <field name="arch" type="xml">
             <search string="Bank Payment Export">
                 <field name="name" />
+                <field name="effective_date" />
                 <filter
                     name="bank_payment_export_state_draft"
                     string="Draft"
@@ -159,6 +161,11 @@
                         string="Bank"
                         name="group_by_bank"
                         context="{'group_by': 'bank'}"
+                    />
+                    <filter
+                        string="Effective Date"
+                        name="group_by_effective_date"
+                        context="{'group_by': 'effective_date'}"
                     />
                     <separator orientation="vertical_groupby" />
                     <filter
