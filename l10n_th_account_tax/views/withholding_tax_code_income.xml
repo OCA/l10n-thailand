@@ -52,6 +52,7 @@
                 <field name="name" />
                 <field name="income_tax_form" optional="show" />
                 <field name="wht_cert_income_type" optional="show" />
+                <field name="is_default" optional="show" />
             </tree>
         </field>
     </record>
@@ -71,6 +72,7 @@
                     <group>
                         <group>
                             <field name="code" />
+                            <field name="is_default" />
                         </group>
                         <group>
                             <field name="income_tax_form" />

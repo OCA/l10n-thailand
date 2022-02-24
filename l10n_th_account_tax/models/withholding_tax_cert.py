@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 INCOME_TAX_FORM = [
     ("pnd1", "PND1"),
@@ -227,6 +228,7 @@ class WithholdingTaxCertLine(models.Model):
     wht_cert_income_code = fields.Many2one(
         comodel_name="withholding.tax.code.income",
         string="Income Code",
+        index=True,
         help="For Text File income code",
     )
     wht_cert_income_desc = fields.Char(
@@ -258,12 +260,21 @@ class WithholdingTaxCertLine(models.Model):
 
     @api.onchange("wht_cert_income_type")
     def _onchange_wht_cert_income_type(self):
-        self.wht_cert_income_code = False
+        WHT_CODE_INCOME = self.env["withholding.tax.code.income"]
         if self.wht_cert_income_type:
             select_dict = dict(WHT_CERT_INCOME_TYPE)
             self.wht_cert_income_desc = select_dict[self.wht_cert_income_type]
+            income_code = WHT_CODE_INCOME.search(
+                [
+                    ("wht_cert_income_type", "=", self.wht_cert_income_type),
+                    ("income_tax_form", "=", self.cert_id.income_tax_form),
+                    ("is_default", "=", True),
+                ]
+            )
+            self.wht_cert_income_code = income_code or False
         else:
             self.wht_cert_income_desc = False
+            self.wht_cert_income_code = False
 
 
 class WithholdingTaxCodeIncome(models.Model):
@@ -281,3 +292,25 @@ class WithholdingTaxCodeIncome(models.Model):
     wht_cert_income_type = fields.Selection(
         selection=WHT_CERT_INCOME_TYPE, string="Type of Income", required=True
     )
+    is_default = fields.Boolean(string="Default")
+
+    @api.constrains("is_default")
+    def check_is_default(self):
+        field_default_duplicate = self.env["withholding.tax.code.income"].search(
+            [
+                ("income_tax_form", "=", self.income_tax_form),
+                ("wht_cert_income_type", "=", self.wht_cert_income_type),
+                ("is_default", "=", True),
+            ]
+        )
+        if len(field_default_duplicate) > 1:
+            dict_wht_income_type = dict(WHT_CERT_INCOME_TYPE)
+            dict_income_tax_form = dict(INCOME_TAX_FORM)
+            raise UserError(
+                _(
+                    "You can not default field '{} - {}' more than 1.".format(
+                        dict_income_tax_form[self.income_tax_form],
+                        dict_wht_income_type[self.wht_cert_income_type],
+                    )
+                )
+            )
