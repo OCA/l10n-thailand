@@ -27,6 +27,7 @@ class WithHoldingTaxReport(models.TransientModel):
     date_range_id = fields.Many2one(comodel_name="date.range", string="Date range")
     date_from = fields.Date(required=True)
     date_to = fields.Date(required=True)
+    show_cancel = fields.Boolean(string="Show cancelled")
     results = fields.Many2many(
         comodel_name="withholding.tax.cert.line",
         string="Results",
@@ -163,4 +164,6 @@ class WithHoldingTaxReport(models.TransientModel):
             ("cert_id.company_partner_id", "=", self.company_id.partner_id.id),
             ("cert_id.state", "!=", "draft"),
         ]
+        if not self.show_cancel:
+            domain += [("cert_id.state", "!=", "cancel")]
         self.results = Result.sudo().search(domain)
