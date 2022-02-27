@@ -24,6 +24,10 @@ class WithHoldingTaxReportWizard(models.TransientModel):
         required=True,
         ondelete="cascade",
     )
+    show_cancel = fields.Boolean(
+        string="Show cancelled",
+        default=True,
+    )
 
     def _get_domain_company_id(self):
         selected_companies = self.env["res.company"].browse(
@@ -68,6 +72,7 @@ class WithHoldingTaxReportWizard(models.TransientModel):
             "date_from": self.date_from,
             "date_to": self.date_to,
             "company_id": self.company_id.id,
+            "show_cancel": self.show_cancel,
         }
 
     def _export(self, report_type):

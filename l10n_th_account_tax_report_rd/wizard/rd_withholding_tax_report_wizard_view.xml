@@ -8,6 +8,7 @@
                 <group>
                     <group>
                         <field name="income_tax_form" />
+                        <field name="show_cancel" />
                     </group>
                     <group>
                         <field

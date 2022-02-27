@@ -37,6 +37,7 @@ class RdWithHoldingTaxReport(models.TransientModel):
     )
     date_from = fields.Date()
     date_to = fields.Date()
+    show_cancel = fields.Boolean(string="Show cancelled")
     results = fields.Many2many(
         comodel_name="withholding.tax.cert.line",
         string="Results",
@@ -103,6 +104,8 @@ class RdWithHoldingTaxReport(models.TransientModel):
             ("cert_id.company_partner_id", "=", self.company_id.partner_id.id),
             ("cert_id.state", "!=", "draft"),
         ]
+        if not self.show_cancel:
+            domain += [("cert_id.state", "!=", "cancel")]
         self.results = Result.search(domain)
 
     def _convert_result_to_dict(self, results):
