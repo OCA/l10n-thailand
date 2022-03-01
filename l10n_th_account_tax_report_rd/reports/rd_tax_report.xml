@@ -129,10 +129,11 @@
             <div class="row" style="margin-top: 10px;">
                 <div class="col-12">
                     <t t-set="n" t-value="0" />
-                    <t t-foreach="range(ceil(num_results/15))" t-as="i">
+                    <t t-set="np" t-value="15" />
+                    <t t-foreach="range(ceil(num_results/np))" t-as="i">
                         <t
                             t-set="result"
-                            t-value="results[i*15:min((i+1) * 15, num_results)]"
+                            t-value="results[i*np:min((i+1) * np, num_results)]"
                         />
                         <table>
                             <thead>
