@@ -10,12 +10,16 @@ class BankPaymentConfig(models.Model):
     _description = "Bank Payment Configuration"
 
     name = fields.Char(required=True)
-    value = fields.Char()
+    value = fields.Char(required=True)
     field_id = fields.Many2one(
         comodel_name="ir.model.fields",
         required=True,
         index=True,
-        domain=[("model", "=", "bank.payment.export"), ("ttype", "=", "many2one")],
+        domain=[
+            ("model", "=", "bank.payment.export"),
+            ("ttype", "=", "many2one"),
+            ("relation", "=", "bank.payment.config"),
+        ],
         ondelete="cascade",
     )
     is_default = fields.Boolean(string="Default")

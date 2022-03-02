@@ -10,16 +10,16 @@ class BankPaymentExportLine(models.Model):
 
     _has_cancel_reason = "optional"  # ["no", "optional", "required"]
 
-    def action_cancel(self):
+    def action_reject(self):
         if not self.filtered("cancel_confirm"):
             return self.open_cancel_confirm_wizard()
-        return super().action_cancel()
+        return super().action_reject()
 
-    def _action_cancel_bank_payment(self):
+    def _action_reject_bank_payment(self):
         reason_cancel_all = ", ".join(
             self.payment_export_id.export_line_ids.mapped("cancel_reason")
         )
         self.payment_export_id.write(
             {"cancel_confirm": True, "cancel_reason": reason_cancel_all}
         )
-        return super()._action_cancel_bank_payment()
+        return super()._action_reject_bank_payment()

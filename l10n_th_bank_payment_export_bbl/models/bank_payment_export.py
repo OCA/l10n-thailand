@@ -182,9 +182,6 @@ class BankPaymentExport(models.Model):
         )
         return text
 
-    def _convert_acc_number_digit(self, acc_number):
-        return acc_number
-
     def _get_text_body_bbl(self, idx, pe_line, company_code, payment_net_amount_bank):
         # Receiver
         (

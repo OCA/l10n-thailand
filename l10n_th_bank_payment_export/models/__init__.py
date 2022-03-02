@@ -3,5 +3,5 @@
 
 from . import bank_payment_config
 from . import account_payment
-from . import bank_payment_export
 from . import bank_payment_export_line
+from . import bank_payment_export

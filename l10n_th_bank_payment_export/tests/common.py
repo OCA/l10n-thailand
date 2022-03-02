@@ -10,6 +10,7 @@ class CommonBankPaymentExport(TransactionCase):
         super().setUp()
         self.move_model = self.env["account.move"]
         self.journal_model = self.env["account.journal"]
+        self.bank_payment_config_model = self.env["bank.payment.config"]
         self.bank_payment_export_model = self.env["bank.payment.export"]
         self.register_payments_model = self.env["account.payment.register"]
         self.main_company_id = self.env.ref("base.main_company").id
@@ -30,16 +31,16 @@ class CommonBankPaymentExport(TransactionCase):
         self.bank_bnp = self.env.ref("base.bank_bnp")
         self.bank_ing = self.env.ref("base.bank_ing")
         self.partner_company = self.create_partner_bank(
-            "A000-Test", self.env.company.partner_id, self.bank_ing
+            "A000Test", self.env.company.partner_id, self.bank_ing
         )
         self.partner1_bank_bnp = self.create_partner_bank(
-            "A001-Test", self.partner_1, self.bank_bnp
+            "A001Test", self.partner_1, self.bank_bnp
         )
         self.partner1_bank_ing = self.create_partner_bank(
-            "A002-Test", self.partner_1, self.bank_ing
+            "A002Test", self.partner_1, self.bank_ing
         )
         self.partner2_bank_ing = self.create_partner_bank(
-            "A003-Test", self.partner_2, self.bank_ing
+            "A003Test", self.partner_2, self.bank_ing
         )
 
         self.payment_method_manual_in = self.env.ref(
@@ -95,6 +96,25 @@ class CommonBankPaymentExport(TransactionCase):
             partner=self.partner_2,
             journal=self.journal_bank,
         )
+
+    def create_bank_payment_config(self, name, field_name, value, default=False):
+        field_id = self.env["ir.model.fields"].search(
+            [
+                ("model", "=", "bank.payment.export"),
+                ("ttype", "=", "many2one"),
+                ("relation", "=", "bank.payment.config"),
+                ("name", "=", field_name),
+            ]
+        )
+        bank_config_id = self.bank_payment_config_model.create(
+            {
+                "name": name,
+                "field_id": field_id.id,
+                "value": value,
+                "is_default": default,
+            }
+        )
+        return bank_config_id
 
     def create_partner_bank(self, acc_number, partner, bank):
         return self.partner_bank_model.create(

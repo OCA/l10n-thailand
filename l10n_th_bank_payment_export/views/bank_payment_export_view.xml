@@ -17,6 +17,7 @@
                     widget="badge"
                     decoration-success="state == 'done'"
                     decoration-info="state in ['draft', 'confirm']"
+                    decoration-danger="state == 'reject'"
                     optional="show"
                 />
             </tree>
@@ -34,6 +35,7 @@
                         class="btn-primary"
                         type="object"
                         states="draft"
+                        groups="account.group_account_manager"
                     />
                     <button
                         name="action_export_excel_file"
@@ -60,7 +62,13 @@
                         name="action_cancel"
                         string="Cancel"
                         type="object"
-                        states="draft,confirm,done"
+                        states="draft,confirm"
+                    />
+                    <button
+                        name="action_reject"
+                        string="Reject"
+                        type="object"
+                        states="done"
                     />
                     <field
                         name="state"
@@ -156,6 +164,11 @@
                     string="Cancelled"
                     domain="[('state', '=', 'cancel')]"
                 />
+                <filter
+                    name="bank_payment_export_state_reject"
+                    string="Rejected"
+                    domain="[('state', '=', 'reject')]"
+                />
                 <group expand="1" string="Group By">
                     <filter
                         string="Bank"
@@ -200,14 +213,15 @@
                     widget="badge"
                     decoration-success="state == 'done'"
                     decoration-info="state in ['draft', 'confirm']"
+                    decoration-danger="state == 'reject'"
                     optional="show"
                 />
                 <button
-                    name="action_cancel"
-                    string="Cancel"
+                    name="action_reject"
+                    string="Reject"
                     type="object"
                     icon="fa-times"
-                    confirm="Are you sure ?"
+                    confirm="Are you sure to reject this line ?"
                     attrs="{'invisible': [('state', '!=', 'done')]}"
                 />
             </tree>

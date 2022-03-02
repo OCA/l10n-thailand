@@ -13,31 +13,51 @@ from odoo.addons.l10n_th_bank_payment_export.tests.common import CommonBankPayme
 class TestBankPaymentExportKTB(CommonBankPaymentExport):
     def setUp(self):
         super().setUp()
-        # paremeter config
-        self.sender_name = self.env.ref(
-            "l10n_th_bank_payment_export_ktb.export_payment_ktb_sender_name"
+        # setup config
+        self.config_ktb_company_id = self.create_bank_payment_config(
+            name="KTB Company ID",
+            field_name="config_ktb_company_id",
+            value="Test KTB Company",
+            default=True,
         )
-        self.ktb_company = self.env.ref(
-            "l10n_th_bank_payment_export_ktb.export_payment_ktb_company_id"
+        self.config_ktb_sender_name = self.create_bank_payment_config(
+            name="KTB Sender Name",
+            field_name="config_ktb_sender_name",
+            value="Test KTB Sender Name",
+            default=True,
         )
 
-    def test_01_config_parameter(self):
+    def test_01_bank_payment_config(self):
+        """ Test default bank payment config """
+        self.config_ktb_sender_name.is_default = False
         bank_payment = self.bank_payment_export_model.create(
             {
                 "name": "/",
                 "bank": "KRTHTHBK",
             }
         )
-        bank_payment.action_get_all_payments()
-        self.assertEqual(len(bank_payment.export_line_ids), 2)
-        # check config parameter
-        self.assertFalse(bank_payment.config_ktb_company_id)
+        self.assertEqual(bank_payment.config_ktb_company_id, self.config_ktb_company_id)
         self.assertFalse(bank_payment.config_ktb_sender_name)
-        self.sender_name.value = "Test Sender Name"
-        self.ktb_company.value = "Test KTB Company"
-        bank_payment._compute_ktb_system_parameter()
-        self.assertTrue(bank_payment.config_ktb_company_id)
-        self.assertTrue(bank_payment.config_ktb_sender_name)
+        # Test change it to default
+        self.config_ktb_sender_name.is_default = True
+        bank_payment = self.bank_payment_export_model.create(
+            {
+                "name": "/",
+                "bank": "KRTHTHBK",
+            }
+        )
+        self.assertEqual(
+            bank_payment.config_ktb_sender_name, self.config_ktb_sender_name
+        )
+
+        # Can't create config default with field duplicate
+        with self.assertRaises(UserError):
+            self.create_bank_payment_config(
+                name="KTB Company ID2",
+                field_name="config_ktb_company_id",
+                value="Test KTB Company2",
+                default=True,
+            )
 
     def test_02_ktb_export(self):
         bank_payment = self.bank_payment_export_model.create(
@@ -50,7 +70,7 @@ class TestBankPaymentExportKTB(CommonBankPaymentExport):
         self.assertEqual(len(bank_payment.export_line_ids), 2)
         # Add recipient bank on line
         for line in bank_payment.export_line_ids:
-            self.assertFalse(line.payment_id.is_export)
+            self.assertEqual(line.payment_id.export_status, "to_export")
             if line.payment_partner_id == self.partner_2:
                 # check default recipient bank
                 self.assertTrue(line.payment_partner_bank_id)
@@ -65,8 +85,6 @@ class TestBankPaymentExportKTB(CommonBankPaymentExport):
                 bp.ktb_bank_type = "standard"
                 bp.ktb_service_type_standard = "04"
                 bp.effective_date = fields.Date.today() - timedelta(days=3)
-        self.assertTrue(bank_payment.ktb_service_type_standard)
-        self.assertFalse(bank_payment.ktb_service_type_direct)
         with Form(bank_payment) as bp:
             bp.ktb_bank_type = "direct"
             bp.ktb_service_type_direct = "14"

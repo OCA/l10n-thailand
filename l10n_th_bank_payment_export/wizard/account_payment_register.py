@@ -14,10 +14,10 @@ class AccountPaymentRegister(models.TransientModel):
 
     def _create_payment_vals_from_wizard(self):
         payment_vals = super()._create_payment_vals_from_wizard()
-        payment_vals["is_export"] = self.is_export
+        payment_vals["export_status"] = self.is_export and "exported" or "draft"
         return payment_vals
 
     def _create_payment_vals_from_batch(self, batch_result):
         payment_vals = super()._create_payment_vals_from_wizard()
-        payment_vals["is_export"] = self.is_export
+        payment_vals["export_status"] = self.is_export and "exported" or "draft"
         return payment_vals

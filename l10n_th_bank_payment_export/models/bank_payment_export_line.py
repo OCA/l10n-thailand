@@ -66,21 +66,43 @@ class BankPaymentExportLine(models.Model):
             rec.payment_partner_bank_id = rec.payment_id.partner_bank_id or False
 
     def clear_payment_exported(self):
-        return self.mapped("payment_id").write({"is_export": False})
-
-    def _action_cancel_bank_payment(self):
-        return self.payment_export_id.action_cancel()
-
-    def action_cancel(self):
-        self.clear_payment_exported()
-        self.write({"state": "cancel"})
-        line_not_cancel = self.payment_export_id.export_line_ids.filtered(
-            lambda l: l.state != "cancel"
+        return self.mapped("payment_id").write(
+            {
+                "export_status": "draft",
+                "payment_export_id": False,
+            }
         )
-        # all line cancelled, it should auto cancel header too.
-        if not line_not_cancel:
-            self._action_cancel_bank_payment()
-        return self.write({"state": "cancel"})
+
+    def _action_reject_bank_payment(self):
+        return self.payment_export_id.action_reject()
+
+    def action_reject(self):
+        self.clear_payment_exported()
+        self.write({"state": "reject"})
+        lines_not_reject = self.payment_export_id.export_line_ids.filtered(
+            lambda l: l.state != "reject"
+        )
+        # all line rejected, it should auto reject header too.
+        if not lines_not_reject:
+            self._action_reject_bank_payment()
+        return True
+
+    @api.model
+    def create(self, vals):
+        """ link payment and bank payment export """
+        export_line = super().create(vals)
+        export_line.payment_id.write(
+            {
+                "export_status": "to_export",
+                "payment_export_id": vals["payment_export_id"],
+            }
+        )
+        return export_line
+
+    def unlink(self):
+        """Check state draft can delete only."""
+        self.clear_payment_exported()
+        return super().unlink()
 
     # ====================== Function Common Text File ======================
 
@@ -130,7 +152,7 @@ class BankPaymentExportLine(models.Model):
                 acc_number = "".join(["999", acc_number])
             return (
                 len(acc_number) == 15
-                and acc_number[5:]
+                and acc_number[4:]
                 or "**Digit account number is not correct**"
             )
         return acc_number

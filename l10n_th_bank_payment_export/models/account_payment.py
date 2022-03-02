@@ -7,10 +7,25 @@ from odoo import fields, models
 class AccountPayment(models.Model):
     _inherit = "account.payment"
 
-    is_export = fields.Boolean(
-        string="Exported",
+    export_status = fields.Selection(
+        selection=[
+            ("draft", "Draft"),
+            ("to_export", "To Export"),
+            ("exported", "Exported"),
+        ],
+        string="Export Status",
+        default="draft",
         copy=False,
         readonly=True,
         tracking=True,
-        help="if checked, it means the money has already been sent to the bank.",
+        help="it means status the money has already been sent to the bank.",
+    )
+    payment_export_id = fields.Many2one(
+        comodel_name="bank.payment.export",
+        string="Payment Export",
+        index=True,
+        copy=False,
+        readonly=True,
+        tracking=True,
+        help="Link to Bank Payment Export",
     )

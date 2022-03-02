@@ -6,7 +6,13 @@
         <field name="inherit_id" ref="account.view_account_payment_register_form" />
         <field name="arch" type="xml">
             <xpath expr="//group[@name='group2']" position="inside">
-                <field name="is_export" />
+                <label for="is_export" />
+                <div class="oe_inline">
+                    <field name="is_export" />
+                    <div class="text-muted">
+                        if checked, it means the money has already been sent to the bank.
+                    </div>
+                </div>
             </xpath>
         </field>
     </record>

@@ -53,8 +53,9 @@ class BankPaymentExport(models.Model):
         [
             ("draft", "Draft"),
             ("confirm", "Confirmed"),
-            ("done", "Done"),
+            ("done", "Exported"),
             ("cancel", "Cancelled"),
+            ("reject", "Rejected"),
         ],
         string="Status",
         readonly=True,
@@ -71,8 +72,9 @@ class BankPaymentExport(models.Model):
     @api.depends("export_line_ids", "export_line_ids.state")
     def _compute_total_amount(self):
         for rec in self:
+            # Amount total without line rejected
             rec.total_amount = sum(
-                rec.export_line_ids.filtered(lambda l: l.state != "cancel").mapped(
+                rec.export_line_ids.filtered(lambda l: l.state != "reject").mapped(
                     "payment_amount"
                 )
             )
@@ -100,7 +102,7 @@ class BankPaymentExport(models.Model):
         """
         method_manual_out = self.env.ref("account.account_payment_method_manual_out")
         domain = [
-            ("is_export", "=", False),
+            ("export_status", "=", "draft"),
             ("state", "=", "posted"),
             ("payment_method_id", "=", method_manual_out.id),
             ("currency_id", "=", self.env.company.currency_id.id),
@@ -112,14 +114,15 @@ class BankPaymentExport(models.Model):
         self.ensure_one()
         domain = self._domain_payment_id()
         payments = self.env["account.payment"].search(domain)
-        payment_vals = [
-            {"payment_export_id": self.id, "payment_id": payment.id}
-            for payment in payments
-        ]
-        # clear old value first
-        self.export_line_ids.unlink()
-        self.export_line_ids.create(payment_vals)
-        return
+        if payments:
+            payment_vals = [
+                {"payment_export_id": self.id, "payment_id": payment.id}
+                for payment in payments
+            ]
+            # clear old value first
+            self.export_line_ids.unlink()
+            self.export_line_ids.create(payment_vals)
+        return True
 
     def _get_report_base_filename(self):
         self.ensure_one()
@@ -153,7 +156,8 @@ class BankPaymentExport(models.Model):
         )
 
     def _check_constraint_line(self):
-        # Add condition with line here
+        # Add condition with line on this function
+        self.ensure_one()
         for line in self.export_line_ids:
             if not line.payment_partner_bank_id:
                 raise UserError(
@@ -172,45 +176,33 @@ class BankPaymentExport(models.Model):
                 )
 
     def _check_constraint_confirm(self):
-        # Add condition here
+        # Add condition on this function
         for rec in self:
             if not rec.export_line_ids:
                 raise UserError(_("You need to add a line before confirm."))
-            if any(rec.export_line_ids.mapped("payment_id.is_export")):
-                raise UserError(_("Another document was used to export the payment."))
             rec._check_constraint_line()
 
     def action_draft(self):
-        self.export_line_ids.clear_payment_exported()
         return self.write({"state": "draft"})
 
     def action_confirm(self):
         self._check_constraint_confirm()
-        self.export_line_ids.mapped("payment_id").write({"is_export": True})
+        self.export_line_ids.mapped("payment_id").write({"export_status": "to_export"})
         return self.write({"state": "confirm"})
 
     def action_done(self):
+        self.export_line_ids.mapped("payment_id").write({"export_status": "exported"})
         return self.write({"state": "done"})
 
     def action_cancel(self):
-        """Normally, you can create document bank export payment
-        and select duplicate payment (state draft only).
-        Example:
-            document A (state draft) > payment A
-            document B (state draft) > payment A
-            -------
-            document A (state confirm) > payment A
-            document B (state draft) > payment A ==> can't confirm, must cancel
-            -------
-            document A (state confirm) > payment A
-            document B (state cancel) > payment A ==> exported should be True
-            -------
-            document A (state cancel) > payment A ==> exported should be False
-            document B (state cancel) > payment A
-        """
-        if self.state != "draft":
-            self.export_line_ids.clear_payment_exported()
+        """ Reset export_status on payment to 'Draft' and cancel this document """
+        self.export_line_ids.clear_payment_exported()
         return self.write({"state": "cancel"})
+
+    def action_reject(self):
+        """ Reset export_status on payment to 'Draft' and reject this document """
+        self.export_line_ids.clear_payment_exported()
+        return self.write({"state": "reject"})
 
     def action_export_text_file(self):
         self.ensure_one()
@@ -243,7 +235,7 @@ class BankPaymentExport(models.Model):
     def check_effective_date(self):
         today = fields.Date.context_today(self)
         for rec in self:
-            if rec.effective_date < today:
+            if rec.effective_date and rec.effective_date < today:
                 raise UserError(
                     _(
                         "Effective Date must be more than or equal {}".format(
@@ -265,7 +257,7 @@ class BankPaymentExport(models.Model):
                         "and Payment method 'Manual' only"
                     )
                 )
-            if payment.is_export:
+            if payment.export_status != "draft":
                 raise UserError(_("Payments have been already exported."))
             if payment.state != "posted":
                 raise UserError(_("You can export bank payments state 'posted' only"))

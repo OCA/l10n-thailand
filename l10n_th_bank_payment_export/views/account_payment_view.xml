@@ -5,8 +5,14 @@
         <field name="model">account.payment</field>
         <field name="inherit_id" ref="account.view_account_payment_tree" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="is_export" optional="show" />
+            <xpath expr="//field[@name='state']" position="before">
+                <field
+                    name="export_status"
+                    widget="badge"
+                    decoration-info="export_status == 'draft'"
+                    decoration-warning="export_status == 'to_export'"
+                    decoration-success="export_status == 'exported'"
+                />
             </xpath>
         </field>
     </record>
@@ -17,7 +23,21 @@
         <field name="inherit_id" ref="account.view_account_payment_form" />
         <field name="arch" type="xml">
             <xpath expr="//group[@name='group2']" position="inside">
-                <field name="is_export" groups="account.group_account_user" />
+                <label for="export_status" />
+                <div class="oe_inline">
+                    <field
+                        name="export_status"
+                        widget="badge"
+                        decoration-info="export_status == 'draft'"
+                        decoration-warning="export_status == 'to_export'"
+                        decoration-success="export_status == 'exported'"
+                        groups="account.group_account_user"
+                    />
+                    <span attrs="{'invisible': [('payment_export_id', '=', False)]}">
+                        =>
+                        <field name="payment_export_id" options="{'no_create': True}" />
+                    </span>
+                </div>
             </xpath>
         </field>
     </record>
@@ -28,17 +48,33 @@
         <field name="inherit_id" ref="account.view_account_payment_search" />
         <field name="arch" type="xml">
             <xpath expr="//filter[@name='reconciled']" position="after">
+                <separator name="payment_export" />
                 <filter
-                    name="is_export"
-                    string="Is Export"
-                    domain="[('is_export', '=', True)]"
+                    name="export_status_draft"
+                    string="Export - Draft"
+                    domain="[('export_status', '=', 'draft')]"
+                />
+                <filter
+                    name="export_status_to_export"
+                    string="Export - To Export"
+                    domain="[('export_status', '=', 'to_export')]"
+                />
+                <filter
+                    name="export_status_exported"
+                    string="Export - Exported"
+                    domain="[('export_status', '=', 'exported')]"
                 />
             </xpath>
             <xpath expr="//filter[@name='groupby_date']" position="before">
                 <filter
-                    name="groupby_is_export"
-                    string="Is Export"
-                    context="{'group_by': 'is_export'}"
+                    name="groupby_export_status"
+                    string="Export Status"
+                    context="{'group_by': 'export_status'}"
+                />
+                <filter
+                    name="groupby_payment_export_id"
+                    string="Bank Payment Export"
+                    context="{'group_by': 'payment_export_id'}"
                 />
             </xpath>
         </field>

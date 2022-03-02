@@ -25,7 +25,8 @@ Bank Payment Export Cancel Confirm
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-When user click to cancel bank payment export, a confirmation wizard will be show, with reason as optional.
+When user click to reject bank payment export, a confirmation wizard will be show,
+with reason as optional.
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
