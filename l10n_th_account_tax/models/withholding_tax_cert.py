@@ -79,7 +79,6 @@ class WithholdingTaxCert(models.Model):
         tracking=True,
     )
     date = fields.Date(
-        string="Date",
         required=True,
         compute="_compute_wht_cert_data",
         store=True,
@@ -160,7 +159,6 @@ class WithholdingTaxCert(models.Model):
     )
     income_tax_form = fields.Selection(
         selection=INCOME_TAX_FORM,
-        string="Income Tax Form",
         required=False,
         readonly=True,
         copy=False,
@@ -177,7 +175,6 @@ class WithholdingTaxCert(models.Model):
     )
     tax_payer = fields.Selection(
         selection=TAX_PAYER,
-        string="Tax Payer",
         default="withholding",
         required=True,
         readonly=True,
@@ -201,7 +198,7 @@ class WithholdingTaxCert(models.Model):
             if rec.ref_wht_cert_id:
                 rec.ref_wht_cert_id.write({"state": "cancel"})
                 rec.ref_wht_cert_id.message_post(
-                    body=_("This document was substituted by %s." % (rec.name))
+                    body=_("This document was substituted by %s.") % rec.name
                 )
         self.write({"state": "done"})
         return True
@@ -285,7 +282,6 @@ class WithholdingTaxCodeIncome(models.Model):
     code = fields.Char()
     income_tax_form = fields.Selection(
         selection=INCOME_TAX_FORM,
-        string="Income Tax Form",
         required=True,
         index=True,
     )
@@ -307,10 +303,8 @@ class WithholdingTaxCodeIncome(models.Model):
             dict_wht_income_type = dict(WHT_CERT_INCOME_TYPE)
             dict_income_tax_form = dict(INCOME_TAX_FORM)
             raise UserError(
-                _(
-                    "You can not default field '{} - {}' more than 1.".format(
-                        dict_income_tax_form[self.income_tax_form],
-                        dict_wht_income_type[self.wht_cert_income_type],
-                    )
+                _("You can not default field '{} - {}' more than 1.").format(
+                    dict_income_tax_form[self.income_tax_form],
+                    dict_wht_income_type[self.wht_cert_income_type],
                 )
             )

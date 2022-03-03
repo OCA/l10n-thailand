@@ -237,7 +237,7 @@ class TestTaxInvoice(SingleTransactionCase):
         self.supplier_invoice_vat.action_post()
 
     def test_supplier_invoice_undue_vat(self):
-        """ Register Payment from Vendor Invoice"""
+        """Register Payment from Vendor Invoice"""
         # Do not allow user to fill in Tax Invoice/Date
         tax_invoice = "SINV-10001"
         tax_date = fields.Date.today()
@@ -246,7 +246,7 @@ class TestTaxInvoice(SingleTransactionCase):
         ctx = action.get("context")
 
         # Make full payment from invoice
-        with Form(self.env["account.payment.register"].with_context(ctx)) as f:
+        with Form(self.env["account.payment.register"].with_context(**ctx)) as f:
             f.journal_id = self.journal_bank
         payment_wiz = f.save()
         res = payment_wiz.action_create_payments()
@@ -284,13 +284,13 @@ class TestTaxInvoice(SingleTransactionCase):
         self.assertEqual(tax_invoice_number, "Test Customer Invoice VAT")
 
     def test_customer_invoice_undue_vat(self):
-        """ Register Payment from Customer Invoice"""
+        """Register Payment from Customer Invoice"""
         # Do not allow user to fill in Tax Invoice/Date
         self.customer_invoice_undue_vat.action_post()
         action = self.customer_invoice_undue_vat.action_register_payment()
         ctx = action.get("context")
         # Make full payment from invoice
-        with Form(self.env["account.payment.register"].with_context(ctx)) as f:
+        with Form(self.env["account.payment.register"].with_context(**ctx)) as f:
             f.journal_id = self.journal_bank
         payment_wiz = f.save()
         res = payment_wiz.action_create_payments()
@@ -334,7 +334,7 @@ class TestTaxInvoice(SingleTransactionCase):
         # Make full payment from invoice
         action = self.customer_invoice_undue_vat_seq.action_register_payment()
         ctx = action.get("context")
-        with Form(self.env["account.payment.register"].with_context(ctx)) as f:
+        with Form(self.env["account.payment.register"].with_context(**ctx)) as f:
             f.journal_id = self.journal_bank
         payment_wiz = f.save()
         res = payment_wiz.action_create_payments()
@@ -373,14 +373,6 @@ class TestTaxInvoice(SingleTransactionCase):
         cash_basis_entries = self.env["account.move"].search(
             [("ref", "in", [invoice.name, refund.name])]
         )
-        cash_basis_entries.action_post()
-        # Not yet add tax invoice number, posting not affected
-        self.assertEqual(cash_basis_entries[0].state, "draft")
-        self.assertEqual(cash_basis_entries[1].state, "draft")
-        for tax_invoice in cash_basis_entries.mapped("tax_invoice_ids"):
-            tax_invoice.tax_invoice_number = "/"
-            tax_invoice.tax_invoice_date = fields.Date.today()
-        # After tax invoice is filled, can now posted
-        cash_basis_entries.action_post()
-        self.assertEqual(cash_basis_entries[0].state, "posted")
-        self.assertEqual(cash_basis_entries[1].state, "posted")
+        for move in cash_basis_entries:
+            with self.assertRaises(UserError):
+                move.action_post()

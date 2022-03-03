@@ -15,8 +15,8 @@ class AccountMoveTaxInvoice(models.Model):
     _name = "account.move.tax.invoice"
     _description = "Tax Invoice Info"
 
-    tax_invoice_number = fields.Char(string="Tax Invoice Number", copy=False)
-    tax_invoice_date = fields.Date(string="Tax Invoice Date", copy=False)
+    tax_invoice_number = fields.Char(copy=False)
+    tax_invoice_date = fields.Date(copy=False)
     report_late_mo = fields.Selection(
         [
             ("0", "0 month"),
@@ -32,7 +32,6 @@ class AccountMoveTaxInvoice(models.Model):
         required=True,
     )
     report_date = fields.Date(
-        string="Report Date",
         compute="_compute_report_date",
         store=True,
     )
@@ -103,7 +102,7 @@ class AccountMoveTaxInvoice(models.Model):
                 rec.report_date = False
 
     def unlink(self):
-        """ Do not allow remove the last tax_invoice of move_line """
+        """Do not allow remove the last tax_invoice of move_line"""
         line_taxinv = {}
         for move_line in self.mapped("move_line_id"):
             line_taxinv.update({move_line.id: move_line.tax_invoice_ids.ids})
@@ -161,7 +160,7 @@ class AccountMoveLine(models.Model):
         return wht_base_amount
 
     def _get_wht_amount(self, currency, wht_date):
-        """ Calculate withholding tax and base amount based on currency """
+        """Calculate withholding tax and base amount based on currency"""
         wht_lines = self.filtered("wht_tax_id")
         pit_lines = wht_lines.filtered("wht_tax_id.is_pit")
         wht_lines = wht_lines - pit_lines
@@ -225,7 +224,16 @@ class AccountMoveLine(models.Model):
         TaxInvoice = self.env["account.move.tax.invoice"]
         sign = self.env.context.get("reverse_tax_invoice") and -1 or 1
         for line in move_lines:
-            if (line.tax_line_id and line.tax_exigible) or line.manual_tax_invoice:
+            is_tax_invoice = (
+                True
+                if line.tax_line_id
+                and (
+                    line.tax_line_id.tax_exigibility == "on_invoice"
+                    or line.move_id.tax_cash_basis_origin_move_id
+                )
+                else False
+            )
+            if is_tax_invoice or line.manual_tax_invoice:
                 tax_base_amount = line._get_tax_base_amount(sign, vals_list)
                 taxinv = TaxInvoice.create(
                     {
@@ -527,7 +535,7 @@ class AccountMove(models.Model):
         return res
 
     def _prepare_withholding_move(self, wht_move):
-        """ Prepare dict for account.withholding.move """
+        """Prepare dict for account.withholding.move"""
         amount_income = wht_move.tax_base_amount
         amount_wht = abs(wht_move.balance)
         # In case, PIT is not withhold, but need to track from invoice
@@ -620,7 +628,7 @@ class AccountMove(models.Model):
         self.env["withholding.tax.cert"].create(certs)
 
     def _preapare_wht_certs(self):
-        """ Create withholding tax certs, 1 cert per partner """
+        """Create withholding tax certs, 1 cert per partner"""
         self.ensure_one()
         wht_move_groups = self.env["account.withholding.move"].read_group(
             domain=[("move_id", "=", self.id)],

@@ -2,10 +2,10 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 from odoo import fields
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests.common import Form, SavepointCase
+from odoo.tests.common import Form, TransactionCase
 
 
-class TestWithholdingTax(SavepointCase):
+class TestWithholdingTax(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -158,7 +158,8 @@ class TestWithholdingTax(SavepointCase):
             "active_model": "account.move",
         }
         with Form(
-            self.account_payment_register.with_context(ctx), view=self.register_view_id
+            self.account_payment_register.with_context(**ctx),
+            view=self.register_view_id,
         ) as f:
             register_payment = f.save()
         self.assertEqual(
@@ -181,7 +182,7 @@ class TestWithholdingTax(SavepointCase):
         return product_id
 
     def test_01_create_payment_withholding_tax(self):
-        """ Create payment with withholding tax"""
+        """Create payment with withholding tax"""
         price_unit = 100.0
         with self.assertRaises(ValidationError):
             self.wht_3.write({"account_id": self.expense_account.id})
@@ -203,7 +204,8 @@ class TestWithholdingTax(SavepointCase):
             "active_model": "account.move",
         }
         with Form(
-            self.account_payment_register.with_context(ctx), view=self.register_view_id
+            self.account_payment_register.with_context(**ctx),
+            view=self.register_view_id,
         ) as f:
             register_payment = f.save()
         self.assertEqual(
@@ -225,16 +227,16 @@ class TestWithholdingTax(SavepointCase):
             "active_ids": [payment_id.id],
             "active_model": "account.payment",
         }
-        res = self.wht_cert.with_context(ctx).action_create_withholding_tax_cert()
+        res = self.wht_cert.with_context(**ctx).action_create_withholding_tax_cert()
         view = self.env["ir.ui.view"].browse(res["view_id"]).xml_id
-        f = Form(self.env[res["res_model"]].with_context(res["context"]), view=view)
+        f = Form(self.env[res["res_model"]].with_context(**res["context"]), view=view)
         wizard = f.save()
         wizard.write({"wht_account_ids": [self.wht_account.id]})
         res = wizard.create_wht_cert()
         # New WHT Cert
         ctx_cert = res.get("context")
         ctx_cert.update({"income_tax_form": "pnd3", "wht_cert_income_type": "1"})
-        with Form(self.wht_cert.with_context(ctx_cert)) as f:
+        with Form(self.wht_cert.with_context(**ctx_cert)) as f:
             f.income_tax_form = "pnd3"
         cert = f.save()
         self.assertEqual(cert.state, "draft")
@@ -247,7 +249,7 @@ class TestWithholdingTax(SavepointCase):
         res = wizard.create_wht_cert()
         ctx_cert = res.get("context")
         ctx_cert.update({"income_tax_form": "pnd3", "wht_cert_income_type": "1"})
-        with Form(self.wht_cert.with_context(ctx_cert)) as f:
+        with Form(self.wht_cert.with_context(**ctx_cert)) as f:
             f.income_tax_form = "pnd3"
         cert2 = f.save()
         self.assertFalse(cert.ref_wht_cert_id)
@@ -259,7 +261,7 @@ class TestWithholdingTax(SavepointCase):
         self.assertEqual(cert.state, "cancel")
 
     def test_02_create_payment_withholding_tax_product(self):
-        """ Create payment with withholding tax from product"""
+        """Create payment with withholding tax from product"""
         price_unit = 100.0
         product_id = self._config_product_withholding_tax(
             self.product_1, self.wht_3.id, vendor=True
@@ -283,7 +285,8 @@ class TestWithholdingTax(SavepointCase):
             "active_model": "account.move",
         }
         with Form(
-            self.account_payment_register.with_context(ctx), view=self.register_view_id
+            self.account_payment_register.with_context(**ctx),
+            view=self.register_view_id,
         ) as f:
             register_payment = f.save()
         self.assertEqual(
@@ -300,7 +303,7 @@ class TestWithholdingTax(SavepointCase):
         self.assertEqual(payment_id.amount, price_unit * 0.97)
 
     def test_03_withholding_tax_customer_invoice(self):
-        """ Test case withholding tax from customer invoice"""
+        """Test case withholding tax from customer invoice"""
         price_unit = 100.0
         product_id = self._config_product_withholding_tax(
             self.product_1, self.wht_3.id, customer=True
@@ -319,7 +322,7 @@ class TestWithholdingTax(SavepointCase):
         invoice.action_post()
 
     def test_04_withholding_tax_multi_invoice(self):
-        """ Test case withholding tax with multi invoices"""
+        """Test case withholding tax with multi invoices"""
         price_unit = 100.0
         invoice = self._create_invoice(
             self.partner_1.id,
@@ -349,7 +352,7 @@ class TestWithholdingTax(SavepointCase):
         }
         with self.assertRaises(UserError):
             with Form(
-                self.account_payment_register.with_context(ctx),
+                self.account_payment_register.with_context(**ctx),
                 view=self.register_view_id,
             ) as f:
                 register_payment = f.save()
@@ -361,7 +364,7 @@ class TestWithholdingTax(SavepointCase):
         }
         with self.assertRaises(UserError):
             with Form(
-                self.account_payment_register.with_context(ctx),
+                self.account_payment_register.with_context(**ctx),
                 view=self.register_view_id,
             ) as f:
                 register_payment = f.save()
@@ -373,7 +376,8 @@ class TestWithholdingTax(SavepointCase):
             "active_model": "account.move",
         }
         with Form(
-            self.account_payment_register.with_context(ctx), view=self.register_view_id
+            self.account_payment_register.with_context(**ctx),
+            view=self.register_view_id,
         ) as f:
             register_payment = f.save()
         self.assertEqual(
@@ -388,7 +392,7 @@ class TestWithholdingTax(SavepointCase):
         self.assertEqual(payment.amount, 2 * price_unit * 0.97)
 
     def test_05_create_wht_cert_journal(self):
-        """ Journal Entry to WHT Cert """
+        """Journal Entry to WHT Cert"""
         price_unit = 100
         wht_amount = 3
         invoice = self._create_invoice(
@@ -408,23 +412,23 @@ class TestWithholdingTax(SavepointCase):
             "active_ids": [invoice.id],
             "active_model": "account.move",
         }
-        res = self.wht_cert.with_context(ctx).action_create_withholding_tax_cert()
+        res = self.wht_cert.with_context(**ctx).action_create_withholding_tax_cert()
         view = self.env["ir.ui.view"].browse(res["view_id"]).xml_id
-        f = Form(self.env[res["res_model"]].with_context(res["context"]), view=view)
+        f = Form(self.env[res["res_model"]].with_context(**res["context"]), view=view)
         wizard = f.save()
         wizard.write({"wht_account_ids": [self.wht_account.id]})
         res = wizard.create_wht_cert()
         # New WHT Cert
         ctx_cert = res.get("context")
         ctx_cert.update({"income_tax_form": "pnd3", "wht_cert_income_type": "1"})
-        with Form(self.wht_cert.with_context(ctx_cert)) as f:
+        with Form(self.wht_cert.with_context(**ctx_cert)) as f:
             f.income_tax_form = "pnd3"
         wht_cert = f.save()
         self.assertEqual(wht_cert.partner_id, self.partner_1)
         invoice.button_wht_certs()
 
     def test_06_create_wht_cert_multi_payment(self):
-        """ Payments to WHT Certs """
+        """Payments to WHT Certs"""
         price_unit = 100
         invoice = self._create_invoice(
             self.partner_1.id,
@@ -445,10 +449,10 @@ class TestWithholdingTax(SavepointCase):
             "active_ids": [payment.id, payment2.id],
             "active_model": "account.payment",
         }
-        res = self.wht_cert.with_context(ctx).action_create_withholding_tax_cert()
+        res = self.wht_cert.with_context(**ctx).action_create_withholding_tax_cert()
         view = self.env["ir.ui.view"].browse(res["view_id"]).xml_id
         with Form(
-            self.env[res["res_model"]].with_context(res["context"]), view=view
+            self.env[res["res_model"]].with_context(**res["context"]), view=view
         ) as f:
             f.income_tax_form = "pnd3"
             f.wht_cert_income_type = "1"
@@ -461,7 +465,7 @@ class TestWithholdingTax(SavepointCase):
             self.assertEqual(cert.wht_line.amount, 3)
 
     def test_07_create_wht_cert_multi_journal(self):
-        """ Journal Entries to WHT Certs """
+        """Journal Entries to WHT Certs"""
         price_unit = 100
         wht_amount = 3
         invoice = self._create_invoice(
@@ -483,19 +487,19 @@ class TestWithholdingTax(SavepointCase):
             "active_ids": [invoice.id, invoice2.id],
             "active_model": "account.move",
         }
-        res = self.wht_cert.with_context(ctx).action_create_withholding_tax_cert()
+        res = self.wht_cert.with_context(**ctx).action_create_withholding_tax_cert()
         view = self.env["ir.ui.view"].browse(res["view_id"]).xml_id
         # Error when create WHT Cert with draft invoice
         with self.assertRaises(UserError):
             with Form(
-                self.env[res["res_model"]].with_context(res["context"]), view=view
+                self.env[res["res_model"]].with_context(**res["context"]), view=view
             ) as f:
                 f.income_tax_form = "pnd3"
                 f.wht_cert_income_type = "1"
             wizard = f.save()
         invoice2.action_post()
         with Form(
-            self.env[res["res_model"]].with_context(res["context"]), view=view
+            self.env[res["res_model"]].with_context(**res["context"]), view=view
         ) as f:
             f.income_tax_form = "pnd3"
             f.wht_cert_income_type = "1"

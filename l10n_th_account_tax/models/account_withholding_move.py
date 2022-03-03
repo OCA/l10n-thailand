@@ -43,7 +43,6 @@ class AccountWithholdingMove(models.Model):
         readonly=False,
     )
     calendar_year = fields.Char(
-        string="Calendar Year",
         compute="_compute_move_data",
         store=True,
         index=True,
