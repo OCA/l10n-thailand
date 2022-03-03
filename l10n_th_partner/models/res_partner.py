@@ -12,7 +12,6 @@ class ResPartner(models.Model):
 
     branch = fields.Char(string="Tax Branch", help="Branch ID, e.g., 0000, 0001, ...")
     name_company = fields.Char(
-        string="Name Company",
         inverse="_inverse_name_company",
         index=True,
         translate=True,
@@ -63,6 +62,7 @@ class ResPartner(models.Model):
                 suffix = rec.partner_company_type_id.suffix
             rec.name = " ".join(p for p in (prefix, rec.name_company, suffix) if p)
             rec._inverse_name()
+        return
 
     @api.onchange("company_type")
     def _onchange_company_type(self):
@@ -78,6 +78,7 @@ class ResPartner(models.Model):
         _logger.info("%d partners updated installing module.", len(records))
 
     def _inverse_name_after_cleaning_whitespace(self):
-        """ Skip inverse name for case chaging only translation """
+        """Skip inverse name for case chaging only translation"""
         if not self.env.context.get("skip_inverse_name"):
             super()._inverse_name_after_cleaning_whitespace()
+        return
