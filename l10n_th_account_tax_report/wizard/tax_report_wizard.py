@@ -27,8 +27,8 @@ class TaxReportWizard(models.TransientModel):
         ],
     )
     date_range_id = fields.Many2one(comodel_name="date.range", string="Period")
-    date_from = fields.Date(string="Date From", required=True)
-    date_to = fields.Date(string="Date To", required=True)
+    date_from = fields.Date(required=True)
+    date_to = fields.Date(required=True)
 
     def button_export_html(self):
         self.ensure_one()

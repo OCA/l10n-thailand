@@ -15,7 +15,6 @@ class WithHoldingTaxReport(models.TransientModel):
 
     income_tax_form = fields.Selection(
         selection=[("pnd1", "PND1"), ("pnd3", "PND3"), ("pnd53", "PND53")],
-        string="Income Tax Form",
         required=True,
     )
     company_id = fields.Many2one(
@@ -30,7 +29,6 @@ class WithHoldingTaxReport(models.TransientModel):
     show_cancel = fields.Boolean(string="Show cancelled")
     results = fields.Many2many(
         comodel_name="withholding.tax.cert.line",
-        string="Results",
         compute="_compute_results",
         help="Use compute fields, so there is nothing store in database",
     )
@@ -202,7 +200,7 @@ class WithHoldingTaxReport(models.TransientModel):
             [("report_name", "=", report_name), ("report_type", "=", report_type)],
             limit=1,
         )
-        return action.with_context(context).report_action(self, config=False)
+        return action.with_context(**context).report_action(self, config=False)
 
     def _get_html(self):
         result = {}
@@ -218,7 +216,7 @@ class WithHoldingTaxReport(models.TransientModel):
 
     @api.model
     def get_html(self, given_context=None):
-        return self.with_context(given_context)._get_html()
+        return self.with_context(**given_context)._get_html()
 
     @api.onchange("date_range_id")
     def _onchange_date_range_id(self):

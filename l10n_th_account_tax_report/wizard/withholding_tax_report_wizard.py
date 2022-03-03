@@ -10,17 +10,15 @@ class WithHoldingTaxReportWizard(models.TransientModel):
 
     income_tax_form = fields.Selection(
         selection=[("pnd1", "PND1"), ("pnd3", "PND3"), ("pnd53", "PND53")],
-        string="Income Tax Form",
         required=True,
     )
     date_range_id = fields.Many2one(comodel_name="date.range", string="Date Range")
-    date_from = fields.Date(string="Date From", required=True)
-    date_to = fields.Date(string="Date To", required=True)
+    date_from = fields.Date(required=True)
+    date_to = fields.Date(required=True)
     company_id = fields.Many2one(
         comodel_name="res.company",
         default=lambda self: self.env.company,
         domain=lambda self: self._get_domain_company_id(),
-        string="Company",
         required=True,
         ondelete="cascade",
     )
