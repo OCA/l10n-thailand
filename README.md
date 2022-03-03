@@ -25,7 +25,7 @@ addon | version | maintainers | summary
 [l10n_th_expense_tax_invoice](l10n_th_expense_tax_invoice/) | 14.0.1.0.0 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Expense Tax Invoice
 [l10n_th_expense_withholding_tax](l10n_th_expense_withholding_tax/) | 14.0.1.0.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Thai Localization - Expense Withholding Tax
 [l10n_th_fonts](l10n_th_fonts/) | 14.0.1.0.2 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Collection of all fonts thai
-[l10n_th_partner](l10n_th_partner/) | 14.0.2.0.0 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Partner
+[l10n_th_partner](l10n_th_partner/) | 14.0.2.1.0 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Partner
 [l10n_th_promptpay](l10n_th_promptpay/) | 14.0.1.0.0 |  | Use PromptPay QR code with transfer acquirer.
 [l10n_th_sequence_be](l10n_th_sequence_be/) | 14.0.1.0.1 |  | Thai Localization - Sequence with Buddhist Era Year
 [l10n_th_sequence_branch](l10n_th_sequence_branch/) | 14.0.1.0.0 |  | Thai Localization - Sequence with Company Branch
