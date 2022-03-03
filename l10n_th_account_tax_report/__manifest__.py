@@ -25,6 +25,13 @@
         "wizard/withholding_tax_report_wizard_view.xml",
         "views/account_withholding_tax.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "l10n_th_account_tax_report/static/src/js/l10n_th_account_tax_report_backend.js",
+            "l10n_th_account_tax_report/static/src/js/withholding_tax_report_widgets.js",
+            "l10n_th_account_tax_report/static/src/css/report.css",
+        ],
+    },
     "installable": True,
     "development_status": "Beta",
     "maintainers": ["kittiu"],
