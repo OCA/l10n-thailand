@@ -138,7 +138,7 @@ class BankPaymentExport(models.Model):
         total_batch_amount = int(sum(payment_lines.mapped("payment_amount")) * 100)
         text = (
             "101{idx}006{total_batch_transaction}{total_batch_amount}"
-            "{effective_date}C{receiver_no}{ktb_company_id}{space}\r".format(
+            "{effective_date}C{receiver_no}{ktb_company_id}{space}\r\n".format(
                 idx="1".zfill(6),  # 1 Batch = 1 File, How we can add more than 1 batch?
                 total_batch_transaction=str(total_batch).zfill(7),
                 total_batch_amount=str(total_batch_amount).zfill(19),
@@ -175,7 +175,7 @@ class BankPaymentExport(models.Model):
             "{sender_bank_code}{sender_branch_code}{sender_acc_number}"
             "{effective_date}{ktb_service_type}00{payment_net_amount_bank}"
             "{receiver_info}{receiver_id}{receiver_name}{sender_name}{space}"
-            "{ref_running_number}09{email}{sms}0000{filter}\r".format(
+            "{ref_running_number}09{email}{sms}0000{filter}\r\n".format(
                 idx="1".zfill(6),  # 1 Batch = 1 File, How we can add more than 1 batch?
                 receiver_bank_code=receiver_bank_code.zfill(3),  # 10-12
                 receiver_branch_code=receiver_branch_code.zfill(4),  # 13-16
@@ -225,7 +225,7 @@ class BankPaymentExport(models.Model):
         return text
 
     def _generate_bank_payment_text(self):
-        if self.bank == "KRTHTHBK":
+        if self.bank == "KRTHTHBK":  # KTB
             return self._format_ktb_text()
         return super()._generate_bank_payment_text()
 
