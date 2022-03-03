@@ -43,8 +43,67 @@ msgid "Contact"
 msgstr ""
 
 #. module: l10n_th_partner
+#: model:ir.model.fields,field_description:l10n_th_partner.field_hr_employee__display_name
+#: model:ir.model.fields,field_description:l10n_th_partner.field_ir_translation__display_name
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__display_name
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner_company_type__display_name
+#: model:ir.model.fields,field_description:l10n_th_partner.field_resource_resource__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model,name:l10n_th_partner.model_hr_employee
+msgid "Employee"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,field_description:l10n_th_partner.field_hr_employee__name
+msgid "Employee Name"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__firstname
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__firstname
+msgid "First name"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,field_description:l10n_th_partner.field_hr_employee__id
+#: model:ir.model.fields,field_description:l10n_th_partner.field_ir_translation__id
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__id
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner_company_type__id
+#: model:ir.model.fields,field_description:l10n_th_partner.field_resource_resource__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,field_description:l10n_th_partner.field_hr_employee____last_update
+#: model:ir.model.fields,field_description:l10n_th_partner.field_ir_translation____last_update
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_company____last_update
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner____last_update
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner_company_type____last_update
+#: model:ir.model.fields,field_description:l10n_th_partner.field_resource_resource____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__lastname
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__lastname
+msgid "Last name"
+msgstr ""
+
+#. module: l10n_th_partner
 #: model_terms:ir.ui.view,arch_db:l10n_th_partner.view_res_partner_filter
 msgid "Legal Form"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__name
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__name
+#: model:ir.model.fields,field_description:l10n_th_partner.field_resource_resource__name
+msgid "Name"
 msgstr ""
 
 #. module: l10n_th_partner
@@ -64,6 +123,16 @@ msgid "Prefix"
 msgstr ""
 
 #. module: l10n_th_partner
+#: model:ir.model,name:l10n_th_partner.model_resource_resource
+msgid "Resources"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,help:l10n_th_partner.field_res_partner_company_type__use_prefix_suffix
+msgid "Select this field for compute partner name with prefix or suffix."
+msgstr ""
+
+#. module: l10n_th_partner
 #: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner_company_type__suffix
 msgid "Suffix"
 msgstr ""
@@ -76,8 +145,13 @@ msgid "Tax Branch"
 msgstr ""
 
 #. module: l10n_th_partner
-#: model:ir.model,name:l10n_th_partner.model_res_users
-msgid "Users"
+#: model:ir.model,name:l10n_th_partner.model_ir_translation
+msgid "Translation"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner_company_type__use_prefix_suffix
+msgid "Use prefix suffix"
 msgstr ""
 
 #. module: l10n_th_partner
