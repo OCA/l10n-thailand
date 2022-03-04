@@ -16,6 +16,8 @@ class AccountPaymentRegister(models.TransientModel):
         if not updated and len(wht_move_lines) > 1:  # good for multi deduct
             self.payment_difference_handling = "reconcile_multi_deduct"
             self._onchange_payment_difference_handling()
+        if self.payment_difference_handling == "reconcile":
+            self._onchange_default_deduction()
         return True
 
     @api.onchange("payment_difference_handling")
