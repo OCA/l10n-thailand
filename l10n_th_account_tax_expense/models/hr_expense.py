@@ -38,12 +38,12 @@ class HrExpense(models.Model):
             for ml in move_line_values_by_expense[expense.id]:
                 if ml.get("product_id"):
                     ml.update(wht_tax_dict)
-        # Set tax_exigible, to ensure that, tax inovice is not created for undue vat
-        RepartTax = self.env["account.tax.repartition.line"]
-        for move_lines in move_line_values_by_expense.values():
-            for move_line in filter(
-                lambda l: l.get("tax_repartition_line_id"), move_lines
-            ):
-                tax = RepartTax.browse(move_line["tax_repartition_line_id"]).tax_id
-                move_line["tax_exigible"] = tax.tax_exigibility == "on_invoice"
+        # # Set tax_exigible, to ensure that, tax inovice is not created for undue vat
+        # RepartTax = self.env["account.tax.repartition.line"]
+        # for move_lines in move_line_values_by_expense.values():
+        #     for move_line in filter(
+        #         lambda l: l.get("tax_repartition_line_id"), move_lines
+        #     ):
+        #         tax = RepartTax.browse(move_line["tax_repartition_line_id"]).tax_id
+        #         move_line["tax_exigible"] = tax.tax_exigibility == "on_invoice"
         return move_line_values_by_expense
