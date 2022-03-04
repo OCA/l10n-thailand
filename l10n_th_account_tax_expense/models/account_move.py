@@ -13,7 +13,7 @@ class AccountMove(models.Model):
         return res
 
     def _reconcile_withholding_tax_entry(self):
-        """ Re-Reconciliation, for case wht_move that clear advance only """
+        """Re-Reconciliation, for case wht_move that clear advance only"""
         for move in self:
             clearing = self.env["hr.expense.sheet"].search(
                 [("wht_move_id", "=", move.id)]
@@ -58,7 +58,7 @@ class AccountMove(models.Model):
                 ml_lines.filtered(lambda l: l.account_id == account).reconcile()
 
     def _assign_tax_invoice(self):
-        """ Use Bill Reference and Date from Expense Line as Tax Invoice """
+        """Use Bill Reference and Date from Expense Line as Tax Invoice"""
         for move in self:
             for tax_invoice in move.tax_invoice_ids.filtered(
                 lambda l: l.tax_line_id.type_tax_use == "purchase"
@@ -93,9 +93,10 @@ class AccountMove(models.Model):
             )
             if exp_move:
                 rec.has_wht = False
+        return
 
     def _prepare_withholding_move(self, wht_move):
-        """ Prepare dict for account.withholding.move on Expense"""
+        """Prepare dict for account.withholding.move on Expense"""
         res = super()._prepare_withholding_move(wht_move)
         # Is this an expense's journal entry?
         is_expense = wht_move.expense_id and not wht_move.payment_id
@@ -109,7 +110,7 @@ class AccountMove(models.Model):
         return res
 
     def _update_remaining_advance(self, advance):
-        """ If there is a return advance, update the clearing residual. """
+        """If there is a return advance, update the clearing residual."""
         self.ensure_one()
         return_advance_ids = advance.payment_ids.filtered(
             lambda l: l.payment_type == "inbound"
@@ -122,7 +123,7 @@ class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
     def _get_tax_base_amount(self, sign, vals_list):
-        """ Case expense multi line, tax base amount should compute each line """
+        """Case expense multi line, tax base amount should compute each line"""
         tax_base_amount = super()._get_tax_base_amount(sign, vals_list)
         taxes_list = list(filter(lambda x: x.get("tax_repartition_line_id"), vals_list))
         for vals in taxes_list:
