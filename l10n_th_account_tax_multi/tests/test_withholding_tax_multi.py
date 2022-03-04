@@ -3,10 +3,10 @@
 
 from odoo import fields
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests.common import Form, SavepointCase
+from odoo.tests.common import Form, TransactionCase
 
 
-class TestWithholdingTax(SavepointCase):
+class TestWithholdingTax(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -155,7 +155,7 @@ class TestWithholdingTax(SavepointCase):
         }
         with self.assertRaises(UserError):
             f = Form(
-                self.payment_register.with_context(ctx),
+                self.payment_register.with_context(**ctx),
                 view=self.view_id,
             )
         # Payment by writeoff with withholding tax account
@@ -164,7 +164,7 @@ class TestWithholdingTax(SavepointCase):
             "active_id": invoice.id,
             "active_model": "account.move",
         }
-        f = Form(self.payment_register.with_context(ctx), view=self.view_id)
+        f = Form(self.payment_register.with_context(**ctx), view=self.view_id)
         register_payment = f.save()
         self.assertEqual(register_payment.payment_difference_handling, "reconcile")
         self.assertEqual(
@@ -179,7 +179,7 @@ class TestWithholdingTax(SavepointCase):
         self.assertEqual(payment.amount, price_unit * 0.97)
 
     def test_02_create_payment_multi_withholding_tax_multi_line(self):
-        """ Create payment with 2 withholding tax on 2 line"""
+        """Create payment with 2 withholding tax on 2 line"""
         price_unit = 100.0
         invoice = self._create_invoice(
             self.partner_1.id,
@@ -200,7 +200,7 @@ class TestWithholdingTax(SavepointCase):
             "active_id": invoice.id,
             "active_model": "account.move",
         }
-        f = Form(self.payment_register.with_context(ctx), view=self.view_id)
+        f = Form(self.payment_register.with_context(**ctx), view=self.view_id)
         register_payment = f.save()
         self.assertEqual(
             register_payment.payment_difference_handling,
@@ -225,7 +225,7 @@ class TestWithholdingTax(SavepointCase):
         )
 
     def test_03_create_payment_one_withholding_tax_multi_line(self):
-        """ Create payment with 1 withholding tax on 2 line"""
+        """Create payment with 1 withholding tax on 2 line"""
         price_unit = 100.0
         invoice = self._create_invoice(
             self.partner_1.id,
@@ -245,7 +245,7 @@ class TestWithholdingTax(SavepointCase):
             "active_id": invoice.id,
             "active_model": "account.move",
         }
-        f = Form(self.payment_register.with_context(ctx), view=self.view_id)
+        f = Form(self.payment_register.with_context(**ctx), view=self.view_id)
         register_payment = f.save()
         self.assertEqual(
             register_payment.payment_difference_handling,
@@ -261,7 +261,7 @@ class TestWithholdingTax(SavepointCase):
         )
 
     def test_04_create_payment_multi_withholding_keep_open(self):
-        """ Create payment with 2 withholding tax on 2 line and keep open 1"""
+        """Create payment with 2 withholding tax on 2 line and keep open 1"""
         price_unit = 100.0
         invoice = self._create_invoice(
             self.partner_1.id,
@@ -282,7 +282,7 @@ class TestWithholdingTax(SavepointCase):
             "active_id": invoice.id,
             "active_model": "account.move",
         }
-        f = Form(self.payment_register.with_context(ctx), view=self.view_id)
+        f = Form(self.payment_register.with_context(**ctx), view=self.view_id)
         register_payment = f.save()
         self.assertEqual(
             register_payment.payment_difference_handling,
@@ -303,7 +303,7 @@ class TestWithholdingTax(SavepointCase):
         self.assertEqual(invoice.payment_state, "partial")
         self.assertFalse(payment.line_ids.mapped("full_reconcile_id"))
         # paid residual, it should be reconcile
-        with Form(self.payment_register.with_context(ctx), view=self.view_id) as f:
+        with Form(self.payment_register.with_context(**ctx), view=self.view_id) as f:
             f.amount = 0
             f.deduction_ids.remove(index=1)
         register_payment = f.save()
