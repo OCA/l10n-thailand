@@ -51,17 +51,17 @@
                 <separator name="payment_export" />
                 <filter
                     name="export_status_draft"
-                    string="Export - Draft"
+                    string="Export Status - Draft"
                     domain="[('export_status', '=', 'draft')]"
                 />
                 <filter
                     name="export_status_to_export"
-                    string="Export - To Export"
+                    string="Export Status - To Export"
                     domain="[('export_status', '=', 'to_export')]"
                 />
                 <filter
                     name="export_status_exported"
-                    string="Export - Exported"
+                    string="Export Status - Exported"
                     domain="[('export_status', '=', 'exported')]"
                 />
             </xpath>
