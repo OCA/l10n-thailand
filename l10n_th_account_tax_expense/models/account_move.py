@@ -114,9 +114,8 @@ class AccountMove(models.Model):
         return_advance_ids = advance.payment_ids.filtered(
             lambda l: l.payment_type == "inbound"
         )
-        # Case clearing > Advance, it should equal amount total (move)
+        # Case Clearing > Advance, skip it.
         if not advance.clearing_residual:
-            advance.clearing_residual += self.amount_total
             return
         for return_av in return_advance_ids:
             if advance.clearing_residual > 0.0:
