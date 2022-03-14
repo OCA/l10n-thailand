@@ -14,6 +14,7 @@ class AccountMove(models.Model):
 
     def _reconcile_withholding_tax_entry(self):
         """ Re-Reconciliation, for case wht_move that clear advance only """
+        PartialReconcile = self.env["account.partial.reconcile"]
         for move in self:
             clearing = self.env["hr.expense.sheet"].search(
                 [("wht_move_id", "=", move.id)]
@@ -25,26 +26,28 @@ class AccountMove(models.Model):
             # Find Advance account (from advance sheet)
             av_account = advance.expense_line_ids.mapped("account_id")
             av_account.ensure_one()
-            # Find all related clearings and advance moves to unreconcile first
+            # Find all related clearings, advance and return moves to unreconcile first
             if move.line_ids.filtered(lambda l: l.account_id == av_account):
-                all_clearings = clearing.advance_sheet_id.clearing_sheet_ids
+                all_clearings = advance.clearing_sheet_ids
                 r_lines = all_clearings.mapped("account_move_id.line_ids").filtered(
                     lambda l: l.account_id == av_account
                 )
                 md_lines = r_lines.mapped("matched_debit_ids.debit_move_id")
-                mc_lines = r_lines.mapped("matched_credit_ids.credit_move_id")
+                # all reconcile move include return advance
+                move_reconcile = PartialReconcile.search(
+                    [("debit_move_id", "in", md_lines.ids)]
+                )
+                mc_lines_all = move_reconcile.mapped("credit_move_id")
                 # Removes reconcile
-                (r_lines + md_lines + mc_lines).remove_move_reconcile()
+                (md_lines + mc_lines_all).remove_move_reconcile()
                 # Re-reconcile again this time with the wht_tax JV, account by account
                 wht_lines = all_clearings.mapped("wht_move_id.line_ids").filtered(
                     lambda l: l.account_id == av_account
                 )
-                to_reconciles = (r_lines + wht_lines + md_lines + mc_lines).filtered(
+                to_reconciles = (wht_lines + md_lines + mc_lines_all).filtered(
                     lambda l: not l.reconciled
                 )
                 to_reconciles.filtered(lambda l: l.account_id == av_account).reconcile()
-            # Re-compute residual advance
-            move._update_remaining_advance(advance)
             # Then, in case there are left over amount to other AP, do reconcile.
             ap_accounts = move.line_ids.mapped("account_id").filtered(
                 lambda l: l.reconcile and l != av_account
@@ -107,19 +110,6 @@ class AccountMove(models.Model):
                 }
             )
         return res
-
-    def _update_remaining_advance(self, advance):
-        """ If there is a return advance, update the clearing residual. """
-        self.ensure_one()
-        return_advance_ids = advance.payment_ids.filtered(
-            lambda l: l.payment_type == "inbound"
-        )
-        # Case Clearing > Advance, skip it.
-        if not advance.clearing_residual:
-            return
-        for return_av in return_advance_ids:
-            if advance.clearing_residual > 0.0:
-                advance.clearing_residual -= return_av.move_id.amount_total
 
 
 class AccountMoveLine(models.Model):
