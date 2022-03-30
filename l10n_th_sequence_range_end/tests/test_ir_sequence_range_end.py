@@ -5,7 +5,7 @@ from odoo.tests.common import SingleTransactionCase
 
 
 class TestIrSequenceRangeEndStandard(SingleTransactionCase):
-    """ A few tests for a "Standard' sequence with date_range. """
+    """A few tests for a "Standard' sequence with date_range."""
 
     def test_ir_sequence_range_end_1_create(self):
         """Create an ir.sequence record with two ir.sequence.date_range records"""
@@ -152,7 +152,7 @@ class TestIrSequenceRangeEndStandard(SingleTransactionCase):
 
 
 class TestIrSequenceRangeEndNoGap(SingleTransactionCase):
-    """ Copy of the previous tests for a 'No gap' sequence. """
+    """Copy of the previous tests for a 'No gap' sequence."""
 
     def test_ir_sequence_range_end_1_create_no_gap(self):
         """Create a sequence with date_range"""
@@ -300,10 +300,10 @@ class TestIrSequenceRangeEndNoGap(SingleTransactionCase):
 
 
 class TestIrSequenceRangeEndChangeImplementation(SingleTransactionCase):
-    """ Create sequence objects and change their ``implementation`` field. """
+    """Create sequence objects and change their ``implementation`` field."""
 
     def test_ir_sequence_range_end_1_create(self):
-        """ Try to create sequence objects. """
+        """Try to create sequence objects."""
         seq3 = self.env["ir.sequence"].create(
             {
                 "code": "test_range_end_3",
@@ -324,7 +324,7 @@ class TestIrSequenceRangeEndChangeImplementation(SingleTransactionCase):
         self.assertTrue(seq4)
 
     def test_ir_sequence_range_end_2_use(self):
-        """ Make some use of the sequences to create some subsequences """
+        """Make some use of the sequences to create some subsequences"""
         year = fields.Date.today().year
 
         date1 = datetime.date(year=year - 1, month=1, day=14)

@@ -7,7 +7,7 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     def _post(self, soft=True):
-        """ Use Bill Reference and Date from Expense Line as Tax Invoice """
+        """Use Bill Reference and Date from Expense Line as Tax Invoice"""
         # Expense Taxes
         for move in self:
             for tax_invoice in move.tax_invoice_ids.filtered(

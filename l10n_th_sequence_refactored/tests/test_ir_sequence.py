@@ -23,42 +23,42 @@ class TestIrSequenceRefactoredStandard(TestIrSequenceStandard):
 
 
 class TestIrSequenceRefactoredNoGap(TestIrSequenceNoGap):
-    """ Rerun the 'no gap' test from the base's ir.sequence """
+    """Rerun the 'no gap' test from the base's ir.sequence"""
 
     def setUp(self):
-        """ Run the 'no gap' test """
+        """Run the 'no gap' test"""
         super(TestIrSequenceRefactoredNoGap, self).setUp()
 
 
 class TestIrSequenceRefactoredChangeImplementation(TestIrSequenceChangeImplementation):
-    """ Rerun the 'change implementation' test from the base's ir.sequence """
+    """Rerun the 'change implementation' test from the base's ir.sequence"""
 
     def setUp(self):
-        """Run the 'change implementation' test """
+        """Run the 'change implementation' test"""
         super(TestIrSequenceRefactoredChangeImplementation, self).setUp()
 
 
 class TestIrSequenceRefactoredGenerate(TestIrSequenceGenerate):
-    """ Rerun the 'generate' test from the base's ir.sequence """
+    """Rerun the 'generate' test from the base's ir.sequence"""
 
     def setUp(self):
-        """Run the 'generate' test """
+        """Run the 'generate' test"""
         super(TestIrSequenceRefactoredGenerate, self).setUp()
 
 
 class TestIrSequenceRefactoredInit(TestIrSequenceInit):
-    """ Rerun the 'init' test from the base's ir.sequence """
+    """Rerun the 'init' test from the base's ir.sequence"""
 
     def setUp(self):
-        """ Run the 'init' test """
+        """Run the 'init' test"""
         super(TestIrSequenceRefactoredInit, self).setUp()
 
 
 class TestIrSequenceInvalid(SingleTransactionCase):
-    """ Test with an invalid legend for prefix and suffix """
+    """Test with an invalid legend for prefix and suffix"""
 
     def test_ir_sequence_invalid_1(self):
-        """ Create an ir.sequence record with invalid prefix/suffix. """
+        """Create an ir.sequence record with invalid prefix/suffix."""
         seq = self.env["ir.sequence"].create(
             {
                 "code": "test_invalid",
