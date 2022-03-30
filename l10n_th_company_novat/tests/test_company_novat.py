@@ -94,7 +94,7 @@ class TestCompanyNoVat(SavepointCase):
         return invoice_id
 
     def test_01_company_novat(self):
-        """ If compnay novat=True, document can't select taxes """
+        """If compnay novat=True, document can't select taxes"""
         self.env.company.novat = True
         price_unit = 100.0
         tax = self.env["account.tax"].search([])[:1]
@@ -123,7 +123,7 @@ class TestCompanyNoVat(SavepointCase):
             invoice.invoice_line_ids.write({"tax_ids": [(4, tax.id)]})
 
     def test_02_company_novat_vendor_novat(self):
-        """ Company No-VAT, and Vendor No-VAT -> WHT based on full amount """
+        """Company No-VAT, and Vendor No-VAT -> WHT based on full amount"""
         self.env.company.novat = True
         self.partner_1.novat = True
         self.env.company.account_purchase_tax_id.amount = 7
@@ -157,7 +157,7 @@ class TestCompanyNoVat(SavepointCase):
         self.assertEqual(register_payment.payment_difference, 1.07)
 
     def test_03_company_novat_vendor_vat(self):
-        """ Company No-VAT, but vendor VAT, we want to withhold on untaxed amount """
+        """Company No-VAT, but vendor VAT, we want to withhold on untaxed amount"""
         self.env.company.novat = True
         self.partner_1.novat = False
         self.env.company.account_purchase_tax_id.amount = 7
