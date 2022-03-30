@@ -46,7 +46,7 @@ class AccountMoveLine(models.Model):
         return wt_base_amount
 
     def _get_wt_amount(self, currency, currency_date):
-        """ Calculate withholding tax and base amount based on currency """
+        """Calculate withholding tax and base amount based on currency"""
         amount_base = 0
         amount_wt = 0
         for line in self:
