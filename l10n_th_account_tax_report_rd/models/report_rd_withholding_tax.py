@@ -125,8 +125,10 @@ class RdWithHoldingTaxReport(models.TransientModel):
         line.ensure_one()
         partner = line.cert_id.partner_id
         # Partner Name
-        lastname = partner.lastname
-        firstname = partner.name[: -(len(lastname))]
+        firstname = partner.name
+        lastname = partner.lastname or ""
+        if lastname:
+            firstname = firstname[: -(len(lastname))]
         if partner.company_type == "company":
             firstname = partner.name
             lastname = ""
