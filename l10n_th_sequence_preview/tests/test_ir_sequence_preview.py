@@ -7,10 +7,10 @@ from odoo.tests.common import Form, SingleTransactionCase
 
 
 class TestIrSequencePreviewStandard(SingleTransactionCase):
-    """ A few tests for a 'Standard' sequence. """
+    """A few tests for a 'Standard' sequence."""
 
     def test_ir_sequence_preview_1_create(self):
-        """ Create an ir.sequence record. """
+        """Create an ir.sequence record."""
         seq = self.env["ir.sequence"].create(
             {
                 "code": "test_preview",
@@ -80,10 +80,10 @@ class TestIrSequencePreviewStandard(SingleTransactionCase):
 
 
 class TestIrSequencePreviewForm(SingleTransactionCase):
-    """ Test with server-side form. """
+    """Test with server-side form."""
 
     def test_ir_sequence_preview_form_1(self):
-        """ Create a server-side form with an ir.sequence record. """
+        """Create a server-side form with an ir.sequence record."""
         seq = self.env["ir.sequence"].create(
             {
                 "code": "test_preview_form",

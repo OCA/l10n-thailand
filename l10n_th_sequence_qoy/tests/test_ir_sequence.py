@@ -7,7 +7,7 @@ from odoo.tests.common import SingleTransactionCase
 
 
 class TestIrSequenceQoyStandard(SingleTransactionCase):
-    """ A few tests for a 'Standard' sequence. """
+    """A few tests for a 'Standard' sequence."""
 
     def test_ir_sequence_qoy_1_create(self):
         """Create an ir.sequence record with two ir.sequence.date_range records"""
@@ -74,7 +74,7 @@ class TestIrSequenceQoyStandard(SingleTransactionCase):
 
 
 class TestIrSequenceQoyDateRange(SingleTransactionCase):
-    """ A few tests for a 'Standard' sequence with date_range. """
+    """A few tests for a 'Standard' sequence with date_range."""
 
     def test_ir_sequence_qoy_date_range_1_create(self):
         """Create an ir.sequence record with two ir.sequence.date_range records"""
@@ -148,7 +148,7 @@ class TestIrSequenceQoyDateRange(SingleTransactionCase):
 
 
 class TestIrSequenceQoyRangeEnd(SingleTransactionCase):
-    """ A few tests for a 'Standard' sequence with range end. """
+    """A few tests for a 'Standard' sequence with range end."""
 
     def test_ir_sequence_qoy_range_end_1_create(self):
         """Create an ir.sequence record with two ir.sequence.date_range records"""

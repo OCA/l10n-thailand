@@ -222,7 +222,7 @@ class WithholdingTaxCert(models.Model):
 
     @api.model
     def _prepare_wt_line(self, move_line):
-        """ Hook point to prepare wt_line """
+        """Hook point to prepare wt_line"""
         wt_percent = move_line.wt_tax_id.amount
         wt_cert_income_type = self._context.get("wt_cert_income_type")
         select_dict = dict(WHT_CERT_INCOME_TYPE)
@@ -241,7 +241,7 @@ class WithholdingTaxCert(models.Model):
 
     @api.model
     def _get_wt_move_line(self, payment, move, wt_account_ids):
-        """ Hook point to get wt_move_lines """
+        """Hook point to get wt_move_lines"""
         wt_move_lines = []
         if payment:
             wt_move_lines = payment.move_id.line_ids.filtered(
@@ -280,7 +280,7 @@ class WithholdingTaxCert(models.Model):
         return res_model, view_id
 
     def action_create_withholding_tax_cert(self):
-        """ This function is called from either account.move or account.payment """
+        """This function is called from either account.move or account.payment"""
         if not self._context.get("active_ids"):
             return
         res_model, view_id = self._get_wth_cert_model_view()

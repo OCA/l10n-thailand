@@ -171,7 +171,7 @@ class TestWTCert(SavepointCase):
         return payment
 
     def test_01_create_wt_cert_payment(self):
-        """ Payment to WT Cert """
+        """Payment to WT Cert"""
         invoice = self._create_invoice(
             self.partner_1.id, self.expenses_journal.id, "in_invoice"
         )
@@ -217,7 +217,7 @@ class TestWTCert(SavepointCase):
         self.assertEqual(cert.state, "cancel")
 
     def test_02_create_wt_cert_je(self):
-        """ Journal Entry to WT Cert """
+        """Journal Entry to WT Cert"""
         invoice = self._create_invoice(
             False, self.misc_journal.id, "entry", self.wt_account
         )
@@ -246,7 +246,7 @@ class TestWTCert(SavepointCase):
         invoice.button_wt_certs()
 
     def test_03_create_wt_cert_payment_multi(self):
-        """ Payments to WT Certs """
+        """Payments to WT Certs"""
         invoice = self._create_invoice(
             self.partner_1.id, self.expenses_journal.id, "in_invoice"
         )
@@ -277,7 +277,7 @@ class TestWTCert(SavepointCase):
             self.assertEqual(cert.wt_line.amount, 3)
 
     def test_04_create_wt_cert_je_multi(self):
-        """ Journal Entries to WT Certs """
+        """Journal Entries to WT Certs"""
         invoice = self._create_invoice(
             False, self.misc_journal.id, "entry", self.wt_account
         )

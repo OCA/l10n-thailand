@@ -34,7 +34,7 @@ class AccountMoveLine(models.Model):
                     percent = self.env.company.account_purchase_tax_id.amount
             rec.whtvat = percent
 
-    def _get_wht_base_amount(self, currency, currency_date):
-        """ Use whtvat percent, to calculate the base_amout for WHT """
-        price_subtotal = super()._get_wht_base_amount(currency, currency_date)
-        return price_subtotal * 100 / (100 + self.whtvat)
+    def _get_wt_base_amount(self, currency, currency_date):
+        """Use wtvat percent, to calculate the base_amout for WHT"""
+        price_subtotal = super()._get_wt_base_amount(currency, currency_date)
+        return price_subtotal * 100 / (100 + self.wtvat)

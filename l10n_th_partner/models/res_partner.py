@@ -78,6 +78,6 @@ class ResPartner(models.Model):
         _logger.info("%d partners updated installing module.", len(records))
 
     def _inverse_name_after_cleaning_whitespace(self):
-        """ Skip inverse name for case chaging only translation """
+        """Skip inverse name for case chaging only translation"""
         if not self.env.context.get("skip_inverse_name"):
             super()._inverse_name_after_cleaning_whitespace()
