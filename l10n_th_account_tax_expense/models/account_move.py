@@ -111,6 +111,17 @@ class AccountMove(models.Model):
             )
         return res
 
+    def button_cancel(self):
+        """ Auto cancel Withholding tax JV, if cancel journal entry on clearing """
+        res = super().button_cancel()
+        sheets = self.line_ids.mapped("expense_id.sheet_id").filtered(
+            lambda l: l.wht_move_id and l.wht_move_id.state != "cancel"
+        )
+        for sheet in sheets:
+            sheet.wht_move_id.button_draft()
+            sheet.wht_move_id.button_cancel()
+        return res
+
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
