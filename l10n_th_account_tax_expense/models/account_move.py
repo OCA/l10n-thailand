@@ -1,7 +1,8 @@
 # Copyright 2020 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
-from odoo import models
 
+from odoo import models, _
+from odoo.exceptions import UserError
 
 class AccountMove(models.Model):
     _inherit = "account.move"
@@ -112,14 +113,16 @@ class AccountMove(models.Model):
         return res
 
     def button_cancel(self):
-        """ Auto cancel Withholding tax JV, if cancel journal entry on clearing """
+        """Check Withholding tax JV before cancel journal entry on clearing"""
         res = super().button_cancel()
         sheets = self.line_ids.mapped("expense_id.sheet_id").filtered(
             lambda l: l.wht_move_id and l.wht_move_id.state != "cancel"
         )
-        for sheet in sheets:
-            sheet.wht_move_id.button_draft()
-            sheet.wht_move_id.button_cancel()
+        if sheets:
+            raise UserError(_(
+                "Unable to cancel this journal entry. "
+                "You must first cancel the related withholding tax (Journal Voucher)."
+            ))
         return res
 
 
