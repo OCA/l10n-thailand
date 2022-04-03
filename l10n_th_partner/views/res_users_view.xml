@@ -1,16 +1,62 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    <record id="view_users_tree" model="ir.ui.view">
+        <field name="name">res.users.tree</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='name']" position="before">
+                <field name="display_fullname" />
+            </xpath>
+            <xpath expr="//tree/field[@name='name']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
     <record id="view_users_form" model="ir.ui.view">
         <field name="name">Add title</field>
         <field name="model">res.users</field>
         <field name="inherit_id" ref="partner_firstname.view_users_form" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='name']" position="attributes">
-                <attribute name="force_save">True</attribute>
+                <attribute name="force_save">1</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="display_fullname" /><br />
             </xpath>
             <xpath expr="//field[@name='lastname']" position="before">
                 <field name="firstname" position="move" />
             </xpath>
         </field>
     </record>
+
+    <record id="view_res_users_kanban" model="ir.ui.view">
+        <field name="name">res.users.kanban</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_res_users_kanban" />
+        <field name="arch" type="xml">
+            <xpath expr="//templates//field[@name='name']" position="after">
+                <field name="display_fullname" />
+            </xpath>
+            <xpath expr="//templates//field[@name='name']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_users_search" model="ir.ui.view">
+        <field name="name">res.users.search</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//search/field[@name='name']" position="attributes">
+                <attribute name="filter_domain">
+                    ['|','|', '|', ('name','ilike',self), ('login','ilike',self), ('email','ilike',self), ('display_fullname','ilike',self)]
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>

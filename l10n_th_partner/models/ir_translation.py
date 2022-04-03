@@ -12,7 +12,6 @@ class IrTranslation(models.Model):
 
         # Recompute name for res.partner
         recompute_fields = [
-            "res.partner,name_company",
             "res.partner,firstname",
             "res.partner,lastname",
         ]

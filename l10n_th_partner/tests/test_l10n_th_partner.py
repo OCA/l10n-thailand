@@ -23,26 +23,33 @@ class TestL10nThPartner(TransactionCase):
             f.login = firstname
         self.user = f.save()
 
-    def test_res_users(self):
-        """Test that you change title"""
-        self.assertEqual(self.user.name, "Firstname Lastname")
-        self.user.title = self.title
-        self.user._compute_name()
-        self.assertEqual(self.user.name, "Miss Firstname Lastname")
-
-    def test_res_partner(self):
+    def test_partner_company(self):
         """Test that you change company_type"""
         partner = self.user.partner_id
         partner.email = "test"
         partner.title = self.title
+        self.assertEqual(partner.name, "Firstname Lastname")
+        self.assertEqual(partner.display_fullname, "Miss Firstname Lastname")
         self.assertEqual(partner.title, self.title)
         partner.company_type = "company"
         partner._onchange_company_type()
         self.assertNotEqual(partner.title, self.title)
+        # title on display fullname will remove
+        self.assertEqual(partner.name, "Firstname Lastname")
+        self.assertEqual(partner.display_fullname, "Firstname Lastname")
 
-    def test_res_users_config_no_space(self):
-        """Test that you change title and config title no space"""
+    def test_user_individual(self):
+        """Test add title in individual"""
+        # Standard Odoo
+        self.assertEqual(self.user.name, "Firstname Lastname")
+        self.assertEqual(self.user.display_name, "Firstname Lastname")
+        self.user.title = self.title
+        self.assertEqual(self.user.name, "Firstname Lastname")
+        self.assertEqual(self.user.display_fullname, "Miss Firstname Lastname")
+        # Config no space title
         self.main_company.no_space_title_name = True
         self.assertEqual(self.user.name, "Firstname Lastname")
+        self.assertEqual(self.user.display_name, "Firstname Lastname")
         self.user.title = self.title
-        self.assertEqual(self.user.name, "MissFirstname Lastname")
+        self.assertEqual(self.user.name, "Firstname Lastname")
+        self.assertEqual(self.user.display_fullname, "MissFirstname Lastname")

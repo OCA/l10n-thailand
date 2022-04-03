@@ -19,8 +19,5 @@ class ResCompany(models.Model):
         res = super().write(vals)
         if "no_space_title_name" in vals:
             personal_partners = self.env["res.partner"].search([("title", "!=", False)])
-            for partner in personal_partners:
-                partner.name = partner._get_computed_name(
-                    partner.lastname, partner.firstname
-                )
+            personal_partners._compute_display_fullname()
         return res

@@ -11,58 +11,54 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     branch = fields.Char(string="Tax Branch", help="Branch ID, e.g., 0000, 0001, ...")
-    name_company = fields.Char(
-        string="Name Company",
-        inverse="_inverse_name_company",
-        index=True,
-        translate=True,
-    )
     firstname = fields.Char(translate=True)
     lastname = fields.Char(translate=True)
+    display_fullname = fields.Char(
+        compute="_compute_display_fullname",
+        store=True,
+        translate=True,
+    )
     name = fields.Char(translate=True)
     display_name = fields.Char(translate=True)
 
-    @api.model
-    def create(self, vals):
-        """Add inverted company names at creation if unavailable."""
-        context = dict(self.env.context)
-        name = vals.get("name", context.get("default_name"))
-        if vals.get("is_company", False) and name:
-            vals["name_company"] = name
-        return super().create(vals)
-
-    def _inverse_name_company(self):
-        for rec in self:
-            if not rec.is_company or not rec.name:
-                rec.name_company = False
-            else:
-                rec.name_company = rec.name
+    def name_get(self):
+        """Overwrite name_get for display with title"""
+        res = [(rec.id, rec.display_fullname) for rec in self]
+        return res
 
     @api.model
-    def _get_computed_name(self, lastname, firstname):
-        name = super()._get_computed_name(lastname, firstname)
-        title = self.title.name
-        if name and title:
-            # disable space on title and name
-            if self.env.company.no_space_title_name:
-                return "".join(p for p in (title, name) if p)
-            return " ".join(p for p in (title, name) if p)
-        return name
+    def name_search(self, name, args=None, operator="ilike", limit=100):
+        """Overwrite name_search for search with title"""
+        args = args or []
+        domain = []
+        if name:
+            domain = [("display_fullname", operator, name)]
+        return self.search(domain + args, limit=limit).name_get()
 
     @api.depends(
-        "title", "firstname", "lastname", "name_company", "partner_company_type_id"
+        "firstname", "lastname", "title", "partner_company_type_id", "company_type"
     )
-    def _compute_name(self):
+    def _compute_display_fullname(self):
         for rec in self:
-            if not rec.is_company:
-                super()._compute_name()
+            # company
+            if rec.company_type == "company":
+                prefix, suffix = False, False
+                if rec.partner_company_type_id.use_prefix_suffix:
+                    prefix = rec.partner_company_type_id.prefix
+                    suffix = rec.partner_company_type_id.suffix
+                rec.display_fullname = " ".join(
+                    p for p in (prefix, rec.name, suffix) if p
+                )
                 continue
-            prefix, suffix = False, False
-            if rec.partner_company_type_id.use_prefix_suffix:
-                prefix = rec.partner_company_type_id.prefix
-                suffix = rec.partner_company_type_id.suffix
-            rec.name = " ".join(p for p in (prefix, rec.name_company, suffix) if p)
-            rec._inverse_name()
+            # individual
+            no_space_title = self.env.company.no_space_title_name
+            rec.display_fullname = (
+                rec.title
+                and "{}".format(not no_space_title and " " or "").join(
+                    [rec.title.name or "", rec.name]
+                )
+                or rec.name
+            )
 
     @api.onchange("company_type")
     def _onchange_company_type(self):
@@ -70,12 +66,6 @@ class ResPartner(models.Model):
             self.title = False
         else:
             self.partner_company_type_id = False
-
-    @api.model
-    def _install_l10n_th_partner(self):
-        records = self.search([("name_company", "=", False)])
-        records._inverse_name_company()
-        _logger.info("%d partners updated installing module.", len(records))
 
     def _inverse_name_after_cleaning_whitespace(self):
         """Skip inverse name for case chaging only translation"""

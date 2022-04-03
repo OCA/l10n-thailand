@@ -1,5 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <record id="res_partner_kanban_view" model="ir.ui.view">
+        <field name="name">res.partner.kanban</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.res_partner_kanban_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//templates//field[@name='display_name']" position="after">
+                <field name="display_fullname" />
+            </xpath>
+            <xpath
+                expr="//templates//field[@name='display_name']"
+                position="attributes"
+            >
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_tree" model="ir.ui.view">
+        <field name="name">res.partner.tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='display_name']" position="after">
+                <field name="display_fullname" />
+            </xpath>
+            <xpath expr="//field[@name='display_name']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
     <record id="view_partner_form" model="ir.ui.view">
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
@@ -8,16 +38,13 @@
                 <field name="branch" placeholder="Branch, e.g., 00000" />
             </field>
             <xpath expr="//field[@name='name']" position="attributes">
-                <attribute name="readonly">1</attribute>
+                <attribute name="attrs">{
+                    'required' : [('type', '=', 'contact')],
+                    'invisible': [('company_type', '!=', 'company')]
+                }</attribute>
             </xpath>
-            <xpath expr="//h1//field[@name='name']/.." position="after">
-                <div class="oe_edit_only">
-                    <field
-                        name="name_company"
-                        placeholder="Company name"
-                        attrs="{'invisible': [('is_company', '=', False)], 'required': [('is_company', '=', True)]}"
-                    />
-                </div>
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="display_fullname" /><br />
             </xpath>
         </field>
     </record>
