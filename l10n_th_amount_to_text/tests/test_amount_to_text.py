@@ -8,7 +8,7 @@ from odoo.tests.common import SavepointCase
 
 class TestAmountToText(SavepointCase):
     def test_01_currency_th_amount_to_text(self):
-        """ verify that amount_to_text converted text to thai language """
+        """verify that amount_to_text converted text to thai language"""
         currency = self.env.ref("base.THB")
         amount = 1050.75
         amount_text_en = currency.amount_to_text(amount)
@@ -27,7 +27,7 @@ class TestAmountToText(SavepointCase):
             )
 
     def test_02_currency_eur_amount_to_text(self):
-        """ verify that amount_to_text works as expected """
+        """verify that amount_to_text works as expected"""
         currency = self.env.ref("base.EUR")
         amount = 1050.75
         amount_text_eur = currency.amount_to_text(amount)

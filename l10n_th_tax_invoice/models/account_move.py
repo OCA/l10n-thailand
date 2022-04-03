@@ -102,7 +102,7 @@ class AccountMoveTaxInvoice(models.Model):
                 rec.report_date = False
 
     def unlink(self):
-        """ Do not allow remove the last tax_invoice of move_line """
+        """Do not allow remove the last tax_invoice of move_line"""
         line_taxinv = {}
         for move_line in self.mapped("move_line_id"):
             line_taxinv.update({move_line.id: move_line.tax_invoice_ids.ids})

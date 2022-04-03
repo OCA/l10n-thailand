@@ -18,18 +18,18 @@ class TestIrSequenceDateRangeRefactoredStandard(TestIrSequenceDateRangeStandard)
 
 
 class TestIrSequenceDateRangeRefactoredNoGap(TestIrSequenceDateRangeNoGap):
-    """ Rerun the 'no gap' test from the base's ir.sequence.date_range """
+    """Rerun the 'no gap' test from the base's ir.sequence.date_range"""
 
     def setUp(self):
-        """Run the 'no gap' test """
+        """Run the 'no gap' test"""
         super(TestIrSequenceDateRangeRefactoredNoGap, self).setUp()
 
 
 class TestIrSequenceDateRangeRefactoredChangeImplementation(
     TestIrSequenceDateRangeChangeImplementation
 ):
-    """ Rerun the 'change implementation' test from the base's ir.sequence.date_range """
+    """Rerun the 'change implementation' test from the base's ir.sequence.date_range"""
 
     def setUp(self):
-        """Run the 'change implementation' test """
+        """Run the 'change implementation' test"""
         super(TestIrSequenceDateRangeRefactoredChangeImplementation, self).setUp()
