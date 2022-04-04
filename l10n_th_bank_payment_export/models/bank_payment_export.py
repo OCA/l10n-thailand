@@ -250,6 +250,19 @@ class BankPaymentExport(models.Model):
                     )
                 )
 
+    @api.constrains("bank")
+    def check_bank_payment(self):
+        for rec in self:
+            payment_bic_bank = list(
+                set(rec.export_line_ids.mapped("payment_journal_id.bank_id.bic"))
+            )
+            if rec.bank and any(rec.bank != bank for bank in payment_bic_bank):
+                raise UserError(
+                    _(
+                        "You can not selected bank difference with bank journal on payment."
+                    )
+                )
+
     def _check_constraint_create_bank_payment_export(self, payments):
         method_manual_out = self.env.ref("account.account_payment_method_manual_out")
         for payment in payments:
