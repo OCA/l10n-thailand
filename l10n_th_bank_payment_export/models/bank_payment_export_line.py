@@ -19,6 +19,11 @@ class BankPaymentExportLine(models.Model):
         ondelete="restrict",
         index=True,
     )
+    payment_journal = fields.Many2one(
+        comodel_name="account.journal",
+        related="payment_id.journal_id",
+        string="Journal",
+    )
     payment_partner_id = fields.Many2one(
         comodel_name="res.partner",
         related="payment_id.partner_id",

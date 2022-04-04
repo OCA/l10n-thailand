@@ -22,21 +22,27 @@ class BankPaymentConfig(models.Model):
         ],
         ondelete="cascade",
     )
+    journal_id = fields.Many2one(
+        comodel_name="account.journal",
+        index=True,
+    )
     is_default = fields.Boolean(string="Default")
 
-    @api.constrains("is_default")
+    @api.constrains("is_default", "journal_id")
     def check_is_default(self):
-        field_default_duplicate = self.env["bank.payment.config"].search(
-            [
-                ("field_id", "=", self.field_id.id),
-                ("is_default", "=", True),
-            ]
-        )
-        if len(field_default_duplicate) > 1:
-            raise UserError(
-                _(
-                    "You can not default field '{}' more than 1.".format(
-                        self.field_id.field_description
+        BankConfig = self.env["bank.payment.config"]
+        for rec in self:
+            field_duplicate = BankConfig.search([("field_id", "=", rec.field_id.id)])
+            if len(field_duplicate.filtered("is_default")) > 1:
+                raise UserError(
+                    _(
+                        "You can not default field '{}' more than 1.".format(
+                            rec.field_id.field_description
+                        )
                     )
                 )
+            field_journal_duplicate = field_duplicate.filtered(
+                lambda l: l.journal_id and l.journal_id == rec.journal_id
             )
+            if len(field_journal_duplicate) > 1:
+                raise UserError(_("Can not selected Journal more than 1."))

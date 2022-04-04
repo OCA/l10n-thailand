@@ -17,6 +17,7 @@
         "data/server_action.xml",
         "templates/report_template.xml",
         "views/bank_payment_config_view.xml",
+        "views/account_journal_view.xml",
         "views/account_payment_view.xml",
         "views/bank_payment_export_view.xml",
         "wizard/account_payment_register_views.xml",

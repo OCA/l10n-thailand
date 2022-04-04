@@ -268,7 +268,14 @@ class BankPaymentExport(models.Model):
     def _get_context_create_bank_payment_export(self, payments):
         ctx = super()._get_context_create_bank_payment_export(payments)
         partner_bic_bank = list(set(payments.mapped("partner_bank_id.bank_id.bic")))
+        # KTB Bank
         if partner_bic_bank and ctx["default_bank"] == "KRTHTHBK":
+            # Default config from journal
+            bank_payment_config = payments.mapped(
+                "journal_id"
+            ).payment_export_config_ids
+            for config in bank_payment_config:
+                ctx.update({"default_{}".format(config.field_id.name): config.id})
             # Same bank
             if len(partner_bic_bank) == 1 and partner_bic_bank[0] == "KRTHTHBK":
                 ctx.update({"default_ktb_bank_type": "direct"})
@@ -276,3 +283,12 @@ class BankPaymentExport(models.Model):
             elif "KRTHTHBK" not in partner_bic_bank:
                 ctx.update({"default_ktb_bank_type": "standard"})
         return ctx
+
+    def _check_constraint_create_bank_payment_export(self, payments):
+        payment_bic_bank = list(set(payments.mapped("journal_id.bank_id.bic")))
+        payment_bank = len(payment_bic_bank) == 1 and payment_bic_bank[0] or ""
+        # Check case KTB must have 1 journal / 1 PE
+        if payment_bank == "KRTHTHBK" and len(payments.mapped("journal_id")) > 1:
+            raise UserError(
+                _("KTB can create bank payment export 1 Journal / 1 Payment Export.")
+            )

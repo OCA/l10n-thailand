@@ -199,6 +199,7 @@
             <tree editable="bottom">
                 <field name="payment_id" options="{'no_create': True}" />
                 <field name="payment_date" optional="show" />
+                <field name="payment_journal" optional="show" />
                 <field name="payment_partner_id" />
                 <field
                     name="payment_partner_bank_id"
@@ -244,6 +245,7 @@
                             <field name="payment_bank_id" />
                         </group>
                         <group name="export_line_right">
+                            <field name="payment_journal" />
                             <field name="payment_date" />
                             <field name="payment_amount" />
                             <field name="currency_id" invisible="1" />

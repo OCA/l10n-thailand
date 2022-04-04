@@ -10,6 +10,7 @@
                 <field name="name" />
                 <field name="value" />
                 <field name="field_id" optional="show" />
+                <field name="journal_id" optional="show" />
                 <field name="is_default" optional="show" />
             </tree>
         </field>
@@ -31,6 +32,10 @@
                         <group name="left">
                             <field
                                 name="field_id"
+                                options="{'no_create': True, 'no_create_edit': True}"
+                            />
+                            <field
+                                name="journal_id"
                                 options="{'no_create': True, 'no_create_edit': True}"
                             />
                             <field name="is_default" />
