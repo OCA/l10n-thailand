@@ -124,7 +124,7 @@ class CommonBankPaymentExport(TransactionCase):
     def create_invoice(
         self, amount=100, inv_type="in_invoice", currency_id=None, partner=False
     ):
-        """ Returns an open invoice """
+        """Returns an open invoice"""
         invoice = self.move_model.create(
             {
                 "company_id": self.main_company_id,

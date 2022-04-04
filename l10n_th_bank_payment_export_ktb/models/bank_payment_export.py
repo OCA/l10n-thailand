@@ -264,3 +264,15 @@ class BankPaymentExport(models.Model):
                     )
                 )
         return res
+
+    def _get_context_create_bank_payment_export(self, payments):
+        ctx = super()._get_context_create_bank_payment_export(payments)
+        partner_bic_bank = list(set(payments.mapped("partner_bank_id.bank_id.bic")))
+        if partner_bic_bank and ctx["default_bank"] == "KRTHTHBK":
+            # Same bank
+            if len(partner_bic_bank) == 1 and partner_bic_bank[0] == "KRTHTHBK":
+                ctx.update({"default_ktb_bank_type": "direct"})
+            # Other bank
+            elif "KRTHTHBK" not in partner_bic_bank:
+                ctx.update({"default_ktb_bank_type": "standard"})
+        return ctx

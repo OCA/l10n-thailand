@@ -53,7 +53,7 @@ class TestBankPaymentExport(CommonBankPaymentExport):
             self.assertFalse(payment.payment_export_id)
 
     def test_02_create_bank_payment_export_from_payment(self):
-        """ Create bank payment export from vendor payment"""
+        """Create bank payment export from vendor payment"""
         ctx = {
             "active_model": "account.payment",
             "active_ids": [
@@ -106,7 +106,7 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         self.assertEqual(len(action["context"]["default_export_line_ids"]), 2)
 
     def test_03_common_function(self):
-        """ Check other module can call common function and get this result """
+        """Check other module can call common function and get this result"""
         bank_payment = self.bank_payment_export_model.create({"name": "/"})
         bank_payment.action_get_all_payments()
         self.assertEqual(len(bank_payment.export_line_ids.ids), 2)

@@ -89,7 +89,7 @@ class BankPaymentExportLine(models.Model):
 
     @api.model
     def create(self, vals):
-        """ link payment and bank payment export """
+        """link payment and bank payment export"""
         export_line = super().create(vals)
         export_line.payment_id.write(
             {

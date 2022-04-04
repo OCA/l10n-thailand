@@ -195,12 +195,12 @@ class BankPaymentExport(models.Model):
         return self.write({"state": "done"})
 
     def action_cancel(self):
-        """ Reset export_status on payment to 'Draft' and cancel this document """
+        """Reset export_status on payment to 'Draft' and cancel this document"""
         self.export_line_ids.clear_payment_exported()
         return self.write({"state": "cancel"})
 
     def action_reject(self):
-        """ Reset export_status on payment to 'Draft' and reject this document """
+        """Reset export_status on payment to 'Draft' and reject this document"""
         self.export_line_ids.clear_payment_exported()
         return self.write({"state": "reject"})
 
@@ -214,11 +214,17 @@ class BankPaymentExport(models.Model):
         self.ensure_one()
         return self.print_report("xlsx")
 
-    def _get_context_create_bank_payment_export(self):
+    def _get_context_create_bank_payment_export(self, payments):
         ctx = self.env.context.copy()
-        active_ids = self.env.context.get("active_ids", [])
-        export_lines = [(0, 0, {"payment_id": x}) for x in active_ids]
-        ctx.update({"default_export_line_ids": export_lines})
+        export_lines = [(0, 0, {"payment_id": payment}) for payment in payments.ids]
+        payment_bic_bank = list(set(payments.mapped("journal_id.bank_id.bic")))
+        payment_bank = len(payment_bic_bank) == 1 and payment_bic_bank[0] or []
+        ctx.update(
+            {
+                "default_bank": payment_bank,
+                "default_export_line_ids": export_lines,
+            }
+        )
         return ctx
 
     @api.model
@@ -272,13 +278,13 @@ class BankPaymentExport(models.Model):
 
     @api.model
     def action_create_bank_payment_export(self):
-        """ Create bank payment export from vendor payments """
+        """Create bank payment export from vendor payments"""
         view = self.env.ref("l10n_th_bank_payment_export.bank_payment_export_view_form")
         payments = self.env["account.payment"].browse(
             self.env.context.get("active_ids", [])
         )
         self._check_constraint_create_bank_payment_export(payments)
-        ctx = self._get_context_create_bank_payment_export()
+        ctx = self._get_context_create_bank_payment_export(payments)
         return {
             "name": _("Bank Payment Export"),
             "type": "ir.actions.act_window",

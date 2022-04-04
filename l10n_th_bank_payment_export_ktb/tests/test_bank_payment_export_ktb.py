@@ -28,7 +28,7 @@ class TestBankPaymentExportKTB(CommonBankPaymentExport):
         )
 
     def test_01_bank_payment_config(self):
-        """ Test default bank payment config """
+        """Test default bank payment config"""
         self.config_ktb_sender_name.is_default = False
         bank_payment = self.bank_payment_export_model.create(
             {
