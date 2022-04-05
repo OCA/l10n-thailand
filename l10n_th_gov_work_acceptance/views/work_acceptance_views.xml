@@ -65,6 +65,12 @@
                                     readonly="1"
                                 />
                                 <field name="note" readonly="1" />
+                                <field
+                                    name="write_date"
+                                    string="Timestamp"
+                                    readonly="1"
+                                    attrs="{'invisible': [('status', '=', False)]}"
+                                />
                             </tree>
                         </field>
                     </group>
