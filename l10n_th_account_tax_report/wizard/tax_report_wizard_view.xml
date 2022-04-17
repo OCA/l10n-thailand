@@ -15,6 +15,7 @@
                             name="tax_id"
                             options="{'no_create_edit': True, 'no_open': True}"
                         />
+                        <field name="show_cancel" />
                     </group>
                     <group>
                         <field

@@ -29,6 +29,10 @@ class TaxReportWizard(models.TransientModel):
     date_range_id = fields.Many2one(comodel_name="date.range", string="Period")
     date_from = fields.Date(string="Date From", required=True)
     date_to = fields.Date(string="Date To", required=True)
+    show_cancel = fields.Boolean(
+        string="Show Cancelled",
+        default=True,
+    )
 
     def button_export_html(self):
         self.ensure_one()
@@ -62,6 +66,7 @@ class TaxReportWizard(models.TransientModel):
             "date_range_id": self.date_range_id and self.date_range_id.id or False,
             "date_from": self.date_from,
             "date_to": self.date_to,
+            "show_cancel": self.show_cancel,
         }
 
     def _export(self, report_type):

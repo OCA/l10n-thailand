@@ -37,6 +37,24 @@
             ref="l10n_th_account_tax_report.paperformat_tax_report"
         />
     </record>
+    <record id="action_rd_tax_report_pdf" model="ir.actions.report">
+        <field name="name">TAX RD Report PDF</field>
+        <field name="model">report.tax.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field
+            name="report_name"
+        >l10n_th_account_tax_report.report_rd_tax_report_pdf</field>
+        <field
+            name="report_file"
+        >l10n_th_account_tax_report.report_rd_tax_report_pdf</field>
+        <field
+            name="print_report_name"
+        >'TAX Report - [%s]' % object.date_range_id.display_name</field>
+        <field
+            name="paperformat_id"
+            ref="l10n_th_account_tax_report.paperformat_rd_tax_report"
+        />
+    </record>
     <record id="action_withholding_tax_report_qweb" model="ir.actions.report">
         <field name="name">Withholding Tax Report (PDF)</field>
         <field name="model">withholding.tax.report</field>
@@ -51,6 +69,23 @@
         <field
             name="paperformat_id"
             ref="l10n_th_account_tax_report.paperformat_tax_report"
+        />
+        <field name="print_report_name">object._get_report_base_filename()</field>
+    </record>
+    <record id="action_rd_withholding_tax_report_qweb" model="ir.actions.report">
+        <field name="name">WHT RD Report (PDF)</field>
+        <field name="model">withholding.tax.report</field>
+        <field name="type">ir.actions.report</field>
+        <field
+            name="report_name"
+        >l10n_th_account_tax_report.report_rd_withholding_tax_qweb</field>
+        <field
+            name="report_file"
+        >l10n_th_account_tax_report.report_rd_withholding_tax_qweb</field>
+        <field name="report_type">qweb-pdf</field>
+        <field
+            name="paperformat_id"
+            ref="l10n_th_account_tax_report.paperformat_wht_rd_report"
         />
         <field name="print_report_name">object._get_report_base_filename()</field>
     </record>

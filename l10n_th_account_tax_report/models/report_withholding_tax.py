@@ -1,6 +1,8 @@
 # Copyright 2019 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
+from dateutil.relativedelta import relativedelta
+
 from odoo import api, fields, models
 
 DEFAULT_DAY_FORMAT_WHT = "%d"
@@ -27,7 +29,7 @@ class WithHoldingTaxReport(models.TransientModel):
     date_range_id = fields.Many2one(comodel_name="date.range", string="Date range")
     date_from = fields.Date(required=True)
     date_to = fields.Date(required=True)
-    show_cancel = fields.Boolean(string="Show cancelled")
+    show_cancel = fields.Boolean(string="Show Cancelled")
     results = fields.Many2many(
         comodel_name="withholding.tax.cert.line",
         string="Results",
@@ -189,14 +191,19 @@ class WithHoldingTaxReport(models.TransientModel):
         date_format = self.format_date()
         return "WHT-{}-{}".format(pnd, date_format)
 
-    def print_report(self, report_type="qweb"):
+    def print_report(self, report_type="qweb-pdf"):
         self.ensure_one()
         if report_type == "xlsx":
             report_name = "withholding.tax.report.xlsx"
         elif report_type == "qweb-text":
             report_name = "l10n_th_account_tax_report.report_withholding_tax_text"
-        else:
-            report_name = "l10n_th_account_tax_report.report_withholding_tax_qweb"
+        elif report_type == "qweb-pdf":
+            if self.company_id.wht_report_format == "rd":
+                report_name = (
+                    "l10n_th_account_tax_report.report_rd_withholding_tax_qweb"
+                )
+            else:
+                report_name = "l10n_th_account_tax_report.report_withholding_tax_qweb"
         context = dict(self.env.context)
         action = self.env["ir.actions.report"].search(
             [("report_name", "=", report_name), ("report_type", "=", report_type)],
@@ -239,3 +246,66 @@ class WithHoldingTaxReport(models.TransientModel):
         if not self.show_cancel:
             domain += [("cert_id.state", "!=", "cancel")]
         self.results = Result.sudo().search(domain)
+
+    def _convert_result_to_dict(self, results):
+        result_dict = dict()
+        for line in results:
+            # Prepare cert data
+            if line.cert_id.id not in result_dict.keys():
+                cert_data = self._prepare_cert_data(line)
+                result_dict[line.cert_id.id] = cert_data
+            # Add wht lines data
+            wht_lines = result_dict[line.cert_id.id]["wht_lines"]
+            wht_lines.append(self._prepare_line_data(line))
+            result_dict[line.cert_id.id]["wht_lines"] = wht_lines
+        return result_dict
+
+    def _prepare_cert_data(self, line):
+        line.ensure_one()
+        partner = line.cert_id.partner_id
+        # Partner Name
+        firstname = partner.name
+        lastname = partner.lastname or ""
+        if lastname:
+            firstname = firstname[: -(len(lastname))]
+        if partner.company_type == "company":
+            firstname = partner.name
+            lastname = ""
+        # Partner Address
+        address = " ".join(
+            [
+                x
+                for x in [
+                    partner.street,
+                    partner.street2,
+                    partner.city,
+                    partner.state_id and partner.state_id.name or False,
+                    partner.zip,
+                    partner.country_id and partner.country_id.name or False,
+                ]
+                if x
+            ]
+        )
+        # Condition
+        tax_payer = 1
+        if line.cert_id.tax_payer != "withholding":
+            tax_payer = 2
+        return {
+            "partner_vat": partner.vat or "XXXXXXXXXXXXX",
+            "partner_branch": partner.branch,
+            "partner_firstname": firstname,
+            "partner_lastname": lastname,
+            "partner_address": address,
+            "date": (line.cert_id.date + relativedelta(years=543)).strftime("%d/%m/%Y"),
+            "tax_payer": tax_payer,
+            "wht_lines": [],
+        }
+
+    def _prepare_line_data(self, line):
+        line.ensure_one()
+        return {
+            "wht_cert_income_desc": line.wht_cert_income_desc,
+            "wht_percent": line.wht_percent,
+            "base": line.base,
+            "amount": line.amount,
+        }

@@ -25,7 +25,7 @@ class WithHoldingTaxReportWizard(models.TransientModel):
         ondelete="cascade",
     )
     show_cancel = fields.Boolean(
-        string="Show cancelled",
+        string="Show Cancelled",
         default=True,
     )
 

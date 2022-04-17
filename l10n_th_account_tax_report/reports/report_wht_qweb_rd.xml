@@ -9,7 +9,7 @@
             <link
                 rel="stylesheet"
                 type="text/scss"
-                href="/l10n_th_account_tax_report_rd/static/src/scss/style_report.scss"
+                href="/l10n_th_account_tax_report/static/src/scss/style_report.scss"
             />
         </xpath>
     </template>
@@ -25,7 +25,7 @@
             <!-- Header -->
             <div
                 class="article o_report_rd_withholding_tax_report_pnd1"
-                t-attf-style="background-image:url('/l10n_th_account_tax_report_rd/static/src/img/{{ num + 1 == num_page and 'pnd1_lastpage.png' or 'pnd1.png' }}'); background-size:340mm 242mm; width:340mm; height:242mm;"
+                t-attf-style="background-image:url('/l10n_th_account_tax_report/static/src/img/{{ num + 1 == num_page and 'pnd1_lastpage.png' or 'pnd1.png' }}'); background-size:340mm 242mm; width:340mm; height:242mm;"
             >
                 <div class="company_vat">
                     <t t-if="o.company_id.vat">
@@ -269,7 +269,7 @@
             <!-- Header -->
             <div
                 class="article o_report_rd_withholding_tax_report_pnd1a"
-                t-attf-style="background-image:url('/l10n_th_account_tax_report_rd/static/src/img/{{ num + 1 == num_page and 'pnd1a_lastpage.png' or 'pnd1a.png' }}'); background-size:340mm 242mm; width:340mm; height:242mm;"
+                t-attf-style="background-image:url('/l10n_th_account_tax_report/static/src/img/{{ num + 1 == num_page and 'pnd1a_lastpage.png' or 'pnd1a.png' }}'); background-size:340mm 242mm; width:340mm; height:242mm;"
             >
                 <div class="company_vat">
                     <t t-if="o.company_id.vat">
@@ -513,7 +513,7 @@
             <!-- Header -->
             <div
                 class="article o_report_rd_withholding_tax_report_pnd3"
-                t-attf-style="background-image:url('/l10n_th_account_tax_report_rd/static/src/img/{{ num + 1 == num_page and 'pnd3_lastpage.png' or 'pnd3.png' }}'); background-size:340mm 242mm; width:340mm; height:242mm;"
+                t-attf-style="background-image:url('/l10n_th_account_tax_report/static/src/img/{{ num + 1 == num_page and 'pnd3_lastpage.png' or 'pnd3.png' }}'); background-size:340mm 242mm; width:340mm; height:242mm;"
             >
                 <div class="company_vat">
                     <t t-if="o.company_id.vat">
@@ -801,7 +801,7 @@
             <!-- Header -->
             <div
                 class="article o_report_rd_withholding_tax_report_pnd53"
-                t-attf-style="background-image:url('/l10n_th_account_tax_report_rd/static/src/img/{{ num + 1 == num_page and 'pnd53_lastpage.png' or 'pnd53.png' }}'); background-size:340mm 242mm; width:340mm; height:242mm;"
+                t-attf-style="background-image:url('/l10n_th_account_tax_report/static/src/img/{{ num + 1 == num_page and 'pnd53_lastpage.png' or 'pnd53.png' }}'); background-size:340mm 242mm; width:340mm; height:242mm;"
             >
                 <div class="company_vat">
                     <t t-if="o.company_id.vat">
@@ -1082,19 +1082,19 @@
             <t t-foreach="docs" t-as="o">
                 <t
                     t-if="o.income_tax_form == 'pnd1'"
-                    t-call="l10n_th_account_tax_report_rd.report_rd_withholding_tax_pnd1"
+                    t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd1"
                 />
                 <t
                     t-if="o.income_tax_form == 'pnd1a'"
-                    t-call="l10n_th_account_tax_report_rd.report_rd_withholding_tax_pnd1a"
+                    t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd1a"
                 />
                 <t
                     t-if="o.income_tax_form == 'pnd3'"
-                    t-call="l10n_th_account_tax_report_rd.report_rd_withholding_tax_pnd3"
+                    t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd3"
                 />
                 <t
                     t-if="o.income_tax_form == 'pnd53'"
-                    t-call="l10n_th_account_tax_report_rd.report_rd_withholding_tax_pnd53"
+                    t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd53"
                 />
             </t>
         </t>

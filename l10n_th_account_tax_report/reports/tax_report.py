@@ -1,7 +1,10 @@
 # Copyright 2019 Ecosoft Co., Ltd (https://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import api, fields, models
+from dateutil.relativedelta import relativedelta
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class TaxReportView(models.TransientModel):
@@ -29,6 +32,7 @@ class TaxReport(models.TransientModel):
     date_range_id = fields.Many2one(comodel_name="date.range")
     date_from = fields.Date()
     date_to = fields.Date()
+    show_cancel = fields.Boolean(string="Show Cancelled")
 
     # Data fields, used to browse report data
     results = fields.Many2many(
@@ -59,7 +63,7 @@ class TaxReport(models.TransientModel):
             from account_move_tax_invoice t
               join account_move_line ml on ml.id = t.move_line_id
               join account_move m on m.id = ml.move_id
-            where ml.parent_state in ('posted', 'cancel')
+            where ml.parent_state in %s
               and t.tax_invoice_number is not null
               and ml.account_id in (select distinct account_id
                                     from account_tax_repartition_line
@@ -74,6 +78,7 @@ class TaxReport(models.TransientModel):
             order by tax_date, tax_invoice_number
         """,
             (
+                ("posted", "cancel") if self.show_cancel else ("posted",),
                 self.tax_id.id,
                 self.tax_id.id,
                 self.date_from,
@@ -87,13 +92,22 @@ class TaxReport(models.TransientModel):
         for line in tax_report_results:
             self.results += ReportLine.new(line)
 
-    def print_report(self, report_type="qweb"):
+    def print_report(self, report_type="qweb-pdf"):
         self.ensure_one()
-        action = (
-            report_type == "xlsx"
-            and self.env.ref("l10n_th_account_tax_report.action_tax_report_xlsx")
-            or self.env.ref("l10n_th_account_tax_report.action_tax_report_pdf")
-        )
+        action = False
+        if report_type == "xlsx":
+            action = self.env.ref("l10n_th_account_tax_report.action_tax_report_xlsx")
+        elif report_type == "qweb-pdf":
+            if self.company_id.tax_report_format == "rd":
+                action = self.env.ref(
+                    "l10n_th_account_tax_report.action_rd_tax_report_pdf"
+                )
+            else:
+                action = self.env.ref(
+                    "l10n_th_account_tax_report.action_tax_report_pdf"
+                )
+        if not action:
+            raise ValidationError(_("Invalid Reporting Data!"))
         return action.report_action(self, config=False)
 
     def _get_html(self):
@@ -111,3 +125,30 @@ class TaxReport(models.TransientModel):
     @api.model
     def get_html(self, given_context=None):
         return self.with_context(given_context)._get_html()
+
+    def _get_period_be(self, date_start, date_end):
+        month = "-"
+        year = "-"
+        date_start = (date_start + relativedelta(years=543)).strftime("%m-%Y")
+        date_end = (date_end + relativedelta(years=543)).strftime("%m-%Y")
+        if date_start == date_end:
+            m, year = date_end.split("-")
+            month = self._get_month_thai(m)
+        return [month, year]
+
+    def _get_month_thai(self, month):
+        month_thai = {
+            "01": "มกราคม",
+            "02": "กุมภาพันธ์",
+            "03": "มีนาคม",
+            "04": "เมษายน",
+            "05": "พฤษภาคม",
+            "06": "มิถุนายน",
+            "07": "กรกฎาคม",
+            "08": "สิงหาคม",
+            "09": "กันยายน",
+            "10": "ตุลาคม",
+            "11": "พฤศจิกายน",
+            "12": "ธันวาคม",
+        }
+        return month_thai[month]

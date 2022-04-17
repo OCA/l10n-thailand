@@ -1,6 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_rd_tax_report_wizard,rd.tax.report.wizard,model_rd_tax_report_wizard,account.group_account_invoice,1,1,1,1
-access_rd_tax_report_view,rd.tax.report.view,model_rd_tax_report_view,account.group_account_invoice,1,1,1,1
-access_report_rd_tax_report,report.rd.tax.report,model_report_rd_tax_report,account.group_account_invoice,1,1,1,1
-access_rd_withholding_tax_report_wizard,access_rd_withholding_tax_report_wizard,model_rd_withholding_tax_report_wizard,account.group_account_invoice,1,1,1,1
-access_rd_withholding_tax_report,access_rd_withholding_tax_report,model_rd_withholding_tax_report,account.group_account_invoice,1,1,1,1
