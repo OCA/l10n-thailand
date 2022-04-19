@@ -225,6 +225,7 @@ class BankPaymentExport(models.Model):
         return text
 
     def _generate_bank_payment_text(self):
+        self.ensure_one()
         if self.bank == "KRTHTHBK":  # KTB
             return self._format_ktb_text()
         return super()._generate_bank_payment_text()

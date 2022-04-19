@@ -9,9 +9,10 @@
     "license": "AGPL-3",
     "category": "Localization",
     "summary": "Bank Payment Export File BBL",
-    "depends": ["l10n_th_bank_payment_export"],
+    "depends": ["l10n_th_bank_payment_export", "l10n_th_account_tax"],
     "data": [
         "data/report_action.xml",
+        "views/res_config_settings_views.xml",
         "views/bank_payment_export_view.xml",
     ],
     "installable": True,

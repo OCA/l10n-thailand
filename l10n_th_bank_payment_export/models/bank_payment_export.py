@@ -144,6 +144,7 @@ class BankPaymentExport(models.Model):
         return self.env.ref(view_report).sudo().report_action(self, config=False)
 
     def _generate_bank_payment_text(self):
+        self.ensure_one()
         return
 
     def _export_bank_payment_text_file(self):
@@ -207,7 +208,7 @@ class BankPaymentExport(models.Model):
     def action_export_text_file(self):
         self.ensure_one()
         report = self.print_report("qweb-text")
-        self.action_done()
+        # self.action_done()
         return report
 
     def action_export_excel_file(self):
