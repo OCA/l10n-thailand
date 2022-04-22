@@ -32,7 +32,7 @@
     <template id="report_withholding_tax">
         <t t-set="title">Withholding Tax Report</t>
         <div class="page">
-            <div class="row">
+            <div>
                 <h4
                     class="mt0"
                     t-esc="title or 'Odoo Report'"

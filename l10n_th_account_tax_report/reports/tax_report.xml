@@ -36,9 +36,9 @@
                     />
                 </div>
                 <div class="col-6 text-right custom_footer">
-                    <span class="page" />
-                    /
-                    <span class="topage" />
+                            <span class="page" />
+                            /
+                            <span class="topage" />
                 </div>
             </div>
         </div>
@@ -70,24 +70,24 @@
             </t>
         </t>
     </template>
-    <template id="l10n_th_account_tax_report.report_tax_report_base">
+    <template id="report_tax_report_base">
         <div class="page">
             <!-- Display Title -->
-            <div class="row">
+            <div>
                 <t t-if="o.tax_id.type_tax_use == 'sale'">
-                    <h4 class="mt0" style="text-align: center;">Sale VAT Report</h4>
+                    <h4 class="text-center">Sale VAT Report</h4>
                 </t>
                 <t t-elif="o.tax_id.type_tax_use == 'purchase'">
-                    <h4 class="mt0" style="text-align: center;">Purchase VAT Report</h4>
+                    <h4 class="text-center">Purchase VAT Report</h4>
                 </t>
                 <t t-else="">
-                    <h4 class="mt0" style="text-align: center;">VAT Report</h4>
+                    <h4 class="text-center">VAT Report</h4>
                 </t>
             </div>
             <!-- Display filters -->
             <t t-call="l10n_th_account_tax_report.report_tax_report_filters" />
             <!-- Display tax report table -->
-            <div class="act_as_table data_table mt8" style="width: 100%;">
+            <div class="act_as_table data_table mt8">
                 <!-- Display header line-->
                 <t t-call="l10n_th_account_tax_report.report_tax_report_lines_header" />
                 <!-- Display each lines -->
@@ -106,7 +106,7 @@
         </div>
     </template>
     <template id="l10n_th_account_tax_report.report_tax_report_filters">
-        <div class="act_as_table data_table" style="width: 100%;">
+        <div class="act_as_table data_table">
             <div class="act_as_row labels">
                 <div class="act_as_cell">Date From</div>
                 <div class="act_as_cell">Date To</div>
