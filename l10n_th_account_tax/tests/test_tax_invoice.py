@@ -237,7 +237,7 @@ class TestTaxInvoice(SingleTransactionCase):
         self.supplier_invoice_vat.action_post()
 
     def test_supplier_invoice_undue_vat(self):
-        """ Register Payment from Vendor Invoice"""
+        """Register Payment from Vendor Invoice"""
         # Do not allow user to fill in Tax Invoice/Date
         tax_invoice = "SINV-10001"
         tax_date = fields.Date.today()
@@ -284,7 +284,7 @@ class TestTaxInvoice(SingleTransactionCase):
         self.assertEqual(tax_invoice_number, "Test Customer Invoice VAT")
 
     def test_customer_invoice_undue_vat(self):
-        """ Register Payment from Customer Invoice"""
+        """Register Payment from Customer Invoice"""
         # Do not allow user to fill in Tax Invoice/Date
         self.customer_invoice_undue_vat.action_post()
         action = self.customer_invoice_undue_vat.action_register_payment()

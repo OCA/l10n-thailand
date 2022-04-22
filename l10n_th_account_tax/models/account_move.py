@@ -103,7 +103,7 @@ class AccountMoveTaxInvoice(models.Model):
                 rec.report_date = False
 
     def unlink(self):
-        """ Do not allow remove the last tax_invoice of move_line """
+        """Do not allow remove the last tax_invoice of move_line"""
         line_taxinv = {}
         for move_line in self.mapped("move_line_id"):
             line_taxinv.update({move_line.id: move_line.tax_invoice_ids.ids})
@@ -161,7 +161,7 @@ class AccountMoveLine(models.Model):
         return wht_base_amount
 
     def _get_wht_amount(self, currency, wht_date):
-        """ Calculate withholding tax and base amount based on currency """
+        """Calculate withholding tax and base amount based on currency"""
         wht_lines = self.filtered("wht_tax_id")
         pit_lines = wht_lines.filtered("wht_tax_id.is_pit")
         wht_lines = wht_lines - pit_lines
@@ -527,7 +527,7 @@ class AccountMove(models.Model):
         return res
 
     def _prepare_withholding_move(self, wht_move):
-        """ Prepare dict for account.withholding.move """
+        """Prepare dict for account.withholding.move"""
         amount_income = wht_move.tax_base_amount
         amount_wht = abs(wht_move.balance)
         # In case, PIT is not withhold, but need to track from invoice
@@ -620,7 +620,7 @@ class AccountMove(models.Model):
         self.env["withholding.tax.cert"].create(certs)
 
     def _preapare_wht_certs(self):
-        """ Create withholding tax certs, 1 cert per partner """
+        """Create withholding tax certs, 1 cert per partner"""
         self.ensure_one()
         wht_move_groups = self.env["account.withholding.move"].read_group(
             domain=[("move_id", "=", self.id)],

@@ -108,14 +108,18 @@
     <template id="l10n_th_account_tax_report.report_tax_report_filters">
         <div class="act_as_table data_table" style="width: 100%;">
             <div class="act_as_row labels">
-                <div class="act_as_cell">Period</div>
+                <div class="act_as_cell">Date From</div>
+                <div class="act_as_cell">Date To</div>
                 <div class="act_as_cell">Company</div>
                 <div class="act_as_cell">Tax ID</div>
                 <div class="act_as_cell">Branch ID</div>
             </div>
             <div class="act_as_row">
                 <div class="act_as_cell">
-                    <span t-field="o.date_range_id.display_name" />
+                    <span t-esc="o.date_from.strftime('%d/%m/%Y')" />
+                </div>
+                <div class="act_as_cell">
+                    <span t-esc="o.date_to.strftime('%d/%m/%Y')" />
                 </div>
                 <div class="act_as_cell">
                     <span t-field="o.company_id.display_name" />

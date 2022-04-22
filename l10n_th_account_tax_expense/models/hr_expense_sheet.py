@@ -22,7 +22,7 @@ class HrExpenseSheet(models.Model):
     )
 
     def _compute_need_wht_entry(self):
-        """ Clearing Advance + Expense WHT + No or Cancelled wht_move_id """
+        """Clearing Advance + Expense WHT + No or Cancelled wht_move_id"""
         for rec in self:
             rec.need_wht_entry = (
                 rec.advance_sheet_id
@@ -111,7 +111,7 @@ class HrExpenseSheet(models.Model):
         return move_vals
 
     def action_register_payment(self):
-        """ For Clearing, never deduct WHT auto """
+        """For Clearing, never deduct WHT auto"""
         action = super().action_register_payment()
         if self.filtered("advance_sheet_id"):
             action["context"].update({"skip_wht_deduct": True})

@@ -85,14 +85,14 @@ class AccountPaymentDeduction(models.TransientModel):
                 self._onchange_wht()
 
     def _onchange_wht(self):
-        """ Onchange set for normal withholding tax """
+        """Onchange set for normal withholding tax"""
         amount_wht = self.wht_tax_id.amount / 100 * self.wht_amount_base
         self.amount = amount_wht
         self.account_id = self.wht_tax_id.account_id
         self.name = self.wht_tax_id.display_name
 
     def _onchange_pit(self):
-        """ Onchange set for personal income tax """
+        """Onchange set for personal income tax"""
         if not self.wht_tax_id.pit_id:
             raise UserError(
                 _("No effective PIT rate for date %s")

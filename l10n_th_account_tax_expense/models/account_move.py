@@ -1,8 +1,9 @@
 # Copyright 2020 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import models, _
+from odoo import _, models
 from odoo.exceptions import UserError
+
 
 class AccountMove(models.Model):
     _inherit = "account.move"
@@ -14,7 +15,7 @@ class AccountMove(models.Model):
         return res
 
     def _reconcile_withholding_tax_entry(self):
-        """ Re-Reconciliation, for case wht_move that clear advance only """
+        """Re-Reconciliation, for case wht_move that clear advance only"""
         PartialReconcile = self.env["account.partial.reconcile"]
         for move in self:
             clearing = self.env["hr.expense.sheet"].search(
@@ -62,7 +63,7 @@ class AccountMove(models.Model):
                 ml_lines.filtered(lambda l: l.account_id == account).reconcile()
 
     def _assign_tax_invoice(self):
-        """ Use Bill Reference and Date from Expense Line as Tax Invoice """
+        """Use Bill Reference and Date from Expense Line as Tax Invoice"""
         for move in self:
             for tax_invoice in move.tax_invoice_ids.filtered(
                 lambda l: l.tax_line_id.type_tax_use == "purchase"
@@ -99,7 +100,7 @@ class AccountMove(models.Model):
                 rec.has_wht = False
 
     def _prepare_withholding_move(self, wht_move):
-        """ Prepare dict for account.withholding.move on Expense"""
+        """Prepare dict for account.withholding.move on Expense"""
         res = super()._prepare_withholding_move(wht_move)
         # Is this an expense's journal entry?
         is_expense = wht_move.expense_id and not wht_move.payment_id
@@ -119,10 +120,12 @@ class AccountMove(models.Model):
             lambda l: l.wht_move_id and l.wht_move_id.state != "cancel"
         )
         if sheets:
-            raise UserError(_(
-                "Unable to cancel this journal entry. "
-                "You must first cancel the related withholding tax (Journal Voucher)."
-            ))
+            raise UserError(
+                _(
+                    "Unable to cancel this journal entry. "
+                    "You must first cancel the related withholding tax (Journal Voucher)."
+                )
+            )
         return res
 
 
@@ -130,7 +133,7 @@ class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
     def _get_tax_base_amount(self, sign, vals_list):
-        """ Case expense multi line, tax base amount should compute each line """
+        """Case expense multi line, tax base amount should compute each line"""
         tax_base_amount = super()._get_tax_base_amount(sign, vals_list)
         taxes_list = list(filter(lambda x: x.get("tax_repartition_line_id"), vals_list))
         for vals in taxes_list:

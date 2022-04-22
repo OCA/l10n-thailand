@@ -38,7 +38,7 @@ class TestWithholdingTaxPIT(TransactionCase):
         )
 
     def _create_pit(self, calendar_year):
-        """ Create a simple PIT rate table """
+        """Create a simple PIT rate table"""
         with Form(self.env["personal.income.tax"]) as f:
             f.calendar_year = calendar_year
             with f.rate_ids.new() as rate:
@@ -79,7 +79,7 @@ class TestWithholdingTaxPIT(TransactionCase):
         return move_form.save()
 
     def test_00_pit_tax(self):
-        """ No 2 PIT Tax allowed """
+        """No 2 PIT Tax allowed"""
         with self.assertRaises(ValidationError):
             self.wht_pit = self.env["account.withholding.tax"].create(
                 {
@@ -91,7 +91,7 @@ class TestWithholdingTaxPIT(TransactionCase):
 
     @freeze_time("2001-02-01")
     def test_01_pit_rate(self):
-        """ Test PIT Rate table """
+        """Test PIT Rate table"""
         # Create an effective PIT Rate
         self.pit_rate = self._create_pit("2001")
         # Test effective date

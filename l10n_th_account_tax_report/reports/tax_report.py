@@ -41,44 +41,58 @@ class TaxReport(models.TransientModel):
         help="Use compute fields, so there is nothing store in database",
     )
 
+    def _query_select_tax(self):
+        return """company_id, account_id, partner_id, tax_invoice_number,
+            tax_date, name, sum(tax_base_amount) tax_base_amount,
+            sum(tax_amount) tax_amount"""
+
+    def _query_select_sub_tax(self):
+        return """t.id, t.company_id, ml.account_id, t.partner_id,
+            case when ml.parent_state = 'posted' and t.reversing_id is null
+            then t.tax_invoice_number else
+            t.tax_invoice_number || ' (VOID)' end as tax_invoice_number,
+            t.tax_invoice_date as tax_date,
+            case when ml.parent_state = 'posted' and t.reversing_id is null
+            then t.tax_base_amount else 0.0 end as tax_base_amount,
+            case when ml.parent_state = 'posted' and t.reversing_id is null
+            then t.balance else 0.0 end as tax_amount,
+            case when m.ref is not null
+            then m.ref else ml.move_name end as name"""
+
     def _compute_results(self):
         self.ensure_one()
+        reverse_cancel = ""
+        if self.show_cancel:
+            condition = "in ('posted', 'cancel')"
+        else:
+            condition = "= 'posted'"
+            reverse_cancel = "and t.reversing_id is null"
+        domain_cancel = " ".join(["ml.parent_state", condition, reverse_cancel])
         self._cr.execute(
             """
-            select company_id, account_id, partner_id,
-                tax_invoice_number, tax_date, name,
-                sum(tax_base_amount) tax_base_amount, sum(tax_amount) tax_amount
+            select {}
             from (
-            select t.id, t.company_id, ml.account_id, t.partner_id,
-              case when ml.parent_state = 'posted' and t.reversing_id is null
-                then t.tax_invoice_number else
-                t.tax_invoice_number || ' (VOID)' end as tax_invoice_number,
-              t.tax_invoice_date as tax_date,
-              case when ml.parent_state = 'posted' and t.reversing_id is null
-                then t.tax_base_amount else 0.0 end as tax_base_amount,
-              case when ml.parent_state = 'posted' and t.reversing_id is null
-                then t.balance else 0.0 end as tax_amount,
-              case when m.ref is not null
-                then m.ref else ml.move_name end as name
-            from account_move_tax_invoice t
-              join account_move_line ml on ml.id = t.move_line_id
-              join account_move m on m.id = ml.move_id
-            where ml.parent_state in %s
-              and t.tax_invoice_number is not null
-              and ml.account_id in (select distinct account_id
-                                    from account_tax_repartition_line
-                                    where account_id is not null
-                                    and invoice_tax_id = %s or refund_tax_id = %s)
-              and t.report_date >= %s and t.report_date <= %s
-              and ml.company_id = %s
-              and t.reversed_id is null
+                select {}
+                from account_move_tax_invoice t
+                join account_move_line ml on ml.id = t.move_line_id
+                join account_move m on m.id = ml.move_id
+                where {}
+                and t.tax_invoice_number is not null
+                and ml.account_id in (select distinct account_id
+                                        from account_tax_repartition_line
+                                        where account_id is not null
+                                        and invoice_tax_id = %s or refund_tax_id = %s)
+                and t.report_date >= %s and t.report_date <= %s
+                and ml.company_id = %s
+                and t.reversed_id is null
             ) a
             group by company_id, account_id, partner_id,
                 tax_invoice_number, tax_date, name
             order by tax_date, tax_invoice_number
-        """,
+        """.format(
+                self._query_select_tax(), self._query_select_sub_tax(), domain_cancel
+            ),
             (
-                ("posted", "cancel") if self.show_cancel else ("posted",),
                 self.tax_id.id,
                 self.tax_id.id,
                 self.date_from,
@@ -127,8 +141,7 @@ class TaxReport(models.TransientModel):
         return self.with_context(given_context)._get_html()
 
     def _get_period_be(self, date_start, date_end):
-        month = "-"
-        year = "-"
+        month = year = "-"
         date_start = (date_start + relativedelta(years=543)).strftime("%m-%Y")
         date_end = (date_end + relativedelta(years=543)).strftime("%m-%Y")
         if date_start == date_end:

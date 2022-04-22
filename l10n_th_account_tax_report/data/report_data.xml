@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <!-- HMTL REPORTS -->
+    <!-- HTML REPORTS -->
     <record id="action_report_tax_report_html" model="ir.actions.client">
         <field name="name">TAX Report</field>
         <field name="tag">l10n_th_account_tax_report_backend</field>

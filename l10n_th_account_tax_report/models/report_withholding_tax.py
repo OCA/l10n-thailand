@@ -232,9 +232,7 @@ class WithHoldingTaxReport(models.TransientModel):
         self.date_from = self.date_range_id.date_start
         self.date_to = self.date_range_id.date_end
 
-    def _compute_results(self):
-        self.ensure_one()
-        Result = self.env["withholding.tax.cert.line"]
+    def _get_domain_wht(self):
         # fields required
         domain = [
             ("cert_id.income_tax_form", "=", self.income_tax_form),
@@ -244,8 +242,13 @@ class WithHoldingTaxReport(models.TransientModel):
             ("cert_id.state", "!=", "draft"),
         ]
         if not self.show_cancel:
-            domain += [("cert_id.state", "!=", "cancel")]
-        self.results = Result.sudo().search(domain)
+            domain = [("cert_id.state", "!=", "cancel")]
+        return domain
+
+    def _compute_results(self):
+        self.ensure_one()
+        domain = self._get_domain_wht()
+        self.results = self.env["withholding.tax.cert.line"].sudo().search(domain)
 
     def _convert_result_to_dict(self, results):
         result_dict = dict()

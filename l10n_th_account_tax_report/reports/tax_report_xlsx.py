@@ -173,7 +173,8 @@ class ReportTaxReportXlsx(models.TransientModel):
 
     def _get_header_data_list(self, objects):
         return [
-            ("Period", objects.date_range_id.display_name or "-"),
+            ("Date From", objects.date_from.strftime("%d/%m/%Y") or "-"),
+            ("Date To", objects.date_to.strftime("%d/%m/%Y") or "-"),
             ("Company", objects.company_id.display_name or "-"),
             ("Tax ID", objects.company_id.partner_id.vat or "-"),
             ("Branch ID", objects.company_id.partner_id.branch or "-"),

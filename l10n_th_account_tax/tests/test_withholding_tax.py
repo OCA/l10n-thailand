@@ -181,7 +181,7 @@ class TestWithholdingTax(SavepointCase):
         return product_id
 
     def test_01_create_payment_withholding_tax(self):
-        """ Create payment with withholding tax"""
+        """Create payment with withholding tax"""
         price_unit = 100.0
         with self.assertRaises(ValidationError):
             self.wht_3.write({"account_id": self.expense_account.id})
@@ -259,7 +259,7 @@ class TestWithholdingTax(SavepointCase):
         self.assertEqual(cert.state, "cancel")
 
     def test_02_create_payment_withholding_tax_product(self):
-        """ Create payment with withholding tax from product"""
+        """Create payment with withholding tax from product"""
         price_unit = 100.0
         product_id = self._config_product_withholding_tax(
             self.product_1, self.wht_3.id, vendor=True
@@ -300,7 +300,7 @@ class TestWithholdingTax(SavepointCase):
         self.assertEqual(payment_id.amount, price_unit * 0.97)
 
     def test_03_withholding_tax_customer_invoice(self):
-        """ Test case withholding tax from customer invoice"""
+        """Test case withholding tax from customer invoice"""
         price_unit = 100.0
         product_id = self._config_product_withholding_tax(
             self.product_1, self.wht_3.id, customer=True
@@ -319,7 +319,7 @@ class TestWithholdingTax(SavepointCase):
         invoice.action_post()
 
     def test_04_withholding_tax_multi_invoice(self):
-        """ Test case withholding tax with multi invoices"""
+        """Test case withholding tax with multi invoices"""
         price_unit = 100.0
         invoice = self._create_invoice(
             self.partner_1.id,
@@ -388,7 +388,7 @@ class TestWithholdingTax(SavepointCase):
         self.assertEqual(payment.amount, 2 * price_unit * 0.97)
 
     def test_05_create_wht_cert_journal(self):
-        """ Journal Entry to WHT Cert """
+        """Journal Entry to WHT Cert"""
         price_unit = 100
         wht_amount = 3
         invoice = self._create_invoice(
@@ -424,7 +424,7 @@ class TestWithholdingTax(SavepointCase):
         invoice.button_wht_certs()
 
     def test_06_create_wht_cert_multi_payment(self):
-        """ Payments to WHT Certs """
+        """Payments to WHT Certs"""
         price_unit = 100
         invoice = self._create_invoice(
             self.partner_1.id,
@@ -461,7 +461,7 @@ class TestWithholdingTax(SavepointCase):
             self.assertEqual(cert.wht_line.amount, 3)
 
     def test_07_create_wht_cert_multi_journal(self):
-        """ Journal Entries to WHT Certs """
+        """Journal Entries to WHT Certs"""
         price_unit = 100
         wht_amount = 3
         invoice = self._create_invoice(

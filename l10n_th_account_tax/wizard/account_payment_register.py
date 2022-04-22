@@ -27,7 +27,7 @@ class AccountPaymentRegister(models.TransientModel):
                 self._onchange_wht()
 
     def _onchange_wht(self):
-        """ Onchange set for normal withholding tax """
+        """Onchange set for normal withholding tax"""
         amount_wht = self.wht_tax_id.amount / 100 * self.wht_amount_base
         amount_currency = self.company_id.currency_id._convert(
             self.source_amount,
@@ -40,7 +40,7 @@ class AccountPaymentRegister(models.TransientModel):
         self.writeoff_label = self.wht_tax_id.display_name
 
     def _onchange_pit(self):
-        """ Onchange set for personal income tax """
+        """Onchange set for personal income tax"""
         if not self.wht_tax_id.pit_id:
             raise UserError(
                 _("No effective PIT rate for date %s")
@@ -93,7 +93,7 @@ class AccountPaymentRegister(models.TransientModel):
         "payment_date",
     )
     def _compute_amount(self):
-        """ This function is the first entry point, to calculate withholding amount """
+        """This function is the first entry point, to calculate withholding amount"""
         res = super()._compute_amount()
         # Get the sum withholding tax amount from invoice line
         skip_wht_deduct = self.env.context.get("skip_wht_deduct")

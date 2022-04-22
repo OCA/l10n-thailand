@@ -179,7 +179,7 @@ class TestWithholdingTax(SavepointCase):
         self.assertEqual(payment.amount, price_unit * 0.97)
 
     def test_02_create_payment_multi_withholding_tax_multi_line(self):
-        """ Create payment with 2 withholding tax on 2 line"""
+        """Create payment with 2 withholding tax on 2 line"""
         price_unit = 100.0
         invoice = self._create_invoice(
             self.partner_1.id,
@@ -225,7 +225,7 @@ class TestWithholdingTax(SavepointCase):
         )
 
     def test_03_create_payment_one_withholding_tax_multi_line(self):
-        """ Create payment with 1 withholding tax on 2 line"""
+        """Create payment with 1 withholding tax on 2 line"""
         price_unit = 100.0
         invoice = self._create_invoice(
             self.partner_1.id,
@@ -261,7 +261,7 @@ class TestWithholdingTax(SavepointCase):
         )
 
     def test_04_create_payment_multi_withholding_keep_open(self):
-        """ Create payment with 2 withholding tax on 2 line and keep open 1"""
+        """Create payment with 2 withholding tax on 2 line and keep open 1"""
         price_unit = 100.0
         invoice = self._create_invoice(
             self.partner_1.id,
