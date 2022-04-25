@@ -208,7 +208,7 @@ class BankPaymentExport(models.Model):
     def action_export_text_file(self):
         self.ensure_one()
         report = self.print_report("qweb-text")
-        # self.action_done()
+        self.action_done()
         return report
 
     def action_export_excel_file(self):
