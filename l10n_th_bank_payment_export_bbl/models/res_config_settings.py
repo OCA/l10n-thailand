@@ -10,5 +10,5 @@ class ResConfigSettings(models.TransientModel):
     bbl_config_ewht = fields.Boolean(
         related="company_id.bbl_config_ewht",
         string="Payment Export BBL with eWHT",
-        readonly=False
+        readonly=False,
     )

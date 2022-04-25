@@ -123,7 +123,7 @@ class BankPaymentExportLine(models.Model):
         # )
         payment_net_amount = self.payment_amount
         return payment_net_amount
-    
+
     def _get_amount_no_decimal(self, amount):
         return int(round(float_round(amount * 100, precision_rounding=1), 2))
 

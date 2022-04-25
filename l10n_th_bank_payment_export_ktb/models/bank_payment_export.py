@@ -135,7 +135,8 @@ class BankPaymentExport(models.Model):
             self.config_ktb_company_id.value or "**Company ID on KTB is not config**"
         )
         total_batch = len(payment_lines.ids)
-        total_batch_amount = int(sum(payment_lines.mapped("payment_amount")) * 100)
+        total_amount = sum(payment_lines.mapped("payment_amount"))
+        total_batch_amount = payment_lines._get_amount_no_decimal(total_amount)
         text = (
             "101{idx}006{total_batch_transaction}{total_batch_amount}"
             "{effective_date}C{receiver_no}{ktb_company_id}{space}\r\n".format(
@@ -219,7 +220,7 @@ class BankPaymentExport(models.Model):
         for idx, pe_line in enumerate(payment_lines):
             # This amount related decimal from invoice, Odoo invoice do not rounding.
             payment_net_amount = pe_line._get_payment_net_amount()
-            payment_net_amount_bank = int(payment_net_amount * 100)
+            payment_net_amount_bank = pe_line._get_amount_no_decimal(payment_net_amount)
             text += self._get_text_body_ktb(idx, pe_line, payment_net_amount_bank)
             total_amount += payment_net_amount_bank
         return text
