@@ -2,7 +2,7 @@ from odoo.tests.common import SingleTransactionCase
 
 
 class TestIrSequenceBranchStandard(SingleTransactionCase):
-    """ A few tests for a 'Standard' sequence. """
+    """A few tests for a 'Standard' sequence."""
 
     def test_ir_sequence_branch_1_create(self):
         """Create an ir.sequence record with two ir.sequence.date_range records"""
@@ -20,7 +20,7 @@ class TestIrSequenceBranchStandard(SingleTransactionCase):
         self.assertTrue(seq)
 
     def test_ir_sequence_branch_2_use(self):
-        """ Try to use the sequence object. """
+        """Try to use the sequence object."""
         for i in range(1, 10):
             value = self.env["ir.sequence"].next_by_code("test_branch")
             self.assertEqual(
@@ -28,7 +28,7 @@ class TestIrSequenceBranchStandard(SingleTransactionCase):
             )
 
     def test_ir_sequence_branch_3_change_branch(self):
-        """ Change company's branch """
+        """Change company's branch"""
         self.env.user.company_id.branch = "00314"
         for i in range(10, 20):
             value = self.env["ir.sequence"].next_by_code("test_branch")

@@ -12,8 +12,15 @@ class ResPartner(models.Model):
 
     branch = fields.Char(string="Tax Branch", help="Branch ID, e.g., 0000, 0001, ...")
     name_company = fields.Char(
-        string="Name Company", inverse="_inverse_name_company", index=True
+        string="Name Company",
+        inverse="_inverse_name_company",
+        index=True,
+        translate=True,
     )
+    firstname = fields.Char(translate=True)
+    lastname = fields.Char(translate=True)
+    name = fields.Char(translate=True)
+    display_name = fields.Char(translate=True)
 
     @api.model
     def create(self, vals):
@@ -36,6 +43,9 @@ class ResPartner(models.Model):
         name = super()._get_computed_name(lastname, firstname)
         title = self.title.name
         if name and title:
+            # disable space on title and name
+            if self.env.company.no_space_title_name:
+                return "".join(p for p in (title, name) if p)
             return " ".join(p for p in (title, name) if p)
         return name
 
@@ -47,8 +57,10 @@ class ResPartner(models.Model):
             if not rec.is_company:
                 super()._compute_name()
                 continue
-            prefix = rec.partner_company_type_id.prefix
-            suffix = rec.partner_company_type_id.suffix
+            prefix, suffix = False, False
+            if rec.partner_company_type_id.use_prefix_suffix:
+                prefix = rec.partner_company_type_id.prefix
+                suffix = rec.partner_company_type_id.suffix
             rec.name = " ".join(p for p in (prefix, rec.name_company, suffix) if p)
             rec._inverse_name()
 
@@ -64,3 +76,8 @@ class ResPartner(models.Model):
         records = self.search([("name_company", "=", False)])
         records._inverse_name_company()
         _logger.info("%d partners updated installing module.", len(records))
+
+    def _inverse_name_after_cleaning_whitespace(self):
+        """Skip inverse name for case chaging only translation"""
+        if not self.env.context.get("skip_inverse_name"):
+            super()._inverse_name_after_cleaning_whitespace()

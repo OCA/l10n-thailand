@@ -1,12 +1,13 @@
 # Copyright 2020 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import Form, TransactionCase
 
 
 class TestL10nThPartner(TransactionCase):
     def setUp(self):
         super(TestL10nThPartner, self).setUp()
+        self.main_company = self.env.ref("base.main_company")
         self.create_title()
         self.create_original("Firstname", "Lastname")
 
@@ -16,9 +17,11 @@ class TestL10nThPartner(TransactionCase):
         )
 
     def create_original(self, firstname, lastname):
-        self.user = self.env["res.users"].create(
-            {"firstname": firstname, "lastname": lastname, "login": firstname}
-        )
+        with Form(self.env["res.users"], view="base.view_users_form") as f:
+            f.firstname = firstname
+            f.lastname = lastname
+            f.login = firstname
+        self.user = f.save()
 
     def test_res_users(self):
         """Test that you change title"""
@@ -36,3 +39,10 @@ class TestL10nThPartner(TransactionCase):
         partner.company_type = "company"
         partner._onchange_company_type()
         self.assertNotEqual(partner.title, self.title)
+
+    def test_res_users_config_no_space(self):
+        """Test that you change title and config title no space"""
+        self.main_company.no_space_title_name = True
+        self.assertEqual(self.user.name, "Firstname Lastname")
+        self.user.title = self.title
+        self.assertEqual(self.user.name, "MissFirstname Lastname")

@@ -5,10 +5,10 @@ from odoo.tests.common import Form, SingleTransactionCase, TransactionCase
 
 
 class TestIrSequenceDateRangePreviewStandard(SingleTransactionCase):
-    """ A few tests for a 'Standard' sequence. """
+    """A few tests for a 'Standard' sequence."""
 
     def test_ir_sequence_date_range_preview_1_create(self):
-        """ Create an ir.sequence record. """
+        """Create an ir.sequence record."""
         seq = self.env["ir.sequence"].create(
             {
                 "code": "test_date_range_preview",
@@ -102,10 +102,10 @@ class TestIrSequenceDateRangePreviewStandard(SingleTransactionCase):
 
 
 class TestIrSequenceDateRangePreviewForm(TransactionCase):
-    """ Test with server-side form. """
+    """Test with server-side form."""
 
     def test_ir_sequence_date_range_preview_form_1_update(self):
-        """ Update a server-side form with an existing ir.sequence record. """
+        """Update a server-side form with an existing ir.sequence record."""
         seq = self.env["ir.sequence"].create(
             {
                 "code": "test_date_range_preview_form",

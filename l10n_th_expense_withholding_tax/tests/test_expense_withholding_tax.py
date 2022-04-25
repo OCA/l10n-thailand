@@ -100,7 +100,7 @@ class TestHrExpenseWithholdingTax(common.SavepointCase):
         return payment_wizard
 
     def test_01_expense_wt_cert(self):
-        """ Test Expense Withholding Tax """
+        """Test Expense Withholding Tax"""
         self.assertTrue(self.expense_sheet_wt_cert.expense_line_ids.wt_tax_id)
         self.expense_sheet_wt_cert.action_submit_sheet()
         self.expense_sheet_wt_cert.approve_expense_sheets()
@@ -116,7 +116,7 @@ class TestHrExpenseWithholdingTax(common.SavepointCase):
         self.assertEqual(self.expense_sheet_wt_cert.state, "done")
 
     def test_02_expense_no_wt_cert(self):
-        """ Test Expense not Withholding Tax """
+        """Test Expense not Withholding Tax"""
         self.assertFalse(self.expense_sheet.expense_line_ids.wt_tax_id)
         self.expense_sheet.action_submit_sheet()
         self.expense_sheet.approve_expense_sheets()

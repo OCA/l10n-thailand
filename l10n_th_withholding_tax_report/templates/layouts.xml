@@ -1,0 +1,31 @@
+<odoo>
+    <template id="l10n_th_withholding_tax_report.internal_layout">
+        <div class="article">
+            <link
+                href="/l10n_th_withholding_tax_report/static/src/css/report.css"
+                rel="stylesheet"
+            />
+            <t t-raw="0" />
+        </div>
+        <div class="footer">
+            <div class="row">
+                <div class="col-6 custom_footer">
+                    <span
+                        t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"
+                    />
+                </div>
+                <div class="col-6 text-right custom_footer">
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <span class="page" />
+                        </li>
+                        <li class="list-inline-item">/</li>
+                        <li class="list-inline-item">
+                            <span class="topage" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>
