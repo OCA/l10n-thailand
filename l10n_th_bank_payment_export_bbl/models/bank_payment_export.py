@@ -176,38 +176,19 @@ class BankPaymentExport(models.Model):
         """Date of notification to the Beneficiary.
         The format for this date is DDMMYYYY"""
         return  ""
-    
+
     def _hook_wht_22_25(self, pe_line, wht, index):
         """WHT Bank Payment Export"""
-        # NOTE: Not test with multi wht in 1 payment.
         if index == 22:
-            return wht.wht_cert_income_type
+            return "" # TODO
         elif index == 23:
             return "001"  # TODO: 23 - 25 For test
         elif index == 25:
             return  ""
-    
+
     def _hook_bathnet_type_code_26(self):
         """This will contain BahtNet service code for BahtNet product.
         Details of same will be provided by BBL team"""
-        return  ""
-    
-    def _hook_wht_no_28(self):
-        """Indicates number of WHT for particular transaction"""
-        return  "" # TODO: do something
-    
-    def _hook_wht_amount_29(self):
-        """Indicates Total WHT Amount for particular transaction.
-        Divide by 100 for actual value"""
-        return  "" # TODO: do something
-    
-    def _hook_invoice_no_30(self):
-        """Indicates number of Invoice for particular transaction"""
-        return  ""
-    
-    def _hook_total_invoice_amount_31(self):
-        """Indicates Total Invoice Amount for particular transaction.
-        Divide by 100 for actual value"""
         return  ""
     
     def _hook_total_discount_amount_32(self):
@@ -221,9 +202,6 @@ class BankPaymentExport(models.Model):
 
     def _hook_wht_remark_36(self):
         """If Paid Tax Type is '04' then file will have this description"""
-        return  "" # TODO: do something
-    
-    def _hook_wht_deduct_date_37(self):
         return  "" # TODO: do something
     
     def _hook_wht_signatory_40(self):
@@ -260,13 +238,21 @@ class BankPaymentExport(models.Model):
         then Mobile Number is mandatory"""
         return ""
     
-    def _hook_credit_sequence_3(self):
-        """Unique running serial number"""
-        return ""
-    
     def _hook_ewht_income_type_5(self):
         """Refer to Domestic E-WHT Income Type Code."""
-        return  "" # TODO: do something
+        return "" # TODO: do something
+    
+    def _hook_name_ref_2(self):
+        """Invoice Number, PO Number and Invoice Date
+        has to be seperated by underscore '_' """
+        return "" # TODO: do something
+
+    def _hook_inv_description_4(self):
+        return ""
+    
+    def _hook_vat_amount_5(self):
+        """This amount field. Actual amount is calculated by dividing this value by 100"""
+        return  ""
 
     def _get_text_header_bbl(self, company_code):
         self.ensure_one()
@@ -294,7 +280,7 @@ class BankPaymentExport(models.Model):
         )
         return text
 
-    def _get_text_body_detail_bbl(self, idx, pe_line, company_code, payment_net_amount_bank, bbl_ewht, wht):
+    def _get_text_body_detail_bbl(self, idx, pe_line, company_code, payment, payment_net_amount_bank, bbl_ewht, wht):
         # Receiver
         (
             receiver_name,
@@ -302,6 +288,8 @@ class BankPaymentExport(models.Model):
             receiver_branch_code,
             receiver_acc_number,
         ) = pe_line._get_receiver_information()
+        total_inv_amount = sum(payment.reconciled_bill_ids.mapped("amount_untaxed"))
+        total_wht = wht and sum(wht.wht_line.mapped("amount"))
         text = (
             "003~{company_code_2}~{sequence_3}~{bbl_product_code_4}~"
             "{receiver_acc_number_5}~{value_date_6}~{value_time_7}~{currency_8}~"
@@ -324,7 +312,7 @@ class BankPaymentExport(models.Model):
                 value_date_6=pe_line.payment_date.strftime("%d%m%Y"),
                 value_time_7=self._hook_value_time_7(),  # optional
                 currency_8=pe_line.currency_id.name,
-                internal_ref_9=pe_line.payment_id.name,
+                internal_ref_9=payment.name,
                 pre_advice_date_10=self._hook_pre_advice_date_10(),  # optional
                 # NOTE: 11 - 18 For Chq Pmt only, this module not support.
                 bbl_credit_advice_19=self.bbl_credit_advice and "Y" or "N",
@@ -335,18 +323,18 @@ class BankPaymentExport(models.Model):
                 wht_running_no_25=bbl_ewht and self._hook_wht_22_25(pe_line, wht, 25) or "",
                 bathnet_type_code_26=self._hook_bathnet_type_code_26(),  # TODO: eWHT?
                 bbl_bot_type_27=self.bbl_bot_type,
-                wht_no_28=bbl_ewht and self._hook_wht_no_28() or "",
-                wht_amount_29=bbl_ewht and self._hook_wht_amount_29() or "",
-                invoice_no_30=self._hook_invoice_no_30(),  # optional
-                total_invoice_amount_31=self._hook_total_invoice_amount_31(),  # optional
-                total_discount_amount_32=self._hook_total_discount_amount_32(),  # optional
+                # NOTE: 28 - 29 : Required, If there is withholding tax and config eWHT
+                wht_no_28=bbl_ewht and wht and len(wht.wht_line) or "",
+                wht_amount_29=bbl_ewht and wht and pe_line._get_amount_no_decimal(total_wht) or "",
+                # NOTE: 30 - 32 : Required, If there is not withholding tax and config eWHT
+                invoice_no_30=bbl_ewht and not wht and len(payment.reconciled_bill_ids) or "",
+                total_invoice_amount_31=bbl_ewht and not wht and pe_line._get_amount_no_decimal(total_inv_amount) or "",
+                total_discount_amount_32=bbl_ewht and not wht and self._hook_total_discount_amount_32() or "",
                 bbl_payee_charge_33=self.bbl_payee_charge,
-                payment_net_amount_34=payment_net_amount_bank
-                and str(payment_net_amount_bank).zfill(16)
-                or "0".zfill(16),
+                payment_net_amount_34=payment_net_amount_bank,
                 wht_pay_type_35=bbl_ewht and self._hook_wht_pay_type_35() or "",
                 wht_remark_36=bbl_ewht and self._hook_wht_remark_36() or "",
-                wht_deduct_date_37=bbl_ewht and self._hook_wht_deduct_date_37() or "",
+                wht_deduct_date_37=bbl_ewht and wht and wht.date.strftime("%d%m%Y") or "",
                 receiver_bank_code_38=receiver_bank_code,
                 receiver_branch_code_39=receiver_branch_code,
                 wht_signatory_40=bbl_ewht and self._hook_wht_signatory_40() or "",
@@ -362,27 +350,55 @@ class BankPaymentExport(models.Model):
                 dispatch_address2_50=self._hook_dispatch_address(receiver_name, 50),  # optional
                 dispatch_address3_51=self._hook_dispatch_address(receiver_name, 51),  # optional
                 dispatch_address4_52=self._hook_dispatch_address(receiver_name, 52),  # optional
-                payee_tax_53=bbl_ewht and pe_line.payment_id.partner_id.vat or "",
+                payee_tax_53=bbl_ewht and payment.partner_id.vat or "",
                 payee_fax_54=self._hook_payee_fax_54(),  # optional
                 payee_mobile_55=self._hook_payee_mobile_55(),  # optional
-                payee_email_56=bbl_ewht and pe_line.payment_id.partner_id.email or "",
+                payee_email_56=bbl_ewht and payment.partner_id.email or "",
             )
         )
         return text
     
-    def _get_text_body_wht_bbl(self, pe_line, wht):
+    def _get_text_body_wht_bbl(self, idx, pe_line, payment, wht_line):
         text = (
             "005~{internal_ref_2}~{credit_sequence_3}~{wht_amount_4}~"
-            "{ewht_income_type_5}~{wht_rate_6}~{income_type_amount_7}".format(
-                internal_ref_2=pe_line.payment_id.name,
-                credit_sequence_3=self._hook_credit_sequence_3(),  # optional
-                wht_amount_4=wht.amount_wht,
+            "{ewht_income_type_5}~{wht_rate_6}~{income_type_amount_7}\n".format(
+                internal_ref_2=payment.name,
+                credit_sequence_3=idx,  # optional
+                wht_amount_4=pe_line._get_amount_no_decimal(wht_line.amount),
                 ewht_income_type_5=self._hook_ewht_income_type_5(),
-                wht_rate_6=0,  # TODO: how to find percent if many lines?
-                income_type_amount_7=0  # TODO: invoice or payment?
+                wht_rate_6=str(pe_line._get_amount_no_decimal(wht_line.wht_percent)).zfill(4),
+                income_type_amount_7=pe_line._get_amount_no_decimal(wht_line.base),
             )
         )
-        return
+        return text
+
+    def _get_text_body_invoice_ewht_bbl(self, pe_line, payment, wht_line):
+        text = (
+            "009~{name_ref_2}~{inv_amount_3}~{inv_description_4}~"
+            "{vat_amount_5}~{internal_ref_6}~{ewht_income_type_7}\n".format(
+                name_ref_2=self._hook_name_ref_2(),
+                inv_amount_3=pe_line._get_amount_no_decimal(wht_line.base),
+                inv_description_4=self._hook_inv_description_4(),  # optional
+                vat_amount_5=self._hook_vat_amount_5(),  # optional
+                internal_ref_6=payment.name,
+                ewht_income_type_7="TODO",  # TODO: do somethings
+            )
+        )
+        return text
+    
+    def _get_text_body_invoice_bbl(self, pe_line, payment, inv):
+        text = (
+            "006~{name_ref_2}~{inv_amount_3}~{inv_description_4}~"
+            "{vat_amount_5}~{internal_ref_6}\n".format(
+                name_ref_2=self._hook_name_ref_2(),  # TODO: name duplicate ewht?
+                inv_amount_3=pe_line._get_amount_no_decimal(inv.amount_untaxed),
+                inv_description_4=self._hook_inv_description_4(),  # TODO: desc duplicate ewht?
+                vat_amount_5=pe_line._get_amount_no_decimal(inv.amount_tax),
+                internal_ref_6=payment.name,
+            )
+        )
+        return text
+
 
     def _get_text_footer_bbl(self, total_amount, payment_lines):
         text = "100~{len_payment}~{total_amount}".format(
@@ -404,19 +420,30 @@ class BankPaymentExport(models.Model):
         text = self._get_text_header_bbl(company_code)
         payment_lines = self.export_line_ids
         for idx, pe_line in enumerate(payment_lines):
+            # payment in line
+            payment = pe_line.payment_id
             # Find table wht on payment
-            if bbl_ewht:
-                wht = pe_line.payment_id.wht_move_ids.filtered(lambda l: not l.is_pit)
+            wht = bbl_ewht and payment.wht_cert_ids.filtered(
+                lambda l: l.state != "cancel") or False
             # This amount related decimal from invoice, Odoo invoice do not rounding.
             payment_net_amount = pe_line._get_payment_net_amount()
-            payment_net_amount_bank = int(payment_net_amount * 100)
+            payment_net_amount_bank = pe_line._get_amount_no_decimal(payment_net_amount)
             # Details - 003
             text += self._get_text_body_detail_bbl(
-                idx + 1, pe_line, company_code, payment_net_amount_bank, bbl_ewht, wht
+                idx + 1, pe_line, company_code, payment, payment_net_amount_bank, bbl_ewht, wht
             )
-            # Details - 005 (eWHT)
-            if bbl_ewht and wht:
-                text += self._get_text_body_wht_bbl(pe_line, wht)
+            if bbl_ewht:
+                if wht:
+                    for idx, wht_line in enumerate(wht.wht_line):
+                        # WHT Details - 005
+                        text += self._get_text_body_wht_bbl(idx + 1, pe_line, payment, wht_line)
+                    for wht_line in wht.wht_line:
+                        # Invoice E-WHT Details - 009
+                        text += self._get_text_body_invoice_ewht_bbl(pe_line, payment, wht_line)
+                else:
+                    # Invoice Details - 006
+                    for inv in payment.reconciled_bill_ids:
+                        text += self._get_text_body_invoice_bbl(pe_line, payment, inv)
             total_amount += payment_net_amount_bank
         # Footer - 100
         text += self._get_text_footer_bbl(total_amount, payment_lines)

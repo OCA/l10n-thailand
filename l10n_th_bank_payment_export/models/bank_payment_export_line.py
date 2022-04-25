@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
+from odoo.tools import float_round
 
 
 class BankPaymentExportLine(models.Model):
@@ -122,6 +123,9 @@ class BankPaymentExportLine(models.Model):
         # )
         payment_net_amount = self.payment_amount
         return payment_net_amount
+    
+    def _get_amount_no_decimal(self, amount):
+        return int(round(float_round(amount * 100, precision_rounding=1), 2))
 
     def _get_acc_number_digit(self, partner_bank_id):
         acc_number = partner_bank_id.acc_number
