@@ -256,7 +256,9 @@ class WithholdingTaxCertLine(models.Model):
     @api.depends("wht_tax_id", "amount", "base")
     def _compute_wht_percent(self):
         for rec in self:
-            rec.wht_percent = rec.wht_tax_id.amount or (rec.amount / rec.base) * 100
+            rec.wht_percent = (
+                rec.wht_tax_id.amount or rec.base and (rec.amount / rec.base) * 100
+            )
 
     @api.onchange("wht_cert_income_type")
     def _onchange_wht_cert_income_type(self):
