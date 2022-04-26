@@ -35,27 +35,31 @@ class AccountMove(models.Model):
                     lambda l: l.account_id == av_account
                 )
                 md_lines = r_lines.mapped("matched_debit_ids.debit_move_id")
+                # Make sure that debit there're all line in advance
+                av_move_lines = advance.account_move_id.line_ids.filtered(
+                    lambda l: l.account_id == av_account
+                )
+                md_lines += av_move_lines
                 # all reconcile move include return advance
                 move_reconcile = PartialReconcile.search(
                     [("debit_move_id", "in", md_lines.ids)]
                 )
                 mc_lines_all = move_reconcile.mapped("credit_move_id")
+                # Keep wht lines without reconciled before remove reconciled
+                wht_lines = all_clearings.mapped("wht_move_id.line_ids").filtered(
+                    lambda l: l.account_id == av_account and not l.reconciled
+                )
                 # Removes reconcile
                 (md_lines + mc_lines_all).remove_move_reconcile()
                 # Re-reconcile again this time with the wht_tax JV, account by account
-                wht_lines = all_clearings.mapped("wht_move_id.line_ids").filtered(
+                to_reconciles = (wht_lines + md_lines + mc_lines_all).filtered(
                     lambda l: l.account_id == av_account
                 )
-                to_reconciles = (wht_lines + md_lines + mc_lines_all).filtered(
-                    lambda l: not l.reconciled
-                )
-                to_reconciles.filtered(lambda l: l.account_id == av_account).reconcile()
+                to_reconciles.reconcile()
             # Then, in case there are left over amount to other AP, do reconcile.
             ap_accounts = move.line_ids.mapped("account_id").filtered(
                 lambda l: l.reconcile and l != av_account
             )
-            if not ap_accounts:
-                continue
             for account in ap_accounts:
                 ml_lines = (
                     clearing.account_move_id.line_ids + clearing.wht_move_id.line_ids
