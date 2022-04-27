@@ -49,13 +49,11 @@ class AccountMove(models.Model):
                 wht_lines = all_clearings.mapped("wht_move_id.line_ids").filtered(
                     lambda l: l.account_id == av_account and not l.reconciled
                 )
-                # Removes reconcile
-                (md_lines + mc_lines_all).remove_move_reconcile()
+                # Removes reconcile with only expenses
+                (md_lines + mc_lines_all).filtered(lambda l: l.expense_id).remove_move_reconcile()
                 # Re-reconcile again this time with the wht_tax JV, account by account
-                to_reconciles = (wht_lines + md_lines + mc_lines_all).filtered(
-                    lambda l: l.account_id == av_account
-                )
-                to_reconciles.reconcile()
+                (wht_lines + md_lines + mc_lines_all).reconcile()
+
             # Then, in case there are left over amount to other AP, do reconcile.
             ap_accounts = move.line_ids.mapped("account_id").filtered(
                 lambda l: l.reconcile and l != av_account
