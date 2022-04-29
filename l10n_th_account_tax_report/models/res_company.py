@@ -1,7 +1,5 @@
-# Copyright 2016 Eficent Business and IT Consulting Services S.L.
-# (http://www.eficent.com)
-# Copyright 2016 Serpent Consulting Services Pvt. Ltd.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+# Copyright 2022 Ecosoft Co., Ltd. (http://ecosoft.co.th)
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import fields, models
 
@@ -9,9 +7,6 @@ from odoo import fields, models
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    check_layout_id = fields.Many2one(
-        comodel_name="account.payment.check.report", string="Check format"
-    )
     tax_report_format = fields.Selection(
         selection=[("std", "Standard"), ("rd", "Revenue Department")],
         default="std",

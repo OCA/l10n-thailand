@@ -14,6 +14,7 @@
         "security/account_security.xml",
         "security/ir.model.access.csv",
         "wizard/account_payment_register_views.xml",
+        "views/res_config_settings_views.xml",
         "views/account_view.xml",
         "views/account_move_view.xml",
         "views/withholding_tax_cert.xml",

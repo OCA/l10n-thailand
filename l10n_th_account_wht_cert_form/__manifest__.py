@@ -19,6 +19,7 @@
         "reports/withholding_tax_cert_form.xml",
         "data/mail_template.xml",
         "data/withholding_tax_cert_data.xml",
+        "views/res_config_settings_views.xml",
     ],
     "installable": True,
     "development_status": "Beta",

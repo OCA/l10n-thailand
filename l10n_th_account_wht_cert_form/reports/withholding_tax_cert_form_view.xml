@@ -400,10 +400,27 @@
             </t>
         </div>
     </template>
+
+    <!-- NOTE: This template for Pre-print WHT custom -->
+    <template id="withholding_layout_preprint_report">
+        <div />
+    </template>
+
     <template id="wht_cert_form">
         <t t-call="web.html_container">
-            <t t-foreach="docs" t-as="o">
-                <t t-call="l10n_th_account_wht_cert_form.withholding_layout_report" />
+            <t t-if="docs.company_id.wht_form_preprint">
+                <t t-foreach="docs" t-as="o">
+                    <t
+                        t-call="l10n_th_account_wht_cert_form.withholding_layout_preprint_report"
+                    />
+                </t>
+            </t>
+            <t t-if="not docs.company_id.wht_form_preprint">
+                <t t-foreach="docs" t-as="o">
+                    <t
+                        t-call="l10n_th_account_wht_cert_form.withholding_layout_report"
+                    />
+                </t>
             </t>
         </t>
     </template>

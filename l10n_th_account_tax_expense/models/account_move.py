@@ -50,7 +50,9 @@ class AccountMove(models.Model):
                     lambda l: l.account_id == av_account and not l.reconciled
                 )
                 # Removes reconcile with only expenses
-                (md_lines + mc_lines_all).filtered(lambda l: l.expense_id).remove_move_reconcile()
+                (md_lines + mc_lines_all).filtered(
+                    lambda l: l.expense_id
+                ).remove_move_reconcile()
                 # Re-reconcile again this time with the wht_tax JV, account by account
                 (wht_lines + md_lines + mc_lines_all).reconcile()
 
