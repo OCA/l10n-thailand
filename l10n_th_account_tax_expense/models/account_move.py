@@ -45,16 +45,22 @@ class AccountMove(models.Model):
                     [("debit_move_id", "in", md_lines.ids)]
                 )
                 mc_lines_all = move_reconcile.mapped("credit_move_id")
-                # Keep wht lines without reconciled before remove reconciled
+                # Removes reconcile with all wht lines and only expenses
                 wht_lines = all_clearings.mapped("wht_move_id.line_ids").filtered(
-                    lambda l: l.account_id == av_account and not l.reconciled
+                    lambda l: l.account_id == av_account
                 )
+                wht_lines.remove_move_reconcile()
                 # Removes reconcile with only expenses
                 (md_lines + mc_lines_all).filtered(
                     lambda l: l.expense_id
                 ).remove_move_reconcile()
                 # Re-reconcile again this time with the wht_tax JV, account by account
-                (wht_lines + md_lines + mc_lines_all).reconcile()
+                wht_lines_reconcile = wht_lines.filtered(
+                    lambda l: l.move_id == move
+                    and l.parent_state == "posted"
+                    or (l.move_id != move and l.parent_state == "posted")
+                )
+                (wht_lines_reconcile + md_lines + mc_lines_all).reconcile()
 
             # Then, in case there are left over amount to other AP, do reconcile.
             ap_accounts = move.line_ids.mapped("account_id").filtered(
@@ -115,6 +121,12 @@ class AccountMove(models.Model):
                     "amount_wht": 0.0,
                 }
             )
+        return res
+
+    def button_draft(self):
+        """Unlink withholding tax on clearing"""
+        res = super().button_draft()
+        self._reconcile_withholding_tax_entry()
         return res
 
     def button_cancel(self):
