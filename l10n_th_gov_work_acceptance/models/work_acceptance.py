@@ -46,11 +46,11 @@ class WorkAcceptance(models.Model):
             "note": line.note,
         }
 
-    # @api.model
-    # def _get_under_validation_exceptions(self):
-    #     res = super()._get_under_validation_exceptions()
-    #     res.append("evaluation_result_ids")
-    #     return res
+    @api.model
+    def _get_under_validation_exceptions(self):
+        res = super()._get_under_validation_exceptions()
+        res.append("evaluation_result_ids")
+        return res
 
     def action_view_evaluation(self):
         self.ensure_one()
