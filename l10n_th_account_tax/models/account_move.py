@@ -217,7 +217,12 @@ class AccountMoveLine(models.Model):
 
     def _get_tax_base_amount(self, sign, vals_list):
         self.ensure_one()
-        return sign * abs(self.tax_base_amount)
+        base = (
+            (self.balance * 100 / self.tax_line_id.amount)
+            if self.tax_line_id.amount
+            else self.tax_base_amount
+        )
+        return sign * abs(base)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -391,6 +396,12 @@ class AccountMove(models.Model):
     has_wht = fields.Boolean(
         compute="_compute_has_wht",
     )
+    tax_cash_basis_move_ids = fields.One2many(
+        comodel_name="account.move",
+        inverse_name="tax_cash_basis_move_id",
+        string="Tax Cash Basis Entries",
+        help="Related tax cash basis of this journal entry",
+    )
 
     def _compute_has_wht(self):
         """Has WHT when
@@ -426,6 +437,10 @@ class AccountMove(models.Model):
         result["domain"] = [("id", "in", self.wht_cert_ids.ids)]
         return result
 
+    def js_assign_outstanding_line(self, line_id):
+        self = self.with_context(net_invoice_refund=True)
+        return super().js_assign_outstanding_line(line_id)
+
     def _post(self, soft=True):
         """Additional tax invoice info (tax_invoice_number, tax_invoice_date)
         Case sales tax, use Odoo's info, as document is issued out.
@@ -447,8 +462,7 @@ class AccountMove(models.Model):
                     if tax_invoice.payment_id:  # Defer posting for payment
                         tax_invoice.payment_id.write({"to_clear_tax": True})
                         return self.browse()  # return False
-                    elif self.mapped("move_type") == ["entry", "entry"]:
-                        # Case Invoice reconcile with Refund, not perfect yet!
+                    elif self.env.context.get("net_invoice_refund"):
                         return self.browse()  # return False
                     else:
                         raise UserError(_("Please fill in tax invoice and tax date"))

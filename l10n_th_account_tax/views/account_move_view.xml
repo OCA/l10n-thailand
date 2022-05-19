@@ -164,6 +164,13 @@
                         </tree>
                     </field>
                 </page>
+                <page
+                    id="cash_basis_move"
+                    string="Tax Cash Basis Moves"
+                    attrs="{'invisible': [('tax_cash_basis_move_ids', '=', [])]}"
+                >
+                    <field name="tax_cash_basis_move_ids" nolabel="1" />
+                </page>
             </page>
         </field>
     </record>
