@@ -169,7 +169,11 @@
                     string="Tax Cash Basis Moves"
                     attrs="{'invisible': [('tax_cash_basis_move_ids', '=', [])]}"
                 >
-                    <field name="tax_cash_basis_move_ids" nolabel="1" />
+                    <field
+                        name="tax_cash_basis_move_ids"
+                        nolabel="1"
+                        context="{'force_remove_tax_invoice': True}"
+                    />
                 </page>
             </page>
         </field>
