@@ -7,7 +7,6 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
-from odoo.tools import float_compare
 from odoo.tools.misc import format_date
 
 
@@ -208,12 +207,12 @@ class AccountMoveLine(models.Model):
             )
             return (amount_base, amount_wht)
 
-    def _checkout_tax_invoice_amount(self):
-        for line in self:
-            if not line.manual_tax_invoice and line.tax_invoice_ids:
-                tax = sum(line.tax_invoice_ids.mapped("balance"))
-                if float_compare(abs(line.balance), abs(tax), 2) != 0:
-                    raise UserError(_("Invalid Tax Amount"))
+    # def _checkout_tax_invoice_amount(self):
+    #     for line in self:
+    #         if not line.manual_tax_invoice and line.tax_invoice_ids:
+    #             tax = sum(line.tax_invoice_ids.mapped("balance"))
+    #             if float_compare(abs(line.balance), abs(tax), 2) != 0:
+    #                 raise UserError(_("Invalid Tax Amount"))
 
     def _get_tax_base_amount(self, sign, vals_list):
         self.ensure_one()
@@ -507,8 +506,9 @@ class AccountMove(models.Model):
                 )
 
         # Check amount tax invoice with move line
-        for move in self:
-            move.line_ids._checkout_tax_invoice_amount()
+        # kittiu: There are case that we don't want to check
+        # for move in self:
+        #     move.line_ids._checkout_tax_invoice_amount()
 
         # Withholding Tax:
         # - Create account.withholding.move, for every withholding tax line
