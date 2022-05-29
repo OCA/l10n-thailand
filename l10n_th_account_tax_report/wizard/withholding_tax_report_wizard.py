@@ -1,7 +1,8 @@
 # Copyright 2019 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class WithHoldingTaxReportWizard(models.TransientModel):
@@ -28,6 +29,12 @@ class WithHoldingTaxReportWizard(models.TransientModel):
         string="Show Cancelled",
         default=True,
     )
+
+    @api.constrains("date_from", "date_to")
+    def check_date_from_to(self):
+        for rec in self:
+            if rec.date_from and rec.date_to and rec.date_from > rec.date_to:
+                raise UserError(_("Date From must not be after Date To"))
 
     def _get_domain_company_id(self):
         selected_companies = self.env["res.company"].browse(
