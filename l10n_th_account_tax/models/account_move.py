@@ -7,6 +7,7 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools.float_utils import float_compare, float_round
 from odoo.tools.misc import format_date
 
 
@@ -216,12 +217,14 @@ class AccountMoveLine(models.Model):
 
     def _get_tax_base_amount(self, sign, vals_list):
         self.ensure_one()
-        base = (
-            (self.balance * 100 / self.tax_line_id.amount)
-            if self.tax_line_id.amount
-            else self.tax_base_amount
-        )
-        return sign * abs(base)
+        base = abs(self.tax_base_amount)
+        tax = abs(self.balance)
+        prec = self.env.company.currency_id.decimal_places
+        full_tax = abs(float_round(self.tax_line_id.amount / 100 * base, prec))
+        # partial payment, we need to compute the base amount
+        if float_compare(full_tax, tax, prec) != 0:
+            base = abs(float_round(tax * 100 / self.tax_line_id.amount, prec))
+        return sign * base
 
     @api.model_create_multi
     def create(self, vals_list):
