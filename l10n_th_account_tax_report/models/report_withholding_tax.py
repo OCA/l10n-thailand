@@ -46,7 +46,7 @@ class WithHoldingTaxReport(models.TransientModel):
             name = "{}".format(
                 partner_id.company_type == "person"
                 and (partner_id.firstname or partner_id.lastname)
-                or partner_id.name_company
+                or partner_id.display_name
             )
         # PND3, PND1
         else:
@@ -57,7 +57,7 @@ class WithHoldingTaxReport(models.TransientModel):
                     firstname=partner_id.firstname,
                     lastname=partner_id.lastname,
                 )
-                or self._get_name_filter(firstname=partner_id.name_company)
+                or self._get_name_filter(firstname=partner_id.display_name)
             )
         return name
 
