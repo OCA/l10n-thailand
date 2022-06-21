@@ -67,13 +67,10 @@ class BankPaymentExport(models.Model):
         domain=lambda self: self._get_account_number_company_domain(),
         readonly=True,
         states={"draft": [("readonly", False)]},
-        help="""This field can config from company contact 2 ways following,
-            1. Go to menu Settings > Users & Companies > Companies
-                - Select your company > Contact > Invoicing
-                - Add new Bank Accounts
-            2. Go to menu Contacts
-                - Select your company > Contact > Invoicing
-                - Add new Bank Accounts""",
+        help="""This field config from your bank account company or create new by
+            - Settings > Users & Companies > Companies
+            - Select your company > Contact > Invoicing
+            - Add new Bank Accounts (must have Bank Identifier Code (BIC) = 'BKKBTHBK')""",
     )
     bbl_payee_charge = fields.Selection(
         selection=[("OUR", "Payer"), ("BEN", "Beneficiary")],
@@ -143,7 +140,12 @@ class BankPaymentExport(models.Model):
 
     @api.model
     def _get_account_number_company_domain(self):
-        return [("partner_id", "=", self.env.company.id)]
+        """Domain BBL bank account only"""
+        bbl = self.env["res.bank"].search([("bic", "=", "BKKBTHBK")])
+        return [
+            ("partner_id", "=", self.env.company.id),
+            ("bank_id", "in", bbl.ids),
+        ]
 
     @api.onchange("bbl_product_code")
     def onchange_bbl_product_code(self):
