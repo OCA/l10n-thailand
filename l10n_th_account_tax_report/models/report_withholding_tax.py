@@ -242,7 +242,7 @@ class WithHoldingTaxReport(models.TransientModel):
             ("cert_id.state", "!=", "draft"),
         ]
         if not self.show_cancel:
-            domain = [("cert_id.state", "!=", "cancel")]
+            domain.append(("cert_id.state", "!=", "cancel"))
         return domain
 
     def _compute_results(self):
