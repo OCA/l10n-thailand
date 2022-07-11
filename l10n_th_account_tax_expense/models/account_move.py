@@ -56,11 +56,12 @@ class AccountMove(models.Model):
                 ).remove_move_reconcile()
                 # Re-reconcile again this time with the wht_tax JV, account by account
                 wht_lines_reconcile = wht_lines.filtered(
-                    lambda l: l.move_id == move
-                    and l.parent_state == "posted"
-                    or (l.move_id != move and l.parent_state == "posted")
+                    lambda l: l.parent_state == "posted"
                 )
-                (wht_lines_reconcile + md_lines + mc_lines_all).reconcile()
+                md_lines_without_wht = md_lines.filtered(
+                    lambda l: l.id not in wht_lines_reconcile.ids
+                )
+                (wht_lines_reconcile + md_lines_without_wht + mc_lines_all).reconcile()
 
             # Then, in case there are left over amount to other AP, do reconcile.
             ap_accounts = move.line_ids.mapped("account_id").filtered(
