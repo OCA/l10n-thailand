@@ -7,6 +7,8 @@ from odoo.tools.float_utils import float_compare
 
 INCOME_TAX_FORM = [
     ("pnd1", "PND1"),
+    ("pnd2", "PND2"),
+    ("pnd2a", "PND2a"),
     ("pnd3", "PND3"),
     ("pnd3a", "PND3a"),
     ("pnd53", "PND53"),
