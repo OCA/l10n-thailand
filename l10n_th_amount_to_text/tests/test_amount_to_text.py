@@ -15,7 +15,7 @@ class TestAmountToText(SavepointCase):
         self.assertEqual(
             amount_text_en, "One Thousand And Fifty Baht and Seventy-Five Satang"
         )
-        amount_text_th = currency.with_context(lang='th_TH').amount_to_text(amount)
+        amount_text_th = currency.with_context(lang="th_TH").amount_to_text(amount)
         try:
             # check version num2words need 0.5.7+
             num2words(amount, to="currency", lang="th")
