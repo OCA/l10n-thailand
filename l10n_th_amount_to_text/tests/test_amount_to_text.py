@@ -3,10 +3,10 @@
 
 from num2words import num2words
 
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 
-class TestAmountToText(SavepointCase):
+class TestAmountToText(TransactionCase):
     def test_01_currency_th_amount_to_text(self):
         """verify that amount_to_text converted text to thai language"""
         currency = self.env.ref("base.THB")
@@ -15,7 +15,7 @@ class TestAmountToText(SavepointCase):
         self.assertEqual(
             amount_text_en, "One Thousand And Fifty Baht and Seventy-Five Satang"
         )
-        amount_text_th = currency.with_context({"lang": "th_TH"}).amount_to_text(amount)
+        amount_text_th = currency.with_context(lang="th_TH").amount_to_text(amount)
         try:
             # check version num2words need 0.5.7+
             num2words(amount, to="currency", lang="th")
