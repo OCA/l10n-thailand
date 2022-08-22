@@ -6,7 +6,6 @@
         <field name="model">account.withholding.move</field>
         <field name="arch" type="xml">
             <tree
-                string="Withholding Tax Moves"
                 editable="bottom"
                 create="1"
                 delete="0"
