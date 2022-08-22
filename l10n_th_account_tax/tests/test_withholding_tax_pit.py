@@ -124,10 +124,10 @@ class TestWithholdingTaxPIT(TransactionCase):
         res = self.invoice.action_register_payment()
         # Register payment, without PIT rate yet
         with self.assertRaises(UserError):
-            form = Form(self.RegisterPayment.with_context(res["context"]))
+            form = Form(self.RegisterPayment.with_context(**res["context"]))
         # Create an effective PIT Rate, and try again.
         self.pit_rate = self._create_pit("2001")
-        with Form(self.RegisterPayment.with_context(res["context"])) as f:
+        with Form(self.RegisterPayment.with_context(**res["context"])) as f:
             f.wht_tax_id = self.wht_pit  # Test refreshing wht_tax_id
         wizard = f.save()
         wizard.action_create_payments()
@@ -140,7 +140,7 @@ class TestWithholdingTaxPIT(TransactionCase):
         self.invoice = self._create_invoice(data)
         self.invoice.action_post()
         res = self.invoice.action_register_payment()
-        form = Form(self.RegisterPayment.with_context(res["context"]))
+        form = Form(self.RegisterPayment.with_context(**res["context"]))
         wizard = form.save()
         wizard.action_create_payments()
         # Sum up amount_income and withholding amount = 10
@@ -152,7 +152,7 @@ class TestWithholdingTaxPIT(TransactionCase):
         self.invoice = self._create_invoice(data)
         self.invoice.action_post()
         res = self.invoice.action_register_payment()
-        form = Form(self.RegisterPayment.with_context(res["context"]))
+        form = Form(self.RegisterPayment.with_context(**res["context"]))
         wizard = form.save()
         res = wizard.action_create_payments()
         # Sum up amount_income and withholding amount = 10 + 30 = 40

@@ -47,7 +47,7 @@
         <field name="name">view.withholding.tax.income.code.tree</field>
         <field name="model">withholding.tax.code.income</field>
         <field name="arch" type="xml">
-            <tree string="WHT Income">
+            <tree>
                 <field name="code" />
                 <field name="name" />
                 <field name="income_tax_form" optional="show" />
