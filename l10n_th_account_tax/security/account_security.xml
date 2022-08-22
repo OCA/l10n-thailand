@@ -1,0 +1,18 @@
+<data noupdate="1">
+    <record id="withholding_tax_rule" model="ir.rule">
+        <field name="name">Withholding Tax</field>
+        <field name="model_id" ref="model_withholding_tax_cert" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('company_id','=',False),('company_id','in',company_ids)]
+        </field>
+    </record>
+    <record id="withholding_tax_line_rule" model="ir.rule">
+        <field name="name">Withholding Tax Line</field>
+        <field name="model_id" ref="model_withholding_tax_cert_line" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('company_id','=',False),('company_id','in',company_ids)]
+        </field>
+    </record>
+</data>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="thailand_pit" model="personal.income.tax">
+        <field name="active" eval="True" />
+    </record>
+
+    <record id="thailand_pit_rate_0" model="personal.income.tax.rate">
+        <field name="pit_id" ref="l10n_th_account_tax.thailand_pit" />
+        <field name="sequence">1</field>
+        <field name="income_from">0.0</field>
+        <field name="income_to">150000.0</field>
+        <field name="tax_rate">0.0</field>
+    </record>
+
+    <record id="thailand_pit_rate_5" model="personal.income.tax.rate">
+        <field name="pit_id" ref="l10n_th_account_tax.thailand_pit" />
+        <field name="sequence">2</field>
+        <field name="income_from">150000.0</field>
+        <field name="income_to">300000.0</field>
+        <field name="tax_rate">5.0</field>
+    </record>
+
+    <record id="thailand_pit_rate_10" model="personal.income.tax.rate">
+        <field name="pit_id" ref="l10n_th_account_tax.thailand_pit" />
+        <field name="sequence">3</field>
+        <field name="income_from">300000.0</field>
+        <field name="income_to">500000.0</field>
+        <field name="tax_rate">10.0</field>
+    </record>
+
+    <record id="thailand_pit_rate_15" model="personal.income.tax.rate">
+        <field name="pit_id" ref="l10n_th_account_tax.thailand_pit" />
+        <field name="sequence">4</field>
+        <field name="income_from">500000.0</field>
+        <field name="income_to">750000.0</field>
+        <field name="tax_rate">15.0</field>
+    </record>
+
+    <record id="thailand_pit_rate_20" model="personal.income.tax.rate">
+        <field name="pit_id" ref="l10n_th_account_tax.thailand_pit" />
+        <field name="sequence">5</field>
+        <field name="income_from">750000.0</field>
+        <field name="income_to">1000000.0</field>
+        <field name="tax_rate">20.0</field>
+    </record>
+
+    <record id="thailand_pit_rate_25" model="personal.income.tax.rate">
+        <field name="pit_id" ref="l10n_th_account_tax.thailand_pit" />
+        <field name="sequence">6</field>
+        <field name="income_from">1000000.0</field>
+        <field name="income_to">2000000.0</field>
+        <field name="tax_rate">25.0</field>
+    </record>
+
+    <record id="thailand_pit_rate_30" model="personal.income.tax.rate">
+        <field name="pit_id" ref="l10n_th_account_tax.thailand_pit" />
+        <field name="sequence">7</field>
+        <field name="income_from">2000000.0</field>
+        <field name="income_to">4000000.0</field>
+        <field name="tax_rate">30.0</field>
+    </record>
+
+    <record id="thailand_pit_rate_35" model="personal.income.tax.rate">
+        <field name="pit_id" ref="l10n_th_account_tax.thailand_pit" />
+        <field name="sequence">7</field>
+        <field name="income_from">4000000.0</field>
+        <field name="income_to">99999999999.0</field>
+        <field name="tax_rate">35.0</field>
+    </record>
+
+</odoo>
