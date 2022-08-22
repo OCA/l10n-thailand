@@ -246,7 +246,7 @@ class TestTaxInvoice(SingleTransactionCase):
         ctx = action.get("context")
 
         # Make full payment from invoice
-        with Form(self.env["account.payment.register"].with_context(ctx)) as f:
+        with Form(self.env["account.payment.register"].with_context(**ctx)) as f:
             f.journal_id = self.journal_bank
         payment_wiz = f.save()
         res = payment_wiz.action_create_payments()
@@ -260,11 +260,6 @@ class TestTaxInvoice(SingleTransactionCase):
         payment.tax_invoice_ids.write(
             {"tax_invoice_number": tax_invoice, "tax_invoice_date": tax_date}
         )
-        # Test for wrong tax amount
-        payment.tax_invoice_ids.write({"balance": 6.0})
-        with self.assertRaises(UserError):
-            payment.clear_tax_cash_basis()
-        payment.tax_invoice_ids.write({"balance": 7.0})
         payment.clear_tax_cash_basis()
         # Cash basis journal is now posted
         self.assertEqual(payment.tax_invoice_ids.mapped("move_id").state, "posted")
@@ -290,7 +285,7 @@ class TestTaxInvoice(SingleTransactionCase):
         action = self.customer_invoice_undue_vat.action_register_payment()
         ctx = action.get("context")
         # Make full payment from invoice
-        with Form(self.env["account.payment.register"].with_context(ctx)) as f:
+        with Form(self.env["account.payment.register"].with_context(**ctx)) as f:
             f.journal_id = self.journal_bank
         payment_wiz = f.save()
         res = payment_wiz.action_create_payments()
@@ -334,7 +329,7 @@ class TestTaxInvoice(SingleTransactionCase):
         # Make full payment from invoice
         action = self.customer_invoice_undue_vat_seq.action_register_payment()
         ctx = action.get("context")
-        with Form(self.env["account.payment.register"].with_context(ctx)) as f:
+        with Form(self.env["account.payment.register"].with_context(**ctx)) as f:
             f.journal_id = self.journal_bank
         payment_wiz = f.save()
         res = payment_wiz.action_create_payments()
@@ -373,14 +368,6 @@ class TestTaxInvoice(SingleTransactionCase):
         cash_basis_entries = self.env["account.move"].search(
             [("ref", "in", [invoice.name, refund.name])]
         )
-        cash_basis_entries.action_post()
-        # Not yet add tax invoice number, posting not affected
-        self.assertEqual(cash_basis_entries[0].state, "draft")
-        self.assertEqual(cash_basis_entries[1].state, "draft")
-        for tax_invoice in cash_basis_entries.mapped("tax_invoice_ids"):
-            tax_invoice.tax_invoice_number = "/"
-            tax_invoice.tax_invoice_date = fields.Date.today()
-        # After tax invoice is filled, can now posted
-        cash_basis_entries.action_post()
-        self.assertEqual(cash_basis_entries[0].state, "posted")
-        self.assertEqual(cash_basis_entries[1].state, "posted")
+        for move in cash_basis_entries:
+            with self.assertRaises(UserError):
+                move.action_post()
