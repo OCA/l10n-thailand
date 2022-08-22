@@ -178,33 +178,33 @@ class BankPaymentExport(models.Model):
             "{receiver_info}{receiver_id}{receiver_name}{sender_name}{space}"
             "{ref_running_number}09{email}{sms}0000{filter}\r\n".format(
                 idx="1".zfill(6),  # 1 Batch = 1 File, How we can add more than 1 batch?
-                receiver_bank_code=receiver_bank_code.zfill(3),  # 10-12
-                receiver_branch_code=receiver_branch_code.zfill(4),  # 13-16
+                receiver_bank_code=receiver_bank_code[:3].zfill(3),  # 10-12
+                receiver_branch_code=receiver_branch_code[:4].zfill(4),  # 13-16
                 receiver_acc_number=receiver_acc_number,  # 17-27
-                sender_bank_code=sender_bank_code.zfill(3),  # 28-30
-                sender_branch_code=sender_branch_code.zfill(4),  # 31-34
-                sender_acc_number=sender_acc_number.zfill(11),  # 35-45
+                sender_bank_code=sender_bank_code[:3].zfill(3),  # 28-30
+                sender_branch_code=sender_branch_code[:4].zfill(4),  # 31-34
+                sender_acc_number=sender_acc_number[:11].zfill(11),  # 35-45
                 effective_date=self.effective_date.strftime("%d%m%Y"),  # 46-53
                 ktb_service_type=ktb_service_type,  # 54-55
                 payment_net_amount_bank=payment_net_amount_bank  # 58-74
-                and str(payment_net_amount_bank).zfill(17)
+                and str(payment_net_amount_bank)[:17].zfill(17)
                 or "0".zfill(17),
                 receiver_info="".ljust(8),  # 75-82
                 receiver_id="0".zfill(10),  # 83-92
                 receiver_name=receiver_name  # 93-192
-                and receiver_name.ljust(100)
-                or "".ljust(100),  # 192
-                sender_name=sender_name.ljust(100),  # 193-292
+                and receiver_name[:100].ljust(100)
+                or "".ljust(100),
+                sender_name=sender_name[:100].ljust(100),  # 193-292
                 space="".ljust(
                     100
                 ),  # other info1, 2, dda ref1, 2 and reverse (40+18+18+20+4) # 293-392
                 ref_running_number=str(idx + 1).zfill(6),  # 393-398
                 # TODO: ref from odoo
                 email=pe_line.payment_partner_id.email  # 401-440
-                and pe_line.payment_partner_id.email.ljust(40)
+                and pe_line.payment_partner_id.email[:40].ljust(40)
                 or "".ljust(40),
                 sms=pe_line.payment_partner_id.phone  # 441-460
-                and pe_line.payment_partner_id.phone.ljust(20)
+                and pe_line.payment_partner_id.phone[:20].ljust(20)
                 or "".ljust(20),
                 filter="".ljust(34),
             )
