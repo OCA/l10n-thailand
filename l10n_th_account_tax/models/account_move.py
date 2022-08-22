@@ -15,8 +15,8 @@ class AccountMoveTaxInvoice(models.Model):
     _name = "account.move.tax.invoice"
     _description = "Tax Invoice Info"
 
-    tax_invoice_number = fields.Char(string="Tax Invoice Number", copy=False)
-    tax_invoice_date = fields.Date(string="Tax Invoice Date", copy=False)
+    tax_invoice_number = fields.Char(copy=False)
+    tax_invoice_date = fields.Date(copy=False)
     report_late_mo = fields.Selection(
         [
             ("0", "0 month"),
@@ -232,7 +232,16 @@ class AccountMoveLine(models.Model):
         TaxInvoice = self.env["account.move.tax.invoice"]
         sign = self.env.context.get("reverse_tax_invoice") and -1 or 1
         for line in move_lines:
-            if (line.tax_line_id and line.tax_exigible) or line.manual_tax_invoice:
+            is_tax_invoice = (
+                True
+                if line.tax_line_id
+                and (
+                    line.tax_line_id.tax_exigibility == "on_invoice"
+                    or line.move_id.tax_cash_basis_origin_move_id
+                )
+                else False
+            )
+            if is_tax_invoice or line.manual_tax_invoice:
                 tax_base_amount = line._get_tax_base_amount(sign, vals_list)
                 taxinv = TaxInvoice.create(
                     {
@@ -397,12 +406,6 @@ class AccountMove(models.Model):
     )
     has_wht = fields.Boolean(
         compute="_compute_has_wht",
-    )
-    tax_cash_basis_move_ids = fields.One2many(
-        comodel_name="account.move",
-        inverse_name="tax_cash_basis_move_id",
-        string="Tax Cash Basis Entries",
-        help="Related tax cash basis of this journal entry",
     )
 
     def _compute_has_wht(self):

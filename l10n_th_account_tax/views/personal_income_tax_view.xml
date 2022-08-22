@@ -4,7 +4,7 @@
         <field name="name">view.personal.income.tax.tree</field>
         <field name="model">personal.income.tax</field>
         <field name="arch" type="xml">
-            <tree string="PIT Rate Table">
+            <tree>
                 <field name="calendar_year" />
                 <field name="effective_date" />
             </tree>
@@ -15,7 +15,7 @@
         <field name="name">view.personal.income.tax.form</field>
         <field name="model">personal.income.tax</field>
         <field name="arch" type="xml">
-            <form string="PIT Rate Table">
+            <form>
                 <sheet>
                     <widget
                         name="web_ribbon"

@@ -16,7 +16,6 @@ class PersonalIncomeTax(models.Model):
         default=lambda self: fields.Date.context_today(self).strftime("%Y"),
     )
     effective_date = fields.Date(
-        string="Effective Date",
         compute="_compute_effective_date",
         store=True,
     )
