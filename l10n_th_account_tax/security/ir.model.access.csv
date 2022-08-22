@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_move_tax_invoice_invoice,account.move.tax.invoice invoice,model_account_move_tax_invoice,account.group_account_invoice,1,1,1,1
+access_account_move_tax_invoice_portal,account.move.tax.invoice portal,model_account_move_tax_invoice,base.group_portal,1,0,0,0
+access_account_move_tax_invoice_user,account.move.tax.invoice user,model_account_move_tax_invoice,base.group_user,1,1,1,0
+access_account_withholding_tax,account.withholding.tax,model_account_withholding_tax,account.group_account_invoice,1,1,1,1
+access_account_withholding_tax_user,account.withholding.tax.user,model_account_withholding_tax,base.group_user,1,0,0,0
+access_personal_income_tax,access_personal_income_tax,model_personal_income_tax,account.group_account_user,1,1,1,1
+access_personal_income_tax_user,access_personal_income_tax_user,model_personal_income_tax,,1,0,0,0
+access_personal_income_tax_rate,access_personal_income_tax_rate,model_personal_income_tax_rate,account.group_account_user,1,1,1,1
+access_personal_income_tax_rate_user,access_personal_income_tax_rate_user,model_personal_income_tax_rate,,1,0,0,0
+access_account_withholding_move,access_account_withholding_move,model_account_withholding_move,account.group_account_invoice,1,1,1,1
+access_account_withholding_move_user,access_account_withholding_move_user,model_account_withholding_move,base.group_user,1,1,1,0
+access_withholding_tax_cert,withholding.tax.cert,model_withholding_tax_cert,account.group_account_invoice,1,1,1,1
+access_withholding_tax_cert_line,withholding.tax.cert.line,model_withholding_tax_cert_line,account.group_account_invoice,1,1,1,1
+access_withholding_tax_cert_user,withholding.tax.cert.user,model_withholding_tax_cert,base.group_user,1,1,1,0
+access_withholding_tax_cert_line_user,withholding.tax.cert.line.user,model_withholding_tax_cert_line,base.group_user,1,1,1,0
+access_withholding_tax_code_income,access_withholding_tax_code_income,model_withholding_tax_code_income,account.group_account_invoice,1,1,1,1
