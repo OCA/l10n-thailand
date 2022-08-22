@@ -181,5 +181,5 @@ class AccountPaymentRegister(models.TransientModel):
         if self.payment_difference_handling == "reconcile":
             context = self.env.context.copy()
             context.update({"skip_account_move_synchronization": True})
-            self = self.with_context(context)
+            self = self.with_context(**context)
         return super().action_create_payments()
