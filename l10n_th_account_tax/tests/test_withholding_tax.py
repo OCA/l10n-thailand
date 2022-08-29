@@ -218,9 +218,7 @@ class TestWithholdingTax(TransactionCase):
         self.assertEqual(register_payment.payment_difference, price_unit * 0.03)
         self.assertEqual(register_payment.writeoff_label, "Withholding Tax 3%")
         action_payment = register_payment.action_create_payments()
-        payment = self.env[action_payment["res_model"]].browse(
-            action_payment["res_id"]
-        )
+        payment = self.env[action_payment["res_model"]].browse(action_payment["res_id"])
         self.assertEqual(payment.state, "posted")
         self.assertEqual(payment.amount, price_unit * 0.97)
         # Create WHT Cert from Payment
