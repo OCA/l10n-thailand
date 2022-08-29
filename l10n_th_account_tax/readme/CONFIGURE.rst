@@ -1,5 +1,5 @@
-Tax Invoice
-===========
+Tax Invoices
+============
 
 **Preparing Undue Tax**
 
