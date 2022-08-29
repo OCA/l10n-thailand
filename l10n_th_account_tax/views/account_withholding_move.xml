@@ -5,11 +5,7 @@
         <field name="name">view.account.withholding.move.tree</field>
         <field name="model">account.withholding.move</field>
         <field name="arch" type="xml">
-            <tree
-                editable="bottom"
-                create="1"
-                delete="0"
-            >
+            <tree editable="bottom" create="1" delete="0">
                 <field name="partner_id" optional="hide" />
                 <field name="payment_id" />
                 <field name="date" optional="show" />
