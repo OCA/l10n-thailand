@@ -32,7 +32,6 @@ class AccountMoveTaxInvoice(models.Model):
         required=True,
     )
     report_date = fields.Date(
-        string="Report Date",
         compute="_compute_report_date",
         store=True,
     )
