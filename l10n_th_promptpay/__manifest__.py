@@ -2,7 +2,7 @@
 # Licensed AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 {
     "name": "Thai Localization - PromptPay",
-    "version": "14.0.1.0.0",
+    "version": "15.0.1.0.0",
     "author": "Poonlap V.,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-thailand",
     "license": "AGPL-3",
