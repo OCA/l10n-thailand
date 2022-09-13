@@ -7,9 +7,7 @@ from odoo import fields, models
 class ResCityZip(models.Model):
     _inherit = "res.city.zip"
 
-    district_code = fields.Char(
-        string="District Code", help="This field is Amphoe (District) code in Thailand"
-    )
+    district_code = fields.Char(help="This field is Amphoe (District) code in Thailand")
     sub_district_code = fields.Char(
         string="Sub-District Code",
         help="This field is Tambon (Sub-District) code in Thailand",
