@@ -21,7 +21,7 @@ class TestBaseLocation(common.TransactionCase):
         self.zip_id = self.env["res.city.zip"]
         self.import_th_lang_th = (
             self.env["city.zip.geonames.import"]
-            .with_context({"import_test": True})
+            .with_context(import_test=True)
             .create(
                 {
                     "country_ids": [(6, 0, [self.thailand.id])],
@@ -31,7 +31,7 @@ class TestBaseLocation(common.TransactionCase):
         )
         self.import_th_lang_en = (
             self.env["city.zip.geonames.import"]
-            .with_context({"import_test": True})
+            .with_context(import_test=True)
             .create(
                 {
                     "country_ids": [(6, 0, [self.thailand.id])],
@@ -60,7 +60,7 @@ class TestBaseLocation(common.TransactionCase):
         """Test Import NOT Thailand Location"""
         import_be = (
             self.env["city.zip.geonames.import"]
-            .with_context({"import_test": True})
+            .with_context(import_test=True)
             .create(
                 {
                     "country_ids": [(6, 0, [self.belgium.id])],
