@@ -1,3 +1,5 @@
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
+
 from datetime import datetime
 
 import pytz
@@ -62,8 +64,8 @@ class IrSequence(models.Model):
         try:
             interpolated_prefix = (self.prefix % d) if self.prefix else ""
             interpolated_suffix = (self.suffix % d) if self.suffix else ""
-        except KeyError:
+        except KeyError as e:
             raise UserError(
-                _("Invalid prefix or suffix for sequence '%s'") % (self.get("name"))
-            )
+                _("Invalid prefix or suffix for sequence '%s'") % (self.name)
+            ) from e
         return interpolated_prefix, interpolated_suffix
