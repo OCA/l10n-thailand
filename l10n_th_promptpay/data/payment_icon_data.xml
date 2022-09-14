@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="payment_icon_promptpay" model="payment.icon">
+        <field name="name">PromptPay</field>
+        <field
+            name="image"
+            type="base64"
+            file="l10n_th_promptpay/static/img/promptpay_logo.png"
+        />
+    </record>
+    <record id="payment_icon_bbl" model="payment.icon">
+        <field name="name">Bangkok Bank</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/bbl.png" />
+    </record>
+    <record id="payment_icon_kbank" model="payment.icon">
+        <field name="name">Kasikornbank</field>
+        <field
+            name="image"
+            type="base64"
+            file="l10n_th_promptpay/static/img/kbank.png"
+        />
+    </record>
+    <record id="payment_icon_rbs" model="payment.icon">
+        <field name="name">Royal Bank of Scotland</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/rbs.png" />
+    </record>
+    <record id="payment_icon_ktb" model="payment.icon">
+        <field name="name">Krungthai Bank</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/ktb.png" />
+    </record>
+    <record id="payment_icon_jpm" model="payment.icon">
+        <field name="name">J.P. Morgan</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/jpm.png" />
+    </record>
+    <record id="payment_icon_mufg" model="payment.icon">
+        <field name="name">Bank of Tokyo-Mitsubishi UFJ</field>
+        <field
+            name="image"
+            type="base64"
+            file="l10n_th_promptpay/static/img/mufg.png"
+        />
+    </record>
+    <record id="payment_icon_tmb" model="payment.icon">
+        <field name="name">TMB Bank</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/tmb.png" />
+    </record>
+    <record id="payment_icon_scb" model="payment.icon">
+        <field name="name">Siam Commercial Bank</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/scb.png" />
+    </record>
+    <record id="payment_icon_citi" model="payment.icon">
+        <field name="name">Citibank</field>
+        <field
+            name="image"
+            type="base64"
+            file="l10n_th_promptpay/static/img/citi.png"
+        />
+    </record>
+    <record id="payment_icon_smbc" model="payment.icon">
+        <field name="name">Sumitomo Mitsui Banking Corporation</field>
+        <field
+            name="image"
+            type="base64"
+            file="l10n_th_promptpay/static/img/smbc.png"
+        />
+    </record>
+    <record id="payment_icon_sc" model="payment.icon">
+        <field name="name">Standard Chartered (Thai)</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/sc.png" />
+    </record>
+    <record id="payment_icon_cimb" model="payment.icon">
+        <field name="name">CIMB Thai Bank</field>
+        <field
+            name="image"
+            type="base64"
+            file="l10n_th_promptpay/static/img/cimb.png"
+        />
+    </record>
+    <record id="payment_icon_uob" model="payment.icon">
+        <field name="name">United Overseas Bank (Thai)</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/uob.png" />
+    </record>
+    <record id="payment_icon_bay" model="payment.icon">
+        <field name="name">Bank of Ayudhya (Krungsri)</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/bay.png" />
+    </record>
+    <record id="payment_icon_mega" model="payment.icon">
+        <field name="name">Mega International Commercial Bank</field>
+        <field
+            name="image"
+            type="base64"
+            file="l10n_th_promptpay/static/img/mega.png"
+        />
+    </record>
+    <record id="payment_icon_boa" model="payment.icon">
+        <field name="name">Bank of America</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/boa.png" />
+    </record>
+    <record id="payment_icon_cacib" model="payment.icon">
+        <field name="name">Crédit Agricole</field>
+        <field
+            name="image"
+            type="base64"
+            file="l10n_th_promptpay/static/img/cacib.png"
+        />
+    </record>
+    <record id="payment_icon_gsb" model="payment.icon">
+        <field name="name">Government Savings Bank</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/gsb.png" />
+    </record>
+    <record id="payment_icon_hsbc" model="payment.icon">
+        <field name="name">Hongkong and Shanghai Banking Corporation</field>
+        <field
+            name="image"
+            type="base64"
+            file="l10n_th_promptpay/static/img/hsbc.png"
+        />
+    </record>
+    <record id="payment_icon_db" model="payment.icon">
+        <field name="name">Deutsche Bank</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/db.png" />
+    </record>
+    <record id="payment_icon_ghb" model="payment.icon">
+        <field name="name">Government Housing Bank</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/ghb.png" />
+    </record>
+    <record id="payment_icon_baac" model="payment.icon">
+        <field name="name">Bank for Agriculture and Agricultural Cooperatives</field>
+        <field
+            name="image"
+            type="base64"
+            file="l10n_th_promptpay/static/img/baac.png"
+        />
+    </record>
+    <record id="payment_icon_mb" model="payment.icon">
+        <field name="name">Mizuho Bank</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/mb.png" />
+    </record>
+    <record id="payment_icon_bnp" model="payment.icon">
+        <field name="name">BNP Paribas</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/bnp.png" />
+    </record>
+    <record id="payment_icon_tbank" model="payment.icon">
+        <field name="name">Thanachart Bank</field>
+        <field
+            name="image"
+            type="base64"
+            file="l10n_th_promptpay/static/img/tbank.png"
+        />
+    </record>
+    <record id="payment_icon_ibank" model="payment.icon">
+        <field name="name">Islamic Bank of Thailand</field>
+        <field
+            name="image"
+            type="base64"
+            file="l10n_th_promptpay/static/img/ibank.png"
+        />
+    </record>
+    <record id="payment_icon_tisco" model="payment.icon">
+        <field name="name">Tisco Bank</field>
+        <field
+            name="image"
+            type="base64"
+            file="l10n_th_promptpay/static/img/tisco.png"
+        />
+    </record>
+    <record id="payment_icon_kk" model="payment.icon">
+        <field name="name">Kiatnakin Bank</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/kk.png" />
+    </record>
+    <record id="payment_icon_icbc" model="payment.icon">
+        <field name="name">Industrial and Commercial Bank of China (Thai)</field>
+        <field
+            name="image"
+            type="base64"
+            file="l10n_th_promptpay/static/img/icbc.png"
+        />
+    </record>
+    <record id="payment_icon_tcrb" model="payment.icon">
+        <field name="name">Thai Credit Retail Bank</field>
+        <field
+            name="image"
+            type="base64"
+            file="l10n_th_promptpay/static/img/tcrb.png"
+        />
+    </record>
+    <record id="payment_icon_lhb" model="payment.icon">
+        <field name="name">Land and Houses Bank</field>
+        <field name="image" type="base64" file="l10n_th_promptpay/static/img/lhb.png" />
+    </record>
+    <record id="payment_icon_thaiqr" model="payment.icon">
+        <field name="name">Thai QR Payment</field>
+        <field
+            name="image"
+            type="base64"
+            file="l10n_th_promptpay/static/img/thai_qr_payment.png"
+        />
+    </record>
+</odoo>
