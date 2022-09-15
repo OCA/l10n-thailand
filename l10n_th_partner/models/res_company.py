@@ -18,7 +18,11 @@ class ResCompany(models.Model):
         """Automation update name when you config no_space_title_name"""
         res = super().write(vals)
         if "no_space_title_name" in vals:
-            personal_partners = self.env["res.partner"].search([("title", "!=", False)])
+            personal_partners = (
+                self.env["res.partner"]
+                .search([("title", "!=", False)])
+                .with_context(skip_inverse_name=True)
+            )
             for partner in personal_partners:
                 partner.name = partner._get_computed_name(
                     partner.lastname, partner.firstname
