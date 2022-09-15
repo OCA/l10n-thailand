@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
-
-        <record id="ir_sequence_form_inherit" model="ir.ui.view">
-            <field name="name">sequence_view_inherit</field>
-            <field name="model">ir.sequence</field>
-            <field name="inherit_id" ref="base.sequence_view" />
-            <field name="priority" eval="60" />
-            <field name="arch" type="xml">
-                <xpath expr="//page/group[2]/group[2]/span[last()]" position="after">
-                    <span colspan="2">Company branch number (5-digit): %%(b5)s</span>
-                    <span colspan="2">Company branch number (4-digit): %%(b4)s</span>
-                    <span colspan="2">Company branch number (3-digit): %%(b3)s</span>
-                    <span colspan="2">Company branch number (2-digit): %%(b2)s</span>
-                    <span colspan="2">Company branch number (1-digit): %%(b1)s</span>
-                </xpath>
-            </field>
-        </record>
-    </data>
+    <record id="ir_sequence_form_inherit" model="ir.ui.view">
+        <field name="name">sequence_view_inherit</field>
+        <field name="model">ir.sequence</field>
+        <field name="inherit_id" ref="base.sequence_view" />
+        <field name="priority" eval="60" />
+        <field name="arch" type="xml">
+            <xpath expr="//page/group[2]/group[2]/span[last()]" position="after">
+                <span colspan="2">Company branch number (5-digit): %%(b5)s</span>
+                <span colspan="2">Company branch number (4-digit): %%(b4)s</span>
+                <span colspan="2">Company branch number (3-digit): %%(b3)s</span>
+                <span colspan="2">Company branch number (2-digit): %%(b2)s</span>
+                <span colspan="2">Company branch number (1-digit): %%(b1)s</span>
+            </xpath>
+        </field>
+    </record>
 </odoo>
