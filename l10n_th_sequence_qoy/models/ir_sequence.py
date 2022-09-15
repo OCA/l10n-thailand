@@ -1,3 +1,5 @@
+# Licensed AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+
 from odoo import models
 
 
@@ -10,9 +12,7 @@ class IrSequenceQoy(models.Model):
     _inherit = "ir.sequence"
 
     def _interpolation_dict(self, date=None, date_range=None):
-        res = super(IrSequenceQoy, self)._interpolation_dict(
-            date=date, date_range=date_range
-        )
+        res = super()._interpolation_dict(date=date, date_range=date_range)
         res["qoy"] = str((int(res["month"]) - 1) // 3 + 1)
         res["range_qoy"] = str((int(res["range_month"]) - 1) // 3 + 1)
         res["current_qoy"] = str((int(res["current_month"]) - 1) // 3 + 1)
