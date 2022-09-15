@@ -1,3 +1,5 @@
+# Licensed AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+
 from odoo import api, fields, models
 
 
@@ -8,9 +10,9 @@ class IrSequencePreview(models.Model):
 
     _inherit = "ir.sequence"
 
-    preview = fields.Char("Preview", compute="_compute_preview")
+    preview = fields.Char(compute="_compute_preview")
 
-    @api.onchange(
+    @api.depends(
         "prefix",
         "suffix",
         "padding",

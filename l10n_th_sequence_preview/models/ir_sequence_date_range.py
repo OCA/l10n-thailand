@@ -1,3 +1,5 @@
+# Licensed AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+
 from odoo import api, fields, models
 
 from odoo.addons.base.models.ir_sequence import _predict_nextval
@@ -6,9 +8,9 @@ from odoo.addons.base.models.ir_sequence import _predict_nextval
 class IrSequenceDateRangePreview(models.Model):
     _inherit = "ir.sequence.date_range"
 
-    preview = fields.Char("Preview", compute="_compute_preview")
+    preview = fields.Char(compute="_compute_preview")
 
-    @api.onchange("date_to", "date_from", "number_next_actual")
+    @api.depends("date_to", "date_from", "number_next_actual")
     def _compute_preview(self):
         for record in self:
             record.preview = record.with_context(
