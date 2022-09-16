@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="action_send_wt_cert" model="ir.actions.act_window">
+    <record id="action_send_wht_cert" model="ir.actions.act_window">
         <field name="name">Send by email</field>
         <field name="res_model">mail.compose.message</field>
         <field name="view_mode">form</field>
@@ -13,7 +13,7 @@
             'mail_post_autofollow': True,
             'default_composition_mode': 'comment',
             'default_use_template': True,
-            'default_template_id': ref('l10n_th_withholding_tax_cert_form.wt_cert_email_template'),
+            'default_template_id': ref('l10n_th_account_wht_cert_form.wht_cert_email_template'),
             'custom_layout': 'mail.mail_notification_light',
         }"
         />

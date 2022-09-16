@@ -9,17 +9,23 @@
     "website": "https://github.com/OCA/l10n-thailand",
     "category": "Report",
     "depends": [
-        "web",
-        "l10n_th_withholding_tax_cert",
+        "l10n_th_account_tax",
         "l10n_th_amount_to_text",
         "l10n_th_fonts",
     ],
     "data": [
         "data/paper_format.xml",
         "reports/withholding_tax_cert_form_view.xml",
-        "reports/withholding_tax_cert_form.xml",
         "data/mail_template.xml",
         "data/withholding_tax_cert_data.xml",
+        "views/res_config_settings_views.xml",
     ],
+    "assets": {
+        "web.report_assets_common": [
+            "l10n_th_account_wht_cert_form/static/src/scss/style_report.scss",
+        ],
+    },
     "installable": True,
+    "development_status": "Beta",
+    "maintainers": ["Saran440"],
 }
