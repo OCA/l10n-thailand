@@ -14,18 +14,18 @@ Thai Localization - Withholding Tax Certificate Form
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-thailand/tree/14.0/l10n_th_withholding_tax_cert_form
+    :target: https://github.com/OCA/l10n-thailand/tree/15.0/l10n_th_account_wht_cert_form
     :alt: OCA/l10n-thailand
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-thailand-14-0/l10n-thailand-14-0-l10n_th_withholding_tax_cert_form
+    :target: https://translation.odoo-community.org/projects/l10n-thailand-15-0/l10n-thailand-15-0-l10n_th_account_wht_cert_form
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runbot-Try%20me-875A7B.png
-    :target: https://runbot.odoo-community.org/runbot/238/14.0
+    :target: https://runbot.odoo-community.org/runbot/238/15.0
     :alt: Try me on Runbot
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-This module add the Thailand standard withholding tax cert report to the WT Certificates menu.
+This module add the Thailand standard withholding tax cert report to the WHT Certificates menu.
 
 This module used :
 
@@ -39,8 +39,17 @@ This module used :
 Usage
 =====
 
-#. Go to *Invoicing > Vendors > WT Certificates*
-#. Select document > Print 'WT Certificates (pdf)'
+After you install this module, you can print withholding tax cert form with A4 following:
+
+#. Go to *Invoicing > Vendors > WHT Certificates*
+#. Select document > Print 'WHT Certificates (pdf)'
+
+**NOTE**: By using the pre-print manual, you can customize the following withholding tax cert form.
+
+#. Go to *Invoicing > Configuration > Settings*
+#. Select Preprint - Withholding Tax Cert Form, It will change layout to Pre-Print Format and you can inherit for custom pages using template
+
+    ``<template id="withholding_layout_preprint_report" />``
 
 Bug Tracker
 ===========
@@ -48,7 +57,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-thailand/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_withholding_tax_cert_form%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_account_wht_cert_form%0Aversion:%2015.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -79,6 +88,14 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/14.0/l10n_th_withholding_tax_cert_form>`_ project on GitHub.
+.. |maintainer-Saran440| image:: https://github.com/Saran440.png?size=40px
+    :target: https://github.com/Saran440
+    :alt: Saran440
+
+Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
+
+|maintainer-Saran440| 
+
+This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/15.0/l10n_th_account_wht_cert_form>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
