@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_form" model="ir.ui.view">
+        <field name="name">view.account.form</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_form" />
+        <field name="arch" type="xml">
+            <field name="deprecated" position="before">
+                <field name="wht_account" groups="account.group_account_manager" />
+            </field>
+        </field>
+    </record>
+    <record id="view_tax_form_inherited" model="ir.ui.view">
+        <field name="name">account.tax.form.inherited</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form" />
+        <field name="arch" type="xml">
+            <field name="type_tax_use" position="after">
+                <field
+                    name="taxinv_sequence_id"
+                    attrs="{'invisible': [('type_tax_use', '!=', 'sale')]}"
+                    context="{'default_implementation': 'no_gap', 'default_name': name, 'default_padding': 4, 'default_use_date_range': True}"
+                />
+                <field
+                    name="sequence_number_next"
+                    attrs="{'invisible': ['|', ('type_tax_use', '!=', 'sale'), ('taxinv_sequence_id', '=', False)]}"
+                />
+            </field>
+        </field>
+    </record>
+
+</odoo>

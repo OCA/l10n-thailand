@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="withholding_tax_pnd1_401n" model="withholding.tax.code.income">
+        <field name="name">เงินได้มาตรา 40(1) เงินเดือน ค่าจ้าง กรณีทั่วไป</field>
+        <field name="code">401N</field>
+        <field name="income_tax_form">pnd1</field>
+        <field name="wht_cert_income_type">1</field>
+    </record>
+    <record id="withholding_tax_pnd1_4012" model="withholding.tax.code.income">
+        <field
+            name="name"
+        >เงินได้มาตรา 40(1)(2) กรณีนายจ้างจ่ายให้ครั้งเดียวเพราะเหตุออกจากงาน</field>
+        <field name="code">4012</field>
+        <field name="income_tax_form">pnd1</field>
+        <field name="wht_cert_income_type">1</field>
+
+    </record>
+    <record id="withholding_tax_pnd1_402I" model="withholding.tax.code.income">
+        <field
+            name="name"
+        >เงินได้มาตรา 40(2) กรณีผู้มีเงินได้เป็นผู้อยู่ในประเทศไทย</field>
+        <field name="code">402I</field>
+        <field name="income_tax_form">pnd1</field>
+        <field name="wht_cert_income_type">2</field>
+    </record>
+    <record id="withholding_tax_pnd1_402E" model="withholding.tax.code.income">
+        <field
+            name="name"
+        >เงินได้มาตรา 40(2) กรณีผู้มีเงินได้มิได้เป็นผู้อยู่ในประเทศไทย</field>
+        <field name="code">402E</field>
+        <field name="income_tax_form">pnd1</field>
+        <field name="wht_cert_income_type">2</field>
+    </record>
+</odoo>
