@@ -5,16 +5,18 @@ from num2words import num2words
 
 from odoo import models, tools
 
-CURRENCY_NAME = {"Dollars": "ดอลลาร์", "Euros": "ยูโร", "Cents": "เซนต์"}
-
 
 class Currency(models.Model):
     _inherit = "res.currency"
 
-    def _convert_currency_name_hook(self, label):
+    def _get_currency_name_hook(self):
         """Hooks to add currency translate.
         Currently, there are 2 currency are USD and EUR"""
-        return CURRENCY_NAME[label]
+        return {"Dollars": "ดอลลาร์", "Euros": "ยูโร", "Cents": "เซนต์"}
+
+    def _convert_currency_name_hook(self, label):
+        dict_currency_name = self._get_currency_name_hook()
+        return dict_currency_name[label]
 
     def amount_to_text(self, amount):
         self.ensure_one()
