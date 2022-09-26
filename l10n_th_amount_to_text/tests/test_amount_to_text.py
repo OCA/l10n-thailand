@@ -34,3 +34,18 @@ class TestAmountToText(TransactionCase):
         self.assertEqual(
             amount_text_eur, "One Thousand And Fifty Euros and Seventy-Five Cents"
         )
+
+    def test_03_currency_eur_amount_to_text_th(self):
+        """verify that amount_to_text works as thai text with foreign currency"""
+        currency = self.env.ref("base.EUR")
+        amount = 1050.75
+        amount_text_eur = currency.with_context(lang="th_TH").amount_to_text(amount)
+        try:
+            # check version num2words need 0.5.7+
+            num2words(amount, to="currency", lang="th")
+            self.assertEqual(amount_text_eur, "หนึ่งพันห้าสิบยูโรเจ็ดสิบห้าเซนต์")
+        except NotImplementedError:
+            # num2words version 0.5.6 (core odoo)
+            self.assertEqual(
+                amount_text_eur, "One Thousand And FiftyยูโรSeventy-Fiveเซนต์"
+            )
