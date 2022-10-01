@@ -287,6 +287,7 @@ class BankPaymentExport(models.Model):
         return ctx
 
     def _check_constraint_create_bank_payment_export(self, payments):
+        super()._check_constraint_create_bank_payment_export(payments)
         payment_bic_bank = list(set(payments.mapped("journal_id.bank_id.bic")))
         payment_bank = len(payment_bic_bank) == 1 and payment_bic_bank[0] or ""
         # Check case KTB must have 1 journal / 1 PE
