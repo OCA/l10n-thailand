@@ -55,13 +55,20 @@
                     groups="account.group_account_invoice"
                 />
             </button>
-            <field name="account_move_id" position="after">
-                <field
-                    name="wht_move_id"
-                    attrs="{'invisible': [('wht_move_id', '=', False)]}"
+            <field name="account_move_id" invisible="1" />
+            <xpath expr="//field[@name='account_move_id']" position="after">
+                <field name="wht_move_id" invisible="1" />
+                <button
+                    name="action_open_wht_move"
+                    class="oe_stat_button"
+                    icon="fa-file-text-o"
+                    type="object"
+                    attrs="{'invisible': ['|', ('state', 'not in', ['post', 'done']), ('wht_move_id', '=', False)]}"
                     groups="account.group_account_invoice,account.group_account_readonly"
-                />
-            </field>
+                >
+                    WHT
+                </button>
+            </xpath>
             <xpath
                 expr="//field[@name='expense_line_ids']/tree/field[@name='tax_ids']"
                 position="after"

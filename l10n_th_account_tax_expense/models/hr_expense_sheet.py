@@ -116,3 +116,14 @@ class HrExpenseSheet(models.Model):
         if self.filtered("advance_sheet_id"):
             action["context"].update({"skip_wht_deduct": True})
         return action
+
+    def action_open_wht_move(self):
+        self.ensure_one()
+        return {
+            "name": self.wht_move_id.name,
+            "type": "ir.actions.act_window",
+            "view_type": "form",
+            "view_mode": "form",
+            "res_model": "account.move",
+            "res_id": self.wht_move_id.id,
+        }
