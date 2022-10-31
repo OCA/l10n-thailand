@@ -26,13 +26,14 @@ class TestAccountEntry(TestExpenseCommon):
             {"name": "V7", "code": "V7", "user_type_id": type_current_liability.id}
         )
         self.tax_group_vat = self.env["account.tax.group"].create({"name": "VAT"})
-        self.input_vat = self.env["account.tax"].create(
+        self.input_vat_include = self.env["account.tax"].create(
             {
                 "name": "V7",
                 "type_tax_use": "purchase",
                 "amount_type": "percent",
                 "amount": 7.0,
                 "tax_group_id": self.tax_group_vat.id,
+                "price_include": True,
                 "tax_exigibility": "on_invoice",
                 "invoice_repartition_line_ids": [
                     (0, 0, {"factor_percent": 100.0, "repartition_type": "base"}),
@@ -54,7 +55,7 @@ class TestAccountEntry(TestExpenseCommon):
                 "standard_price": 700,
                 "list_price": 700,
                 "type": "consu",
-                "supplier_taxes_id": [(6, 0, [self.input_vat.id])],
+                "supplier_taxes_id": [(6, 0, [self.input_vat_include.id])],
                 "default_code": "CONSU-DELI-COST",
                 "taxes_id": False,
                 "property_account_expense_id": self.account_expense.id,
@@ -74,7 +75,7 @@ class TestAccountEntry(TestExpenseCommon):
                 "employee_id": self.expense_employee.id,
                 "product_id": self.product_expense.id,
                 "unit_amount": 700.00,
-                "tax_ids": [(6, 0, [self.input_vat.id])],
+                "tax_ids": [(6, 0, [self.input_vat_include.id])],
                 "sheet_id": expense.id,
             }
         )

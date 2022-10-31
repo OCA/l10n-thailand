@@ -156,7 +156,7 @@ class AccountMoveLine(models.Model):
         taxes_list = list(filter(lambda x: x.get("tax_repartition_line_id"), vals_list))
         for vals in taxes_list:
             if vals["move_id"] == self.move_id.id:
-                line_ids = self.move_id.tax_cash_basis_move_id.line_ids
+                line_ids = self.move_id.tax_cash_basis_origin_move_id.line_ids
                 move_line_tax_amount = line_ids.filtered(
                     lambda l: l.tax_base_amount
                     and l.amount_currency == self.amount_currency
