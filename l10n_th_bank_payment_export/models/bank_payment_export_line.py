@@ -134,7 +134,8 @@ class BankPaymentExportLine(models.Model):
         if len(acc_number) <= 11:
             return acc_number.zfill(11)
         # BAAC: ธ. เพื่อการเกษตรและสหกรณ์การเกษตร
-        if partner_bank_id.bank_id.bic == "BAABTHBK":
+        # HSBC: ธ. ฮ่องกงและเซี่ยงไฮ้แบงกิ้งคอร์ปอเรชั่น จำกัด
+        if partner_bank_id.bank_id.bic in ("BAABTHBK", "HSBCTHBK"):
             return (
                 len(acc_number) == 12
                 and acc_number[1:]
