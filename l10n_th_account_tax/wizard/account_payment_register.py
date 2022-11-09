@@ -178,8 +178,9 @@ class AccountPaymentRegister(models.TransientModel):
         }
 
     def action_create_payments(self):
-        if self.payment_difference_handling == "reconcile":
-            context = self.env.context.copy()
-            context.update({"skip_account_move_synchronization": True})
-            self = self.with_context(context)
+        # For case calculate tax invoice partial payment
+        if self.payment_difference_handling == "open":
+            self = self.with_context(partial_payment=True)
+        elif self.payment_difference_handling == "reconcile":
+            self = self.with_context(skip_account_move_synchronization=True)
         return super().action_create_payments()
