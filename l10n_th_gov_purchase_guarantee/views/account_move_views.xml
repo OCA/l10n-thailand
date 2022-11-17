@@ -1,0 +1,44 @@
+<odoo>
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="name">account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <field name="invoice_vendor_bill_id" position="after">
+                <field
+                    name="guarantee_ids"
+                    widget="many2many_tags"
+                    domain="[('partner_id', '=', partner_id), ('guarantee_type_id.is_create_invoice', '=', True)]"
+                    attrs="{'invisible': [('move_type', '!=', 'out_invoice')], 'readonly': [('state', '!=', 'draft')]}"
+                    options="{'no_create': True, 'no_open': True}"
+                />
+                <field
+                    name="return_guarantee_ids"
+                    widget="many2many_tags"
+                    domain="[('partner_id', '=', partner_id), ('guarantee_type_id.is_create_invoice', '=', True), ('invoice_ids', '!=', False), ('invoice_ids.payment_state', '=', 'paid')]"
+                    attrs="{'invisible': [('move_type', '!=', 'in_invoice')], 'readonly': [('state', '!=', 'draft')]}"
+                    options="{'no_create': True, 'no_open': True}"
+                />
+            </field>
+        </field>
+    </record>
+
+    <record id="view_account_invoice_filter" model="ir.ui.view">
+        <field name="name">account.invoice.select</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter" />
+        <field name="arch" type="xml">
+            <group position="before">
+                <separator />
+                <field
+                    name="guarantee_ids"
+                    filter_domain="['|', ('guarantee_ids.name', 'ilike', self), '|', ('guarantee_ids.purchase_id.name', 'ilike', self), ('guarantee_ids.requisition_id.name', 'ilike', self)]"
+                />
+                <field
+                    name="return_guarantee_ids"
+                    filter_domain="['|', ('return_guarantee_ids.name', 'ilike', self), '|', ('return_guarantee_ids.purchase_id.name', 'ilike', self), ('return_guarantee_ids.requisition_id.name', 'ilike', self)]"
+                />
+            </group>
+        </field>
+    </record>
+</odoo>

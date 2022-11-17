@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="cheque_draft" model="purchase.guarantee.type">
+        <field name="name">Cheque/Draft</field>
+        <field name="is_create_invoice">True</field>
+    </record>
+    <record id="cash" model="purchase.guarantee.type">
+        <field name="name">Cash</field>
+        <field name="is_create_invoice">True</field>
+    </record>
+    <record id="bank_guarantee" model="purchase.guarantee.type">
+        <field name="name">Bank Guarantee</field>
+    </record>
+    <record id="thai_government_bond" model="purchase.guarantee.type">
+        <field name="name">Thai Government Bond</field>
+    </record>
+    <record id="collateral" model="purchase.guarantee.type">
+        <field name="name">Collateral</field>
+    </record>
+    <record id="electronic_guarantee" model="purchase.guarantee.type">
+        <field name="name">Electronic Guarantee</field>
+    </record>
+</odoo>
