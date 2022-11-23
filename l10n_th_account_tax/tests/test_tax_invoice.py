@@ -193,6 +193,14 @@ class TestTaxInvoice(SingleTransactionCase):
             cls.env.ref("account.data_account_type_expenses"),
             cls.undue_input_vat,
         )
+        cls.supplier_invoice_undue_vat_partial = create_invoice(
+            "Test Supplier Invoice UndueVAT Partial",
+            cls.env.ref("base.res_partner_12"),
+            cls.journal_purchase,
+            "in_invoice",
+            cls.env.ref("account.data_account_type_expenses"),
+            cls.undue_input_vat,
+        )
         cls.supplier_refund_undue_vat = create_invoice(
             "Test Supplier Refund UndueVAT",
             cls.env.ref("base.res_partner_12"),
@@ -269,6 +277,32 @@ class TestTaxInvoice(SingleTransactionCase):
         payment.action_draft()  # Unlink the relation
         self.assertEqual(payment.move_id.state, "draft")
         self.assertFalse(payment.tax_invoice_move_ids)
+
+    def test_supplier_invoice_undue_vat_partial_payment(self):
+        """Register Partial Payment from Vendor Invoice"""
+        # Do not allow user to fill in Tax Invoice/Date
+        fields.Date.today()
+        self.supplier_invoice_undue_vat_partial.action_post()
+        action = self.supplier_invoice_undue_vat_partial.action_register_payment()
+        ctx = action.get("context")
+
+        # Make full payment from invoice
+        with Form(self.env["account.payment.register"].with_context(**ctx)) as f:
+            f.journal_id = self.journal_bank
+            f.amount = 30
+            f.payment_difference_handling = "open"
+        payment_wiz = f.save()
+        res = payment_wiz.action_create_payments()
+        payment = self.env["account.payment"].browse(res.get("res_id"))
+        self.assertTrue(payment.tax_invoice_ids)
+        self.assertEqual(payment.amount, 30.00)
+        self.assertEqual(payment.reconciled_bill_ids.payment_state, "partial")
+        self.assertEqual(payment.reconciled_bill_ids.amount_residual, 77)
+        tax_calculated = 1.96  # payment - (payment * 100)/107
+        # NOTE: tax base amount is not correct because tax_calculated round 2 digits
+        tax_base_cal = (tax_calculated * 100) / 7  # calculat base tax
+        self.assertEqual(payment.tax_invoice_ids.balance, tax_calculated)
+        self.assertEqual(payment.tax_invoice_ids.tax_base_amount, tax_base_cal)
 
     def test_customer_invoice_vat(self):
         """Supplier Invoice with VAT,
