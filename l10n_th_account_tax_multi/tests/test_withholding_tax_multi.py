@@ -132,7 +132,7 @@ class TestWithholdingTax(SavepointCase):
         self.assertEqual(payment.amount, price_unit * 0.97)
 
     def test_02_create_payment_multi_withholding_tax_multi_line(self):
-        """ Create payment with 2 withholding tax on 2 line"""
+        """Create payment with 2 withholding tax on 2 line"""
         price_unit = 100.0
         invoice_id = self._create_invoice(
             self.partner_1.id,
@@ -157,7 +157,8 @@ class TestWithholdingTax(SavepointCase):
         with Form(self.account_payment.with_context(ctx), view=view_id) as f:
             payment = f.save()
         self.assertEqual(
-            payment.payment_difference_handling, "reconcile_multi_deduct",
+            payment.payment_difference_handling,
+            "reconcile_multi_deduct",
         )
         self.assertTrue(payment.deduction_ids)
         deduct_3 = payment.deduction_ids.filtered(
@@ -176,7 +177,7 @@ class TestWithholdingTax(SavepointCase):
         )
 
     def test_03_create_payment_one_withholding_tax_multi_line(self):
-        """ Create payment with 1 withholding tax on 2 line"""
+        """Create payment with 1 withholding tax on 2 line"""
         price_unit = 100.0
         invoice_id = self._create_invoice(
             self.partner_1.id,
@@ -200,7 +201,8 @@ class TestWithholdingTax(SavepointCase):
         with Form(self.account_payment.with_context(ctx), view=view_id) as f:
             payment = f.save()
         self.assertEqual(
-            payment.payment_difference_handling, "reconcile_multi_deduct",
+            payment.payment_difference_handling,
+            "reconcile_multi_deduct",
         )
         self.assertTrue(payment.deduction_ids)
         self.assertEqual(
@@ -214,7 +216,7 @@ class TestWithholdingTax(SavepointCase):
         )
 
     def test_04_create_payment_multi_withholding_keep_open(self):
-        """ Create payment with 2 withholding tax on 2 line and keep open 1"""
+        """Create payment with 2 withholding tax on 2 line and keep open 1"""
         price_unit = 100.0
         invoice_id = self._create_invoice(
             self.partner_1.id,
@@ -239,7 +241,8 @@ class TestWithholdingTax(SavepointCase):
         with Form(self.account_payment.with_context(ctx), view=view_id) as f:
             payment = f.save()
         self.assertEqual(
-            payment.payment_difference_handling, "reconcile_multi_deduct",
+            payment.payment_difference_handling,
+            "reconcile_multi_deduct",
         )
         self.assertTrue(payment.deduction_ids)
         # Keep 3% and deduct 5%
