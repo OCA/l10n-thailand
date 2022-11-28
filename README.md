@@ -20,6 +20,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
+[l10n_th_account_asset_management](l10n_th_account_asset_management/) | 14.0.1.0.0 | [![ps-tubtim](https://github.com/ps-tubtim.png?size=30px)](https://github.com/ps-tubtim) | Thai Localization - Assets Management
 [l10n_th_amount_to_text](l10n_th_amount_to_text/) | 14.0.1.0.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Convert Amount Text to Thai
 [l10n_th_base_location](l10n_th_base_location/) | 14.0.1.0.0 |  | Thai Localization - Base Location
 [l10n_th_company_novat](l10n_th_company_novat/) | 14.0.1.1.0 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Comapny/Partner, VAT/NOVAT setup
