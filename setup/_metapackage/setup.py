@@ -8,6 +8,7 @@ setuptools.setup(
     description="Meta package for oca-l10n-thailand Odoo addons",
     version=version,
     install_requires=[
+        'odoo14-addon-l10n_th_account_asset_management',
         'odoo14-addon-l10n_th_amount_to_text',
         'odoo14-addon-l10n_th_base_location',
         'odoo14-addon-l10n_th_company_novat',
