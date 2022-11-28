@@ -20,5 +20,6 @@
     ],
     "installable": True,
     "development_status": "Beta",
+    "post_init_hook": "post_init_hook",
     "maintainers": ["kittiu"],
 }
