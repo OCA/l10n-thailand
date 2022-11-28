@@ -4,7 +4,7 @@ from datetime import datetime
 
 import pytz
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -15,6 +15,23 @@ class IrSequence(models.Model):
     """
 
     _inherit = "ir.sequence"
+
+    preview = fields.Char(compute="_compute_preview")
+
+    @api.depends(
+        "prefix",
+        "suffix",
+        "padding",
+        "use_date_range",
+        "number_next_actual",
+        "implementation",
+    )
+    def _compute_preview(self):
+        if self.use_date_range:
+            self.date_range_ids.onchange_sequence_id()
+            self.preview = None
+        else:
+            self.preview = self.get_next_char(self.number_next_actual)
 
     def _interpolation_dict(self, date=None, date_range=None):
         """
