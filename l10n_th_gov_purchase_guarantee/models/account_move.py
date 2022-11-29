@@ -69,14 +69,14 @@ class AccountMove(models.Model):
 
     @api.onchange("partner_id")
     def _onchange_partner_id(self):
-        super()._onchange_partner_id()
-        for rec in self:
-            if rec.guarantee_ids or rec.return_guarantee_ids:
-                rec.update(
-                    {
-                        "guarantee_ids": False,
-                        "return_guarantee_ids": False,
-                        "line_ids": False,
-                        "invoice_line_ids": False,
-                    }
-                )
+        res = super()._onchange_partner_id()
+        for rec in self.filtered(lambda l: l.guarantee_ids or l.return_guarantee_ids):
+            rec.update(
+                {
+                    "guarantee_ids": False,
+                    "return_guarantee_ids": False,
+                    "line_ids": False,
+                    "invoice_line_ids": False,
+                }
+            )
+        return res

@@ -19,7 +19,6 @@ class PurchaseGuarantee(models.Model):
             ("purchase.requisition", "Purchase Agreement"),
             ("purchase.order", "Purchase Order"),
         ],
-        string="Reference",
     )
     reference_model = fields.Char(
         compute="_compute_reference",
@@ -76,7 +75,6 @@ class PurchaseGuarantee(models.Model):
         readonly=True,
     )
     amount = fields.Monetary(
-        string="Amount",
         currency_field="currency_id",
         default=0.0,
     )
@@ -113,9 +111,7 @@ class PurchaseGuarantee(models.Model):
         currency_field="currency_id",
         compute="_compute_amount_received",
     )
-    document_ref = fields.Char(
-        string="Document Ref",
-    )
+    document_ref = fields.Char()
     date_return = fields.Date(
         string="Return Date",
     )
@@ -134,9 +130,7 @@ class PurchaseGuarantee(models.Model):
     date_due_guarantee = fields.Date(
         string="Guarantee Due Date",
     )
-    note = fields.Text(
-        string="Note",
-    )
+    note = fields.Text()
     can_edit_guarantee_method = fields.Boolean(
         compute="_compute_can_edit_guarantee_method",
     )
@@ -176,8 +170,7 @@ class PurchaseGuarantee(models.Model):
                 states.extend(["draft", "sent", "purchase"])
             if states and self.reference.state not in states:
                 raise UserError(
-                    _("%s must be in status: %s")
-                    % (
+                    _("{} must be in status: {}").format(
                         dict(self._fields["reference"].selection).get(
                             self.reference._name
                         ),

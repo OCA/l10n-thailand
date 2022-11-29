@@ -8,14 +8,11 @@ class PurchaseGuaranteeType(models.Model):
     _name = "purchase.guarantee.type"
     _description = "Purchase Guarantee Type"
 
-    name = fields.Char(
-        string="Name",
-    )
+    name = fields.Char()
     is_create_invoice = fields.Boolean(
         string="Create Invoice ?",
         default=False,
     )
     active = fields.Boolean(
-        string="Active",
         default=True,
     )

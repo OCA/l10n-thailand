@@ -8,9 +8,7 @@ class PurchaseGuaranteeMethod(models.Model):
     _name = "purchase.guarantee.method"
     _description = "Purchase Guarantee Method"
 
-    name = fields.Char(
-        string="Name",
-    )
+    name = fields.Char()
     default_for_model = fields.Selection(
         selection=[
             ("purchase.requisition", "Purchase Agreement"),
@@ -27,6 +25,5 @@ class PurchaseGuaranteeMethod(models.Model):
         ondelete="restrict",
     )
     active = fields.Boolean(
-        string="Active",
         default=True,
     )

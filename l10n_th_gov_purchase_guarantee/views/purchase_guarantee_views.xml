@@ -26,7 +26,7 @@
         <field name="name">view.purchase.guarantee.tree</field>
         <field name="model">purchase.guarantee</field>
         <field name="arch" type="xml">
-            <tree multi_edit="1" string="Guarantee">
+            <tree multi_edit="1">
                 <field name="name" readonly="1" force_save="1" />
                 <field
                     name="reference"
