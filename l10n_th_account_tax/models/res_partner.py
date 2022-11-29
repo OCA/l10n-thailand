@@ -1,7 +1,7 @@
 # Copyright 2021 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 
 
 class ResPartner(models.Model):
@@ -11,8 +11,18 @@ class ResPartner(models.Model):
         comodel_name="account.withholding.move",
         inverse_name="partner_id",
         string="Personal Income Tax",
-        domain=[("is_pit", "=", True), ("payment_state", "!=", "draft")],
+        domain=lambda self: self._get_pit_move_ids_domain(),
     )
+
+    @api.model
+    def _get_pit_move_ids_domain(self):
+        pit_move_ids = (
+            self.sudo()
+            .env["account.withholding.move"]
+            .search([("is_pit", "=", True), ("payment_state", "!=", "draft")])
+            .ids
+        )
+        return [("id", "in", pit_move_ids)]
 
     def _get_context_pit_monitoring(self):
         ctx = self.env.context.copy()
