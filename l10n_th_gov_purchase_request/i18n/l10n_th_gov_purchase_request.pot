@@ -1,0 +1,534 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_gov_purchase_request
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_method__active
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_type__active
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_type__active
+msgid "Active"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request__procurement_method_ids
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_type__procurement_method_ids
+msgid "Allowed Procurement Method"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request__approved_by
+msgid "Approved By"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request__date_approved
+msgid "Approved Date"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.procurement_method_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.procurement_type_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.purchase_type_view_form
+msgid "Archived"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:res.groups,name:l10n_th_gov_purchase_request.group_purchase_request_verify
+msgid "Can verify purchase request"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields.selection,name:l10n_th_gov_purchase_request.selection__procurement_committee__approve_role__chairman
+msgid "Chairman"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields.selection,name:l10n_th_gov_purchase_request.selection__procurement_committee__approve_role__committee
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.view_purchase_request_form
+msgid "Committee"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__committee_type
+msgid "Committee Type"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.constraint,message:l10n_th_gov_purchase_request.constraint_procurement_committee_employee_request_uniq
+msgid "Committee has to be unique"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,help:l10n_th_gov_purchase_request.field_purchase_request__to_create
+#: model:ir.model.fields,help:l10n_th_gov_purchase_request.field_purchase_type__to_create
+msgid "Create purchase agreement or expense when pr is approved"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__create_uid
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_method__create_uid
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_type__create_uid
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_type__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__create_date
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_method__create_date
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_type__create_date
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_type__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_type__is_default
+msgid "Default"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,help:l10n_th_gov_purchase_request.field_procurement_type__product_id
+msgid "Default product for purchase request line"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,help:l10n_th_gov_purchase_request.field_purchase_type__is_default
+msgid "Default purchase type on the purchase request"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__department_id
+msgid "Department"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_method__description
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_type__description
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_type__description
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.purchase_type_view_form
+msgid "Description"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__display_name
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_method__display_name
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_type__display_name
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request__display_name
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request_line__display_name
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request_line_make_purchase_requisition__display_name
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_type__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__employee_id
+msgid "Employee"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__name
+msgid "Employee Name"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields.selection,name:l10n_th_gov_purchase_request.selection__purchase_type__to_create__expense
+msgid "Expense"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,help:l10n_th_gov_purchase_request.field_purchase_request__substate_sequence
+msgid "Gives the sequence order when applying the default substate"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__id
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_method__id
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_type__id
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request__id
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request_line__id
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request_line_make_purchase_requisition__id
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_type__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee____last_update
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_method____last_update
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_type____last_update
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request____last_update
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request_line____last_update
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request_line_make_purchase_requisition____last_update
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_type____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__write_uid
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_method__write_uid
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_type__write_uid
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_type__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__write_date
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_method__write_date
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_type__write_date
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_type__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_method__name
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_type__name
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_type__name
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.view_purchase_request_form
+msgid "Name"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__note
+msgid "Note"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: code:addons/l10n_th_gov_purchase_request/wizards/purchase_request_line_make_purchase_requisition.py:0
+#, python-format
+msgid "Only approved document is allowed to create purchase agreement"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model,name:l10n_th_gov_purchase_request.model_procurement_committee
+#: model:ir.model.fields.selection,name:l10n_th_gov_purchase_request.selection__procurement_committee__committee_type__procurement
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.view_purchase_request_form
+msgid "Procurement Committee"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request__procurement_committee_ids
+msgid "Procurement Committees"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model,name:l10n_th_gov_purchase_request.model_procurement_method
+#: model:ir.model,name:l10n_th_gov_purchase_request.model_procurement_type
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request__procurement_method_id
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.view_purchase_request_search
+msgid "Procurement Method"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.actions.act_window,name:l10n_th_gov_purchase_request.procurement_method_action
+#: model:ir.ui.menu,name:l10n_th_gov_purchase_request.procurement_method_menu
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.procurement_method_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.procurement_method_view_tree
+msgid "Procurement Methods"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request__procurement_type_id
+msgid "Procurement Type"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.actions.act_window,name:l10n_th_gov_purchase_request.procurement_type_action
+#: model:ir.ui.menu,name:l10n_th_gov_purchase_request.procurement_type_menu
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.procurement_type_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.procurement_type_view_tree
+msgid "Procurement Types"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_type__product_id
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request_line__product_id
+msgid "Product"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields.selection,name:l10n_th_gov_purchase_request.selection__purchase_type__to_create__purchase_agreement
+msgid "Purchase Agreement"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request__assigned_to
+msgid "Purchase Representative"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model,name:l10n_th_gov_purchase_request.model_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__request_id
+msgid "Purchase Request"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model,name:l10n_th_gov_purchase_request.model_purchase_request_line
+msgid "Purchase Request Line"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model,name:l10n_th_gov_purchase_request.model_purchase_request_line_make_purchase_requisition
+msgid "Purchase Request Line Make Purchase Agreement"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request__purchase_type_id
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.view_purchase_request_search
+msgid "Purchase Type"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.actions.act_window,name:l10n_th_gov_purchase_request.purchase_type_action
+#: model:ir.ui.menu,name:l10n_th_gov_purchase_request.purchase_type_menu
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.purchase_type_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.purchase_type_view_tree
+msgid "Purchase Types"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: code:addons/l10n_th_gov_purchase_request/models/purchase_type.py:0
+#, python-format
+msgid "Purchase type must have only one default."
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request__expense_reason
+msgid "Reason"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__approve_role
+msgid "Role"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: code:addons/l10n_th_gov_purchase_request/wizards/purchase_request_line_make_purchase_requisition.py:0
+#, python-format
+msgid ""
+"Selected document's purchase type is not allowed to create purchase "
+"agreement"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_method__sequence
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_type__sequence
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request__substate_sequence
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_type__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.view_purchase_request_search
+msgid "Subsate = To Verify"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.view_purchase_request_search
+msgid "Subsate = Verified"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,help:l10n_th_gov_purchase_request.field_purchase_request__procurement_method_ids
+#: model:ir.model.fields,help:l10n_th_gov_purchase_request.field_purchase_type__procurement_method_ids
+msgid ""
+"This field will help to filter procurement method in each purchase type on "
+"the purchase request"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.view_purchase_request_search
+msgid "To Assign Representative"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request__to_create
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_type__to_create
+msgid "To Create"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:base.substate,name:l10n_th_gov_purchase_request.base_substate_to_verify
+msgid "To Verify"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model,name:l10n_th_gov_purchase_request.model_purchase_type
+msgid "Type of purchase"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:product.product,uom_name:l10n_th_gov_purchase_request.product_type_001
+#: model:product.product,uom_name:l10n_th_gov_purchase_request.product_type_002
+#: model:product.product,uom_name:l10n_th_gov_purchase_request.product_type_003
+#: model:product.template,uom_name:l10n_th_gov_purchase_request.product_type_001_product_template
+#: model:product.template,uom_name:l10n_th_gov_purchase_request.product_type_002_product_template
+#: model:product.template,uom_name:l10n_th_gov_purchase_request.product_type_003_product_template
+msgid "Units"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:base.substate,name:l10n_th_gov_purchase_request.base_substate_verified
+msgid "Verified"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request__verified_by
+msgid "Verified By"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request__date_verified
+msgid "Verified Date"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.view_purchase_request_form_substate
+msgid "Verify"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields.selection,name:l10n_th_gov_purchase_request.selection__procurement_committee__committee_type__work_acceptance
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.view_purchase_request_form
+msgid "Work Acceptance Committee"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request__work_acceptance_committee_ids
+msgid "Work Acceptance Committees"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__email
+msgid "Work Email"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__phone
+msgid "Work Phone"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:exception.rule,name:l10n_th_gov_purchase_request.pr_exception_committee_2
+msgid "คณะกรรมการ 1 คนต้องไม่เป็นประธาน"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:exception.rule,name:l10n_th_gov_purchase_request.pr_exception_committee_1
+msgid "คณะกรรมการมากกว่า 1 คน ต้องมีประธาน 1 คน"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:product.product,name:l10n_th_gov_purchase_request.product_type_002
+#: model:product.template,name:l10n_th_gov_purchase_request.product_type_002_product_template
+msgid "จ้างที่ปรึกษา"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:exception.rule,name:l10n_th_gov_purchase_request.pr_exception_6
+msgid "จ้างที่ปรึกษา ต้องมีกรรมการจัดซื้อจัดจ้างอย่างน้อย 5 คน"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:exception.rule,name:l10n_th_gov_purchase_request.pr_exception_6_1
+msgid "จ้างที่ปรึกษา ต้องมีกรรมการตรวจรับอย่างน้อย 5 คน"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:product.product,name:l10n_th_gov_purchase_request.product_type_003
+#: model:product.template,name:l10n_th_gov_purchase_request.product_type_003_product_template
+msgid "จ้างออกแบบและควบคุมงานก่อสร้าง"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:exception.rule,name:l10n_th_gov_purchase_request.pr_exception_7
+msgid ""
+"จ้างออกแบบและควบคุมงานก่อสร้าง ต้องมีกรรมการจัดซื้อจัดจ้างอย่างน้อย 3 คน"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:exception.rule,name:l10n_th_gov_purchase_request.pr_exception_7_1
+msgid "จ้างออกแบบและควบคุมงานก่อสร้าง ต้องมีกรรมการตรวจรับอย่างน้อย 3 คน"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:product.product,name:l10n_th_gov_purchase_request.product_type_001
+#: model:product.template,name:l10n_th_gov_purchase_request.product_type_001_product_template
+msgid "ซื้อ/จ้าง/เช่า"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:exception.rule,name:l10n_th_gov_purchase_request.pr_exception_5
+msgid ""
+"ซื้อ/จ้าง/เช่า เกิน 500,000 บาท วิธีการจัดซื้อจัดจ้าง เฉพาะเจาะจง "
+"ต้องมีกรรมการตรวจรับอย่างน้อย 3 คน"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:exception.rule,name:l10n_th_gov_purchase_request.pr_exception_5_1
+msgid ""
+"ซื้อ/จ้าง/เช่า เกิน 500,000 บาท วิธีการจัดซื้อจัดจ้าง ไม่เฉพาะเจาะจง "
+"ต้องมีกรรมการจัดซื้อจัดจ้างอย่างน้อย 3 คน และกรรมการตรวจรับอย่างน้อย 3 คน"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:exception.rule,name:l10n_th_gov_purchase_request.pr_exception_4
+msgid "ซื้อ/จ้าง/เช่า ไม่เกิน 500,000 บาท ต้องมีกรรมการตรวจรับอย่างน้อย 3 คน"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:exception.rule,description:l10n_th_gov_purchase_request.pr_exception_1
+#: model:exception.rule,description:l10n_th_gov_purchase_request.pr_exception_1_1
+#: model:exception.rule,description:l10n_th_gov_purchase_request.pr_exception_2
+#: model:exception.rule,description:l10n_th_gov_purchase_request.pr_exception_2_1
+#: model:exception.rule,description:l10n_th_gov_purchase_request.pr_exception_3
+#: model:exception.rule,description:l10n_th_gov_purchase_request.pr_exception_3_1
+#: model:exception.rule,description:l10n_th_gov_purchase_request.pr_exception_4
+#: model:exception.rule,description:l10n_th_gov_purchase_request.pr_exception_5
+#: model:exception.rule,description:l10n_th_gov_purchase_request.pr_exception_5_1
+#: model:exception.rule,description:l10n_th_gov_purchase_request.pr_exception_6
+#: model:exception.rule,description:l10n_th_gov_purchase_request.pr_exception_6_1
+#: model:exception.rule,description:l10n_th_gov_purchase_request.pr_exception_7
+#: model:exception.rule,description:l10n_th_gov_purchase_request.pr_exception_7_1
+#: model:exception.rule,description:l10n_th_gov_purchase_request.pr_exception_committee_1
+#: model:exception.rule,description:l10n_th_gov_purchase_request.pr_exception_committee_2
+msgid "พระราชบัญญัติการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:exception.rule,name:l10n_th_gov_purchase_request.pr_exception_2_1
+msgid "ระเบียบ 79 วรรคสอง ต้องมีกรรมการตรวจรับอย่างน้อย 1 คน"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:exception.rule,name:l10n_th_gov_purchase_request.pr_exception_2
+msgid "ระเบียบ 79 วรรคสอง มูลค่าไม่เกิน 500,000 บาท"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:exception.rule,name:l10n_th_gov_purchase_request.pr_exception_3_1
+msgid "ระเบียบ ว.119 ต้องมีกรรมการตรวจรับอย่างน้อย 1 คน"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:exception.rule,name:l10n_th_gov_purchase_request.pr_exception_3
+msgid "ระเบียบ ว.119 มูลค่าไม่เกิน 10,000 บาท"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:exception.rule,name:l10n_th_gov_purchase_request.pr_exception_1_1
+msgid "ระเบียบ วงเงินเล็กน้อย ต้องมีกรรมการตรวจรับอย่างน้อย 1 คน"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:exception.rule,name:l10n_th_gov_purchase_request.pr_exception_1
+msgid "ระเบียบ วงเงินเล็กน้อย มูลค่าไม่เกิน 100,000 บาท"
+msgstr ""

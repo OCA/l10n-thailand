@@ -1,0 +1,537 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_gov_purchase_guarantee
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_th_gov_purchase_guarantee
+#: code:addons/l10n_th_gov_purchase_guarantee/models/purchase_guarantee.py:0
+#, python-format
+msgid "%s must be in status: %s"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_method__account_id
+msgid "Account"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__active
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_method__active
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_type__active
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_search_view
+msgid "Active"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__amount
+msgid "Amount"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__analytic_account_id
+msgid "Analytic Account"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__analytic_tag_ids
+msgid "Analytic Tags"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_method_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_method_search_view
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_search_view
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_type_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_type_search_view
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.view_purchase_guarantee_form
+msgid "Archived"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__bill_ids
+msgid "Bill Ref"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.actions.act_window,name:l10n_th_gov_purchase_guarantee.action_open_guarantee_bills
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.view_purchase_guarantee_form
+msgid "Bills"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__can_edit_guarantee_method
+msgid "Can Edit Guarantee Method"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_type__is_create_invoice
+msgid "Create Invoice ?"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__create_uid
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_method__create_uid
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_type__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__create_date
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_method__create_date
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_type__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_method__default_for_model
+msgid "Default method for"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_account_payment_register__display_name
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__display_name
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_method__display_name
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_type__display_name
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_requisition__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__document_ref
+msgid "Document Ref"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__domain_analytic_account_ids
+msgid "Domain Analytic Account"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.view_purchase_guarantee_tree
+msgid "Due Date"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_channel_ids
+msgid "Followers (Channels)"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,help:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.actions.act_window,name:l10n_th_gov_purchase_guarantee.purchase_guarantee_action
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_account_bank_statement_line__guarantee_ids
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_account_move__guarantee_ids
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_account_payment__guarantee_ids
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_order__purchase_guarantee_ids
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_requisition__purchase_guarantee_ids
+#: model:ir.ui.menu,name:l10n_th_gov_purchase_guarantee.purchase_guarantee_config_menu
+#: model:ir.ui.menu,name:l10n_th_gov_purchase_guarantee.purchase_guarantee_menu
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_search_view
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_order_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.view_purchase_guarantee_tree
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.view_purchase_requisition_form
+msgid "Guarantee"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_order__purchase_guarantee_count
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_requisition__purchase_guarantee_count
+msgid "Guarantee Count"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__date_due_guarantee
+msgid "Guarantee Due Date"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.actions.act_window,name:l10n_th_gov_purchase_guarantee.purchase_guarantee_method_action
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__guarantee_method_id
+#: model:ir.ui.menu,name:l10n_th_gov_purchase_guarantee.purchase_guarantee_method_menu
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_method_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_method_search_view
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_method_tree_view
+msgid "Guarantee Method"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__name
+msgid "Guarantee Number"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__date_guarantee_receive
+msgid "Guarantee Receive Date"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.actions.act_window,name:l10n_th_gov_purchase_guarantee.purchase_guarantee_type_action
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__guarantee_type_id
+#: model:ir.ui.menu,name:l10n_th_gov_purchase_guarantee.purchase_guarantee_type_menu
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_type_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_type_search_view
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_type_tree_view
+msgid "Guarantee Type"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,help:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_method__default_for_model
+msgid "Guarantee created from which document model, will use this method"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_account_payment_register__id
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__id
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_method__id
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_type__id
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_order__id
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_requisition__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,help:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,help:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_needaction
+#: model:ir.model.fields,help:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_unread
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,help:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_has_error
+#: model:ir.model.fields,help:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__invoice_ids
+msgid "Invoice Ref"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.actions.act_window,name:l10n_th_gov_purchase_guarantee.action_open_guarantee_invoices
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.view_purchase_guarantee_form
+msgid "Invoices"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model,name:l10n_th_gov_purchase_guarantee.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_account_move____last_update
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_account_payment_register____last_update
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee____last_update
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_method____last_update
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_type____last_update
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_order____last_update
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_requisition____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__write_uid
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_method__write_uid
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_type__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__write_date
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_method__write_date
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_type__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_method__name
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_type__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__note
+msgid "Note"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,help:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,help:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,help:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields.selection,name:l10n_th_gov_purchase_guarantee.selection__purchase_guarantee__reference__purchase_requisition
+#: model:ir.model.fields.selection,name:l10n_th_gov_purchase_guarantee.selection__purchase_guarantee_method__default_for_model__purchase_requisition
+msgid "Purchase Agreement"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.view_purchase_guarantee_form
+msgid "Purchase Agreements"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model,name:l10n_th_gov_purchase_guarantee.model_purchase_guarantee
+msgid "Purchase Guarantee"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model,name:l10n_th_gov_purchase_guarantee.model_purchase_guarantee_method
+msgid "Purchase Guarantee Method"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model,name:l10n_th_gov_purchase_guarantee.model_purchase_guarantee_type
+msgid "Purchase Guarantee Type"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model,name:l10n_th_gov_purchase_guarantee.model_purchase_order
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__purchase_id
+#: model:ir.model.fields.selection,name:l10n_th_gov_purchase_guarantee.selection__purchase_guarantee__reference__purchase_order
+#: model:ir.model.fields.selection,name:l10n_th_gov_purchase_guarantee.selection__purchase_guarantee_method__default_for_model__purchase_order_po
+msgid "Purchase Order"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model,name:l10n_th_gov_purchase_guarantee.model_purchase_requisition
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__requisition_id
+msgid "Purchase Requisition"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.view_purchase_guarantee_tree
+msgid "Receive Date"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__amount_received
+msgid "Received"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__reference
+msgid "Reference"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__reference_model
+msgid "Reference Model"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model,name:l10n_th_gov_purchase_guarantee.model_account_payment_register
+msgid "Register Payment"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields.selection,name:l10n_th_gov_purchase_guarantee.selection__purchase_guarantee_method__default_for_model__purchase_order_rfq
+msgid "Request for Quotation"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__date_return
+msgid "Return Date"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_account_bank_statement_line__return_guarantee_ids
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_account_move__return_guarantee_ids
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_account_payment__return_guarantee_ids
+msgid "Return Guarantee"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__amount_returned
+msgid "Returned"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_search_view
+msgid "Show active taxes"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,help:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,help:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: model:ir.model.fields,help:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__website_message_ids
+msgid "Website communication history"
+msgstr ""
