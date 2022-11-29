@@ -117,7 +117,7 @@ class TestPurchaseGuarantee(common.TransactionCase):
             "active_id": move.id,
             "active_model": "account.move",
         }
-        payment_wizard_form = Form(self.payment_register_model.with_context(ctx))
+        payment_wizard_form = Form(self.payment_register_model.with_context(**ctx))
         payment_wizard = payment_wizard_form.save()
         payment = payment_wizard.action_create_payments()
         return payment
@@ -135,12 +135,12 @@ class TestPurchaseGuarantee(common.TransactionCase):
         )
         # Test create guarantee on purchase.requisition with state draft
         with self.assertRaises(UserError):
-            with Form(self.guarantee_model.with_context(result["context"])) as f:
+            with Form(self.guarantee_model.with_context(**result["context"])) as f:
                 f.name = "Test Guarantee"
         pr.action_in_progress()
         self.assertEqual(pr.state, "in_progress")
         # Create guarantee on purchase.requisition
-        with Form(self.guarantee_model.with_context(result["context"])) as f:
+        with Form(self.guarantee_model.with_context(**result["context"])) as f:
             f.partner_id = self.partner1
             f.guarantee_type_id = self.guarantee_type_cash
             f.amount = 100.0
@@ -198,7 +198,7 @@ class TestPurchaseGuarantee(common.TransactionCase):
             "purchase.order,{}".format(purchase.id),
         )
         # Create guarantee on purchase.order state draft
-        with Form(self.guarantee_model.with_context(result["context"])) as f:
+        with Form(self.guarantee_model.with_context(**result["context"])) as f:
             f.guarantee_type_id = self.guarantee_type_cash
             f.amount = 100.0
             f.date_guarantee_receive = fields.Date.today()
@@ -216,7 +216,7 @@ class TestPurchaseGuarantee(common.TransactionCase):
         )
         purchase.button_confirm()
         # Create guarantee on purchase.order state purchase
-        with Form(self.guarantee_model.with_context(result["context"])) as f:
+        with Form(self.guarantee_model.with_context(**result["context"])) as f:
             f.guarantee_type_id = self.guarantee_type_cash
             f.amount = 200.0
             f.date_guarantee_receive = fields.Date.today()
