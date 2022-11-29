@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_work_acceptance_tree" model="ir.ui.view">
+        <field name="name">view.work.acceptance.tree</field>
+        <field name="model">work.acceptance</field>
+        <field
+            name="inherit_id"
+            ref="purchase_work_acceptance.view_work_acceptance_tree"
+        />
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="completeness" widget="progressbar" optional="show" />
+                <field name="validated" invisible="1" />
+                <field name="rejected" invisible="1" />
+            </field>
+        </field>
+    </record>
+
+    <record id="view_work_acceptance_tree_decoration" model="ir.ui.view">
+        <field name="name">view.work.acceptance.tree.decoration</field>
+        <field name="model">work.acceptance</field>
+        <field name="inherit_id" ref="view_work_acceptance_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="decoration-success">validated==True</attribute>
+                <attribute name="decoration-danger">rejected==True</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_work_acceptance_form" model="ir.ui.view">
+        <field name="name">view.work.acceptance.form</field>
+        <field name="model">work.acceptance</field>
+        <field
+            name="inherit_id"
+            ref="purchase_work_acceptance.view_work_acceptance_form"
+        />
+        <field name="arch" type="xml">
+            <field name="company_id" position="before">
+                <field name="wa_tier_validation" />
+            </field>
+            <xpath expr="//form/sheet/notebook" position="inside">
+                <page string="Committee">
+                    <group name="committee">
+                        <field
+                            name="work_acceptance_committee_ids"
+                            nolabel="1"
+                            attrs="{'readonly': [('state', '!=', 'draft')]}"
+                        >
+                            <tree editable="bottom">
+                                <field
+                                    name="employee_id"
+                                    string="Name"
+                                    options="{'no_create': True, 'no_open': True}"
+                                />
+                                <field name="approve_role" />
+                                <field name="department_id" />
+                                <field name="email" />
+                                <field name="phone" />
+                                <field
+                                    name="status"
+                                    decoration-success="status == 'accept'"
+                                    decoration-info="status == 'other'"
+                                    decoration-danger="status == 'not_accept'"
+                                    readonly="1"
+                                />
+                                <field name="note" readonly="1" />
+                                <field
+                                    name="write_date"
+                                    string="Timestamp"
+                                    readonly="1"
+                                    attrs="{'invisible': [('status', '=', False)]}"
+                                />
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_work_acceptance_search" model="ir.ui.view">
+        <field name="name">view.work.acceptance.search</field>
+        <field name="model">work.acceptance</field>
+        <field
+            name="inherit_id"
+            ref="purchase_work_acceptance.view_work_acceptance_search"
+        />
+        <field name="arch" type="xml">
+            <separator position="before">
+                <separator />
+                <filter
+                    name="wa_tier_validation"
+                    string="Paperless WA"
+                    domain="[('wa_tier_validation', '=', True)]"
+                />
+                <separator />
+                <filter
+                    name="committee_completed"
+                    string="All Committee WA"
+                    domain="[('completeness', '=', 100)]"
+                />
+                <filter
+                    name="committee_inprogress"
+                    string="Partial Committee WA"
+                    domain="[('completeness', '&gt;', 0), ('completeness', '&lt;', 100)]"
+                />
+                <filter
+                    name="committee_none"
+                    string="None Committee WA"
+                    domain="[('completeness', '=', 0)]"
+                />
+            </separator>
+        </field>
+    </record>
+
+    <!-- Custom View, because we need more buttons than standard -->
+    <record id="view_work_acceptance_form_tier_validation" model="ir.ui.view">
+        <field name="name">view.work.acceptance.form.tier_validation</field>
+        <field name="model">work.acceptance</field>
+        <field
+            name="inherit_id"
+            ref="purchase_work_acceptance.view_work_acceptance_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="///form/header/button[last()]" position="after">
+                 <button
+                    name="request_validation"
+                    string="Request Validation"
+                    attrs="{'invisible': ['|','|',('need_validation', '!=', True),('rejected','=',True),('state', 'not in', ['draft'])]}"
+                    type="object"
+                    groups="purchase.group_purchase_user"
+                />
+                <button
+                    name="restart_validation"
+                    string="Restart Validation"
+                    attrs="{'invisible': ['|',('review_ids', '=', []),('state', 'not in', ['draft'])]}"
+                    type="object"
+                    groups="purchase.group_purchase_user"
+                />
+            </xpath>
+            <header position="after">
+                <field name="need_validation" invisible="1" />
+                <field name="validated" invisible="1" />
+                <field name="rejected" invisible="1" />
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    attrs="{'invisible': ['|', '|', '|',
+                     ('validated', '=', True), ('state', 'not in', ['draft']),
+                     ('rejected', '=', True), ('review_ids', '=', [])]}"
+                    style="margin-bottom:0px;"
+                >
+                    <p>
+                        <i class="fa fa-info-circle" />
+                        This Record needs to be
+                        validated.
+                        <field name="can_review" invisible="1" />
+                        <button
+                            name="validate_tier"
+                            string="Accept"
+                            attrs="{'invisible': [('can_review', '=', False)]}"
+                            type="object"
+                            class="oe_inline oe_button btn-success"
+                            icon="fa-thumbs-up"
+                        />
+                        <button
+                            name="validate_tier"
+                            string="Not Accept"
+                            attrs="{'invisible': [('can_review', '=', False)]}"
+                            type="object"
+                            class="btn-icon btn-danger"
+                            icon="fa-thumbs-down"
+                            context="{'validate_as_not_accept': True, 'default_comment': 'ไม่รับเพราะ...'}"
+                        />
+                        <button
+                            name="validate_tier"
+                            string="Other"
+                            attrs="{'invisible': [('can_review', '=', False)]}"
+                            type="object"
+                            class="btn-icon btn-warning"
+                            icon="fa-arrow-circle-right"
+                            context="{'validate_as_other': True, 'default_comment': 'ไม่เข้าร่วมเพราะ...'}"
+                        />
+                    </p>
+                </div>
+                <div
+                    class="alert alert-success"
+                    role="alert"
+                    attrs="{'invisible': ['|', '|', ('validated', '!=', True), ('state', 'not in', ['draft']), ('review_ids', '=', [])]}"
+                    style="margin-bottom:0px;"
+                >
+                    <p>
+                        <i class="fa fa-thumbs-up" />
+                        Operation has been
+                        <b>validated</b>
+                        !
+                    </p>
+                </div>
+                <div
+                    class="alert alert-danger"
+                    role="alert"
+                    attrs="{'invisible': ['|', '|', ('rejected', '!=', True), ('state', 'not in', ['draft']), ('review_ids', '=', [])]}"
+                    style="margin-bottom:0px;"
+                >
+                    <p>
+                        <i class="fa fa-thumbs-down" />
+                        Operation has been
+                        <b>rejected</b>
+                        .
+                    </p>
+                </div>
+            </header>
+            <xpath expr="//form/div[hasclass('oe_chatter')]" position="before">
+                <field
+                    name="review_ids"
+                    widget="tier_validation"
+                    attrs="{'invisible':[('review_ids', '=', [])]}"
+                    invisible="1"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_work_acceptance_evaluation_result_tree" model="ir.ui.view">
+        <field name="name">view.work.acceptance.evaluation.result.tree</field>
+        <field name="model">work.acceptance.evaluation.result</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="wa_id" invisible="1" />
+                <field name="case_id" readonly="1" />
+                <field name="score_id" />
+                <field name="note" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_view_wa_evaluation_result" model="ir.actions.act_window">
+        <field name="name">Evaluation Results</field>
+        <field name="res_model">work.acceptance.evaluation.result</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_work_acceptance_evaluation_result_tree" />
+        <field name="domain">[('wa_id', '=', active_id)]</field>
+    </record>
+
+    <record id="view_work_acceptance_form_evaluation" model="ir.ui.view">
+        <field name="name">view.work.acceptance.form.evaluation</field>
+        <field name="model">work.acceptance</field>
+        <field
+            name="inherit_id"
+            ref="purchase_work_acceptance_late_fines.view_work_acceptance_fines_late_tab_form"
+        />
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button
+                    type="action"
+                    name="%(l10n_th_gov_work_acceptance.action_view_wa_evaluation_result)d"
+                    string="Evaluation"
+                    class="oe_stat_button"
+                    icon="fa-pencil-square-o"
+                    attrs="{'invisible': ['|', ('validated', '=', False), ('evaluation_result_ids', '=', [])]}"
+                />
+            </div>
+        </field>
+    </record>
+</odoo>
