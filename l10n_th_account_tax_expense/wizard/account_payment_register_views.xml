@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_payment_register_form" model="ir.ui.view">
+        <field name="name">account.payment.register.form</field>
+        <field name="model">account.payment.register</field>
+        <field
+            name="inherit_id"
+            ref="l10n_th_account_tax.view_account_payment_register_form"
+        />
+        <field name="arch" type="xml">
+            <field name="writeoff_label" position="after">
+                <label
+                    for="bill_partner_id"
+                    class="oe_edit_only"
+                    string="Partner"
+                    attrs="{'required': [('wht_tax_id', '!=', False)], 'invisible': [('wht_tax_id', '=', False)]}"
+                />
+                <field
+                    name="bill_partner_id"
+                    attrs="{'required': [('wht_tax_id', '!=', False)], 'invisible': [('wht_tax_id', '=', False)]}"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
