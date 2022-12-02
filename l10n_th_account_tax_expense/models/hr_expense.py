@@ -10,6 +10,7 @@ class HrExpense(models.Model):
     bill_partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Vendor",
+        tracking=True,
     )
     wht_tax_id = fields.Many2one(
         comodel_name="account.withholding.tax",
@@ -17,9 +18,14 @@ class HrExpense(models.Model):
         compute="_compute_wht_tax_id",
         store=True,
         readonly=False,
+        tracking=True,
     )
 
-    @api.depends("product_id", "account_id")
+    @api.onchange("tax_ids", "wht_tax_id")
+    def _onchange_tax(self):
+        self.bill_partner_id = False
+
+    @api.depends("product_id")
     def _compute_wht_tax_id(self):
         for rec in self:
             rec.wht_tax_id = rec.product_id.supplier_wht_tax_id or False
@@ -32,12 +38,12 @@ class HrExpense(models.Model):
             for ml in move_line_values_by_expense[expense.id]:
                 if ml.get("product_id"):
                     ml.update(wht_tax_dict)
-        # Set tax_exigible, to ensure that, tax inovice is not created for undue vat
-        RepartTax = self.env["account.tax.repartition.line"]
-        for move_lines in move_line_values_by_expense.values():
-            for move_line in filter(
-                lambda l: l.get("tax_repartition_line_id"), move_lines
-            ):
-                tax = RepartTax.browse(move_line["tax_repartition_line_id"]).tax_id
-                move_line["tax_exigible"] = tax.tax_exigibility == "on_invoice"
+        # # Set tax_exigible, to ensure that, tax inovice is not created for undue vat
+        # RepartTax = self.env["account.tax.repartition.line"]
+        # for move_lines in move_line_values_by_expense.values():
+        #     for move_line in filter(
+        #         lambda l: l.get("tax_repartition_line_id"), move_lines
+        #     ):
+        #         tax = RepartTax.browse(move_line["tax_repartition_line_id"]).tax_id
+        #         move_line["tax_exigible"] = tax.tax_exigibility == "on_invoice"
         return move_line_values_by_expense
