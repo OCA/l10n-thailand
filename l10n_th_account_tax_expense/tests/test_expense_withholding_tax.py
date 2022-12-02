@@ -2,16 +2,18 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import fields
-from odoo.tests import common
-from odoo.tests.common import Form
+from odoo.exceptions import UserError
+from odoo.tests import tagged
+from odoo.tests.common import Form, TransactionCase
 
 
-class TestHrExpenseWithholdingTax(common.SavepointCase):
+@tagged("post_install", "-at_install")
+class TestHrExpenseWithholdingTax(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.current_asset = cls.env.ref("account.data_account_type_current_assets")
-        cls.product_1 = cls.env.ref("product.product_product_4")
+        cls.product_1 = cls.env.ref("hr_expense.product_product_zero_cost")
         cls.current_asset = cls.env.ref("account.data_account_type_current_assets")
         cls.register_view_id = "account.view_account_payment_register_form"
         cls.account_payment_register = cls.env["account.payment.register"]
@@ -40,6 +42,21 @@ class TestHrExpenseWithholdingTax(common.SavepointCase):
         cls.employee = cls.env["hr.employee"].create(
             {"name": "Employee A", "address_home_id": employee_home.id}
         )
+        cls.partner1 = cls.env.ref("base.res_partner_1")
+        # Create account advance
+        advance_account = cls.env["account.account"].create(
+            {
+                "code": "154000",
+                "name": "Employee Advance",
+                "user_type_id": cls.env.ref(
+                    "account.data_account_type_current_assets"
+                ).id,
+                "reconcile": True,
+            }
+        )
+
+        cls.emp_advance = cls.env.ref("hr_expense_advance_clearing.product_emp_advance")
+        cls.emp_advance.property_account_expense_id = advance_account
         # Create expense 1,000
         cls.expense_sheet = cls._create_expense_sheet(
             cls, "Buy service 1,000", cls.employee, cls.product_1, 1000.0
@@ -47,6 +64,18 @@ class TestHrExpenseWithholdingTax(common.SavepointCase):
         # Create expense wht cert 1,000
         cls.expense_sheet_wht_cert = cls._create_expense_sheet(
             cls, "Buy service 1,000", cls.employee, cls.product_1, 1000.0, cls.wht_1
+        )
+        # Create advance expense 1,000
+        cls.advance = cls._create_expense_sheet(
+            cls, "Advance 1,000", cls.employee, cls.emp_advance, 1000.0, advance=True
+        )
+        # # Create clearing expense 800
+        # cls.clearing_less = cls._create_expense_sheet(
+        #     cls, "Buy service 800", cls.employee, cls.product_1, 800.0, cls.wht_1
+        # )
+        # Create clearing expense 1,200
+        cls.clearing_more = cls._create_expense_sheet(
+            cls, "Buy service 1,200", cls.employee, cls.product_1, 1200.0, cls.wht_1
         )
 
     def _create_expense(
@@ -56,25 +85,26 @@ class TestHrExpenseWithholdingTax(common.SavepointCase):
         product,
         amount,
         wht_tax_id=False,
-        payment_mode="own_account",
+        advance=False,
     ):
-        with Form(self.expense) as expense:
+        with Form(self.expense.with_context(default_advance=advance)) as expense:
             expense.name = description
             expense.employee_id = employee
-            expense.product_id = product
+            if not advance:
+                expense.product_id = product
             expense.unit_amount = amount
-            expense.payment_mode = payment_mode
             if wht_tax_id:
                 expense.wht_tax_id = wht_tax_id
+                expense.bill_partner_id = self.partner1
         expense = expense.save()
         expense.tax_ids = False  # Test no vat
         return expense
 
     def _create_expense_sheet(
-        self, description, employee, product, amount, wht_tax_id=False
+        self, description, employee, product, amount, wht_tax_id=False, advance=False
     ):
         expense = self._create_expense(
-            self, description, employee, product, amount, wht_tax_id
+            self, description, employee, product, amount, wht_tax_id, advance
         )
         # Add expense to expense sheet
         expense_sheet = self.env["hr.expense.sheet"].create(
@@ -93,14 +123,14 @@ class TestHrExpenseWithholdingTax(common.SavepointCase):
             "active_model": "account.move",
         }
         PaymentWizard = self.env["account.payment.register"]
-        with Form(PaymentWizard.with_context(ctx)) as f:
+        with Form(PaymentWizard.with_context(**ctx)) as f:
             f.journal_id = self.journal_bank
             f.payment_date = fields.Date.today()
         payment_wizard = f.save()
         return payment_wizard
 
     def test_01_expense_wht_cert(self):
-        """ Test Expense Withholding Tax """
+        """Test Expense Withholding Tax"""
         self.assertTrue(self.expense_sheet_wht_cert.expense_line_ids.wht_tax_id)
         self.expense_sheet_wht_cert.action_submit_sheet()
         self.expense_sheet_wht_cert.approve_expense_sheets()
@@ -116,7 +146,7 @@ class TestHrExpenseWithholdingTax(common.SavepointCase):
         self.assertEqual(self.expense_sheet_wht_cert.state, "done")
 
     def test_02_expense_no_wht_cert(self):
-        """ Test Expense not Withholding Tax """
+        """Test Expense not Withholding Tax"""
         self.assertFalse(self.expense_sheet.expense_line_ids.wht_tax_id)
         self.expense_sheet.action_submit_sheet()
         self.expense_sheet.approve_expense_sheets()
@@ -126,3 +156,58 @@ class TestHrExpenseWithholdingTax(common.SavepointCase):
         self.assertEqual(payment_wizard.amount, 1000.0)
         payment_wizard.action_create_payments()
         self.assertEqual(self.expense_sheet.state, "done")
+
+    def test_03_advance_clearing_wht_cert(self):
+        """Test Expense Withholding Tax"""
+        # ------------------ Advance --------------------------
+        self.advance.action_submit_sheet()
+        self.advance.approve_expense_sheets()
+        self.advance.action_sheet_move_create()
+        self.assertEqual(self.advance.clearing_residual, 1000.0)
+        payment_wizard = self._register_payment(self.advance.account_move_id)
+        payment_wizard.action_create_payments()
+        self.assertEqual(self.advance.state, "done")
+        # ------------------ Clearing --------------------------
+        # Clear this with previous advance
+        self.clearing_more.advance_sheet_id = self.advance
+        self.assertEqual(self.clearing_more.advance_sheet_residual, 1000.0)
+        self.clearing_more.action_submit_sheet()
+        # Can create wht state done or post only
+        with self.assertRaises(UserError):
+            self.clearing_more.action_create_withholding_tax_entry()
+        self.clearing_more.approve_expense_sheets()
+        self.clearing_more.action_sheet_move_create()
+        # clearing > advance, it will change state to post
+        self.assertEqual(self.clearing_more.state, "post")
+        # check context skip_wht_deduct when register payment with clearing
+        register_payment = self.clearing_more.action_register_payment()
+        self.assertTrue(register_payment["context"]["skip_wht_deduct"])
+        self.assertTrue(self.clearing_more.need_wht_entry)
+        self.assertFalse(self.clearing_more.wht_move_id)
+        # Create withholding tax
+        res = self.clearing_more.action_create_withholding_tax_entry()
+        self.assertTrue(self.clearing_more.wht_move_id)
+        self.assertEqual(self.clearing_more.wht_move_id.id, res["res_id"])
+        # Open withholding tax
+        res = self.clearing_more.action_open_wht_move()
+        self.assertEqual(res["res_model"], "account.move")
+        self.assertEqual(res["res_id"], self.clearing_more.wht_move_id.id)
+        # it should not create duplicate withholding tax
+        with self.assertRaises(UserError):
+            self.clearing_more.action_create_withholding_tax_entry()
+        # Post withholding tax
+        self.assertEqual(self.clearing_more.wht_move_id.state, "draft")
+        self.clearing_more.wht_move_id.action_post()
+        self.assertEqual(self.clearing_more.wht_move_id.state, "posted")
+        self.assertTrue(self.clearing_more.wht_move_id.has_wht)
+        # it should not cancel clearing, if there are withholding tax
+        with self.assertRaises(UserError):
+            self.clearing_more.account_move_id.button_cancel()
+        # cancel withholding tax first
+        self.clearing_more.wht_move_id.button_draft()
+        self.assertEqual(self.clearing_more.wht_move_id.state, "draft")
+        self.clearing_more.wht_move_id.button_cancel()
+        self.assertEqual(self.clearing_more.wht_move_id.state, "cancel")
+        # cancel clearing move
+        self.clearing_more.account_move_id.button_cancel()
+        self.assertEqual(self.clearing_more.account_move_id.state, "cancel")
