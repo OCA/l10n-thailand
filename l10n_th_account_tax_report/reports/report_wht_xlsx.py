@@ -15,11 +15,12 @@ class WithholdingTaxReportXslx(models.AbstractModel):
     _description = "Report Withholding Tax xlsx"
 
     def _define_formats(self, workbook):
-        super()._define_formats(workbook)
+        res = super()._define_formats(workbook)
         date_format = "DD/MM/YYYY"
         FORMATS["format_date_dmy_right"] = workbook.add_format(
             {"align": "right", "num_format": date_format}
         )
+        return res
 
     def _get_ws_params(self, wb, data, obj):
         withholding_tax_template = {
@@ -118,9 +119,9 @@ class WithholdingTaxReportXslx(models.AbstractModel):
     def _write_ws_header(self, row_pos, ws, data_list):
         for data in data_list:
             ws.merge_range(row_pos, 0, row_pos, 1, "")
-            ws.write_row(row_pos, 0, [data[0]], FORMATS["format_theader_blue_center"])
+            ws.write_row(row_pos, 0, [data[0]], FORMATS["format_theader_blue_left"])
             ws.merge_range(row_pos, 2, row_pos, 3, "")
-            ws.write_row(row_pos, 2, [data[1]], FORMATS["format_center"])
+            ws.write_row(row_pos, 2, [data[1]])
             row_pos += 1
         return row_pos + 1
 
@@ -143,13 +144,11 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 col_specs_section="data",
                 render_space={
                     "sequence": index,
-                    "vat": line.cert_id.supplier_partner_id.vat or "",
+                    "vat": line.cert_id.partner_id.vat or "",
                     "display_name": not cancel
-                    and line.cert_id.supplier_partner_id.display_name
+                    and line.cert_id.partner_id.display_name
                     or "Cancelled",
-                    "street": not cancel
-                    and line.cert_id.supplier_partner_id.street
-                    or "",
+                    "street": not cancel and line.cert_id.partner_id.street or "",
                     "date": line.cert_id.date,
                     "income_desc": line.wht_cert_income_desc or "",
                     "tax": line.wht_percent / 100 or 0.00,
@@ -192,7 +191,10 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 + " - "
                 + obj.date_to.strftime("%d/%m/%Y"),
             ),
-            ("Income Tax Form", obj.income_tax_form),
+            (
+                "Income Tax Form",
+                dict(obj._fields["income_tax_form"].selection).get(obj.income_tax_form),
+            ),
             ("Currency", obj.company_id.currency_id.name),
             ("Tax ID", obj.company_id.partner_id.vat or "-"),
             ("Branch ID", obj.company_id.partner_id.branch or "-"),

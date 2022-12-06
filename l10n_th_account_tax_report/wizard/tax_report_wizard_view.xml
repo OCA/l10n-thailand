@@ -15,12 +15,15 @@
                             name="tax_id"
                             options="{'no_create_edit': True, 'no_open': True}"
                         />
+                        <field name="show_cancel" />
                     </group>
                     <group>
                         <field
                             name="date_range_id"
                             options="{'no_create_edit': True, 'no_open': True}"
                         />
+                        <field name="date_from" />
+                        <field name="date_to" />
                     </group>
                 </group>
                 <footer>
@@ -55,11 +58,4 @@
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
-    <menuitem
-        id="menu_tax_report"
-        parent="account.menu_finance_reports"
-        action="action_tax_report"
-        name="Thai Tax Report"
-        groups="account.group_account_manager,account.group_account_user"
-    />
 </odoo>
