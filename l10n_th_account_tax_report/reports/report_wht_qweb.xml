@@ -12,19 +12,19 @@
             </div>
             <div class="act_as_row">
                 <div class="act_as_cell">
-                    <span t-esc="o.date_from.strftime('%d/%m/%Y')" />
+                    <span t-out="o.date_from.strftime('%d/%m/%Y')" />
                 </div>
                 <div class="act_as_cell">
-                    <span t-esc="o.date_to.strftime('%d/%m/%Y')" />
+                    <span t-out="o.date_to.strftime('%d/%m/%Y')" />
                 </div>
                 <div class="act_as_cell">
                     <span t-field="o.income_tax_form" />
                 </div>
                 <div class="act_as_cell">
-                    <span t-esc="o.company_id.partner_id.vat or '-'" />
+                    <span t-out="o.company_id.partner_id.vat or '-'" />
                 </div>
                 <div class="act_as_cell">
-                    <span t-esc="o.company_id.partner_id.branch or '-'" />
+                    <span t-out="o.company_id.partner_id.branch or '-'" />
                 </div>
             </div>
         </div>
@@ -32,10 +32,10 @@
     <template id="report_withholding_tax">
         <t t-set="title">Withholding Tax Report</t>
         <div class="page">
-            <div class="row">
+            <div>
                 <h4
                     class="mt0"
-                    t-esc="title or 'Odoo Report'"
+                    t-out="title or 'Odoo Report'"
                     style="text-align: center;"
                 />
             </div>
@@ -65,26 +65,48 @@
                 <t t-set="i" t-value="1" />
                 <t t-foreach="o.results" t-as="o">
                     <t t-set="cancel" t-value="o.cert_id.state == 'cancel'" />
+                    <t t-set="supplier" t-value="o.cert_id.partner_id" />
                     <div class="act_as_row lines">
                         <div class="act_as_cell" style="width: 4%;">
-                            <span t-esc="i" />
+                            <span t-out="i" />
                             <t t-set="i" t-value="i+1" />
                         </div>
                         <div class="act_as_cell" style="width: 7%;">
-                            <span t-field="o.cert_id.supplier_partner_id.vat" />
+                            <span t-field="supplier.vat" />
                         </div>
                         <div class="act_as_cell left" style="width: 13%;">
                             <span
-                                t-esc="not cancel and o.cert_id.supplier_partner_id.display_name or 'Cancelled'"
+                                t-out="not cancel and supplier.display_name or 'Cancelled'"
                             />
                         </div>
                         <div class="act_as_cell left" style="width: 13%;">
-                            <span
-                                t-esc="not cancel and o.cert_id.supplier_partner_id.street or ''"
-                            />
+                            <t t-if="not cancel">
+                                <t t-if="supplier.street">
+                                    <span t-field="supplier.street" />
+                                </t>
+                                <t t-if="supplier.street2">
+                                    <span>,</span>
+                                    <span t-field="supplier.street2" />
+                                </t>
+                                <t t-if="supplier.city">
+                                    <span>,</span>
+                                    <span t-field="supplier.city" />
+                                </t>
+                                <t t-if="supplier.state_id">
+                                    <span>,</span>
+                                    <span t-field="supplier.state_id" />
+                                </t>
+                                <t t-if="supplier.zip">
+                                    <span t-field="supplier.zip" />
+                                </t>
+                                <t t-if="supplier.country_id">
+                                    <span>,</span>
+                                    <span t-field="supplier.country_id" />
+                                </t>
+                            </t>
                         </div>
                         <div class="act_as_cell" style="width: 6%;">
-                            <span t-esc="o.cert_id.date.strftime('%d/%m/%Y')" />
+                            <span t-out="o.cert_id.date.strftime('%d/%m/%Y')" />
                         </div>
                         <div class="act_as_cell left" style="width: 17%;">
                             <span t-field="o.wht_cert_income_desc" />
@@ -95,13 +117,13 @@
                         </div>
                         <div class="act_as_cell amount" style="width: 9%;">
                             <span
-                                t-esc="not cancel and o.base or 0.0"
+                                t-out="not cancel and o.base or 0.0"
                                 t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
                             />
                         </div>
                         <div class="act_as_cell amount" style="width: 7%;">
                             <span
-                                t-esc="not cancel and o.amount or 0.0"
+                                t-out="not cancel and o.amount or 0.0"
                                 t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
                             />
                         </div>
@@ -131,13 +153,13 @@
                 <div class="act_as_cell" style="width: 65%;">Balance</div>
                 <div class="act_as_cell right" style="width: 9%;">
                     <span
-                        t-esc="final_base"
+                        t-out="final_base"
                         t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
                     />
                 </div>
                 <div class="act_as_cell right" style="width: 7%;">
                     <span
-                        t-esc="final_amount"
+                        t-out="final_amount"
                         t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
                     />
                 </div>
