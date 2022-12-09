@@ -130,6 +130,13 @@ class BankPaymentExport(models.Model):
             if export.bank == "KRTHTHBK":
                 export.ktb_is_editable = True
 
+    def _hook_email(self, pe_line):
+        return (
+            pe_line.payment_partner_id.email
+            and pe_line.payment_partner_id.email[:40].ljust(40)
+            or "".ljust(40)
+        )
+
     def _get_text_header_ktb(self, payment_lines):
         ktb_company_id = (
             self.config_ktb_company_id.value or "**Company ID on KTB is not config**"
@@ -200,9 +207,7 @@ class BankPaymentExport(models.Model):
                 ),  # other info1, 2, dda ref1, 2 and reverse (40+18+18+20+4) # 293-392
                 ref_running_number=str(idx + 1).zfill(6),  # 393-398
                 # TODO: ref from odoo
-                email=pe_line.payment_partner_id.email  # 401-440
-                and pe_line.payment_partner_id.email[:40].ljust(40)
-                or "".ljust(40),
+                email=self._hook_email(pe_line),  # 401-440
                 sms=pe_line.payment_partner_id.phone  # 441-460
                 and pe_line.payment_partner_id.phone[:20].ljust(20)
                 or "".ljust(20),
