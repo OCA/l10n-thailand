@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Format Text File should start at line1, Don't change it -->
+    <template id="bank_payment_export_text_file"><t
+            t-out="docs._export_bank_payment_text_file()"
+        /></template>
+</odoo>

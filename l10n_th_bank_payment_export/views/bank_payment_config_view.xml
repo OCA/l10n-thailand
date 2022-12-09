@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 Ecosoft Co., Ltd (http://ecosoft.co.th/)
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html) -->
+<odoo>
+    <record id="bank_payment_config_view_tree" model="ir.ui.view">
+        <field name="name">bank.payment.config.view.tree</field>
+        <field name="model">bank.payment.config</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="value" />
+                <field name="bank" />
+                <field name="field_id" optional="show" />
+                <field name="journal_id" optional="show" />
+                <field name="is_default" optional="show" />
+            </tree>
+        </field>
+    </record>
+    <record id="bank_payment_config_view_form" model="ir.ui.view">
+        <field name="name">bank.payment.config.view.form</field>
+        <field name="model">bank.payment.config</field>
+        <field name="arch" type="xml">
+            <form>
+                <header />
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" />
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="left">
+                            <field name="bank" />
+                            <field
+                                name="field_id"
+                                options="{'no_create': True, 'no_create_edit': True}"
+                            />
+                            <field
+                                name="journal_id"
+                                options="{'no_create': True, 'no_create_edit': True}"
+                            />
+                            <field name="is_default" />
+                        </group>
+                        <group name="right">
+                            <field name="value" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="bank_payment_config_view_search" model="ir.ui.view">
+        <field name="name">bank.payment.config.view.search</field>
+        <field name="model">bank.payment.config</field>
+        <field name="arch" type="xml">
+            <search string="Bank Payment Config">
+                <field name="name" />
+                <filter
+                    name="is_default"
+                    string="Default"
+                    domain="[('is_default', '=', True)]"
+                />
+                <group expand="1" string="Group By">
+                    <filter
+                        string="Bank"
+                        name="group_by_bank"
+                        context="{'group_by': 'bank'}"
+                    />
+                    <filter
+                        string="Field"
+                        name="group_by_field_id"
+                        context="{'group_by': 'field_id'}"
+                    />
+                    <filter
+                        string="Journal"
+                        name="group_by_journal_id"
+                        context="{'group_by': 'journal_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_bank_payment_config" model="ir.actions.act_window">
+        <field name="name">Bank Payment Configuration</field>
+        <field name="res_model">bank.payment.config</field>
+        <field name="view_id" ref="bank_payment_config_view_tree" />
+    </record>
+    <menuitem
+        id="menu_bank_payment_config"
+        action="action_bank_payment_config"
+        parent="account.root_payment_menu"
+        sequence="60"
+    />
+</odoo>

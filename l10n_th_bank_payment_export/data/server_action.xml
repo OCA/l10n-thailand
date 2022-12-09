@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_server_bank_payment_export" model="ir.actions.server">
+        <field name="name">Create Bank Payment Export</field>
+        <field name="type">ir.actions.server</field>
+        <field
+            name="model_id"
+            ref="l10n_th_bank_payment_export.model_bank_payment_export"
+        />
+        <field name="binding_model_id" ref="account.model_account_payment" />
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field
+            name="code"
+        >action = env['bank.payment.export'].action_create_bank_payment_export()</field>
+    </record>
+</odoo>
