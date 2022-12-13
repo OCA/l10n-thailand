@@ -100,7 +100,7 @@ class CommonBankPaymentExport(TransactionCase):
             journal=self.journal_bank,
         )
 
-    def create_bank_payment_config(self, name, field_name, value, default=False):
+    def create_bank_payment_config(self, name, field_name, value, bank, default=False):
         field_id = self.env["ir.model.fields"].search(
             [
                 ("model", "=", "bank.payment.export"),
@@ -112,6 +112,7 @@ class CommonBankPaymentExport(TransactionCase):
         bank_config_id = self.bank_payment_config_model.create(
             {
                 "name": name,
+                "bank": bank,
                 "field_id": field_id.id,
                 "value": value,
                 "is_default": default,
