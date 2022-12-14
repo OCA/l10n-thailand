@@ -141,6 +141,8 @@ class WithHoldingTaxReport(models.TransientModel):
                     and "|{}".format(partner_id.branch or "")
                     or ""
                 )
+                # For case show cancelled, amount must show 0.0
+                cancel = line.cert_id.state == "cancel"
                 text += (
                     "{income_code}{index}|{vat}|{name}|{address}{date}|"
                     "{type_income_desc}{base_amount}|{wht_amount}|{tax_payer}"
@@ -154,8 +156,8 @@ class WithHoldingTaxReport(models.TransientModel):
                         or "",  # pnd3, 53 (optional)
                         date=self.format_date_dmy(line.cert_id.date),
                         type_income_desc=type_income_desc,
-                        base_amount="{:,.2f}".format(line.base) or 0.00,
-                        wht_amount="{:,.2f}".format(line.amount) or 0.00,
+                        base_amount=not cancel and "{:,.2f}".format(line.base) or 0.00,
+                        wht_amount=not cancel and "{:,.2f}".format(line.amount) or 0.00,
                         tax_payer=self._convert_tax_payer(line.cert_id.tax_payer),
                         tax_branch=tax_branch,
                     )
