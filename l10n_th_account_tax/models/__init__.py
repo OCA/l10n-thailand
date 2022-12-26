@@ -1,5 +1,8 @@
 # Copyright 2019 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
+
+from . import res_company
+from . import res_config_settings
 from . import product
 from . import personal_income_tax
 from . import withholding_tax_cert

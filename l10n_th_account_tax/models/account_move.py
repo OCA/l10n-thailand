@@ -598,7 +598,10 @@ class AccountMove(models.Model):
                 else:  # Normal case, use new sequence
                     number = sequence.next_by_id(sequence_date=move.date)
             else:  # Now sequence for this tax, use document number
-                number = tax_invoice.payment_id.name or origin_move.name
+                if self.env.company.customer_tax_name == "payment":
+                    number = tax_invoice.payment_id.name or origin_move.name
+                else:
+                    number = tax_invoice.move_id.ref or origin_move.name
         return (number, invoice_date)
 
     def _reverse_moves(self, default_values_list=None, cancel=False):

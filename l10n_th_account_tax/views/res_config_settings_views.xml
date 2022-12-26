@@ -10,7 +10,31 @@
                 <div
                     class="row mt16 o_settings_container"
                     name="l10n_th_account_settings"
-                />
+                >
+                    <div
+                        class="col-12 col-lg-6 o_setting_box"
+                        id="manage_customer_tax_payment_setting"
+                    >
+                        <div class="o_setting_right_pane">
+                            <label
+                                for="customer_tax_name"
+                                string="Undue Tax Invoice Number"
+                            />
+                            <div class="text-muted">
+                                Define your tax number reference (Undue Vat)
+                            </div>
+                            <div class="content-group">
+                                <div class="mt16">
+                                    <field
+                                        name="customer_tax_name"
+                                        class="o_light_label"
+                                        widget="radio"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </xpath>
         </field>
     </record>
