@@ -221,7 +221,12 @@ class AccountMoveLine(models.Model):
         prec = self.env.company.currency_id.decimal_places
         full_tax = abs(float_round(self.tax_line_id.amount / 100 * base, prec))
         # partial payment, we need to compute the base amount
-        if self.tax_line_id and float_compare(full_tax, tax, prec) != 0:
+        partial_payment = self.env.context.get("partial_payment", False)
+        if (
+            partial_payment
+            and self.tax_line_id
+            and float_compare(full_tax, tax, prec) != 0
+        ):
             base = abs(float_round(tax * 100 / self.tax_line_id.amount, prec))
         return sign * base
 
