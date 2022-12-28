@@ -7,12 +7,12 @@ from odoo import fields, models
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    customer_tax_name = fields.Selection(
+    undue_output_name_config = fields.Selection(
         [
             ("payment", "Payment"),
             ("invoice", "Invoice"),
         ],
         default="payment",
-        string="Customer Tax Invoices Number",
-        help="If checked, wht cert form will show layout pre-print",
+        string="Undue Tax Invoices Number",
+        help="The customer with the undue tax number will use the following configuration",
     )

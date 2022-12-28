@@ -598,7 +598,7 @@ class AccountMove(models.Model):
                 else:  # Normal case, use new sequence
                     number = sequence.next_by_id(sequence_date=move.date)
             else:  # Now sequence for this tax, use document number
-                if self.env.company.customer_tax_name == "payment":
+                if self.env.company.undue_output_name_config == "payment":
                     number = tax_invoice.payment_id.name or origin_move.name
                 else:
                     number = tax_invoice.move_id.ref or origin_move.name

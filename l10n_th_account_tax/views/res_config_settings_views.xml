@@ -17,7 +17,7 @@
                     >
                         <div class="o_setting_right_pane">
                             <label
-                                for="customer_tax_name"
+                                for="undue_output_name_config"
                                 string="Undue Tax Invoice Number"
                             />
                             <div class="text-muted">
@@ -26,7 +26,7 @@
                             <div class="content-group">
                                 <div class="mt16">
                                     <field
-                                        name="customer_tax_name"
+                                        name="undue_output_name_config"
                                         class="o_light_label"
                                         widget="radio"
                                     />
