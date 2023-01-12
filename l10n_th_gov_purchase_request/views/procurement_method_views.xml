@@ -3,7 +3,7 @@
         <field name="name">procurement.method.view.tree</field>
         <field name="model">procurement.method</field>
         <field name="arch" type="xml">
-            <tree string="Procurement Methods" decoration-muted="active == False">
+            <tree decoration-muted="active == False">
                 <field name="sequence" widget="handle" />
                 <field name="active" invisible="True" />
                 <field name="name" />

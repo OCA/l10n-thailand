@@ -3,7 +3,7 @@
         <field name="name">purchase.type.view.tree</field>
         <field name="model">purchase.type</field>
         <field name="arch" type="xml">
-            <tree string="Purchase Types" decoration-muted="active == False">
+            <tree decoration-muted="active == False">
                 <field name="sequence" widget="handle" />
                 <field name="active" invisible="True" />
                 <field name="name" />
@@ -38,6 +38,7 @@
                     <group>
                         <group>
                             <field name="to_create" />
+                            <field name="code" />
                         </group>
                         <group>
                             <field name="is_default" />

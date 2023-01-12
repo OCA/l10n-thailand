@@ -1,4 +1,4 @@
-This module add following features to Purchase Rquest document, aimed to follow Thai Government procurement regulation.
+This module add following features to Purchase Request document, aimed to follow Thai Government procurement regulation.
 
 1. Add following data to Purchase Request
     1.1 Procurement Type (ประเภท)

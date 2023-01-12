@@ -1,0 +1,19 @@
+<odoo noupdate="1">
+
+    <record id="purchase_exception_amount_not_exceed_pr" model="exception.rule">
+        <field
+            name="name"
+        >ยอดเงินของเอกสารนี้ เกินยอดเงินในเอกสาร PR มากกว่า 10%</field>
+        <field name="description">กรุณาเช็คยอดเงินใหม่อีกครั้ง</field>
+        <field name="model">purchase.order</field>
+        <field name="exception_type">by_py_code</field>
+        <field name="code">
+max_percent = 1.10
+pr_total = sum(self.order_line.mapped("purchase_request_lines.estimated_cost"))
+if pr_total:
+    po_total = self.amount_total
+    failed = po_total > (pr_total * max_percent)
+        </field>
+    </record>
+
+</odoo>
