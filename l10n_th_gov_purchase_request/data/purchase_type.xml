@@ -15,6 +15,7 @@
     <record id="purchase_type_002" model="purchase.type">
         <field name="name">วงเงินเล็กน้อย</field>
         <field name="to_create">expense</field>
+        <field name="code">1</field>
         <field name="is_default">False</field>
         <field
             name="procurement_method_ids"
@@ -24,6 +25,7 @@
     <record id="purchase_type_003" model="purchase.type">
         <field name="name">79 วรรคสอง</field>
         <field name="to_create">expense</field>
+        <field name="code">2</field>
         <field name="is_default">False</field>
         <field
             name="procurement_method_ids"
@@ -34,6 +36,7 @@
         <field name="name">ว.119</field>
         <field name="to_create">expense</field>
         <field name="is_default">False</field>
+        <field name="code">3</field>
         <field
             name="procurement_method_ids"
             eval="[(6, 0, [ref('l10n_th_gov_purchase_request.procurement_specific')])]"

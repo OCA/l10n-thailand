@@ -10,7 +10,6 @@ class ProcurementType(models.Model):
     _order = "sequence"
 
     name = fields.Char(
-        string="Name",
         required=True,
     )
     product_id = fields.Many2one(
@@ -18,14 +17,11 @@ class ProcurementType(models.Model):
         help="Default product for purchase request line",
     )
     active = fields.Boolean(
-        string="Active",
         default=True,
     )
     sequence = fields.Integer(
-        string="Sequence",
         default=10,
     )
     description = fields.Text(
-        string="Description",
         translate=True,
     )

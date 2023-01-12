@@ -10,18 +10,14 @@ class ProcurementMethod(models.Model):
     _order = "sequence"
 
     name = fields.Char(
-        string="Name",
         required=True,
     )
     active = fields.Boolean(
-        string="Active",
         default=True,
     )
     sequence = fields.Integer(
-        string="Sequence",
         default=10,
     )
     description = fields.Text(
-        string="Description",
         translate=True,
     )

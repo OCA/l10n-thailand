@@ -76,6 +76,18 @@
         <field name="model">purchase.request</field>
         <field name="inherit_id" ref="purchase_request.view_purchase_request_form" />
         <field name="arch" type="xml">
+            <button name="button_rejected" position="attributes">
+                <attribute name="states">draft,to_approve,approved</attribute>
+                <attribute name="groups" />
+            </button>
+            <xpath expr="//h1/field[@name='name']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='assigned_to']" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'readonly': [('state','not in', ['to_approve', 'approved'])]}</attribute>
+            </xpath>
             <!-- Custom fields -->
             <field name="requested_by" position="before">
                 <field

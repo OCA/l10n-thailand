@@ -11,19 +11,16 @@ class PurchaseType(models.Model):
     _order = "sequence"
 
     name = fields.Char(
-        string="Name",
         required=True,
     )
+    code = fields.Char()
     active = fields.Boolean(
-        string="Active",
         default=True,
     )
     description = fields.Text(
-        string="Description",
         translate=True,
     )
     sequence = fields.Integer(
-        string="Sequence",
         default=10,
     )
     to_create = fields.Selection(
@@ -31,7 +28,6 @@ class PurchaseType(models.Model):
             ("purchase_agreement", "Purchase Agreement"),
             ("expense", "Expense"),
         ],
-        string="To Create",
         required=True,
         help="Create purchase agreement or expense when pr is approved",
     )

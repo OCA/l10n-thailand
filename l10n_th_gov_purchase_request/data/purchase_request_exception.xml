@@ -9,7 +9,8 @@
         <field name="exception_type">by_py_code</field>
         <field name="code">
 if self.purchase_type_id.name == "วงเงินเล็กน้อย":
-    if sum(self.line_ids.mapped("estimated_cost")) &gt; 100000:
+    estimated_cost = self.get_estimated_cost_currency()
+    if estimated_cost &gt; 100000:
         failed=True
         </field>
     </record>
@@ -37,7 +38,8 @@ if self.purchase_type_id.name == "วงเงินเล็กน้อย":
         <field name="exception_type">by_py_code</field>
         <field name="code">
 if self.purchase_type_id.name == "79 วรรคสอง":
-    if sum(self.line_ids.mapped("estimated_cost")) &gt; 500000:
+    estimated_cost = self.get_estimated_cost_currency()
+    if estimated_cost &gt; 500000:
         failed=True
         </field>
     </record>
@@ -63,7 +65,8 @@ if self.purchase_type_id.name == "79 วรรคสอง":
         <field name="exception_type">by_py_code</field>
         <field name="code">
 if self.purchase_type_id.name == "ว.119":
-    if sum(self.line_ids.mapped("estimated_cost")) &gt; 10000:
+    estimated_cost = self.get_estimated_cost_currency()
+    if estimated_cost &gt; 10000:
         failed=True
         </field>
     </record>
@@ -92,7 +95,8 @@ if self.purchase_type_id.name == "ว.119":
         <field name="exception_type">by_py_code</field>
         <field name="code">
 if self.purchase_type_id.name == "จัดซื้อจัดจ้างผ่านพัสดุ":
-    if self.procurement_type_id.name == "ซื้อ/จ้าง/เช่า" and sum(self.line_ids.mapped("estimated_cost")) &lt;= 500000:
+    estimated_cost = self.get_estimated_cost_currency()
+    if self.procurement_type_id.name == "ซื้อ/จ้าง/เช่า" and estimated_cost &lt;= 500000:
         if len(self.work_acceptance_committee_ids) &lt; 3:
             failed=True
         </field>
@@ -108,7 +112,8 @@ if self.purchase_type_id.name == "จัดซื้อจัดจ้างผ�
         <field name="exception_type">by_py_code</field>
         <field name="code">
 if self.purchase_type_id.name == "จัดซื้อจัดจ้างผ่านพัสดุ":
-    if self.procurement_method_id.name == "เฉพาะเจาะจง" and self.procurement_type_id.name == "ซื้อ/จ้าง/เช่า" and sum(self.line_ids.mapped("estimated_cost")) &gt; 500000:
+    estimated_cost = self.get_estimated_cost_currency()
+    if self.procurement_method_id.name == "เฉพาะเจาะจง" and self.procurement_type_id.name == "ซื้อ/จ้าง/เช่า" and estimated_cost &gt; 500000:
         if len(self.work_acceptance_committee_ids) &lt; 3:
             failed=True
         </field>
@@ -124,7 +129,8 @@ if self.purchase_type_id.name == "จัดซื้อจัดจ้างผ�
         <field name="exception_type">by_py_code</field>
         <field name="code">
 if self.purchase_type_id.name == "จัดซื้อจัดจ้างผ่านพัสดุ":
-    if self.procurement_method_id.name != "เฉพาะเจาะจง" and self.procurement_type_id.name == "ซื้อ/จ้าง/เช่า" and sum(self.line_ids.mapped("estimated_cost")) &gt; 500000:
+    estimated_cost = self.get_estimated_cost_currency()
+    if self.procurement_method_id.name != "เฉพาะเจาะจง" and self.procurement_type_id.name == "ซื้อ/จ้าง/เช่า" and estimated_cost &gt; 500000:
         if len(self.procurement_committee_ids) &lt; 3:
             failed=True
         if len(self.work_acceptance_committee_ids) &lt; 3:
