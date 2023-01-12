@@ -2,10 +2,12 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
 from odoo.exceptions import UserError
-from odoo.tests import Form, common
+from odoo.tests import tagged
+from odoo.tests.common import Form, TransactionCase
 
 
-class TestGovPurchaseAgreement(common.TransactionCase):
+@tagged("post_install", "-at_install")
+class TestGovPurchaseAgreement(TransactionCase):
     def setUp(self):
         super().setUp()
         self.pr_model = self.env["purchase.requisition"]
