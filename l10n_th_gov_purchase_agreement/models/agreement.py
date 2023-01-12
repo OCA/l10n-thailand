@@ -38,7 +38,7 @@ class Agreement(models.Model):
     def _onchange_purchase_id(self):
         self.partner_id = self.purchase_order_id.partner_id
 
-    @api.constrains("purchase_order_id", "purchase_order_id.partner_id")
+    @api.constrains("purchase_order_id")
     def _check_partner(self):
         for rec in self:
             if (

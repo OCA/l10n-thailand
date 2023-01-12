@@ -20,6 +20,7 @@
                     <field
                         name="invoice_plan_ids"
                         nolabel="1"
+                        readonly="1"
                         widget="one2many"
                         mode="tree"
                         context="{'default_purchase_id': purchase_order_id}"
