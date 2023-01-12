@@ -38,7 +38,6 @@ class ProcurementCommittee(models.Model):
             ("procurement", "Procurement Committee"),
             ("work_acceptance", "Work Acceptance Committee"),
         ],
-        string="Committee Type",
     )
     approve_role = fields.Selection(
         selection=[
@@ -48,9 +47,7 @@ class ProcurementCommittee(models.Model):
         string="Role",
         required=True,
     )
-    note = fields.Text(
-        string="Note",
-    )
+    note = fields.Text()
 
     _sql_constraints = [
         (

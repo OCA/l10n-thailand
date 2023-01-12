@@ -3,13 +3,14 @@
 
 {
     "name": "Thai Localization - Government Purchase Request",
-    "version": "14.0.1.0.0",
+    "version": "15.0.1.0.0",
     "author": "Ecosoft, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-thailand",
     "category": "Localization / Purchase",
     "depends": [
         "hr",
+        "purchase_exception",
         "purchase_request_exception",
         "purchase_request_substate",
         "purchase_request_to_requisition",
@@ -17,6 +18,7 @@
     "data": [
         "security/ir.model.access.csv",
         "security/procurement_team.xml",
+        "data/purchase_exception.xml",
         "data/purchase_request_exception.xml",
         "data/procurement_type.xml",
         "data/procurement_method.xml",

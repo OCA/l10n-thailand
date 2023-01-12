@@ -1,7 +1,8 @@
 # Copyright 2021 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class PurchaseRequest(models.Model):
@@ -57,14 +58,12 @@ class PurchaseRequest(models.Model):
     )
     verified_by = fields.Many2one(
         comodel_name="res.users",
-        string="Verified By",
         index=True,
         copy=False,
         tracking=True,
     )
     approved_by = fields.Many2one(
         comodel_name="res.users",
-        string="Approved By",
         index=True,
         copy=False,
         tracking=True,
@@ -79,6 +78,27 @@ class PurchaseRequest(models.Model):
     )
     substate_sequence = fields.Integer(related="substate_id.sequence")
 
+    def get_estimated_cost_currency(self, date=False):
+        """Get estimated cost with currency"""
+        self.ensure_one()
+        date = date or fields.Date.context_today(self)
+        estimated_cost = sum(self.line_ids.mapped("estimated_cost"))
+        if self.currency_id != self.company_id.currency_id:
+            # check installing module `purchase_request_manual_currency`
+            # it should convert following custom rate
+            if hasattr(self, "manual_currency") and self.manual_currency:
+                rate = (
+                    self.custom_rate
+                    if self.type_currency == "inverse_company_rate"
+                    else (1.0 / self.custom_rate)
+                )
+                estimated_cost = estimated_cost * rate
+            else:
+                estimated_cost = self.currency_id._convert(
+                    estimated_cost, self.company_id.currency_id, self.company_id, date
+                )
+        return estimated_cost
+
     def action_to_substate(self):
         self.ensure_one()
         sequence = self.env.context.get("to_substate_sequence", 0)
@@ -89,7 +109,7 @@ class PurchaseRequest(models.Model):
             {
                 "substate_id": substate.id,
                 "verified_by": self.env.user.id,
-                "date_verified": fields.Date.today(),
+                "date_verified": fields.Date.context_today(self),
             }
         )
 
@@ -106,6 +126,32 @@ class PurchaseRequest(models.Model):
 
     def button_approved(self):
         self.write(
-            {"approved_by": self.env.user.id, "date_approved": fields.Date.today()}
+            {
+                "approved_by": self.env.user.id,
+                "date_approved": fields.Date.context_today(self),
+            }
         )
         return super().button_approved()
+
+    def button_rejected(self):
+        """Allows the PR Manager to reject documents after procurement approved only."""
+        pr_manager = self.user_has_groups(
+            "purchase_request.group_purchase_request_manager"
+        )
+        substate_verify = self.env.ref(
+            "l10n_th_gov_purchase_request.base_substate_verified"
+        )
+        if self.filtered(
+            lambda l: (
+                l.state == "approved"
+                or (l.state == "to_approve" and l.substate_id == substate_verify)
+            )
+            and not pr_manager
+        ):
+            raise UserError(
+                _(
+                    "You are not allowed to reject a document that has already been approved.\n"
+                    "Please contact the Purchase Request Manager."
+                )
+            )
+        return super().button_rejected()
