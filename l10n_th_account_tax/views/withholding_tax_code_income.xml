@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_withholding_tax_income_code_search" model="ir.ui.view">
+        <field name="name">view.withholding.tax.income.code.search</field>
+        <field name="model">withholding.tax.code.income</field>
+        <field name="arch" type="xml">
+            <search string="Income Code">
+                <field name="name" />
+                <field name="code" />
+                <separator name="filter_income_type" />
+                <filter
+                    name="filter_pnd1"
+                    string="PND1"
+                    domain="[('income_tax_form', '=', 'pnd1')]"
+                />
+                <filter
+                    name="filter_pnd3"
+                    string="PND3"
+                    domain="[('income_tax_form', '=', 'pnd3')]"
+                />
+                <filter
+                    name="filter_pnd3a"
+                    string="PND3a"
+                    domain="[('income_tax_form', '=', 'pnd3a')]"
+                />
+                <filter
+                    name="filter_pnd53"
+                    string="PND53"
+                    domain="[('income_tax_form', '=', 'pnd53')]"
+                />
+                <group name="group_by" string="Group By">
+                    <filter
+                        name="groupby_income_tax_form"
+                        string="Income Tax Form"
+                        context="{'group_by': 'income_tax_form'}"
+                    />
+                    <filter
+                        name="groupby_type_income"
+                        string="Type of Income"
+                        context="{'group_by': 'wht_cert_income_type'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="view_account_withholding_tax_income_code_tree" model="ir.ui.view">
+        <field name="name">view.withholding.tax.income.code.tree</field>
+        <field name="model">withholding.tax.code.income</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code" />
+                <field name="name" />
+                <field name="income_tax_form" optional="show" />
+                <field name="wht_cert_income_type" optional="show" />
+                <field name="is_default" optional="show" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_account_withholding_tax_income_code_form" model="ir.ui.view">
+        <field name="name">view.withholding.tax.income.code.form</field>
+        <field name="model">withholding.tax.code.income</field>
+        <field name="arch" type="xml">
+            <form string="WHT Income">
+                <header />
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" />
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code" />
+                            <field name="is_default" />
+                        </group>
+                        <group>
+                            <field name="income_tax_form" />
+                            <field name="wht_cert_income_type" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record
+        id="action_account_withholding_tax_income_code_menu"
+        model="ir.actions.act_window"
+    >
+        <field name="name">WHT Income Code</field>
+        <field name="res_model">withholding.tax.code.income</field>
+        <field name="view_id" ref="view_account_withholding_tax_income_code_tree" />
+    </record>
+    <menuitem
+        id="menu_withholding_tax_income_code"
+        action="action_account_withholding_tax_income_code_menu"
+        parent="account.account_account_menu"
+        sequence="2"
+        groups="account.group_account_invoice"
+    />
+</odoo>
