@@ -27,6 +27,7 @@ addon | version | maintainers | summary
 [l10n_th_fonts](l10n_th_fonts/) | 15.0.1.0.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Collection of all fonts thai
 [l10n_th_partner](l10n_th_partner/) | 15.0.1.0.0 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Partner
 [l10n_th_promptpay](l10n_th_promptpay/) | 15.0.1.0.0 |  | Use PromptPay QR code with transfer acquirer.
+[l10n_th_sequence_refactored](l10n_th_sequence_refactored/) | 15.0.1.0.0 |  | Base Sequence
 
 [//]: # (end addons)
 
