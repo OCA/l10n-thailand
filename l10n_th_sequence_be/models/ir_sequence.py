@@ -21,16 +21,10 @@ class IrSequenceBe(models.Model):
         res["y_be"] = res["year_be"][-2:]
         res["range_y_be"] = res["range_year_be"][-2:]
         res["current_y_be"] = res["current_year_be"][-2:]
-
-        domain = [
-            ("name", "=", "l10n_th_sequence_range_end"),
-            ("state", "=", "installed"),
-        ]
-        if self.env["ir.module.module"].sudo().search_count(domain) == 1:
-            res["range_end_year_be"] = (
-                str(int(res["range_end_year"]) + 543) if res["range_end_year"] else None
-            )
-            res["range_end_y_be"] = (
-                res["range_end_year_be"][-2:] if res["range_end_year"] else None
-            )
+        res["range_end_year_be"] = (
+            str(int(res["range_end_year"]) + 543) if res["range_end_year"] else None
+        )
+        res["range_end_y_be"] = (
+            res["range_end_year_be"][-2:] if res["range_end_year"] else None
+        )
         return res
