@@ -8,6 +8,11 @@ class AccountAsset(models.Model):
     _name = "account.asset"
     _inherit = ["account.asset", "mail.thread", "mail.activity.mixin"]
 
+    salvage_value = fields.Float(
+        compute="_compute_salvage_value",
+        store=True,
+        readonly=False,
+    )
     image = fields.Binary(
         string="Image",
         attachment=True,
@@ -18,6 +23,18 @@ class AccountAsset(models.Model):
         string="Depreciation Rate (%)",
         store=True,
     )
+
+    @api.model
+    def create(self, vals):
+        asset = super().create(vals)
+        if asset.profile_id:
+            asset.salvage_value = asset.profile_id.salvage_value
+        return asset
+
+    @api.depends("profile_id")
+    def _compute_salvage_value(self):
+        for asset in self:
+            asset.salvage_value = asset.profile_id.salvage_value
 
     @api.depends("method_number", "method")
     def _compute_depreciation_rate(self):

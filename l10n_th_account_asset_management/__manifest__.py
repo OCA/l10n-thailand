@@ -9,7 +9,10 @@
     "website": "https://github.com/OCA/l10n-thailand",
     "category": "Localization / Accounting",
     "depends": ["account_asset_number"],
-    "data": ["views/account_asset_views.xml"],
+    "data": [
+        "views/account_asset_profile_views.xml",
+        "views/account_asset_views.xml",
+    ],
     "installable": True,
     "development_status": "Alpha",
     "maintainers": ["ps-tubtim"],
