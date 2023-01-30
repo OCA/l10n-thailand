@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="action_remove_asset" model="ir.actions.server">
+        <field name="name">Remove</field>
+        <field name="model_id" ref="account_asset_management.model_account_asset" />
+        <field
+            name="binding_model_id"
+            ref="account_asset_management.model_account_asset"
+        />
+        <field name="state">code</field>
+        <field name="groups_id" eval="[(4, ref('account.group_account_manager'))]" />
+        <field name="binding_view_types">list</field>
+        <field name="code">
+if records:
+    action = records.action_remove_multi_assets()
+        </field>
+    </record>
+</odoo>
