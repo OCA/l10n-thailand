@@ -1,0 +1,145 @@
+<odoo>
+    <record id="view_hr_expense_sheet_form" model="ir.ui.view">
+        <field name="name">hr.expense.sheet.form</field>
+        <field name="model">hr.expense.sheet</field>
+        <field
+            name="inherit_id"
+            ref="hr_expense_advance_overdue_reminder.view_hr_expense_sheet_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='advance_sheet_id']" position="after">
+                <field
+                    name="date_return"
+                    attrs="{'invisible': [('advance', '=', False)], 'required': [('advance', '=', True)]}"
+                />
+                <field
+                    name="clearing_term"
+                    widget="radio"
+                    attrs="{'invisible': [('advance', '=', False)], 'required': [('advance', '=', True)]}"
+                />
+                <field name="clearing_date_due" position="move" />
+            </xpath>
+            <xpath expr="//field[@name='accounting_date']" position="after">
+                <field name="employee_user_id" invisible="1" />
+                <field name="pr_for" invisible="1" />
+                <field
+                    name="purchase_request_id"
+                    attrs="{'invisible': [('advance_sheet_id', '!=', False)]}"
+                    options="{'no_open': True, 'no_create_edit': True}"
+                    groups="purchase_request.group_purchase_request_user"
+                />
+                <field
+                    name="no_pr_check"
+                    attrs="{'invisible': [('purchase_request_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath
+                expr="//field[@name='expense_line_ids']/tree/field[@name='account_id']"
+                position="after"
+            >
+                <field name="purchase_type_id" optional="hide" />
+            </xpath>
+            <xpath
+                expr="//field[@name='expense_line_ids']/tree/field[@name='tax_ids']"
+                position="attributes"
+            >
+                <attribute name="groups" />
+            </xpath>
+            <xpath
+                expr="//field[@name='expense_line_ids']/tree/field[@name='reference']"
+                position="attributes"
+            >
+                <attribute name="groups" />
+            </xpath>
+            <xpath expr="/form/sheet/notebook/page[@name='expenses']" position="after">
+                <page
+                    name="prlines"
+                    string="Expense from PR"
+                    attrs="{'invisible': [('pr_line_ids', '=', [])]}"
+                    groups="purchase_request.group_purchase_request_user"
+                >
+                    <p class="oe_grey">
+                        By click "Save", expenses based on purchase request lines, will be created into "Expense" tab.
+                    </p>
+                    <field name="pr_line_ids">
+                        <tree editable="bottom" create="0" delete="1">
+                            <field name="product_id" />
+                            <field name="name" />
+                            <field name="quantity" />
+                            <field name="unit_amount" />
+                            <field name="total_amount" />
+                            <field name="currency_id" invisible="1" />
+                            <field name="description" optional="hide" />
+                            <field name="reference" optional="hide" />
+                            <field name="pr_line_id" invisible="1" />
+                       </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_expense_sheet_view_search" model="ir.ui.view">
+        <field name="name">hr.expense.sheet.view.search</field>
+        <field name="model">hr.expense.sheet</field>
+        <field name="inherit_id" ref="hr_expense.hr_expense_sheet_view_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='accounting_date']" position="after">
+                <field name="purchase_request_id" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_expense_view_expenses_analysis_tree" model="ir.ui.view">
+        <field name="name">hr.expense.tree</field>
+        <field name="model">hr.expense</field>
+        <field
+            name="inherit_id"
+            ref="hr_expense.hr_expense_view_expenses_analysis_tree"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tax_ids']" position="attributes">
+                <attribute name="groups" />
+            </xpath>
+            <xpath expr="//field[@name='reference']" position="attributes">
+                <attribute name="groups" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_expense_view_form" model="ir.ui.view">
+        <field name="name">hr.expense.view.form</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.hr_expense_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='account_id']" position="after">
+                <field
+                    name="purchase_type_id"
+                    attrs="{'readonly': [('is_editable', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='tax_ids']" position="attributes">
+                <attribute name="groups" />
+            </xpath>
+            <xpath expr="//field[@name='reference']" position="attributes">
+                <attribute name="groups" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_expense_view_search" model="ir.ui.view">
+        <field name="name">hr.expense.view.search</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.hr_expense_view_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='company']" position="after">
+                <filter
+                    string="Purchase Type"
+                    name="purchase_type"
+                    domain="[]"
+                    context="{'group_by': 'purchase_type_id'}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
