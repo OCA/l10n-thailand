@@ -18,6 +18,7 @@ setuptools.setup(
         'odoo14-addon-l10n_th_gov_purchase_agreement',
         'odoo14-addon-l10n_th_gov_purchase_guarantee',
         'odoo14-addon-l10n_th_gov_purchase_request',
+        'odoo14-addon-l10n_th_gov_work_acceptance',
         'odoo14-addon-l10n_th_partner',
         'odoo14-addon-l10n_th_promptpay',
         'odoo14-addon-l10n_th_sequence_be',
