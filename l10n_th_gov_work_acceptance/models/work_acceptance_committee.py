@@ -48,9 +48,7 @@ class WorkAcceptanceCommittee(models.Model):
             ("other", "Other"),
         ],
     )
-    note = fields.Text(
-        string="Note",
-    )
+    note = fields.Text()
     _sql_constraints = [
         (
             "employee_wa_uniq",

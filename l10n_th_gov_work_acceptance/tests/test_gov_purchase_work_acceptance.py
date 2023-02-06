@@ -155,7 +155,7 @@ class TestGovPurchaseWorkAcceptance(TransactionCase):
         # Check WA default
         res = purchase.with_context(create_wa=True).action_view_wa()
         ctx = res.get("context")
-        work_acceptance = Form(self.env["work.acceptance"].with_context(ctx))
+        work_acceptance = Form(self.env["work.acceptance"].with_context(**ctx))
         self.assertEqual(work_acceptance.state, "draft")
         self.assertEqual(len(work_acceptance.work_acceptance_committee_ids), 3)
         self.assertTrue(work_acceptance.wa_tier_validation)
