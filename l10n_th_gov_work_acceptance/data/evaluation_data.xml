@@ -1,102 +1,91 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<odoo>
-    <data noupdate="1">
-        <!-- Quality -->
-        <record id="score_quality_pass" model="work.acceptance.evaluation.score">
-            <field name="name">Pass</field>
-            <field name="score" eval="2" />
-        </record>
-        <record
-            id="score_quality_need_improve"
-            model="work.acceptance.evaluation.score"
+<odoo noupdate="1">
+    <!-- Quality -->
+    <record id="score_quality_pass" model="work.acceptance.evaluation.score">
+        <field name="name">Pass</field>
+        <field name="score" eval="2" />
+    </record>
+    <record id="score_quality_need_improve" model="work.acceptance.evaluation.score">
+        <field name="name">Need Improvement</field>
+        <field name="score" eval="1" />
+    </record>
+    <record id="score_quality_not_pass" model="work.acceptance.evaluation.score">
+        <field name="name">Not Pass</field>
+        <field name="score" eval="0" />
+    </record>
+
+    <record id="case_name_quality" model="work.acceptance.evaluation">
+        <field name="name">Quality</field>
+        <field name="active">True</field>
+        <field name="state_required" />
+        <field
+            name="score_ids"
+            eval="[(6,0,[ref('score_quality_pass'),
+                            ref('score_quality_need_improve'),
+                            ref('score_quality_not_pass')])]"
         >
-            <field name="name">Need Improvement</field>
-            <field name="score" eval="1" />
-        </record>
-        <record id="score_quality_not_pass" model="work.acceptance.evaluation.score">
-            <field name="name">Not Pass</field>
-            <field name="score" eval="0" />
-        </record>
+        </field>
+    </record>
 
-        <record id="case_name_quality" model="work.acceptance.evaluation">
-            <field name="name">Quality</field>
-            <field name="active">True</field>
-            <field name="state_required" />
-            <field
-                name="score_ids"
-                eval="[(6,0,[ref('score_quality_pass'),
-                             ref('score_quality_need_improve'),
-                             ref('score_quality_not_pass')])]"
-            >
-            </field>
-        </record>
+    <!-- Delivery -->
+    <record id="score_delivery_pass" model="work.acceptance.evaluation.score">
+        <field name="name">Pass</field>
+        <field name="score" eval="2" />
+    </record>
+    <record id="score_delivery_need_improve" model="work.acceptance.evaluation.score">
+        <field name="name">Need Improvement</field>
+        <field name="score" eval="1" />
+    </record>
+    <record id="score_delivery_not_pass" model="work.acceptance.evaluation.score">
+        <field name="name">Not Pass</field>
+        <field name="score" eval="0" />
+    </record>
 
-        <!-- Delivery -->
-        <record id="score_delivery_pass" model="work.acceptance.evaluation.score">
-            <field name="name">Pass</field>
-            <field name="score" eval="2" />
-        </record>
-        <record
-            id="score_delivery_need_improve"
-            model="work.acceptance.evaluation.score"
+    <record id="case_name_delivery" model="work.acceptance.evaluation">
+        <field name="name">Delivery</field>
+        <field name="active">True</field>
+        <field name="state_required" />
+        <field
+            name="score_ids"
+            eval="[(6,0,[ref('score_delivery_pass'),
+                            ref('score_delivery_need_improve'),
+                            ref('score_delivery_not_pass')])]"
         >
-            <field name="name">Need Improvement</field>
-            <field name="score" eval="1" />
-        </record>
-        <record id="score_delivery_not_pass" model="work.acceptance.evaluation.score">
-            <field name="name">Not Pass</field>
-            <field name="score" eval="0" />
-        </record>
+        </field>
+    </record>
 
-        <record id="case_name_delivery" model="work.acceptance.evaluation">
-            <field name="name">Delivery</field>
-            <field name="active">True</field>
-            <field name="state_required" />
-            <field
-                name="score_ids"
-                eval="[(6,0,[ref('score_delivery_pass'),
-                             ref('score_delivery_need_improve'),
-                             ref('score_delivery_not_pass')])]"
-            >
-            </field>
-        </record>
+    <!-- Qualification -->
+    <record
+        id="score_qualification_need_improve"
+        model="work.acceptance.evaluation.score"
+    >
+        <field name="name">Need Improvement</field>
+        <field name="score" eval="1" />
+    </record>
+    <record id="score_qualification_fair" model="work.acceptance.evaluation.score">
+        <field name="name">Fair</field>
+        <field name="score" eval="2" />
+    </record>
+    <record id="score_qualification_good" model="work.acceptance.evaluation.score">
+        <field name="name">Good</field>
+        <field name="score" eval="3" />
+    </record>
+    <record id="score_qualification_excellent" model="work.acceptance.evaluation.score">
+        <field name="name">Excellent</field>
+        <field name="score" eval="4" />
+    </record>
 
-        <!-- Qualification -->
-        <record
-            id="score_qualification_need_improve"
-            model="work.acceptance.evaluation.score"
+    <record id="case_name_qualification" model="work.acceptance.evaluation">
+        <field name="name">Vendor Qualification</field>
+        <field name="active">True</field>
+        <field name="state_required" />
+        <field
+            name="score_ids"
+            eval="[(6,0,[ref('score_qualification_need_improve'),
+                            ref('score_qualification_fair'),
+                            ref('score_qualification_good'),
+                            ref('score_qualification_excellent')])]"
         >
-            <field name="name">Need Improvement</field>
-            <field name="score" eval="1" />
-        </record>
-        <record id="score_qualification_fair" model="work.acceptance.evaluation.score">
-            <field name="name">Fair</field>
-            <field name="score" eval="2" />
-        </record>
-        <record id="score_qualification_good" model="work.acceptance.evaluation.score">
-            <field name="name">Good</field>
-            <field name="score" eval="3" />
-        </record>
-        <record
-            id="score_qualification_excellent"
-            model="work.acceptance.evaluation.score"
-        >
-            <field name="name">Excellent</field>
-            <field name="score" eval="4" />
-        </record>
-
-        <record id="case_name_qualification" model="work.acceptance.evaluation">
-            <field name="name">Vendor Qualification</field>
-            <field name="active">True</field>
-            <field name="state_required" />
-            <field
-                name="score_ids"
-                eval="[(6,0,[ref('score_qualification_need_improve'),
-                             ref('score_qualification_fair'),
-                             ref('score_qualification_good'),
-                             ref('score_qualification_excellent')])]"
-            >
-            </field>
-        </record>
-    </data>
+        </field>
+    </record>
 </odoo>
