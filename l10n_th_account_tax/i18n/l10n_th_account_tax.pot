@@ -296,7 +296,7 @@ msgid "Cancelled"
 msgstr ""
 
 #. module: l10n_th_account_tax
-#: code:addons/l10n_th_account_tax/models/account_move.py:0
+#: code:addons/l10n_th_account_tax/models/account_move_tax_invoice.py:0
 #, python-format
 msgid "Cannot delete this last tax invoice line"
 msgstr ""
@@ -318,6 +318,11 @@ msgid "Code"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model:ir.model,name:l10n_th_account_tax.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__company_id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__company_partner_id
 msgid "Company"
@@ -326,6 +331,11 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__company_vat
 msgid "Company Tax ID"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model:ir.model,name:l10n_th_account_tax.model_res_config_settings
+msgid "Config Settings"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -376,6 +386,12 @@ msgid "Currency"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_res_company__customer_tax_name
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_res_config_settings__customer_tax_name
+msgid "Customer Tax Invoices Number"
+msgstr ""
+
+#. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_move__date
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__date
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_tax_invoice_search
@@ -385,6 +401,11 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_code_income__is_default
 msgid "Default"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.res_config_settings_view_form
+msgid "Define your tax number reference (Undue Vat)"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -510,6 +531,12 @@ msgid "If checked, some messages have a delivery error."
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model:ir.model.fields,help:l10n_th_account_tax.field_res_company__customer_tax_name
+#: model:ir.model.fields,help:l10n_th_account_tax.field_res_config_settings__customer_tax_name
+msgid "If checked, wht cert form will show layout pre-print"
+msgstr ""
+
+#. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_move__amount_income
 msgid "Income"
 msgstr ""
@@ -553,6 +580,11 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,help:l10n_th_account_tax.field_account_move_tax_invoice__tax_line_id
 msgid "Indicates that this journal item is a tax line"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__res_company__customer_tax_name__invoice
+msgid "Invoice"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -851,6 +883,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__payment_id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_move__payment_id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__payment_id
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__res_company__customer_tax_name__payment
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_wht_move_search
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_withholding_tax_cert_search
 msgid "Payment"
@@ -1207,6 +1240,11 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_partner_property_form
 msgid "View Yearly Summary"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.res_config_settings_view_form
+msgid "Volume UoM"
 msgstr ""
 
 #. module: l10n_th_account_tax
