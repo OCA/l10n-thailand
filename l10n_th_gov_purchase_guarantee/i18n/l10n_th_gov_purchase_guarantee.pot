@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -12,12 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-
-#. module: l10n_th_gov_purchase_guarantee
-#: code:addons/l10n_th_gov_purchase_guarantee/models/purchase_guarantee.py:0
-#, python-format
-msgid "%s must be in status: %s"
-msgstr ""
 
 #. module: l10n_th_gov_purchase_guarantee
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_method__account_id
@@ -138,13 +132,9 @@ msgid "Default method for"
 msgstr ""
 
 #. module: l10n_th_gov_purchase_guarantee
-#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_account_move__display_name
-#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_account_payment_register__display_name
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__display_name
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_method__display_name
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_type__display_name
-#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_order__display_name
-#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_requisition__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -169,11 +159,6 @@ msgid "Followers"
 msgstr ""
 
 #. module: l10n_th_gov_purchase_guarantee
-#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_channel_ids
-msgid "Followers (Channels)"
-msgstr ""
-
-#. module: l10n_th_gov_purchase_guarantee
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_partner_ids
 msgid "Followers (Partners)"
 msgstr ""
@@ -194,7 +179,6 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_th_gov_purchase_guarantee.purchase_guarantee_menu
 #: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_search_view
 #: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_order_form
-#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.view_purchase_guarantee_tree
 #: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.view_purchase_requisition_form
 msgid "Guarantee"
 msgstr ""
@@ -216,7 +200,6 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_th_gov_purchase_guarantee.purchase_guarantee_method_menu
 #: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_method_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_method_search_view
-#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_method_tree_view
 msgid "Guarantee Method"
 msgstr ""
 
@@ -236,7 +219,6 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_th_gov_purchase_guarantee.purchase_guarantee_type_menu
 #: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_type_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_type_search_view
-#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_type_tree_view
 msgid "Guarantee Type"
 msgstr ""
 
@@ -246,13 +228,14 @@ msgid "Guarantee created from which document model, will use this method"
 msgstr ""
 
 #. module: l10n_th_gov_purchase_guarantee
-#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_account_move__id
-#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_account_payment_register__id
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__id
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_method__id
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_type__id
-#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_order__id
-#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_requisition__id
 msgid "ID"
 msgstr ""
 
@@ -300,13 +283,9 @@ msgid "Journal Entry"
 msgstr ""
 
 #. module: l10n_th_gov_purchase_guarantee
-#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_account_move____last_update
-#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_account_payment_register____last_update
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee____last_update
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_method____last_update
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_type____last_update
-#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_order____last_update
-#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_requisition____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -534,4 +513,10 @@ msgstr ""
 #. module: l10n_th_gov_purchase_guarantee
 #: model:ir.model.fields,help:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__website_message_ids
 msgid "Website communication history"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
+#: code:addons/l10n_th_gov_purchase_guarantee/models/purchase_guarantee.py:0
+#, python-format
+msgid "{} must be in status: {}"
 msgstr ""
