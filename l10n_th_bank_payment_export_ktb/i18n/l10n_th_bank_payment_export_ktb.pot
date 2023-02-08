@@ -1,0 +1,246 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_bank_payment_export_ktb
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields,help:l10n_th_bank_payment_export_ktb.field_bank_payment_export__config_ktb_company_id
+#: model:ir.model.fields,help:l10n_th_bank_payment_export_ktb.field_bank_payment_export__config_ktb_sender_name
+msgid ""
+"\n"
+"            You can config this field from menu\n"
+"            Invoicing > Configuration > Payments > Bank Payment Configuration\n"
+"        "
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export_ktb.field_bank_payment_config__bank
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export_ktb.field_bank_payment_export__bank
+msgid "Bank"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model,name:l10n_th_bank_payment_export_ktb.model_bank_payment_config
+msgid "Bank Payment Configuration"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model,name:l10n_th_bank_payment_export_ktb.model_bank_payment_export
+#: model:ir.model,name:l10n_th_bank_payment_export_ktb.model_bank_payment_export_line
+msgid "Bank Payment Export File"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export_ktb.bank_payment_export_view_form
+msgid "Bank Type"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: code:addons/l10n_th_bank_payment_export_ktb/models/bank_payment_export.py:0
+#, python-format
+msgid "Bank type '{}' can not export payment to other bank."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: code:addons/l10n_th_bank_payment_export_ktb/models/bank_payment_export.py:0
+#, python-format
+msgid "Bank type '{}' can not export payment to the same bank."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_bank_type__direct
+msgid "Direct"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_config__bank__krththbk
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__bank__krththbk
+msgid "KTB"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export_ktb.field_bank_payment_export__config_ktb_company_id
+msgid "KTB Company ID"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export_ktb.field_bank_payment_export__ktb_is_editable
+msgid "KTB Editable"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export_ktb.field_bank_payment_export__config_ktb_sender_name
+msgid "KTB Sender Name"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: code:addons/l10n_th_bank_payment_export_ktb/models/bank_payment_export.py:0
+#, python-format
+msgid "KTB can create bank payment export 1 Journal / 1 Payment Export."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export_ktb.field_bank_payment_export__ktb_bank_type
+msgid "Ktb Bank Type"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export_ktb.field_bank_payment_export__ktb_service_type_direct
+msgid "Ktb Service Type Direct"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export_ktb.field_bank_payment_export__ktb_service_type_standard
+msgid "Ktb Service Type Standard"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model,name:l10n_th_bank_payment_export_ktb.model_report_bank_payment_export_xlsx
+msgid "Payment Export xlsx"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.actions.report,name:l10n_th_bank_payment_export_ktb.action_payment_ktb_txt
+msgid "Payment KTB (TXT)"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export_ktb.bank_payment_export_view_form
+msgid "Service Type"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_bank_type__standard
+msgid "Standard / Express"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: code:addons/l10n_th_bank_payment_export_ktb/models/bank_payment_export.py:0
+#, python-format
+msgid "You need to add 'Bank Type' before confirm."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.actions.report,print_report_name:l10n_th_bank_payment_export_ktb.action_payment_ktb_txt
+msgid "object._get_report_base_filename()"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_standard__05
+msgid "ขายหลักทรัพย์"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_standard__06
+msgid "คืนภาษี"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_standard__04
+msgid "ค่าสินค้า บริการ"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_standard__03
+msgid "ดอกเบี้ย"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_direct__46
+msgid "รายการจ่ายเงินบำนาญ (Pension Fund)"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_direct__25
+msgid "รายการชำระ Clearing Bank"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_direct__28
+msgid "รายการชำระของกองสลากฯ (Lottery)"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_direct__12
+msgid "รายการชำระค่าน้ำประปา (Water Payment)"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_direct__27
+msgid "รายการชำระค่าประกันสังคม (SSO)"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_direct__14
+msgid "รายการชำระค่าสินค้าและบริการ (Purchase & Service)"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_direct__10
+msgid "รายการชำระค่าโทรศัพท์ (Telephone Payment)"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_direct__11
+msgid "รายการชำระค่าไฟฟ้า (Electricity Payment)"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_direct__04
+msgid "รายการชำระดอกเบี้ย (Bond Interest)"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_direct__37
+msgid "รายการชำระด้วยบัตรอิเลคทรอนิคส์ (Electronic Card)"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_direct__21
+msgid "รายการชำระราคาหลักทรัพย์ (Securities)"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_direct__15
+msgid "รายการชำระเงินของธนาคารอาคารสงเคราะห์ (GSB)"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_direct__09
+msgid "รายการชำระเบี้ยประกัน (Insurance Premium)"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_direct__02
+msgid "รายการเข้าบัญชีเงินเดือน (Salary)"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_standard__59
+msgid "อื่น ๆ"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_standard__07
+msgid "เงินกู้"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_standard__02
+msgid "เงินปันผล"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export_ktb
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export_ktb.selection__bank_payment_export__ktb_service_type_standard__01
+msgid "เงินเดือน ค่าจ้าง บำเหน็จ บำนาญ"
+msgstr ""
