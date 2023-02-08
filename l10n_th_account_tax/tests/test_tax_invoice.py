@@ -303,6 +303,12 @@ class TestTaxInvoice(SingleTransactionCase):
         tax_base_cal = (tax_calculated * 100) / 7  # calculat base tax
         self.assertEqual(payment.tax_invoice_ids.balance, tax_calculated)
         self.assertEqual(payment.tax_invoice_ids.tax_base_amount, tax_base_cal)
+        # Not allow delete tax invoice if it has 1 line.
+        with self.assertRaises(UserError):
+            payment.tax_invoice_ids.unlink()
+        self.assertEqual(len(payment.tax_invoice_ids), 1)
+        payment.tax_invoice_ids.with_context(force_remove_tax_invoice=1).unlink()
+        self.assertEqual(len(payment.tax_invoice_ids), 0)
 
     def test_customer_invoice_vat(self):
         """Supplier Invoice with VAT,
@@ -405,3 +411,81 @@ class TestTaxInvoice(SingleTransactionCase):
         for move in cash_basis_entries:
             with self.assertRaises(UserError):
                 move.action_post()
+
+    def test_included_tax(self):
+        """
+        Test an account.move.line is created automatically when adding a tax.
+        This test uses the following scenario:
+            - Create manually a debit line of 1000 having an included tax.
+            - Assume a line containing the tax amount is created automatically.
+            - Create manually a credit line to balance the two previous lines.
+            - Save the move.
+
+        included tax = 20%
+
+        Name                   | Debit     | Credit    | Tax_ids       | Tax_line_id's name
+        -----------------------|-----------|-----------|---------------|-------------------
+        debit_line_1           | 1000      |           | tax           |
+        included_tax_line      | 200       |           |               | included_tax_line
+        credit_line_1          |           | 1200      |               |
+        """
+
+        self.included_percent_tax = self.env["account.tax"].create(
+            {
+                "name": "included_tax_line",
+                "amount_type": "percent",
+                "amount": 20,
+                "price_include": True,
+                "include_base_amount": False,
+            }
+        )
+        # self.account = self.company_data['default_account_revenue']
+
+        move_form = Form(
+            self.env["account.move"].with_context(default_move_type="entry")
+        )
+
+        # Create a new account.move.line with debit amount.
+        with move_form.line_ids.new() as debit_line:
+            debit_line.name = "debit_line_1"
+            debit_line.account_id = self.input_vat_acct
+            debit_line.debit = 1000
+            debit_line.tax_ids.clear()
+            debit_line.tax_ids.add(self.included_percent_tax)
+
+            self.assertTrue(debit_line.recompute_tax_line)
+
+        # Create a third account.move.line with credit amount.
+        with move_form.line_ids.new() as credit_line:
+            credit_line.name = "credit_line_1"
+            credit_line.account_id = self.input_vat_acct
+            credit_line.credit = 1200
+
+        move = move_form.save()
+
+        self.assertRecordValues(
+            move.line_ids,
+            [
+                {
+                    "name": "debit_line_1",
+                    "debit": 1000.0,
+                    "credit": 0.0,
+                    "tax_ids": [self.included_percent_tax.id],
+                    "tax_line_id": False,
+                },
+                {
+                    "name": "included_tax_line",
+                    "debit": 200.0,
+                    "credit": 0.0,
+                    "tax_ids": [],
+                    "tax_line_id": self.included_percent_tax.id,
+                },
+                {
+                    "name": "credit_line_1",
+                    "debit": 0.0,
+                    "credit": 1200.0,
+                    "tax_ids": [],
+                    "tax_line_id": False,
+                },
+            ],
+        )
