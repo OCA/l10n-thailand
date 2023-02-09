@@ -9,7 +9,6 @@ class AccountAsset(models.Model):
     _inherit = ["account.asset", "mail.thread", "mail.activity.mixin"]
 
     image = fields.Binary(
-        string="Image",
         attachment=True,
         help="This field holds the photo of the asset.",
     )
@@ -22,10 +21,9 @@ class AccountAsset(models.Model):
     @api.depends("method_number", "method")
     def _compute_depreciation_rate(self):
         for asset in self:
+            asset.depreciation_rate = 0
             if asset.method in ["linear", "linear-limit"] and asset.method_number != 0:
                 asset.depreciation_rate = 100.0 / asset.method_number
-            else:
-                asset.depreciation_rate = 0
 
     def _xls_l10n_th_fields(self):
         return [
