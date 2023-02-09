@@ -6,7 +6,7 @@
     "category": "Localization",
     "website": "https://github.com/OCA/l10n-thailand",
     "author": "Sansiri Tanachutiwat, Odoo Community Association (OCA)",
-    "depends": ["l10n_th_sequence_refactored", "l10n_th_sequence_range_end"],
+    "depends": ["base_sequence"],
     "data": ["views/ir_sequence_view.xml"],
     "license": "AGPL-3",
     "installable": True,

@@ -3,7 +3,7 @@
 from odoo import models
 
 
-class IrSequenceBe(models.Model):
+class IrSequence(models.Model):
     """
     This inherited-class adds a Buddhist-Era year
     as legends for prefix and suffix of sequences.
@@ -12,9 +12,7 @@ class IrSequenceBe(models.Model):
     _inherit = "ir.sequence"
 
     def _interpolation_dict(self, date=None, date_range=None):
-        res = super(IrSequenceBe, self)._interpolation_dict(
-            date=date, date_range=date_range
-        )
+        res = super()._interpolation_dict(date=date, date_range=date_range)
         res["year_be"] = str(int(res["year"]) + 543)
         res["range_year_be"] = str(int(res["range_year"]) + 543)
         res["current_year_be"] = str(int(res["current_year"]) + 543)
