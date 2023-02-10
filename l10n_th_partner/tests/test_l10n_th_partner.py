@@ -1,12 +1,14 @@
 # Copyright 2020 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
+from odoo.tests import tagged
 from odoo.tests.common import Form, TransactionCase
 
 
+@tagged("post_install", "-at_install")
 class TestL10nThPartner(TransactionCase):
     def setUp(self):
-        super(TestL10nThPartner, self).setUp()
+        super().setUp()
         self.main_company = self.env.ref("base.main_company")
         self.create_title()
         self.create_original("Firstname", "Lastname")
