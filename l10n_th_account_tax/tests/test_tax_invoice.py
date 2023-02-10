@@ -243,6 +243,15 @@ class TestTaxInvoice(SingleTransactionCase):
             {"tax_invoice_number": tax_invoice, "tax_invoice_date": tax_date}
         )
         self.supplier_invoice_vat.action_post()
+        # Check report late 2 month, report date is not equal tax invoice date
+        self.assertEqual(
+            self.supplier_invoice_vat.tax_invoice_ids.report_date,
+            self.supplier_invoice_vat.tax_invoice_ids.tax_invoice_date,
+        )
+        with Form(self.supplier_invoice_vat.tax_invoice_ids) as tax:
+            tax.report_late_mo = "2"
+        move_tax = tax.save()
+        self.assertNotEqual(move_tax.report_date, move_tax.tax_invoice_date)
 
     def test_supplier_invoice_undue_vat(self):
         """Register Payment from Vendor Invoice"""

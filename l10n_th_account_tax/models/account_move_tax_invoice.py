@@ -110,6 +110,10 @@ class AccountMoveTaxInvoice(models.Model):
                 eval_date = rec.tax_invoice_date + relativedelta(
                     months=int(rec.report_late_mo)
                 )
+                # Check report date is not late, it will use tax invoice date
+                if eval_date.month == rec.tax_invoice_date.month:
+                    rec.report_date = rec.tax_invoice_date
+                    continue
                 last_date = calendar.monthrange(eval_date.year, eval_date.month)[1]
                 rec.report_date = datetime.date(
                     eval_date.year, eval_date.month, last_date

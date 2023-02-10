@@ -25,6 +25,7 @@
         "views/account_payment_view.xml",
         "views/personal_income_tax_view.xml",
         "views/res_partner_view.xml",
+        "views/account_menu.xml",
     ],
     "installable": True,
     "development_status": "Beta",
