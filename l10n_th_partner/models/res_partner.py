@@ -40,7 +40,7 @@ class ResPartner(models.Model):
     )
     def _compute_name(self):
         """Compute name with company only"""
-        partner_company = self.filtered(lambda l: l.is_company)
+        partner_company = self.filtered(lambda l: l.is_company and l.name_company)
         partner_inv = self - partner_company
         for rec in partner_company:
             prefix, suffix = False, False
