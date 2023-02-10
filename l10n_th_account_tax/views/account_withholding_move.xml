@@ -129,11 +129,4 @@
         <field name="domain">[('is_pit', '=', True)]</field>
         <field name="context">{'group_by':[], 'group_by_no_leaf':1}</field>
     </record>
-    <menuitem
-        id="pit_report_menu"
-        name="Personal Income Tax"
-        action="action_pit_move_view"
-        parent="account.menu_finance_reports"
-    />
-
 </odoo>

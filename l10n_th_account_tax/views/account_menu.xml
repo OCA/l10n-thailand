@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Add new menu reports -->
+    <menuitem
+        id="account_reports_l10n_th_menu"
+        name="Thai Accounting Reports"
+        parent="account.menu_finance_reports"
+        sequence="20"
+    />
+    <menuitem
+        id="pit_report_menu"
+        name="Personal Income Tax"
+        parent="l10n_th_account_tax.account_reports_l10n_th_menu"
+        action="action_pit_move_view"
+        sequence="10"
+    />
+</odoo>
