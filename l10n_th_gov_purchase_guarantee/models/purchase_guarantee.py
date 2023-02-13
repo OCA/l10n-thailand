@@ -86,11 +86,13 @@ class PurchaseGuarantee(models.Model):
         compute="_compute_analytic",
         store=True,
         readonly=False,
+        compute_sudo=True,
     )
     domain_analytic_account_ids = fields.Many2many(
         comodel_name="account.analytic.account",
         compute="_compute_analytic",
         string="Domain Analytic Account",
+        compute_sudo=True,
     )
     analytic_tag_ids = fields.Many2many(
         comodel_name="account.analytic.tag",
@@ -98,6 +100,7 @@ class PurchaseGuarantee(models.Model):
         compute="_compute_analytic",
         store=True,
         readonly=False,
+        compute_sudo=True,
     )
     invoice_ids = fields.Many2many(
         comodel_name="account.move",
