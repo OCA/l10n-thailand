@@ -1,0 +1,42 @@
+[
+    "THB",
+    null,
+    [
+        {
+            "balance_start": 0.0,
+            "balance_end_real": 66171.58,
+            "name": "2023-02",
+            "date": "2023-02-02",
+            "transactions": [
+                {
+                    "date": "2023-02-01",
+                    "ref": "Cash Withdrawal",
+                    "payment_ref": "Ref Code K0633724",
+                    "amount": -300.0,
+                    "unique_import_id": "1a93317556d1b0196662c74a2c7ff83fa63a9194605d5b784258c5c41bf3647d"
+                },
+                {
+                    "date": "2023-02-01",
+                    "ref": "Cash Withdrawal",
+                    "payment_ref": "Ref Code ATMR2859",
+                    "amount": -5000.0,
+                    "unique_import_id": "1c011ed8f7e42f5572ee5a3a4d086d9954388819a070163871cc079d07a72c27"
+                },
+                {
+                    "date": "2023-02-01",
+                    "ref": "Debit Card Spending",
+                    "payment_ref": "Ref Code EDC61445",
+                    "amount": -3430.0,
+                    "unique_import_id": "78ffbd87d62f494e0441005444954f4f9909cfdef14eb8ba81ef3422c1fb7fae"
+                },
+                {
+                    "date": "2023-02-02",
+                    "ref": "Cash Withdrawal",
+                    "payment_ref": "Ref Code ATM45006",
+                    "amount": -5000.0,
+                    "unique_import_id": "c24caf102081150e3df38b6ca259e1feed6fef42a51af0a46f6fb57a39bfdd00"
+                }
+            ]
+        }
+    ]
+]

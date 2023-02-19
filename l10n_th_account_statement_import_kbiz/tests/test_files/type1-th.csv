@@ -1,0 +1,21 @@
+﻿รายการเดินบัญชีเงินฝากออมทรัพย์ (มีรายละเอียด),,,,,,,,,,,,
+K-DEPOSIT STATEMENT OF SAVING ACCOUNT (WITH DETAIL),,,,,,,,,,,,
+,Ref. No. DD.123 : N23020301234567890123I/2566,Page 1/1,,,0295,,,,,,,
+,Account,"CAPT. Picard
+... อ.บางสะพาน จ.ประจวบคีรีขันธ์ 77190",,,,,Reference Code,,,,23020301234567890123,
+,,,,,,,Account Number,,,,XXX-X-XX861-4,
+,,,,,,,Period,,,,01/02/2023 - 02/02/2023,
+,,,,,,,Owner Branch,,,,Bang Saphan Branch,
+,,,,,,,ENDING BALANCE,,,,,"66,171.58"
+,,,,,,,TOTAL WITHDRAWAL,,4,,ITEMS,"13,730.00"
+,,,,,,,TOTAL DEPOSIT,,1,,ITEMS,"79,901.58"
+,Date,"Time/
+Eff.Date",Descriptions,Withdrawal,,Deposit,,"Outstanding
+Balance",,Channel,,Details
+,01-02-23,,Beginning Balance,,,,,0.00,,,,
+,01-02-23,10:35,Open Account,,,,,0.00,,Bang Saphan Branch,,Ref Code K0633724
+,01-02-23,11:24,Transfer Deposit,,,"79,901.58",,"79,901.58",,KTB Branch,,From KTB X0052
+,01-02-23,11:57,Cash Withdrawal,300.00,,,,"79,601.58",,Bang Saphan Branch,,Ref Code K0633724
+,01-02-23,12:01,Cash Withdrawal,"5,000.00",,,,"74,601.58",,ATM,,Ref Code ATMR2859
+,01-02-23,16:17,Debit Card Spending,"3,430.00",,,,"71,171.58",,EDC/E-Commerce,,Ref Code EDC61445
+,02-02-23,18:36,Cash Withdrawal,"5,000.00",,,,"66,171.58",,ATM,,Ref Code ATM45006

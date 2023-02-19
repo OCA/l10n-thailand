@@ -1,0 +1,29 @@
+﻿รายการเดินบัญชีเงินฝากออมทรัพย์ (มีรายละเอียด),,,,,,,,,,,,
+K-DEPOSIT STATEMENT OF SAVING ACCOUNT (WITH DETAIL),,,,,,,,,,,,
+,Ref. No. DD.048 : N22120123456789941162O/2565,Page 1/1,,,0295,,,,,,,
+,Account,"MOVIES FROM MY CHILDHOOD LTD.,PART.
+... ต.ธงชัย อ.บางสะพาน จ.ประจวบคีรีขันธ์ 77190",,,,,Reference Code,,,,22120123456789941162,
+,,,,,,,Account Number,,,,XXX-X-XX123-4,
+,,,,,,,Period,,,,01/11/2022 - 30/11/2022,
+,,,,,,,Owner Branch,,,,Bang Saphan Branch,
+,,,,,,,ENDING BALANCE,,,,,"371,654.72"
+,,,,,,,TOTAL WITHDRAWAL,,13,,ITEMS,"214,802.00"
+,,,,,,,TOTAL DEPOSIT,,1,,ITEMS,"140,795.50"
+,Date,"Time/
+Eff.Date",Descriptions,Withdrawal,,Deposit,,"Outstanding
+Balance",,Channel,,Details
+,01-11-22,,Beginning Balance,,,,,"445,661.22",,,,
+,01-11-22,05:46,Transfer Withdrawal,"80,000.00",,,,"365,661.22",,K BIZ,,To KTB X5432 JAMES BOND++
+,01-11-22,05:49,Transfer Withdrawal,"10,000.00",,,,"355,661.22",,K BIZ,,To X2345 MRS. Pussy Galore++
+,01-11-22,15:18,Payment,300.00,,,,"355,361.22",,K BIZ,,"Paid for Ref X1358 ADVANCED WIRELESS NETWORK CO.,LTD."
+,02-11-22,10:57,Transfer Withdrawal,"25,000.00",,,,"330,361.22",,K BIZ,,To X8794 MS. Moneypenny++
+,02-11-22,11:01,Transfer Withdrawal,"7,942.00",,,,"322,419.22",,K BIZ,,To X8794 MS. Moneypenny++
+,05-11-22,10:46,Transfer Withdrawal,"1,260.00",,,,"321,159.22",,K BIZ,,To BBL X0463 HOCKHOELEE ROASTI++
+,14-11-22,07:45,Transfer Withdrawal,"20,000.00",,,,"301,159.22",,K BIZ,,To KTB X5432 JAMES BOND++
+,17-11-22,08:56,Transfer Withdrawal,"10,000.00",,,,"291,159.22",,K BIZ,,To KTB X5432 JAMES BOND++
+,19-11-22,23:25,Payment,300.00,,,,"290,859.22",,K BIZ,,"Paid for Ref X5467 ADVANCED WIRELESS NETWORK CO.,LTD."
+,21-11-22,17:06,Transfer Withdrawal,"10,000.00",,,,"280,859.22",,K BIZ,,To X2345 MRS. Pussy Galore++
+,22-11-22,08:37,Transfer Withdrawal,"20,000.00",,,,"260,859.22",,K BIZ,,To KTB X5432 JAMES BOND++
+,26-11-22,12:22,Transfer Withdrawal,"10,000.00",,,,"250,859.22",,K BIZ,,To KTB X5432 JAMES BOND++
+,29-11-22,08:07,Transfer Withdrawal,"20,000.00",,,,"230,859.22",,K BIZ,,To X2345 MRS. Pussy Galore++
+,30-11-22,02:29,Automatic Deposit,,,"140,795.50",,"371,654.72",,Automatic Transfer,,From Goldfinger
