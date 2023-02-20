@@ -1,0 +1,48 @@
+<odoo>
+    <record id="partner_agreement_form_view" model="ir.ui.view">
+        <field name="name">Agreement Form</field>
+        <field name="model">agreement</field>
+        <field name="inherit_id" ref="agreement_legal.partner_agreement_form_view" />
+        <field name="arch" type="xml">
+            <field name="is_template" position="after">
+                <field
+                    name="purchase_order_id"
+                    attrs="{'invisible': [('is_template', '=', True)]}"
+                    groups="purchase.group_purchase_user"
+                />
+            </field>
+            <page name="products" position="after">
+                <page
+                    string="Invoice Plan"
+                    attrs="{'invisible': [('use_invoice_plan', '=', False)]}"
+                >
+                    <field name="use_invoice_plan" invisible="1" />
+                    <field
+                        name="invoice_plan_ids"
+                        nolabel="1"
+                        readonly="1"
+                        widget="one2many"
+                        mode="tree"
+                        context="{'default_purchase_id': purchase_order_id}"
+                    >
+                        <tree editable="bottom">
+                            <field name="installment" />
+                            <field name="plan_date" />
+                            <field name="invoice_type" />
+                            <field name="percent" optional="show" />
+                            <field name="amount" optional="show" />
+                            <field name="to_invoice" />
+                            <field name="invoiced" />
+                            <field
+                                name="invoice_ids"
+                                optional="hide"
+                                widget="many2many_tags"
+                            />
+                            <field name="purchase_id" invisible="1" readonly="0" />
+                        </tree>
+                    </field>
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>
