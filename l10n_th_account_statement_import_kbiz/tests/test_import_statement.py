@@ -67,12 +67,21 @@ class TestImport(TransactionCase):
                 "bank_id": self.env.ref("base.res_bank_1").id,
             }
         )
+        suspense = self.env["res.partner.bank"].create(
+            {
+                "acc_number": "0123456790",
+                "partner_id": self.env.ref("base.main_partner").id,
+                "company_id": self.env.ref("base.main_company").id,
+                #"bank_id": self.env.ref("base.res_bank_1").id,
+            }
+        )
         self.journal_id = self.env["account.journal"].create(
             {
-                "name": "Bank Journal - (test camt)",
-                "code": "TBNKCAMT",
+                "name": "Bank Journal (KBiz test)",
+                "code": "TBNKKBIZ",
                 "type": "bank",
                 "bank_account_id": bank.id,
+                "suspence_account_id": suspense.id,
                 "currency_id": currency_id,
             }
         )
