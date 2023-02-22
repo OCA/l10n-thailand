@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -76,13 +76,6 @@ msgid "Depreciation Rate (%)"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__display_name
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_line__display_name
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_report_account_asset_management_asset_report_xls__display_name
-msgid "Display Name"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
 #: model:ir.model,name:l10n_th_account_asset_management.model_report_account_asset_management_asset_report_xls
 msgid "Dynamic XLS asset report generator"
 msgstr ""
@@ -90,11 +83,6 @@ msgstr ""
 #. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__message_follower_ids
 msgid "Followers"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__message_channel_ids
-msgid "Followers (Channels)"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
@@ -108,10 +96,8 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__id
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_line__id
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_report_account_asset_management_asset_report_xls__id
-msgid "ID"
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__has_message
+msgid "Has Message"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
@@ -144,13 +130,6 @@ msgstr ""
 #. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__message_is_follower
 msgid "Is Follower"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset____last_update
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_line____last_update
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_report_account_asset_management_asset_report_xls____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
