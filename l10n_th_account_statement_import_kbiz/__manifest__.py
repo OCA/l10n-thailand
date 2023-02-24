@@ -3,7 +3,7 @@
     'category': 'Banking addons',
     'version': '14.0.1.1.0',
     'license': 'AGPL-3',
-    'author': 'Ross Golder',
+    'author': 'Ross Golder, Odoo Community Association (OCA)',
     'website': "https://www.golder.org",
     'depends': [
         'account_statement_import',
