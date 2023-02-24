@@ -130,8 +130,6 @@ class KBizParser(models.AbstractModel):
         if not stmtdata:
             return super()._parse_file(data_file)
 
-        print(stmtdata)
-
         # Add up and drop 'balance' from raw data, and drop any transactions
         # that have already been imported
         transactions = []

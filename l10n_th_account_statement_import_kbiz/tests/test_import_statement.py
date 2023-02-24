@@ -3,10 +3,13 @@
 
 import base64
 import json
+import logging
 
 from odoo.modules.module import get_module_resource
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
+
+_logger = logging.getLogger(__name__)
 
 
 @tagged("golder", "standard", "kbiz")
@@ -33,9 +36,6 @@ class TestParser(TransactionCase):
             res = self.parser.parse(data.read())
             self.assertTrue(res)
             for i in range(3):
-                if res[i] != actual[i]:
-                    print(f"Result file '{resultfile}' needs to match this...")
-                    print(json.dumps(res, indent=4))
                 self.assertEqual(res[i], actual[i])
 
     def test_parse_type1_th(self):
