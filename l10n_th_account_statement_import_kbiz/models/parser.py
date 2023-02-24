@@ -2,11 +2,11 @@
 # Copyright 2023 Ross Golder <ross@golder.org>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import io
 import csv
-import logging
-import hashlib
 import datetime
+import hashlib
+import io
+import logging
 
 from odoo import _, models
 
@@ -41,22 +41,21 @@ class KBizParser(models.AbstractModel):
         balance = invals[8]
 
         hashkey = "".join([dateval, timeval, label1, label2, str(amount), balance])
-        hashval = hashlib.sha256(hashkey.encode('utf-8'))
+        hashval = hashlib.sha256(hashkey.encode("utf-8"))
 
         vals = {
-            'date': dateval,
-            'ref': label1,
-            'payment_ref': label2,
-            'amount': float(amount),
-            'unique_import_id': hashval.hexdigest(),
+            "date": dateval,
+            "ref": label1,
+            "payment_ref": label2,
+            "amount": float(amount),
+            "unique_import_id": hashval.hexdigest(),
         }
         return vals
-
 
     def parse_statement(self, data):
         """Parse a KBiz CSV statement file."""
         try:
-            sio = io.StringIO(data.decode('utf8'))
+            sio = io.StringIO(data.decode("utf8"))
             reader = csv.reader(sio, quotechar='"')
         except Exception as exc:
             _logger.error(exc)
@@ -72,7 +71,7 @@ class KBizParser(models.AbstractModel):
             rowcount += 1
 
             # Check initial rows for signature cells
-            signaturetext = '\ufeffรายการเดินบัญชีเงินฝากออมทรัพย์ (มีรายละเอียด)'
+            signaturetext = "\ufeffรายการเดินบัญชีเงินฝากออมทรัพย์ (มีรายละเอียด)"
             if rowcount == 1 and values[0] != signaturetext:
                 _logger.info(_("Not identified as a KBiz statement (CSV type1)"))
                 return False
@@ -81,11 +80,13 @@ class KBizParser(models.AbstractModel):
             if rowcount == 6:
                 period = values[11]
                 startdate = period[0:10]
-                start_date = datetime.datetime.strptime(
-                    startdate, "%d/%m/%Y").strftime("%Y-%m-%d")
+                start_date = datetime.datetime.strptime(startdate, "%d/%m/%Y").strftime(
+                    "%Y-%m-%d"
+                )
                 enddate = period[13:]
-                end_date = datetime.datetime.strptime(
-                    enddate, "%d/%m/%Y").strftime("%Y-%m-%d")
+                end_date = datetime.datetime.strptime(enddate, "%d/%m/%Y").strftime(
+                    "%Y-%m-%d"
+                )
 
             # Determine balances as stated
             if rowcount == 8:
@@ -104,18 +105,15 @@ class KBizParser(models.AbstractModel):
 
             # Check remaining statement lines have expected number of columns
             if len(values) != 13:
-                _logger.warning(
-                    _("Wrong number of columns on line (%s)", len(values))
-                )
+                _logger.warning(_("Wrong number of columns on line (%s)", len(values)))
                 continue
 
             # Add this statement line to our results
-            transactions.append(
-                self._prepare_transaction_line_kbiz_type1(values))
+            transactions.append(self._prepare_transaction_line_kbiz_type1(values))
 
-        statement['name'] = start_date[0:7]
-        statement['date'] = end_date
-        statement['transactions'] = transactions
+        statement["name"] = start_date[0:7]
+        statement["date"] = end_date
+        statement["transactions"] = transactions
 
         return statement
 
@@ -124,7 +122,7 @@ class KBizParser(models.AbstractModel):
         statement = self.parse_statement(data)
 
         # Account number is masked in download, so cannot be included
-        return self.env.ref('base.THB').name, None, [statement]
+        return self.env.ref("base.THB").name, None, [statement]
 
     def _parse_file(self, data_file):
         # If we can't read it, pass it to next handler
@@ -138,16 +136,14 @@ class KBizParser(models.AbstractModel):
         # that have already been imported
         transactions = []
         total_amt = 0.00
-        for vals in stmtdata['transactions']:
-            total_amt += float(vals['amount'])
+        for vals in stmtdata["transactions"]:
+            total_amt += float(vals["amount"])
             tx1 = dict(vals)
-            already_imported = self.env['account.statement.line'].search({
-                [
-                    {'unique_import_id', '=', tx1['unique_import_id']}
-                ]
-            })
+            already_imported = self.env["account.statement.line"].search(
+                {[{"unique_import_id", "=", tx1["unique_import_id"]}]}
+            )
             if len(already_imported) < 1:
                 transactions.append(tx1)
-        stmtdata['transactions'] = transactions
+        stmtdata["transactions"] = transactions
 
         return stmtdata

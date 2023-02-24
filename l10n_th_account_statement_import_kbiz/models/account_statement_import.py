@@ -18,6 +18,5 @@ class AccountBankStatementImport(models.TransientModel):
             _logger.debug("Try parsing with KBiz.")
             return parser.parse(data_file)
         except ValueError:
-            _logger.debug(
-                "Statement file was not a KBiz CSV file.", exc_info=True)
+            _logger.debug("Statement file was not a KBiz CSV file.", exc_info=True)
         return super()._parse_file(data_file)
