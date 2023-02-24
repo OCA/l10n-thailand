@@ -1,2 +1,5 @@
-This module adds images and chatter to the assets.
-This module updates the financial assets report for Thailand.
+This module adds features to asset management for Thailand.
+
+- Adds images and chatter to the assets
+- Adds columns to the financial assets report
+- Allows to link journal entry to an asset
