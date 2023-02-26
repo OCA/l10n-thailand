@@ -34,7 +34,7 @@ class KBizParser(models.AbstractModel):
         except ValueError:
             debit = 0.0
         try:
-            credit = _val(invals[5])
+            credit = _val(invals[6])
         except ValueError:
             credit = 0.0
         amount = debit + credit
