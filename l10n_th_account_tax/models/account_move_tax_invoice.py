@@ -91,7 +91,7 @@ class AccountMoveTaxInvoice(models.Model):
         """Compute without undue vat"""
         for rec in self._origin.filtered(lambda l: not l.payment_id):
             rec.tax_base_amount = rec.move_line_id.tax_base_amount or 0.0
-            rec.balance = rec.move_line_id.balance or 0.0
+            rec.balance = abs(rec.move_line_id.balance) or 0.0
 
     @api.depends("move_line_id")
     def _compute_payment_id(self):
