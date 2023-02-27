@@ -1112,6 +1112,11 @@ msgid "Tax Invoices"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.res_config_settings_view_form
+msgid "Tax Number Reference"
+msgstr ""
+
+#. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__tax_payer
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_withholding_tax_cert_search
 msgid "Tax Payer"
@@ -1120,6 +1125,11 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax_rate__tax_rate
 msgid "Tax Rate (%)"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model:ir.ui.menu,name:l10n_th_account_tax.account_reports_l10n_th_menu
+msgid "Thai Accounting Reports"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -1240,11 +1250,6 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_partner_property_form
 msgid "View Yearly Summary"
-msgstr ""
-
-#. module: l10n_th_account_tax
-#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.res_config_settings_view_form
-msgid "Volume UoM"
 msgstr ""
 
 #. module: l10n_th_account_tax
