@@ -91,7 +91,7 @@ class AccountMoveTaxInvoice(models.Model):
         """Compute without undue vat"""
         for rec in self._origin.filtered(lambda l: not l.payment_id):
             rec.tax_base_amount = rec.move_line_id.tax_base_amount or 0.0
-            rec.balance = rec.move_line_id.balance or 0.0
+            rec.balance = abs(rec.move_line_id.balance) or 0.0
 
     @api.depends("move_line_id")
     def _compute_payment_id(self):
@@ -110,6 +110,10 @@ class AccountMoveTaxInvoice(models.Model):
                 eval_date = rec.tax_invoice_date + relativedelta(
                     months=int(rec.report_late_mo)
                 )
+                # Check report date is not late, it will use tax invoice date
+                if eval_date.month == rec.tax_invoice_date.month:
+                    rec.report_date = rec.tax_invoice_date
+                    continue
                 last_date = calendar.monthrange(eval_date.year, eval_date.month)[1]
                 rec.report_date = datetime.date(
                     eval_date.year, eval_date.month, last_date
