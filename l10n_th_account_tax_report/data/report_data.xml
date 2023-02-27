@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- HTML REPORTS -->
+    <record id="action_report_tax_report_html" model="ir.actions.client">
+        <field name="name">TAX Report</field>
+        <field name="tag">l10n_th_account_tax_report_backend</field>
+    </record>
+    <record id="action_withholding_tax_report_html" model="ir.actions.report">
+        <field name="name">Withholding Tax Report (HTML)</field>
+        <field name="model">withholding.tax.report</field>
+        <field name="type">ir.actions.report</field>
+        <field
+            name="report_name"
+        >l10n_th_account_tax_report.report_withholding_tax_html</field>
+        <field
+            name="report_file"
+        >l10n_th_account_tax_report.report_withholding_tax_html</field>
+        <field name="report_type">qweb-html</field>
+    </record>
+
+    <!-- PDF REPORTS -->
+    <record id="action_tax_report_pdf" model="ir.actions.report">
+        <field name="name">TAX Report PDF</field>
+        <field name="model">report.tax.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field
+            name="report_name"
+        >l10n_th_account_tax_report.report_tax_report_pdf</field>
+        <field
+            name="report_file"
+        >l10n_th_account_tax_report.report_tax_report_pdf</field>
+        <field
+            name="print_report_name"
+        >'TAX Report - [%s]' % object.date_range_id.display_name</field>
+        <field
+            name="paperformat_id"
+            ref="l10n_th_account_tax_report.paperformat_tax_report"
+        />
+    </record>
+    <record id="action_rd_tax_report_pdf" model="ir.actions.report">
+        <field name="name">TAX RD Report PDF</field>
+        <field name="model">report.tax.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field
+            name="report_name"
+        >l10n_th_account_tax_report.report_rd_tax_report_pdf</field>
+        <field
+            name="report_file"
+        >l10n_th_account_tax_report.report_rd_tax_report_pdf</field>
+        <field
+            name="print_report_name"
+        >'TAX Report - [%s]' % object.date_range_id.display_name</field>
+        <field
+            name="paperformat_id"
+            ref="l10n_th_account_tax_report.paperformat_rd_tax_report"
+        />
+    </record>
+    <record id="action_withholding_tax_report_qweb" model="ir.actions.report">
+        <field name="name">Withholding Tax Report (PDF)</field>
+        <field name="model">withholding.tax.report</field>
+        <field name="type">ir.actions.report</field>
+        <field
+            name="report_name"
+        >l10n_th_account_tax_report.report_withholding_tax_qweb</field>
+        <field
+            name="report_file"
+        >l10n_th_account_tax_report.report_withholding_tax_qweb</field>
+        <field name="report_type">qweb-pdf</field>
+        <field
+            name="paperformat_id"
+            ref="l10n_th_account_tax_report.paperformat_tax_report"
+        />
+        <field name="print_report_name">object._get_report_base_filename()</field>
+    </record>
+    <record id="action_rd_withholding_tax_report_qweb" model="ir.actions.report">
+        <field name="name">WHT RD Report (PDF)</field>
+        <field name="model">withholding.tax.report</field>
+        <field name="type">ir.actions.report</field>
+        <field
+            name="report_name"
+        >l10n_th_account_tax_report.report_rd_withholding_tax_qweb</field>
+        <field
+            name="report_file"
+        >l10n_th_account_tax_report.report_rd_withholding_tax_qweb</field>
+        <field name="report_type">qweb-pdf</field>
+        <field
+            name="paperformat_id"
+            ref="l10n_th_account_tax_report.paperformat_wht_rd_report"
+        />
+        <field name="print_report_name">object._get_report_base_filename()</field>
+    </record>
+
+    <!-- XLSX REPORTS -->
+    <record id="action_tax_report_xlsx" model="ir.actions.report">
+        <field name="name">TAX Report XLSX</field>
+        <field name="model">report.tax.report</field>
+        <field name="report_type">xlsx</field>
+        <field
+            name="report_name"
+        >l10n_th_account_tax_report.report_tax_report_xlsx</field>
+        <field name="report_file">Tax Report</field>
+        <field
+            name="print_report_name"
+        >'TAX Report - [%s]' % object.date_range_id.display_name</field>
+    </record>
+    <record id="action_withholding_tax_report_xlsx" model="ir.actions.report">
+        <field name="name">Withholding Tax Report (XLSX)</field>
+        <field name="model">withholding.tax.report</field>
+        <field name="type">ir.actions.report</field>
+        <field name="report_name">withholding.tax.report.xlsx</field>
+        <field name="report_type">xlsx</field>
+        <field name="print_report_name">object._get_report_base_filename()</field>
+    </record>
+
+    <!-- TEXT REPORTS -->
+    <record id="action_withholding_tax_report_txt" model="ir.actions.report">
+        <field name="name">Withholding Tax Report (TXT)</field>
+        <field name="model">withholding.tax.report</field>
+        <field name="type">ir.actions.report</field>
+        <field
+            name="report_name"
+        >l10n_th_account_tax_report.report_withholding_tax_text</field>
+        <field
+            name="report_file"
+        >l10n_th_account_tax_report.report_withholding_tax_text</field>
+        <field name="report_type">qweb-text</field>
+        <field
+            name="paperformat_id"
+            ref="l10n_th_account_tax_report.paperformat_tax_report"
+        />
+        <field name="print_report_name">object._get_report_base_filename()</field>
+    </record>
+</odoo>
