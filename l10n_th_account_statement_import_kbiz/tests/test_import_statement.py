@@ -89,7 +89,7 @@ class TestImport(TransactionCase):
                 "code": "TBNKKBIZ",
                 "type": "bank",
                 "bank_account_id": bank.id,
-                "suspence_account_id": suspense.id,
+                "suspense_account_id": suspense.id,
                 "currency_id": currency_id,
             }
         )
