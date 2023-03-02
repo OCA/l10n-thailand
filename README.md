@@ -31,6 +31,7 @@ addon | version | maintainers | summary
 [l10n_th_bank_payment_export_ktb](l10n_th_bank_payment_export_ktb/) | 15.0.1.0.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Bank Payment Export File KTB
 [l10n_th_base_location](l10n_th_base_location/) | 15.0.1.0.0 |  | Thai Localization - Base Location
 [l10n_th_fonts](l10n_th_fonts/) | 15.0.1.0.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Collection of all fonts thai
+[l10n_th_gov_purchase_agreement](l10n_th_gov_purchase_agreement/) | 15.0.1.0.0 | [![newtratip](https://github.com/newtratip.png?size=30px)](https://github.com/newtratip) | Thai Localization - Government Purchase Agreement
 [l10n_th_gov_purchase_guarantee](l10n_th_gov_purchase_guarantee/) | 15.0.1.0.0 |  | Thai Localization - Government Purchase Guarantee
 [l10n_th_partner](l10n_th_partner/) | 15.0.1.0.1 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Partner
 [l10n_th_promptpay](l10n_th_promptpay/) | 15.0.1.0.0 |  | Use PromptPay QR code with transfer acquirer.
