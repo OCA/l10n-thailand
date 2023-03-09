@@ -8,7 +8,7 @@
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-thailand",
     "category": "Localization / Accounting",
-    "depends": ["account_asset_number"],
+    "depends": ["account_asset_number", "web_tree_image_tooltip"],
     "data": ["views/account_asset_views.xml"],
     "installable": True,
     "development_status": "Alpha",
