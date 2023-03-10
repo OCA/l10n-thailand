@@ -8,6 +8,13 @@
         <field name="inherit_id" ref="hr_expense.hr_expense_view_form" />
         <field name="priority">30</field>
         <field name="arch" type="xml">
+            <!-- Core odoo invisible field reference when there is product_has_cost.
+            So, we overwrite attributes in reference for not hide field -->
+            <xpath expr="//field[@name='reference']" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'readonly': [('is_ref_editable', '=', False)]}</attribute>
+            </xpath>
             <xpath expr="//field[@name='reference']" position="before">
                 <field
                     name="bill_partner_id"
