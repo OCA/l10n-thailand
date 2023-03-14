@@ -1,0 +1,17 @@
+<odoo>
+
+    <template
+        id="report_agreement_document"
+        inherit_id="agreement_legal.report_agreement_document"
+        priority="100"
+    >
+        <xpath expr="//h1[@t-field='doc.name']" position="replace">
+            <h1>
+                <span t-field="doc.code" />
+                <span t-field="doc.name" />
+                (Version: <span t-field="doc.version" /> )
+            </h1>
+        </xpath>
+    </template>
+
+</odoo>
