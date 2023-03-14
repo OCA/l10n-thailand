@@ -3,7 +3,7 @@
 
 {
     "name": "Thai Localization - Assets Management",
-    "version": "15.0.2.0.0",
+    "version": "15.0.2.1.0",
     "author": "Ecosoft, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-thailand",
