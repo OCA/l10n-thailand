@@ -19,14 +19,17 @@ Thai Localization - Assets Management
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
     :target: https://translation.odoo-community.org/projects/l10n-thailand-15-0/l10n-thailand-15-0-l10n_th_account_asset_management
     :alt: Translate me on Weblate
-.. |badge5| image:: https://img.shields.io/badge/runbot-Try%20me-875A7B.png
-    :target: https://runbot.odoo-community.org/runbot/238/15.0
-    :alt: Try me on Runbot
+.. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
+    :target: https://runboat.odoo-community.org/webui/builds.html?repo=OCA/l10n-thailand&target_branch=15.0
+    :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-This module adds images and chatter to the assets.
-This module updates the financial assets report for Thailand.
+This module adds features to asset management for Thailand.
+
+- Adds images and chatter to the assets
+- Adds columns to the financial assets report
+- Allows to link journal entry to an asset
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -62,6 +65,7 @@ Contributors
 * `Ecosoft <http://ecosoft.co.th>`__:
 
   * Pimolnat Suntian <pimolnats@ecosoft.co.th>
+  * Saran Lim. <saranl@ecosoft.co.th>
 
 Maintainers
 ~~~~~~~~~~~
