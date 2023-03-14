@@ -133,6 +133,11 @@ msgid "Is Follower"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
+#: model:ir.model,name:l10n_th_account_asset_management.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__message_main_attachment_id
 msgid "Main Attachment"
 msgstr ""
