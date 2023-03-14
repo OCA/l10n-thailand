@@ -15,6 +15,7 @@
         "agreement_legal",
     ],
     "data": [
+        "report/agreement.xml",
         "views/purchase_views.xml",
         "views/purchase_requisition_views.xml",
         "views/agreement_views.xml",
