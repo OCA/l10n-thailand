@@ -39,6 +39,12 @@
                             <field name="active" />
                         </group>
                     </group>
+                    <span
+                        style="color: red;"
+                        attrs="{'invisible': [('effective_date', '!=', False)]}"
+                    >
+                        *Effective Date is required. Please provide a valid calendar year as an integer.
+                    </span>
                     <separator string="Withholding Tax Rates" />
                     <field name="rate_ids" nolabel="1">
                         <tree editable="bottom">
