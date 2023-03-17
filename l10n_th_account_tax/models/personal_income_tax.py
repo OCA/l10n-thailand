@@ -14,6 +14,7 @@ class PersonalIncomeTax(models.Model):
     calendar_year = fields.Char(
         required=True,
         default=lambda self: fields.Date.context_today(self).strftime("%Y"),
+        copy=False,
     )
     effective_date = fields.Date(
         compute="_compute_effective_date",
@@ -23,13 +24,34 @@ class PersonalIncomeTax(models.Model):
         comodel_name="personal.income.tax.rate",
         inverse_name="pit_id",
         string="Withholding Tax Rates",
+        copy=True,
     )
     active = fields.Boolean(default=True)
+
+    _sql_constraints = [
+        (
+            "effective_date_unique",
+            "UNIQUE(effective_date)",
+            "Effective Date must be unique!",
+        ),
+    ]
 
     @api.depends("calendar_year")
     def _compute_effective_date(self):
         for rec in self:
-            rec.effective_date = "{}-01-01".format(rec.calendar_year)
+            rec.effective_date = False
+            # Check len string (before convert) and digit int (after convert)
+            if (
+                rec.calendar_year.isdigit()
+                and len(rec.calendar_year) == 4
+                and len(str(int(rec.calendar_year))) == 4
+            ):
+                rec.effective_date = "{}-01-01".format(rec.calendar_year)
+
+    def copy(self, default=None):
+        self.ensure_one()
+        default = dict(default or {}, calendar_year=_("%s (copy)") % self.calendar_year)
+        return super().copy(default)
 
     @api.constrains("rate_ids")
     def _check_rate_ids(self):
