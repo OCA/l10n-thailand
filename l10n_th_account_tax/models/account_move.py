@@ -143,13 +143,21 @@ class AccountMoveLine(models.Model):
             )
             if is_tax_invoice or line.manual_tax_invoice:
                 tax_base_amount = line._get_tax_base_amount(sign, vals_list)
+                # For case customer invoice, customer credit note and not manual reconcile
+                # it default value in tax invoice
+                default_tax_invoice = line.move_id.move_type in [
+                    "out_invoice",
+                    "out_refund",
+                ] and not self.env.context.get("invoice_net_refund")
                 taxinv = TaxInvoice.create(
                     {
                         "move_id": line.move_id.id,
                         "move_line_id": line.id,
                         "partner_id": line.partner_id.id,
-                        "tax_invoice_number": sign < 0 and "/" or False,
-                        "tax_invoice_date": sign < 0 and fields.Date.today() or False,
+                        "tax_invoice_number": default_tax_invoice and "/" or False,
+                        "tax_invoice_date": default_tax_invoice
+                        and fields.Date.today()
+                        or False,
                         "tax_base_amount": tax_base_amount,
                         "balance": sign * abs(line.balance),
                         "reversed_id": (
@@ -162,18 +170,6 @@ class AccountMoveLine(models.Model):
                 line.tax_invoice_ids |= taxinv
             # Assign back the reversing id
             for taxinv in line.tax_invoice_ids.filtered("reversed_id"):
-                # case not clear tax, original move must auto posted.
-                origin_move = taxinv.reversed_id
-                if origin_move.state == "draft":
-                    origin_move.tax_invoice_ids.write(
-                        {
-                            "tax_invoice_number": sign < 0 and "/" or False,
-                            "tax_invoice_date": sign < 0
-                            and fields.Date.today()
-                            or False,
-                        }
-                    )
-                    origin_move.action_post()
                 TaxInvoice.search([("move_id", "=", taxinv.reversed_id.id)]).write(
                     {"reversing_id": taxinv.move_id.id}
                 )
@@ -400,18 +396,22 @@ class AccountMove(models.Model):
 
         res = super()._post(soft=soft)
 
-        # Sales Taxes
-        for move in self:
-            for tax_invoice in move.tax_invoice_ids.filtered(
-                lambda l: l.tax_line_id.type_tax_use == "sale"
-                or l.move_id.journal_id.type == "sale"
-            ):
-                tinv_number, tinv_date = self._get_tax_invoice_number(
-                    move, tax_invoice, tax_invoice.tax_line_id
-                )
-                tax_invoice.write(
-                    {"tax_invoice_number": tinv_number, "tax_invoice_date": tinv_date}
-                )
+        # Sales Taxes (exclude reconcile manual)
+        if not self.env.context.get("net_invoice_refund"):
+            for move in self:
+                for tax_invoice in move.tax_invoice_ids.filtered(
+                    lambda l: l.tax_line_id.type_tax_use == "sale"
+                    or l.move_id.journal_id.type == "sale"
+                ):
+                    tinv_number, tinv_date = self._get_tax_invoice_number(
+                        move, tax_invoice, tax_invoice.tax_line_id
+                    )
+                    tax_invoice.write(
+                        {
+                            "tax_invoice_number": tinv_number,
+                            "tax_invoice_date": tinv_date,
+                        }
+                    )
 
         # Check amount tax invoice with move line
         # kittiu: There are case that we don't want to check
