@@ -43,6 +43,9 @@ class TestTaxInvoice(SingleTransactionCase):
         cls.input_vat_acct = cls.env["account.account"].create(
             {"name": "V7", "code": "V7", "user_type_id": type_current_liability.id}
         )
+        cls.input_zero_vat_acct = cls.env["account.account"].create(
+            {"name": "V0", "code": "V0", "user_type_id": type_current_liability.id}
+        )
         cls.undue_input_vat_acct = cls.env["account.account"].create(
             {"name": "DV7", "code": "DV7", "user_type_id": type_current_asset.id}
         )
@@ -114,6 +117,28 @@ class TestTaxInvoice(SingleTransactionCase):
                             "factor_percent": 100.0,
                             "repartition_type": "tax",
                             "account_id": cls.input_vat_acct.id,
+                        },
+                    ),
+                ],
+            }
+        )
+        cls.input_zero_vat = cls.env["account.tax"].create(
+            {
+                "name": "V0",
+                "type_tax_use": "purchase",
+                "amount_type": "percent",
+                "amount": 0.0,
+                "tax_group_id": cls.tax_group_vat.id,
+                "tax_exigibility": "on_invoice",
+                "invoice_repartition_line_ids": [
+                    (0, 0, {"factor_percent": 100.0, "repartition_type": "base"}),
+                    (
+                        0,
+                        0,
+                        {
+                            "factor_percent": 100.0,
+                            "repartition_type": "tax",
+                            "account_id": cls.input_zero_vat_acct.id,
                         },
                     ),
                 ],
@@ -208,6 +233,14 @@ class TestTaxInvoice(SingleTransactionCase):
             "in_refund",
             cls.env.ref("account.data_account_type_expenses"),
             cls.undue_input_vat,
+        )
+        cls.supplier_invoice_zero_vat = create_invoice(
+            "Test Supplier Invoice VAT 0%",
+            cls.env.ref("base.res_partner_12"),
+            cls.journal_purchase,
+            "in_invoice",
+            cls.env.ref("account.data_account_type_expenses"),
+            cls.input_zero_vat,
         )
 
         # Prepare Customer Invoices
@@ -498,3 +531,12 @@ class TestTaxInvoice(SingleTransactionCase):
                 },
             ],
         )
+
+    def test_supplier_invoice_zero_tax(self):
+        """Case on 0% tax, Core odoo not create line with zero tax"""
+        invoice = self.supplier_invoice_zero_vat
+        line_zero = invoice.line_ids.filtered(lambda l: not (l.debit or l.credit))
+        # There is 1 line for tax 0%
+        self.assertEqual(len(invoice.line_ids), 3)
+        self.assertTrue(line_zero)
+        self.assertEqual(len(line_zero), 1)
