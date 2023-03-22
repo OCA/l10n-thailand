@@ -1,0 +1,55 @@
+<odoo>
+    <record id="purchase_tracking_report_wizard_form" model="ir.ui.view">
+        <field name="name">purchase.tracking.report.wizard.form</field>
+        <field name="model">purchase.tracking.report.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group name="criteria">
+                    <group>
+                        <field
+                            name="date_range_id"
+                            options="{'no_create': True, 'no_open': True}"
+                        />
+                        <field name="date_from" />
+                        <field name="date_to" />
+                    </group>
+                    <group>
+                        <field
+                            name="requested_by"
+                            widget="many2many_tags"
+                            options="{'no_create': True}"
+                            groups="purchase.group_purchase_user"
+                        />
+                        <field name="company_id" groups="base.group_multi_company" />
+                    </group>
+                </group>
+                <footer>
+                    <button
+                        name="button_export_xlsx"
+                        string="Export XLSX"
+                        type="object"
+                        default_focus="1"
+                        context="{'model': 'report.purchase.tracking.report'}"
+                        class="oe_highlight"
+                    />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="purchase_tracking_report_action" model="ir.actions.act_window">
+        <field name="name">Purchase Tracking Report</field>
+        <field name="res_model">purchase.tracking.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="purchase_request_reports_l10n_th_menu"
+        parent="l10n_th_gov_purchase_report.main_menu_purchase_request_report"
+        action="purchase_tracking_report_action"
+        groups="purchase_request.group_purchase_request_user"
+    />
+</odoo>
