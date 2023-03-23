@@ -73,7 +73,10 @@ class AccountMove(models.Model):
                         clearing.account_move_id.line_ids
                         + clearing.wht_move_id.line_ids
                     )
-                    ml_lines.filtered(lambda l: l.account_id == account).reconcile()
+                    ml_lines.filtered(
+                        lambda l: l.move_id.state == "posted"
+                        and l.account_id == account
+                    ).reconcile()
 
     def _assign_tax_invoice(self):
         """Use Bill Reference and Date from Expense Line as Tax Invoice"""
