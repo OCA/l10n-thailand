@@ -29,8 +29,20 @@ class TestGovAssetManagementThailand(
                 "account_asset_id": cls.account_expense.id,
             }
         )
+        # Add permission analytic
+        cls.env.user.write(
+            {
+                "groups_id": [
+                    (4, cls.env.ref("analytic.group_analytic_accounting").id),
+                    (4, cls.env.ref("analytic.group_analytic_tags").id),
+                ],
+            }
+        )
+        cls.analytic1 = cls.env.ref("analytic.analytic_administratif")
+        cls.analytic_tag1 = cls.env.ref("analytic.tag_contract")
 
     def test_01_flow_purchase_to_asset(self):
+        self.env.company.asset_move_line_analytic = True
         # Create Purchase Order
         qty = 42.0
         purchase_order = self._create_purchase_order(qty, self.product_product)
@@ -105,6 +117,7 @@ class TestGovAssetManagementThailand(
         wiz.remove_multi_assets()
 
     def test_02_flow_purchase_to_asset_low_value(self):
+        self.env.company.asset_move_line_analytic = True
         # Create Purchase Order
         qty = 42.0
         purchase_order = self._create_purchase_order(qty, self.product_product)
@@ -174,3 +187,31 @@ class TestGovAssetManagementThailand(
                 "l10n_th_gov_account_asset_management.asset_low_value_remove_form"
             ).id,
         )
+
+    def test_03_config_analytic(self):
+        self.env.company.asset_move_line_analytic = True
+        asset = self.asset_model.create(
+            {
+                "name": "test asset analytic",
+                "account_analytic_id": self.analytic1.id,
+                "analytic_tag_ids": [(4, self.analytic_tag1.id)],
+                "profile_id": self.car5y.id,
+                "purchase_value": 1000,
+                "salvage_value": 0,
+                "date_start": "2019-01-01",
+                "method_time": "number",
+                "method_number": 10,
+                "method_period": "month",
+                "prorata": False,
+            }
+        )
+        asset.compute_depreciation_board()
+        asset.validate()
+        lines = asset.depreciation_line_ids.filtered(lambda x: not x.init_entry)
+        self.assertEqual(len(lines), 10)
+        # Test create move and check move line must accounting with analytic, tags all line
+        move_id = lines[0].create_move()
+        move = self.env["account.move"].browse(move_id)
+        for line in move.line_ids:
+            self.assertEqual(line.analytic_account_id, self.analytic1)
+            self.assertEqual(line.analytic_tag_ids, self.analytic_tag1)

@@ -17,6 +17,7 @@
         "data/ir_actions_server_data.xml",
         "views/account_asset_views.xml",
         "wizard/account_asset_remove.xml",
+        "views/res_config_settings_views.xml",
     ],
     "installable": True,
     "development_status": "Alpha",

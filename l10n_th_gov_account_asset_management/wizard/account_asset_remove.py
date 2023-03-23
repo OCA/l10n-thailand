@@ -30,3 +30,22 @@ class AccountAssetRemove(models.TransientModel):
             ctx.update({"active_id": asset.id})
             self.with_context(**ctx).remove()
         return True
+
+    def _get_removal_data(self, asset, residual_value):
+        move_lines = super()._get_removal_data(asset, residual_value)
+        if self.env.company.asset_move_line_analytic:
+            analytic_account = asset.account_analytic_id.id
+            analytic_tags = [(4, tag.id) for tag in asset.analytic_tag_ids]
+            move_lines = [
+                (
+                    ml[0],
+                    ml[1],
+                    {
+                        **ml[2],
+                        "analytic_account_id": analytic_account,
+                        "analytic_tag_ids": analytic_tags,
+                    },
+                )
+                for ml in move_lines
+            ]
+        return move_lines
