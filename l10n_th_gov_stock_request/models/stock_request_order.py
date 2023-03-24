@@ -25,4 +25,4 @@ class StockRequestOrder(models.Model):
     def onchange_warehouse_id(self):
         if not self.location_id.warehouse_id:
             return
-        super().onchange_warehouse_id()
+        return super().onchange_warehouse_id()
