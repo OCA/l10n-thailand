@@ -180,23 +180,28 @@ class BankPaymentExport(models.Model):
         The format for this date is DDMMYYYY"""
         return ""
 
-    def _hook_wht_22_25(self, pe_line, wht, index):
+    def _hook_wht_22_25(self, bbl_ewht, pe_line, wht, index):
         """WHT Bank Payment Export"""
-        if index == 22:
-            return ""  # TODO
-        elif index == 23:
-            return "001"  # TODO: 23 - 25 For test
-        elif index == 25:
+        if not bbl_ewht:
             return ""
+        # For wht, now is not support
+        # if index == 22:
+        #     return ""  # TODO
+        # elif index == 23:
+        #     return "001"  # TODO: 23 - 25 For test
+        # elif index == 25:
+        #     return ""
 
     def _hook_bathnet_type_code_26(self):
         """This will contain BahtNet service code for BahtNet product.
         Details of same will be provided by BBL team"""
         return ""
 
-    def _hook_total_discount_amount_32(self):
+    def _hook_total_discount_amount_32(self, bbl_ewht, wht):
         """Indicates Total Discount Amount for particular transaction.
         Divide by 100 for actual value"""
+        # if bbl_ewht and not wht:
+        #     return ""  # TODO: wht
         return ""
 
     def _hook_wht_pay_type_35(self):
@@ -329,16 +334,10 @@ class BankPaymentExport(models.Model):
                 # NOTE: 11 - 18 For Chq Pmt only, this module not support.
                 bbl_credit_advice_19=self.bbl_credit_advice and "Y" or "N",
                 # NOTE: 20 - 21 For Chq Pmt only, this module not support.
-                wht_form_type_22=bbl_ewht
-                and self._hook_wht_22_25(pe_line, wht, 22)
-                or "",
-                wht_serial_no_23=bbl_ewht
-                and self._hook_wht_22_25(pe_line, wht, 23)
-                or "",
+                wht_form_type_22=self._hook_wht_22_25(bbl_ewht, pe_line, wht, 22),
+                wht_serial_no_23=self._hook_wht_22_25(bbl_ewht, pe_line, wht, 23),
                 # NOTE: 24 is Book No., Not support
-                wht_running_no_25=bbl_ewht
-                and self._hook_wht_22_25(pe_line, wht, 25)
-                or "",
+                wht_running_no_25=self._hook_wht_22_25(bbl_ewht, pe_line, wht, 25),
                 bathnet_type_code_26=self._hook_bathnet_type_code_26(),  # TODO: eWHT?
                 bbl_bot_type_27=self.bbl_bot_type,
                 # NOTE: 28 - 29 : Required, If there is withholding tax and config eWHT
@@ -356,10 +355,9 @@ class BankPaymentExport(models.Model):
                 and not wht
                 and pe_line._get_amount_no_decimal(total_inv_amount)
                 or "",
-                total_discount_amount_32=bbl_ewht
-                and not wht
-                and self._hook_total_discount_amount_32()
-                or "",
+                total_discount_amount_32=self._hook_total_discount_amount_32(
+                    bbl_ewht, wht
+                ),
                 bbl_payee_charge_33=self.bbl_payee_charge,
                 payment_net_amount_34=payment_net_amount_bank,
                 wht_pay_type_35=bbl_ewht and self._hook_wht_pay_type_35() or "",
@@ -407,48 +405,49 @@ class BankPaymentExport(models.Model):
         )
         return text
 
-    def _get_text_body_wht_bbl(self, idx, pe_line, payment, wht_line):
-        text = (
-            "005~{internal_ref_2}~{credit_sequence_3}~{wht_amount_4}~"
-            "{ewht_income_type_5}~{wht_rate_6}~{income_type_amount_7}\n".format(
-                internal_ref_2=payment.name,
-                credit_sequence_3=idx,  # optional
-                wht_amount_4=pe_line._get_amount_no_decimal(wht_line.amount),
-                ewht_income_type_5=self._hook_ewht_income_type_5(),
-                wht_rate_6=str(
-                    pe_line._get_amount_no_decimal(wht_line.wht_percent)
-                ).zfill(4),
-                income_type_amount_7=pe_line._get_amount_no_decimal(wht_line.base),
-            )
-        )
-        return text
+    # def _get_text_body_wht_bbl(self, idx, pe_line, payment, wht_line):
+    #     text = (
+    #         "005~{internal_ref_2}~{credit_sequence_3}~{wht_amount_4}~"
+    #         "{ewht_income_type_5}~{wht_rate_6}~{income_type_amount_7}\n".format(
+    #             internal_ref_2=payment.name,
+    #             credit_sequence_3=idx,  # optional
+    #             wht_amount_4=pe_line._get_amount_no_decimal(wht_line.amount),
+    #             ewht_income_type_5=self._hook_ewht_income_type_5(),
+    #             wht_rate_6=str(
+    #                 pe_line._get_amount_no_decimal(wht_line.wht_percent)
+    #             ).zfill(4),
+    #             income_type_amount_7=pe_line._get_amount_no_decimal(wht_line.base),
+    #         )
+    #     )
+    #     return text
 
-    def _get_text_body_invoice_ewht_bbl(self, pe_line, payment, wht_line):
-        text = (
-            "009~{name_ref_2}~{inv_amount_3}~{inv_description_4}~"
-            "{vat_amount_5}~{internal_ref_6}~{ewht_income_type_7}\n".format(
-                name_ref_2=self._hook_name_ref_2(),
-                inv_amount_3=pe_line._get_amount_no_decimal(wht_line.base),
-                inv_description_4=self._hook_inv_description_4(),  # optional
-                vat_amount_5=self._hook_vat_amount_5(),  # optional
-                internal_ref_6=payment.name,
-                ewht_income_type_7="TODO",  # TODO: do somethings
-            )
-        )
-        return text
+    # def _get_text_body_invoice_ewht_bbl(self, pe_line, payment, wht_line):
+    #     text = (
+    #         "009~{name_ref_2}~{inv_amount_3}~{inv_description_4}~"
+    #         "{vat_amount_5}~{internal_ref_6}~{ewht_income_type_7}\n".format(
+    #             name_ref_2=self._hook_name_ref_2(),
+    #             inv_amount_3=pe_line._get_amount_no_decimal(wht_line.base),
+    #             inv_description_4=self._hook_inv_description_4(),  # optional
+    #             vat_amount_5=self._hook_vat_amount_5(),  # optional
+    #             internal_ref_6=payment.name,
+    #             ewht_income_type_7="TODO",  # TODO: do somethings
+    #         )
+    #     )
+    #     return text
 
-    def _get_text_body_invoice_bbl(self, pe_line, payment, inv):
-        text = (
-            "006~{name_ref_2}~{inv_amount_3}~{inv_description_4}~"
-            "{vat_amount_5}~{internal_ref_6}\n".format(
-                name_ref_2=self._hook_name_ref_2(),  # TODO: name duplicate ewht?
-                inv_amount_3=pe_line._get_amount_no_decimal(inv.amount_untaxed),
-                inv_description_4=self._hook_inv_description_4(),  # TODO: desc duplicate ewht?
-                vat_amount_5=pe_line._get_amount_no_decimal(inv.amount_tax),
-                internal_ref_6=payment.name,
-            )
-        )
-        return text
+    # def _get_text_body_invoice_bbl(self, pe_line, payment, inv):
+    #     text = (
+    #         "006~{name_ref_2}~{inv_amount_3}~{inv_description_4}~"
+    #         "{vat_amount_5}~{internal_ref_6}\n".format(
+    #             name_ref_2=self._hook_name_ref_2(),  # TODO: name duplicate ewht?
+    #             inv_amount_3=pe_line._get_amount_no_decimal(inv.amount_untaxed),
+    #             # TODO: desc duplicate ewht?
+    #             inv_description_4=self._hook_inv_description_4(),
+    #             vat_amount_5=pe_line._get_amount_no_decimal(inv.amount_tax),
+    #             internal_ref_6=payment.name,
+    #         )
+    #     )
+    #     return text
 
     def _get_text_footer_bbl(self, total_amount, payment_lines):
         text = "100~{len_payment}~{total_amount}".format(
@@ -491,22 +490,23 @@ class BankPaymentExport(models.Model):
                 bbl_ewht,
                 wht,
             )
-            if bbl_ewht:
-                if wht:
-                    for idx, wht_line in enumerate(wht.wht_line):
-                        # WHT Details - 005
-                        text += self._get_text_body_wht_bbl(
-                            idx + 1, pe_line, payment, wht_line
-                        )
-                    for wht_line in wht.wht_line:
-                        # Invoice E-WHT Details - 009
-                        text += self._get_text_body_invoice_ewht_bbl(
-                            pe_line, payment, wht_line
-                        )
-                else:
-                    # Invoice Details - 006
-                    for inv in payment.reconciled_bill_ids:
-                        text += self._get_text_body_invoice_bbl(pe_line, payment, inv)
+            # TODO: eWHT
+            # if bbl_ewht:
+            #     if wht:
+            #         for idx, wht_line in enumerate(wht.wht_line):
+            #             # WHT Details - 005
+            #             text += self._get_text_body_wht_bbl(
+            #                 idx + 1, pe_line, payment, wht_line
+            #             )
+            #         for wht_line in wht.wht_line:
+            #             # Invoice E-WHT Details - 009
+            #             text += self._get_text_body_invoice_ewht_bbl(
+            #                 pe_line, payment, wht_line
+            #             )
+            #     else:
+            #         # Invoice Details - 006
+            #         for inv in payment.reconciled_bill_ids:
+            #             text += self._get_text_body_invoice_bbl(pe_line, payment, inv)
             total_amount += payment_net_amount_bank
         # Footer - 100
         text += self._get_text_footer_bbl(total_amount, payment_lines)
