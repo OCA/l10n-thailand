@@ -1,0 +1,74 @@
+<odoo>
+    <record id="purchase_type_view_tree" model="ir.ui.view">
+        <field name="name">purchase.type.view.tree</field>
+        <field name="model">purchase.type</field>
+        <field name="arch" type="xml">
+            <tree decoration-muted="active == False">
+                <field name="sequence" widget="handle" />
+                <field name="active" invisible="True" />
+                <field name="name" />
+                <field name="to_create" />
+                <field name="is_default" />
+                <field name="procurement_method_ids" widget="many2many_tags" />
+                <field name="description" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="purchase_type_view_form" model="ir.ui.view">
+        <field name="name">purchase.type.view.form</field>
+        <field name="model">purchase.type</field>
+        <field name="arch" type="xml">
+            <form string="Purchase Types">
+                <sheet>
+                    <div class="oe_button_box" name="button_box" />
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '=', True)]}"
+                    />
+                    <field name="active" invisible="1" />
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" />
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="to_create" />
+                            <field name="code" />
+                        </group>
+                        <group>
+                            <field name="is_default" />
+                            <field
+                                name="procurement_method_ids"
+                                widget="many2many_tags"
+                            />
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="purchase_type_action" model="ir.actions.act_window">
+        <field name="name">Purchase Types</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="purchase_type_view_tree" />
+    </record>
+
+    <menuitem
+        id="purchase_type_menu"
+        parent="purchase.menu_purchase_config"
+        sequence="51"
+        action="purchase_type_action"
+        groups="purchase.group_purchase_manager"
+    />
+</odoo>
