@@ -16,18 +16,21 @@ class TestBankPaymentExportBBL(CommonBankPaymentExport):
             name="BBL Company ID",
             field_name="config_bbl_company_code",
             value="Test BBL Company",
+            bank="BKKBTHBK",
             default=True,
         )
         self.config_bbl_customer_batch_smart = self.create_bank_payment_config(
             name="BBL Smart Batch Ref",
             field_name="config_bbl_customer_batch_smart",
             value="Test BBL Smart Batch Ref",
+            bank="BKKBTHBK",
             default=True,
         )
         self.config_bbl_customer_batch_direct = self.create_bank_payment_config(
             name="BBL Direct Batch Ref",
             field_name="config_bbl_customer_batch_direct",
             value="Test BBL Direct Batch Ref",
+            bank="BKKBTHBK",
             default=True,
         )
 
@@ -67,6 +70,7 @@ class TestBankPaymentExportBBL(CommonBankPaymentExport):
                 name="BBL Company ID 2",
                 field_name="config_bbl_company_code",
                 value="Test BBL Company 2",
+                bank="BKKBTHBK",
                 default=True,
             )
 
