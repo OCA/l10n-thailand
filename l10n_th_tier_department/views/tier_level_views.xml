@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_tier_level_form" model="ir.ui.view">
+        <field name="name">tier.level.form</field>
+        <field name="model">tier.level</field>
+        <field name="arch" type="xml">
+            <form string="Tier Level">
+                <sheet>
+                    <group col="4">
+                        <field name="level" />
+                        <field name="user_id" />
+                        <field name="name" />
+                        <field
+                            name="company_id"
+                            options="{'no_create': True}"
+                            groups="base.group_multi_company"
+                        />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tier_level_tree" model="ir.ui.view">
+        <field name="name">tier.level.tree</field>
+        <field name="model">tier.level</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle" />
+                <field name="level" />
+                <field name="user_id" />
+                <field name="name" />
+                <field
+                    name="company_id"
+                    options="{'no_create': True}"
+                    groups="base.group_multi_company"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_tier_level" model="ir.actions.act_window">
+        <field name="name">Tier Level</field>
+        <field name="res_model">tier.level</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new tier level
+            </p>
+        </field>
+    </record>
+</odoo>

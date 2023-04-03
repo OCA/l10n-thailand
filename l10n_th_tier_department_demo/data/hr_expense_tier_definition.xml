@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+    <!-- Expense -->
+    <record id="expense_gov_tier_definition_1" model="tier.definition">
+        <field name="name">Approval EX Level 1</field>
+        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="definition_type">domain</field>
+        <field name="definition_domain">[('advance', '=', False)]</field>
+        <field name="review_type">expression</field>
+        <field
+            name="reviewer_expression"
+        >rec.employee_id.department_id and rec.employee_id.department_id.find_reviewer_level(level=1) or rec.env.user</field>
+        <field name="sequence">50</field>
+        <field name="approve_sequence" eval="True" />
+        <field name="active" eval="False" />
+    </record>
+    <record id="expense_gov_tier_definition_2" model="tier.definition">
+        <field name="name">Approval EX Level 2</field>
+        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="definition_type">domain</field>
+        <field
+            name="definition_domain"
+        >[('advance', '=', False), ('total_amount', '&gt;', 30000)]</field>
+        <field name="review_type">expression</field>
+        <field
+            name="reviewer_expression"
+        >rec.employee_id.department_id and rec.employee_id.department_id.find_reviewer_level(level=2) or rec.env.user</field>
+        <field name="sequence">40</field>
+        <field name="approve_sequence" eval="True" />
+        <field name="active" eval="False" />
+    </record>
+    <record id="expense_gov_tier_definition_3" model="tier.definition">
+        <field name="name">Approval EX Level 3</field>
+        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="definition_type">domain</field>
+        <field
+            name="definition_domain"
+        >[('advance', '=', False), ('total_amount', '&gt;', 100000)]</field>
+        <field name="review_type">expression</field>
+        <field
+            name="reviewer_expression"
+        >rec.employee_id.department_id and rec.employee_id.department_id.find_reviewer_level(level=3) or rec.env.user</field>
+        <field name="sequence">30</field>
+        <field name="approve_sequence" eval="True" />
+        <field name="active" eval="False" />
+    </record>
+    <record id="expense_gov_tier_definition_4" model="tier.definition">
+        <field name="name">Approval EX Level 4</field>
+        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="definition_type">domain</field>
+        <field
+            name="definition_domain"
+        >[('advance', '=', False), ('total_amount', '&gt;', 500000)]</field>
+        <field name="review_type">expression</field>
+        <field
+            name="reviewer_expression"
+        >rec.employee_id.department_id and rec.employee_id.department_id.find_reviewer_level(level=4) or rec.env.user</field>
+        <field name="sequence">20</field>
+        <field name="approve_sequence" eval="True" />
+        <field name="active" eval="False" />
+    </record>
+    <record id="expense_gov_tier_definition_5" model="tier.definition">
+        <field name="name">Approval EX Level 5</field>
+        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="definition_type">domain</field>
+        <field
+            name="definition_domain"
+        >[('advance', '=', False), ('total_amount', '&gt;', 1000000)]</field>
+        <field name="review_type">expression</field>
+        <field
+            name="reviewer_expression"
+        >rec.employee_id.department_id and rec.employee_id.department_id.find_reviewer_level(level=5) or rec.env.user</field>
+        <field name="sequence">10</field>
+        <field name="approve_sequence" eval="True" />
+        <field name="active" eval="False" />
+    </record>
+
+    <!-- Advance -->
+    <record id="advance_gov_tier_definition_1" model="tier.definition">
+        <field name="name">Approval AV Level 1</field>
+        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="definition_type">domain</field>
+        <field name="definition_domain">[('advance', '=', True)]</field>
+        <field name="review_type">expression</field>
+        <field
+            name="reviewer_expression"
+        >rec.employee_id.department_id and rec.employee_id.department_id.find_reviewer_level(level=1) or rec.env.user</field>
+        <field name="sequence">50</field>
+        <field name="approve_sequence" eval="True" />
+        <field name="active" eval="False" />
+    </record>
+    <record id="advance_gov_tier_definition_2" model="tier.definition">
+        <field name="name">Approval AV Level 2</field>
+        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="definition_type">domain</field>
+        <field
+            name="definition_domain"
+        >[('advance', '=', True), ('total_amount', '&gt;', 5000)]</field>
+        <field name="review_type">expression</field>
+        <field
+            name="reviewer_expression"
+        >rec.employee_id.department_id and rec.employee_id.department_id.find_reviewer_level(level=2) or rec.env.user</field>
+        <field name="sequence">40</field>
+        <field name="approve_sequence" eval="True" />
+        <field name="active" eval="False" />
+    </record>
+    <record id="advance_gov_tier_definition_3" model="tier.definition">
+        <field name="name">Approval AV Level 3</field>
+        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="definition_type">domain</field>
+        <field
+            name="definition_domain"
+        >[('advance', '=', True), ('total_amount', '&gt;', 10000)]</field>
+        <field name="review_type">expression</field>
+        <field
+            name="reviewer_expression"
+        >rec.employee_id.department_id and rec.employee_id.department_id.find_reviewer_level(level=3) or rec.env.user</field>
+        <field name="sequence">30</field>
+        <field name="approve_sequence" eval="True" />
+        <field name="active" eval="False" />
+    </record>
+    <record id="advance_gov_tier_definition_4" model="tier.definition">
+        <field name="name">Approval AV Level 4</field>
+        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="definition_type">domain</field>
+        <field
+            name="definition_domain"
+        >[('advance', '=', True), ('total_amount', '&gt;', 30000)]</field>
+        <field name="review_type">expression</field>
+        <field
+            name="reviewer_expression"
+        >rec.employee_id.department_id and rec.employee_id.department_id.find_reviewer_level(level=4) or rec.env.user</field>
+        <field name="sequence">20</field>
+        <field name="approve_sequence" eval="True" />
+        <field name="active" eval="False" />
+    </record>
+    <record id="advance_gov_tier_definition_5" model="tier.definition">
+        <field name="name">Approval AV Level 5</field>
+        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="definition_type">domain</field>
+        <field
+            name="definition_domain"
+        >[('advance', '=', True), ('total_amount', '&gt;', 100000)]</field>
+        <field name="review_type">expression</field>
+        <field
+            name="reviewer_expression"
+        >rec.employee_id.department_id and rec.employee_id.department_id.find_reviewer_level(level=5) or rec.env.user</field>
+        <field name="sequence">10</field>
+        <field name="approve_sequence" eval="True" />
+        <field name="active" eval="False" />
+    </record>
+</odoo>
