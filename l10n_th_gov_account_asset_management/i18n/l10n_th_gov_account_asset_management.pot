@@ -19,6 +19,21 @@ msgid "Asset"
 msgstr ""
 
 #. module: l10n_th_gov_account_asset_management
+#: model:ir.model,name:l10n_th_gov_account_asset_management.model_account_asset_line
+msgid "Asset depreciation table line"
+msgstr ""
+
+#. module: l10n_th_gov_account_asset_management
+#: model:ir.model,name:l10n_th_gov_account_asset_management.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_th_gov_account_asset_management
+#: model:ir.model,name:l10n_th_gov_account_asset_management.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_th_gov_account_asset_management
 #: code:addons/l10n_th_gov_account_asset_management/models/account_asset.py:0
 #, python-format
 msgid "Generate Asset Removal entries"
@@ -51,6 +66,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_gov_account_asset_management.field_account_asset__remove_reason
 #: model:ir.model.fields,field_description:l10n_th_gov_account_asset_management.field_account_asset_remove__remove_reason
 msgid "Removed Reason"
+msgstr ""
+
+#. module: l10n_th_gov_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_gov_account_asset_management.field_res_company__asset_move_line_analytic
+#: model:ir.model.fields,field_description:l10n_th_gov_account_asset_management.field_res_config_settings__asset_move_line_analytic
+msgid "Stamp analytic in all asset move line"
 msgstr ""
 
 #. module: l10n_th_gov_account_asset_management
