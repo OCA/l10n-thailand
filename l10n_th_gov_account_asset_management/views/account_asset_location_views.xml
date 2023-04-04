@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+   <record id="account_asset_location_view_form" model="ir.ui.view">
+        <field name="name">account.asset.location.form</field>
+        <field name="model">account.asset.location</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '=', True)]}"
+                    />
+                    <group>
+                        <group name="group_left">
+                            <field name="active" invisible="1" />
+                            <field name="name" />
+                        </group>
+                        <group name="group_right" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="account_asset_location_view_tree" model="ir.ui.view">
+        <field name="name">account.asset.location.tree</field>
+        <field name="model">account.asset.location</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+    <record id="account_asset_location_view_search" model="ir.ui.view">
+        <field name="name">account.asset.location.search</field>
+        <field name="model">account.asset.location</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Asset Sub-Status" />
+                <separator />
+                <filter
+                    string="Archived"
+                    name="inactive"
+                    domain="[('active', '=', False)]"
+                />
+            </search>
+        </field>
+    </record>
+    <record id="action_account_asset_location" model="ir.actions.act_window">
+        <field name="name">Asset Locations</field>
+        <field name="res_model">account.asset.location</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        id="account_asset_location_menu"
+        action="action_account_asset_location"
+        parent="account_asset_management.menu_finance_config_assets"
+    />
+</odoo>

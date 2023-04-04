@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_asset_management.view_move_form" model="ir.ui.view">
+        <field name="groups_id" eval="[(4, ref('purchase.group_purchase_user'))]" />
+    </record>
+</odoo>
