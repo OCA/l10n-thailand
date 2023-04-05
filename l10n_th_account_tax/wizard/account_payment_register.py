@@ -117,6 +117,8 @@ class AccountPaymentRegister(models.TransientModel):
                 amount_base = deduction_list[0]["wht_amount_base"]
                 amount_wht = deduction_list[0]["amount"]
             self._update_payment_register(amount_base, amount_wht, wht_move_lines)
+            # Update analytic, analytic tag in wizard
+            self._update_vals_deduction(invoices)
         return res
 
     def _update_payment_register(self, amount_base, amount_wht, wht_move_lines):
