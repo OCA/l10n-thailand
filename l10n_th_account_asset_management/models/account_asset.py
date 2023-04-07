@@ -17,6 +17,22 @@ class AccountAsset(models.Model):
         string="Depreciation Rate (%)",
         store=True,
     )
+    parent_id = fields.Many2one(
+        comodel_name="account.asset.parent",
+        string="Parent Asset",
+        ondelete="cascade",
+        check_company=True,
+    )
+    asset_sub_state_all = fields.Many2many(
+        comodel_name="account.asset.sub.state",
+        compute="_compute_asset_sub_state_all",
+    )
+    asset_sub_state_id = fields.Many2one(
+        comodel_name="account.asset.sub.state",
+        string="Sub-Status",
+        domain=lambda self: self._domain_asset_sub_state(),
+        check_company=True,
+    )
 
     @api.depends("method_number", "method")
     def _compute_depreciation_rate(self):
@@ -24,6 +40,20 @@ class AccountAsset(models.Model):
             asset.depreciation_rate = 0
             if asset.method in ["linear", "linear-limit"] and asset.method_number != 0:
                 asset.depreciation_rate = 100.0 / asset.method_number
+
+    @api.depends("state")
+    def _compute_asset_sub_state_all(self):
+        for rec in self:
+            asset_sub_state_all = self.env["account.asset.sub.state"].search(
+                [(rec.state, "=", True)]
+            )
+            rec.asset_sub_state_all = asset_sub_state_all
+
+    def _domain_asset_sub_state(self):
+        return (
+            "[('id', 'in', asset_sub_state_all), '|', "
+            "('company_id', '=', False), ('company_id', '=', company_id)]"
+        )
 
     def _xls_l10n_th_fields(self):
         return [
@@ -59,6 +89,7 @@ class AccountAsset(models.Model):
 
     def validate(self):
         res = super().validate()
+        AccountAssetSubState = self.env["account.asset.sub.state"]
         for asset in self:
             if (
                 asset.method_number > 0
@@ -68,6 +99,18 @@ class AccountAsset(models.Model):
                 == 0
             ):
                 asset.state = "close"
+            # Default asset sub-status for running asset
+            asset_sub_state_open = AccountAssetSubState.search(
+                [
+                    ("open", "=", True),
+                    "|",
+                    ("company_id", "=", False),
+                    ("company_id", "=", asset.company_id.id),
+                ],
+                limit=1,
+            )
+            if asset_sub_state_open:
+                asset.asset_sub_state_id = asset_sub_state_open
         return res
 
     def _compute_depreciation_amount_per_fiscal_year(
