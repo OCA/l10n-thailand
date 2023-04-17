@@ -76,6 +76,16 @@ class AccountPayment(models.Model):
             for move in moves.filtered(lambda l: l.state == "draft"):
                 move.ensure_one()
                 move.action_post()
+                # Reconcile Case Basis
+                line = move.line_ids.filtered(
+                    lambda l: l.id != payment.tax_invoice_ids.move_line_id.id
+                )
+                if line.account_id.reconcile:
+                    origin_ml = move.tax_cash_basis_origin_move_id.line_ids
+                    counterpart_line = origin_ml.filtered(
+                        lambda l: l.account_id.id == line.account_id.id
+                    )
+                    (line + counterpart_line).reconcile()
         return True
 
     @api.depends("tax_invoice_ids")
