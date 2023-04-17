@@ -362,9 +362,9 @@ class AccountMove(models.Model):
                 ):
                     if tax_invoice.payment_id:  # Defer posting for payment
                         tax_invoice.payment_id.write({"to_clear_tax": True})
-                        return self.browse()  # return False
+                        continue
                     elif self.env.context.get("net_invoice_refund"):
-                        return self.browse()  # return False
+                        continue
                     else:
                         raise UserError(_("Please fill in tax invoice and tax date"))
 
