@@ -133,9 +133,9 @@
                                 <field name="committee_type" invisible="1" />
                                 <field
                                     name="employee_id"
-                                    string="Name"
                                     options="{'no_create': True, 'no_open': True}"
                                 />
+                                <field name="name" />
                                 <field name="approve_role" />
                                 <field name="department_id" />
                                 <field name="email" />
@@ -155,9 +155,9 @@
                                 <field name="committee_type" invisible="1" />
                                 <field
                                     name="employee_id"
-                                    string="Name"
                                     options="{'no_create': True, 'no_open': True}"
                                 />
+                                <field name="name" />
                                 <field name="approve_role" />
                                 <field name="department_id" />
                                 <field name="email" />

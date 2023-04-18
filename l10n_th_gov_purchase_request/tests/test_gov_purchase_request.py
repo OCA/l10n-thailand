@@ -58,19 +58,19 @@ class TestGovPurchaseRequest(common.TransactionCase):
         self.procurement_committee_model.create(
             [
                 {
-                    "employee_id": self.employee1.id,
+                    "name": "Chairman",
                     "approve_role": "chairman",
                     "committee_type": "work_acceptance",
                     "request_id": purchase_request.id,
                 },
                 {
-                    "employee_id": self.employee2.id,
+                    "name": self.employee2.display_name,
                     "approve_role": "committee",
                     "committee_type": "work_acceptance",
                     "request_id": purchase_request.id,
                 },
                 {
-                    "employee_id": self.employee3.id,
+                    "name": self.employee3.display_name,
                     "approve_role": "committee",
                     "committee_type": "work_acceptance",
                     "request_id": purchase_request.id,
@@ -78,6 +78,13 @@ class TestGovPurchaseRequest(common.TransactionCase):
             ]
         )
         self.assertEqual(len(purchase_request.work_acceptance_committee_ids), 3)
+        # Assign employee as committee
+        purchase_request.work_acceptance_committee_ids[0].employee_id = self.employee1
+        self.assertEqual(len(purchase_request.work_acceptance_committee_ids), 3)
+        self.assertEqual(
+            purchase_request.work_acceptance_committee_ids[0].name,
+            self.employee1.display_name,
+        )
         # Test open purchase agreement with purchase request state draft, it should error
         with self.assertRaises(UserError):
             self.wiz.with_context(
@@ -142,6 +149,7 @@ class TestGovPurchaseRequest(common.TransactionCase):
                         0,
                         {
                             "employee_id": self.employee1.id,
+                            "name": self.employee1.display_name,
                             "approve_role": "committee",
                             "committee_type": "work_acceptance",
                         },
