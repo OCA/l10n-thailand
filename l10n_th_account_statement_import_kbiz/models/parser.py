@@ -93,14 +93,16 @@ class KBizParser(models.AbstractModel):
                 ending_balance = float(values[12].replace(",", ""))
             if rowcount == 9:
                 total_withdrawals = float(values[12].replace(",", ""))
+                count_withdrawals = int(values[9])
             if rowcount == 10:
                 total_deposits = float(values[12].replace(",", ""))
+                count_deposits = int(values[9])
                 start_balance = ending_balance - total_deposits + total_withdrawals
                 statement["balance_start"] = start_balance
                 statement["balance_end_real"] = ending_balance
 
             # Discard remaining header lines
-            if rowcount < 15:
+            if rowcount < 13:
                 continue
 
             # Check remaining statement lines have expected number of columns
@@ -110,6 +112,10 @@ class KBizParser(models.AbstractModel):
 
             # Add this statement line to our results
             transactions.append(self._prepare_transaction_line_kbiz_type1(values))
+
+        # Error if we didn't extract the expected number of transactions
+        if count_deposits + count_withdrawals != len(transactions):
+            raise Exception(_("Unexpected number of transaction rows harvested (%d != %d)", count_deposits + count_withdrawals, len(transactions)))
 
         statement["name"] = start_date[0:7]
         statement["date"] = end_date
@@ -130,18 +136,22 @@ class KBizParser(models.AbstractModel):
         if not stmtdata:
             return super()._parse_file(data_file)
 
-        # Add up and drop 'balance' from raw data, and drop any transactions
+        # Calculate balance from raw data, and drop any transactions
         # that have already been imported
         transactions = []
         total_amt = 0.00
+        lineno = 0
         for vals in stmtdata["transactions"]:
+            lineno += 1
             total_amt += float(vals["amount"])
             tx1 = dict(vals)
             already_imported = self.env["account.statement.line"].search(
                 {[{"unique_import_id", "=", tx1["unique_import_id"]}]}
             )
-            if len(already_imported) < 1:
-                transactions.append(tx1)
+            if len(already_imported) > 0:
+                _logger.warning(_("Statement line %d was already imported", lineno))
+                continue
+            transactions.append(tx1)
         stmtdata["transactions"] = transactions
 
         return stmtdata
