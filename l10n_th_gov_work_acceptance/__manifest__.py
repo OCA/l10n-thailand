@@ -27,6 +27,6 @@
         "views/purchase_views.xml",
     ],
     "installable": True,
-    "development_status": "Beta",
+    "development_status": "Alpha",
     "maintainers": ["kittiu"],
 }

@@ -43,7 +43,7 @@ class WorkAcceptance(models.Model):
     @api.model
     def _get_under_validation_exceptions(self):
         res = super()._get_under_validation_exceptions()
-        res.append("evaluation_result_ids")
+        res.extend(["evaluation_result_ids", "work_acceptance_committee_ids"])
         return res
 
     def _clear_data_committee(self):

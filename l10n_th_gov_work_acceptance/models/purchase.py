@@ -19,6 +19,7 @@ class PurchaseOrder(models.Model):
     def _prepare_committee_line(self, line):
         return {
             "employee_id": line.employee_id.id,
+            "name": line.name,
             "approve_role": line.approve_role,
             "note": line.note,
         }
