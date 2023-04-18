@@ -84,7 +84,7 @@ class TestGovPurchaseWorkAcceptance(TransactionCase):
                 0,
                 0,
                 {
-                    "employee_id": self.employee1.id,
+                    "name": "Chairman",
                     "approve_role": "chairman",
                     "committee_type": "work_acceptance",
                 },
@@ -94,6 +94,7 @@ class TestGovPurchaseWorkAcceptance(TransactionCase):
                 0,
                 {
                     "employee_id": self.employee2.id,
+                    "name": self.employee2.display_name,
                     "approve_role": "committee",
                     "committee_type": "work_acceptance",
                 },
@@ -103,11 +104,13 @@ class TestGovPurchaseWorkAcceptance(TransactionCase):
                 0,
                 {
                     "employee_id": self.employee3.id,
+                    "name": self.employee3.display_name,
                     "approve_role": "committee",
                     "committee_type": "work_acceptance",
                 },
             ),
         ]
+        # Create purchase request
         purchase_request = self.purchase_request_model.create(
             {
                 "procurement_type_id": self.procurement_type1.id,
@@ -175,7 +178,7 @@ class TestGovPurchaseWorkAcceptance(TransactionCase):
             work_acceptance.button_accept()
         # Check exception in process tier validation
         res = work_acceptance._get_under_validation_exceptions()
-        self.assertEqual("evaluation_result_ids", res[-1])
+        self.assertIn("evaluation_result_ids", res)
         # Start Tier Validation
         work_acceptance.request_validation()
         work_acceptance.invalidate_cache()  # Needed to refresh review_ids field

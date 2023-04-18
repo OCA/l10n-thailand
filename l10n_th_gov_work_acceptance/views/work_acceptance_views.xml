@@ -9,6 +9,7 @@
         />
         <field name="arch" type="xml">
             <field name="state" position="before">
+                <field name="wa_tier_validation" optional="show" />
                 <field name="completeness" widget="progressbar" optional="show" />
                 <field name="validated" invisible="1" />
                 <field name="rejected" invisible="1" />
@@ -56,9 +57,9 @@
                             <tree editable="bottom">
                                 <field
                                     name="employee_id"
-                                    string="Name"
                                     options="{'no_create': True, 'no_open': True}"
                                 />
+                                <field name="name" />
                                 <field name="approve_role" />
                                 <field name="department_id" />
                                 <field name="email" />
@@ -68,9 +69,12 @@
                                     decoration-success="status == 'accept'"
                                     decoration-info="status == 'other'"
                                     decoration-danger="status == 'not_accept'"
-                                    readonly="1"
+                                    attrs="{'readonly': [('employee_id', '!=', False)]}"
                                 />
-                                <field name="note" readonly="1" />
+                                <field
+                                    name="note"
+                                    attrs="{'readonly': [('employee_id', '!=', False)]}"
+                                />
                                 <field
                                     name="write_date"
                                     string="Timestamp"
@@ -117,6 +121,13 @@
                     domain="[('completeness', '=', 0)]"
                 />
             </separator>
+            <xpath expr="//group" position="inside">
+                <filter
+                    name="groupby_wa_tier_validation"
+                    string="Paperless WA"
+                    context="{'group_by':'wa_tier_validation'}"
+                />
+            </xpath>
         </field>
     </record>
 
