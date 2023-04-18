@@ -115,7 +115,13 @@ class KBizParser(models.AbstractModel):
 
         # Error if we didn't extract the expected number of transactions
         if count_deposits + count_withdrawals != len(transactions):
-            raise Exception(_("Unexpected number of transaction rows harvested (%d != %d)", count_deposits + count_withdrawals, len(transactions)))
+            raise Exception(
+                _(
+                    "Unexpected number of transaction rows harvested (%d != %d)",
+                    count_deposits + count_withdrawals,
+                    len(transactions),
+                )
+            )
 
         statement["name"] = start_date[0:7]
         statement["date"] = end_date
