@@ -195,23 +195,22 @@ class AccountMoveLine(models.Model):
                 self.mapped("tax_invoice_ids").unlink()
         return super().write(vals)
 
-    def _prepare_deduction_list(self, currency=False, date=False):
-        def add_deduction(
-            wht_lines, wht_tax, partner_id, amount_deduct, currency, date
-        ):
-            amount_base, amount_wht = wht_lines._get_wht_amount(currency, date)
-            amount_deduct += amount_wht
-            deduct = {
-                "partner_id": partner_id,
-                "wht_amount_base": amount_base,
-                "wht_tax_id": wht_tax.id,
-                "account_id": wht_tax.account_id.id,
-                "name": wht_tax.display_name,
-                "amount": amount_wht,
-            }
-            deductions.append(deduct)
-            return amount_deduct
+    def _add_deduction(
+        self, wht_lines, wht_tax, partner_id, amount_deduct, currency, date
+    ):
+        amount_base, amount_wht = wht_lines._get_wht_amount(currency, date)
+        amount_deduct += amount_wht
+        deduct = {
+            "partner_id": partner_id,
+            "wht_amount_base": amount_base,
+            "wht_tax_id": wht_tax.id,
+            "account_id": wht_tax.account_id.id,
+            "name": wht_tax.display_name,
+            "amount": amount_wht,
+        }
+        return deduct, amount_deduct
 
+    def _prepare_deduction_list(self, currency=False, date=False):
         if not currency:
             currency = self.env.company.currency_id
         if not date:
@@ -242,7 +241,7 @@ class AccountMoveLine(models.Model):
                             and l.partner_id.id == partner_id
                         )
                     )
-                    amount_deduct = add_deduction(
+                    deduct, amount_deduct = self._add_deduction(
                         partner_wht_lines,
                         wht_tax,
                         partner_id,
@@ -250,13 +249,14 @@ class AccountMoveLine(models.Model):
                         currency,
                         date,
                     )
+                    deductions.append(deduct)
             else:
                 partner_ids = wht_tax_lines.mapped("partner_id").ids
                 for partner_id in partner_ids:
                     partner_wht_lines = wht_tax_lines.filtered(
                         lambda l: l.partner_id.id == partner_id
                     )
-                    amount_deduct = add_deduction(
+                    deduct, amount_deduct = self._add_deduction(
                         partner_wht_lines,
                         wht_tax,
                         partner_id,
@@ -264,6 +264,7 @@ class AccountMoveLine(models.Model):
                         currency,
                         date,
                     )
+                    deductions.append(deduct)
 
         return (deductions, amount_deduct)
 
