@@ -26,8 +26,8 @@ class ReportTaxReportXlsx(models.TransientModel):
         )
         return res
 
-    def _get_ws_params(self, wb, data, objects):
-        tax_template = {
+    def _get_tax_template(self):
+        return {
             "1_index": {
                 "header": {"value": "#"},
                 "data": {"value": self._render("index")},
@@ -84,6 +84,9 @@ class ReportTaxReportXlsx(models.TransientModel):
                 "width": 18,
             },
         }
+
+    def _get_ws_params(self, wb, data, objects):
+        tax_template = self._get_tax_template()
         ws_params = {
             "ws_name": "TAX Report",
             "generate_ws_method": "_vat_report",
@@ -102,12 +105,25 @@ class ReportTaxReportXlsx(models.TransientModel):
 
     def _write_ws_header(self, row_pos, ws, data_list):
         for data in data_list:
-            ws.merge_range(row_pos, 0, row_pos, 1, "")
+            ws.merge_range(row_pos, 0, row_pos, 2, "")
             ws.write_row(row_pos, 0, [data[0]], FORMATS["format_theader_blue_center"])
-            ws.merge_range(row_pos, 2, row_pos, 3, "")
+            ws.merge_range(row_pos, 3, row_pos, 5, "")
             ws.write_row(row_pos, 2, [data[1]], FORMATS["format_tcell_left"])
             row_pos += 1
         return row_pos + 1
+
+    def _get_render_space(self, index, line):
+        return {
+            "index": index,
+            "tax_date": line.tax_date or "",
+            "tax_invoice_number": line.tax_invoice_number or "",
+            "partner_name": line.partner_id.display_name or "",
+            "partner_vat": line.partner_id.vat or "",
+            "partner_branch": line.partner_id.branch or "",
+            "tax_base_amount": line.tax_base_amount or 0.00,
+            "tax_amount": line.tax_amount or 0.00,
+            "doc_ref": line.name or "",
+        }
 
     def _write_ws_lines(self, row_pos, ws, ws_params, objects):
         row_pos = self._write_line(
@@ -125,31 +141,22 @@ class ReportTaxReportXlsx(models.TransientModel):
                 row_pos,
                 ws_params,
                 col_specs_section="data",
-                render_space={
-                    "index": index,
-                    "tax_date": line.tax_date or "",
-                    "tax_invoice_number": line.tax_invoice_number or "",
-                    "partner_name": line.partner_id.display_name or "",
-                    "partner_vat": line.partner_id.vat or "",
-                    "partner_branch": line.partner_id.branch or "",
-                    "tax_base_amount": line.tax_base_amount or 0.00,
-                    "tax_amount": line.tax_amount or 0.00,
-                    "doc_ref": line.name or "",
-                },
+                render_space=self._get_render_space(index, line),
                 default_format=FORMATS["format_tcell_left"],
             )
             index += 1
         return row_pos
 
-    def _write_ws_footer(self, row_pos, ws, objects):
+    def _write_ws_footer(self, row_pos, ws, ws_params, objects):
         results = objects.results
-        ws.merge_range(row_pos, 0, row_pos, 5, "")
+        col_end = ws_params["wanted_list"].index("7_tax_base_amount")
+        ws.merge_range(row_pos, 0, row_pos, col_end - 1, "")
         ws.write_row(
             row_pos, 0, ["Total Balance"], FORMATS["format_theader_blue_right"]
         )
         ws.write_row(
             row_pos,
-            6,
+            col_end,
             [
                 sum(results.mapped("tax_base_amount")),
                 sum(results.mapped("tax_amount")),
@@ -170,7 +177,7 @@ class ReportTaxReportXlsx(models.TransientModel):
         row_pos = self._write_ws_title(ws, row_pos, ws_params, merge_range=True)
         row_pos = self._write_ws_header(row_pos, ws, header_data_list)
         row_pos = self._write_ws_lines(row_pos, ws, ws_params, objects)
-        row_pos = self._write_ws_footer(row_pos, ws, objects)
+        row_pos = self._write_ws_footer(row_pos, ws, ws_params, objects)
 
     def _get_header_data_list(self, objects):
         return [
@@ -178,5 +185,5 @@ class ReportTaxReportXlsx(models.TransientModel):
             ("Date To", objects.date_to.strftime("%d/%m/%Y") or "-"),
             ("Company", objects.company_id.display_name or "-"),
             ("Tax ID", objects.company_id.partner_id.vat or "-"),
-            ("Branch ID", objects.company_id.partner_id.branch or "-"),
+            ("Company Tax Branch", objects.company_id.partner_id.branch or "-"),
         ]
