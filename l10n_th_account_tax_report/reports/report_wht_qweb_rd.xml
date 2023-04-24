@@ -1,5 +1,139 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    <!-- Common Template -->
+    <template id="report_rd_base_company_withholding_tax">
+        <div class="company_vat">
+            <t t-if="o.company_id.vat">
+                <div class="row">
+                    <p class="box-vat">
+                        <t t-out="o.company_id.vat[:1]" />
+                    </p>
+                    <p class="box-vat vat_tab">
+                        <t t-out="o.company_id.vat[1:2]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="o.company_id.vat[2:3]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="o.company_id.vat[3:4]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="o.company_id.vat[4:5]" />
+                    </p>
+                    <p class="box-vat vat_tab">
+                        <t t-out="o.company_id.vat[5:6]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="o.company_id.vat[6:7]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="o.company_id.vat[7:8]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="o.company_id.vat[8:9]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="o.company_id.vat[9:10]" />
+                    </p>
+                    <p class="box-vat vat_tab">
+                        <t t-out="o.company_id.vat[10:11]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="o.company_id.vat[11:12]" />
+                    </p>
+                    <p class="box-vat vat_tab">
+                        <t t-out="o.company_id.vat[12:13]" />
+                    </p>
+                </div>
+            </t>
+        </div>
+        <div class="company_branch">
+            <t t-if="o.company_id.branch">
+                <div class="row">
+                    <p class="box-vat">
+                        <t t-out="o.company_id.branch[:1]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="o.company_id.branch[1:2]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="o.company_id.branch[2:3]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="o.company_id.branch[3:4]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="o.company_id.branch[4:5]" />
+                    </p>
+                </div>
+            </t>
+        </div>
+        <span class="num_page_from" t-out="num + 1" />
+        <span class="num_page_to" t-out="num_page" />
+    </template>
+    <template id="report_rd_base_partner_vat_withholding_tax">
+        <div class="row">
+            <p class="box-vat">
+                <t t-out="line['partner_vat'][:1]" />
+            </p>
+            <p class="box-vat vat_tab">
+                <t t-out="line['partner_vat'][1:2]" />
+            </p>
+            <p class="box-vat">
+                <t t-out="line['partner_vat'][2:3]" />
+            </p>
+            <p class="box-vat">
+                <t t-out="line['partner_vat'][3:4]" />
+            </p>
+            <p class="box-vat">
+                <t t-out="line['partner_vat'][4:5]" />
+            </p>
+            <p class="box-vat vat_tab">
+                <t t-out="line['partner_vat'][5:6]" />
+            </p>
+            <p class="box-vat">
+                <t t-out="line['partner_vat'][6:7]" />
+            </p>
+            <p class="box-vat">
+                <t t-out="line['partner_vat'][7:8]" />
+            </p>
+            <p class="box-vat">
+                <t t-out="line['partner_vat'][8:9]" />
+            </p>
+            <p class="box-vat">
+                <t t-out="line['partner_vat'][9:10]" />
+            </p>
+            <p class="box-vat vat_tab">
+                <t t-out="line['partner_vat'][10:11]" />
+            </p>
+            <p class="box-vat">
+                <t t-out="line['partner_vat'][11:12]" />
+            </p>
+            <p class="box-vat vat_tab">
+                <t t-out="line['partner_vat'][12:13]" />
+            </p>
+        </div>
+    </template>
+    <template id="report_rd_base_total_withholding_tax">
+        <div class="total_base">
+            <t t-set="sum_total_base" t-value="sum_total_base + total_base" />
+            <t t-out="'{0:,.2f}'.format(total_base)" />
+        </div>
+        <div class="total_amount">
+            <t t-set="sum_total_amount" t-value="sum_total_amount + total_amount" />
+            <t t-out="'{0:,.2f}'.format(total_amount)" />
+        </div>
+        <t t-if="num + 1 == num_page">
+            <div class="sum_total_base">
+                <t t-out="'{0:,.2f}'.format(sum_total_base)" />
+            </div>
+            <div class="sum_total_amount">
+                <t t-out="'{0:,.2f}'.format(sum_total_amount)" />
+            </div>
+        </t>
+    </template>
+
+    <!-- RD PND1 -->
     <template id="report_rd_withholding_tax_pnd1">
         <t t-set="number" t-value="0" />
         <t t-set="sum_total_base" t-value="0" />
@@ -13,77 +147,12 @@
                 class="article o_report_rd_withholding_tax_report_pnd1"
                 t-attf-style="background-image:url('/l10n_th_account_tax_report/static/src/img/{{ num + 1 == num_page and 'pnd1_lastpage.png' or 'pnd1.png' }}'); background-size:340mm 242mm; width:340mm; height:242mm;"
             >
-                <div class="company_vat">
-                    <t t-if="o.company_id.vat">
-                        <div class="row">
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[:1]" />
-                            </p>
-                            <p class="box-vat vat_tab">
-                                <t t-out="o.company_id.vat[1:2]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[2:3]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[3:4]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[4:5]" />
-                            </p>
-                            <p class="box-vat vat_tab">
-                                <t t-out="o.company_id.vat[5:6]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[6:7]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[7:8]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[8:9]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[9:10]" />
-                            </p>
-                            <p class="box-vat vat_tab">
-                                <t t-out="o.company_id.vat[10:11]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[11:12]" />
-                            </p>
-                            <p class="box-vat vat_tab">
-                                <t t-out="o.company_id.vat[12:13]" />
-                            </p>
-                        </div>
-                    </t>
-                </div>
-                <div class="company_branch">
-                    <t t-if="o.company_id.branch">
-                        <div class="row">
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[:1]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[1:2]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[2:3]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[3:4]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[4:5]" />
-                            </p>
-                        </div>
-                    </t>
-                </div>
-                <span class="num_page_from" t-out="num + 1" />
-                <span class="num_page_to" t-out="num_page" />
-                <!-- Lines -->
+                <t
+                    t-call="l10n_th_account_tax_report.report_rd_base_company_withholding_tax"
+                />
                 <t t-set="total_base" t-value="0.0" />
                 <t t-set="total_amount" t-value="0.0" />
+                <!-- Lines -->
                 <div class="wht_line">
                     <t
                         t-foreach="range(num * 8, min((num + 1) * 8, len(result_keys)))"
@@ -103,73 +172,9 @@
                                 <div class="row">
                                     <div class="wht_line_vat">
                                         <t t-if="line['partner_vat']">
-                                            <div class="row">
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][:1]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat vat_tab">
-                                                    <t
-                                                        t-out="line['partner_vat'][1:2]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][2:3]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][3:4]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][4:5]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat vat_tab">
-                                                    <t
-                                                        t-out="line['partner_vat'][5:6]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][6:7]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][7:8]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][8:9]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][9:10]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat vat_tab">
-                                                    <t
-                                                        t-out="line['partner_vat'][10:11]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][11:12]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat vat_tab">
-                                                    <t
-                                                        t-out="line['partner_vat'][12:13]"
-                                                    />
-                                                </p>
-                                            </div>
+                                            <t
+                                                t-call="l10n_th_account_tax_report.report_rd_base_partner_vat_withholding_tax"
+                                            />
                                         </t>
                                     </div>
                                 </div>
@@ -220,30 +225,15 @@
                     </t>
                 </div>
                 <!-- Total -->
-                <div class="total_base">
-                    <t t-set="sum_total_base" t-value="sum_total_base + total_base" />
-                    <t t-out="'{0:,.2f}'.format(total_base)" />
-                </div>
-                <div class="total_amount">
-                    <t
-                        t-set="sum_total_amount"
-                        t-value="sum_total_amount + total_amount"
-                    />
-                    <t t-out="'{0:,.2f}'.format(total_amount)" />
-                </div>
-                <t t-if="num + 1 == num_page">
-                    <div class="sum_total_base">
-                        <t t-out="'{0:,.2f}'.format(sum_total_base)" />
-                    </div>
-                    <div class="sum_total_amount">
-                        <t t-out="'{0:,.2f}'.format(sum_total_amount)" />
-                    </div>
-                </t>
+                <t
+                    t-call="l10n_th_account_tax_report.report_rd_base_total_withholding_tax"
+                />
             </div>
         </t>
         <div style="page-break-before: always;" />
     </template>
 
+    <!-- RD PND1A -->
     <template id="report_rd_withholding_tax_pnd1a">
         <t t-set="number" t-value="0" />
         <t t-set="sum_total_base" t-value="0" />
@@ -257,77 +247,12 @@
                 class="article o_report_rd_withholding_tax_report_pnd1a"
                 t-attf-style="background-image:url('/l10n_th_account_tax_report/static/src/img/{{ num + 1 == num_page and 'pnd1a_lastpage.png' or 'pnd1a.png' }}'); background-size:340mm 242mm; width:340mm; height:242mm;"
             >
-                <div class="company_vat">
-                    <t t-if="o.company_id.vat">
-                        <div class="row">
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[:1]" />
-                            </p>
-                            <p class="box-vat vat_tab">
-                                <t t-out="o.company_id.vat[1:2]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[2:3]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[3:4]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[4:5]" />
-                            </p>
-                            <p class="box-vat vat_tab">
-                                <t t-out="o.company_id.vat[5:6]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[6:7]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[7:8]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[8:9]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[9:10]" />
-                            </p>
-                            <p class="box-vat vat_tab">
-                                <t t-out="o.company_id.vat[10:11]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[11:12]" />
-                            </p>
-                            <p class="box-vat vat_tab">
-                                <t t-out="o.company_id.vat[12:13]" />
-                            </p>
-                        </div>
-                    </t>
-                </div>
-                <div class="company_branch">
-                    <t t-if="o.company_id.branch">
-                        <div class="row">
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[:1]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[1:2]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[2:3]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[3:4]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[4:5]" />
-                            </p>
-                        </div>
-                    </t>
-                </div>
-                <span class="num_page_from" t-out="num + 1" />
-                <span class="num_page_to" t-out="num_page" />
-                <!-- Lines -->
+                <t
+                    t-call="l10n_th_account_tax_report.report_rd_base_company_withholding_tax"
+                />
                 <t t-set="total_base" t-value="0.0" />
                 <t t-set="total_amount" t-value="0.0" />
+                <!-- Lines -->
                 <div class="wht_line">
                     <t
                         t-foreach="range(num * 7, min((num + 1) * 7, len(result_keys)))"
@@ -347,73 +272,9 @@
                                 <div class="row">
                                     <div class="wht_line_vat">
                                         <t t-if="line['partner_vat']">
-                                            <div class="row">
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][:1]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat vat_tab">
-                                                    <t
-                                                        t-out="line['partner_vat'][1:2]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][2:3]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][3:4]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][4:5]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat vat_tab">
-                                                    <t
-                                                        t-out="line['partner_vat'][5:6]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][6:7]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][7:8]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][8:9]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][9:10]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat vat_tab">
-                                                    <t
-                                                        t-out="line['partner_vat'][10:11]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][11:12]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat vat_tab">
-                                                    <t
-                                                        t-out="line['partner_vat'][12:13]"
-                                                    />
-                                                </p>
-                                            </div>
+                                            <t
+                                                t-call="l10n_th_account_tax_report.report_rd_base_partner_vat_withholding_tax"
+                                            />
                                         </t>
                                     </div>
                                 </div>
@@ -464,30 +325,15 @@
                     </t>
                 </div>
                 <!-- Total -->
-                <div class="total_base">
-                    <t t-set="sum_total_base" t-value="sum_total_base + total_base" />
-                    <t t-out="'{0:,.2f}'.format(total_base)" />
-                </div>
-                <div class="total_amount">
-                    <t
-                        t-set="sum_total_amount"
-                        t-value="sum_total_amount + total_amount"
-                    />
-                    <t t-out="'{0:,.2f}'.format(total_amount)" />
-                </div>
-                <t t-if="num + 1 == num_page">
-                    <div class="sum_total_base">
-                        <t t-out="'{0:,.2f}'.format(sum_total_base)" />
-                    </div>
-                    <div class="sum_total_amount">
-                        <t t-out="'{0:,.2f}'.format(sum_total_amount)" />
-                    </div>
-                </t>
+                <t
+                    t-call="l10n_th_account_tax_report.report_rd_base_total_withholding_tax"
+                />
             </div>
         </t>
         <div style="page-break-before: always;" />
     </template>
 
+    <!-- RD PND3 -->
     <template id="report_rd_withholding_tax_pnd3">
         <t t-set="number" t-value="0" />
         <t t-set="sum_total_base" t-value="0" />
@@ -501,77 +347,12 @@
                 class="article o_report_rd_withholding_tax_report_pnd3"
                 t-attf-style="background-image:url('/l10n_th_account_tax_report/static/src/img/{{ num + 1 == num_page and 'pnd3_lastpage.png' or 'pnd3.png' }}'); background-size:340mm 242mm; width:340mm; height:242mm;"
             >
-                <div class="company_vat">
-                    <t t-if="o.company_id.vat">
-                        <div class="row">
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[:1]" />
-                            </p>
-                            <p class="box-vat vat_tab">
-                                <t t-out="o.company_id.vat[1:2]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[2:3]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[3:4]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[4:5]" />
-                            </p>
-                            <p class="box-vat vat_tab">
-                                <t t-out="o.company_id.vat[5:6]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[6:7]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[7:8]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[8:9]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[9:10]" />
-                            </p>
-                            <p class="box-vat vat_tab">
-                                <t t-out="o.company_id.vat[10:11]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[11:12]" />
-                            </p>
-                            <p class="box-vat vat_tab">
-                                <t t-out="o.company_id.vat[12:13]" />
-                            </p>
-                        </div>
-                    </t>
-                </div>
-                <div class="company_branch">
-                    <t t-if="o.company_id.branch">
-                        <div class="row">
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[:1]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[1:2]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[2:3]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[3:4]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[4:5]" />
-                            </p>
-                        </div>
-                    </t>
-                </div>
-                <span class="num_page_from" t-out="num + 1" />
-                <span class="num_page_to" t-out="num_page" />
-                <!-- Lines -->
+                <t
+                    t-call="l10n_th_account_tax_report.report_rd_base_company_withholding_tax"
+                />
                 <t t-set="total_base" t-value="0.0" />
                 <t t-set="total_amount" t-value="0.0" />
+                <!-- Lines -->
                 <div class="wht_line">
                     <t
                         t-foreach="range(num * 6, min((num + 1) * 6, len(result_keys)))"
@@ -591,73 +372,9 @@
                                 <div class="row">
                                     <div class="wht_line_vat">
                                         <t t-if="line['partner_vat']">
-                                            <div class="row">
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][:1]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat vat_tab">
-                                                    <t
-                                                        t-out="line['partner_vat'][1:2]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][2:3]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][3:4]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][4:5]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat vat_tab">
-                                                    <t
-                                                        t-out="line['partner_vat'][5:6]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][6:7]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][7:8]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][8:9]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][9:10]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat vat_tab">
-                                                    <t
-                                                        t-out="line['partner_vat'][10:11]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat">
-                                                    <t
-                                                        t-out="line['partner_vat'][11:12]"
-                                                    />
-                                                </p>
-                                                <p class="box-vat vat_tab">
-                                                    <t
-                                                        t-out="line['partner_vat'][12:13]"
-                                                    />
-                                                </p>
-                                            </div>
+                                            <t
+                                                t-call="l10n_th_account_tax_report.report_rd_base_partner_vat_withholding_tax"
+                                            />
                                         </t>
                                     </div>
                                     <div class="wht_line_branch">
@@ -752,30 +469,15 @@
                     </t>
                 </div>
                 <!-- Total -->
-                <div class="total_base">
-                    <t t-set="sum_total_base" t-value="sum_total_base + total_base" />
-                    <t t-out="'{0:,.2f}'.format(total_base)" />
-                </div>
-                <div class="total_amount">
-                    <t
-                        t-set="sum_total_amount"
-                        t-value="sum_total_amount + total_amount"
-                    />
-                    <t t-out="'{0:,.2f}'.format(total_amount)" />
-                </div>
-                <t t-if="num + 1 == num_page">
-                    <div class="sum_total_base">
-                        <t t-out="'{0:,.2f}'.format(sum_total_base)" />
-                    </div>
-                    <div class="sum_total_amount">
-                        <t t-out="'{0:,.2f}'.format(sum_total_amount)" />
-                    </div>
-                </t>
+                <t
+                    t-call="l10n_th_account_tax_report.report_rd_base_total_withholding_tax"
+                />
             </div>
         </t>
         <div style="page-break-before: always;" />
     </template>
 
+    <!-- RD PND53 -->
     <template id="report_rd_withholding_tax_pnd53">
         <t t-set="number" t-value="0" />
         <t t-set="sum_total_base" t-value="0" />
@@ -789,77 +491,12 @@
                 class="article o_report_rd_withholding_tax_report_pnd53"
                 t-attf-style="background-image:url('/l10n_th_account_tax_report/static/src/img/{{ num + 1 == num_page and 'pnd53_lastpage.png' or 'pnd53.png' }}'); background-size:340mm 242mm; width:340mm; height:242mm;"
             >
-                <div class="company_vat">
-                    <t t-if="o.company_id.vat">
-                        <div class="row">
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[:1]" />
-                            </p>
-                            <p class="box-vat vat_tab">
-                                <t t-out="o.company_id.vat[1:2]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[2:3]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[3:4]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[4:5]" />
-                            </p>
-                            <p class="box-vat vat_tab">
-                                <t t-out="o.company_id.vat[5:6]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[6:7]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[7:8]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[8:9]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[9:10]" />
-                            </p>
-                            <p class="box-vat vat_tab">
-                                <t t-out="o.company_id.vat[10:11]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.vat[11:12]" />
-                            </p>
-                            <p class="box-vat vat_tab">
-                                <t t-out="o.company_id.vat[12:13]" />
-                            </p>
-                        </div>
-                    </t>
-                </div>
-                <div class="company_branch">
-                    <t t-if="o.company_id.branch">
-                        <div class="row">
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[:1]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[1:2]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[2:3]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[3:4]" />
-                            </p>
-                            <p class="box-vat">
-                                <t t-out="o.company_id.branch[4:5]" />
-                            </p>
-                        </div>
-                    </t>
-                </div>
-                <span class="num_page_from" t-out="num + 1" />
-                <span class="num_page_to" t-out="num_page" />
-                <!-- Lines -->
+                <t
+                    t-call="l10n_th_account_tax_report.report_rd_base_company_withholding_tax"
+                />
                 <t t-set="total_base" t-value="0.0" />
                 <t t-set="total_amount" t-value="0.0" />
+                <!-- Lines -->
                 <div class="wht_line">
                     <t
                         t-foreach="range(num * 6, min((num + 1) * 6, len(result_keys)))"
@@ -1039,25 +676,9 @@
                     </t>
                 </div>
                 <!-- Total -->
-                <div class="total_base">
-                    <t t-set="sum_total_base" t-value="sum_total_base + total_base" />
-                    <t t-out="'{0:,.2f}'.format(total_base)" />
-                </div>
-                <div class="total_amount">
-                    <t
-                        t-set="sum_total_amount"
-                        t-value="sum_total_amount + total_amount"
-                    />
-                    <t t-out="'{0:,.2f}'.format(total_amount)" />
-                </div>
-                <t t-if="num + 1 == num_page">
-                    <div class="sum_total_base">
-                        <t t-out="'{0:,.2f}'.format(sum_total_base)" />
-                    </div>
-                    <div class="sum_total_amount">
-                        <t t-out="'{0:,.2f}'.format(sum_total_amount)" />
-                    </div>
-                </t>
+                <t
+                    t-call="l10n_th_account_tax_report.report_rd_base_total_withholding_tax"
+                />
             </div>
         </t>
         <div style="page-break-before: always;" />

@@ -19,6 +19,29 @@
             <t t-call="l10n_th_account_tax_report.report_rd_tax_report_article" />
         </div>
     </template>
+    <template id="l10n_th_account_tax_report.report_rd_company_tax_branch">
+        <div class="col-3">
+            <t t-if="not o.company_id.branch or o.company_id.branch in ['-', '00000']">
+                <input type="checkbox" checked="checked" />
+            </t>
+            <t t-else="">
+                <input type="checkbox" />
+            </t>
+            สำนักงานใหญ่
+        </div>
+        <div class="col-6">
+            <t t-if="o.company_id.branch and o.company_id.branch not in ['-', '00000']">
+                <input type="checkbox" checked="checked" />
+            </t>
+            <t t-else="">
+                <input type="checkbox" />
+            </t>
+            สาขาที่ <span
+                t-if="o.company_id.branch and o.company_id.branch not in ['-', '00000']"
+                t-field="o.company_id.branch"
+            />
+        </div>
+    </template>
     <template id="l10n_th_account_tax_report.report_rd_tax_report_header">
         <div class="header o_report_rd_tax_report">
             <!-- Title -->
@@ -77,31 +100,9 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-3">
-                            <t
-                                t-if="not o.company_id.branch or o.company_id.branch in ['-', '00000']"
-                            >
-                                <input type="checkbox" checked="checked" />
-                            </t>
-                            <t t-else="">
-                                <input type="checkbox" />
-                            </t>
-                            สำนักงานใหญ่
-                        </div>
-                        <div class="col-6">
-                            <t
-                                t-if="o.company_id.branch and o.company_id.branch not in ['-', '00000']"
-                            >
-                                <input type="checkbox" checked="checked" />
-                            </t>
-                            <t t-else="">
-                                <input type="checkbox" />
-                            </t>
-                            สาขาที่ <span
-                                t-if="o.company_id.branch and o.company_id.branch not in ['-', '00000']"
-                                t-field="o.company_id.branch"
-                            />
-                        </div>
+                        <t
+                            t-call="l10n_th_account_tax_report.report_rd_company_tax_branch"
+                        />
                         <div class="col-3">
                             หน้าที่ <span class="page" /> / <span class="topage" />
                         </div>
