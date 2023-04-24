@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="report_rd_base_company_withholding_tax"
+        inherit_id="l10n_th_account_tax_report.report_rd_base_company_withholding_tax"
+        priority="100"
+    >
+        <xpath expr="//div[hasclass('company_branch')]" position="replace">
+            <div class="company_branch">
+                <t t-if="len(o.branch_ids) == 1 and o.branch_ids.name != '00000'">
+                    <div class="row">
+                        <p class="box-vat">
+                            <t t-out="o.branch_ids.name[:1]" />
+                        </p>
+                        <p class="box-vat">
+                            <t t-out="o.branch_ids.name[1:2]" />
+                        </p>
+                        <p class="box-vat">
+                            <t t-out="o.branch_ids.name[2:3]" />
+                        </p>
+                        <p class="box-vat">
+                            <t t-out="o.branch_ids.name[3:4]" />
+                        </p>
+                        <p class="box-vat">
+                            <t t-out="o.branch_ids.name[4:5]" />
+                        </p>
+                    </div>
+                </t>
+                <t t-else="">
+                    <t t-if="o.company_id.branch">
+                        <div class="row">
+                            <p class="box-vat">
+                                <t t-out="o.company_id.branch[:1]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-out="o.company_id.branch[1:2]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-out="o.company_id.branch[2:3]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-out="o.company_id.branch[3:4]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-out="o.company_id.branch[4:5]" />
+                            </p>
+                        </div>
+                    </t>
+                </t>
+            </div>
+        </xpath>
+    </template>
+</odoo>

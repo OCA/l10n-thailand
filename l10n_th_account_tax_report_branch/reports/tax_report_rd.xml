@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="report_rd_tax_report_header"
+        inherit_id="l10n_th_account_tax_report.report_rd_tax_report_header"
+        priority="100"
+    >
+        <xpath
+            expr="//div[hasclass('header')]/div[2]/div[hasclass('col-7')]/div[3]/div[hasclass('col-9')]"
+            position="replace"
+        >
+            <div class="col-9">
+                <t
+                    t-if="len(o.branch_ids) == 1 and o.branch_ids.name != '00000'"
+                    t-set="partner"
+                    t-value="o.branch_ids"
+                />
+                <t t-else="" t-set="partner" t-value="o.company_id" />
+                <span t-field="partner.street" />
+                <span t-field="partner.street2" />
+                <span t-field="partner.city" />
+                <span t-field="partner.state_id.name" />
+                <span t-field="partner.zip" />
+            </div>
+        </xpath>
+    </template>
+    <template
+        id="report_rd_company_tax_branch"
+        inherit_id="l10n_th_account_tax_report.report_rd_company_tax_branch"
+        priority="100"
+    >
+        <xpath expr="//div[1]" position="replace">
+            <div class="col-3">
+                <t
+                    t-if="len(o.branch_ids) != 1 or not o.branch_ids or (len(o.branch_ids) == 1 and o.branch_ids.name == '00000')"
+                >
+                    <input type="checkbox" checked="checked" />
+                </t>
+                <t t-else="">
+                    <input type="checkbox" />
+                </t>
+                สำนักงานใหญ่
+            </div>
+        </xpath>
+        <xpath expr="//div[2]" position="replace">
+            <div class="col-6">
+                <t t-if="len(o.branch_ids) == 1 and o.branch_ids.name != '00000'">
+                    <input type="checkbox" checked="checked" />
+                </t>
+                <t t-else="">
+                    <input type="checkbox" />
+                </t>
+                สาขาที่ <span
+                    t-if="len(o.branch_ids) == 1 and o.branch_ids.name != '00000'"
+                    t-field="o.branch_ids.name"
+                />
+            </div>
+        </xpath>
+    </template>
+</odoo>

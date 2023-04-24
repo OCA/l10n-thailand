@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="report_tax_report_filters"
+        inherit_id="l10n_th_account_tax_report.report_tax_report_filters"
+        priority="100"
+    >
+        <xpath expr="//div/div[2]/div[5]" position="replace">
+            <t t-set="tax_branch" t-value="o._get_tax_branch_filter(o.branch_ids)" />
+            <div class="act_as_cell">
+                <span t-out="tax_branch" />
+            </div>
+        </xpath>
+    </template>
+
+    <template
+        id="report_tax_report_lines_header"
+        inherit_id="l10n_th_account_tax_report.report_tax_report_lines_header"
+    >
+        <xpath expr="//div[6]" position="after">
+            <div class="act_as_cell">Company Tax Branch</div>
+        </xpath>
+    </template>
+    <template
+        id="report_tax_report_lines"
+        inherit_id="l10n_th_account_tax_report.report_tax_report_lines"
+    >
+        <xpath expr="//div[6]" position="after">
+            <div class="act_as_cell left">
+                <t t-out="line.company_tax_branch.name" />
+            </div>
+        </xpath>
+    </template>
+    <template
+        id="report_tax_report_total_lines"
+        inherit_id="l10n_th_account_tax_report.report_tax_report_total_lines"
+    >
+        <xpath expr="//div[6]" position="after">
+            <div class="act_as_cell" />
+        </xpath>
+    </template>
+</odoo>
