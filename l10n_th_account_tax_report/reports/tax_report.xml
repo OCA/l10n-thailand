@@ -88,7 +88,7 @@
                 <div class="act_as_cell">Date To</div>
                 <div class="act_as_cell">Company</div>
                 <div class="act_as_cell">Tax ID</div>
-                <div class="act_as_cell">Branch ID</div>
+                <div class="act_as_cell">Company Tax Branch</div>
             </div>
             <div class="act_as_row">
                 <div class="act_as_cell">
