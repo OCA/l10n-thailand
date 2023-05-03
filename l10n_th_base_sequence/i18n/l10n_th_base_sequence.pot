@@ -1,0 +1,48 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_base_sequence
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_th_base_sequence
+#: model_terms:ir.ui.view,arch_db:l10n_th_base_sequence.ir_sequence_form_inherit
+msgid ""
+"<span colspan=\"2\">Current Buddhist Era (BE) year with century: %(year_be)s</span>\n"
+"                <span colspan=\"2\">Current Buddhist Era (BE) Year without Century: %(y_be)s</span>"
+msgstr ""
+
+#. module: l10n_th_base_sequence
+#: model_terms:ir.ui.view,arch_db:l10n_th_base_sequence.ir_sequence_form_inherit
+msgid "<span colspan=\"2\">Quarter of the Year: %(qoy)s</span>"
+msgstr ""
+
+#. module: l10n_th_base_sequence
+#: code:addons/l10n_th_base_sequence/models/ir_sequence.py:0
+#, python-format
+msgid "Invalid prefix or suffix for sequence '%s'"
+msgstr ""
+
+#. module: l10n_th_base_sequence
+#: model:ir.model.fields,field_description:l10n_th_base_sequence.field_ir_sequence__preview
+#: model:ir.model.fields,field_description:l10n_th_base_sequence.field_ir_sequence_date_range__preview
+msgid "Preview"
+msgstr ""
+
+#. module: l10n_th_base_sequence
+#: model:ir.model,name:l10n_th_base_sequence.model_ir_sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: l10n_th_base_sequence
+#: model:ir.model,name:l10n_th_base_sequence.model_ir_sequence_date_range
+msgid "Sequence Date Range"
+msgstr ""
