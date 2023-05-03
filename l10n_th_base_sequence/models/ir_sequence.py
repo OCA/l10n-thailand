@@ -1,4 +1,4 @@
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from datetime import datetime
 
@@ -28,7 +28,7 @@ class IrSequence(models.Model):
     )
     def _compute_preview(self):
         if self.use_date_range:
-            self.date_range_ids.onchange_sequence_id()
+            self.date_range_ids._compute_preview()
             self.preview = None
         else:
             self.preview = self.get_next_char(self.number_next_actual)
@@ -62,12 +62,46 @@ class IrSequence(models.Model):
             "min": "%M",
             "sec": "%S",
         }
+
         res = {}
+        range_end_date = fields.Datetime.from_string(
+            self._context.get("ir_sequence_date_range_end")
+        )
         for key, fmt in sequences.items():
             res[key] = effective_date.strftime(fmt)
             res["range_" + key] = range_date.strftime(fmt)
             res["current_" + key] = now.strftime(fmt)
-
+            res["range_end_" + key] = (
+                range_end_date.strftime(fmt) if range_end_date else None
+            )
+        # Quarter
+        res["qoy"] = str((int(res["month"]) - 1) // 3 + 1)
+        res["range_qoy"] = str((int(res["range_month"]) - 1) // 3 + 1)
+        res["current_qoy"] = str((int(res["current_month"]) - 1) // 3 + 1)
+        res["range_end_qoy"] = (
+            str((int(res["range_end_month"]) - 1) // 3 + 1) if range_end_date else None
+        )
+        # Period month
+        diff_period_month = (
+            (effective_date.year - range_date.year) * 12
+            + effective_date.month
+            - range_date.month
+            + 1
+        )
+        res["range_period_month"] = str(diff_period_month).zfill(2)
+        # Buddhist Era (Thailand)
+        res["year_be"] = str(int(res["year"]) + 543)
+        res["range_year_be"] = str(int(res["range_year"]) + 543)
+        res["current_year_be"] = str(int(res["current_year"]) + 543)
+        res["y_be"] = res["year_be"][-2:]
+        res["range_y_be"] = res["range_year_be"][-2:]
+        res["current_y_be"] = res["current_year_be"][-2:]
+        res["range_end_year_be"] = (
+            str(int(res["range_end_year"]) + 543) if res["range_end_year"] else None
+        )
+        res["range_end_y_be"] = (
+            res["range_end_year_be"][-2:] if res["range_end_year"] else None
+        )
         return res
 
     def _get_prefix_suffix(self, date=None, date_range=None):
