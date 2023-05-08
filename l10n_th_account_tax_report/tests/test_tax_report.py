@@ -4,6 +4,7 @@
 import datetime
 
 from dateutil.rrule import MONTHLY
+from freezegun import freeze_time
 
 from odoo.exceptions import UserError
 from odoo.tests.common import Form, TransactionCase
@@ -11,6 +12,7 @@ from odoo.tests.common import Form, TransactionCase
 
 class TestTaxReport(TransactionCase):
     @classmethod
+    @freeze_time("2001-01-01")
     def setUpClass(cls):
         super().setUpClass()
         cls.date_range_obj = cls.env["date.range"]
@@ -131,6 +133,10 @@ class TestTaxReport(TransactionCase):
         self.assertEqual(
             self.tax_purchase_report_wizard.date_to, self.last_date_range.date_end
         )
+        # Change back to first date range
+        with Form(self.tax_purchase_report_wizard) as f:
+            f.date_range_id = self.date_range
+
         # Check date from > date to, it should error
         with self.assertRaises(UserError):
             with Form(self.tax_purchase_report_wizard) as f:
