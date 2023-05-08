@@ -10,7 +10,12 @@ class WithHoldingTaxReportWizard(models.TransientModel):
     _description = "Withholding Tax Report Wizard"
 
     income_tax_form = fields.Selection(
-        selection=[("pnd1", "PND1"), ("pnd3", "PND3"), ("pnd53", "PND53")],
+        selection=[
+            ("pnd1", "PND1"),
+            ("pnd1a", "PND1A"),
+            ("pnd3", "PND3"),
+            ("pnd53", "PND53"),
+        ],
         required=True,
     )
     date_range_id = fields.Many2one(comodel_name="date.range", string="Date Range")

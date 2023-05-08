@@ -50,8 +50,7 @@
     <template id="line_report_withholding_tax">
         <div class="act_as_row lines">
             <div class="act_as_cell">
-                <span t-out="i" />
-                <t t-set="i" t-value="i+1" />
+                <span t-esc="i" />
             </div>
             <div class="act_as_cell">
                 <span t-field="supplier.vat" />
@@ -153,10 +152,11 @@
                     t-call="l10n_th_account_tax_report.header_line_report_withholding_tax"
                 />
                 <!-- Display each lines -->
-                <t t-set="i" t-value="1" />
+                <t t-set="i" t-value="0" />
                 <t t-set="total_base" t-value="0.00" />
                 <t t-set="total_tax" t-value="0.00" />
                 <t t-foreach="o.results" t-as="line">
+                    <t t-set="i" t-value="i+1" />
                     <t t-set="cancel" t-value="line.cert_id.state == 'cancel'" />
                     <t t-set="supplier" t-value="line.cert_id.partner_id" />
                     <t

@@ -196,22 +196,24 @@
                             </div>
                             <div class="col" style="width: 26%;">
                                 <div class="row">
-                                    <t t-foreach="line['wht_lines']" t-as="l">
-                                        <div class="wht_line_base">
-                                            <t
-                                                t-set="total_base"
-                                                t-value="total_base + l['base']"
-                                            />
-                                            <t t-out="'{0:,.2f}'.format(l['base'])" />
-                                        </div>
-                                        <div class="wht_line_amount">
-                                            <t
-                                                t-set="total_amount"
-                                                t-value="total_amount + l['amount']"
-                                            />
-                                            <t t-out="'{0:,.2f}'.format(l['amount'])" />
-                                        </div>
-                                    </t>
+                                    <div class="wht_line_base">
+                                        <t
+                                            t-set="total_base"
+                                            t-value="total_base + line['total_base']"
+                                        />
+                                        <t
+                                            t-out="'{0:,.2f}'.format(line['total_base'])"
+                                        />
+                                    </div>
+                                    <div class="wht_line_amount">
+                                        <t
+                                            t-set="total_amount"
+                                            t-value="total_amount + line['total_amount']"
+                                        />
+                                        <t
+                                            t-out="'{0:,.2f}'.format(line['total_amount'])"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                             <div class="col" style="width: 5%;">
@@ -296,22 +298,24 @@
                             </div>
                             <div class="col" style="width: 30%;">
                                 <div class="row">
-                                    <t t-foreach="line['wht_lines']" t-as="l">
-                                        <div class="wht_line_base">
-                                            <t
-                                                t-set="total_base"
-                                                t-value="total_base + l['base']"
-                                            />
-                                            <t t-out="'{0:,.2f}'.format(l['base'])" />
-                                        </div>
-                                        <div class="wht_line_amount">
-                                            <t
-                                                t-set="total_amount"
-                                                t-value="total_amount + l['amount']"
-                                            />
-                                            <t t-out="'{0:,.2f}'.format(l['amount'])" />
-                                        </div>
-                                    </t>
+                                    <div class="wht_line_base">
+                                        <t
+                                            t-set="total_base"
+                                            t-value="total_base + line['total_base']"
+                                        />
+                                        <t
+                                            t-out="'{0:,.2f}'.format(line['total_base'])"
+                                        />
+                                    </div>
+                                    <div class="wht_line_amount">
+                                        <t
+                                            t-set="total_amount"
+                                            t-value="total_amount + line['total_amount']"
+                                        />
+                                        <t
+                                            t-out="'{0:,.2f}'.format(line['total_amount'])"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                             <div class="col" style="width: 3%;">
