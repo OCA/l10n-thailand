@@ -8,7 +8,7 @@ from odoo import api, fields, models
 DEFAULT_DAY_FORMAT_WHT = "%d"
 DEFAULT_MONTH_FORMAT_WHT = "%m"
 DEFAULT_YEAR_FORMAT_WHT = "%Y"
-INCOME_TAX_FORM = {"pnd1": "P01", "pnd3": "P03", "pnd53": "P53"}
+INCOME_TAX_FORM = {"pnd1": "P01", "pnd1a": "P01A", "pnd3": "P03", "pnd53": "P53"}
 
 
 class WithHoldingTaxReport(models.TransientModel):
@@ -16,7 +16,12 @@ class WithHoldingTaxReport(models.TransientModel):
     _description = "Withholding Tax Report"
 
     income_tax_form = fields.Selection(
-        selection=[("pnd1", "PND1"), ("pnd3", "PND3"), ("pnd53", "PND53")],
+        selection=[
+            ("pnd1", "PND1"),
+            ("pnd1a", "PND1A"),
+            ("pnd3", "PND3"),
+            ("pnd53", "PND53"),
+        ],
         required=True,
     )
     company_id = fields.Many2one(
@@ -46,7 +51,7 @@ class WithHoldingTaxReport(models.TransientModel):
                 and (partner_id.firstname or partner_id.lastname)
                 or partner_id.name_company
             )
-        # PND3, PND1
+        # PND3, PND1, PND1A
         else:
             name = (
                 partner_id.company_type == "person"
@@ -230,7 +235,11 @@ class WithHoldingTaxReport(models.TransientModel):
     def _get_domain_wht(self):
         # fields required
         domain = [
-            ("cert_id.income_tax_form", "=", self.income_tax_form),
+            (
+                "cert_id.income_tax_form",
+                "=",
+                "pnd1" if self.income_tax_form == "pnd1a" else self.income_tax_form,
+            ),
             ("cert_id.date", ">=", self.date_from),
             ("cert_id.date", "<=", self.date_to),
             ("cert_id.company_partner_id", "=", self.company_id.partner_id.id),
@@ -245,18 +254,31 @@ class WithHoldingTaxReport(models.TransientModel):
         domain = self._get_domain_wht()
         self.results = self.env["withholding.tax.cert.line"].sudo().search(domain)
 
+    def _get_income_tax_form_group_partner(self):
+        """Hook function"""
+        return ["pnd1a"]
+
     def _convert_result_to_dict(self, results):
         """Function for rd format"""
         result_dict = dict()
         for line in results:
+            key = (
+                line.cert_id.partner_id.id
+                if self.income_tax_form in self._get_income_tax_form_group_partner()
+                else line.cert_id.id
+            )
             # Prepare cert data
-            if line.cert_id.id not in result_dict.keys():
+            if key not in result_dict.keys():
                 cert_data = self._prepare_cert_data(line)
-                result_dict[line.cert_id.id] = cert_data
+                result_dict[key] = cert_data
             # Add wht lines data
-            wht_lines = result_dict[line.cert_id.id]["wht_lines"]
-            wht_lines.append(self._prepare_line_data(line))
-            result_dict[line.cert_id.id]["wht_lines"] = wht_lines
+            wht_line = self._prepare_line_data(line)
+            wht_lines = result_dict[key]["wht_lines"]
+            wht_lines.append(wht_line)
+            result_dict[key]["wht_lines"] = wht_lines
+            # Compute total
+            result_dict[key]["total_base"] += wht_line["base"]
+            result_dict[key]["total_amount"] += wht_line["amount"]
         return result_dict
 
     def _prepare_cert_data(self, line):
@@ -297,6 +319,8 @@ class WithHoldingTaxReport(models.TransientModel):
             "partner_address": address,
             "date": (line.cert_id.date + relativedelta(years=543)).strftime("%d/%m/%Y"),
             "tax_payer": tax_payer,
+            "total_base": 0.0,
+            "total_amount": 0.0,
             "wht_lines": [],
         }
 
