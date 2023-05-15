@@ -14,26 +14,29 @@
                 <attribute
                     name="attrs"
                 >{'readonly': [('is_ref_editable', '=', False)]}</attribute>
+                <attribute name="force_save">1</attribute>
+                <attribute name="groups" />
             </xpath>
             <xpath expr="//field[@name='reference']" position="before">
                 <field
                     name="bill_partner_id"
                     force_save="1"
-                    attrs="{'readonly': [('tax_ids', '=', []), ('wht_tax_id', '=', False)]}"
+                    attrs="{'readonly': ['|', ('is_editable', '=', False), '&amp;', ('tax_ids', '=', []), ('wht_tax_id', '=', False)]}"
                     title="Vendor related to tax invoice and withholding tax"
                 />
             </xpath>
             <xpath expr="//field[@name='tax_ids']" position="attributes">
                 <attribute
                     name="attrs"
-                >{'readonly': ['|', ('is_editable', '=', False), ('advance', '=', True)]}</attribute>
+                >{'readonly': ['|', ('advance', '=', True), ('is_editable', '=', False)]}</attribute>
                 <attribute name="force_save">1</attribute>
+                <attribute name="groups" />
             </xpath>
             <xpath expr="//field[@name='tax_ids']" position="after">
                 <field
                     name="wht_tax_id"
                     options="{'no_create': True}"
-                    attrs="{'readonly': ['|', ('advance', '=', True), ('state', 'in', ['post', 'done', 'cancel'])]}"
+                    attrs="{'readonly': ['|', ('advance', '=', True), ('is_editable', '=', False)]}"
                     force_save="1"
                 />
             </xpath>
