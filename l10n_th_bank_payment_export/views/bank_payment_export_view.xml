@@ -35,7 +35,6 @@
                         class="btn-primary"
                         type="object"
                         states="draft"
-                        groups="account.group_account_manager"
                     />
                     <button
                         name="action_export_excel_file"
