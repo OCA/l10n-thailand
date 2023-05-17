@@ -9,5 +9,5 @@ class OperatingUnit(models.Model):
 
     tax_branch_id = fields.Many2one(
         comodel_name="tax.branch.operating.unit",
-        required=True,
+        index=True,
     )
