@@ -10,8 +10,12 @@
                 <field name="payment_id" />
                 <field name="date" optional="show" />
                 <field name="calendar_year" optional="show" />
-                <field name="wht_cert_income_type" />
-                <field name="wht_cert_income_desc" optional="show" />
+                <field name="wht_cert_income_type" style="white-space: normal;" />
+                <field
+                    name="wht_cert_income_desc"
+                    optional="show"
+                    style="white-space: normal;"
+                />
                 <field name="amount_income" sum="Total Income" />
                 <field name="amount_wht" sum="Total Amount Withholding Tax" />
                 <field name="cancelled" optional="show" />

@@ -514,6 +514,7 @@ class AccountMove(models.Model):
                     {
                         "amount_income": -line.amount_income,
                         "amount_wht": -line.amount_wht,
+                        "calendar_year": line.calendar_year,
                     }
                 )
                 line.cancelled = True
