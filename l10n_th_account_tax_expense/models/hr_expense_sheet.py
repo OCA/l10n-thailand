@@ -52,6 +52,19 @@ class HrExpenseSheet(models.Model):
         result["res_id"] = move.id
         return result
 
+    def _get_move_line_wht_vals(self, deduction, wht_move_lines):
+        return {
+            "name": deduction["name"],
+            "amount_currency": -deduction["amount"],
+            "currency_id": self.env.company.currency_id.id,
+            "debit": 0.0,
+            "credit": deduction["amount"],
+            "partner_id": deduction["partner_id"],
+            "account_id": deduction["account_id"],
+            "wht_tax_id": deduction["wht_tax_id"],
+            "tax_base_amount": deduction["wht_amount_base"],
+        }
+
     def _prepare_withholding_tax_entry(self):
         self.ensure_one()
         # Prepare Dr. Advance, Cr. WHT lines
@@ -64,19 +77,8 @@ class HrExpenseSheet(models.Model):
             currency=currency
         )
         for deduction in deduction_list:
-            line_vals_list.append(
-                {
-                    "name": deduction["name"],
-                    "amount_currency": -deduction["amount"],
-                    "currency_id": currency.id,
-                    "debit": 0.0,
-                    "credit": deduction["amount"],
-                    "partner_id": deduction["partner_id"],
-                    "account_id": deduction["account_id"],
-                    "wht_tax_id": deduction["wht_tax_id"],
-                    "tax_base_amount": deduction["wht_amount_base"],
-                }
-            )
+            wht_vals = self._get_move_line_wht_vals(deduction, wht_move_lines)
+            line_vals_list.append(wht_vals)
         # Dr. Reconcilable Account (i.e., AP, Advance)
         # amount goes to AP first, then the rest go to Advance
         av_account = self.advance_sheet_id.expense_line_ids.mapped("account_id")
