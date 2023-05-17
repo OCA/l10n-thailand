@@ -18,4 +18,13 @@ class AccountMoveTaxInvoice(models.Model):
     @api.depends("move_id.operating_unit_id")
     def _compute_tax_branch(self):
         for rec in self:
-            rec.tax_branch_id = rec.move_id.operating_unit_id.tax_branch_id.id
+            # Get branch from operating unit move
+            if rec.payment_id:
+                moves = (
+                    rec.payment_id.reconciled_bill_ids
+                    or rec.payment_id.reconciled_invoice_ids
+                )
+                move_branch = moves.mapped("operating_unit_id.tax_branch_id")
+            else:
+                move_branch = rec.move_id.operating_unit_id.tax_branch_id
+            rec.tax_branch_id = move_branch.id
