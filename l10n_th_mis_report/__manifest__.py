@@ -13,6 +13,7 @@
         "data/mis_report_style.xml",
         "data/mis_report_bs.xml",
         "data/mis_report_pl.xml",
+        "data/mis_report_tb.xml",
     ],
     "installable": True,
     "development_status": "Alpha",
