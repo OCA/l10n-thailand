@@ -19,13 +19,19 @@ Thai Localization - MIS Report
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
     :target: https://translation.odoo-community.org/projects/l10n-thailand-15-0/l10n-thailand-15-0-l10n_th_mis_report
     :alt: Translate me on Weblate
-.. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/webui/builds.html?repo=OCA/l10n-thailand&target_branch=15.0
-    :alt: Try me on Runboat
+.. |badge5| image:: https://img.shields.io/badge/runbot-Try%20me-875A7B.png
+    :target: https://runbot.odoo-community.org/runbot/238/15.0
+    :alt: Try me on Runbot
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
 This modules provides MIS Builder Report templates for Thailand.
+
+MIS Templates include:
+
+- Balance Sheet
+- Profit and Loss
+- Trial Balance
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -61,6 +67,7 @@ Contributors
 * `Ecosoft <http://ecosoft.co.th>`__:
 
   * Pimolnat Suntian <pimolnats@ecosoft.co.th>
+  * Saran Lim. <saranl@ecosoft.co.th>
 
 Maintainers
 ~~~~~~~~~~~
