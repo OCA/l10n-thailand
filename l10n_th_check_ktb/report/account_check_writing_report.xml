@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_report_check_ktb_base" model="ir.actions.report">
+        <field name="name">KTB Check</field>
+        <field name="model">account.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_th_check_ktb.report_check_ktb_base</field>
+        <field name="report_file">l10n_th_check_ktb.report_check_ktb_base</field>
+        <field name="paperformat_id" ref="l10n_th_check_ktb.paperformat_check_ktb" />
+        <field name="binding_model_id" ref="account.model_account_payment" />
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
