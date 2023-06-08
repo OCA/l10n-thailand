@@ -3,6 +3,8 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
+from .withholding_tax_cert import INCOME_TAX_FORM, WHT_CERT_INCOME_TYPE
+
 
 class AccountWithholdingTax(models.Model):
     _name = "account.withholding.tax"
@@ -29,6 +31,15 @@ class AccountWithholdingTax(models.Model):
         compute="_compute_pit_id",
         help="Latest PIT Rates used to calcuate withholiding amount",
     )
+    income_tax_form = fields.Selection(
+        selection=INCOME_TAX_FORM,
+        string="Default Income Tax Form",
+    )
+    wht_cert_income_type = fields.Selection(
+        selection=WHT_CERT_INCOME_TYPE,
+        string="Default Type of Income",
+    )
+
     _sql_constraints = [
         ("name_unique", "UNIQUE(name)", "Name must be unique!"),
     ]
