@@ -63,10 +63,16 @@ class AccountWithholdingMove(models.Model):
     wht_cert_income_type = fields.Selection(
         WHT_CERT_INCOME_TYPE,
         string="Type of Income",
+        compute="_compute_wht_cert_income_type",
+        store=True,
+        readonly=False,
     )
     wht_cert_income_desc = fields.Char(
         string="Income Description",
         size=500,
+        compute="_compute_wht_cert_income_desc",
+        store=True,
+        readonly=False,
     )
     currency_id = fields.Many2one(
         comodel_name="res.currency",
@@ -86,10 +92,18 @@ class AccountWithholdingMove(models.Model):
             rec.calendar_year = rec.date and rec.date.strftime("%Y")
             rec.payment_id = rec.move_id.payment_id
 
-    @api.onchange("wht_cert_income_type")
-    def _onchange_wht_cert_income_type(self):
-        if self.wht_cert_income_type:
-            select_dict = dict(WHT_CERT_INCOME_TYPE)
-            self.wht_cert_income_desc = select_dict[self.wht_cert_income_type]
-        else:
-            self.wht_cert_income_desc = False
+    @api.depends("wht_tax_id")
+    def _compute_wht_cert_income_type(self):
+        for rec in self:
+            rec.wht_cert_income_type = (
+                rec.wht_tax_id and rec.wht_tax_id.wht_cert_income_type or False
+            )
+
+    @api.depends("wht_cert_income_type")
+    def _compute_wht_cert_income_desc(self):
+        for rec in self:
+            if rec.wht_cert_income_type:
+                select_dict = dict(WHT_CERT_INCOME_TYPE)
+                rec.wht_cert_income_desc = select_dict[rec.wht_cert_income_type]
+            else:
+                rec.wht_cert_income_desc = False

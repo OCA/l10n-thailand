@@ -457,8 +457,9 @@ class AccountMove(models.Model):
         return {
             "partner_id": wht_move.partner_id.id,
             "amount_income": amount_income,
-            "wht_tax_id": wht_move.wht_tax_id.id,
             "amount_wht": amount_wht,
+            "wht_tax_id": wht_move.wht_tax_id.id,
+            "wht_cert_income_type": wht_move.wht_tax_id.wht_cert_income_type,
         }
 
     def _get_tax_invoice_number(self, move, tax_invoice, tax):
@@ -544,6 +545,7 @@ class AccountMove(models.Model):
     def _preapare_wht_certs(self):
         """Create withholding tax certs, 1 cert per partner"""
         self.ensure_one()
+        AccountWithholdingTax = self.env["account.withholding.tax"]
         wht_move_groups = self.env["account.withholding.move"].read_group(
             domain=[("move_id", "=", self.id)],
             fields=[
@@ -567,6 +569,7 @@ class AccountMove(models.Model):
         cert_list = []
         for partner in partners:
             cert_line_vals = []
+            wht_tax_set = set()
             wht_moves = list(
                 filter(lambda l: l["partner_id"][0] == partner.id, wht_move_groups)
             )
@@ -584,6 +587,7 @@ class AccountMove(models.Model):
                         },
                     )
                 )
+                wht_tax_set.add(wht_move["wht_tax_id"][0])
             cert_vals = {
                 "move_id": self.id,
                 "payment_id": self.payment_id.id,
@@ -591,6 +595,11 @@ class AccountMove(models.Model):
                 "date": self.date,
                 "wht_line": cert_line_vals,
             }
+            # Default income_tax_form
+            wht_tax = AccountWithholdingTax.browse(wht_tax_set)
+            income_tax_form = wht_tax.mapped("income_tax_form")
+            if len(income_tax_form) == 1:
+                cert_vals.update({"income_tax_form": income_tax_form[0]})
             cert_list.append(cert_vals)
         return cert_list
 

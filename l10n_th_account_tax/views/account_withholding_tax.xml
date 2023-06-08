@@ -9,6 +9,8 @@
                     <group>
                         <field name="name" />
                         <field name="is_pit" />
+                        <field name="income_tax_form" />
+                        <field name="wht_cert_income_type" />
                     </group>
                     <group>
                         <field
