@@ -1,13 +1,18 @@
 # Copyright 2019 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    branch = fields.Char(string="Tax Branch", help="Branch ID, e.g., 0000, 0001, ...")
+    branch = fields.Char(
+        string="Tax Branch",
+        copy=False,
+        help="Branch ID, e.g., 0000, 0001, ...",
+    )
     name_company = fields.Char(
         index=True,
         translate=True,
@@ -16,6 +21,25 @@ class ResPartner(models.Model):
     lastname = fields.Char(translate=True)
     name = fields.Char(translate=True)
     display_name = fields.Char(translate=True)
+
+    @api.constrains("company_id", "vat", "branch")
+    def _check_company_id_vat_branch(self):
+        Partner = self.env["res.partner"]
+        for rec in self.sudo():
+            if rec.vat and rec.branch:
+                domain = [
+                    ("vat", "=", rec.vat),
+                    ("branch", "=", rec.branch),
+                ]
+                if rec.company_id:
+                    domain += [("company_id", "=", rec.company_id.id)]
+                partners = Partner.search(domain)
+                if len(partners) > 1:
+                    raise ValidationError(
+                        _(
+                            "Each contact's Tax ID and Tax Branch should not be the same."
+                        )
+                    )
 
     @api.model
     def create(self, vals):
