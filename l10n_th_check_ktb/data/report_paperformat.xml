@@ -15,14 +15,4 @@
         <field name="header_spacing">3</field>
         <field name="dpi">80</field>
     </record>
-
-    <report
-        id="action_report_check_ktb_base"
-        string="KTB Check"
-        model="account.payment"
-        name="l10n_th_check_ktb.report_check_ktb_base"
-        file="l10n_th_check_ktb.report_check_ktb_base"
-        report_type="qweb-pdf"
-        paperformat="l10n_th_check_ktb.paperformat_check_ktb"
-    />
 </odoo>
