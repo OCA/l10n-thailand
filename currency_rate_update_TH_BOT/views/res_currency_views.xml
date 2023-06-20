@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_currency_search" model="ir.ui.view">
+        <field name="name">res.currency.search</field>
+        <field name="model">res.currency</field>
+        <field name="inherit_id" ref="base.view_currency_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='inactive']" position="after">
+                <separator />
+                <group expand="0" name="group_by" string="Group By">
+                    <filter
+                        name="group_bot_currency_rate_type"
+                        string="BOT Currency Rate Type"
+                        context="{'group_by': 'bot_currency_rate_type'}"
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_currency_tree" model="ir.ui.view">
+        <field name="name">res.currency.tree</field>
+        <field name="model">res.currency</field>
+        <field name="inherit_id" ref="base.view_currency_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='full_name']" position="after">
+                <field name="bot_currency_name" optional="hide" />
+                <field name="bot_currency_rate_type" optional="hide" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_currency_form" model="ir.ui.view">
+        <field name="name">res.currency.form</field>
+        <field name="model">res.currency</field>
+        <field name="inherit_id" ref="base.view_currency_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='currency_subunit_label']" position="after">
+                <field name="bot_currency_name" />
+                <field name="bot_currency_rate_type" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
