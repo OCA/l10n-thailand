@@ -24,13 +24,17 @@ class AccountMoveLine(models.Model):
         readonly=False,
     )
 
-    @api.depends("product_id")
+    @api.depends("product_id", "partner_id")
     def _compute_wht_tax_id(self):
         for rec in self:
             # From invoice, default from product
             if rec.move_id.move_type in ("out_invoice", "out_refund", "in_receipt"):
                 rec.wht_tax_id = rec.product_id.wht_tax_id
             elif rec.move_id.move_type in ("in_invoice", "in_refund", "out_receipt"):
+                partner_id = rec.partner_id or rec.move_id.partner_id
+                if partner_id and partner_id.company_type == "company":
+                    rec.wht_tax_id = rec.product_id.supplier_company_wht_tax_id
+                    continue
                 rec.wht_tax_id = rec.product_id.supplier_wht_tax_id
             else:
                 rec.wht_tax_id = False
