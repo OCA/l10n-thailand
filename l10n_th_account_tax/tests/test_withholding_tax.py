@@ -181,7 +181,9 @@ class TestWithholdingTax(TransactionCase):
         if customer:
             product_id.write({"wht_tax_id": account})
         if vendor:
-            product_id.write({"supplier_wht_tax_id": account})
+            product_id.write(
+                {"supplier_wht_tax_id": account, "supplier_company_wht_tax_id": account}
+            )
         return product_id
 
     def test_01_create_payment_withholding_tax(self):
@@ -316,6 +318,7 @@ class TestWithholdingTax(TransactionCase):
         for k in invoice_dict.keys():
             invoice_dict[k]["invoice_date"] = fields.Date.today()
         invoice_dict["invoice3"]["partner_id"] = (self.partner_2.id,)
+        # Post invoice
         for invoice in invoice_dict.values():
             invoice.action_post()
         # Test multi partners
@@ -355,7 +358,7 @@ class TestWithholdingTax(TransactionCase):
             register_payment = f.save()
         self.assertEqual(
             register_payment.writeoff_account_id,
-            invoice.invoice_line_ids.wht_tax_id.account_id,
+            invoice_dict["invoice1"].invoice_line_ids.wht_tax_id.account_id,
         )
         self.assertEqual(register_payment.payment_difference, 2 * price_unit * 0.03)
         self.assertEqual(register_payment.writeoff_label, "Withholding Tax 3%")
