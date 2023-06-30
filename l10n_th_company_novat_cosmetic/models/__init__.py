@@ -4,3 +4,4 @@ from . import base_cosmetic
 from . import purchase
 from . import account_move
 from . import hr_expense
+from . import sale
