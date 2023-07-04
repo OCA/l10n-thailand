@@ -39,3 +39,8 @@ class HRExpense(models.Model):
         sheet = super()._create_sheet_from_expenses()
         sheet._onchange_cosmetic_vat()
         return sheet
+
+    def apply_cosmetic_vat(self):
+        for rec in self.filtered(lambda l: not l.set_cosmetic_vat):
+            rec.whtvat = rec.cosmetic_vat
+        return super().apply_cosmetic_vat()

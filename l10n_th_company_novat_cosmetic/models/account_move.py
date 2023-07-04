@@ -37,5 +37,5 @@ class AccountMoveLine(models.Model):
 
     def apply_cosmetic_vat(self):
         for rec in self.filtered(lambda l: not l.set_cosmetic_vat):
-            rec.wtvat = rec.cosmetic_vat
+            rec.whtvat = rec.cosmetic_vat
         return super().apply_cosmetic_vat()
