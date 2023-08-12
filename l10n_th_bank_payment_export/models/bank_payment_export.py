@@ -23,6 +23,13 @@ class BankPaymentExport(models.Model):
         states={"draft": [("readonly", False)]},
         tracking=True,
     )
+    template_id = fields.Many2one(
+        comodel_name="bank.payment.template",
+        string="Template",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        tracking=True,
+    )
     effective_date = fields.Date(
         copy=False,
         readonly=True,
@@ -42,6 +49,7 @@ class BankPaymentExport(models.Model):
     currency_id = fields.Many2one(
         comodel_name="res.currency",
         default=lambda self: self.env.user.company_id.currency_id,
+        required=True,
     )
     total_amount = fields.Monetary(
         compute="_compute_total_amount",
@@ -63,6 +71,15 @@ class BankPaymentExport(models.Model):
         default="draft",
         tracking=True,
     )
+
+    @api.onchange("template_id")
+    def _onchange_template_id(self):
+        """Update field following bank payment template"""
+        template = self.template_id
+        if template:
+            self.bank = template.bank
+            for line in template.template_config_line:
+                self[line.field_id.name] = line.value
 
     @api.depends("bank")
     def _compute_required_effective_date(self):
@@ -104,7 +121,7 @@ class BankPaymentExport(models.Model):
             ("export_status", "=", "draft"),
             ("state", "=", "posted"),
             ("payment_method_id", "=", method_manual_out.id),
-            ("currency_id", "=", self.env.company.currency_id.id),
+            ("currency_id", "=", self.currency_id.id),
             ("journal_id.type", "=", "bank"),
         ]
         return domain
@@ -157,21 +174,7 @@ class BankPaymentExport(models.Model):
 
     def _check_constraint_line(self):
         # Add condition with line on this function
-        self.ensure_one()
-        for line in self.export_line_ids:
-            if not line.payment_partner_bank_id:
-                raise UserError(
-                    _("Recipient Bank with {} is not selected.").format(
-                        line.payment_id.name
-                    )
-                )
-            acc_number = line.payment_partner_bank_id.acc_number
-            if acc_number and len(acc_number.split("-")) > 1:
-                raise UserError(
-                    _("{} can not use '-' in Recipient Bank (Account Number)").format(
-                        line.payment_id.name
-                    )
-                )
+        return
 
     def _check_constraint_confirm(self):
         # Add condition on this function
@@ -217,29 +220,19 @@ class BankPaymentExport(models.Model):
         export_lines = [(0, 0, {"payment_id": payment}) for payment in payments.ids]
         payment_bic_bank = list(set(payments.mapped("journal_id.bank_id.bic")))
         payment_bank = len(payment_bic_bank) == 1 and payment_bic_bank[0] or []
-        # Default config from journal
-        bank_payment_config = payments.mapped(
-            "journal_id"
-        ).payment_export_config_ids.filtered(lambda l: l.bank == payment_bank)
-        for config in bank_payment_config:
-            ctx.update({"default_{}".format(config.field_id.name): config.id})
         ctx.update(
             {
+                "default_template_id": payments[0].bank_payment_template_id.id,
                 "default_bank": payment_bank,
                 "default_export_line_ids": export_lines,
+                "default_currency_id": payments[0].currency_id.id,
             }
         )
         return ctx
 
-    @api.model
-    def _default_common_config(self, field):
-        field_default_duplicate = self.env["bank.payment.config"].search(
-            [
-                ("field_id.name", "=", field),
-                ("is_default", "=", True),
-            ]
-        )
-        return field_default_duplicate
+    def _get_amount_no_decimal(self, amount, digits=False):
+        """Implementation is available"""
+        return amount
 
     @api.constrains("effective_date")
     def check_effective_date(self):
@@ -266,28 +259,20 @@ class BankPaymentExport(models.Model):
                 )
 
     def _check_constraint_create_bank_payment_export(self, payments):
-        method_manual_out = self.env.ref("account.account_payment_method_manual_out")
+        comment_template = payments[0].bank_payment_template_id
+        previous_currency = False
         for payment in payments:
-            if (
-                payment.payment_method_id.id != method_manual_out.id
-                or payment.journal_id.type != "bank"
-            ):
+            if payment.bank_payment_template_id != comment_template:
                 raise UserError(
-                    _(
-                        "You can export bank payments with journal 'Bank' "
-                        "and Payment method 'Manual' only"
-                    )
+                    _("All payments must have the same bank payment template.")
                 )
             if payment.export_status != "draft":
                 raise UserError(_("Payments have been already exported."))
             if payment.state != "posted":
                 raise UserError(_("You can export bank payments state 'posted' only"))
-            if payment.company_id.currency_id != payment.currency_id:
-                raise UserError(
-                    _("Payments must be currency '{}' only").format(
-                        payment.company_id.currency_id.name
-                    )
-                )
+            if previous_currency and payment.currency_id != previous_currency:
+                raise UserError(_("You can export bank payments with 1 currency only."))
+            previous_currency = payment.currency_id
 
     @api.model
     def action_create_bank_payment_export(self):
@@ -296,6 +281,8 @@ class BankPaymentExport(models.Model):
         payments = self.env["account.payment"].browse(
             self.env.context.get("active_ids", [])
         )
+        if not payments:
+            return
         self._check_constraint_create_bank_payment_export(payments)
         ctx = self._get_context_create_bank_payment_export(payments)
         return {

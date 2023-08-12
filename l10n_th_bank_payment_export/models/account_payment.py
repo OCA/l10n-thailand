@@ -28,3 +28,8 @@ class AccountPayment(models.Model):
         tracking=True,
         help="Link to Bank Payment Export",
     )
+    bank_payment_template_id = fields.Many2one(
+        comodel_name="bank.payment.template",
+        tracking=True,
+        help="it help default value from bank payment template",
+    )
