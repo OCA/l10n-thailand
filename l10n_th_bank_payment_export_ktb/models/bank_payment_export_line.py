@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo import models
+from odoo.tools import float_round
 
 
 class BankPaymentExportLine(models.Model):
@@ -48,3 +49,8 @@ class BankPaymentExportLine(models.Model):
                 sender_acc_number and sender_acc_number[:11].zfill(11) or "-----------"
             )
         return sender_bank_code, sender_branch_code, sender_acc_number
+
+    def _get_amount_no_decimal(self, amount, digits=False):
+        if self.payment_export_id.bank == "KRTHTHBK":
+            return int(round(float_round(amount * 100, precision_rounding=1), digits))
+        return super()._get_amount_no_decimal(amount, digits)

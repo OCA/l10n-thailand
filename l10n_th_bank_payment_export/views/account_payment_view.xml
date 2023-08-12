@@ -6,6 +6,7 @@
         <field name="inherit_id" ref="account.view_account_payment_tree" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='state']" position="before">
+                <field name="bank_payment_template_id" optional="show" />
                 <field
                     name="export_status"
                     widget="badge"
@@ -38,6 +39,10 @@
                         <field name="payment_export_id" options="{'no_create': True}" />
                     </span>
                 </div>
+                <field
+                    name="bank_payment_template_id"
+                    attrs="{'readonly': [('state', '!=', 'draft')]}"
+                />
             </xpath>
         </field>
     </record>
@@ -66,6 +71,11 @@
                 />
             </xpath>
             <xpath expr="//filter[@name='groupby_date']" position="before">
+                <filter
+                    name="groupby_bank_payment_template"
+                    string="Bank Payment Template"
+                    context="{'group_by': 'bank_payment_template_id'}"
+                />
                 <filter
                     name="groupby_export_status"
                     string="Export Status"
