@@ -101,6 +101,12 @@
                                     name="tax_invoice_date"
                                     attrs="{'readonly': [('to_clear_tax', '=', False)]}"
                                 />
+                                <field
+                                    name="report_late_mo"
+                                    attrs="{'readonly': [('to_clear_tax', '=', False)]}"
+                                    optional="show"
+                                />
+                                <field name="report_date" optional="show" />
                                 <field name="tax_base_amount" />
                                 <field name="balance" sum="Total Tax" />
                                 <button

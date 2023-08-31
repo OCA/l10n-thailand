@@ -121,6 +121,24 @@ class AccountMoveTaxInvoice(models.Model):
             else:
                 rec.report_date = False
 
+    @api.onchange("tax_invoice_date")
+    def _onchange_tax_invoice_date(self):
+        """Auto add late report if month of accounting date
+        difference month of tax invoice"""
+        if self.tax_invoice_date and self.move_id.date:
+            # Replace to first date of the month and find diffference month
+            accounting_date = self.move_id.date.replace(day=1)
+            tax_invoice_date = self.tax_invoice_date.replace(day=1)
+            difference = relativedelta(accounting_date, tax_invoice_date)
+            # Check accounting date and tax invoice date is difference
+            if difference.years > 0 or (
+                difference.years == 0 and difference.months >= 6
+            ):
+                report_late = "0"
+            else:
+                report_late = str(difference.months)
+            self.report_late_mo = report_late
+
     def unlink(self):
         """Do not allow remove the last tax_invoice of move_line"""
         line_taxinv = {}

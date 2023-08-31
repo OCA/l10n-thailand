@@ -124,6 +124,8 @@
                             <field name="partner_id" optional="hide" />
                             <field name="tax_invoice_number" />
                             <field name="tax_invoice_date" />
+                            <field name="report_late_mo" optional="show" />
+                            <field name="report_date" optional="show" />
                             <field name="tax_base_amount" />
                             <field name="balance" sum="Tax Amount" />
                             <button
