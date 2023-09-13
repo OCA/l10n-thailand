@@ -107,6 +107,13 @@ class TestWithholdingTaxPIT(TransactionCase):
             with Form(self.pit_rate) as pit_rate:
                 with pit_rate.rate_ids.edit(1) as rate:
                     rate.income_from = 1001
+        # Copy PIT, it will add copy after calendar year
+        # User MUST change to to calendar year
+        pit_rate_copy = self.pit_rate.copy()
+        self.assertEqual(
+            pit_rate_copy.calendar_year, "{} (copy)".format(self.pit_rate.calendar_year)
+        )
+        self.assertFalse(pit_rate_copy.effective_date)
 
     @freeze_time("2001-02-01")
     def test_02_withholding_tax_pit(self):
