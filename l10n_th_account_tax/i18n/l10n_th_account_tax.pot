@@ -1205,6 +1205,7 @@ msgid "To Clear Tax"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_partner_property_form
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_wht_move_tree
 msgid "Total Amount Withholding Tax"
 msgstr ""
@@ -1215,6 +1216,7 @@ msgid "Total Base"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_partner_property_form
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_wht_move_tree
 msgid "Total Income"
 msgstr ""
