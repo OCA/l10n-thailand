@@ -348,6 +348,12 @@ msgid "Company Tax ID"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_product_product__supplier_company_wht_tax_id
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_product_template__supplier_company_wht_tax_id
+msgid "Company Vendor Withholding Tax"
+msgstr ""
+
+#. module: l10n_th_account_tax
 #: model:ir.model,name:l10n_th_account_tax.model_res_config_settings
 msgid "Config Settings"
 msgstr ""
@@ -415,6 +421,24 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_code_income__is_default
 msgid "Default"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model:ir.model.fields,help:l10n_th_account_tax.field_product_product__wht_tax_id
+#: model:ir.model.fields,help:l10n_th_account_tax.field_product_template__wht_tax_id
+msgid "Default withholding tax for the customer"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model:ir.model.fields,help:l10n_th_account_tax.field_product_product__supplier_company_wht_tax_id
+#: model:ir.model.fields,help:l10n_th_account_tax.field_product_template__supplier_company_wht_tax_id
+msgid "Default withholding tax for the vendor that is company"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model:ir.model.fields,help:l10n_th_account_tax.field_product_product__supplier_wht_tax_id
+#: model:ir.model.fields,help:l10n_th_account_tax.field_product_template__supplier_wht_tax_id
+msgid "Default withholding tax for the vendor that is individual"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -599,6 +623,12 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,help:l10n_th_account_tax.field_account_move_tax_invoice__tax_line_id
 msgid "Indicates that this journal item is a tax line"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_product_product__supplier_wht_tax_id
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_product_template__supplier_wht_tax_id
+msgid "Individual Vendor Withholding Tax"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -1260,12 +1290,6 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__partner_vat
 msgid "Vendor Tax ID"
-msgstr ""
-
-#. module: l10n_th_account_tax
-#: model:ir.model.fields,field_description:l10n_th_account_tax.field_product_product__supplier_wht_tax_id
-#: model:ir.model.fields,field_description:l10n_th_account_tax.field_product_template__supplier_wht_tax_id
-msgid "Vendor Withholding Tax"
 msgstr ""
 
 #. module: l10n_th_account_tax
