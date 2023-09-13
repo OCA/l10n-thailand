@@ -24,6 +24,12 @@ msgid "% Tax"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: code:addons/l10n_th_account_tax/models/personal_income_tax.py:0
+#, python-format
+msgid "%s (copy)"
+msgstr ""
+
+#. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_move_tax_invoice__report_late_mo__0
 msgid "0 month"
 msgstr ""
@@ -189,6 +195,14 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_account_withholding_tax_form
 msgid "<span class=\"o_form_label oe_inline\">%</span>"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_personal_income_tax_form
+msgid ""
+"<span style=\"color: red;\" attrs=\"{'invisible': [('effective_date', '!=', False)]}\">\n"
+"                        *Effective Date is required. Please provide a valid calendar year as an integer.\n"
+"                    </span>"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -444,6 +458,11 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax__effective_date
 msgid "Effective Date"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model:ir.model.constraint,message:l10n_th_account_tax.constraint_personal_income_tax_effective_date_unique
+msgid "Effective Date must be unique!"
 msgstr ""
 
 #. module: l10n_th_account_tax
