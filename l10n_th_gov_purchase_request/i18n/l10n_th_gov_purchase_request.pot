@@ -65,6 +65,11 @@ msgid "Committee"
 msgstr ""
 
 #. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__name
+msgid "Committee Name"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__committee_type
 msgid "Committee Type"
 msgstr ""
@@ -138,11 +143,6 @@ msgid "Employee"
 msgstr ""
 
 #. module: l10n_th_gov_purchase_request
-#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__name
-msgid "Employee Name"
-msgstr ""
-
-#. module: l10n_th_gov_purchase_request
 #: model:ir.model.fields.selection,name:l10n_th_gov_purchase_request.selection__purchase_type__to_create__expense
 msgid "Expense"
 msgstr ""
@@ -188,7 +188,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_method__name
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_type__name
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_type__name
-#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.view_purchase_request_form
 msgid "Name"
 msgstr ""
 
