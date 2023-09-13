@@ -41,6 +41,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_move__wht_cert_income_type__1
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__wht_cert_income_type__1
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__1
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__1
 msgid "1. เงินเดือน ค่าจ้าง ฯลฯ 40(1)"
@@ -53,6 +54,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_move__wht_cert_income_type__2
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__wht_cert_income_type__2
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__2
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__2
 msgid "2. ค่าธรรมเนียม ค่านายหน้า ฯลฯ 40(2)"
@@ -65,6 +67,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_move__wht_cert_income_type__3
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__wht_cert_income_type__3
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__3
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__3
 msgid "3. ค่าแห่งลิขสิทธิ์ ฯลฯ 40(3)"
@@ -77,6 +80,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_move__wht_cert_income_type__4a
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__wht_cert_income_type__4a
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__4a
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__4a
 msgid "4. ดอกเบี้ย ฯลฯ 40(4)ก"
@@ -84,6 +88,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_move__wht_cert_income_type__4b11
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__wht_cert_income_type__4b11
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__4b11
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__4b11
 msgid ""
@@ -93,6 +98,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_move__wht_cert_income_type__4b12
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__wht_cert_income_type__4b12
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__4b12
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__4b12
 msgid ""
@@ -102,6 +108,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_move__wht_cert_income_type__4b13
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__wht_cert_income_type__4b13
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__4b13
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__4b13
 msgid ""
@@ -111,6 +118,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_move__wht_cert_income_type__4b14
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__wht_cert_income_type__4b14
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__4b14
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__4b14
 msgid ""
@@ -120,6 +128,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_move__wht_cert_income_type__4b21
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__wht_cert_income_type__4b21
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__4b21
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__4b21
 msgid ""
@@ -129,6 +138,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_move__wht_cert_income_type__4b22
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__wht_cert_income_type__4b22
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__4b22
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__4b22
 msgid ""
@@ -138,6 +148,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_move__wht_cert_income_type__4b23
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__wht_cert_income_type__4b23
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__4b23
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__4b23
 msgid ""
@@ -147,6 +158,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_move__wht_cert_income_type__4b24
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__wht_cert_income_type__4b24
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__4b24
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__4b24
 msgid ""
@@ -156,6 +168,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_move__wht_cert_income_type__4b25
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__wht_cert_income_type__4b25
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__4b25
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__4b25
 msgid "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.5) อื่นๆ (ระบุ)"
@@ -168,6 +181,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_move__wht_cert_income_type__5
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__wht_cert_income_type__5
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__5
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__5
 msgid "5. ค่าจ้างทำของ ค่าบริการ ค่าเช่า ค่าขนส่ง ฯลฯ 3 เตรส"
@@ -180,6 +194,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_move__wht_cert_income_type__6
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__wht_cert_income_type__6
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__6
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__6
 msgid "6. อื่นๆ (ระบุ)"
@@ -421,6 +436,16 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_code_income__is_default
 msgid "Default"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_tax__income_tax_form
+msgid "Default Income Tax Form"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_tax__wht_cert_income_type
+msgid "Default Type of Income"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -884,6 +909,7 @@ msgid "PIT Table"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__income_tax_form__pnd1
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert__income_tax_form__pnd1
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__income_tax_form__pnd1
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_account_withholding_tax_income_code_search
@@ -891,6 +917,7 @@ msgid "PND1"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__income_tax_form__pnd3
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert__income_tax_form__pnd3
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__income_tax_form__pnd3
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_account_withholding_tax_income_code_search
@@ -898,6 +925,7 @@ msgid "PND3"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__income_tax_form__pnd3a
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert__income_tax_form__pnd3a
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__income_tax_form__pnd3a
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_account_withholding_tax_income_code_search
@@ -905,6 +933,7 @@ msgid "PND3a"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__income_tax_form__pnd53
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert__income_tax_form__pnd53
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__income_tax_form__pnd53
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_account_withholding_tax_income_code_search
