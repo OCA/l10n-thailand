@@ -23,6 +23,7 @@ setuptools.setup(
         'odoo-addon-l10n_th_gov_purchase_agreement>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_gov_purchase_guarantee>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_gov_purchase_request>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_th_gov_work_acceptance>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_partner>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_promptpay>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_sequence_refactored>=15.0dev,<15.1dev',
