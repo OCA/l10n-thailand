@@ -359,6 +359,7 @@ class AccountMove(models.Model):
                     l.move_id.move_type == "entry"
                     and not l.payment_id
                     and l.move_id.journal_id.type != "sale"
+                    and l.tax_line_id.type_tax_use != "sale"
                 )
             ):
                 if (
