@@ -67,7 +67,7 @@ class AccountPaymentRegister(models.TransientModel):
         if not skip_wht_deduct and active_model == "account.move":
             active_ids = self.env.context.get("active_ids", [])
             invoices = self.env["account.move"].browse(active_ids)
-            # Update analytic, analytic tag in wizard
+            # Update analytic, analytic tag in wizard (Mark as fully paid)
             self._update_vals_deduction(invoices)
         return res
 
