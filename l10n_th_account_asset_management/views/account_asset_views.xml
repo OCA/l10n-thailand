@@ -14,6 +14,13 @@
             <xpath expr="//field[@name='value_residual']" position="after">
                 <field name="depreciation_rate" />
             </xpath>
+            <xpath expr="//field[@name='date_start']" position="after">
+                <field name="asset_sub_state_all" invisible="1" />
+                <field name="asset_sub_state_id" />
+            </xpath>
+            <xpath expr="//field[@name='profile_id']" position="after">
+                <field name="parent_id" />
+            </xpath>
             <xpath expr="/form/sheet" position="after">
                 <div class="oe_chatter">
                     <field name="message_follower_ids" groups="base.group_user" />
@@ -41,6 +48,17 @@
             </xpath>
             <xpath expr="//field[@name='value_residual']" position="after">
                 <field name="depreciation_rate" optional="hide" />
+            </xpath>
+            <xpath expr="//field[@name='state']" position="after">
+                <field
+                    name="asset_sub_state_id"
+                    widget="badge"
+                    decoration-success="state == 'open'"
+                    decoration-warning="state == 'removed'"
+                    decoration-info="state == 'draft'"
+                    decoration-muted="state == 'close'"
+                    optional="hide"
+                />
             </xpath>
         </field>
     </record>
