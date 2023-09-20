@@ -19,6 +19,12 @@ msgid "Action Needed"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_parent__active
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__active
+msgid "Active"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__activity_ids
 msgid "Activities"
 msgstr ""
@@ -39,6 +45,14 @@ msgid "Activity Type Icon"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_asset_management.account_asset_parent_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_asset_management.account_asset_parent_view_search
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_asset_management.account_asset_sub_state_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_asset_management.account_asset_sub_state_view_search
+msgid "Archived"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
 #: model:ir.model,name:l10n_th_account_asset_management.model_account_asset
 msgid "Asset"
 msgstr ""
@@ -55,13 +69,67 @@ msgid "Asset Profile"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__asset_sub_state_all
+msgid "Asset Sub State All"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model,name:l10n_th_account_asset_management.model_account_asset_sub_state
+msgid "Asset Sub Status"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.actions.act_window,name:l10n_th_account_asset_management.action_account_asset_sub_state
+#: model:ir.ui.menu,name:l10n_th_account_asset_management.account_asset_sub_state_menu
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_asset_management.account_asset_sub_state_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_asset_management.account_asset_sub_state_view_search
+msgid "Asset Sub-Status"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
 #: model:ir.model,name:l10n_th_account_asset_management.model_account_asset_line
 msgid "Asset depreciation table line"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_parent__asset_ids
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_asset_management.account_asset_parent_view_form
+msgid "Assets"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__message_attachment_count
 msgid "Attachment Count"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__close
+msgid "Close"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_parent__code
+msgid "Code"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_parent__company_id
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__company_id
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_asset_management.account_asset_parent_view_search
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_asset_management.account_asset_sub_state_view_search
+msgid "Company"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_parent__create_uid
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_parent__create_date
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__create_date
+msgid "Created on"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
@@ -73,6 +141,17 @@ msgstr ""
 #. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__depreciation_rate
 msgid "Depreciation Rate (%)"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_parent__display_name
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__draft
+msgid "Draft"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
@@ -96,8 +175,19 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_asset_management.account_asset_transfer_view_form
+msgid "From Sub-State"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__has_message
 msgid "Has Message"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_parent__id
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__id
+msgid "ID"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
@@ -138,6 +228,24 @@ msgid "Journal Item"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_parent____last_update
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_parent__write_uid
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_parent__write_date
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__message_main_attachment_id
 msgid "Main Attachment"
 msgstr ""
@@ -158,6 +266,12 @@ msgid "My Activity Deadline"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_parent__name
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
@@ -170,6 +284,12 @@ msgstr ""
 #. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__activity_type_id
 msgid "Next Activity Type"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_parent__note
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__note
+msgid "Note"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
@@ -198,13 +318,63 @@ msgid "Number of unread messages"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
+#: model:ir.actions.act_window,name:l10n_th_account_asset_management.action_account_asset_parent
+#: model:ir.model,name:l10n_th_account_asset_management.model_account_asset_parent
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__parent_id
+#: model:ir.ui.menu,name:l10n_th_account_asset_management.account_asset_parent_menu
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_asset_management.account_asset_parent_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_asset_management.account_asset_parent_view_search
+msgid "Parent Asset"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model,name:l10n_th_account_asset_management.model_account_asset_remove
+msgid "Remove Asset"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__removed
+msgid "Removed"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__activity_user_id
 msgid "Responsible User"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__open
+msgid "Running"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__message_has_sms_error
 msgid "SMS Delivery error"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model.fields,help:l10n_th_account_asset_management.field_account_asset_sub_state__close
+msgid "Show this asset sub-status on the close asset"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model.fields,help:l10n_th_account_asset_management.field_account_asset_sub_state__draft
+msgid "Show this asset sub-status on the draft asset"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model.fields,help:l10n_th_account_asset_management.field_account_asset_sub_state__removed
+msgid "Show this asset sub-status on the removed asset"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model.fields,help:l10n_th_account_asset_management.field_account_asset_sub_state__open
+msgid "Show this asset sub-status on the running asset"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
@@ -217,8 +387,20 @@ msgid ""
 msgstr ""
 
 #. module: l10n_th_account_asset_management
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__asset_sub_state_id
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_remove__asset_sub_state_id
+#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_transfer__asset_sub_state_id
+msgid "Sub-Status"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
 #: model:ir.model.fields,help:l10n_th_account_asset_management.field_account_asset__image
 msgid "This field holds the photo of the asset."
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model:ir.model,name:l10n_th_account_asset_management.model_account_asset_transfer
+msgid "Transfer Asset"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
@@ -237,6 +419,11 @@ msgid "Unread Messages Counter"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
+#: model:ir.model.fields,help:l10n_th_account_asset_management.field_account_asset_sub_state__sequence
+msgid "Used to order Asset Sub Status"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__website_message_ids
 msgid "Website Messages"
 msgstr ""
@@ -244,4 +431,9 @@ msgstr ""
 #. module: l10n_th_account_asset_management
 #: model:ir.model.fields,help:l10n_th_account_asset_management.field_account_asset__website_message_ids
 msgid "Website communication history"
+msgstr ""
+
+#. module: l10n_th_account_asset_management
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_asset_management.account_asset_sub_state_view_search
+msgid "sub.state Asset"
 msgstr ""
