@@ -138,7 +138,7 @@ class ReportCurrencyUnrealizedReportXlsx(models.AbstractModel):
         row_pos = self._write_filter_header(row_pos, ws, ws_params, objects)
         row_pos = self._write_filter_data(row_pos, ws, ws_params, objects)
         # Data Table
-        row_pos = self._write_data_table(row_pos, ws, ws_params, objects)
+        row_pos = self._write_data_table(row_pos, ws, ws_params, objects, data)
 
     def _write_filter_header(self, row_pos, ws, ws_params, objects):
         row_pos = self._write_line(
@@ -168,11 +168,11 @@ class ReportCurrencyUnrealizedReportXlsx(models.AbstractModel):
         )
         return row_pos
 
-    def _write_data_table(self, row_pos, ws, ws_params, objects):
+    def _write_data_table(self, row_pos, ws, ws_params, objects, data):
         report_obj = self.env[
             "report.l10n_th_multicurrency_revaluation.curr_unrealized_report"
         ]
-        values = report_obj._get_report_values(objects.ids)
+        values = report_obj._get_report_values(objects.ids, data)
         for account in values["docs"]:
             # Header
             row_pos += 1
@@ -203,7 +203,9 @@ class ReportCurrencyUnrealizedReportXlsx(models.AbstractModel):
                         "move_name": line.get("move_name") or "-",
                         "gl_foreign_balance": line.get("gl_foreign_balance") or 0.0,
                         "curr_name": line.get("curr_name") or "-",
-                        "gl_currency_rate": line.get("gl_currency_rate") or 0.0,
+                        "gl_currency_rate": line.get("gl_currency_rate")
+                        and 1.0 / line.get("gl_currency_rate")
+                        or 0.0,
                         "gl_revaluated_balance": line.get("gl_revaluated_balance")
                         or 0.0,
                         "acc_rate": line.get("acc_rate") or 0.0,

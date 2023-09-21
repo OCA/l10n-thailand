@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Thai Localization - Multicurrency revaluation",
+    "name": "Thai Localization - Multicurrency Revaluation",
     "version": "15.0.1.0.0",
     "author": "Ecosoft, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-thailand",
@@ -15,15 +15,17 @@
         "security/security.xml",
         "security/ir.model.access.csv",
         "views/account_view.xml",
+        "views/account_move_line_views.xml",
         "views/account_move_views.xml",
         "wizard/print_currency_unrealized_report_view.xml",
         "wizard/wizard_currency_revaluation_view.xml",
+        "wizard/wizard_reverse_currency_revaluation_view.xml",
         "report/report.xml",
         "report/unrealized_currency_gain_loss.xml",
     ],
     "assets": {
         "web.report_assets_common": [
-            "l10n_th_multicurrency_revaluation/static/src/css/reports.css",
+            "l10n_th_multicurrency_revaluation/static/src/scss/reports.scss",
         ],
     },
     "installable": True,

@@ -1,23 +1,15 @@
 # Copyright 2023 Ecosoft Co., Ltd (https://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models
-
-
-class AccountAccountLine(models.Model):
-    _inherit = "account.move.line"
-    # By convention added columns start with gl_.
-    gl_foreign_balance = fields.Float(string="Aggregated Amount currency")
-    gl_balance = fields.Float(string="Aggregated Amount")
-    gl_revaluated_balance = fields.Float(string="Revaluated Amount")
-    gl_currency_rate = fields.Float(string="Currency rate")
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class AccountAccount(models.Model):
     _inherit = "account.account"
 
     currency_revaluation = fields.Boolean(
-        string="Allow currency revaluation",
+        string="Allow Currency Revaluation",
     )
 
     _sql_mapping = {
@@ -35,10 +27,33 @@ class AccountAccount(models.Model):
             [
                 ("user_type_id.id", "in", self._get_revaluation_account_types()),
                 ("currency_revaluation", "=", False),
+                ("user_type_id.include_initial_balance", "=", True),
             ]
         )
         accounts.write({"currency_revaluation": True})
         return res
+
+    def write(self, vals):
+        if (
+            "currency_revaluation" in vals
+            and vals.get("currency_revaluation", False)
+            and any(
+                [not x for x in self.mapped("user_type_id.include_initial_balance")]
+            )
+        ):
+            raise UserError(
+                _(
+                    "There is an account that you are editing not having the Bring "
+                    "Balance Forward set, the currency revaluation cannot be applied "
+                    "on these accounts: \n\t - %s"
+                )
+                % "\n\t - ".join(
+                    self.filtered(
+                        lambda x: not x.user_type_id.include_initial_balance
+                    ).mapped("name")
+                )
+            )
+        return super(AccountAccount, self).write(vals)
 
     def _get_revaluation_account_types(self):
         return [
@@ -54,14 +69,13 @@ class AccountAccount(models.Model):
             if rec.user_type_id.id in revaluation_accounts:
                 rec.currency_revaluation = True
 
-    def _revaluation_query(self, revaluation_date):
+    def _revaluation_query(self, revaluation_date, start_date=None):
         tables, where_clause, where_clause_params = self.env[
             "account.move.line"
         ]._query_get()
         mapping = [
             ('"account_move_line".', "aml."),
             ('"account_move_line"', "account_move_line aml"),
-            ('"account_move_line__move_id"', "am"),
             ("LEFT JOIN", "\n    LEFT JOIN"),
             (")) AND", "))\n" + " " * 12 + "AND"),
         ]
@@ -83,10 +97,11 @@ WITH amount AS (
         aml.currency_id,
         aml.debit,
         aml.credit,
-        aml.amount_currency
+        aml.amount_currency,
     FROM """
             + tables
             + """
+    LEFT JOIN account_move am ON aml.move_id = am.id
     INNER JOIN account_account acc ON aml.account_id = acc.id
     INNER JOIN account_account_type aat ON acc.user_type_id = aat.id
     LEFT JOIN account_partial_reconcile aprc
@@ -108,17 +123,19 @@ WITH amount AS (
     WHERE
         aml.account_id IN %s
         AND aml.date <= %s
+        """
+            + (("AND aml.date >= %s") if start_date else "")
+            + """
         AND aml.currency_id IS NOT NULL
-        AND aml.debit != aml.credit
+        AND am.state = 'posted'
+        AND aml.balance <> 0
         """
             + where_clause
             + """
     GROUP BY
         aat.type,
-        aml.id
     HAVING
-        aml.full_reconcile_id IS NULL
-        OR (MAX(amldf.id) IS NULL AND MAX(amlcf.id) IS NULL)
+        aml.amount_residual_currency <> 0
 )
 SELECT
     id,
@@ -145,10 +162,14 @@ ORDER BY account_id, partner_id, currency_id"""
             revaluation_date,
             *where_clause_params,
         ]
+        if start_date:
+            # Insert the value after the revaluation date parameter
+            params.insert(4, start_date)
+
         return query, params
 
-    def compute_revaluations(self, revaluation_date):
-        query, params = self._revaluation_query(revaluation_date)
+    def compute_revaluations(self, revaluation_date, start_date=None):
+        query, params = self._revaluation_query(revaluation_date, start_date)
         self.env.cr.execute(query, params)
         lines = self.env.cr.dictfetchall()
 
@@ -169,11 +190,3 @@ ORDER BY account_id, partner_id, currency_id"""
                 aml.append(line)
                 data[account_id][partner_id][currency_id] = aml
         return data
-
-
-class AccountMove(models.Model):
-    _inherit = "account.move"
-
-    revaluation_to_reverse = fields.Boolean(
-        string="revaluation to reverse", default=False
-    )
