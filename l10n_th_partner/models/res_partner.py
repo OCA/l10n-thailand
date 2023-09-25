@@ -42,13 +42,6 @@ class ResPartner(models.Model):
                     )
 
     @api.model
-    def create(self, vals):
-        """Add inverted company names at creation if unavailable."""
-        context = dict(self.env.context)
-        vals.get("name", context.get("default_name"))
-        return super().create(vals)
-
-    @api.model
     def _get_computed_name(self, lastname, firstname):
         name = super()._get_computed_name(lastname, firstname)
         title = self.title.name
