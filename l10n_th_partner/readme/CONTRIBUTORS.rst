@@ -2,6 +2,7 @@
 
   * Kitti Upariphutthiphong. <kittiu@gmail.com>
   * Pimolnat Suntian <pimolnats@ecosoft.co.th>
+  * Saran Lim. <saranl@ecosoft.co.th>
 
 * `Tanabutr <https://www.tanabutr.co.th>`__:
 
