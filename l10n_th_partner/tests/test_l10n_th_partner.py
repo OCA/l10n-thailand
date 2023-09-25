@@ -63,9 +63,11 @@ class TestL10nThPartner(TransactionCase):
 
     def test_res_users_config_no_space(self):
         """Test that you change title and config title no space"""
-        self.main_company.no_space_title_name = True
-        self.assertEqual(self.user.name, "Firstname Lastname")
         self.user.title = self.title
+        self.assertEqual(self.user.partner_id.name, "Miss Firstname Lastname")
+        self.assertEqual(self.user.name, "Miss Firstname Lastname")
+        self.main_company.no_space_title_name = True
+        self.assertEqual(self.user.partner_id.name, "MissFirstname Lastname")
         self.assertEqual(self.user.name, "MissFirstname Lastname")
 
     def test_duplicate_partner_vat_branch(self):
