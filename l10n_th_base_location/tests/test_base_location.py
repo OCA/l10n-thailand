@@ -3,103 +3,48 @@
 
 import logging
 
-import requests
+from odoo import Command
+from odoo.tests import tagged
+from odoo.tests.common import Form
 
-from odoo.exceptions import UserError
-from odoo.tests import Form, common
+from odoo.addons.base_location.tests.test_base_location import TestBaseLocation
 
 logger = logging.getLogger(__name__)
 
 
-class TestBaseLocation(common.TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.thailand = self.env.ref("base.th")
-        self.belgium = self.env.ref("base.be")
-        self.Company = self.env["res.company"]
-        self.Partner = self.env["res.partner"]
-        self.zip_id = self.env["res.city.zip"]
-        self.import_th_lang_th = (
-            self.env["city.zip.geonames.import"]
-            .with_context(import_test=True)
-            .create(
-                {
-                    "country_ids": [(6, 0, [self.thailand.id])],
-                    "location_thailand_language": "th",
-                }
-            )
+@tagged("post_install", "-at_install")
+class TestTHBaseLocation(TestBaseLocation):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.thailand = cls.env.ref("base.th")
+        cls.belgium = cls.env.ref("base.be")
+        cls.company_model = cls.env["res.company"]
+        cls.partner_model = cls.env["res.partner"]
+        cls.zip_id = cls.env["res.city.zip"]
+        cls.country_state = cls.env["res.country.state"]
+        cls.geonames_import_wizard = cls.env["city.zip.geonames.import"]
+
+    def create_geonames_import(self, country, lang):
+        import_wizard = self.geonames_import_wizard.with_context(max_import=10).create(
+            {
+                "country_ids": [Command.set([country.id])],
+                "location_thailand_language": lang,
+            }
         )
-        self.import_th_lang_en = (
-            self.env["city.zip.geonames.import"]
-            .with_context(import_test=True)
-            .create(
-                {
-                    "country_ids": [(6, 0, [self.thailand.id])],
-                    "location_thailand_language": "en",
-                }
-            )
-        )
-        self.import_th_lang_th.run_import()
-        self.import_th_lang_en.run_import()
+        import_wizard.run_import()
+        return import_wizard
 
     def test_01_import_base_location_th(self):
         """Test Import Thailand Location"""
-        Wizard = self.env["city.zip.geonames.import"].create(
-            {
-                "country_ids": [(6, 0, [self.thailand.id])],
-                "location_thailand_language": "th",
-            }
-        )
-        self.assertTrue(Wizard.is_thailand)
-        state_count = self.env["res.country.state"].search_count(
-            [("country_id", "=", self.thailand.id)]
-        )
-        self.assertTrue(state_count)
+        country = self.country_state.search([("code", "=", "TH-10")], limit=1)
+        country.unlink()
+        import_wizard = self.create_geonames_import(self.thailand, "th")
+        self.assertTrue(import_wizard.is_thailand)
 
-    def test_02_import_not_th(self):
-        """Test Import NOT Thailand Location"""
-        import_be = (
-            self.env["city.zip.geonames.import"]
-            .with_context(import_test=True)
-            .create(
-                {
-                    "country_ids": [(6, 0, [self.belgium.id])],
-                    "location_thailand_language": "th",
-                }
-            )
-        )
-        try:
-            with self.assertRaises(UserError):
-                import_be.run_import()
-        except requests.exceptions.ConnectionError as e:
-            logger.exception("Connection Error: " + str(e))
-        except Exception:
-            import_be.run_import()
-
-    def test_03_onchange_zip_id(self):
-        """Test select zip_id in res_partner and res_company"""
-        city_zip = self.zip_id.search(
-            [("city_id.country_id", "=", self.thailand.id)], limit=1
-        )
-        address = city_zip.city_id.name.split(", ")
-        # partner
-        partner = Form(self.env["res.partner"])
-        partner.zip_id = city_zip
-        self.assertEqual(partner.zip, city_zip.name)
-        self.assertEqual(partner.street2, address[0])
-        self.assertEqual(partner.city, address[1])
-        self.assertEqual(partner.state_id, city_zip.city_id.state_id)
-        self.assertEqual(partner.country_id, city_zip.city_id.country_id)
-        # company
-        company = self.Company.new({"zip_id": city_zip.id})
-        company._onchange_zip_id()
-        self.assertEqual(company.street2, address[0])
-        self.assertEqual(company.city, address[1])
-
-    def test_04_th_address(self):
-        """Test name_get() for Thai address"""
-        state_id = self.env["res.country.state"].search([("name", "like", "กรุงเทพ")])
-        record = self.env["res.partner"].create(
+        # If thai language, it will show 'กรุงเทพมหานคร'
+        state_id = self.country_state.search([("code", "=", "TH-10")], limit=1)
+        record = self.partner_model.create(
             {
                 "name": "ทำเนียบรัฐบาล",
                 "street": "1 ถนนนครปฐม",
@@ -109,19 +54,42 @@ class TestBaseLocation(common.TransactionCase):
             }
         )
         name = record.state_id.name_get()
-        self.assertNotEqual(name[0][1][-4:], "(TH)")
+        self.assertEqual(name[0][1], "กรุงเทพมหานคร")
 
-    def test_05_us_address(self):
-        """Test name_get() for USA address"""
-        state_id = self.env["res.country.state"].search([("code", "=", "NY")])
-        record = self.env["res.partner"].create(
+        city_zip = self.zip_id.search(
+            [("city_id.country_id", "=", self.thailand.id)], limit=1
+        )
+        address = city_zip.city_id.name.split(", ")
+        # partner
+        partner = Form(self.partner_model)
+        partner.zip_id = city_zip
+        self.assertEqual(partner.zip, city_zip.name)
+        self.assertEqual(partner.street2, address[0])
+        self.assertEqual(partner.city, address[1])
+        self.assertEqual(partner.state_id, city_zip.city_id.state_id)
+        self.assertEqual(partner.country_id, city_zip.city_id.country_id)
+        # company
+        company = self.company_model.new({"zip_id": city_zip.id})
+        company._onchange_zip_id()
+        self.assertEqual(company.street2, address[0])
+        self.assertEqual(company.city, address[1])
+        # Test import Thai location with EN language
+        import_wizard = self.create_geonames_import(self.thailand, "en")
+        # If thai language, it will show 'Bangkok'
+        state_id = self.country_state.search([("code", "=", "TH-10")], limit=1)
+        record = self.partner_model.create(
             {
-                "name": "United Nations Headquarters",
-                "street": "405 East 42nd Street",
-                "street2": "",
-                "city": "New York",
+                "name": "ทำเนียบรัฐบาล",
+                "street": "1 ถนนนครปฐม",
+                "street2": "แขวงถนนนครไชยศรี",
+                "city": "เขตดุสิต",
                 "state_id": state_id.id,
             }
         )
         name = record.state_id.name_get()
-        self.assertEqual(name[0][1][-4:], "(US)")
+        self.assertEqual(name[0][1], "Bangkok")
+
+    def test_02_import_not_th(self):
+        """Test Import NOT Thailand Location"""
+        import_wizard = self.create_geonames_import(self.belgium, "th")
+        self.assertFalse(import_wizard.is_thailand)
