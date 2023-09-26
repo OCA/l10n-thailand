@@ -145,7 +145,7 @@ class ResCurrencyRateProviderBOT(models.Model):
             for bot_currency in bot_currencies:
                 currency = bot_currency.bot_currency_name
                 url = "{}&currency={}".format(url, currency)
-                response = requests.get(url, headers=headers)
+                response = requests.get(url, headers=headers, timeout=15)
                 data_dict = response.json()
                 result = data_dict.get("result", False)
                 if not result:
