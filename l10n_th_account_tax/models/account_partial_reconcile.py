@@ -42,14 +42,4 @@ class AccountPartialReconcile(models.Model):
                 "DELETE FROM account_move_line WHERE id in %s",
                 (tuple(del_move_lines.ids),),
             )
-        # Back state tax cash basis in bills to draft (not include net refund and payment).
-        # waiting clear tax later.
-        net_invoice_refund = self.env.context.get("net_invoice_refund")
-        net_invoice_payment = self.env.context.get("net_invoice_payment")
-        if not net_invoice_refund or net_invoice_payment:
-            for move in moves:
-                if move.tax_cash_basis_origin_move_id.move_type == "in_invoice":
-                    move.mapped("line_ids").remove_move_reconcile()
-                    move.write({"state": "draft", "is_move_sent": False})
-        # --
         return moves
