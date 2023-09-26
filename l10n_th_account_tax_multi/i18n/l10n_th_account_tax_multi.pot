@@ -24,11 +24,6 @@ msgid "Based amount for the tax amount"
 msgstr ""
 
 #. module: l10n_th_account_tax_multi
-#: model:ir.model,name:l10n_th_account_tax_multi.model_account_move_line
-msgid "Journal Item"
-msgstr ""
-
-#. module: l10n_th_account_tax_multi
 #: code:addons/l10n_th_account_tax_multi/wizard/account_payment_register.py:0
 #, python-format
 msgid "No effective PIT rate for date %s"
