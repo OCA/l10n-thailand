@@ -3,7 +3,7 @@
         <field name="name">purchase.guarantee.type.tree.view</field>
         <field name="model">purchase.guarantee.type</field>
         <field name="arch" type="xml">
-            <tree string="Guarantee Type">
+            <tree>
                 <field name="name" />
                 <field name="is_create_invoice" />
             </tree>
