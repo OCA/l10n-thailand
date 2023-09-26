@@ -7,6 +7,6 @@ from odoo import fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
-    customer_tax_name = fields.Selection(
-        related="company_id.customer_tax_name", readonly=False
+    customer_tax_invoice_number = fields.Selection(
+        related="company_id.customer_tax_invoice_number", readonly=False
     )
