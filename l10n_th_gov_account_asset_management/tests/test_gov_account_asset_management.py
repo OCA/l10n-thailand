@@ -46,6 +46,8 @@ class TestGovAssetManagementThailand(
         # Create Purchase Order
         qty = 42.0
         purchase_order = self._create_purchase_order(qty, self.product_product)
+        # Add asset profile in purchase line, it should send to vendor bills
+        purchase_order.order_line.asset_profile_id = self.car5y.id
         purchase_order.button_confirm()
         self.assertEqual(purchase_order.state, "purchase")
         self.assertEqual(purchase_order.incoming_picking_count, 1)
@@ -81,8 +83,8 @@ class TestGovAssetManagementThailand(
             )
             invoice.action_post()  # Warn when quantity not equal to WA
         invoice_line.quantity = qty
-        # Add asset profile in invoice
-        invoice_line.asset_profile_id = self.car5y.id
+        # Asset from purchase
+        self.assertEqual(invoice_line.asset_profile_id, self.car5y)
         self.assertEqual(invoice.state, "draft")
         invoice.invoice_date = invoice.date
         invoice.action_post()
@@ -193,6 +195,7 @@ class TestGovAssetManagementThailand(
         asset = self.asset_model.create(
             {
                 "name": "test asset analytic",
+                "number": "test number",
                 "account_analytic_id": self.analytic1.id,
                 "analytic_tag_ids": [(4, self.analytic_tag1.id)],
                 "profile_id": self.car5y.id,
@@ -212,6 +215,42 @@ class TestGovAssetManagementThailand(
         # Test create move and check move line must accounting with analytic, tags all line
         move_id = lines[0].create_move()
         move = self.env["account.move"].browse(move_id)
+        self.assertEqual(move.ref, "test number")
         for line in move.line_ids:
             self.assertEqual(line.analytic_account_id, self.analytic1)
             self.assertEqual(line.analytic_tag_ids, self.analytic_tag1)
+
+    def test_04_asset_transfer_with_asset_number(self):
+        asset_auc = self.asset_model.create(
+            {
+                "name": "test asset1",
+                "profile_id": self.profile_auc.id,
+                "purchase_value": 1828,
+                "salvage_value": 1,
+                "date_start": "2019-07-07",
+                "method_time": "year",
+                "method": "linear-limit",
+                "method_number": 0,
+                "method_period": "year",
+                "prorata": True,
+                "days_calc": True,
+                "number": "test_asset_001",
+            }
+        )
+        self.assertEqual(asset_auc.display_name, "[test_asset_001] test asset1")
+        asset_auc.validate()
+        # Create Asset Transfer
+        transfer_form = Form(
+            self.asset_transfer_model.with_context(active_ids=asset_auc.ids)
+        )
+        transfer_wiz = transfer_form.save()
+        with transfer_form.to_asset_ids.new() as to_asset:
+            to_asset.asset_name = "Asset 1"
+            to_asset.asset_profile_id = self.car5y
+            to_asset.quantity = 1
+            to_asset.price_unit = 1828
+        transfer_form.save()
+        action = transfer_wiz.transfer()
+        self.assertEqual(asset_auc.state, "removed")
+        move = self.env["account.move"].browse(action["domain"][0][2])
+        self.assertEqual(move.ref, "test_asset_001")
