@@ -1,5 +1,6 @@
 # Copyright 2021 Ecosoft Co., Ltd. <http://ecosoft.co.th>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+
 import datetime
 
 from freezegun import freeze_time
@@ -10,30 +11,37 @@ from odoo.tests.common import Form, TransactionCase
 
 
 class TestWithholdingTaxPIT(TransactionCase):
+    @classmethod
     @freeze_time("2001-02-01")
-    def setUp(self):
-        super(TestWithholdingTaxPIT, self).setUp()
-        self.partner = self.env["res.partner"].create({"name": "Test Partner"})
-        self.product = self.env["product.product"].create(
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.account_wht = cls.env["account.withholding.tax"]
+        cls.partner = cls.env["res.partner"].create({"name": "Test Partner"})
+        cls.product = cls.env["product.product"].create(
             {"name": "Test", "standard_price": 500.0}
         )
-        self.RegisterPayment = self.env["account.payment.register"]
+        cls.RegisterPayment = cls.env["account.payment.register"]
         # Setup PIT withholding tax
-        self.account_pit = self.env["account.account"].create(
+        cls.account_pit = cls.env["account.account"].create(
             {
                 "code": "100",
                 "name": "Personal Income Tax",
-                "user_type_id": self.env.ref(
-                    "account.data_account_type_current_assets"
-                ).id,
+                "account_type": "asset_current",
                 "wht_account": True,
             }
         )
-        self.wht_pit = self.env["account.withholding.tax"].create(
+        cls.wht_pit = cls.account_wht.create(
             {
                 "name": "PIT",
-                "account_id": self.account_pit.id,
+                "account_id": cls.account_pit.id,
                 "is_pit": True,
+            }
+        )
+        cls.wht_1 = cls.account_wht.create(
+            {
+                "name": "Withholding Tax 1%",
+                "account_id": cls.account_pit.id,
+                "amount": 1,
             }
         )
 
@@ -134,8 +142,7 @@ class TestWithholdingTaxPIT(TransactionCase):
             form = Form(self.RegisterPayment.with_context(**res["context"]))
         # Create an effective PIT Rate, and try again.
         self.pit_rate = self._create_pit("2001")
-        with Form(self.RegisterPayment.with_context(**res["context"])) as f:
-            f.wht_tax_id = self.wht_pit  # Test refreshing wht_tax_id
+        f = Form(self.RegisterPayment.with_context(**res["context"]))
         wizard = f.save()
         wizard.action_create_payments()
         # PIT created but not PIT amount yet.
@@ -174,3 +181,17 @@ class TestWithholdingTaxPIT(TransactionCase):
         res = self.partner.action_view_pit_move_yearly_summary()
         moves = self.env[res["res_model"]].search(res["domain"])
         self.assertEqual(sum(moves.mapped("amount_wht")), 10)
+        # Test check withholding tax in partner
+        action = self.partner.button_wht_certs()
+        self.assertEqual(action["domain"][0][2], [])
+
+        # 4th invoice
+        data = [{"amount": 400000, "pit": True}]
+        self.invoice = self._create_invoice(data)
+        self.invoice.action_post()
+        res = self.invoice.action_register_payment()
+        with Form(self.RegisterPayment.with_context(**res["context"])) as f:
+            f.wht_tax_id = self.wht_pit
+        wizard = f.save()
+        self.assertEqual(wizard.writeoff_label, self.wht_pit.display_name)
+        res = wizard.action_create_payments()
