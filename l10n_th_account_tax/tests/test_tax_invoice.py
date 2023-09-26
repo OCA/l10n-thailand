@@ -1,26 +1,25 @@
 # Copyright 2019 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
-from odoo import fields
+
+from dateutil.relativedelta import relativedelta
+
+from odoo import Command, fields
 from odoo.exceptions import UserError
-from odoo.tests.common import Form, SingleTransactionCase
+from odoo.tests.common import Form, TransactionCase
 
 
-class TestTaxInvoice(SingleTransactionCase):
+class TestTaxInvoice(TransactionCase):
     @classmethod
     def setUpClass(cls):
-        super(TestTaxInvoice, cls).setUpClass()
+        super().setUpClass()
         Journal = cls.env["account.journal"]
         # Setup company to allow using tax cash basis
         cls.journal_undue = cls.env["account.journal"].create(
             {"name": "UndueVAT", "type": "general", "code": "UNDUE"}
         )
-        company = cls.env.ref("base.main_company")
-        company.write(
+        cls.company = cls.env.ref("base.main_company")
+        cls.company.write(
             {"tax_exigibility": True, "tax_cash_basis_journal_id": cls.journal_undue.id}
-        )
-        type_current_asset = cls.env.ref("account.data_account_type_current_assets")
-        type_current_liability = cls.env.ref(
-            "account.data_account_type_current_liabilities"
         )
         # Journals
         cls.journal_purchase = Journal.search([("type", "=", "purchase")])[0]
@@ -35,19 +34,27 @@ class TestTaxInvoice(SingleTransactionCase):
         )
         # Accounts
         cls.output_vat_acct = cls.env["account.account"].create(
-            {"name": "O7", "code": "O7", "user_type_id": type_current_liability.id}
+            {"name": "O7", "code": "O7", "account_type": "liability_current"}
         )
         cls.undue_output_vat_acct = cls.env["account.account"].create(
-            {"name": "DO7", "code": "DO7", "user_type_id": type_current_asset.id}
+            {"name": "DO7", "code": "DO7", "account_type": "asset_current"}
         )
         cls.input_vat_acct = cls.env["account.account"].create(
-            {"name": "V7", "code": "V7", "user_type_id": type_current_liability.id}
+            {"name": "V7", "code": "V7", "account_type": "liability_current"}
         )
         cls.input_zero_vat_acct = cls.env["account.account"].create(
-            {"name": "V0", "code": "V0", "user_type_id": type_current_liability.id}
+            {"name": "V0", "code": "V0", "account_type": "liability_current"}
         )
         cls.undue_input_vat_acct = cls.env["account.account"].create(
-            {"name": "DV7", "code": "DV7", "user_type_id": type_current_asset.id}
+            {"name": "DV7", "code": "DV7", "account_type": "asset_current"}
+        )
+        cls.undue_reconcile_input_vat_acct = cls.env["account.account"].create(
+            {
+                "name": "DV7 (Reconcile)",
+                "code": "DV7rec",
+                "account_type": "asset_current",
+                "reconcile": True,
+            }
         )
         # Tax Group
         cls.tax_group_undue_vat = cls.env["account.tax.group"].create(
@@ -167,6 +174,29 @@ class TestTaxInvoice(SingleTransactionCase):
                 "cash_basis_transition_account_id": cls.undue_input_vat_acct.id,
             }
         )
+        cls.undue_input_reconcile_vat = cls.env["account.tax"].create(
+            {
+                "name": "DV7 (reconcile)",
+                "type_tax_use": "purchase",
+                "amount_type": "percent",
+                "amount": 7.0,
+                "tax_group_id": cls.tax_group_undue_vat.id,
+                "tax_exigibility": "on_payment",
+                "invoice_repartition_line_ids": [
+                    (0, 0, {"factor_percent": 100.0, "repartition_type": "base"}),
+                    (
+                        0,
+                        0,
+                        {
+                            "factor_percent": 100.0,
+                            "repartition_type": "tax",
+                            "account_id": cls.input_vat_acct.id,
+                        },
+                    ),
+                ],
+                "cash_basis_transition_account_id": cls.undue_reconcile_input_vat_acct.id,
+            }
+        )
         cls.payment_term_immediate = cls.env["account.payment.term"].create(
             {"name": "", "line_ids": [(0, 0, {"value": "balance", "days": 15})]}
         )
@@ -190,7 +220,7 @@ class TestTaxInvoice(SingleTransactionCase):
                         {
                             "quantity": 1.0,
                             "account_id": cls.env["account.account"]
-                            .search([("user_type_id", "=", account_type.id)], limit=1)
+                            .search([("account_type", "=", account_type)], limit=1)
                             .id,
                             "name": "Advice",
                             "price_unit": 100.00,
@@ -207,7 +237,7 @@ class TestTaxInvoice(SingleTransactionCase):
             cls.env.ref("base.res_partner_12"),
             cls.journal_purchase,
             "in_invoice",
-            cls.env.ref("account.data_account_type_expenses"),
+            "expense",
             cls.input_vat,
         )
         cls.supplier_invoice_undue_vat = create_invoice(
@@ -215,7 +245,7 @@ class TestTaxInvoice(SingleTransactionCase):
             cls.env.ref("base.res_partner_12"),
             cls.journal_purchase,
             "in_invoice",
-            cls.env.ref("account.data_account_type_expenses"),
+            "expense",
             cls.undue_input_vat,
         )
         cls.supplier_invoice_undue_vat_partial = create_invoice(
@@ -223,7 +253,7 @@ class TestTaxInvoice(SingleTransactionCase):
             cls.env.ref("base.res_partner_12"),
             cls.journal_purchase,
             "in_invoice",
-            cls.env.ref("account.data_account_type_expenses"),
+            "expense",
             cls.undue_input_vat,
         )
         cls.supplier_refund_undue_vat = create_invoice(
@@ -231,15 +261,23 @@ class TestTaxInvoice(SingleTransactionCase):
             cls.env.ref("base.res_partner_12"),
             cls.journal_purchase,
             "in_refund",
-            cls.env.ref("account.data_account_type_expenses"),
+            "expense",
             cls.undue_input_vat,
+        )
+        cls.supplier_invoice_undue_vat_reconcile = create_invoice(
+            "Test Supplier Invoice UndueVAT (reconcile)",
+            cls.env.ref("base.res_partner_12"),
+            cls.journal_purchase,
+            "in_invoice",
+            "expense",
+            cls.undue_input_reconcile_vat,
         )
         cls.supplier_invoice_zero_vat = create_invoice(
             "Test Supplier Invoice VAT 0%",
             cls.env.ref("base.res_partner_12"),
             cls.journal_purchase,
             "in_invoice",
-            cls.env.ref("account.data_account_type_expenses"),
+            "expense",
             cls.input_zero_vat,
         )
 
@@ -249,7 +287,7 @@ class TestTaxInvoice(SingleTransactionCase):
             cls.env.ref("base.res_partner_10"),
             cls.journal_sale,
             "out_invoice",
-            cls.env.ref("account.data_account_type_revenue"),
+            "income",
             cls.output_vat,
         )
         cls.customer_invoice_vat_seq = cls.customer_invoice_vat.copy()
@@ -258,7 +296,7 @@ class TestTaxInvoice(SingleTransactionCase):
             cls.env.ref("base.res_partner_10"),
             cls.journal_sale,
             "out_invoice",
-            cls.env.ref("account.data_account_type_revenue"),
+            "income",
             cls.undue_output_vat,
         )
         cls.customer_invoice_undue_vat_seq = cls.customer_invoice_undue_vat.copy()
@@ -304,6 +342,10 @@ class TestTaxInvoice(SingleTransactionCase):
         res = payment_wiz.action_create_payments()
         payment = self.env["account.payment"].browse(res.get("res_id"))
         self.assertTrue(payment.tax_invoice_ids)
+        act_journal_entry = payment.button_open_journal_entry()
+        # Check button Journal Entry must have move_id and cash basis
+        payment_moves = payment.tax_invoice_move_ids + payment.move_id
+        self.assertEqual(act_journal_entry["domain"][0][2], payment_moves.ids)
         # Cash Basis created and state is draft
         bill_tax_cash_basis = (
             self.supplier_invoice_undue_vat.tax_cash_basis_created_move_ids
@@ -311,15 +353,21 @@ class TestTaxInvoice(SingleTransactionCase):
         self.assertEqual(len(bill_tax_cash_basis), 1)
         self.assertEqual(bill_tax_cash_basis.state, "draft")
         # Test reset payment, tax cash basis in vendor bill must create 1 reversal
-        # and reconciled
         payment.action_draft()
         self.assertEqual(payment.state, "draft")
+        # Check button Journal Entry must have only move_id
+        act_journal_entry = payment.button_open_journal_entry()
+        self.assertEqual(act_journal_entry["res_id"], payment.move_id.id)
+
         bill_tax_cash_basis = (
             self.supplier_invoice_undue_vat.tax_cash_basis_created_move_ids
         )
         self.assertEqual(len(bill_tax_cash_basis), 2)
         self.assertEqual(list(set(bill_tax_cash_basis.mapped("state"))), ["posted"])
-        # Manual Reconciled, it will create 1 tax cash basis and state is draft
+        self.assertFalse(
+            any(list(set(bill_tax_cash_basis.line_ids.mapped("reconciled"))))
+        )
+        # Manual matching, it will create 1 tax cash basis and state is draft
         payment.action_post()
         self.assertEqual(payment.state, "posted")
         payable_account = payment.move_id.partner_id.property_account_payable_id
@@ -346,6 +394,82 @@ class TestTaxInvoice(SingleTransactionCase):
         # Cash basis journal is now posted
         bill_tax_cash_basis = (
             self.supplier_invoice_undue_vat.tax_cash_basis_created_move_ids
+        )
+        self.assertEqual(len(bill_tax_cash_basis), 3)
+        self.assertEqual(list(set(bill_tax_cash_basis.mapped("state"))), ["posted"])
+        # Check the move_line_ids, from both Bank and Cash Basis journal
+        self.assertTrue(payment.move_id)
+        self.assertTrue(payment.tax_invoice_move_ids)
+        payment.action_draft()  # Unlink the relation
+        self.assertEqual(payment.move_id.state, "draft")
+        self.assertFalse(payment.tax_invoice_move_ids)
+
+    def test_supplier_invoice_undue_vat_reconcile(self):
+        """Register Payment from Vendor Invoice"""
+        # Do not allow user to fill in Tax Invoice/Date
+        tax_invoice = "SINV-10001"
+        tax_date = fields.Date.today()
+        self.supplier_invoice_undue_vat_reconcile.action_post()
+        action = self.supplier_invoice_undue_vat_reconcile.action_register_payment()
+        ctx = action.get("context")
+        self.assertFalse(
+            self.supplier_invoice_undue_vat_reconcile.tax_cash_basis_created_move_ids
+        )
+        # Make full payment from invoice
+        with Form(self.env["account.payment.register"].with_context(**ctx)) as f:
+            f.journal_id = self.journal_bank
+        payment_wiz = f.save()
+        res = payment_wiz.action_create_payments()
+        payment = self.env["account.payment"].browse(res.get("res_id"))
+        self.assertTrue(payment.tax_invoice_ids)
+        # Cash Basis created and state is draft
+        bill_tax_cash_basis = (
+            self.supplier_invoice_undue_vat_reconcile.tax_cash_basis_created_move_ids
+        )
+        self.assertEqual(len(bill_tax_cash_basis), 1)
+        self.assertEqual(bill_tax_cash_basis.state, "draft")
+        # Test reset payment, tax cash basis in vendor bill must create 1 reversal
+        # and reconciled
+        payment.action_draft()
+        self.assertEqual(payment.state, "draft")
+
+        bill_tax_cash_basis = (
+            self.supplier_invoice_undue_vat_reconcile.tax_cash_basis_created_move_ids
+        )
+        self.assertEqual(len(bill_tax_cash_basis), 2)
+        self.assertEqual(list(set(bill_tax_cash_basis.mapped("state"))), ["posted"])
+        self.assertTrue(
+            any(list(set(bill_tax_cash_basis.line_ids.mapped("reconciled"))))
+        )
+        # Manual matching, it will create 1 tax cash basis and state is draft
+        payment.action_post()
+        self.assertEqual(payment.state, "posted")
+        payable_account = payment.move_id.partner_id.property_account_payable_id
+        ml_payment = payment.move_id.line_ids.filtered(
+            lambda l: l.account_id == payable_account
+        )
+        self.supplier_invoice_undue_vat_reconcile.js_assign_outstanding_line(
+            ml_payment.id
+        )
+        bill_tax_cash_basis = (
+            self.supplier_invoice_undue_vat_reconcile.tax_cash_basis_created_move_ids
+        )
+        self.assertEqual(len(bill_tax_cash_basis), 3)
+        self.assertEqual(
+            len(list(set(bill_tax_cash_basis.mapped("state")))), 2
+        )  # state draft and posted
+        # Clear tax cash basis
+        with self.assertRaises(UserError) as e:
+            payment.clear_tax_cash_basis()
+        self.assertEqual(e.exception.args[0], "Please fill in tax invoice and tax date")
+        # Fill in tax invoice and clear undue vat
+        payment.tax_invoice_ids.write(
+            {"tax_invoice_number": tax_invoice, "tax_invoice_date": tax_date}
+        )
+        payment.clear_tax_cash_basis()
+        # Cash basis journal is now posted
+        bill_tax_cash_basis = (
+            self.supplier_invoice_undue_vat_reconcile.tax_cash_basis_created_move_ids
         )
         self.assertEqual(len(bill_tax_cash_basis), 3)
         self.assertEqual(list(set(bill_tax_cash_basis.mapped("state"))), ["posted"])
@@ -389,7 +513,7 @@ class TestTaxInvoice(SingleTransactionCase):
         self.assertEqual(len(payment.tax_invoice_ids), 0)
 
     def test_customer_invoice_vat(self):
-        """Supplier Invoice with VAT,
+        """Customer Invoice with VAT,
         system auto fill in Tax Invoice/Date on Invoice"""
         self.customer_invoice_vat.action_post()
         tax_invoices = self.customer_invoice_vat.tax_invoice_ids
@@ -424,8 +548,33 @@ class TestTaxInvoice(SingleTransactionCase):
         self.assertFalse(payment.tax_invoice_move_ids)
 
     def test_customer_invoice_vat_sequence(self):
-        """Supplier Invoice with VAT,
+        """Customer Invoice with VAT,
         system auto fill in Tax Invoice using sequence"""
+        self.assertEqual(
+            self.customer_invoice_vat_seq.company_id.customer_tax_invoice_number,
+            "document",
+        )
+        cust_inv_vat_doc = self.customer_invoice_vat_seq.copy()
+        cust_inv_vat_doc.action_post()
+        tax_invoices = cust_inv_vat_doc.tax_invoice_ids
+        tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
+        # tax invoice number will auto fill following document
+        # This is not undue vat, so document there is value same as invoice
+        self.assertEqual(tax_invoice_number, cust_inv_vat_doc.name)
+
+        # Set customer tax invoice number = 'invoice'
+        self.company.customer_tax_invoice_number = "invoice"
+        self.assertEqual(
+            self.customer_invoice_vat_seq.company_id.customer_tax_invoice_number,
+            "invoice",
+        )
+        cust_inv_vat_doc_sequence_inv = self.customer_invoice_vat_seq.copy()
+        cust_inv_vat_doc_sequence_inv.action_post()
+        tax_invoices = cust_inv_vat_doc_sequence_inv.tax_invoice_ids
+        tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
+        # tax invoice number will auto fill following invoice
+        self.assertEqual(tax_invoice_number, cust_inv_vat_doc_sequence_inv.name)
+
         # Assign opptional sequence to vat
         self.cust_vat_sequence.prefix = "CTX"
         self.cust_vat_sequence.number_next_actual = 1  # CTX0001
@@ -438,10 +587,52 @@ class TestTaxInvoice(SingleTransactionCase):
     def test_customer_invoice_undue_vat_sequence(self):
         """Register Payment from Customer Invoice
         system auto fill in Tax Invoice using sequence"""
+        self.assertEqual(
+            self.customer_invoice_undue_vat_seq.company_id.customer_tax_invoice_number,
+            "document",
+        )
+        cust_undue_doc = self.customer_invoice_undue_vat_seq.copy()
+        cust_undue_doc.action_post()
+        # Make full payment from invoice
+        action = cust_undue_doc.action_register_payment()
+        ctx = action.get("context")
+        with Form(self.env["account.payment.register"].with_context(**ctx)) as f:
+            f.journal_id = self.journal_bank
+        payment_wiz = f.save()
+        res = payment_wiz.action_create_payments()
+        payment = self.env["account.payment"].browse(res.get("res_id"))
+        self.assertTrue(payment.tax_invoice_ids)
+        tax_invoices = payment.tax_invoice_ids
+        tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
+        self.assertEqual(tax_invoice_number, payment.name)
+
+        # Set customer tax invoice number = 'invoice'
+        self.company.customer_tax_invoice_number = "invoice"
+        self.assertEqual(
+            self.customer_invoice_undue_vat_seq.company_id.customer_tax_invoice_number,
+            "invoice",
+        )
+        cust_undue_doc_seq_invoice = self.customer_invoice_undue_vat_seq.copy()
+        cust_undue_doc_seq_invoice.action_post()
+        # Make full payment from invoice
+        action = cust_undue_doc_seq_invoice.action_register_payment()
+        ctx = action.get("context")
+        with Form(self.env["account.payment.register"].with_context(**ctx)) as f:
+            f.journal_id = self.journal_bank
+        payment_wiz = f.save()
+        res = payment_wiz.action_create_payments()
+        payment = self.env["account.payment"].browse(res.get("res_id"))
+        self.assertTrue(payment.tax_invoice_ids)
+        tax_invoices = payment.tax_invoice_ids
+        tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
+        self.assertEqual(tax_invoice_number, cust_undue_doc_seq_invoice.name)
+
         # Assign opptional sequence to undue vat
         self.cust_vat_sequence.prefix = "CTX"
         self.cust_vat_sequence.number_next_actual = 2  # CTX0002
         self.undue_output_vat.taxinv_sequence_id = self.cust_vat_sequence
+        self.assertEqual(self.undue_output_vat.sequence_number_next, 2)
+        self.undue_output_vat.sequence_number_next = 5  # Change sequence number to 5
         # Do not allow user to fill in Tax Invoice/Date
         self.customer_invoice_undue_vat_seq.action_post()
         # Make full payment from invoice
@@ -459,7 +650,7 @@ class TestTaxInvoice(SingleTransactionCase):
         tax_invoices = payment.tax_invoice_ids
         self.assertEqual(tax_invoices.mapped("move_id").state, "posted")
         tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
-        self.assertEqual(tax_invoice_number, "CTX0002")
+        self.assertEqual(tax_invoice_number, "CTX0005")
         # Check the move_line_ids, from both Bank and Cash Basis journal
         self.assertTrue(payment.move_id)
         self.assertTrue(payment.tax_invoice_move_ids)
@@ -517,30 +708,29 @@ class TestTaxInvoice(SingleTransactionCase):
                 "include_base_amount": False,
             }
         )
-        # self.account = self.company_data['default_account_revenue']
 
-        move_form = Form(
-            self.env["account.move"].with_context(default_move_type="entry")
+        move = self.env["account.move"].create(
+            {
+                "move_type": "entry",
+                "line_ids": [
+                    Command.create(
+                        {
+                            "name": "debit_line_1",
+                            "account_id": self.input_vat_acct.id,
+                            "tax_ids": [Command.set(self.included_percent_tax.ids)],
+                            "balance": 1000.0,  # debit
+                        }
+                    ),
+                    Command.create(
+                        {
+                            "name": "credit_line_1",
+                            "account_id": self.input_vat_acct.id,
+                            "balance": -1200.0,  # credit
+                        },
+                    ),
+                ],
+            }
         )
-
-        # Create a new account.move.line with debit amount.
-        with move_form.line_ids.new() as debit_line:
-            debit_line.name = "debit_line_1"
-            debit_line.account_id = self.input_vat_acct
-            debit_line.debit = 1000
-            debit_line.tax_ids.clear()
-            debit_line.tax_ids.add(self.included_percent_tax)
-
-            self.assertTrue(debit_line.recompute_tax_line)
-
-        # Create a third account.move.line with credit amount.
-        with move_form.line_ids.new() as credit_line:
-            credit_line.name = "credit_line_1"
-            credit_line.account_id = self.input_vat_acct
-            credit_line.credit = 1200
-
-        move = move_form.save()
-
         self.assertRecordValues(
             move.line_ids,
             [
@@ -552,18 +742,18 @@ class TestTaxInvoice(SingleTransactionCase):
                     "tax_line_id": False,
                 },
                 {
-                    "name": "included_tax_line",
-                    "debit": 200.0,
-                    "credit": 0.0,
-                    "tax_ids": [],
-                    "tax_line_id": self.included_percent_tax.id,
-                },
-                {
                     "name": "credit_line_1",
                     "debit": 0.0,
                     "credit": 1200.0,
                     "tax_ids": [],
                     "tax_line_id": False,
+                },
+                {
+                    "name": "included_tax_line",
+                    "debit": 200.0,
+                    "credit": 0.0,
+                    "tax_ids": [],
+                    "tax_line_id": self.included_percent_tax.id,
                 },
             ],
         )
@@ -576,3 +766,63 @@ class TestTaxInvoice(SingleTransactionCase):
         self.assertEqual(len(invoice.line_ids), 3)
         self.assertTrue(line_zero)
         self.assertEqual(len(line_zero), 1)
+
+    def test_journal_entry_manual_tax(self):
+        """Case manual tax in journal entry"""
+        move = self.env["account.move"].create(
+            {
+                "move_type": "entry",
+                "line_ids": [
+                    Command.create(
+                        {
+                            "name": "debit_line_1",
+                            "account_id": self.input_vat_acct.id,
+                            "balance": 1000.0,  # debit
+                        }
+                    ),
+                    Command.create(
+                        {
+                            "name": "tax_line_1",
+                            "account_id": self.input_vat_acct.id,
+                            "balance": 200.0,  # debit
+                        },
+                    ),
+                    Command.create(
+                        {
+                            "name": "credit_line_1",
+                            "account_id": self.input_vat_acct.id,
+                            "balance": -1200.0,  # credit
+                        },
+                    ),
+                ],
+            }
+        )
+        self.assertFalse(move.tax_invoice_ids)
+        # Add tax manual in line tax
+        line_tax = move.line_ids.filtered(lambda l: l.balance == 200.0)
+        line_tax.manual_tax_invoice = True
+        self.assertTrue(move.tax_invoice_ids)
+        self.assertEqual(move.tax_invoice_ids.tax_base_amount, 0.0)
+        self.assertEqual(move.tax_invoice_ids.balance, 200.0)
+        today = fields.Date.today()
+        move.tax_invoice_ids.tax_invoice_number = "TEST_TAX001"
+        move.tax_invoice_ids.tax_invoice_date = today
+        # Check tax report late 2 months
+        previous_2_month = today - relativedelta(months=2)
+        with Form(move.tax_invoice_ids) as tax_inv:
+            tax_inv.tax_invoice_date = previous_2_month
+        tax_inv.save()
+        self.assertEqual(move.tax_invoice_ids.report_late_mo, "2")
+        # Check tax report late > 6 months
+        previous_10_month = today - relativedelta(months=10)
+        with Form(move.tax_invoice_ids) as tax_inv:
+            tax_inv.tax_invoice_date = previous_10_month
+        tax_inv.save()
+        self.assertEqual(move.tax_invoice_ids.report_late_mo, "0")
+        # Check tax report late 0 month
+        with Form(move.tax_invoice_ids) as tax_inv:
+            tax_inv.tax_invoice_date = today
+        tax_inv.save()
+        self.assertEqual(move.tax_invoice_ids.report_late_mo, "0")
+        line_tax.manual_tax_invoice = False
+        self.assertFalse(move.tax_invoice_ids)

@@ -43,8 +43,9 @@ class ResPartner(models.Model):
 
     def button_wht_certs(self):
         self.ensure_one()
-        action = self.env.ref("l10n_th_account_tax.action_withholding_tax_cert_menu")
-        result = action.sudo().read()[0]
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "l10n_th_account_tax.action_withholding_tax_cert_menu"
+        )
         certs = self.env["withholding.tax.cert"].search([("partner_id", "=", self.id)])
-        result["domain"] = [("id", "in", certs.ids)]
-        return result
+        action["domain"] = [("id", "in", certs.ids)]
+        return action

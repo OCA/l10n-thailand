@@ -58,10 +58,11 @@ class AccountPayment(models.Model):
 
     def button_wht_certs(self):
         self.ensure_one()
-        action = self.env.ref("l10n_th_account_tax.action_withholding_tax_cert_menu")
-        result = action.sudo().read()[0]
-        result["domain"] = [("id", "in", self.wht_cert_ids.ids)]
-        return result
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "l10n_th_account_tax.action_withholding_tax_cert_menu"
+        )
+        action["domain"] = [("id", "in", self.wht_cert_ids.ids)]
+        return action
 
     def clear_tax_cash_basis(self):
         for payment in self:
@@ -73,8 +74,9 @@ class AccountPayment(models.Model):
                     raise UserError(_("Please fill in tax invoice and tax date"))
             payment.write({"to_clear_tax": False})
             moves = payment.tax_invoice_ids.mapped("move_id")
-            for move in moves.filtered(lambda l: l.state == "draft"):
-                move.ensure_one()
+            for move in moves:
+                if move.state != "draft":
+                    continue
                 move.action_post()
                 # Reconcile Case Basis
                 line = move.line_ids.filtered(
@@ -94,71 +96,21 @@ class AccountPayment(models.Model):
         for payment in self:
             payment.tax_invoice_move_ids = payment.tax_invoice_ids.mapped("move_id")
 
-    def button_journal_entries(self):
-        moves = self.tax_invoice_move_ids + self.move_id
-        return {
-            "name": _("Journal Entries"),
-            "view_mode": "tree,form",
-            "res_model": "account.move",
-            "view_id": False,
-            "type": "ir.actions.act_window",
-            "domain": [("id", "in", moves.ids)],
-        }
+    def button_open_journal_entry(self):
+        """Add tax cash basis when open journal entry"""
+        self.ensure_one()
+        if self.tax_invoice_move_ids:
+            moves = self.tax_invoice_move_ids + self.move_id
+            return {
+                "name": _("Journal Entry"),
+                "type": "ir.actions.act_window",
+                "res_model": "account.move",
+                "context": {"create": False},
+                "view_mode": "tree,form",
+                "domain": [("id", "in", moves.ids)],
+            }
+        return super().button_open_journal_entry()
 
     def create_wht_cert(self):
         self.ensure_one()
         self.move_id.create_wht_cert()
-
-    def _prepare_move_line_default_vals(self, write_off_line_vals=None):
-        """
-        Assign some data from write_off_line dict, to matched line_list
-        But because, there are possibility of same ['name', 'amount'],
-        so remove one matched line and return the reduced list
-        """
-        line_list = super()._prepare_move_line_default_vals(write_off_line_vals)
-        if isinstance(write_off_line_vals, dict) and write_off_line_vals:  # single
-            matched_line, line_list = self._update_line_vals_list(
-                line_list, write_off_line_vals
-            )
-            if matched_line:
-                line_list.append(matched_line)
-        elif isinstance(write_off_line_vals, list) and write_off_line_vals:  # multi
-            matched_lines = []
-            for write_off_line in write_off_line_vals:
-                matched_line, line_list = self._update_line_vals_list(
-                    line_list, write_off_line
-                )
-                if matched_line:
-                    matched_lines.append(matched_line)
-            line_list += matched_lines
-        return line_list
-
-    def _update_line_vals_list(self, line_list, write_off_line):
-        matched_line = False
-        reduced_line_list = []
-        for line in line_list:
-            # Find the matched line using account_id, label and amount.
-            if (
-                not matched_line
-                and line["name"] == write_off_line["name"]
-                and line["account_id"] == write_off_line["account_id"]
-                and abs(line["amount_currency"]) == abs(write_off_line["amount"])
-            ):
-                # partner
-                if write_off_line.get("partner_id"):
-                    line["partner_id"] = write_off_line["partner_id"]
-                # wht
-                if write_off_line.get("wht_tax_id"):
-                    wht_amount_base_company = self.currency_id._convert(
-                        write_off_line["wht_amount_base"],
-                        self.company_id.currency_id,
-                        self.company_id,
-                        self.date,
-                    )
-                    line["tax_base_amount"] = wht_amount_base_company
-                    line["wht_tax_id"] = write_off_line["wht_tax_id"]
-                # Return matched line
-                matched_line = line
-            else:
-                reduced_line_list.append(line)
-        return (matched_line, reduced_line_list)

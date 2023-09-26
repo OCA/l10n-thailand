@@ -34,11 +34,10 @@ class AccountTax(models.Model):
     )
     def _compute_seq_number_next(self):
         for tax in self:
+            tax.sequence_number_next = 1
             if tax.taxinv_sequence_id:
                 sequence = tax.taxinv_sequence_id._get_current_sequence()
                 tax.sequence_number_next = sequence.number_next_actual
-            else:
-                tax.sequence_number_next = 1
 
     def _inverse_seq_number_next(self):
         for tax in self:

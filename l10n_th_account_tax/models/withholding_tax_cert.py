@@ -190,8 +190,7 @@ class WithholdingTaxCert(models.Model):
             rec.date = rec.payment_id.date or rec.move_id.date or rec.date
 
     def action_draft(self):
-        self.write({"state": "draft"})
-        return True
+        return self.write({"state": "draft"})
 
     def action_done(self):
         for rec in self:
@@ -260,6 +259,8 @@ class WithholdingTaxCertLine(models.Model):
     @api.onchange("wht_cert_income_type")
     def _onchange_wht_cert_income_type(self):
         WHT_CODE_INCOME = self.env["withholding.tax.code.income"]
+        self.wht_cert_income_desc = False
+        self.wht_cert_income_code = False
         if self.wht_cert_income_type:
             select_dict = dict(WHT_CERT_INCOME_TYPE)
             self.wht_cert_income_desc = select_dict[self.wht_cert_income_type]
@@ -271,9 +272,6 @@ class WithholdingTaxCertLine(models.Model):
                 ]
             )
             self.wht_cert_income_code = income_code or False
-        else:
-            self.wht_cert_income_desc = False
-            self.wht_cert_income_code = False
 
 
 class WithholdingTaxCodeIncome(models.Model):

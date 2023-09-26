@@ -7,12 +7,12 @@ from odoo import fields, models
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    customer_tax_name = fields.Selection(
+    customer_tax_invoice_number = fields.Selection(
         [
-            ("payment", "Payment"),
-            ("invoice", "Invoice"),
+            ("document", "Document Number"),
+            ("invoice", "Invoice Number"),
         ],
-        default="payment",
-        string="Customer Tax Invoices Number",
-        help="If checked, wht cert form will show layout pre-print",
+        default="document",
+        help="""It default running tax number by document
+        when user not select 'Tax Invoice Sequence' in taxes""",
     )

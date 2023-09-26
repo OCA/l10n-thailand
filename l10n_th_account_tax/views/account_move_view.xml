@@ -156,17 +156,6 @@
                         </tree>
                     </field>
                 </page>
-                <page
-                    id="cash_basis_move"
-                    string="Tax Cash Basis Moves"
-                    attrs="{'invisible': [('tax_cash_basis_created_move_ids', '=', [])]}"
-                >
-                    <field
-                        name="tax_cash_basis_created_move_ids"
-                        nolabel="1"
-                        context="{'force_remove_tax_invoice': True}"
-                    />
-                </page>
             </page>
         </field>
     </record>
