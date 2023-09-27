@@ -66,6 +66,22 @@ class BankPaymentExportLine(models.Model):
         )
     ]
 
+    @api.constrains("payment_id")
+    def _check_payment_id(self):
+        self.env.cr.execute(
+            """
+            SELECT id
+            FROM bank_payment_export_line
+            WHERE payment_id = %s
+                AND state NOT IN ('cancel', 'reject')
+            """,
+            ([self.payment_id.id])
+        )
+        res = self.env.cr.dictfetchall()
+        if res:
+            raise UserError(_("Bank payment export already created in state draft.\nPlease check Payment again."))
+
+
     @api.depends("payment_id")
     def _compute_payment_default(self):
         for rec in self:
