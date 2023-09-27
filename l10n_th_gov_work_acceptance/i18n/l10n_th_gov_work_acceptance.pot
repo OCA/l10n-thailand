@@ -1,0 +1,312 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_gov_work_acceptance
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_th_gov_work_acceptance
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_work_acceptance.view_work_acceptance_form_tier_validation
+msgid ""
+"<i class=\"fa fa-info-circle\"/>\n"
+"                        This Record needs to be\n"
+"                        validated."
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_work_acceptance.view_work_acceptance_form_tier_validation
+msgid ""
+"<i class=\"fa fa-thumbs-down\"/>\n"
+"                        Operation has been\n"
+"                        <b>rejected</b>\n"
+"                        ."
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_work_acceptance.view_work_acceptance_form_tier_validation
+msgid ""
+"<i class=\"fa fa-thumbs-up\"/>\n"
+"                        Operation has been\n"
+"                        <b>validated</b>\n"
+"                        !"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_work_acceptance.view_work_acceptance_form_tier_validation
+msgid "Accept"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields.selection,name:l10n_th_gov_work_acceptance.selection__work_acceptance_committee__status__accept
+msgid "Accepted"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_work_acceptance.view_work_acceptance_search
+msgid "All Committee WA"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields.selection,name:l10n_th_gov_work_acceptance.selection__work_acceptance_committee__approve_role__chairman
+msgid "Chairman"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields.selection,name:l10n_th_gov_work_acceptance.selection__work_acceptance_committee__approve_role__committee
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_work_acceptance.view_work_acceptance_form
+msgid "Committee"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance_committee__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance_committee__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance_committee__department_id
+msgid "Department"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_tier_validation__display_name
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance__display_name
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance_committee__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance_committee__employee_id
+msgid "Employee"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance_committee__name
+msgid "Employee Name"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_work_acceptance.view_work_acceptance_form_evaluation
+msgid "Evaluation"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.actions.act_window,name:l10n_th_gov_work_acceptance.action_view_wa_evaluation_result
+msgid "Evaluation Results"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_purchase_order__id
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_tier_validation__id
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance__id
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance_committee__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields,help:l10n_th_gov_work_acceptance.field_purchase_order__wa_tier_validation
+#: model:ir.model.fields,help:l10n_th_gov_work_acceptance.field_work_acceptance__wa_tier_validation
+msgid ""
+"If checked, WA created will be approved by committee by tier valiation.Each committee will be notified (by email or inbox) to approve WA.\n"
+"If not checked, WA will be approved by paper outside Odoo, and the result of WA will be filled in by procurement officer"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_purchase_order____last_update
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_tier_validation____last_update
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance____last_update
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance_committee____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance_committee__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance_committee__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_work_acceptance.view_work_acceptance_form
+msgid "Name"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields.selection,name:l10n_th_gov_work_acceptance.selection__work_acceptance_committee__status__not_accept
+msgid "No Accepted"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_work_acceptance.view_work_acceptance_search
+msgid "None Committee WA"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_work_acceptance.view_work_acceptance_form_tier_validation
+msgid "Not Accept"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance_committee__note
+msgid "Note"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields.selection,name:l10n_th_gov_work_acceptance.selection__work_acceptance_committee__status__other
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_work_acceptance.view_work_acceptance_form_tier_validation
+msgid "Other"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_purchase_order__wa_tier_validation
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance__wa_tier_validation
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_work_acceptance.view_work_acceptance_search
+msgid "Paperless WA"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_work_acceptance.view_work_acceptance_search
+msgid "Partial Committee WA"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance__completeness
+msgid "Progress"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model,name:l10n_th_gov_work_acceptance.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_work_acceptance.view_work_acceptance_form_tier_validation
+msgid "Request Validation"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_work_acceptance.view_work_acceptance_form_tier_validation
+msgid "Restart Validation"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance_committee__approve_role
+msgid "Role"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance_committee__status
+msgid "Status"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.constraint,message:l10n_th_gov_work_acceptance.constraint_work_acceptance_committee_employee_wa_uniq
+msgid "The employee must be unique per work acceptance !"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model,name:l10n_th_gov_work_acceptance.model_tier_validation
+msgid "Tier Validation (abstract)"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_work_acceptance.view_work_acceptance_form
+msgid "Timestamp"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:tier.definition,name:l10n_th_gov_work_acceptance.wa_tier_001
+msgid "WA Committee #1"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:tier.definition,name:l10n_th_gov_work_acceptance.wa_tier_002
+msgid "WA Committee #2"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:tier.definition,name:l10n_th_gov_work_acceptance.wa_tier_003
+msgid "WA Committee #3"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:tier.definition,name:l10n_th_gov_work_acceptance.wa_tier_004
+msgid "WA Committee #4"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:tier.definition,name:l10n_th_gov_work_acceptance.wa_tier_005
+msgid "WA Committee #5"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:tier.definition,name:l10n_th_gov_work_acceptance.wa_tier_006
+msgid "WA Committee #6"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:tier.definition,name:l10n_th_gov_work_acceptance.wa_tier_007
+msgid "WA Committee #7"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:tier.definition,name:l10n_th_gov_work_acceptance.wa_tier_008
+msgid "WA Committee #8"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:tier.definition,name:l10n_th_gov_work_acceptance.wa_tier_009
+msgid "WA Committee #9"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.actions.server,name:l10n_th_gov_work_acceptance.ir_server_action_wa_committee_approve
+msgid "WA: Committee Approved"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.actions.server,name:l10n_th_gov_work_acceptance.ir_server_action_wa_committee_reject
+msgid "WA: Committee Rejected"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model,name:l10n_th_gov_work_acceptance.model_work_acceptance
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance_committee__wa_id
+msgid "Work Acceptance"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model,name:l10n_th_gov_work_acceptance.model_work_acceptance_committee
+msgid "Work Acceptance Committee"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance__work_acceptance_committee_ids
+msgid "Work Acceptance Committees"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance_committee__email
+msgid "Work Email"
+msgstr ""
+
+#. module: l10n_th_gov_work_acceptance
+#: model:ir.model.fields,field_description:l10n_th_gov_work_acceptance.field_work_acceptance_committee__phone
+msgid "Work Phone"
+msgstr ""

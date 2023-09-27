@@ -1,0 +1,18 @@
+<odoo noupdate="1">
+    <record id="procurement_specific" model="procurement.method">
+        <field name="name">เฉพาะเจาะจง</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="procurement_bidding" model="procurement.method">
+        <field name="name">E-bidding</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="procurement_select" model="procurement.method">
+        <field name="name">คัดเลือก</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="procurement_general" model="procurement.method">
+        <field name="name">ประกาศเชิญชวนทั่วไป</field>
+        <field name="sequence">40</field>
+    </record>
+</odoo>

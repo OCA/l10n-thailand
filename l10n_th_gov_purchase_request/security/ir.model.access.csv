@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_procurement_type_user,procurement.type user,model_procurement_type,purchase.group_purchase_user,1,0,0,0
+access_procurement_type_manager,procurement.type manager,model_procurement_type,purchase.group_purchase_manager,1,1,1,1
+access_procurement_type_pr_user,procurement.type pr user,model_procurement_type,purchase_request.group_purchase_request_user,1,0,0,0
+access_procurement_method_user,procurement.method user,model_procurement_method,purchase.group_purchase_user,1,0,0,0
+access_procurement_method_manager,procurement.method manager,model_procurement_method,purchase.group_purchase_manager,1,1,1,1
+access_procurement_method_pr_user,procurement.method pr user,model_procurement_method,purchase_request.group_purchase_request_user,1,0,0,0
+access_purchase_type_user,purchase.type user,model_purchase_type,purchase.group_purchase_user,1,0,0,0
+access_purchase_type_manager,purchase.type manager,model_purchase_type,purchase.group_purchase_manager,1,1,1,1
+access_purchase_type_pr_user,purchase.type pr user,model_purchase_type,purchase_request.group_purchase_request_user,1,0,0,0
+access_procurement_committee,procurement.committee,model_procurement_committee,purchase_request.group_purchase_request_user,1,1,1,1
