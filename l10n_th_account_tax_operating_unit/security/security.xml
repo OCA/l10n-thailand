@@ -17,7 +17,7 @@
         <field
             name="domain_force"
         >['|',('operating_unit_id','=',False),('operating_unit_id','in', user.operating_unit_ids.ids)]</field>
-        <field name="name">Withholding Tax Certs from allowed operating units</field>
+        <field name="name">Withholding Tax Certificates from allowed operating units</field>
         <field name="global" eval="True" />
         <field eval="0" name="perm_unlink" />
         <field eval="0" name="perm_write" />
