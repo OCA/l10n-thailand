@@ -294,7 +294,9 @@ class TestTaxInvoice(SingleTransactionCase):
         self.supplier_invoice_undue_vat.action_post()
         action = self.supplier_invoice_undue_vat.action_register_payment()
         ctx = action.get("context")
-
+        self.assertFalse(
+            self.supplier_invoice_undue_vat.tax_cash_basis_created_move_ids
+        )
         # Make full payment from invoice
         with Form(self.env["account.payment.register"].with_context(**ctx)) as f:
             f.journal_id = self.journal_bank
@@ -302,6 +304,36 @@ class TestTaxInvoice(SingleTransactionCase):
         res = payment_wiz.action_create_payments()
         payment = self.env["account.payment"].browse(res.get("res_id"))
         self.assertTrue(payment.tax_invoice_ids)
+        # Cash Basis created and state is draft
+        bill_tax_cash_basis = (
+            self.supplier_invoice_undue_vat.tax_cash_basis_created_move_ids
+        )
+        self.assertEqual(len(bill_tax_cash_basis), 1)
+        self.assertEqual(bill_tax_cash_basis.state, "draft")
+        # Test reset payment, tax cash basis in vendor bill must create 1 reversal
+        # and reconciled
+        payment.action_draft()
+        self.assertEqual(payment.state, "draft")
+        bill_tax_cash_basis = (
+            self.supplier_invoice_undue_vat.tax_cash_basis_created_move_ids
+        )
+        self.assertEqual(len(bill_tax_cash_basis), 2)
+        self.assertEqual(list(set(bill_tax_cash_basis.mapped("state"))), ["posted"])
+        # Manual Reconciled, it will create 1 tax cash basis and state is draft
+        payment.action_post()
+        self.assertEqual(payment.state, "posted")
+        payable_account = payment.move_id.partner_id.property_account_payable_id
+        ml_payment = payment.move_id.line_ids.filtered(
+            lambda l: l.account_id == payable_account
+        )
+        self.supplier_invoice_undue_vat.js_assign_outstanding_line(ml_payment.id)
+        bill_tax_cash_basis = (
+            self.supplier_invoice_undue_vat.tax_cash_basis_created_move_ids
+        )
+        self.assertEqual(len(bill_tax_cash_basis), 3)
+        self.assertEqual(
+            len(list(set(bill_tax_cash_basis.mapped("state")))), 2
+        )  # state draft and posted
         # Clear tax cash basis
         with self.assertRaises(UserError) as e:
             payment.clear_tax_cash_basis()
@@ -312,7 +344,11 @@ class TestTaxInvoice(SingleTransactionCase):
         )
         payment.clear_tax_cash_basis()
         # Cash basis journal is now posted
-        self.assertEqual(payment.tax_invoice_ids.mapped("move_id").state, "posted")
+        bill_tax_cash_basis = (
+            self.supplier_invoice_undue_vat.tax_cash_basis_created_move_ids
+        )
+        self.assertEqual(len(bill_tax_cash_basis), 3)
+        self.assertEqual(list(set(bill_tax_cash_basis.mapped("state"))), ["posted"])
         # Check the move_line_ids, from both Bank and Cash Basis journal
         self.assertTrue(payment.move_id)
         self.assertTrue(payment.tax_invoice_move_ids)

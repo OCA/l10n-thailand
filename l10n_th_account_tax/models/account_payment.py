@@ -78,7 +78,8 @@ class AccountPayment(models.Model):
                 move.action_post()
                 # Reconcile Case Basis
                 line = move.line_ids.filtered(
-                    lambda l: l.id != payment.tax_invoice_ids.move_line_id.id
+                    lambda l: l.id
+                    not in payment.tax_invoice_ids.mapped("move_line_id").ids
                 )
                 if line.account_id.reconcile:
                     origin_ml = move.tax_cash_basis_origin_move_id.line_ids
