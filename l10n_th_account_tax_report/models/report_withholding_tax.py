@@ -250,8 +250,11 @@ class WithHoldingTaxReport(models.TransientModel):
     def _compute_results(self):
         self.ensure_one()
         domain = self._get_domain_wht()
-        self.results = self.env["withholding.tax.cert.line"].sudo().search(domain).sorted(
-            lambda l: (l.cert_id.date, l.cert_id)
+        self.results = (
+            self.env["withholding.tax.cert.line"]
+            .sudo()
+            .search(domain)
+            .sorted(lambda l: (l.cert_id.date, l.cert_id))
         )
 
     def _convert_result_to_dict(self, results):
