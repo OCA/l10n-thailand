@@ -340,6 +340,9 @@ class AccountMove(models.Model):
         return result
 
     def js_assign_outstanding_line(self, line_id):
+        move_line = self.env["account.move.line"].browse(line_id)
+        if move_line.payment_id:
+            self = self.with_context(net_invoice_payment=True)
         self = self.with_context(net_invoice_refund=True)
         return super().js_assign_outstanding_line(line_id)
 
@@ -364,6 +367,20 @@ class AccountMove(models.Model):
                 ):
                     if tax_invoice.payment_id:  # Defer posting for payment
                         tax_invoice.payment_id.write({"to_clear_tax": True})
+                        # Auto post tax cash basis when reset to draft
+                        if tax_invoice.move_id.reversed_entry_id:
+                            moves = (
+                                tax_invoice.move_id
+                                + tax_invoice.move_id.reversed_entry_id
+                            )
+                            tax_invoice.move_id.reversed_entry_id.write(
+                                {"state": "posted"}
+                            )
+                            line_reconcile = moves.mapped("line_ids").filtered(
+                                lambda l: l.account_id != tax_invoice.account_id
+                                and l.reconciled
+                            )
+                            line_reconcile.reconcile()
                         continue
                     elif self.env.context.get("net_invoice_refund"):
                         continue
