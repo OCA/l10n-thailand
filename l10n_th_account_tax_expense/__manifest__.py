@@ -3,7 +3,7 @@
 
 {
     "name": "Thai Localization - Expense Tax",
-    "version": "15.0.1.1.2",
+    "version": "15.0.1.1.3",
     "author": "Ecosoft, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-thailand",
