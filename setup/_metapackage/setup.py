@@ -8,6 +8,7 @@ setuptools.setup(
     description="Meta package for oca-l10n-thailand Odoo addons",
     version=version,
     install_requires=[
+        'odoo-addon-l10n_th_amount_to_text>=16.0dev,<16.1dev',
         'odoo-addon-l10n_th_fonts>=16.0dev,<16.1dev',
     ],
     classifiers=[
