@@ -16,7 +16,7 @@ class Currency(models.Model):
 
     def _convert_currency_name_hook(self, label):
         dict_currency_name = self._get_currency_name_hook()
-        return dict_currency_name[label]
+        return dict_currency_name.get(label, "")
 
     def amount_to_text(self, amount):
         self.ensure_one()
@@ -25,10 +25,8 @@ class Currency(models.Model):
             return super().amount_to_text(amount)
 
         def _num2words(number, lang):
-            try:
-                return num2words(number, lang=lang).title()
-            except NotImplementedError:
-                return num2words(number, lang="en").title()
+            # lang is 'th' only
+            return num2words(number, lang=lang).title()
 
         formatted = "%.{}f".format(self.decimal_places) % amount
         parts = formatted.partition(".")
@@ -41,10 +39,7 @@ class Currency(models.Model):
         )
         # Thai Text with Thai Currency
         if self.name == "THB":
-            try:
-                return num2words(amount, to="currency", lang=lang.iso_code)
-            except NotImplementedError:
-                return num2words(amount, to="currency", lang="en")
+            return num2words(amount, to="currency", lang=lang.iso_code)
         # Thai Text with Foreign currency
         currency_unit_label = self._convert_currency_name_hook(self.currency_unit_label)
         amount_words = tools.ustr("{amt_value}{amt_word}").format(
