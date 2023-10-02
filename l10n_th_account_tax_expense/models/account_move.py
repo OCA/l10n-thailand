@@ -168,3 +168,24 @@ class AccountMoveLine(models.Model):
                 if move_line_tax_amount:
                     tax_base_amount = move_line_tax_amount[0].tax_base_amount
         return tax_base_amount
+
+    def _get_partner_wht_lines(self, wht_tax_lines, partner_id):
+        if wht_tax_lines.filtered("expense_id"):
+            partner_wht_lines = wht_tax_lines.filtered(
+                lambda l: l.expense_id.bill_partner_id.id == partner_id
+                or (not l.expense_id.bill_partner_id and l.partner_id.id == partner_id)
+            )
+            return partner_wht_lines
+        return super()._get_partner_wht_lines(wht_tax_lines, partner_id)
+
+    def _get_partner_wht(self, wht_tax_lines):
+        if wht_tax_lines.filtered("expense_id"):
+            return list(
+                {
+                    x.bill_partner_id.id
+                    or x.employee_id.sudo().address_home_id.commercial_partner_id.id
+                    or x.employee_id.sudo().user_partner_id.id
+                    for x in wht_tax_lines.mapped("expense_id")
+                }
+            )
+        return super()._get_partner_wht(wht_tax_lines)

@@ -27,6 +27,7 @@ class AccountPaymentRegister(models.TransientModel):
         return partner
 
     def _prepare_writeoff_move_line(self, write_off_line_vals=None):
+        """Update partner for withholding tax"""
         vals = super()._prepare_writeoff_move_line(write_off_line_vals)
-        vals["partner_id"] = self.bill_partner_id.id
+        vals[0]["partner_id"] = self.bill_partner_id.id
         return vals
