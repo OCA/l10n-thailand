@@ -30,12 +30,13 @@ class HrExpense(models.Model):
         for rec in self:
             rec.wht_tax_id = rec.product_id.supplier_wht_tax_id or False
 
-    def _get_account_move_line_values(self):
-        move_line_values_by_expense = super()._get_account_move_line_values()
-        # Set wht_tax_id, to account move line
-        for expense in self:
-            wht_tax_dict = {"wht_tax_id": expense.wht_tax_id.id}
-            for ml in move_line_values_by_expense[expense.id]:
-                if ml.get("product_id"):
-                    ml.update(wht_tax_dict)
-        return move_line_values_by_expense
+    def _prepare_move_line_vals(self):
+        """Add WHT in move line"""
+        ml_vals = super()._prepare_move_line_vals()
+        ml_vals["wht_tax_id"] = self.wht_tax_id.id
+        return ml_vals
+
+    def _get_move_line_src(self, move_line_name, partner_id):
+        ml_src_dict = super()._get_move_line_src(move_line_name, partner_id)
+        ml_src_dict["wht_tax_id"] = self.wht_tax_id.id
+        return ml_src_dict
