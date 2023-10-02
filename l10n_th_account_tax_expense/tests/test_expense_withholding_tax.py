@@ -1,7 +1,7 @@
 # Copyright 2021 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 from odoo.tests.common import Form, TransactionCase
@@ -12,9 +12,9 @@ class TestHrExpenseWithholdingTax(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.current_asset = cls.env.ref("account.data_account_type_current_assets")
-        cls.product_1 = cls.env.ref("hr_expense.product_product_zero_cost")
-        cls.current_asset = cls.env.ref("account.data_account_type_current_assets")
+        cls.product_travel = cls.env.ref(
+            "hr_expense.expense_product_travel_accommodation"
+        )
         cls.register_view_id = "account.view_account_payment_register_form"
         cls.account_payment_register = cls.env["account.payment.register"]
         cls.account_account = cls.env["account.account"]
@@ -27,7 +27,7 @@ class TestHrExpenseWithholdingTax(TransactionCase):
             {
                 "code": "X152000",
                 "name": "Withholding Tax Account Test",
-                "user_type_id": cls.current_asset.id,
+                "account_type": "asset_current",
                 "wht_account": True,
             }
         )
@@ -48,9 +48,7 @@ class TestHrExpenseWithholdingTax(TransactionCase):
             {
                 "code": "154000",
                 "name": "Employee Advance",
-                "user_type_id": cls.env.ref(
-                    "account.data_account_type_current_assets"
-                ).id,
+                "account_type": "asset_current",
                 "reconcile": True,
             }
         )
@@ -59,11 +57,16 @@ class TestHrExpenseWithholdingTax(TransactionCase):
         cls.emp_advance.property_account_expense_id = advance_account
         # Create expense 1,000
         cls.expense_sheet = cls._create_expense_sheet(
-            cls, "Buy service 1,000", cls.employee, cls.product_1, 1000.0
+            cls, "Buy service 1,000", cls.employee, cls.product_travel, 1000.0
         )
         # Create expense wht cert 1,000
         cls.expense_sheet_wht_cert = cls._create_expense_sheet(
-            cls, "Buy service 1,000", cls.employee, cls.product_1, 1000.0, cls.wht_1
+            cls,
+            "Buy service 1,000",
+            cls.employee,
+            cls.product_travel,
+            1000.0,
+            cls.wht_1,
         )
         # Create advance expense 1,000
         cls.advance = cls._create_expense_sheet(
@@ -71,11 +74,16 @@ class TestHrExpenseWithholdingTax(TransactionCase):
         )
         # # Create clearing expense 800
         # cls.clearing_less = cls._create_expense_sheet(
-        #     cls, "Buy service 800", cls.employee, cls.product_1, 800.0, cls.wht_1
+        #     cls, "Buy service 800", cls.employee, cls.product_travel, 800.0, cls.wht_1
         # )
         # Create clearing expense 1,200
         cls.clearing_more = cls._create_expense_sheet(
-            cls, "Buy service 1,200", cls.employee, cls.product_1, 1200.0, cls.wht_1
+            cls,
+            "Buy service 1,200",
+            cls.employee,
+            cls.product_travel,
+            1200.0,
+            cls.wht_1,
         )
 
     def _create_expense(
@@ -92,7 +100,7 @@ class TestHrExpenseWithholdingTax(TransactionCase):
             expense.employee_id = employee
             if not advance:
                 expense.product_id = product
-            expense.unit_amount = amount
+            expense.total_amount = amount
             if wht_tax_id:
                 expense.wht_tax_id = wht_tax_id
                 expense.bill_partner_id = self.partner1
@@ -111,7 +119,7 @@ class TestHrExpenseWithholdingTax(TransactionCase):
             {
                 "name": description,
                 "employee_id": expense.employee_id.id,
-                "expense_line_ids": [(6, 0, [expense.id])],
+                "expense_line_ids": [Command.set([expense.id])],
             }
         )
         return expense_sheet

@@ -1,6 +1,7 @@
 # Copyright 2021 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
-from odoo import _, fields, models
+
+from odoo import Command, _, fields, models
 from odoo.exceptions import UserError
 
 
@@ -74,7 +75,7 @@ class HrExpenseSheet(models.Model):
         wht_move_lines = move_lines.filtered("wht_tax_id")
         currency = self.env.company.currency_id
         deduction_list, amount_deduct = wht_move_lines._prepare_deduction_list(
-            currency=currency
+            fields.Date.context_today(self), currency
         )
         for deduction in deduction_list:
             wht_vals = self._get_move_line_wht_vals(deduction, wht_move_lines)
@@ -108,7 +109,7 @@ class HrExpenseSheet(models.Model):
         move_vals = {
             "move_type": "entry",
             "ref": self.account_move_id.display_name,
-            "line_ids": [(0, 0, line_vals) for line_vals in line_vals_list],
+            "line_ids": [Command.create(line_vals) for line_vals in line_vals_list],
         }
         return move_vals
 

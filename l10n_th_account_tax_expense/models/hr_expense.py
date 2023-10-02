@@ -39,3 +39,9 @@ class HrExpense(models.Model):
                 if ml.get("product_id"):
                     ml.update(wht_tax_dict)
         return move_line_values_by_expense
+
+    def _prepare_move_line_vals(self):
+        """Add WHT in move line"""
+        ml_vals = super()._prepare_move_line_vals()
+        ml_vals["wht_tax_id"] = self.wht_tax_id.id
+        return ml_vals
