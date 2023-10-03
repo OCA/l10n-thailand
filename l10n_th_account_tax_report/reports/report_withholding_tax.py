@@ -309,10 +309,14 @@ class WithHoldingTaxReport(models.TransientModel):
         )
         # Condition
         tax_payer = 1
+        # NOTE: support with tax one paid only
         if line.cert_id.tax_payer != "withholding":
-            tax_payer = 2
+            if line.cert_id.income_tax_form == "pnd53":
+                tax_payer = 2  # Tax one paid
+            else:
+                tax_payer = 3  # Tax one paid
         return {
-            "partner_vat": partner.vat or "XXXXXXXXXXXXX",
+            "partner_vat": partner.vat or " " * 13,  # space when no vat
             "partner_branch": partner.branch,
             "partner_firstname": firstname,
             "partner_lastname": lastname,
