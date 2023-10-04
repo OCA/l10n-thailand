@@ -13,8 +13,8 @@ from odoo.addons.report_xlsx_helper.report.report_xlsx_format import (
 _logger = logging.getLogger(__name__)
 
 
-class ReportTaxReportXlsx(models.TransientModel):
-    _name = "report.l10n_th_account_tax_report.report_tax_report_xlsx"
+class ReportThaiTaxXlsx(models.TransientModel):
+    _name = "report.l10n_th_account_tax_report.report_thai_tax_xlsx"
     _inherit = "report.report_xlsx.abstract"
     _description = "Tax Report Excel"
 

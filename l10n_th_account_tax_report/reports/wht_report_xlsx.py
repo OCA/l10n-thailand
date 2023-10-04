@@ -9,8 +9,8 @@ from odoo.addons.report_xlsx_helper.report.report_xlsx_format import (
 )
 
 
-class WithholdingTaxReportXslx(models.AbstractModel):
-    _name = "report.withholding.tax.report.xlsx"
+class ReportWHTXlsx(models.AbstractModel):
+    _name = "report.l10n_th_account_tax_report.report_withholding_tax_xlsx"
     _inherit = "report.report_xlsx.abstract"
     _description = "Report Withholding Tax xlsx"
 

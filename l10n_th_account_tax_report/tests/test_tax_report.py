@@ -6,6 +6,7 @@ import datetime
 from dateutil.rrule import MONTHLY
 from freezegun import freeze_time
 
+from odoo import Command
 from odoo.exceptions import UserError
 from odoo.tests.common import Form, TransactionCase
 
@@ -16,7 +17,6 @@ class TestTaxReport(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.date_range_obj = cls.env["date.range"]
-        cls.tax_report_obj = cls.env["report.tax.report"]
         cls.company = cls.env.company
         cls.tax = cls.env.ref("l10n_generic_coa.1_sale_tax_template")
         cls.taxp = cls.env.ref("l10n_generic_coa.1_purchase_tax_template")
@@ -28,12 +28,22 @@ class TestTaxReport(TransactionCase):
         cls.last_date_range = cls.date_range_obj.search(
             [], limit=1, order="date_start desc"
         )
-        # Create vendor Bills
-        cls._create_bills(cls, "in_invoice")
+        # Create vendor bills
+        cls._create_invoice(cls, "in_invoice")
         cls.tax_purchase_report_wizard = cls.env["tax.report.wizard"].create(
             {
                 "company_id": cls.company.id,
                 "tax_id": cls.taxp.id,
+                "date_from": cls.date_range.date_start,
+                "date_to": cls.date_range.date_end,
+            }
+        )
+        # Create customer invoices
+        cls._create_invoice(cls, "out_invoice")
+        cls.tax_sale_report_wizard = cls.env["tax.report.wizard"].create(
+            {
+                "company_id": cls.company.id,
+                "tax_id": cls.tax.id,
                 "date_from": cls.date_range.date_start,
                 "date_to": cls.date_range.date_end,
             }
@@ -56,18 +66,16 @@ class TestTaxReport(TransactionCase):
         )
         generator.action_apply()
 
-    def _create_bills(self, move_type):
+    def _create_invoice(self, move_type):
         taxes = self.taxp if move_type == "in_invoice" else self.tax
         date = self.date_range.date_end
         moves = self.env["account.move"].create(
             {
-                "partner_id": self.partner1,
+                "partner_id": self.partner1.id,
                 "move_type": move_type,
                 "invoice_date": date,
                 "invoice_line_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "product_id": self.product1.id,
                             "quantity": 1,
@@ -86,37 +94,46 @@ class TestTaxReport(TransactionCase):
 
     def test_01_button_export_html(self):
         report = self.tax_purchase_report_wizard.button_export_html()
-        self.assertEqual(report["name"], "TAX Report")
-        self.assertEqual(report["type"], "ir.actions.client")
-        self.assertEqual(report["tag"], "l10n_th_account_tax_report_backend")
-        self.assertEqual(report["context"]["active_model"], "report.tax.report")
-
-        # Check send report type is not supported, it should error
-        with self.assertRaises(UserError):
-            self.tax_purchase_report_wizard._export("qweb-text")
+        self.assertEqual(report["name"], "Thai TAX Report")
+        self.assertEqual(report["report_type"], "qweb-html")
+        self.assertEqual(
+            report["report_name"], "l10n_th_account_tax_report.report_thai_tax"
+        )
 
     def test_02_button_export_pdf(self):
+        # Check data query, it should have data
+        self.assertTrue(self.tax_purchase_report_wizard.results)
         report = self.tax_purchase_report_wizard.button_export_pdf()
-        self.assertEqual(report["name"], "TAX Report PDF")
-        self.assertEqual(report["type"], "ir.actions.report")
+        self.assertEqual(report["name"], "Thai TAX Report")
         self.assertEqual(report["report_type"], "qweb-pdf")
         self.assertEqual(
-            report["report_name"],
-            "l10n_th_account_tax_report.report_tax_report_pdf",
-        )
-        self.assertEqual(
-            report["report_file"], "l10n_th_account_tax_report.report_tax_report_pdf"
+            report["report_name"], "l10n_th_account_tax_report.report_thai_tax"
         )
 
         # Check change config standard to rd
         self.env.user.company_id.tax_report_format = "rd"
         report = self.tax_purchase_report_wizard.button_export_pdf()
+        self.assertEqual(report["name"], "Thai TAX Report (RD)")
         self.assertEqual(report["report_type"], "qweb-pdf")
         self.assertEqual(
-            report["report_file"], "l10n_th_account_tax_report.report_rd_tax_report_pdf"
+            report["report_name"], "l10n_th_account_tax_report.report_rd_thai_tax"
         )
+        # Check file download should name tax + date
+        report_name = self.tax_purchase_report_wizard._get_report_base_filename()
+        format_date = self.tax_purchase_report_wizard.format_date_ym_wht()
+        self.assertEqual(
+            report_name,
+            "{}-{}".format(
+                self.tax_purchase_report_wizard.tax_id.display_name, format_date
+            ),
+        )
+        # Display Header
+        dict_format = self.tax_purchase_report_wizard._get_period_be(
+            self.date_range.date_start, self.date_range.date_end
+        )
+        self.assertEqual(dict_format, ["มกราคม", "2544"])
 
-    def test_03_button_export_xlsx_purchase(self):
+    def test_03_button_export_xlsx(self):
         # Test onchange date range
         self.assertEqual(
             self.tax_purchase_report_wizard.date_from, self.date_range.date_start
@@ -143,24 +160,19 @@ class TestTaxReport(TransactionCase):
                 f.date_from = "2020-01-05"
                 f.date_to = "2020-01-01"
 
-        # generate xlsx
+        # generate xlsx (Purchase Vat)
         report = self.tax_purchase_report_wizard.button_export_xlsx()
-        self.assertEqual(report["name"], "TAX Report XLSX")
-        self.assertEqual(report["type"], "ir.actions.report")
+        self.assertEqual(report["name"], "Thai TAX Report XLSX")
         self.assertEqual(report["report_type"], "xlsx")
         self.assertEqual(
-            report["report_name"], "l10n_th_account_tax_report.report_tax_report_xlsx"
+            report["report_name"], "l10n_th_account_tax_report.report_thai_tax_xlsx"
         )
-        self.assertEqual(report["report_file"], "Tax Report")
-        tax_report = self.tax_report_obj.browse(report["context"]["active_ids"])
-        tax_report._compute_results()
-        # Test render html
-        res = tax_report.get_html(
-            given_context={"active_id": tax_report.id, "model": "report.tax.report"}
+        # Test export excel by code
+        action = self.env.ref(
+            "l10n_th_account_tax_report.action_print_report_thai_tax_xlsx"
         )
-        self.assertTrue(res["html"])
-        action = self.env.ref("l10n_th_account_tax_report.action_tax_report_xlsx")
-        action._render_xlsx(
+        report_xlsx = action._render_xlsx(
+            action.report_name,
             report["context"]["active_ids"],
             {
                 "data": "['/report/xlsx/{}/{}','xlsx']".format(
@@ -169,11 +181,27 @@ class TestTaxReport(TransactionCase):
                 "token": "dummy-because-api-expects-one",
             },
         )
+        self.assertEqual(report_xlsx[1], "xlsx")
 
-    def test_04_check_function_convert(self):
-        """This function test for other with compute in form"""
-        res = self.tax_report_obj._get_period_be(
-            datetime.date(2020, 1, 1), datetime.date(2020, 1, 31)
+        # generate xlsx (Sale Vat)
+        report = self.tax_sale_report_wizard.button_export_xlsx()
+        self.assertEqual(report["name"], "Thai TAX Report XLSX")
+        self.assertEqual(report["report_type"], "xlsx")
+        self.assertEqual(
+            report["report_name"], "l10n_th_account_tax_report.report_thai_tax_xlsx"
         )
-        self.assertEqual(res[0], "มกราคม")
-        self.assertEqual(res[1], "2563")  # Thai year
+        # Test export excel by code (Sale Vat)
+        action = self.env.ref(
+            "l10n_th_account_tax_report.action_print_report_thai_tax_xlsx"
+        )
+        report_xlsx = action._render_xlsx(
+            action.report_name,
+            report["context"]["active_ids"],
+            {
+                "data": "['/report/xlsx/{}/{}','xlsx']".format(
+                    report["report_name"], str(report["context"]["active_ids"][0])
+                ),
+                "token": "dummy-because-api-expects-one",
+            },
+        )
+        self.assertEqual(report_xlsx[1], "xlsx")
