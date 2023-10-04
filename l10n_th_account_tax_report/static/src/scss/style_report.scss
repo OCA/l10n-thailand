@@ -137,12 +137,12 @@
 
     .company_vat {
         position: fixed;
-        margin-left: 690px;
+        margin-left: 675px;
         top: 25px;
     }
     .company_branch {
         position: fixed;
-        margin-left: 1158px;
+        margin-left: 1143px;
         top: 64px;
     }
     .num_page_from {
@@ -172,7 +172,7 @@
     }
     .wht_line_number {
         margin-top: 6px;
-        margin-left: 18px;
+        margin-left: 5px;
         box-sizing: content-box;
         text-align: center;
         width: 60px;
@@ -180,25 +180,24 @@
     }
     .wht_line_vat {
         margin-top: 6px;
-        margin-left: 9px;
+        margin-left: 3px;
     }
     .wht_line_firstname {
         margin-top: 7px;
-        margin-left: 15px;
+        margin-left: 25px;
         box-sizing: content-box;
         width: 240px;
         height: 21px;
     }
     .wht_line_lastname {
         margin-top: 7px;
-        margin-left: 42px;
+        margin-left: 47px;
         box-sizing: content-box;
         width: 251px;
         height: 21px;
     }
     .wht_line_date {
         margin-top: 33px;
-        margin-left: 3px;
         box-sizing: content-box;
         text-align: center;
         width: 162px;
@@ -206,7 +205,7 @@
     }
     .wht_line_base {
         margin-top: 33px;
-        margin-left: 21px;
+        margin-left: 5px;
         box-sizing: content-box;
         text-align: right;
         width: 150px;
@@ -222,7 +221,7 @@
     }
     .wht_line_tax_payer {
         margin-top: 33px;
-        margin-left: 40px;
+        margin-left: 25px;
         box-sizing: content-box;
         text-align: center;
         width: 30px;
@@ -283,12 +282,12 @@
 
     .company_vat {
         position: fixed;
-        margin-left: 666px;
+        margin-left: 650px;
         top: 36px;
     }
     .company_branch {
         position: fixed;
-        margin-left: 1159px;
+        margin-left: 1143px;
         top: 75px;
     }
     .num_page_from {
@@ -311,54 +310,56 @@
     }
     .wht_line {
         position: fixed;
+        margin-top: 248px;
         margin-left: 90px;
-        top: 240px;
         width: 1146px;
         height: 420px;
     }
     .wht_line_number {
-        margin-top: 6px;
-        margin-left: 20px;
+        margin-top: 10px;
+        margin-left: 5px;
         box-sizing: content-box;
         text-align: center;
         width: 60px;
         height: 23px;
     }
     .wht_line_vat {
-        margin-top: 6px;
-        margin-left: 21px;
+        margin-top: 3px;
+        margin-left: 5px;
+        width: 400px;
+        height: 24px;
     }
     .wht_line_firstname {
-        margin-top: 9px;
+        margin-top: 4px;
         margin-left: 18px;
         box-sizing: content-box;
         width: 188px;
         height: 23px;
     }
     .wht_line_lastname {
-        margin-top: 9px;
+        margin-top: 4px;
         margin-left: 39px;
         box-sizing: content-box;
         width: 200px;
         height: 23px;
     }
     .wht_line_address {
-        margin-top: 3px;
+        margin-top: 6px;
         margin-left: 30px;
         box-sizing: content-box;
         width: 420px;
         height: 23px;
     }
     .wht_line_base {
-        margin-top: 33px;
-        margin-left: 48px;
+        margin-top: 34px;
+        margin-left: 34px;
         box-sizing: content-box;
         text-align: right;
         width: 145px;
         height: 23px;
     }
     .wht_line_amount {
-        margin-top: 33px;
+        margin-top: 34px;
         margin-left: 15px;
         box-sizing: content-box;
         text-align: right;
@@ -366,8 +367,7 @@
         height: 23px;
     }
     .wht_line_tax_payer {
-        margin-top: 33px;
-        margin-left: 15px;
+        margin-top: 30px;
         box-sizing: content-box;
         text-align: center;
         width: 33px;
@@ -375,7 +375,7 @@
     }
     .total_base {
         position: fixed;
-        margin-left: 889px;
+        margin-left: 890px;
         top: 660px;
         box-sizing: content-box;
         text-align: right;
@@ -428,12 +428,12 @@
 
     .company_vat {
         position: fixed;
-        margin-left: 590px;
+        margin-left: 575px;
         top: 24px;
     }
     .company_branch {
         position: fixed;
-        margin-left: 1183px;
+        margin-left: 1168px;
         top: 20px;
     }
     .num_page_from {
@@ -463,7 +463,7 @@
     }
     .wht_line_number {
         margin-top: 6px;
-        margin-left: 18px;
+        margin-left: 5px;
         box-sizing: content-box;
         text-align: center;
         width: 50px;
@@ -471,36 +471,40 @@
     }
     .wht_line_vat {
         margin-top: 6px;
-        margin-left: 33px;
+        margin-left: 5px;
+        width: 300px;
+        height: 24px;
     }
     .wht_line_branch {
         margin-top: 6px;
-        margin-left: 102px;
+        margin-left: 38px;
+        width: 200px;
+        height: 24px;
     }
     .wht_line_firstname {
-        margin-top: 8px;
-        margin-left: 36px;
+        margin-top: 4px;
+        margin-left: 30px;
         box-sizing: content-box;
         width: 270px;
         height: 24px;
     }
     .wht_line_lastname {
-        margin-top: 8px;
-        margin-left: 36px;
+        margin-top: 4px;
+        margin-left: 30px;
         box-sizing: content-box;
         width: 200px;
         height: 24px;
     }
     .wht_line_address {
-        margin-top: 2px;
-        margin-left: 42px;
+        margin-top: 4px;
+        margin-left: 35px;
         box-sizing: content-box;
-        width: 500px;
+        width: 900px;
         height: 24px;
     }
     .wht_line_date {
         margin-top: 6px;
-        margin-left: 15px;
+        margin-left: 25px;
         box-sizing: content-box;
         text-align: center;
         width: 90px;
@@ -508,38 +512,36 @@
     }
     .wht_line_desc {
         margin-top: 6px;
-        margin-left: 24px;
         box-sizing: content-box;
         width: 172px;
         height: 24px;
     }
     .wht_line_percent {
-        margin-top: 6px;
-        margin-left: 3px;
+        margin-top: 10px;
         box-sizing: content-box;
         text-align: right;
         width: 33px;
         height: 24px;
     }
     .wht_line_base {
-        margin-top: 6px;
-        margin-left: 3px;
+        margin-top: 10px;
+        margin-left: 2px;
         box-sizing: content-box;
         text-align: right;
         width: 139px;
         height: 24px;
     }
     .wht_line_amount {
-        margin-top: 6px;
-        margin-left: 3px;
+        margin-top: 10px;
+        margin-left: 2px;
         box-sizing: content-box;
         text-align: right;
         width: 146px;
         height: 24px;
     }
     .wht_line_tax_payer {
-        margin-top: 6px;
-        margin-left: 21px;
+        margin-top: 10px;
+        margin-left: 5px;
         box-sizing: content-box;
         text-align: center;
         width: 30px;
@@ -597,22 +599,21 @@
 .o_report_rd_withholding_tax_report_pnd53 {
     font-family: "THSarabun";
     font-size: 18px;
-    line-height: 90%;
 
     .company_vat {
         position: fixed;
-        margin-left: 590px;
-        top: 25px;
+        margin-left: 575px;
+        top: 22px;
     }
     .company_branch {
         position: fixed;
-        margin-left: 918px;
-        top: 25px;
+        margin-left: 903px;
+        top: 22px;
     }
     .num_page_from {
         position: fixed;
         margin-left: 1074px;
-        top: 51px;
+        top: 48px;
         box-sizing: content-box;
         text-align: center;
         width: 45px;
@@ -621,7 +622,7 @@
     .num_page_to {
         position: fixed;
         margin-left: 1176px;
-        top: 51px;
+        top: 48px;
         box-sizing: content-box;
         text-align: center;
         width: 50px;
@@ -629,14 +630,14 @@
     }
     .wht_line {
         position: fixed;
+        top: 170px;
         margin-left: 30px;
-        top: 174px;
         width: 1230px;
         height: 525px;
     }
     .wht_line_number {
-        margin-top: 6px;
-        margin-left: 20px;
+        margin-top: 5px;
+        margin-left: 10px;
         box-sizing: content-box;
         text-align: center;
         width: 48px;
@@ -644,37 +645,35 @@
     }
     .wht_line_vat {
         margin-top: 2px;
-        margin-left: 30px;
+        width: 400px;
+        height: 24px;
     }
     .wht_line_branch {
         margin-top: 2px;
-        margin-left: 179px;
     }
     .wht_line_name {
-        margin-top: 1px;
-        margin-left: 36px;
+        margin-left: 20px;
         box-sizing: content-box;
-        width: 400px;
-        height: 20px;
+        width: 410px;
+        height: 17px;
     }
     .wht_line_address {
-        margin-top: 0px;
-        margin-left: 42px;
+        margin-top: 2px;
+        margin-left: 26px;
         box-sizing: content-box;
         width: 400px;
-        height: 36px;
+        height: 38px;
     }
     .wht_line_date {
-        margin-top: 25px;
-        margin-left: 14px;
+        margin-top: 24px;
         box-sizing: content-box;
         text-align: center;
         width: 90px;
         height: 24px;
     }
     .wht_line_desc {
-        margin-top: 25px;
-        margin-left: 24px;
+        margin-top: 24px;
+        margin-left: 8px;
         box-sizing: content-box;
         width: 172px;
         height: 24px;
@@ -705,7 +704,7 @@
     }
     .wht_line_tax_payer {
         margin-top: 24px;
-        margin-left: 21px;
+        margin-left: 5px;
         box-sizing: content-box;
         text-align: center;
         width: 30px;
