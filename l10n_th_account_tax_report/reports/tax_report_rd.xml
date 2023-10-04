@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template id="l10n_th_account_tax_report.report_rd_tax_report_pdf">
+    <!-- Template Thai Tax (RD) Report -->
+    <template id="l10n_th_account_tax_report.report_rd_thai_tax">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="l10n_th_account_tax_report.report_rd_tax_report" />
+                <t t-call="l10n_th_account_tax_report.internal_layout">
+                    <t t-call="l10n_th_account_tax_report.report_rd_tax_report" />
+                </t>
             </t>
         </t>
     </template>
+
     <template id="l10n_th_account_tax_report.report_rd_tax_report">
         <div class="page">
             <!-- Variable -->
@@ -19,6 +23,7 @@
             <t t-call="l10n_th_account_tax_report.report_rd_tax_report_article" />
         </div>
     </template>
+
     <template id="l10n_th_account_tax_report.report_rd_company_tax_branch">
         <div class="col-3">
             <t t-if="not o.company_id.branch or o.company_id.branch in ['-', '00000']">
@@ -42,6 +47,7 @@
             />
         </div>
     </template>
+
     <template id="l10n_th_account_tax_report.report_rd_tax_report_header">
         <div class="header o_report_rd_tax_report">
             <!-- Title -->
@@ -112,8 +118,8 @@
         </div>
     </template>
     <template id="l10n_th_account_tax_report.report_rd_tax_report_article">
-        <div class="article o_report_rd_tax_report">
-            <div class="row" style="margin-top: 10px;">
+        <div class="o_report_rd_tax_report">
+            <div class="row">
                 <div class="col-12">
                     <t t-set="n" t-value="0" />
                     <t t-set="np" t-value="15" />

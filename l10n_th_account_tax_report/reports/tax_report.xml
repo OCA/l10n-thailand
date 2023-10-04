@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    <!-- Template Thai Tax Report -->
+    <template id="report_thai_tax">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="l10n_th_account_tax_report.internal_layout">
+                    <t t-call="l10n_th_account_tax_report.report_tax_report_base" />
+                </t>
+            </t>
+        </t>
+    </template>
+
     <template id="l10n_th_account_tax_report.internal_layout">
         <div class="article">
             <t t-raw="0" />
@@ -19,33 +30,7 @@
             </div>
         </div>
     </template>
-    <template id="l10n_th_account_tax_report.report_buttons">
-        <div class="button_row">
-            <button class="o_l10n_th_account_tax_report_print btn btn-sm oe_button">
-                <span class="fa fa-print" />
-                Print
-            </button>
-            <button class="o_l10n_th_account_tax_report_export btn btn-sm oe_button">
-                <span class="fa fa-download" />
-                Export
-            </button>
-        </div>
-    </template>
-    <template id="l10n_th_account_tax_report.report_tax_report_html">
-        <div class="o_l10n_th_account_tax_report_page">
-            <t t-call="l10n_th_account_tax_report.report_buttons" />
-            <t t-call="l10n_th_account_tax_report.report_tax_report_base" />
-        </div>
-    </template>
-    <template id="l10n_th_account_tax_report.report_tax_report_pdf">
-        <t t-call="web.html_container">
-            <t t-foreach="docs" t-as="o">
-                <t t-call="l10n_th_account_tax_report.internal_layout">
-                    <t t-call="l10n_th_account_tax_report.report_tax_report_base" />
-                </t>
-            </t>
-        </t>
-    </template>
+
     <template id="report_tax_report_base">
         <div class="page">
             <!-- Display Title -->
@@ -81,6 +66,7 @@
             </div>
         </div>
     </template>
+
     <template id="l10n_th_account_tax_report.report_tax_report_filters">
         <div class="act_as_table data_table">
             <div class="act_as_row labels">
@@ -109,6 +95,7 @@
             </div>
         </div>
     </template>
+
     <template id="l10n_th_account_tax_report.report_tax_report_lines_header">
         <div class="act_as_thead">
             <div class="act_as_row labels">
@@ -124,6 +111,7 @@
             </div>
         </div>
     </template>
+
     <template id="l10n_th_account_tax_report.report_tax_report_lines">
         <div class="act_as_row lines">
             <div class="act_as_cell left">
@@ -155,6 +143,7 @@
             </div>
         </div>
     </template>
+
     <template id="l10n_th_account_tax_report.report_tax_report_total_lines">
         <div class="act_as_row totals_table">
             <div class="act_as_cell" />
