@@ -20,9 +20,9 @@ class WithholdingTaxReportXslx(models.AbstractModel):
         FORMATS["format_date_dmy_right"] = workbook.add_format(
             {"align": "right", "num_format": date_format}
         )
-
-    def _get_ws_params(self, wb, data, obj):
-        withholding_tax_template = {
+    
+    def _get_withholding_tax_template(self):
+        return {
             "01_sequence": {
                 "header": {"value": "No."},
                 "data": {
@@ -105,6 +105,8 @@ class WithholdingTaxReportXslx(models.AbstractModel):
             },
         }
 
+    def _get_ws_params(self, wb, data, obj):
+        withholding_tax_template = self._get_withholding_tax_template()
         ws_params = {
             "ws_name": "Withholding Tax Report",
             "generate_ws_method": "_withholding_tax_report",
@@ -112,7 +114,6 @@ class WithholdingTaxReportXslx(models.AbstractModel):
             "wanted_list": [x for x in sorted(withholding_tax_template.keys())],
             "col_specs": withholding_tax_template,
         }
-
         return [ws_params]
 
     def _write_ws_header(self, row_pos, ws, data_list):
@@ -123,6 +124,23 @@ class WithholdingTaxReportXslx(models.AbstractModel):
             ws.write_row(row_pos, 2, [data[1]])
             row_pos += 1
         return row_pos + 1
+    
+    def _get_render_space(self, index, line):
+        return {
+            "sequence": index,
+            "vat": line.cert_id.partner_id.vat or "",
+            "display_name": not cancel
+            and line.cert_id.partner_id.display_name
+            or "Cancelled",
+            "street": not cancel and line.cert_id.partner_id.street or "",
+            "date": line.cert_id.date,
+            "income_desc": line.wht_cert_income_desc or "",
+            "tax": line.wht_percent / 100 or 0.00,
+            "base_amount": not cancel and line.base or 0.00,
+            "tax_amount": not cancel and line.amount or 0.00,
+            "tax_payer": line.cert_id.tax_payer,
+            "payment_id": line.cert_id.name,
+        }
 
     def _write_ws_lines(self, row_pos, ws, ws_params, obj):
         row_pos = self._write_line(
@@ -141,21 +159,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
                 row_pos,
                 ws_params,
                 col_specs_section="data",
-                render_space={
-                    "sequence": index,
-                    "vat": line.cert_id.partner_id.vat or "",
-                    "display_name": not cancel
-                    and line.cert_id.partner_id.display_name
-                    or "Cancelled",
-                    "street": not cancel and line.cert_id.partner_id.street or "",
-                    "date": line.cert_id.date,
-                    "income_desc": line.wht_cert_income_desc or "",
-                    "tax": line.wht_percent / 100 or 0.00,
-                    "base_amount": not cancel and line.base or 0.00,
-                    "tax_amount": not cancel and line.amount or 0.00,
-                    "tax_payer": line.cert_id.tax_payer,
-                    "payment_id": line.cert_id.name,
-                },
+                render_space=self._get_render_space(index, line),
                 default_format=FORMATS["format_tcell_left"],
             )
             index += 1

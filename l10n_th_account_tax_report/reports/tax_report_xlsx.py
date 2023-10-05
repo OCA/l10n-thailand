@@ -24,9 +24,9 @@ class ReportTaxReportXlsx(models.TransientModel):
         FORMATS["format_date_dmy_right"] = workbook.add_format(
             {"align": "right", "num_format": date_format}
         )
-
-    def _get_ws_params(self, wb, data, objects):
-        tax_template = {
+    
+    def _get_tax_template(self):
+        return {
             "1_index": {
                 "header": {"value": "#"},
                 "data": {"value": self._render("index")},
@@ -83,6 +83,9 @@ class ReportTaxReportXlsx(models.TransientModel):
                 "width": 18,
             },
         }
+
+    def _get_ws_params(self, wb, data, objects):
+        tax_template = self._get_tax_template()
         ws_params = {
             "ws_name": "TAX Report",
             "generate_ws_method": "_vat_report",
@@ -107,6 +110,19 @@ class ReportTaxReportXlsx(models.TransientModel):
             ws.write_row(row_pos, 2, [data[1]], FORMATS["format_tcell_left"])
             row_pos += 1
         return row_pos + 1
+    
+    def _get_render_space(self, index, line):
+        return {
+            "index": index,
+            "tax_date": line.tax_date or "",
+            "tax_invoice_number": line.tax_invoice_number or "",
+            "partner_name": line.partner_id.display_name or "",
+            "partner_vat": line.partner_id.vat or "",
+            "partner_branch": line.partner_id.branch or "",
+            "tax_base_amount": line.tax_base_amount or 0.00,
+            "tax_amount": line.tax_amount or 0.00,
+            "doc_ref": line.name or "",
+        }
 
     def _write_ws_lines(self, row_pos, ws, ws_params, objects):
         row_pos = self._write_line(
@@ -124,17 +140,7 @@ class ReportTaxReportXlsx(models.TransientModel):
                 row_pos,
                 ws_params,
                 col_specs_section="data",
-                render_space={
-                    "index": index,
-                    "tax_date": line.tax_date or "",
-                    "tax_invoice_number": line.tax_invoice_number or "",
-                    "partner_name": line.partner_id.display_name or "",
-                    "partner_vat": line.partner_id.vat or "",
-                    "partner_branch": line.partner_id.branch or "",
-                    "tax_base_amount": line.tax_base_amount or 0.00,
-                    "tax_amount": line.tax_amount or 0.00,
-                    "doc_ref": line.name or "",
-                },
+                render_space=self._get_render_space(index, line),
                 default_format=FORMATS["format_tcell_left"],
             )
             index += 1
