@@ -19,7 +19,7 @@
                         <label for="wht_form_preprint" />
                         <div class="text-muted">
                             Thai withholding tax layout with pre-print (No background).
-                            You must customize template `withholding_layout_preprint_report`
+                            You must customize template 'withholding_layout_preprint_report'
                         </div>
                     </div>
                 </div>

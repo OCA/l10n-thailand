@@ -40,7 +40,9 @@ class TestWHTCertForm(SingleTransactionCase):
 
     def test_01_print_wht_cert_form(self):
         wht_cert = self._create_direct_wht_cert()
-        content = self.withholdin_tax_cert_form._render_qweb_pdf(wht_cert.id)
+        content = self.withholdin_tax_cert_form._render_qweb_pdf(
+            self.withholdin_tax_cert_form.report_name, [wht_cert.id]
+        )
         self.assertEqual(content[1], "html")
         # check report name pdf
         # display name is False because create wht direct.
