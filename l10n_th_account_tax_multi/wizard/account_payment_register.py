@@ -1,22 +1,26 @@
 # Copyright 2020 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
-from odoo import _, api, fields, models
+
+from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools import float_compare
+from odoo.tools import float_is_zero
 from odoo.tools.misc import format_date
 
 
 class AccountPaymentRegister(models.TransientModel):
     _inherit = "account.payment.register"
 
-    def _update_payment_register(self, amount_base, amount_wht, wht_move_lines):
-        updated = super()._update_payment_register(
-            amount_base, amount_wht, wht_move_lines
-        )
-        if not updated and len(wht_move_lines) > 1:  # good for multi deduct
-            self.payment_difference_handling = "reconcile_multi_deduct"
-            self._onchange_payment_difference_handling()
-        return True
+    @api.depends("early_payment_discount_mode")
+    def _compute_payment_difference_handling(self):
+        res = super()._compute_payment_difference_handling()
+        active_ids = self.env.context.get("active_ids", [])
+        moves = self.env["account.move"].browse(active_ids)
+        wht_move_lines = moves.mapped("line_ids").filtered("wht_tax_id")
+        for wizard in self:
+            # Auto default reconcile multi when 'Keep Open' only
+            if len(wht_move_lines) > 1 and wizard.payment_difference_handling == "open":
+                wizard.payment_difference_handling = "reconcile_multi_deduct"
+        return res
 
     @api.onchange("payment_difference_handling")
     def _onchange_payment_difference_handling(self):
@@ -30,14 +34,15 @@ class AccountPaymentRegister(models.TransientModel):
                 # Case WHT only, ensure only 1 wizard
                 self.ensure_one()
                 (deduction_list, amount_deduct) = move_lines._prepare_deduction_list(
-                    currency=self.currency_id, date=self.payment_date
+                    self.payment_date, self.currency_id
                 )
-                deductions = [(5, 0, 0)]
+                deduct_list = []
                 for deduct in deduction_list:
-                    deductions.append((0, 0, deduct))
-                self.deduction_ids = deductions
+                    deduct["analytic_distribution"] = self.deduct_analytic_distribution
+                    deduct_list.append(Command.create(deduct))
+                self.deduction_ids = [Command.clear()] + deduct_list
                 # Set amount only first time
-                if float_compare(self.payment_difference, 0.0, 2) == 0:
+                if float_is_zero(self.payment_difference, precision_digits=2):
                     self.amount -= amount_deduct
                     self._compute_payment_difference()
 
@@ -47,28 +52,9 @@ class AccountPaymentRegister(models.TransientModel):
             {
                 "partner_id": deduct.partner_id.id,
                 "wht_tax_id": deduct.wht_tax_id.id,
-                "wht_amount_base": deduct.wht_amount_base,
+                "tax_base_amount": deduct.wht_amount_base,
             }
         )
-        return res
-
-    @api.depends(
-        "source_amount",
-        "source_amount_currency",
-        "source_currency_id",
-        "company_id",
-        "currency_id",
-        "payment_date",
-    )
-    def _compute_amount(self):
-        res = super()._compute_amount()
-        skip_wht_deduct = self.env.context.get("skip_wht_deduct")
-        active_model = self.env.context.get("active_model")
-        if not skip_wht_deduct and active_model == "account.move":
-            active_ids = self.env.context.get("active_ids", [])
-            invoices = self.env["account.move"].browse(active_ids)
-            # Update analytic, analytic tag in wizard (Mark as fully paid)
-            self._update_vals_deduction(invoices)
         return res
 
 
@@ -86,10 +72,10 @@ class AccountPaymentDeduction(models.TransientModel):
     )
     partner_id = fields.Many2one(comodel_name="res.partner")
 
-    @api.onchange("open")
+    @api.onchange("is_open")
     def _onchange_open(self):
         super()._onchange_open()
-        if self.open:
+        if self.is_open:
             self.wht_tax_id = False
             self.wht_amount_base = False
         return

@@ -1,7 +1,7 @@
 # Copyright 2020 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import Form, TransactionCase
 
@@ -13,9 +13,6 @@ class TestAccountTaxMulti(TransactionCase):
         cls.payment_model = cls.env["account.payment"]
         cls.partner_1 = cls.env.ref("base.res_partner_12")
         cls.product_1 = cls.env.ref("product.product_product_4")
-        cls.current_asset = cls.env.ref("account.data_account_type_current_assets")
-        cls.expenses = cls.env.ref("account.data_account_type_expenses")
-        cls.revenue = cls.env.ref("account.data_account_type_revenue")
         cls.view_id = "account.view_account_payment_register_form"
         cls.account_move = cls.env["account.move"]
         cls.payment_register = cls.env["account.payment.register"]
@@ -26,7 +23,7 @@ class TestAccountTaxMulti(TransactionCase):
             {
                 "code": "X152000",
                 "name": "Withholding Tax Account Test",
-                "user_type_id": cls.current_asset.id,
+                "account_type": "asset_current",
                 "wht_account": True,
             }
         )
@@ -46,14 +43,14 @@ class TestAccountTaxMulti(TransactionCase):
         )
         cls.expense_account = cls.account_account.search(
             [
-                ("user_type_id", "=", cls.expenses.id),
+                ("account_type", "=", "expense"),
                 ("company_id", "=", cls.env.user.company_id.id),
             ],
             limit=1,
         )
         cls.sale_account = cls.account_account.search(
             [
-                ("user_type_id", "=", cls.revenue.id),
+                ("account_type", "=", "income"),
                 ("company_id", "=", cls.env.user.company_id.id),
             ],
             limit=1,
@@ -78,6 +75,7 @@ class TestAccountTaxMulti(TransactionCase):
         line_account_id,
         price_unit,
         product_id=False,
+        no_tax=True,
         multi=False,
     ):
         invoice_dict = {
@@ -87,34 +85,32 @@ class TestAccountTaxMulti(TransactionCase):
             "move_type": invoice_type,
             "invoice_date": fields.Date.today(),
             "invoice_line_ids": [
-                (
-                    0,
-                    0,
+                Command.create(
                     {
                         "product_id": product_id,
                         "quantity": 1.0,
                         "account_id": line_account_id,
                         "name": "Advice1",
                         "price_unit": price_unit or 0.0,
-                    },
+                    }
                 )
             ],
         }
         if multi:
             invoice_dict["invoice_line_ids"].append(
-                (
-                    0,
-                    0,
+                Command.create(
                     {
                         "product_id": product_id,
                         "quantity": 1.0,
                         "account_id": line_account_id,
                         "name": "Advice2",
                         "price_unit": price_unit or 0.0,
-                    },
+                    }
                 )
             )
         invoice = self.account_move.create(invoice_dict)
+        if no_tax:
+            invoice.invoice_line_ids.write({"tax_ids": False})
         return invoice
 
     def _config_product_withholding_tax(
@@ -294,7 +290,7 @@ class TestAccountTaxMulti(TransactionCase):
             lambda l: l.wht_tax_id == self.wht_3
         )
         with Form(deduct_3) as deduct:
-            deduct.open = True
+            deduct.is_open = True
         self.assertFalse(deduct.wht_tax_id)
         payment_id = register_payment._create_payments()
         payment = self.payment_model.browse(payment_id.id)
