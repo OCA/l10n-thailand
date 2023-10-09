@@ -58,16 +58,23 @@ class TaxReport(models.TransientModel):
             then t.balance else 0.0 end as tax_amount,
             case when m.ref is not null
             then m.ref else ml.move_name end as name"""
-
-    def _compute_results(self):
-        self.ensure_one()
+    
+    def _query_groupby_tax(self):
+        return """company_id, account_id, partner_id, tax_invoice_number,
+            tax_date, name"""
+    
+    def _domain_where_clause_tax(self):
         reverse_cancel = ""
         if self.show_cancel:
             condition = "in ('posted', 'cancel')"
         else:
             condition = "= 'posted'"
             reverse_cancel = "and t.reversing_id is null"
-        domain_cancel = " ".join(["ml.parent_state", condition, reverse_cancel])
+        return " ".join(["ml.parent_state", condition, reverse_cancel])
+
+    def _compute_results(self):
+        self.ensure_one()
+        domain = self._domain_where_clause_tax()
         self._cr.execute(
             """
             select {}
@@ -86,11 +93,10 @@ class TaxReport(models.TransientModel):
                 and ml.company_id = %s
                 and t.reversed_id is null
             ) a
-            group by company_id, account_id, partner_id,
-                tax_invoice_number, tax_date, name
+            group by {}
             order by tax_date, tax_invoice_number
         """.format(
-                self._query_select_tax(), self._query_select_sub_tax(), domain_cancel
+                self._query_select_tax(), self._query_select_sub_tax(), domain, self._query_groupby_tax()
             ),
             (
                 self.tax_id.id,

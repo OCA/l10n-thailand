@@ -25,7 +25,7 @@ class ReportTaxReportXlsx(models.TransientModel):
             {"align": "right", "num_format": date_format}
         )
     
-    def _get_tax_template(self):
+    def _get_tax_template(self, wb, data, objects):
         return {
             "1_index": {
                 "header": {"value": "#"},
@@ -85,7 +85,7 @@ class ReportTaxReportXlsx(models.TransientModel):
         }
 
     def _get_ws_params(self, wb, data, objects):
-        tax_template = self._get_tax_template()
+        tax_template = self._get_tax_template(wb, data, objects)
         ws_params = {
             "ws_name": "TAX Report",
             "generate_ws_method": "_vat_report",
@@ -110,8 +110,8 @@ class ReportTaxReportXlsx(models.TransientModel):
             ws.write_row(row_pos, 2, [data[1]], FORMATS["format_tcell_left"])
             row_pos += 1
         return row_pos + 1
-    
-    def _get_render_space(self, index, line):
+
+    def _get_render_space(self, index, line, objects):
         return {
             "index": index,
             "tax_date": line.tax_date or "",
@@ -140,7 +140,7 @@ class ReportTaxReportXlsx(models.TransientModel):
                 row_pos,
                 ws_params,
                 col_specs_section="data",
-                render_space=self._get_render_space(index, line),
+                render_space=self._get_render_space(index, line, objects),
                 default_format=FORMATS["format_tcell_left"],
             )
             index += 1

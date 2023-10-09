@@ -21,7 +21,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
             {"align": "right", "num_format": date_format}
         )
     
-    def _get_withholding_tax_template(self):
+    def _get_withholding_tax_template(self, wb, data, obj):
         return {
             "01_sequence": {
                 "header": {"value": "No."},
@@ -106,7 +106,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
         }
 
     def _get_ws_params(self, wb, data, obj):
-        withholding_tax_template = self._get_withholding_tax_template()
+        withholding_tax_template = self._get_withholding_tax_template(wb, data, obj)
         ws_params = {
             "ws_name": "Withholding Tax Report",
             "generate_ws_method": "_withholding_tax_report",
@@ -124,8 +124,9 @@ class WithholdingTaxReportXslx(models.AbstractModel):
             ws.write_row(row_pos, 2, [data[1]])
             row_pos += 1
         return row_pos + 1
-    
-    def _get_render_space(self, index, line):
+
+    def _get_render_space(self, index, line, obj):
+        cancel = line.cert_id.state == "cancel"
         return {
             "sequence": index,
             "vat": line.cert_id.partner_id.vat or "",
@@ -153,13 +154,12 @@ class WithholdingTaxReportXslx(models.AbstractModel):
         ws.freeze_panes(row_pos, 0)
         index = 1
         for line in obj.results:
-            cancel = line.cert_id.state == "cancel"
             row_pos = self._write_line(
                 ws,
                 row_pos,
                 ws_params,
                 col_specs_section="data",
-                render_space=self._get_render_space(index, line),
+                render_space=self._get_render_space(index, line, obj),
                 default_format=FORMATS["format_tcell_left"],
             )
             index += 1
@@ -180,14 +180,8 @@ class WithholdingTaxReportXslx(models.AbstractModel):
         )
         return row_pos
 
-    def _withholding_tax_report(self, workbook, ws, ws_params, data, obj):
-        ws.set_portrait()
-        ws.fit_to_pages(1, 0)
-        ws.set_header(XLS_HEADERS["xls_headers"]["standard"])
-        ws.set_footer(XLS_HEADERS["xls_footers"]["standard"])
-        self._set_column_width(ws, ws_params)
-        row_pos = 0
-        header_data_list = [
+    def _get_header_data_list(self, obj):
+        return [
             (
                 "Date range filter",
                 obj.date_from.strftime("%d/%m/%Y")
@@ -202,6 +196,15 @@ class WithholdingTaxReportXslx(models.AbstractModel):
             ("Tax ID", obj.company_id.partner_id.vat or "-"),
             ("Branch ID", obj.company_id.partner_id.branch or "-"),
         ]
+
+    def _withholding_tax_report(self, workbook, ws, ws_params, data, obj):
+        ws.set_portrait()
+        ws.fit_to_pages(1, 0)
+        ws.set_header(XLS_HEADERS["xls_headers"]["standard"])
+        ws.set_footer(XLS_HEADERS["xls_footers"]["standard"])
+        self._set_column_width(ws, ws_params)
+        row_pos = 0
+        header_data_list = self._get_header_data_list(obj)
         row_pos = self._write_ws_title(ws, row_pos, ws_params, merge_range=True)
         row_pos = self._write_ws_header(row_pos, ws, header_data_list)
         row_pos = self._write_ws_lines(row_pos, ws, ws_params, obj)
