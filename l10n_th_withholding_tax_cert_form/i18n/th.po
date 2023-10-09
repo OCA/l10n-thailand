@@ -15,8 +15,40 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: l10n_th_withholding_tax_cert_form
+#: model:mail.template,subject:l10n_th_withholding_tax_cert_form.wt_cert_email_template
+msgid ""
+"${object.company_id.name} Withholding Tax Certificate (Ref ${object.name or "
+"'n/a' })"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert_form
 #: model:ir.actions.report,print_report_name:l10n_th_withholding_tax_cert_form.withholding_tax_pdf_report
 msgid "'WT Certificates - %s' % object.display_name"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert_form
+#: model:mail.template,body_html:l10n_th_withholding_tax_cert_form.wt_cert_email_template
+msgid ""
+"<?xml version=\"1.0\"?>\n"
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"                    Dear ${object.supplier_partner_id.name}<br/><br/>\n"
+"                    Here is your withholding tax certificate <strong>"
+"${(object.name or \"\").replace(\"/\",\"-\")}</strong> tax amounting\n"
+"                    to <strong>${format_amount(sum(object.wt_line."
+"mapped(\"amount\")), object.currency_id)}</strong> from ${object.company_id."
+"name}.\n"
+"                    <br/><br/>\n"
+"                    Do not hesitate to contact us if you have any "
+"questions.\n"
+"                    <br/><br/>\n"
+"                    Best regards,<br/>\n"
+"                    % if user and user.signature:\n"
+"                    ${user.signature | safe}\n"
+"                    % endif\n"
+"                </p>\n"
+"            </div>\n"
+"        "
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert_form
@@ -45,8 +77,18 @@ msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert_form
+#: model:ir.actions.act_window,name:l10n_th_withholding_tax_cert_form.action_send_wt_cert
+msgid "Send by email"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert_form
 #: model:ir.actions.report,name:l10n_th_withholding_tax_cert_form.withholding_tax_pdf_report
 msgid "WT Certificates (pdf)"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert_form
+#: model:mail.template,report_name:l10n_th_withholding_tax_cert_form.wt_cert_email_template
+msgid "WT Certificates - ${(object.name or '').replace('/','-')}"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert_form
