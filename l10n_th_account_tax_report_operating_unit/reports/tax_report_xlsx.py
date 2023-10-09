@@ -25,19 +25,24 @@ class ReportTaxReportXlsx(models.TransientModel):
         render_space = super()._get_render_space(index, line, objects)
         if objects.show_operating_unit:
             render_space.update(
-                {
-                    "operating_unit_id": line.operating_unit_id.display_name or ""
-                }
+                {"operating_unit_id": line.operating_unit_id.display_name or ""}
             )
         return render_space
 
     def _write_ws_footer(self, row_pos, ws, objects):
         row_pos = super()._write_ws_footer(row_pos, ws, objects)
         if objects.show_operating_unit:
-            ws.merge_range(row_pos, 8, row_pos, 9, "")       
+            ws.merge_range(row_pos, 8, row_pos, 9, "")
         return row_pos
 
     def _get_header_data_list(self, objects):
         header_data_list = super()._get_header_data_list(objects)
-        header_data_list.append(("Operating Unit", objects.operating_unit_ids and ", ".join(objects.operating_unit_ids.mapped("display_name")) or "All"))
+        header_data_list.append(
+            (
+                "Operating Unit",
+                objects.operating_unit_ids
+                and ", ".join(objects.operating_unit_ids.mapped("display_name"))
+                or "All",
+            )
+        )
         return header_data_list

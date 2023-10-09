@@ -1,8 +1,7 @@
 # Copyright 2023 Ecosoft Co., Ltd (https://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo import fields, models
 
 
 class TaxReportWizard(models.TransientModel):
@@ -23,4 +22,3 @@ class TaxReportWizard(models.TransientModel):
         if self.operating_unit_ids:
             res["operating_unit_ids"] = [(6, 0, self.operating_unit_ids.ids)]
         return res
-

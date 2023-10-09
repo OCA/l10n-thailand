@@ -20,7 +20,7 @@ class WithholdingTaxReportXslx(models.AbstractModel):
         FORMATS["format_date_dmy_right"] = workbook.add_format(
             {"align": "right", "num_format": date_format}
         )
-    
+
     def _get_withholding_tax_template(self, wb, data, obj):
         return {
             "01_sequence": {

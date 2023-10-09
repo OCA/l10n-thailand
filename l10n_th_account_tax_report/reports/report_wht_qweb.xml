@@ -16,7 +16,9 @@
             <!-- Display withholding tax report table -->
             <div class="act_as_table data_table mt8">
                 <!-- Display header lines -->
-                <t t-call="l10n_th_account_tax_report.report_withholding_tax_report_lines_header" />
+                <t
+                    t-call="l10n_th_account_tax_report.report_withholding_tax_report_lines_header"
+                />
                 <!-- Display each lines -->
                 <t t-set="n" t-value="1" />
                 <t t-set="total_base" t-value="0.00" />
@@ -24,13 +26,17 @@
                 <t t-foreach="o.results" t-as="line">
                     <t t-set="cancel" t-value="line.cert_id.state == 'cancel'" />
                     <t t-set="supplier" t-value="line.cert_id.partner_id" />
-                    <t t-call="l10n_th_account_tax_report.report_withholding_tax_report_lines" />
+                    <t
+                        t-call="l10n_th_account_tax_report.report_withholding_tax_report_lines"
+                    />
                     <t t-set="n" t-value="n+1" />
                     <t t-set="total_base" t-value="total_base+line.base" />
                     <t t-set="total_amount" t-value="total_amount+line.amount" />
                 </t>
                 <!-- Display total lines -->
-                <t t-call="l10n_th_account_tax_report.report_withholding_tax_report_total_lines" />
+                <t
+                    t-call="l10n_th_account_tax_report.report_withholding_tax_report_total_lines"
+                />
             </div>
         </div>
     </template>
@@ -62,7 +68,9 @@
             </div>
         </div>
     </template>
-    <template id="l10n_th_account_tax_report.report_withholding_tax_report_lines_header">
+    <template
+        id="l10n_th_account_tax_report.report_withholding_tax_report_lines_header"
+    >
         <div class="act_as_thead">
             <div class="act_as_row labels">
                 <div class="act_as_cell">No.</div>
@@ -88,9 +96,7 @@
                 <span t-field="supplier.vat" />
             </div>
             <div class="act_as_cell left">
-                <span
-                    t-esc="not cancel and supplier.display_name or 'Cancelled'"
-                />
+                <span t-esc="not cancel and supplier.display_name or 'Cancelled'" />
             </div>
             <div class="act_as_cell left">
                 <t t-if="not cancel">

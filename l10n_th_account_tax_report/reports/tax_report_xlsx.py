@@ -24,7 +24,7 @@ class ReportTaxReportXlsx(models.TransientModel):
         FORMATS["format_date_dmy_right"] = workbook.add_format(
             {"align": "right", "num_format": date_format}
         )
-    
+
     def _get_tax_template(self, wb, data, objects):
         return {
             "1_index": {

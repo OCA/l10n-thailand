@@ -16,7 +16,12 @@ class WithholdingTaxCert(models.Model):
         tracking=True,
     )
 
-    @api.depends("payment_id", "payment_id.operating_unit_id", "move_id", "move_id.operating_unit_id")
+    @api.depends(
+        "payment_id",
+        "payment_id.operating_unit_id",
+        "move_id",
+        "move_id.operating_unit_id",
+    )
     def _compute_operating_unit_id(self):
         default_ou = self.env["res.users"].operating_unit_default_get(self.env.uid)
         for rec in self:

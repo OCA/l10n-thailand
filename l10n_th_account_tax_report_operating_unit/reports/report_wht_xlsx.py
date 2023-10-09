@@ -25,19 +25,24 @@ class WithholdingTaxReportXslx(models.AbstractModel):
         render_space = super()._get_render_space(index, line, obj)
         if obj.show_operating_unit:
             render_space.update(
-                {
-                    "operating_unit_id": line.cert_id.operating_unit_id.display_name or ""
-                }
+                {"operating_unit_id": line.cert_id.operating_unit_id.display_name or ""}
             )
         return render_space
-    
+
     def _write_ws_footer(self, row_pos, ws, obj):
         row_pos = super()._write_ws_footer(row_pos, ws, obj)
         if obj.show_operating_unit:
             ws.merge_range(row_pos, 9, row_pos, 11, "")
         return row_pos
-    
+
     def _get_header_data_list(self, obj):
         header_data_list = super()._get_header_data_list(obj)
-        header_data_list.append(("Operating Unit", obj.operating_unit_ids and ", ".join(obj.operating_unit_ids.mapped("display_name")) or "All"))
+        header_data_list.append(
+            (
+                "Operating Unit",
+                obj.operating_unit_ids
+                and ", ".join(obj.operating_unit_ids.mapped("display_name"))
+                or "All",
+            )
+        )
         return header_data_list

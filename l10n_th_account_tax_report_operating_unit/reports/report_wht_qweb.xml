@@ -10,7 +10,10 @@
         </xpath>
         <xpath expr="//div/div[2]/div[5]" position="after">
             <div class="act_as_cell">
-                <t t-set="ou" t-value="o.operating_unit_ids and ', '.join(o.operating_unit_ids.mapped('display_name')) or 'All'" />
+                <t
+                    t-set="ou"
+                    t-value="o.operating_unit_ids and ', '.join(o.operating_unit_ids.mapped('display_name')) or 'All'"
+                />
                 <span t-esc="ou" />
             </div>
         </xpath>

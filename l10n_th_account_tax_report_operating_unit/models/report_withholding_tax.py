@@ -14,13 +14,17 @@ class WithHoldingTaxReport(models.TransientModel):
     show_operating_unit = fields.Boolean(
         string="Show Operating Unit",
     )
-    
+
     def _get_domain_wht(self):
         domain = super()._get_domain_wht()
         if not self.operating_unit_ids:
             return domain
         if len(self.operating_unit_ids) > 1:
-            domain.append(("cert_id.operating_unit_id", "in", self.operating_unit_ids.ids))
+            domain.append(
+                ("cert_id.operating_unit_id", "in", self.operating_unit_ids.ids)
+            )
         else:
-            domain.append(("cert_id.operating_unit_id", "=", self.operating_unit_ids.id))
+            domain.append(
+                ("cert_id.operating_unit_id", "=", self.operating_unit_ids.id)
+            )
         return domain

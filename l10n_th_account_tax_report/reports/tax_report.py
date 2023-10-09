@@ -58,11 +58,11 @@ class TaxReport(models.TransientModel):
             then t.balance else 0.0 end as tax_amount,
             case when m.ref is not null
             then m.ref else ml.move_name end as name"""
-    
+
     def _query_groupby_tax(self):
         return """company_id, account_id, partner_id, tax_invoice_number,
             tax_date, name"""
-    
+
     def _domain_where_clause_tax(self):
         reverse_cancel = ""
         if self.show_cancel:
@@ -96,7 +96,10 @@ class TaxReport(models.TransientModel):
             group by {}
             order by tax_date, tax_invoice_number
         """.format(
-                self._query_select_tax(), self._query_select_sub_tax(), domain, self._query_groupby_tax()
+                self._query_select_tax(),
+                self._query_select_sub_tax(),
+                domain,
+                self._query_groupby_tax(),
             ),
             (
                 self.tax_id.id,

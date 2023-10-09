@@ -9,7 +9,11 @@
         />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='income_tax_form']" position="after">
-                <field name="operating_unit_ids" widget="many2many_tags" options="{'no_create_edit': True, 'no_open': True}" />
+                <field
+                    name="operating_unit_ids"
+                    widget="many2many_tags"
+                    options="{'no_create_edit': True, 'no_open': True}"
+                />
                 <field name="show_operating_unit" />
             </xpath>
         </field>
