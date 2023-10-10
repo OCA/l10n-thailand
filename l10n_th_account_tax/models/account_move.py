@@ -3,9 +3,8 @@
 
 from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
-from odoo.tools import float_is_zero, frozendict
-from odoo.tools.float_utils import float_compare, float_round
-from odoo.tools.misc import format_date
+from odoo.tools.float_utils import float_compare, float_is_zero, float_round
+from odoo.tools.misc import format_date, frozendict
 
 
 class AccountMoveLine(models.Model):
@@ -73,7 +72,10 @@ class AccountMoveLine(models.Model):
             amount_wht = 0
             for line in wht_lines:
                 base_amount = line._get_wht_base_amount(currency, wht_date)
-                amount_wht += line.wht_tax_id.amount / 100 * base_amount
+                amount_wht += float_round(
+                    line.wht_tax_id.amount / 100 * base_amount,
+                    precision_digits=currency.decimal_places,
+                )
                 amount_base += base_amount
             return (amount_base, amount_wht)
         # PIT
@@ -120,47 +122,47 @@ class AccountMoveLine(models.Model):
             base = abs(float_round(tax * 100 / self.tax_line_id.amount, prec))
         return sign * base
 
+    def _prepare_move_tax_invoice(self, sign, vals_list):
+        self.ensure_one()
+        tax_base_amount = self._get_tax_base_amount(sign, vals_list)
+        # For case customer invoice, customer credit note and not manual reconcile
+        # it default value in tax invoice
+        default_tax_invoice = self.move_id.move_type in [
+            "out_invoice",
+            "out_refund",
+        ] and not self.env.context.get("invoice_net_refund")
+        taxinv_dict = {
+            "move_id": self.move_id.id,
+            "move_line_id": self.id,
+            "partner_id": self.partner_id.id,
+            "tax_invoice_number": default_tax_invoice and "/" or False,
+            "tax_invoice_date": default_tax_invoice and fields.Date.today() or False,
+            "tax_base_amount": tax_base_amount,
+            "balance": sign * abs(self.balance),
+            "reversed_id": (
+                self.move_id.move_type == "entry"
+                and self.move_id.reversed_entry_id.id
+                or False
+            ),
+        }
+        return taxinv_dict
+
     @api.model_create_multi
     def create(self, vals_list):
         move_lines = super().create(vals_list)
         TaxInvoice = self.env["account.move.tax.invoice"]
         sign = self.env.context.get("reverse_tax_invoice") and -1 or 1
         for line in move_lines:
-            is_tax_invoice = (
-                True
-                if line.tax_line_id
+            is_tax_invoice = bool(
+                line.tax_line_id
                 and (
                     line.tax_line_id.tax_exigibility == "on_invoice"
                     or line.move_id.tax_cash_basis_origin_move_id
                 )
-                else False
             )
             if is_tax_invoice or line.manual_tax_invoice:
-                tax_base_amount = line._get_tax_base_amount(sign, vals_list)
-                # For case customer invoice, customer credit note and not manual reconcile
-                # it default value in tax invoice
-                default_tax_invoice = line.move_id.move_type in [
-                    "out_invoice",
-                    "out_refund",
-                ] and not self.env.context.get("invoice_net_refund")
-                taxinv = TaxInvoice.create(
-                    {
-                        "move_id": line.move_id.id,
-                        "move_line_id": line.id,
-                        "partner_id": line.partner_id.id,
-                        "tax_invoice_number": default_tax_invoice and "/" or False,
-                        "tax_invoice_date": default_tax_invoice
-                        and fields.Date.today()
-                        or False,
-                        "tax_base_amount": tax_base_amount,
-                        "balance": sign * abs(line.balance),
-                        "reversed_id": (
-                            line.move_id.move_type == "entry"
-                            and line.move_id.reversed_entry_id.id
-                            or False
-                        ),
-                    }
-                )
+                taxinv_dict = line._prepare_move_tax_invoice(sign, vals_list)
+                taxinv = TaxInvoice.create(taxinv_dict)
                 line.tax_invoice_ids |= taxinv
             # Assign back the reversing id
             for taxinv in line.tax_invoice_ids.filtered("reversed_id"):
@@ -170,9 +172,10 @@ class AccountMoveLine(models.Model):
         return move_lines
 
     def write(self, vals):
+        TaxInvoice = self.env["account.move.tax.invoice"]
+        # Add manual tax in journal entries
         if "manual_tax_invoice" in vals:
             if vals["manual_tax_invoice"]:
-                TaxInvoice = self.env["account.move.tax.invoice"]
                 for line in self:
                     taxinv = TaxInvoice.create(
                         {
@@ -187,6 +190,30 @@ class AccountMoveLine(models.Model):
             else:
                 self = self.with_context(force_remove_tax_invoice=True)
                 self.mapped("tax_invoice_ids").unlink()
+        # For case change type taxes, check cash basis
+        if "tax_repartition_line_id" in vals:
+            sign = self.env.context.get("reverse_tax_invoice") and -1 or 1
+            tax_repartition_line = self.env["account.tax.repartition.line"].browse(
+                vals["tax_repartition_line_id"]
+            )
+            is_tax_invoice = (
+                True
+                if tax_repartition_line.tax_id
+                and (
+                    tax_repartition_line.tax_id.tax_exigibility == "on_invoice"
+                    or self.move_id.tax_cash_basis_origin_move_id
+                )
+                else False
+            )
+            # clear all taxes first
+            self = self.with_context(force_remove_tax_invoice=True)
+            self.mapped("tax_invoice_ids").unlink()
+            # if not cash basis, create new tax invoice
+            if is_tax_invoice:
+                vals_list = [vals]
+                taxinv_dict = self._prepare_move_tax_invoice(sign, vals_list)
+                taxinv = TaxInvoice.create(taxinv_dict)
+                self.tax_invoice_ids |= taxinv
         return super().write(vals)
 
     def _add_deduction(
@@ -203,37 +230,6 @@ class AccountMoveLine(models.Model):
             "amount": amount_wht,
         }
         return deduct, amount_deduct
-
-    def _get_partner_wht_lines(self, wht_tax_lines, partner_id):
-        partner_wht_lines = wht_tax_lines.filtered(
-            lambda l: l.partner_id.id == partner_id
-        )
-        return partner_wht_lines
-
-    def _get_partner_wht(self, wht_tax_lines):
-        return wht_tax_lines.mapped("partner_id").ids
-
-    def _prepare_deduction_list(self, date, currency):
-        deductions = []
-        amount_deduct = 0
-        wht_taxes = self.mapped("wht_tax_id")
-        for wht_tax in wht_taxes:
-            wht_tax_lines = self.filtered(lambda l: l.wht_tax_id == wht_tax)
-            partner_ids = self._get_partner_wht(wht_tax_lines)
-            for partner_id in partner_ids:
-                partner_wht_lines = self._get_partner_wht_lines(
-                    wht_tax_lines, partner_id
-                )
-                deduct, amount_deduct = self._add_deduction(
-                    partner_wht_lines,
-                    wht_tax,
-                    partner_id,
-                    amount_deduct,
-                    currency,
-                    date,
-                )
-                deductions.append(deduct)
-        return (deductions, amount_deduct)
 
     @api.depends(
         "tax_ids",
@@ -321,6 +317,37 @@ class AccountMoveLine(models.Model):
                         }
                     )
         return res
+
+    def _get_partner_wht_lines(self, wht_tax_lines, partner_id):
+        partner_wht_lines = wht_tax_lines.filtered(
+            lambda l: l.partner_id.id == partner_id
+        )
+        return partner_wht_lines
+
+    def _get_partner_wht(self, wht_tax_lines):
+        return wht_tax_lines.mapped("partner_id").ids
+
+    def _prepare_deduction_list(self, date, currency):
+        deductions = []
+        amount_deduct = 0
+        wht_taxes = self.mapped("wht_tax_id")
+        for wht_tax in wht_taxes:
+            wht_tax_lines = self.filtered(lambda l: l.wht_tax_id == wht_tax)
+            partner_ids = self._get_partner_wht(wht_tax_lines)
+            for partner_id in partner_ids:
+                partner_wht_lines = self._get_partner_wht_lines(
+                    wht_tax_lines, partner_id
+                )
+                deduct, amount_deduct = self._add_deduction(
+                    partner_wht_lines,
+                    wht_tax,
+                    partner_id,
+                    amount_deduct,
+                    currency,
+                    date,
+                )
+                deductions.append(deduct)
+        return (deductions, amount_deduct)
 
     def reconcile(self):
         """
@@ -462,6 +489,7 @@ class AccountMove(models.Model):
                             )
                             line_reconcile.reconcile()
                         continue
+                    # Skip Error when found refund
                     elif self.env.context.get("net_invoice_refund"):
                         continue
                     else:
@@ -581,13 +609,31 @@ class AccountMove(models.Model):
                         )
                 else:  # Normal case, use new sequence
                     number = sequence.next_by_id(sequence_date=move.date)
-            else:  # Now sequence for this tax, use config (document/invoice number)
+            else:  # Now sequence for this tax, use config (payment/invoice number)
                 number = (
                     tax_invoice.payment_id.name
-                    if self.env.company.customer_tax_invoice_number == "document"
+                    if self.env.company.customer_tax_invoice_number == "payment"
                     else tax_invoice.move_id.ref
                 ) or origin_move.name
         return (number, invoice_date)
+
+    def copy(self, default=None):
+        """
+        For case reverse move,
+        Tax number and date must have value from wizard reversal.
+        """
+        self.ensure_one()
+        new = super().copy(default)
+        tax_number = self.env.context.get("tax_invoice_number")
+        tax_date = self.env.context.get("tax_invoice_date")
+        if tax_number or tax_date:
+            new.tax_invoice_ids.write(
+                {
+                    "tax_invoice_number": tax_number,
+                    "tax_invoice_date": tax_date,
+                }
+            )
+        return new
 
     def _reverse_moves(self, default_values_list=None, cancel=False):
         self = self.with_context(reverse_tax_invoice=True)

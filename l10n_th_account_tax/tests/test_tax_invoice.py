@@ -71,15 +71,15 @@ class TestTaxInvoice(TransactionCase):
                 "tax_group_id": cls.tax_group_vat.id,
                 "tax_exigibility": "on_invoice",
                 "invoice_repartition_line_ids": [
-                    (0, 0, {"factor_percent": 100.0, "repartition_type": "base"}),
-                    (
-                        0,
-                        0,
+                    Command.create(
+                        {"factor_percent": 100.0, "repartition_type": "base"}
+                    ),
+                    Command.create(
                         {
                             "factor_percent": 100.0,
                             "repartition_type": "tax",
                             "account_id": cls.output_vat_acct.id,
-                        },
+                        }
                     ),
                 ],
             }
@@ -93,15 +93,15 @@ class TestTaxInvoice(TransactionCase):
                 "tax_group_id": cls.tax_group_undue_vat.id,
                 "tax_exigibility": "on_payment",
                 "invoice_repartition_line_ids": [
-                    (0, 0, {"factor_percent": 100.0, "repartition_type": "base"}),
-                    (
-                        0,
-                        0,
+                    Command.create(
+                        {"factor_percent": 100.0, "repartition_type": "base"}
+                    ),
+                    Command.create(
                         {
                             "factor_percent": 100.0,
                             "repartition_type": "tax",
                             "account_id": cls.output_vat_acct.id,
-                        },
+                        }
                     ),
                 ],
                 "cash_basis_transition_account_id": cls.undue_output_vat_acct.id,
@@ -116,15 +116,15 @@ class TestTaxInvoice(TransactionCase):
                 "tax_group_id": cls.tax_group_vat.id,
                 "tax_exigibility": "on_invoice",
                 "invoice_repartition_line_ids": [
-                    (0, 0, {"factor_percent": 100.0, "repartition_type": "base"}),
-                    (
-                        0,
-                        0,
+                    Command.create(
+                        {"factor_percent": 100.0, "repartition_type": "base"}
+                    ),
+                    Command.create(
                         {
                             "factor_percent": 100.0,
                             "repartition_type": "tax",
                             "account_id": cls.input_vat_acct.id,
-                        },
+                        }
                     ),
                 ],
             }
@@ -138,15 +138,15 @@ class TestTaxInvoice(TransactionCase):
                 "tax_group_id": cls.tax_group_vat.id,
                 "tax_exigibility": "on_invoice",
                 "invoice_repartition_line_ids": [
-                    (0, 0, {"factor_percent": 100.0, "repartition_type": "base"}),
-                    (
-                        0,
-                        0,
+                    Command.create(
+                        {"factor_percent": 100.0, "repartition_type": "base"}
+                    ),
+                    Command.create(
                         {
                             "factor_percent": 100.0,
                             "repartition_type": "tax",
                             "account_id": cls.input_zero_vat_acct.id,
-                        },
+                        }
                     ),
                 ],
             }
@@ -160,15 +160,15 @@ class TestTaxInvoice(TransactionCase):
                 "tax_group_id": cls.tax_group_undue_vat.id,
                 "tax_exigibility": "on_payment",
                 "invoice_repartition_line_ids": [
-                    (0, 0, {"factor_percent": 100.0, "repartition_type": "base"}),
-                    (
-                        0,
-                        0,
+                    Command.create(
+                        {"factor_percent": 100.0, "repartition_type": "base"}
+                    ),
+                    Command.create(
                         {
                             "factor_percent": 100.0,
                             "repartition_type": "tax",
                             "account_id": cls.input_vat_acct.id,
-                        },
+                        }
                     ),
                 ],
                 "cash_basis_transition_account_id": cls.undue_input_vat_acct.id,
@@ -183,22 +183,22 @@ class TestTaxInvoice(TransactionCase):
                 "tax_group_id": cls.tax_group_undue_vat.id,
                 "tax_exigibility": "on_payment",
                 "invoice_repartition_line_ids": [
-                    (0, 0, {"factor_percent": 100.0, "repartition_type": "base"}),
-                    (
-                        0,
-                        0,
+                    Command.create(
+                        {"factor_percent": 100.0, "repartition_type": "base"}
+                    ),
+                    Command.create(
                         {
                             "factor_percent": 100.0,
                             "repartition_type": "tax",
                             "account_id": cls.input_vat_acct.id,
-                        },
+                        }
                     ),
                 ],
                 "cash_basis_transition_account_id": cls.undue_reconcile_input_vat_acct.id,
             }
         )
         cls.payment_term_immediate = cls.env["account.payment.term"].create(
-            {"name": "", "line_ids": [(0, 0, {"value": "balance", "days": 15})]}
+            {"name": "", "line_ids": [Command.create({"value": "balance", "days": 15})]}
         )
 
         # Optiona tax sequence
@@ -214,9 +214,7 @@ class TestTaxInvoice(TransactionCase):
                 "move_type": invoice_type,
                 "invoice_date": fields.Date.today(),
                 "invoice_line_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "quantity": 1.0,
                             "account_id": cls.env["account.account"]
@@ -224,8 +222,8 @@ class TestTaxInvoice(TransactionCase):
                             .id,
                             "name": "Advice",
                             "price_unit": 100.00,
-                            "tax_ids": [(6, 0, [vat.id])],
-                        },
+                            "tax_ids": [Command.set([vat.id])],
+                        }
                     )
                 ],
             }
@@ -552,13 +550,13 @@ class TestTaxInvoice(TransactionCase):
         system auto fill in Tax Invoice using sequence"""
         self.assertEqual(
             self.customer_invoice_vat_seq.company_id.customer_tax_invoice_number,
-            "document",
+            "payment",
         )
         cust_inv_vat_doc = self.customer_invoice_vat_seq.copy()
         cust_inv_vat_doc.action_post()
         tax_invoices = cust_inv_vat_doc.tax_invoice_ids
         tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
-        # tax invoice number will auto fill following document
+        # tax invoice number will auto fill following payment
         # This is not undue vat, so document there is value same as invoice
         self.assertEqual(tax_invoice_number, cust_inv_vat_doc.name)
 
@@ -589,7 +587,7 @@ class TestTaxInvoice(TransactionCase):
         system auto fill in Tax Invoice using sequence"""
         self.assertEqual(
             self.customer_invoice_undue_vat_seq.company_id.customer_tax_invoice_number,
-            "document",
+            "payment",
         )
         cust_undue_doc = self.customer_invoice_undue_vat_seq.copy()
         cust_undue_doc.action_post()
@@ -680,6 +678,33 @@ class TestTaxInvoice(TransactionCase):
         for move in cash_basis_entries:
             with self.assertRaises(UserError):
                 move.action_post()
+
+    def test_supplier_invoice_reversal(self):
+        """Case on reversal vendor bill."""
+        # Post suupplier invoice
+        tax_invoice = "SINV-10001"
+        tax_date = fields.Date.today()
+        self.supplier_invoice_vat.tax_invoice_ids.write(
+            {"tax_invoice_number": tax_invoice, "tax_invoice_date": tax_date}
+        )
+        self.supplier_invoice_vat.action_post()
+        # Add credit note
+        ctx = {
+            "active_ids": self.supplier_invoice_vat.ids,
+            "active_model": "account.move",
+        }
+        with Form(self.env["account.move.reversal"].with_context(**ctx)) as f:
+            f.refund_method = "cancel"
+        reversal_move = f.save()
+        # Can't reversal move, if not add tax number, date in account.move.reversal
+        with self.assertRaises(UserError):
+            reversal_move.reverse_moves()
+        tax_reversal_invoice = "RSINV-10001"
+        reversal_move.write(
+            {"tax_invoice_number": tax_reversal_invoice, "tax_invoice_date": tax_date}
+        )
+        reversal_move.reverse_moves()
+        self.assertEqual(self.supplier_invoice_vat.payment_state, "reversed")
 
     def test_included_tax(self):
         """

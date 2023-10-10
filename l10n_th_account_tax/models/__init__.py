@@ -12,4 +12,5 @@ from . import account_partial_reconcile
 from . import account_payment
 from . import account_withholding_tax
 from . import account_withholding_move
+from . import account_tax
 from . import res_partner
