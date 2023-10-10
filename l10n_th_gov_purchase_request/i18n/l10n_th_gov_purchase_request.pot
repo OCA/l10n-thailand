@@ -231,7 +231,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_th_gov_purchase_request.procurement_method_action
 #: model:ir.ui.menu,name:l10n_th_gov_purchase_request.procurement_method_menu
 #: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.procurement_method_view_form
-#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.procurement_method_view_tree
 msgid "Procurement Methods"
 msgstr ""
 
@@ -244,7 +243,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_th_gov_purchase_request.procurement_type_action
 #: model:ir.ui.menu,name:l10n_th_gov_purchase_request.procurement_type_menu
 #: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.procurement_type_view_form
-#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.procurement_type_view_tree
 msgid "Procurement Types"
 msgstr ""
 
@@ -290,7 +288,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_th_gov_purchase_request.purchase_type_action
 #: model:ir.ui.menu,name:l10n_th_gov_purchase_request.purchase_type_menu
 #: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.purchase_type_view_form
-#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.purchase_type_view_tree
 msgid "Purchase Types"
 msgstr ""
 
