@@ -21,8 +21,9 @@
                                 string="Customer Tax Invoice Number"
                             />
                             <div class="text-muted">
-                                Define your tax invoice number (Undue Vat)
-                                when user not select 'Tax Invoice Sequence' in taxes
+                                In case of Sales Undue VAT,
+                                Define your tax invoice number which is created after payment
+                                when user didn't setup Tax Invoice Sequence in Tax setting.
                             </div>
                             <div class="content-group">
                                 <div class="mt16">
