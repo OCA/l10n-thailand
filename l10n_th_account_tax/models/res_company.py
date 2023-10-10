@@ -8,11 +8,12 @@ class ResCompany(models.Model):
     _inherit = "res.company"
 
     customer_tax_invoice_number = fields.Selection(
-        [
-            ("document", "Document Number"),
-            ("invoice", "Invoice Number"),
+        selection=[
+            ("payment", "Customer Payment Number"),
+            ("invoice", "Customer Invoice Number"),
         ],
-        default="document",
-        help="""It default running tax number by document
+        string="Customer Tax Invoice Number (Undue VAT)",
+        default="payment",
+        help="""It default running tax number by payment
         when user not select 'Tax Invoice Sequence' in taxes""",
     )

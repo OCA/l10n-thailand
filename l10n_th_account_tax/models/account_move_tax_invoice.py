@@ -58,10 +58,14 @@ class AccountMoveTaxInvoice(models.Model):
         comodel_name="res.currency", related="company_id.currency_id"
     )
     account_id = fields.Many2one(
-        comodel_name="account.account", related="move_line_id.account_id"
+        comodel_name="account.account",
+        related="move_line_id.account_id",
+        store=True,
     )
     tax_line_id = fields.Many2one(
-        comodel_name="account.tax", related="move_line_id.tax_line_id"
+        comodel_name="account.tax",
+        related="move_line_id.tax_line_id",
+        store=True,
     )
     tax_base_amount = fields.Monetary(
         string="Tax Base",
@@ -132,8 +136,10 @@ class AccountMoveTaxInvoice(models.Model):
             tax_invoice_date = self.tax_invoice_date.replace(day=1)
             difference = relativedelta(accounting_date, tax_invoice_date)
             # Check accounting date and tax invoice date is difference
-            if difference.years > 0 or (
-                difference.years == 0 and difference.months >= 6
+            if (
+                difference.years > 0
+                or (difference.years == 0 and difference.months >= 6)
+                or difference.months < 0
             ):
                 report_late = "0"
             else:

@@ -172,14 +172,22 @@
                     <filter
                         string="Date"
                         name="date"
-                        domain="[]"
                         context="{'group_by':'tax_invoice_date'}"
                     />
                     <filter
                         string="Partner"
                         name="partner"
-                        domain="[]"
                         context="{'group_by':'partner_id'}"
+                    />
+                    <filter
+                        string="Account"
+                        name="account"
+                        context="{'group_by':'account_id'}"
+                    />
+                    <filter
+                        string="Originator Tax"
+                        name="tax_line"
+                        context="{'group_by':'tax_line_id'}"
                     />
                 </group>
             </search>
