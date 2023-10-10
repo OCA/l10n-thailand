@@ -723,7 +723,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_account_bank_statement_line__wt_cert_ids
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_account_move__wt_cert_ids
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_account_payment__wt_cert_ids
-#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_cert.view_withholding_tax_cert_tree
 msgid "Withholding Tax Cert."
 msgstr ""
 
