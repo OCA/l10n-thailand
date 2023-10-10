@@ -17,7 +17,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_th_sequence_be.ir_sequence_form_inherit
 msgid ""
 "<span colspan=\"2\">Current Buddhist Era (BE) year with century: %(year_be)s</span>\n"
-"                    <span colspan=\"2\">Current Buddhist Era (BE) Year without Century: %(y_be)s</span>"
+"                <span colspan=\"2\">Current Buddhist Era (BE) Year without Century: %(y_be)s</span>"
 msgstr ""
 
 #. module: l10n_th_sequence_be
