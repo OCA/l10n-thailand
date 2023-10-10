@@ -163,7 +163,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax.product_template_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax.view_account_payment_register_form
 #: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax.view_account_withholding_tax_form
-#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax.view_account_withholding_tax_tree
 msgid "Withholding Tax"
 msgstr ""
 
