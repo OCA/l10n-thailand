@@ -72,7 +72,10 @@ class AccountMoveLine(models.Model):
             amount_wht = 0
             for line in wht_lines:
                 base_amount = line._get_wht_base_amount(currency, wht_date)
-                amount_wht += line.wht_tax_id.amount / 100 * base_amount
+                amount_wht += float_round(
+                    line.wht_tax_id.amount / 100 * base_amount,
+                    precision_digits=currency.decimal_places,
+                )
                 amount_base += base_amount
             return (amount_base, amount_wht)
         # PIT
@@ -365,6 +368,8 @@ class AccountMove(models.Model):
                     not tax_invoice.tax_invoice_number
                     or not tax_invoice.tax_invoice_date
                 ):
+                    tax_invoice_number = self.env.context.get("tax_invoice_number")
+                    tax_invoice_date = self.env.context.get("tax_invoice_date")
                     if tax_invoice.payment_id:  # Defer posting for payment
                         tax_invoice.payment_id.write({"to_clear_tax": True})
                         # Auto post tax cash basis when reset to draft
@@ -382,6 +387,15 @@ class AccountMove(models.Model):
                             )
                             line_reconcile.reconcile()
                         continue
+                    # Add Tax Invoice Number, Date from context (if any)
+                    elif tax_invoice_number and tax_invoice_date:
+                        move.tax_invoice_ids.write(
+                            {
+                                "tax_invoice_number": tax_invoice_number,
+                                "tax_invoice_date": tax_invoice_date,
+                            }
+                        )
+                    # Skip Error when found refund
                     elif self.env.context.get("net_invoice_refund"):
                         continue
                     else:

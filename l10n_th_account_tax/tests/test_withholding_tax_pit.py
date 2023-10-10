@@ -13,7 +13,6 @@ class TestWithholdingTaxPIT(TransactionCase):
     @classmethod
     @freeze_time("2001-02-01")
     def setUpClass(cls):
-        """Assign user and department."""
         super().setUpClass()
         cls.partner = cls.env["res.partner"].create({"name": "Test Partner"})
         cls.product = cls.env["product.product"].create(

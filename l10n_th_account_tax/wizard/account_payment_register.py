@@ -1,8 +1,8 @@
 # Copyright 2020 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools.misc import format_date
 
 
 class AccountPaymentRegister(models.TransientModel):
@@ -41,11 +41,6 @@ class AccountPaymentRegister(models.TransientModel):
 
     def _onchange_pit(self):
         """Onchange set for personal income tax"""
-        if not self.wht_tax_id.pit_id:
-            raise UserError(
-                _("No effective PIT rate for date %s")
-                % format_date(self.env, self.payment_date)
-            )
         amount_base_company = self.currency_id._convert(
             self.wht_amount_base,
             self.company_id.currency_id,
@@ -183,4 +178,10 @@ class AccountPaymentRegister(models.TransientModel):
             self = self.with_context(partial_payment=True)
         elif self.payment_difference_handling == "reconcile":
             self = self.with_context(skip_account_move_synchronization=True)
+        # Add context reverse_tax_invoice for case
+        # register payment reversal document with undue vat
+        active_ids = self.env.context.get("active_ids", False)
+        move_ids = self.env["account.move"].browse(active_ids)
+        if any(move.move_type in ["in_refund", "out_refund"] for move in move_ids):
+            self = self.with_context(reverse_tax_invoice=True)
         return super().action_create_payments()

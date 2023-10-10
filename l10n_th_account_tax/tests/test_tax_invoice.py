@@ -2,13 +2,13 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 from odoo import fields
 from odoo.exceptions import UserError
-from odoo.tests.common import Form, SingleTransactionCase
+from odoo.tests.common import Form, TransactionCase
 
 
-class TestTaxInvoice(SingleTransactionCase):
+class TestTaxInvoice(TransactionCase):
     @classmethod
     def setUpClass(cls):
-        super(TestTaxInvoice, cls).setUpClass()
+        super().setUpClass()
         Journal = cls.env["account.journal"]
         # Setup company to allow using tax cash basis
         cls.journal_undue = cls.env["account.journal"].create(
@@ -489,6 +489,33 @@ class TestTaxInvoice(SingleTransactionCase):
         for move in cash_basis_entries:
             with self.assertRaises(UserError):
                 move.action_post()
+
+    def test_supplier_invoice_reversal(self):
+        """Case on reversal vendor bill."""
+        # Post suupplier invoice
+        tax_invoice = "SINV-10001"
+        tax_date = fields.Date.today()
+        self.supplier_invoice_vat.tax_invoice_ids.write(
+            {"tax_invoice_number": tax_invoice, "tax_invoice_date": tax_date}
+        )
+        self.supplier_invoice_vat.action_post()
+        # Add credit note
+        ctx = {
+            "active_ids": self.supplier_invoice_vat.ids,
+            "active_model": "account.move",
+        }
+        with Form(self.env["account.move.reversal"].with_context(**ctx)) as f:
+            f.refund_method = "cancel"
+        reversal_move = f.save()
+        # Can't reversal move, if not add tax number, date in account.move.reversal
+        with self.assertRaises(UserError):
+            reversal_move.reverse_moves()
+        tax_reversal_invoice = "RSINV-10001"
+        reversal_move.write(
+            {"tax_invoice_number": tax_reversal_invoice, "tax_invoice_date": tax_date}
+        )
+        reversal_move.reverse_moves()
+        self.assertEqual(self.supplier_invoice_vat.payment_state, "reversed")
 
     def test_included_tax(self):
         """

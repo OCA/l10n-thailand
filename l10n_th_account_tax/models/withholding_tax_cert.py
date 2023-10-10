@@ -63,7 +63,11 @@ WHT_CERT_INCOME_TYPE = [
 ]
 
 
-TAX_PAYER = [("withholding", "Withholding"), ("paid_one_time", "Paid One Time")]
+TAX_PAYER = [
+    ("withholding", "Withholding"),
+    ("paid_one_time", "Paid One Time"),
+    ("paid_continue", "Paid Continuously"),
+]
 
 
 class WithholdingTaxCert(models.Model):
