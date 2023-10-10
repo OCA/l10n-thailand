@@ -194,7 +194,6 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_th_gov_purchase_guarantee.purchase_guarantee_menu
 #: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_search_view
 #: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_order_form
-#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.view_purchase_guarantee_tree
 #: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.view_purchase_requisition_form
 msgid "Guarantee"
 msgstr ""
@@ -216,7 +215,6 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_th_gov_purchase_guarantee.purchase_guarantee_method_menu
 #: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_method_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_method_search_view
-#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_method_tree_view
 msgid "Guarantee Method"
 msgstr ""
 
@@ -236,7 +234,6 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_th_gov_purchase_guarantee.purchase_guarantee_type_menu
 #: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_type_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_type_search_view
-#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_type_tree_view
 msgid "Guarantee Type"
 msgstr ""
 
