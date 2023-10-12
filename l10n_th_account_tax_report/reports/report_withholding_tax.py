@@ -140,19 +140,20 @@ class WithHoldingTaxReport(models.TransientModel):
                 name = obj.find_information(partner_id, line)
                 address = obj.find_address(partner_id, line)
                 tax_branch = (
-                    line.wht_income_tax_form == "pnd53"
-                    and "|{}".format(partner_id.branch or "")
+                    line.wht_income_tax_form in ["pnd53", "pnd3"]
+                    and "|{}".format(partner_id.branch or "00000")
                     or ""
                 )
                 # For case show cancelled, amount must show 0.0
                 cancel = line.cert_id.state == "cancel"
                 text += (
-                    "{income_code}{index}|{vat}|{name}|{address}{date}|"
+                    "{income_code}{index}|{vat}{tax_branch}|{name}|{address}{date}|"
                     "{type_income_desc}{base_amount}|{wht_amount}|{tax_payer}"
-                    "{tax_branch}\n".format(
+                    "\n".format(
                         income_code=income_code,  # for pnd1 only
                         index=idx + 1,
                         vat=vat,
+                        tax_branch=tax_branch,
                         name=name,
                         address=address
                         and "{}|".format(address)
@@ -162,7 +163,6 @@ class WithHoldingTaxReport(models.TransientModel):
                         base_amount=not cancel and "{:,.2f}".format(line.base) or 0.00,
                         wht_amount=not cancel and "{:,.2f}".format(line.amount) or 0.00,
                         tax_payer=self._convert_tax_payer(line.cert_id.tax_payer),
-                        tax_branch=tax_branch,
                     )
                 )
         return text
@@ -309,10 +309,14 @@ class WithHoldingTaxReport(models.TransientModel):
         )
         # Condition
         tax_payer = 1
+        # NOTE: support with tax one paid only
         if line.cert_id.tax_payer != "withholding":
-            tax_payer = 2
+            if line.cert_id.income_tax_form == "pnd53":
+                tax_payer = 2  # Tax one paid
+            else:
+                tax_payer = 3  # Tax one paid
         return {
-            "partner_vat": partner.vat or "XXXXXXXXXXXXX",
+            "partner_vat": partner.vat or " " * 13,  # space when no vat
             "partner_branch": partner.branch,
             "partner_firstname": firstname,
             "partner_lastname": lastname,
