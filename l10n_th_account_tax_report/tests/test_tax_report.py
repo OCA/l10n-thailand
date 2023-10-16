@@ -102,6 +102,7 @@ class TestTaxReport(TransactionCase):
 
     def test_02_button_export_pdf(self):
         # Check data query, it should have data
+        self.tax_purchase_report_wizard.show_cancel = False
         self.assertTrue(self.tax_purchase_report_wizard.results)
         report = self.tax_purchase_report_wizard.button_export_pdf()
         self.assertEqual(report["name"], "Thai TAX Report")
