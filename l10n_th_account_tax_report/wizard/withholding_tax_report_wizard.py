@@ -267,7 +267,9 @@ class WithHoldingTaxReportWizard(models.TransientModel):
     def _convert_tax_payer(self, tax_payer):
         if tax_payer == "withholding":
             return 1
-        return 3  # paid one time
+        if tax_payer == "paid_continue":
+            return 2
+        return 3  # Paid One Time
 
     def _prepare_cert_data(self, line):
         line.ensure_one()
@@ -295,14 +297,21 @@ class WithHoldingTaxReportWizard(models.TransientModel):
                 if x
             ]
         )
-        # Condition
-        tax_payer = 1
-        # NOTE: support with tax one paid only
-        if line.cert_id.tax_payer != "withholding":
-            if line.cert_id.income_tax_form == "pnd53":
-                tax_payer = 2  # Tax one paid
-            else:
-                tax_payer = 3  # Tax one paid
+        # Condition of Tax Payer
+        # - Withholding Tax: 1
+        # - Paid One Time
+        #     - PND53: 2
+        #     - Not PND53: 3
+        # - Paid Continuously
+        #     - PND53: 3
+        #     - Not PND53: 2
+        if line.cert_id.tax_payer == "withholding":
+            tax_payer = 1
+        elif line.cert_id.tax_payer == "paid_one_time":  # Paid One Time
+            tax_payer = 2 if line.cert_id.income_tax_form == "pnd53" else 3
+        else:  # Paid Continuously
+            tax_payer = 3 if line.cert_id.income_tax_form == "pnd53" else 2
+
         return {
             "partner_vat": partner.vat or " " * 13,  # space when no vat
             "partner_branch": partner.branch,
@@ -353,9 +362,7 @@ class WithHoldingTaxReportWizard(models.TransientModel):
         }
 
     def format_date_ym_wht(self, date=None):
-        if not date:
-            # date month before
-            date = self.date_from
+        date = date or self.date_from
         year_thai = date.year + 543
         date_format = "{}{}".format(year_thai, str(date.month).zfill(2))
         return date_format
