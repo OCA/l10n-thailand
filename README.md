@@ -32,6 +32,7 @@ addon | version | maintainers | summary
 [l10n_th_bank_payment_export](l10n_th_bank_payment_export/) | 15.0.1.1.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Base export payment text file to bank
 [l10n_th_bank_payment_export_ktb](l10n_th_bank_payment_export_ktb/) | 15.0.1.0.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Bank Payment Export File KTB
 [l10n_th_base_location](l10n_th_base_location/) | 15.0.1.0.0 |  | Thai Localization - Base Location
+[l10n_th_base_sequence](l10n_th_base_sequence/) | 15.0.1.1.0 | [![sansirit](https://github.com/sansirit.png?size=30px)](https://github.com/sansirit) [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Thai Localization - Base Sequence
 [l10n_th_fonts](l10n_th_fonts/) | 15.0.1.0.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Collection of all fonts thai
 [l10n_th_gov_account_asset_management](l10n_th_gov_account_asset_management/) | 15.0.3.0.0 | [![ps-tubtim](https://github.com/ps-tubtim.png?size=30px)](https://github.com/ps-tubtim) | Thai Localization - Government Assets Management
 [l10n_th_gov_purchase_agreement](l10n_th_gov_purchase_agreement/) | 15.0.1.1.0 | [![newtratip](https://github.com/newtratip.png?size=30px)](https://github.com/newtratip) | Thai Localization - Government Purchase Agreement
@@ -41,7 +42,6 @@ addon | version | maintainers | summary
 [l10n_th_mis_report](l10n_th_mis_report/) | 15.0.1.0.0 | [![ps-tubtim](https://github.com/ps-tubtim.png?size=30px)](https://github.com/ps-tubtim) | Thai Localization - MIS Report
 [l10n_th_partner](l10n_th_partner/) | 15.0.1.1.0 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Partner
 [l10n_th_promptpay](l10n_th_promptpay/) | 15.0.1.0.0 |  | Use PromptPay QR code with transfer acquirer.
-[l10n_th_sequence_refactored](l10n_th_sequence_refactored/) | 15.0.1.0.0 |  | Base Sequence
 
 [//]: # (end addons)
 

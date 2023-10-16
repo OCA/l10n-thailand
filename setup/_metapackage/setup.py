@@ -19,6 +19,7 @@ setuptools.setup(
         'odoo-addon-l10n_th_bank_payment_export>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_bank_payment_export_ktb>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_base_location>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_th_base_sequence>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_fonts>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_gov_account_asset_management>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_gov_purchase_agreement>=15.0dev,<15.1dev',
@@ -28,7 +29,6 @@ setuptools.setup(
         'odoo-addon-l10n_th_mis_report>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_partner>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_promptpay>=15.0dev,<15.1dev',
-        'odoo-addon-l10n_th_sequence_refactored>=15.0dev,<15.1dev',
     ],
     classifiers=[
         'Programming Language :: Python',
