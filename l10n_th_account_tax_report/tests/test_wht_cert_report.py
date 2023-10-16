@@ -38,7 +38,7 @@ class TestWithholdingTaxReport(TestWithholdingTax):
         cls.cert_pnd1.tax_payer = "paid_one_time"
         cls.cert_pnd3 = cls._create_withholding_tax(cls, "pnd3")
         cls.cert_pnd53 = cls._create_withholding_tax(cls, "pnd53")
-        cls.cert_pnd53.tax_payer = "paid_one_time"
+        cls.cert_pnd53.tax_payer = "paid_continue"
         # Create withholding tax wizard
         cls.wht_report_pnd1_wizard = cls.wht_wizard_object.create(
             {
@@ -158,13 +158,13 @@ class TestWithholdingTaxReport(TestWithholdingTax):
 
         # Test with pnd53
         wht_cert_line_pnd53 = wht_cert_line.filtered(
-            lambda l: l.cert_id.tax_payer == "paid_one_time"
+            lambda l: l.cert_id.tax_payer == "paid_continue"
             and l.cert_id.income_tax_form == "pnd53"
         )
         result_dict = self.wht_report_pnd53_wizard._convert_result_to_dict(
             wht_cert_line
         )
-        self.assertEqual(result_dict[wht_cert_line_pnd53[0].id]["tax_payer"], 2)
+        self.assertEqual(result_dict[wht_cert_line_pnd53[0].id]["tax_payer"], 3)
 
         # Check file download should name tax + date
         report_name = self.wht_report_pnd3_wizard._get_report_base_filename()
