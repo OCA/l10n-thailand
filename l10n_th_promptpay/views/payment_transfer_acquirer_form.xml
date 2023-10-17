@@ -3,7 +3,7 @@
         <xpath expr="//table" position="after">
             <t t-set="payment_tx_id" t-value="order.get_portal_last_transaction()" />
             <t
-                t-if="payment_tx_id.acquirer_id.qr_code_promptpay and payment_tx_id.acquirer_id.provider == 'transfer'"
+                t-if="payment_tx_id.provider_id.qr_code_promptpay and payment_tx_id.provider_id.code == 'custom'"
             >
                 <div class="oe_website_sale_tx_status mt-3">
                     <div class="card bg-info">
@@ -17,7 +17,7 @@
                                         <div class="p-auto">
                                             <img
                                                 class="float-left"
-                                                t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', payment_tx_id.acquirer_id.promptpayPayload(payment_tx_id.amount) , 150, 150)"
+                                                t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', payment_tx_id.provider_id.promptpayPayload(payment_tx_id.amount) , 150, 150)"
                                             />
                                         </div>
                                     </div>
@@ -27,23 +27,23 @@
                                                 <li
                                                     class="list-group-item d-flex justify-content-between align-items-center"
                                                 >
-                          PromptPay ID
-                          <span class="badge badge-primary badge-pill">
+                                                    PromptPay ID
+                                                    <span class="badge text-bg-primary">
                                                         <t
-                                                            t-esc="payment_tx_id.acquirer_id.promptpay_id"
+                                                            t-out="payment_tx_id.provider_id.promptpay_id"
                                                         />
                                                     </span>
-                        </li>
+                                                </li>
                                                 <li
                                                     class="list-group-item d-flex justify-content-between align-items-center"
                                                 >
-                            Amount
-                          <span class="badge badge-primary badge-pill">
+                                                    Amount
+                                                    <span class="badge text-bg-primary">
                                                         <t
-                                                            t-esc="payment_tx_id.amount"
+                                                            t-out="payment_tx_id.amount"
                                                         />
                                                     </span>
-                        </li>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
