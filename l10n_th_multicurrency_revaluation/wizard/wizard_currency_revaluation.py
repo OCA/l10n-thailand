@@ -192,6 +192,7 @@ class WizardCurrencyRevaluation(models.TransientModel):
         if partner_id is None:
             partner_id = False
         company = form.journal_id.company_id or self.env.company
+        ou_id = form.journal_id.operating_unit_id.id
         created_ids = []
 
         amount_vs_zero = currency.compare_amounts(amount, 0.0)
@@ -209,6 +210,9 @@ class WizardCurrencyRevaluation(models.TransientModel):
                     analytic_credit_acc_id=(company.revaluation_analytic_account_id.id),
                     debit=True,
                 )
+                self.env["account.move.line"].browse(line_ids).write(
+                    {"operating_unit_id": ou_id}
+                )
                 created_ids.extend(line_ids)
         elif amount_vs_zero == -1:
             if company.revaluation_loss_account_id:
@@ -224,7 +228,14 @@ class WizardCurrencyRevaluation(models.TransientModel):
                     analytic_debit_acc_id=(company.revaluation_analytic_account_id.id),
                     debit=True,
                 )
+                self.env["account.move.line"].browse(line_ids).write(
+                    {"operating_unit_id": ou_id}
+                )
                 created_ids.extend(line_ids)
+        for line_id in created_ids:
+            self.env["account.move.line"].browse(line_id).move_id.write(
+                {"operating_unit_id": ou_id}
+            )
         return created_ids
 
     def _validate_company_revaluation_configuration(self, company):
