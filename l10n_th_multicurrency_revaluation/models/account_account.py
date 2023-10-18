@@ -97,7 +97,7 @@ WITH amount AS (
         aml.currency_id,
         aml.debit,
         aml.credit,
-        aml.amount_currency,
+        aml.amount_currency
     FROM """
             + tables
             + """
@@ -133,7 +133,7 @@ WITH amount AS (
             + where_clause
             + """
     GROUP BY
-        aat.type,
+        aat.type, aml.id
     HAVING
         aml.amount_residual_currency <> 0
 )
