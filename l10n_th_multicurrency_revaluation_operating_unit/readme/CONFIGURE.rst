@@ -1,2 +1,2 @@
-Due to the various legislation according the country, in the Accounting settings
-you can set the way you want to generate revaluation journal entries.
+Due to multicurrency revaluation being able to specify operating units,
+you can specify operating units from the journal.

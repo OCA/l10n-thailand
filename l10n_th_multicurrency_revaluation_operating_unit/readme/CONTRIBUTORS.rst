@@ -1,8 +1,8 @@
 * `Ecosoft <http://ecosoft.co.th>`__:
 
-  * Pimolnat Suntian <pimolnats@ecosoft.co.th>
+  * Anut Tocharoenchok <anutt@ecosoft.co.th>
 
 * This module is highly inspired by the work of
-    * Camptocamp: (https://www.camptocamp.com/)
-      Module: OCA/account-closing/account_multicurrency_revaluation.
-      Link: https://github.com/OCA/account-closing/tree/15.0/account_multicurrency_revaluation
+    * ecosoft-odoo: (https://github.com/ecosoft-odoo)
+      Module: OCA/l10n-thailand/l10n_th_multicurrency_revaluation.
+      Link: https://github.com/ecosoft-odoo/l10n-thailand/tree/15.0-add-l10n_th_account_multicurrency_revaluation
