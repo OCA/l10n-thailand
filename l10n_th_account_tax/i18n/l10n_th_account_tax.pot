@@ -594,7 +594,6 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,help:l10n_th_account_tax.field_withholding_tax_cert__message_has_error
-#: model:ir.model.fields,help:l10n_th_account_tax.field_withholding_tax_cert__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -1063,11 +1062,6 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__reversing_id
 msgid "Reversing"
-msgstr ""
-
-#. module: l10n_th_account_tax
-#: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__message_has_sms_error
-msgid "SMS Delivery error"
 msgstr ""
 
 #. module: l10n_th_account_tax
