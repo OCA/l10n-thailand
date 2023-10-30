@@ -173,11 +173,12 @@ class PurchaseGuarantee(models.Model):
                 states.extend(["draft", "sent", "purchase"])
             if states and self.reference.state not in states:
                 raise UserError(
-                    _("{} must be in status: {}").format(
-                        dict(self._fields["reference"].selection).get(
+                    _("%(ref)s must be in status: %(state)s")
+                    % {
+                        "ref": dict(self._fields["reference"].selection).get(
                             self.reference._name
                         ),
-                        ", ".join(
+                        "state": ", ".join(
                             [
                                 dict(self.reference._fields["state"].selection).get(
                                     state
@@ -185,7 +186,7 @@ class PurchaseGuarantee(models.Model):
                                 for state in states
                             ]
                         ),
-                    )
+                    }
                 )
 
     @api.depends("reference")
