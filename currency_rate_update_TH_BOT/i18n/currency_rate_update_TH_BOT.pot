@@ -136,6 +136,6 @@ msgstr ""
 #: code:addons/currency_rate_update_TH_BOT/models/res_currency_rate_provider_BOT.py:0
 #, python-format
 msgid ""
-"httpCode: {}\n"
-"moreInformation: {}"
+"httpCode: %(http_code)s\n"
+"moreInformation: %(info)s"
 msgstr ""
