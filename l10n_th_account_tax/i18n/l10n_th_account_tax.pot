@@ -1493,7 +1493,8 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: code:addons/l10n_th_account_tax/models/withholding_tax_cert.py:0
 #, python-format
-msgid "You can not default field '{} - {}' more than 1."
+msgid ""
+"You can not default field '%(income)s - %(wht_income_type)s' more than 1."
 msgstr ""
 
 #. module: l10n_th_account_tax
