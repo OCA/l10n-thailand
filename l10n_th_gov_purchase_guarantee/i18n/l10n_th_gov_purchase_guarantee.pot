@@ -14,6 +14,12 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_th_gov_purchase_guarantee
+#: code:addons/l10n_th_gov_purchase_guarantee/models/purchase_guarantee.py:0
+#, python-format
+msgid "%(ref)s must be in status: %(state)s"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_method__account_id
 msgid "Account"
 msgstr ""
@@ -507,10 +513,4 @@ msgstr ""
 #. module: l10n_th_gov_purchase_guarantee
 #: model:ir.model.fields,help:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__website_message_ids
 msgid "Website communication history"
-msgstr ""
-
-#. module: l10n_th_gov_purchase_guarantee
-#: code:addons/l10n_th_gov_purchase_guarantee/models/purchase_guarantee.py:0
-#, python-format
-msgid "{} must be in status: {}"
 msgstr ""
