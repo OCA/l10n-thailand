@@ -150,10 +150,11 @@ class ResCurrencyRateProviderBOT(models.Model):
                 result = data_dict.get("result", False)
                 if not result:
                     raise UserError(
-                        _("httpCode: {}\nmoreInformation: {}").format(
-                            data_dict.get("httpCode", False),
-                            data_dict.get("moreInformation", False),
-                        )
+                        _("httpCode: %(http_code)s\nmoreInformation: %(info)s")
+                        % {
+                            "http_code": data_dict.get("httpCode", False),
+                            "info": data_dict.get("moreInformation", False),
+                        }
                     )
                 self._update_content_currency_update(
                     bot_currency, content, result, date_from, date_to
