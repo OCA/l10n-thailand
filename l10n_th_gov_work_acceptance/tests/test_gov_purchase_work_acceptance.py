@@ -7,39 +7,40 @@ from odoo.tests.common import Form, TransactionCase
 
 
 class TestGovPurchaseWorkAcceptance(TransactionCase):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
         # Model
-        self.purchase_request_model = self.env["purchase.request"]
-        self.purchase_order_model = self.env["purchase.order"]
-        self.procurement_committee_model = self.env["procurement.committee"]
-        self.config_setting = self.env["res.config.settings"]
-        self.wiz = self.env["purchase.request.line.make.purchase.requisition"]
+        cls.purchase_request_model = cls.env["purchase.request"]
+        cls.purchase_order_model = cls.env["purchase.order"]
+        cls.procurement_committee_model = cls.env["procurement.committee"]
+        cls.config_setting = cls.env["res.config.settings"]
+        cls.wiz = cls.env["purchase.request.line.make.purchase.requisition"]
         # Data Test
-        self.product1 = self.env.ref("product.product_product_7")
-        self.procurement_type1 = self.env.ref(
+        cls.product1 = cls.env.ref("product.product_product_7")
+        cls.procurement_type1 = cls.env.ref(
             "l10n_th_gov_purchase_request.procurement_type_001"
         )
-        self.procurement_method1 = self.env.ref(
+        cls.procurement_method1 = cls.env.ref(
             "l10n_th_gov_purchase_request.procurement_specific"
         )
-        self.purchase_type3 = self.env.ref(
+        cls.purchase_type3 = cls.env.ref(
             "l10n_th_gov_purchase_request.purchase_type_003"
         )
-        self.pr_exception = self.env.ref("l10n_th_gov_purchase_request.pr_exception_4")
-        self.employee = self.env.ref("base.user_demo")
-        self.employee1 = self.env.ref("hr.employee_hne")
-        self.employee2 = self.env.ref("hr.employee_lur")
-        self.employee3 = self.env.ref("hr.employee_jgo")
-        self.res_partner = self.env.ref("base.res_partner_12")
-        self.date_now = fields.Datetime.now()
-        self.main_company = self.env.ref("base.main_company")
+        cls.pr_exception = cls.env.ref("l10n_th_gov_purchase_request.pr_exception_4")
+        cls.employee = cls.env.ref("base.user_demo")
+        cls.employee1 = cls.env.ref("hr.employee_hne")
+        cls.employee2 = cls.env.ref("hr.employee_lur")
+        cls.employee3 = cls.env.ref("hr.employee_jgo")
+        cls.res_partner = cls.env.ref("base.res_partner_12")
+        cls.date_now = fields.Datetime.now()
+        cls.main_company = cls.env.ref("base.main_company")
 
         # Enable WA Evaluation
-        with Form(self.config_setting) as c:
+        with Form(cls.config_setting) as c:
             c.group_enable_eval_on_wa = True
             c.save()
-        self.config_setting.create({"group_enable_eval_on_wa": True}).execute()
+        cls.config_setting.create({"group_enable_eval_on_wa": True}).execute()
 
     def _create_work_acceptance(self, qty, po=False, committees=False):
         work_acceptance = self.env["work.acceptance"].create(
