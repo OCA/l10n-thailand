@@ -7,27 +7,28 @@ from odoo.tests import Form, common
 
 
 class TestGovPurchaseRequest(common.TransactionCase):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
         # Model
-        self.purchase_request_model = self.env["purchase.request"]
-        self.procurement_committee_model = self.env["procurement.committee"]
-        self.wiz = self.env["purchase.request.line.make.purchase.requisition"]
+        cls.purchase_request_model = cls.env["purchase.request"]
+        cls.procurement_committee_model = cls.env["procurement.committee"]
+        cls.wiz = cls.env["purchase.request.line.make.purchase.requisition"]
         # Data Test
-        self.product1 = self.env.ref("product.product_product_7")
-        self.procurement_type1 = self.env.ref(
+        cls.product1 = cls.env.ref("product.product_product_7")
+        cls.procurement_type1 = cls.env.ref(
             "l10n_th_gov_purchase_request.procurement_type_001"
         )
-        self.procurement_method1 = self.env.ref(
+        cls.procurement_method1 = cls.env.ref(
             "l10n_th_gov_purchase_request.procurement_specific"
         )
-        self.purchase_type3 = self.env.ref(
+        cls.purchase_type3 = cls.env.ref(
             "l10n_th_gov_purchase_request.purchase_type_003"
         )
-        self.pr_exception = self.env.ref("l10n_th_gov_purchase_request.pr_exception_4")
-        self.employee1 = self.env.ref("hr.employee_hne")
-        self.employee2 = self.env.ref("hr.employee_lur")
-        self.employee3 = self.env.ref("hr.employee_jgo")
+        cls.pr_exception = cls.env.ref("l10n_th_gov_purchase_request.pr_exception_4")
+        cls.employee1 = cls.env.ref("hr.employee_hne")
+        cls.employee2 = cls.env.ref("hr.employee_lur")
+        cls.employee3 = cls.env.ref("hr.employee_jgo")
 
     def test_01_gov_purchase_request(self):
         purchase_request = self.purchase_request_model.create(
