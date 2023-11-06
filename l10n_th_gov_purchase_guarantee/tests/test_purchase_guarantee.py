@@ -7,48 +7,50 @@ from odoo.tests import Form, common
 
 
 class TestPurchaseGuarantee(common.TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.pr_model = self.env["purchase.requisition"]
-        self.po_model = self.env["purchase.order"]
-        self.move_model = self.env["account.move"]
-        self.move_line_model = self.env["account.move.line"]
-        self.payment_register_model = self.env["account.payment.register"]
-        self.account_model = self.env["account.account"]
-        self.guarantee_model = self.env["purchase.guarantee"]
-        self.guarantee_type_cash = self.env.ref("l10n_th_gov_purchase_guarantee.cash")
-        self.main_company = self.env.ref("base.main_company")
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.pr_model = cls.env["purchase.requisition"]
+        cls.po_model = cls.env["purchase.order"]
+        cls.move_model = cls.env["account.move"]
+        cls.move_line_model = cls.env["account.move.line"]
+        cls.payment_register_model = cls.env["account.payment.register"]
+        cls.account_model = cls.env["account.account"]
+        cls.guarantee_model = cls.env["purchase.guarantee"]
+        cls.guarantee_type_cash = cls.env.ref("l10n_th_gov_purchase_guarantee.cash")
+        cls.main_company = cls.env.ref("base.main_company")
+        cls.account_type_income = cls.env.ref("account.data_account_type_other_income")
         # add account in method type
-        self.account_guarantee = self.account_model.create(
+        cls.account_guarantee = cls.account_model.create(
             {
                 "code": "411100",
                 "name": "Guarantee",
-                "user_type_id": self.ref("account.data_account_type_other_income"),
-                "company_id": self.main_company.id,
+                "user_type_id": cls.account_type_income.id,
+                "company_id": cls.main_company.id,
             }
         )
-        self.guarantee_bid_guarantee = self.env.ref(
+        cls.guarantee_bid_guarantee = cls.env.ref(
             "l10n_th_gov_purchase_guarantee.bid_guarantee"
         )
-        self.guarantee_bid_guarantee.account_id = self.account_guarantee.id
-        self.guarantee_performance_bond = self.env.ref(
+        cls.guarantee_bid_guarantee.account_id = cls.account_guarantee.id
+        cls.guarantee_performance_bond = cls.env.ref(
             "l10n_th_gov_purchase_guarantee.performance_bond"
         )
-        self.guarantee_performance_bond.account_id = self.account_guarantee.id
-        self.guarantee_advance_payment = self.env.ref(
+        cls.guarantee_performance_bond.account_id = cls.account_guarantee.id
+        cls.guarantee_advance_payment = cls.env.ref(
             "l10n_th_gov_purchase_guarantee.advance_payment_guarantee"
         )
-        self.guarantee_advance_payment.account_id = self.account_guarantee.id
-        self.new_guarantee_method = self.env["purchase.guarantee.method"].create(
+        cls.guarantee_advance_payment.account_id = cls.account_guarantee.id
+        cls.new_guarantee_method = cls.env["purchase.guarantee.method"].create(
             {
                 "name": "Test new method default duplicate",
                 "default_for_model": "purchase.order.po",
-                "account_id": self.account_guarantee.id,
+                "account_id": cls.account_guarantee.id,
             }
         )
-        self.partner1 = self.env.ref("base.res_partner_1")
-        self.partner2 = self.env.ref("base.res_partner_2")
-        self.product1 = self.env.ref("product.product_product_7")
+        cls.partner1 = cls.env.ref("base.res_partner_1")
+        cls.partner2 = cls.env.ref("base.res_partner_2")
+        cls.product1 = cls.env.ref("product.product_product_7")
 
     def _create_pr(self, qty, unit_price, analytic_account=False):
         pr = self.pr_model.create(
