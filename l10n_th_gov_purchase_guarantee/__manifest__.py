@@ -3,7 +3,7 @@
 
 {
     "name": "Thai Localization - Government Purchase Guarantee",
-    "version": "15.0.1.1.0",
+    "version": "15.0.1.1.1",
     "author": "Ecosoft, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-thailand",
