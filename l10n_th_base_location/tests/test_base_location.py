@@ -12,35 +12,36 @@ logger = logging.getLogger(__name__)
 
 
 class TestBaseLocation(common.TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.thailand = self.env.ref("base.th")
-        self.belgium = self.env.ref("base.be")
-        self.Company = self.env["res.company"]
-        self.Partner = self.env["res.partner"]
-        self.zip_id = self.env["res.city.zip"]
-        self.import_th_lang_th = (
-            self.env["city.zip.geonames.import"]
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.thailand = cls.env.ref("base.th")
+        cls.belgium = cls.env.ref("base.be")
+        cls.Company = cls.env["res.company"]
+        cls.Partner = cls.env["res.partner"]
+        cls.zip_id = cls.env["res.city.zip"]
+        cls.import_th_lang_th = (
+            cls.env["city.zip.geonames.import"]
             .with_context(import_test=True)
             .create(
                 {
-                    "country_ids": [(6, 0, [self.thailand.id])],
+                    "country_ids": [(6, 0, [cls.thailand.id])],
                     "location_thailand_language": "th",
                 }
             )
         )
-        self.import_th_lang_en = (
-            self.env["city.zip.geonames.import"]
+        cls.import_th_lang_en = (
+            cls.env["city.zip.geonames.import"]
             .with_context(import_test=True)
             .create(
                 {
-                    "country_ids": [(6, 0, [self.thailand.id])],
+                    "country_ids": [(6, 0, [cls.thailand.id])],
                     "location_thailand_language": "en",
                 }
             )
         )
-        self.import_th_lang_th.run_import()
-        self.import_th_lang_en.run_import()
+        cls.import_th_lang_th.run_import()
+        cls.import_th_lang_en.run_import()
 
     def test_01_import_base_location_th(self):
         """Test Import Thailand Location"""

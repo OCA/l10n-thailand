@@ -11,24 +11,27 @@ from odoo.addons.l10n_th_bank_payment_export.tests.common import CommonBankPayme
 
 
 class TestBankPaymentExportKTB(CommonBankPaymentExport):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
         # setup config
-        self.config_ktb_company_id = self.create_bank_payment_config(
+        cls.config_ktb_company_id = cls.create_bank_payment_config(
+            cls,
             name="KTB Company ID",
             field_name="config_ktb_company_id",
             value="Test KTB Company",
             bank="KRTHTHBK",
             default=True,
         )
-        self.config_ktb_sender_name = self.create_bank_payment_config(
+        cls.config_ktb_sender_name = cls.create_bank_payment_config(
+            cls,
             name="KTB Sender Name",
             field_name="config_ktb_sender_name",
             value="Test KTB Sender Name",
             bank="KRTHTHBK",
             default=True,
         )
-        self.journal_new_bank = self.env["account.journal"].create(
+        cls.journal_new_bank = cls.env["account.journal"].create(
             {
                 "name": "Test New Bank",
                 "code": "NEW",

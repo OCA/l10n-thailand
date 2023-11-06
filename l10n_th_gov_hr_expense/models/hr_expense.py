@@ -78,7 +78,6 @@ class HrExpenseSheet(models.Model):
         selection=[("expense", "Expense"), ("advance", "Advance")],
         string="Use PR for",
         compute="_compute_pr_for",
-        required=True,
         store=True,
         readonly=False,
     )
