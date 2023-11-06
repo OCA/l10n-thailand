@@ -8,12 +8,13 @@ from odoo.tests.common import Form, TransactionCase
 
 @tagged("post_install", "-at_install")
 class TestL10nThPartner(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.main_company = self.env.ref("base.main_company")
-        self.create_title()
-        self.create_original("Firstname", "Lastname")
-        self.company_type = self.env.ref("l10n_th_partner.company_type_3")
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.main_company = cls.env.ref("base.main_company")
+        cls.create_title(cls)
+        cls.create_original(cls, "Firstname", "Lastname")
+        cls.company_type = cls.env.ref("l10n_th_partner.company_type_3")
 
     def create_title(self):
         self.title = self.env["res.partner.title"].create(

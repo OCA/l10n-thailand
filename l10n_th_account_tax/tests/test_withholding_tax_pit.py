@@ -10,29 +10,31 @@ from odoo.tests.common import Form, TransactionCase
 
 
 class TestWithholdingTaxPIT(TransactionCase):
+    @classmethod
     @freeze_time("2001-02-01")
-    def setUp(self):
-        super(TestWithholdingTaxPIT, self).setUp()
-        self.partner = self.env["res.partner"].create({"name": "Test Partner"})
-        self.product = self.env["product.product"].create(
+    def setUpClass(cls):
+        """Assign user and department."""
+        super().setUpClass()
+        cls.partner = cls.env["res.partner"].create({"name": "Test Partner"})
+        cls.product = cls.env["product.product"].create(
             {"name": "Test", "standard_price": 500.0}
         )
-        self.RegisterPayment = self.env["account.payment.register"]
+        cls.RegisterPayment = cls.env["account.payment.register"]
         # Setup PIT withholding tax
-        self.account_pit = self.env["account.account"].create(
+        cls.account_pit = cls.env["account.account"].create(
             {
                 "code": "100",
                 "name": "Personal Income Tax",
-                "user_type_id": self.env.ref(
+                "user_type_id": cls.env.ref(
                     "account.data_account_type_current_assets"
                 ).id,
                 "wht_account": True,
             }
         )
-        self.wht_pit = self.env["account.withholding.tax"].create(
+        cls.wht_pit = cls.env["account.withholding.tax"].create(
             {
                 "name": "PIT",
-                "account_id": self.account_pit.id,
+                "account_id": cls.account_pit.id,
                 "is_pit": True,
             }
         )
