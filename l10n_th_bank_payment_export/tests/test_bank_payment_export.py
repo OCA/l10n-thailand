@@ -7,8 +7,9 @@ from .common import CommonBankPaymentExport
 
 
 class TestBankPaymentExport(CommonBankPaymentExport):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
     def test_01_create_payment_default_exported(self):
         """
