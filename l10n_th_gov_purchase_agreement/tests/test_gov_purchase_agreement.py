@@ -8,14 +8,15 @@ from odoo.tests.common import Form, TransactionCase
 
 @tagged("post_install", "-at_install")
 class TestGovPurchaseAgreement(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.pr_model = self.env["purchase.requisition"]
-        self.po_model = self.env["purchase.order"]
-        self.partner1 = self.env.ref("base.res_partner_1")
-        self.product1 = self.env.ref("product.product_product_7")
-        self.agreement = self.env.ref("agreement.market1")
-        self.agreement2 = self.env.ref("agreement.market2")
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.pr_model = cls.env["purchase.requisition"]
+        cls.po_model = cls.env["purchase.order"]
+        cls.partner1 = cls.env.ref("base.res_partner_1")
+        cls.product1 = cls.env.ref("product.product_product_7")
+        cls.agreement = cls.env.ref("agreement.market1")
+        cls.agreement2 = cls.env.ref("agreement.market2")
 
     def _create_pr(self, po_type, qty, unit_price):
         pr = self.pr_model.create(
