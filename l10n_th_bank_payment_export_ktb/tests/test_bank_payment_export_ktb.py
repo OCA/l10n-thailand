@@ -15,21 +15,22 @@ class TestBankPaymentExportKTB(CommonBankPaymentExport):
     def setUpClass(cls):
         super().setUpClass()
         # setup config
-        cls.config_ktb_company_id = cls.create_bank_payment_config(
+        ktb_company_id = cls.field_model.search([("name", "=", "ktb_company_id")])
+        ktb_sender_name = cls.field_model.search([("name", "=", "ktb_sender_name")])
+        data_dict = [
+            {
+                "field_id": ktb_company_id.id,
+                "value": "COMPANY01",
+            },
+            {
+                "field_id": ktb_sender_name.id,
+                "value": "SENDER_NAME01",
+            },
+        ]
+        cls.template1 = cls.create_bank_payment_template(
             cls,
-            name="KTB Company ID",
-            field_name="config_ktb_company_id",
-            value="Test KTB Company",
-            bank="KRTHTHBK",
-            default=True,
-        )
-        cls.config_ktb_sender_name = cls.create_bank_payment_config(
-            cls,
-            name="KTB Sender Name",
-            field_name="config_ktb_sender_name",
-            value="Test KTB Sender Name",
-            bank="KRTHTHBK",
-            default=True,
+            "KRTHTHBK",
+            data_dict,
         )
         cls.journal_new_bank = cls.env["account.journal"].create(
             {
