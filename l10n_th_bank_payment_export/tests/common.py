@@ -3,7 +3,7 @@
 
 from odoo_test_helper import FakeModelLoader
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.tests.common import TransactionCase
 
 
@@ -218,3 +218,36 @@ class CommonBankPaymentExport(TransactionCase):
                 "token": "dummy-because-api-expects-one",
             },
         )
+
+    def create_bank_payment_template(self, bank, data_dict):
+        """This function is common create template, Format of data_dict is
+        [
+            {
+                'field_id': field_id,
+                'value': value,
+            },
+            {
+                'field_id': field_id,
+                'value': value,
+            }
+        ]
+        """
+        template = self.bank_payment_template_model.create(
+            {
+                "name": "Test Template %(bank)s"
+                % {
+                    "bank": bank,
+                },
+                "bank": bank,
+                "template_config_line": [
+                    Command.create(
+                        {
+                            "field_id": data.get("field_id"),
+                            "value": data.get("value"),
+                        }
+                    )
+                    for data in data_dict
+                ],
+            }
+        )
+        return template
