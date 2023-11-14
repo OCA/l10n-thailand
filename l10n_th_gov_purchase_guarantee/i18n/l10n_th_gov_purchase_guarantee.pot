@@ -14,6 +14,12 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_th_gov_purchase_guarantee
+#: code:addons/l10n_th_gov_purchase_guarantee/models/purchase_guarantee.py:0
+#, python-format
+msgid "%(ref)s must be in status: %(state)s"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_guarantee
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee_method__account_id
 msgid "Account"
 msgstr ""
@@ -257,7 +263,6 @@ msgstr ""
 
 #. module: l10n_th_gov_purchase_guarantee
 #: model:ir.model.fields,help:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_has_error
-#: model:ir.model.fields,help:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -472,11 +477,6 @@ msgid "Returned"
 msgstr ""
 
 #. module: l10n_th_gov_purchase_guarantee
-#: model:ir.model.fields,field_description:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr ""
-
-#. module: l10n_th_gov_purchase_guarantee
 #: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_guarantee.purchase_guarantee_search_view
 msgid "Show active taxes"
 msgstr ""
@@ -513,10 +513,4 @@ msgstr ""
 #. module: l10n_th_gov_purchase_guarantee
 #: model:ir.model.fields,help:l10n_th_gov_purchase_guarantee.field_purchase_guarantee__website_message_ids
 msgid "Website communication history"
-msgstr ""
-
-#. module: l10n_th_gov_purchase_guarantee
-#: code:addons/l10n_th_gov_purchase_guarantee/models/purchase_guarantee.py:0
-#, python-format
-msgid "{} must be in status: {}"
 msgstr ""

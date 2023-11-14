@@ -30,9 +30,36 @@
                             type="object"
                         />
                     </div>
-                    <group name="pit" string="Personal Income Tax">
-                        <field name="pit_move_ids" nolabel="1" />
-                    </group>
+                    <field name="pit_move_ids" nolabel="1">
+                        <tree editable="bottom" create="1" delete="0">
+                            <field name="partner_id" optional="hide" />
+                            <field name="payment_id" />
+                            <field name="date" optional="show" />
+                            <field name="calendar_year" optional="show" />
+                            <field
+                                name="wht_cert_income_type"
+                                style="white-space: normal;"
+                            />
+                            <field
+                                name="wht_cert_income_desc"
+                                optional="show"
+                                style="white-space: normal;"
+                            />
+                            <field name="amount_income" sum="Total Income" />
+                            <field
+                                name="amount_wht"
+                                sum="Total Amount Withholding Tax"
+                            />
+                            <field name="cancelled" optional="show" />
+                            <field
+                                name="payment_state"
+                                widget="badge"
+                                decoration-info="payment_state == 'draft'"
+                                decoration-success="payment_state == 'posted'"
+                            />
+                            <field name="currency_id" invisible="1" />
+                        </tree>
+                    </field>
                 </page>
             </xpath>
         </field>

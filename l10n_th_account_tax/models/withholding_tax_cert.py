@@ -305,8 +305,11 @@ class WithholdingTaxCodeIncome(models.Model):
             dict_wht_income_type = dict(WHT_CERT_INCOME_TYPE)
             dict_income_tax_form = dict(INCOME_TAX_FORM)
             raise UserError(
-                _("You can not default field '{} - {}' more than 1.").format(
-                    dict_income_tax_form[self.income_tax_form],
-                    dict_wht_income_type[self.wht_cert_income_type],
+                _(
+                    "You can not default field '%(income)s - %(wht_income_type)s' more than 1."
                 )
+                % {
+                    "income": dict_income_tax_form[self.income_tax_form],
+                    "wht_income_type": dict_wht_income_type[self.wht_cert_income_type],
+                }
             )

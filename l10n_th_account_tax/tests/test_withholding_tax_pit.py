@@ -10,29 +10,31 @@ from odoo.tests.common import Form, TransactionCase
 
 
 class TestWithholdingTaxPIT(TransactionCase):
+    @classmethod
     @freeze_time("2001-02-01")
-    def setUp(self):
-        super(TestWithholdingTaxPIT, self).setUp()
-        self.partner = self.env["res.partner"].create({"name": "Test Partner"})
-        self.product = self.env["product.product"].create(
+    def setUpClass(cls):
+        """Assign user and department."""
+        super().setUpClass()
+        cls.partner = cls.env["res.partner"].create({"name": "Test Partner"})
+        cls.product = cls.env["product.product"].create(
             {"name": "Test", "standard_price": 500.0}
         )
-        self.RegisterPayment = self.env["account.payment.register"]
+        cls.RegisterPayment = cls.env["account.payment.register"]
         # Setup PIT withholding tax
-        self.account_pit = self.env["account.account"].create(
+        cls.account_pit = cls.env["account.account"].create(
             {
                 "code": "100",
                 "name": "Personal Income Tax",
-                "user_type_id": self.env.ref(
+                "user_type_id": cls.env.ref(
                     "account.data_account_type_current_assets"
                 ).id,
                 "wht_account": True,
             }
         )
-        self.wht_pit = self.env["account.withholding.tax"].create(
+        cls.wht_pit = cls.env["account.withholding.tax"].create(
             {
                 "name": "PIT",
-                "account_id": self.account_pit.id,
+                "account_id": cls.account_pit.id,
                 "is_pit": True,
             }
         )
@@ -107,6 +109,13 @@ class TestWithholdingTaxPIT(TransactionCase):
             with Form(self.pit_rate) as pit_rate:
                 with pit_rate.rate_ids.edit(1) as rate:
                     rate.income_from = 1001
+        # Copy PIT, it will add copy after calendar year
+        # User MUST change to to calendar year
+        pit_rate_copy = self.pit_rate.copy()
+        self.assertEqual(
+            pit_rate_copy.calendar_year, "{} (copy)".format(self.pit_rate.calendar_year)
+        )
+        self.assertFalse(pit_rate_copy.effective_date)
 
     @freeze_time("2001-02-01")
     def test_02_withholding_tax_pit(self):

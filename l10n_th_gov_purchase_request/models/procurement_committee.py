@@ -1,7 +1,7 @@
 # Copyright 2021 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class ProcurementCommittee(models.Model):
@@ -18,11 +18,15 @@ class ProcurementCommittee(models.Model):
         comodel_name="hr.employee",
         string="Employee",
         ondelete="restrict",
-        required=True,
         index=True,
     )
     name = fields.Char(
-        related="employee_id.name",
+        string="Committee Name",
+        compute="_compute_default_name",
+        store=True,
+        readonly=False,
+        required=True,
+        index=True,
     )
     department_id = fields.Many2one(
         related="employee_id.department_id",
@@ -56,3 +60,8 @@ class ProcurementCommittee(models.Model):
             "Committee has to be unique",
         ),
     ]
+
+    @api.depends("employee_id")
+    def _compute_default_name(self):
+        for rec in self:
+            rec.name = rec.employee_id.display_name if rec.employee_id else ""

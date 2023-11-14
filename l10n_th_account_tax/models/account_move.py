@@ -24,13 +24,17 @@ class AccountMoveLine(models.Model):
         readonly=False,
     )
 
-    @api.depends("product_id")
+    @api.depends("product_id", "partner_id")
     def _compute_wht_tax_id(self):
         for rec in self:
             # From invoice, default from product
             if rec.move_id.move_type in ("out_invoice", "out_refund", "in_receipt"):
                 rec.wht_tax_id = rec.product_id.wht_tax_id
             elif rec.move_id.move_type in ("in_invoice", "in_refund", "out_receipt"):
+                partner_id = rec.partner_id or rec.move_id.partner_id
+                if partner_id and partner_id.company_type == "company":
+                    rec.wht_tax_id = rec.product_id.supplier_company_wht_tax_id
+                    continue
                 rec.wht_tax_id = rec.product_id.supplier_wht_tax_id
             else:
                 rec.wht_tax_id = False
@@ -139,13 +143,21 @@ class AccountMoveLine(models.Model):
             )
             if is_tax_invoice or line.manual_tax_invoice:
                 tax_base_amount = line._get_tax_base_amount(sign, vals_list)
+                # For case customer invoice, customer credit note and not manual reconcile
+                # it default value in tax invoice
+                default_tax_invoice = line.move_id.move_type in [
+                    "out_invoice",
+                    "out_refund",
+                ] and not self.env.context.get("invoice_net_refund")
                 taxinv = TaxInvoice.create(
                     {
                         "move_id": line.move_id.id,
                         "move_line_id": line.id,
                         "partner_id": line.partner_id.id,
-                        "tax_invoice_number": sign < 0 and "/" or False,
-                        "tax_invoice_date": sign < 0 and fields.Date.today() or False,
+                        "tax_invoice_number": default_tax_invoice and "/" or False,
+                        "tax_invoice_date": default_tax_invoice
+                        and fields.Date.today()
+                        or False,
                         "tax_base_amount": tax_base_amount,
                         "balance": sign * abs(line.balance),
                         "reversed_id": (
@@ -158,18 +170,6 @@ class AccountMoveLine(models.Model):
                 line.tax_invoice_ids |= taxinv
             # Assign back the reversing id
             for taxinv in line.tax_invoice_ids.filtered("reversed_id"):
-                # case not clear tax, original move must auto posted.
-                origin_move = taxinv.reversed_id
-                if origin_move.state == "draft":
-                    origin_move.tax_invoice_ids.write(
-                        {
-                            "tax_invoice_number": sign < 0 and "/" or False,
-                            "tax_invoice_date": sign < 0
-                            and fields.Date.today()
-                            or False,
-                        }
-                    )
-                    origin_move.action_post()
                 TaxInvoice.search([("move_id", "=", taxinv.reversed_id.id)]).write(
                     {"reversing_id": taxinv.move_id.id}
                 )
@@ -195,23 +195,22 @@ class AccountMoveLine(models.Model):
                 self.mapped("tax_invoice_ids").unlink()
         return super().write(vals)
 
-    def _prepare_deduction_list(self, currency=False, date=False):
-        def add_deduction(
-            wht_lines, wht_tax, partner_id, amount_deduct, currency, date
-        ):
-            amount_base, amount_wht = wht_lines._get_wht_amount(currency, date)
-            amount_deduct += amount_wht
-            deduct = {
-                "partner_id": partner_id,
-                "wht_amount_base": amount_base,
-                "wht_tax_id": wht_tax.id,
-                "account_id": wht_tax.account_id.id,
-                "name": wht_tax.display_name,
-                "amount": amount_wht,
-            }
-            deductions.append(deduct)
-            return amount_deduct
+    def _add_deduction(
+        self, wht_lines, wht_tax, partner_id, amount_deduct, currency, date
+    ):
+        amount_base, amount_wht = wht_lines._get_wht_amount(currency, date)
+        amount_deduct += amount_wht
+        deduct = {
+            "partner_id": partner_id,
+            "wht_amount_base": amount_base,
+            "wht_tax_id": wht_tax.id,
+            "account_id": wht_tax.account_id.id,
+            "name": wht_tax.display_name,
+            "amount": amount_wht,
+        }
+        return deduct, amount_deduct
 
+    def _prepare_deduction_list(self, currency=False, date=False):
         if not currency:
             currency = self.env.company.currency_id
         if not date:
@@ -242,7 +241,7 @@ class AccountMoveLine(models.Model):
                             and l.partner_id.id == partner_id
                         )
                     )
-                    amount_deduct = add_deduction(
+                    deduct, amount_deduct = self._add_deduction(
                         partner_wht_lines,
                         wht_tax,
                         partner_id,
@@ -250,13 +249,14 @@ class AccountMoveLine(models.Model):
                         currency,
                         date,
                     )
+                    deductions.append(deduct)
             else:
                 partner_ids = wht_tax_lines.mapped("partner_id").ids
                 for partner_id in partner_ids:
                     partner_wht_lines = wht_tax_lines.filtered(
                         lambda l: l.partner_id.id == partner_id
                     )
-                    amount_deduct = add_deduction(
+                    deduct, amount_deduct = self._add_deduction(
                         partner_wht_lines,
                         wht_tax,
                         partner_id,
@@ -264,6 +264,7 @@ class AccountMoveLine(models.Model):
                         currency,
                         date,
                     )
+                    deductions.append(deduct)
 
         return (deductions, amount_deduct)
 
@@ -339,6 +340,9 @@ class AccountMove(models.Model):
         return result
 
     def js_assign_outstanding_line(self, line_id):
+        move_line = self.env["account.move.line"].browse(line_id)
+        if move_line.payment_id:
+            self = self.with_context(net_invoice_payment=True)
         self = self.with_context(net_invoice_refund=True)
         return super().js_assign_outstanding_line(line_id)
 
@@ -354,6 +358,7 @@ class AccountMove(models.Model):
                     l.move_id.move_type == "entry"
                     and not l.payment_id
                     and l.move_id.journal_id.type != "sale"
+                    and l.tax_line_id.type_tax_use != "sale"
                 )
             ):
                 if (
@@ -362,9 +367,23 @@ class AccountMove(models.Model):
                 ):
                     if tax_invoice.payment_id:  # Defer posting for payment
                         tax_invoice.payment_id.write({"to_clear_tax": True})
-                        return self.browse()  # return False
+                        # Auto post tax cash basis when reset to draft
+                        if tax_invoice.move_id.reversed_entry_id:
+                            moves = (
+                                tax_invoice.move_id
+                                + tax_invoice.move_id.reversed_entry_id
+                            )
+                            tax_invoice.move_id.reversed_entry_id.write(
+                                {"state": "posted"}
+                            )
+                            line_reconcile = moves.mapped("line_ids").filtered(
+                                lambda l: l.account_id != tax_invoice.account_id
+                                and l.reconciled
+                            )
+                            line_reconcile.reconcile()
+                        continue
                     elif self.env.context.get("net_invoice_refund"):
-                        return self.browse()  # return False
+                        continue
                     else:
                         raise UserError(_("Please fill in tax invoice and tax date"))
 
@@ -394,18 +413,22 @@ class AccountMove(models.Model):
 
         res = super()._post(soft=soft)
 
-        # Sales Taxes
-        for move in self:
-            for tax_invoice in move.tax_invoice_ids.filtered(
-                lambda l: l.tax_line_id.type_tax_use == "sale"
-                or l.move_id.journal_id.type == "sale"
-            ):
-                tinv_number, tinv_date = self._get_tax_invoice_number(
-                    move, tax_invoice, tax_invoice.tax_line_id
-                )
-                tax_invoice.write(
-                    {"tax_invoice_number": tinv_number, "tax_invoice_date": tinv_date}
-                )
+        # Sales Taxes (exclude reconcile manual)
+        if not self.env.context.get("net_invoice_refund"):
+            for move in self:
+                for tax_invoice in move.tax_invoice_ids.filtered(
+                    lambda l: l.tax_line_id.type_tax_use == "sale"
+                    or l.move_id.journal_id.type == "sale"
+                ):
+                    tinv_number, tinv_date = self._get_tax_invoice_number(
+                        move, tax_invoice, tax_invoice.tax_line_id
+                    )
+                    tax_invoice.write(
+                        {
+                            "tax_invoice_number": tinv_number,
+                            "tax_invoice_date": tinv_date,
+                        }
+                    )
 
         # Check amount tax invoice with move line
         # kittiu: There are case that we don't want to check
@@ -456,8 +479,9 @@ class AccountMove(models.Model):
         return {
             "partner_id": wht_move.partner_id.id,
             "amount_income": amount_income,
-            "wht_tax_id": wht_move.wht_tax_id.id,
             "amount_wht": amount_wht,
+            "wht_tax_id": wht_move.wht_tax_id.id,
+            "wht_cert_income_type": wht_move.wht_tax_id.wht_cert_income_type,
         }
 
     def _get_tax_invoice_number(self, move, tax_invoice, tax):
@@ -514,6 +538,7 @@ class AccountMove(models.Model):
                     {
                         "amount_income": -line.amount_income,
                         "amount_wht": -line.amount_wht,
+                        "calendar_year": line.calendar_year,
                     }
                 )
                 line.cancelled = True
@@ -542,6 +567,7 @@ class AccountMove(models.Model):
     def _preapare_wht_certs(self):
         """Create withholding tax certs, 1 cert per partner"""
         self.ensure_one()
+        AccountWithholdingTax = self.env["account.withholding.tax"]
         wht_move_groups = self.env["account.withholding.move"].read_group(
             domain=[("move_id", "=", self.id)],
             fields=[
@@ -565,6 +591,7 @@ class AccountMove(models.Model):
         cert_list = []
         for partner in partners:
             cert_line_vals = []
+            wht_tax_set = set()
             wht_moves = list(
                 filter(lambda l: l["partner_id"][0] == partner.id, wht_move_groups)
             )
@@ -582,6 +609,7 @@ class AccountMove(models.Model):
                         },
                     )
                 )
+                wht_tax_set.add(wht_move["wht_tax_id"][0])
             cert_vals = {
                 "move_id": self.id,
                 "payment_id": self.payment_id.id,
@@ -589,6 +617,11 @@ class AccountMove(models.Model):
                 "date": self.date,
                 "wht_line": cert_line_vals,
             }
+            # Default income_tax_form
+            wht_tax = AccountWithholdingTax.browse(wht_tax_set)
+            income_tax_form = wht_tax.mapped("income_tax_form")
+            if len(income_tax_form) == 1:
+                cert_vals.update({"income_tax_form": income_tax_form[0]})
             cert_list.append(cert_vals)
         return cert_list
 

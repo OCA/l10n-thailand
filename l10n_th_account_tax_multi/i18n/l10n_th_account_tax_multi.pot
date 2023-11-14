@@ -1,0 +1,65 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_account_tax_multi
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_th_account_tax_multi
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_multi.view_account_payment_register_form
+msgid "Base"
+msgstr ""
+
+#. module: l10n_th_account_tax_multi
+#: model:ir.model.fields,help:l10n_th_account_tax_multi.field_account_payment_deduction__wht_amount_base
+msgid "Based amount for the tax amount"
+msgstr ""
+
+#. module: l10n_th_account_tax_multi
+#: code:addons/l10n_th_account_tax_multi/wizard/account_payment_register.py:0
+#, python-format
+msgid "No effective PIT rate for date %s"
+msgstr ""
+
+#. module: l10n_th_account_tax_multi
+#: model:ir.model.fields,help:l10n_th_account_tax_multi.field_account_payment_deduction__wht_tax_id
+msgid "Optional hidden field to keep wht_tax. Useful for case 1 tax only"
+msgstr ""
+
+#. module: l10n_th_account_tax_multi
+#: model:ir.model.fields,field_description:l10n_th_account_tax_multi.field_account_payment_deduction__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_th_account_tax_multi
+#: model:ir.model,name:l10n_th_account_tax_multi.model_account_payment_deduction
+msgid "Payment Deduction"
+msgstr ""
+
+#. module: l10n_th_account_tax_multi
+#: model:ir.model,name:l10n_th_account_tax_multi.model_account_payment_register
+msgid "Register Payment"
+msgstr ""
+
+#. module: l10n_th_account_tax_multi
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_multi.view_account_payment_register_form
+msgid "WHT"
+msgstr ""
+
+#. module: l10n_th_account_tax_multi
+#: model:ir.model.fields,field_description:l10n_th_account_tax_multi.field_account_payment_deduction__wht_amount_base
+msgid "Withholding Base"
+msgstr ""
+
+#. module: l10n_th_account_tax_multi
+#: model:ir.model.fields,field_description:l10n_th_account_tax_multi.field_account_payment_deduction__wht_tax_id
+msgid "Withholding Tax"
+msgstr ""

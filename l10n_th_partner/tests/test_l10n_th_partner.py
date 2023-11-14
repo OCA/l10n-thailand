@@ -1,18 +1,20 @@
 # Copyright 2020 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
+from odoo.exceptions import ValidationError
 from odoo.tests import tagged
 from odoo.tests.common import Form, TransactionCase
 
 
 @tagged("post_install", "-at_install")
 class TestL10nThPartner(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.main_company = self.env.ref("base.main_company")
-        self.create_title()
-        self.create_original("Firstname", "Lastname")
-        self.company_type = self.env.ref("l10n_th_partner.company_type_3")
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.main_company = cls.env.ref("base.main_company")
+        cls.create_title(cls)
+        cls.create_original(cls, "Firstname", "Lastname")
+        cls.company_type = cls.env.ref("l10n_th_partner.company_type_3")
 
     def create_title(self):
         self.title = self.env["res.partner.title"].create(
@@ -66,3 +68,18 @@ class TestL10nThPartner(TransactionCase):
         self.assertEqual(self.user.name, "Firstname Lastname")
         self.user.title = self.title
         self.assertEqual(self.user.name, "MissFirstname Lastname")
+
+    def test_duplicate_partner_vat_branch(self):
+        partner1 = self.env["res.partner"].create(
+            {
+                "firstname": "Firstname",
+                "lastname": "Lastname",
+                "vat": "0123456789012",
+                "branch": "00000",
+                "company_id": self.main_company.id,
+            }
+        )
+        partner2 = partner1.copy()
+        with self.assertRaises(ValidationError):
+            with Form(partner2) as p2:
+                p2.branch = "00000"

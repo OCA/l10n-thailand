@@ -7,31 +7,32 @@ from odoo.tests.common import TransactionCase
 
 @tagged("post_install", "-at_install")
 class TestAccountEntry(TransactionCase):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
-        user_type_expense = self.env.ref("account.data_account_type_expenses")
-        self.account_expense = self.env["account.account"].create(
+        user_type_expense = cls.env.ref("account.data_account_type_expenses")
+        cls.account_expense = cls.env["account.account"].create(
             {
                 "code": "NC1113",
                 "name": "HR Expense - Test Purchase Account",
                 "user_type_id": user_type_expense.id,
             }
         )
-        type_current_liability = self.env.ref(
+        type_current_liability = cls.env.ref(
             "account.data_account_type_current_liabilities"
         )
-        self.input_vat_acct = self.env["account.account"].create(
+        cls.input_vat_acct = cls.env["account.account"].create(
             {"name": "V7", "code": "V7", "user_type_id": type_current_liability.id}
         )
-        self.tax_group_vat = self.env["account.tax.group"].create({"name": "VAT"})
-        self.input_vat_include = self.env["account.tax"].create(
+        cls.tax_group_vat = cls.env["account.tax.group"].create({"name": "VAT"})
+        cls.input_vat_include = cls.env["account.tax"].create(
             {
                 "name": "V7",
                 "type_tax_use": "purchase",
                 "amount_type": "percent",
                 "amount": 7.0,
-                "tax_group_id": self.tax_group_vat.id,
+                "tax_group_id": cls.tax_group_vat.id,
                 "price_include": True,
                 "tax_exigibility": "on_invoice",
                 "invoice_repartition_line_ids": [
@@ -42,27 +43,27 @@ class TestAccountEntry(TransactionCase):
                         {
                             "factor_percent": 100.0,
                             "repartition_type": "tax",
-                            "account_id": self.input_vat_acct.id,
+                            "account_id": cls.input_vat_acct.id,
                         },
                     ),
                 ],
             }
         )
-        self.product_expense = self.env["product.product"].create(
+        cls.product_expense = cls.env["product.product"].create(
             {
                 "name": "Delivered at cost",
                 "standard_price": 700,
                 "list_price": 700,
                 "type": "consu",
-                "supplier_taxes_id": [(6, 0, [self.input_vat_include.id])],
+                "supplier_taxes_id": [(6, 0, [cls.input_vat_include.id])],
                 "default_code": "CONSU-DELI-COST",
                 "taxes_id": False,
-                "property_account_expense_id": self.account_expense.id,
+                "property_account_expense_id": cls.account_expense.id,
             }
         )
         # Create new employee
-        partner = self.env["res.partner"].create({"name": "Test Employee"})
-        self.employee1 = self.env["hr.employee"].create(
+        partner = cls.env["res.partner"].create({"name": "Test Employee"})
+        cls.employee1 = cls.env["hr.employee"].create(
             {"name": "Test Employee", "address_home_id": partner.id}
         )
 

@@ -90,8 +90,9 @@ class AccountMoveTaxInvoice(models.Model):
     def _compute_tax_amount(self):
         """Compute without undue vat"""
         for rec in self._origin.filtered(lambda l: not l.payment_id):
-            rec.tax_base_amount = rec.move_line_id.tax_base_amount or 0.0
-            rec.balance = abs(rec.move_line_id.balance) or 0.0
+            sign = 1 if rec.move_id.move_type not in ["in_refund", "out_refund"] else -1
+            rec.tax_base_amount = sign * rec.move_line_id.tax_base_amount or 0.0
+            rec.balance = sign * abs(rec.move_line_id.balance) or 0.0
 
     @api.depends("move_line_id")
     def _compute_payment_id(self):
@@ -120,6 +121,24 @@ class AccountMoveTaxInvoice(models.Model):
                 )
             else:
                 rec.report_date = False
+
+    @api.onchange("tax_invoice_date")
+    def _onchange_tax_invoice_date(self):
+        """Auto add late report if month of accounting date
+        difference month of tax invoice"""
+        if self.tax_invoice_date and self.move_id.date:
+            # Replace to first date of the month and find diffference month
+            accounting_date = self.move_id.date.replace(day=1)
+            tax_invoice_date = self.tax_invoice_date.replace(day=1)
+            difference = relativedelta(accounting_date, tax_invoice_date)
+            # Check accounting date and tax invoice date is difference
+            if difference.years > 0 or (
+                difference.years == 0 and difference.months >= 6
+            ):
+                report_late = "0"
+            else:
+                report_late = str(difference.months)
+            self.report_late_mo = report_late
 
     def unlink(self):
         """Do not allow remove the last tax_invoice of move_line"""
