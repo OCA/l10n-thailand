@@ -4,9 +4,9 @@
 from odoo import fields, models
 
 
-class OperatingUnit(models.Model):
-    _inherit = "operating.unit"
+class ResBranch(models.Model):
+    _inherit = "res.branch"
 
-    branch_ids = fields.Many2many(
-        comodel_name="res.branch",
+    operating_unit_ids = fields.Many2many(
+        comodel_name="operating.unit",
     )

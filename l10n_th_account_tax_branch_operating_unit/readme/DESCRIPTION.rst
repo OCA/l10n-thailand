@@ -1,1 +1,2 @@
-This module is used for companies with multiple branches to accurately separate financial reporting by branch.
+This module allows you to add branch within tax line and withholding tax.
+By default, it depend on branch of header (if any)

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="res_branch_view_tree" model="ir.ui.view">
+        <field name="name">res.branch.view.tree</field>
+        <field name="model">res.branch</field>
+        <field name="inherit_id" ref="base_multi_branch_company.res_branch_view_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="operating_unit_ids" widget="many2many_tags" />
+            </xpath>
+        </field>
+    </record>
+    <record id="res_branch_view_form" model="ir.ui.view">
+        <field name="name">res.branch.view.form</field>
+        <field name="model">res.branch</field>
+        <field name="inherit_id" ref="base_multi_branch_company.res_branch_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[2]" position="inside">
+                <field name="operating_unit_ids" widget="many2many_tags" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

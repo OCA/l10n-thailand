@@ -3,41 +3,15 @@
     <record id="view_move_form" model="ir.ui.view">
         <field name="name">account.move.form</field>
         <field name="model">account.move</field>
-        <field name="inherit_id" ref="l10n_th_account_tax.view_move_form" />
+        <field name="inherit_id" ref="account_multi_branch_company.view_move_form" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='tax_invoice_ids']/tree" position="inside">
-                <field name="tax_branch_id" />
+            <xpath expr="//field[@name='branch_id']" position="before">
+                <field name="domain_branch_ids" widget="many2many_tags" invisible="1" />
             </xpath>
-        </field>
-    </record>
-    <record id="view_tax_invoice_search" model="ir.ui.view">
-        <field name="model">account.move.tax.invoice</field>
-        <field name="inherit_id" ref="l10n_th_account_tax.view_tax_invoice_search" />
-        <field name="arch" type="xml">
-            <xpath expr="//group" position="inside">
-                <filter
-                    string="Branch"
-                    name="group_by_tax_branch"
-                    context="{'group_by':'tax_branch_id'}"
-                />
-            </xpath>
-        </field>
-    </record>
-    <record id="view_tax_invoice_form" model="ir.ui.view">
-        <field name="model">account.move.tax.invoice</field>
-        <field name="inherit_id" ref="l10n_th_account_tax.view_tax_invoice_form" />
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='company_id']" position="after">
-                <field name="tax_branch_id" />
-            </xpath>
-        </field>
-    </record>
-    <record id="view_tax_invoice_tree" model="ir.ui.view">
-        <field name="model">account.move.tax.invoice</field>
-        <field name="inherit_id" ref="l10n_th_account_tax.view_tax_invoice_tree" />
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='tax_base_amount']" position="before">
-                <field name="tax_branch_id" />
+            <xpath expr="//field[@name='branch_id']" position="attributes">
+                <attribute
+                    name="domain"
+                >[('company_id', '=', company_id), ('id', 'in', domain_branch_ids or [])]</attribute>
             </xpath>
         </field>
     </record>

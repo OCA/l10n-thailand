@@ -1,9 +1,4 @@
-Tax Invoice
-===========
+to use this module,
 
-Add a Branch to be included in the VAT recording (including undue) and allow users to edit it
-
-Withholding Tax
-===============
-
-The `WHT Certificates` menu has been updated to include Branch selection, and users are required to select the Branch themselves.
+#. Select branch on invoices/bills
+#. when there is tax, it will default from header
