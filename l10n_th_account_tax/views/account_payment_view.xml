@@ -32,7 +32,7 @@
                     class="alert alert-warning"
                     role="alert"
                     style="margin-bottom:0px;"
-                    attrs="{'invisible': ['|', ('wht_cert_status', '!=', 'none'), ('state', '!=', 'posted')]}"
+                    attrs="{'invisible': ['|', '|', ('wht_cert_status', '!=', 'none'), ('state', '!=', 'posted'), ('payment_type', '!=', 'outbound')]}"
                 >
                     This entry containg withholding tax, but no withholding tax certs. created yet.
                     <button
@@ -48,7 +48,7 @@
                     class="alert alert-warning"
                     role="alert"
                     style="margin-bottom:0px;"
-                    attrs="{'invisible': ['|', ('move_type', '!=', 'entry'), ('wht_cert_status', '!=', 'draft')]}"
+                    attrs="{'invisible': ['|', '|', ('move_type', '!=', 'entry'), ('wht_cert_status', '!=', 'draft'), ('payment_type', '!=', 'outbound')]}"
                 >
                     Withholding tax certs. created but still draft.
                     <button
@@ -64,7 +64,7 @@
                     class="alert alert-warning"
                     role="alert"
                     style="margin-bottom:0px;"
-                    attrs="{'invisible': ['|', ('move_type', '!=', 'entry'), ('wht_cert_status', '!=', 'cancel')]}"
+                    attrs="{'invisible': ['|', '|', ('move_type', '!=', 'entry'), ('wht_cert_status', '!=', 'cancel'), ('payment_type', '!=', 'outbound')]}"
                 >
                     All related withholding tax certs. was cancelled.
                     <button
@@ -123,9 +123,13 @@
                 <group
                     id="wht_move"
                     string="Withholding Moves"
-                    attrs="{'invisible': [('wht_move_ids', '=', [])]}"
+                    attrs="{'invisible': ['|', ('wht_move_ids', '=', []), ('payment_type', '!=', 'outbound')]}"
                 >
-                    <field name="wht_move_ids" nolabel="1">
+                    <field
+                        name="wht_move_ids"
+                        nolabel="1"
+                        attrs="{'invisible': [('payment_type', '!=', 'outbound')]}"
+                    >
                         <tree editable="bottom" create="0" delete="0">
                             <field name="date" invisible="1" />
                             <field name="calendar_year" invisible="1" />
