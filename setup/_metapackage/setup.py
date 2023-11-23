@@ -12,6 +12,7 @@ setuptools.setup(
         'odoo-addon-l10n_th_account_asset_management>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_account_tax>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_account_tax_expense>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_th_account_tax_expense_operating_unit>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_account_tax_multi>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_account_tax_report>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_account_wht_cert_form>=15.0dev,<15.1dev',
