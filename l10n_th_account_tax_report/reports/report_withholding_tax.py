@@ -5,9 +5,6 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
 
-DEFAULT_DAY_FORMAT_WHT = "%d"
-DEFAULT_MONTH_FORMAT_WHT = "%m"
-DEFAULT_YEAR_FORMAT_WHT = "%Y"
 INCOME_TAX_FORM = {"pnd1": "P01", "pnd1a": "P01A", "pnd3": "P03", "pnd53": "P53"}
 
 
@@ -170,14 +167,14 @@ class WithHoldingTaxReport(models.TransientModel):
     def _convert_tax_payer(self, tax_payer):
         if tax_payer == "withholding":
             return 1
-        return 3  # paid one time
+        if tax_payer == "paid_continue":
+            return 2
+        return 3  # Paid One Time
 
-    def format_date_dmy(self, date=None, format_date=None):
-        if not date:
-            date = fields.Date.context_today()
-        year_thai = int(date.strftime(DEFAULT_YEAR_FORMAT_WHT)) + 543
-        date_format = date.strftime(
-            "{}{}{}".format(DEFAULT_DAY_FORMAT_WHT, DEFAULT_MONTH_FORMAT_WHT, year_thai)
+    def format_date_dmy(self, date, format_date=None):
+        year_thai = date.year + 543
+        date_format = "{}{}{}".format(
+            str(date.day).zfill(2), str(date.month).zfill(2), year_thai
         )
         return date_format
 
@@ -185,9 +182,8 @@ class WithHoldingTaxReport(models.TransientModel):
         if not date:
             # date month before
             date = self.date_from
-        year_thai = int(date.strftime(DEFAULT_YEAR_FORMAT_WHT)) + 543
-        month = date.strftime(DEFAULT_MONTH_FORMAT_WHT)
-        date_format = "{}{}".format(year_thai, month)
+        year_thai = date.year + 543
+        date_format = "{}{}".format(year_thai, str(date.month).zfill(2))
         return date_format
 
     def _get_report_base_filename(self):
@@ -307,14 +303,21 @@ class WithHoldingTaxReport(models.TransientModel):
                 if x
             ]
         )
-        # Condition
-        tax_payer = 1
-        # NOTE: support with tax one paid only
-        if line.cert_id.tax_payer != "withholding":
-            if line.cert_id.income_tax_form == "pnd53":
-                tax_payer = 2  # Tax one paid
-            else:
-                tax_payer = 3  # Tax one paid
+        # Condition of Tax Payer
+        # - Withholding Tax: 1
+        # - Paid One Time
+        #     - PND53: 2
+        #     - Not PND53: 3
+        # - Paid Continuously
+        #     - PND53: 3
+        #     - Not PND53: 2
+        if line.cert_id.tax_payer == "withholding":
+            tax_payer = 1
+        elif line.cert_id.tax_payer == "paid_one_time":  # Paid One Time
+            tax_payer = 2 if line.cert_id.income_tax_form == "pnd53" else 3
+        else:  # Paid Continuously
+            tax_payer = 3 if line.cert_id.income_tax_form == "pnd53" else 2
+
         return {
             "partner_vat": partner.vat or " " * 13,  # space when no vat
             "partner_branch": partner.branch,
