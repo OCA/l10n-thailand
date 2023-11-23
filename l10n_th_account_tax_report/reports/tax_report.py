@@ -92,8 +92,13 @@ class TaxReport(models.TransientModel):
                 -- and late report date within range date end
                 and (
                     (t.report_date >= %s and t.report_date <= %s)
-                    or (t.report_late_mo != '0' and EXTRACT(MONTH FROM t.report_date) <= %s
-                        and EXTRACT(YEAR FROM t.report_date) <= %s)
+                    or (
+                        t.report_late_mo != '0' and
+                        EXTRACT(MONTH FROM t.report_date) <= %s and
+                        EXTRACT(YEAR FROM t.report_date) <= %s and
+                        EXTRACT(MONTH FROM t.report_date) >= %s and
+                        EXTRACT(YEAR FROM t.report_date) >= %s
+                    )
                 )
                 and ml.company_id = %s
                 and t.reversed_id is null
@@ -113,6 +118,8 @@ class TaxReport(models.TransientModel):
                 self.date_to,
                 self.date_to.month,
                 self.date_to.year,
+                self.date_from.month,
+                self.date_from.year,
                 self.company_id.id,
             ),
         )
