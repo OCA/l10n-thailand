@@ -30,6 +30,7 @@ setuptools.setup(
         'odoo-addon-l10n_th_gov_work_acceptance>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_mis_report>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_multicurrency_revaluation>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_th_multicurrency_revaluation_operating_unit>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_partner>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_promptpay>=15.0dev,<15.1dev',
         'odoo-addon-l10n_th_tier_department>=15.0dev,<15.1dev',
