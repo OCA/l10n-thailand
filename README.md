@@ -42,6 +42,7 @@ addon | version | maintainers | summary
 [l10n_th_gov_purchase_request](l10n_th_gov_purchase_request/) | 15.0.1.1.1 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Government Purchase Request
 [l10n_th_gov_work_acceptance](l10n_th_gov_work_acceptance/) | 15.0.1.0.1 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Government Work Acceptance
 [l10n_th_mis_report](l10n_th_mis_report/) | 15.0.1.0.0 | [![ps-tubtim](https://github.com/ps-tubtim.png?size=30px)](https://github.com/ps-tubtim) | Thai Localization - MIS Report
+[l10n_th_multicurrency_revaluation](l10n_th_multicurrency_revaluation/) | 15.0.1.0.0 | [![ps-tubtim](https://github.com/ps-tubtim.png?size=30px)](https://github.com/ps-tubtim) | Manage revaluation for multicurrency environment for Thai
 [l10n_th_partner](l10n_th_partner/) | 15.0.1.1.1 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Partner
 [l10n_th_promptpay](l10n_th_promptpay/) | 15.0.1.0.0 |  | Use PromptPay QR code with transfer acquirer.
 [l10n_th_tier_department](l10n_th_tier_department/) | 15.0.1.0.0 | [![ps-tubtim](https://github.com/ps-tubtim.png?size=30px)](https://github.com/ps-tubtim) | Thai Localization - Tier Department Level
