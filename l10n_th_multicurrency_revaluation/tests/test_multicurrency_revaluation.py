@@ -3,6 +3,7 @@
 
 from freezegun import freeze_time
 
+from odoo import Command
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import tagged
 from odoo.tests.common import Form, TransactionCase
@@ -18,20 +19,24 @@ class TestTHMultiCurrencyRevaluation(TransactionCase):
         cls.move_model = cls.env["account.move"]
         cls.ml_model = cls.env["account.move.line"]
         cls.analytic_account_model = cls.env["account.analytic.account"]
-
+        cls.test_analytic_plan = cls.env["account.analytic.plan"].create(
+            {"name": "Test Analytic Plan"}
+        )
+        cls.analytic_account = cls.analytic_account_model.create(
+            {
+                "name": "test aa",
+                "plan_id": cls.test_analytic_plan.id,
+            }
+        )
         cls.currency_revaluation_wiz = cls.env["wizard.currency.revaluation"]
         cls.reverse_currency_revaluation_wiz = cls.env[
             "wizard.reverse.currency.revaluation"
         ]
         cls.revaluation_report = cls.env["unrealized.report.printer"]
-        cls.type_expense = cls.env.ref("account.data_account_type_expenses")
-        cls.type_receivable = cls.env.ref("account.data_account_type_receivable")
-        cls.type_revenue = cls.env.ref("account.data_account_type_other_income")
         cls.partner = cls.env.ref("base.res_partner_4")
         cls.journal_general = cls.env["account.journal"].create(
             {"name": "Test General Journal", "code": "TGJ", "type": "general"}
         )
-        cls.analytic_account = cls.analytic_account_model.create({"name": "test aa"})
         # Config multi currency revaluation in company
         cls.main_company = cls.env.ref("base.main_company")
         cls.main_company.write(
@@ -54,25 +59,25 @@ class TestTHMultiCurrencyRevaluation(TransactionCase):
 
         cls.account_exp = cls.account_model.create(
             {
-                "code": "TEST-0001",
+                "code": "TEST0001",
                 "name": "Account-Test",
-                "user_type_id": cls.type_expense.id,
+                "account_type": "expense",
             }
         )
         cls.account_rec = cls.account_model.create(
             {
-                "code": "TEST-9999",
+                "code": "TEST9999",
                 "name": "Account-Test-Receive",
-                "user_type_id": cls.type_receivable.id,
+                "account_type": "asset_receivable",
                 "reconcile": True,
             }
         )
         cls.product = cls.env.ref("product.product_product_5")
         cls.account_rev = cls.account_model.create(
             {
-                "code": "TEST-Gain",
+                "code": "TESTGain",
                 "name": "Account-Test-Gain",
-                "user_type_id": cls.type_revenue.id,
+                "account_type": "income_other",
             }
         )
 
@@ -81,17 +86,15 @@ class TestTHMultiCurrencyRevaluation(TransactionCase):
             {
                 "move_type": "in_invoice" if bill else "out_invoice",
                 "partner_id": self.partner.id,
-                "currency_id": currency,
+                "currency_id": currency.id,
                 "invoice_date": "2010-01-01",
                 "invoice_line_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "product_id": self.product.id,
                             "quantity": 1,
                             "price_unit": amount,
-                        },
+                        }
                     )
                 ],
             }
@@ -109,12 +112,12 @@ class TestTHMultiCurrencyRevaluation(TransactionCase):
         with self.assertRaises(UserError):
             self.account_exp.write({"currency_revaluation": True})
 
-        # Test select user_type_id is receivable, payable or Bank and Cash.
-        # it should auto selected currency_revaluation field
-        self.assertFalse(self.account_rec.currency_revaluation)
-        with Form(self.account_rec) as acc:
-            acc.user_type_id = self.type_receivable
+        # Test change account type is not receivable, payable or Bank and Cash.
+        # it should auto selected currency_revaluation field is False
         self.assertTrue(self.account_rec.currency_revaluation)
+        with Form(self.account_rec) as acc:
+            acc.account_type = "expense"
+        self.assertFalse(self.account_rec.currency_revaluation)
 
     @freeze_time("2010-01-05")
     def test_02_bill_multi_currency_revaluation(self):
@@ -171,7 +174,7 @@ class TestTHMultiCurrencyRevaluation(TransactionCase):
         # No link it will return close
         action_view = bill.line_ids.filtered(
             lambda l: not l.revaluation_created_line_id
-        ).action_view_revaluation_created_line()
+        )[0].action_view_revaluation_created_line()
         self.assertFalse(action_view.get("views"))
 
         # Reverse revalue currency
@@ -245,7 +248,7 @@ class TestTHMultiCurrencyRevaluation(TransactionCase):
         action = self.env.ref(
             "l10n_th_multicurrency_revaluation.action_report_currency_unrealized_xlsx"
         )
-        action._render_xlsx(wizard.ids, data)
+        action._render_xlsx(action.report_name, wizard.ids, data)
 
     @freeze_time("2010-01-05")
     def test_05_multi_currency_revaluation_invoice(self):
