@@ -1,7 +1,7 @@
 # Copyright 2023 Ecosoft Co., Ltd (https://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, exceptions, fields, models
+from odoo import Command, _, api, exceptions, fields, models
 from odoo.tools import float_compare, float_repr
 
 
@@ -35,7 +35,7 @@ class WizardCurrencyRevaluation(models.TransientModel):
         company = self.journal_id.company_id or self.env.company
         return self.env["account.account"].search(
             [
-                ("user_type_id.include_initial_balance", "=", True),
+                ("include_initial_balance", "=", True),
                 ("currency_revaluation", "=", True),
                 ("company_id", "=", company.id),
             ]
@@ -148,11 +148,19 @@ class WizardCurrencyRevaluation(models.TransientModel):
 
         if debit:
             debit_line.update(
-                {"revaluation_origin_line_ids": [(6, 0, revaluation_origin_line_ids)]}
+                {
+                    "revaluation_origin_line_ids": [
+                        Command.set([revaluation_origin_line_ids])
+                    ]
+                }
             )
         else:
             credit_line.update(
-                {"revaluation_origin_line_ids": [(6, 0, revaluation_origin_line_ids)]}
+                {
+                    "revaluation_origin_line_ids": [
+                        Command.set([revaluation_origin_line_ids])
+                    ]
+                }
             )
 
         debit_line.update(
@@ -160,15 +168,30 @@ class WizardCurrencyRevaluation(models.TransientModel):
         )
 
         if analytic_debit_acc_id:
-            debit_line.update({"analytic_account_id": analytic_debit_acc_id})
+            debit_line.update(
+                {
+                    "analytic_distribution": {
+                        analytic_debit_acc_id: 100,
+                    }
+                }
+            )
 
         credit_line.update(
             {"debit": 0.0, "credit": amount, "account_id": credit_account_id}
         )
 
         if analytic_credit_acc_id:
-            credit_line.update({"analytic_account_id": analytic_credit_acc_id})
-        base_move["line_ids"] = [(0, 0, debit_line), (0, 0, credit_line)]
+            credit_line.update(
+                {
+                    "analytic_distribution": {
+                        analytic_credit_acc_id: 100,
+                    }
+                }
+            )
+        base_move["line_ids"] = [
+            Command.create(debit_line),
+            Command.create(credit_line),
+        ]
         created_move = self.env["account.move"].create(base_move)
         if self.journal_id.company_id.auto_post_entries:
             created_move.action_post()
@@ -302,7 +325,7 @@ class WizardCurrencyRevaluation(models.TransientModel):
         )
         for account_id, by_account in revaluations.items():
             account = Account.browse(account_id)
-            if account.internal_type == "liquidity" and (
+            if account.account_type in ["asset_cash", "liability_credit_card"] and (
                 not account.currency_id
                 or account.currency_id == account.company_id.currency_id
             ):

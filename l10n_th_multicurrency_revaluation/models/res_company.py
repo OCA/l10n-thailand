@@ -12,7 +12,16 @@ class ResCompany(models.Model):
         string="Revaluation loss account",
         domain=lambda self: [
             ("company_id", "=", self.env.company.id),
-            ("internal_type", "=", "other"),
+            (
+                "account_type",
+                "not in",
+                [
+                    "asset_receivable",
+                    "asset_cash",
+                    "liability_payable",
+                    "liability_credit_card",
+                ],
+            ),
             ("deprecated", "=", False),
         ],
     )
@@ -21,7 +30,16 @@ class ResCompany(models.Model):
         string="Revaluation gain account",
         domain=lambda self: [
             ("company_id", "=", self.env.company.id),
-            ("internal_type", "=", "other"),
+            (
+                "account_type",
+                "not in",
+                [
+                    "asset_receivable",
+                    "asset_cash",
+                    "liability_payable",
+                    "liability_credit_card",
+                ],
+            ),
             ("deprecated", "=", False),
         ],
     )
@@ -35,7 +53,16 @@ class ResCompany(models.Model):
         string="Provision B.S. loss account",
         domain=lambda self: [
             ("company_id", "=", self.env.company.id),
-            ("internal_type", "=", "other"),
+            (
+                "account_type",
+                "not in",
+                [
+                    "asset_receivable",
+                    "asset_cash",
+                    "liability_payable",
+                    "liability_credit_card",
+                ],
+            ),
             ("deprecated", "=", False),
         ],
     )
@@ -44,7 +71,16 @@ class ResCompany(models.Model):
         string="Provision B.S. gain account",
         domain=lambda self: [
             ("company_id", "=", self.env.company.id),
-            ("internal_type", "=", "other"),
+            (
+                "account_type",
+                "not in",
+                [
+                    "asset_receivable",
+                    "asset_cash",
+                    "liability_payable",
+                    "liability_credit_card",
+                ],
+            ),
             ("deprecated", "=", False),
         ],
     )
@@ -53,7 +89,6 @@ class ResCompany(models.Model):
         string="Provision P&L loss account",
         domain=lambda self: [
             ("company_id", "=", self.env.company.id),
-            ("internal_type", "=", "other"),
             ("deprecated", "=", False),
         ],
     )
@@ -62,7 +97,16 @@ class ResCompany(models.Model):
         string="Provision P&L gain account",
         domain=lambda self: [
             ("company_id", "=", self.env.company.id),
-            ("internal_type", "=", "other"),
+            (
+                "account_type",
+                "not in",
+                [
+                    "asset_receivable",
+                    "asset_cash",
+                    "liability_payable",
+                    "liability_credit_card",
+                ],
+            ),
             ("deprecated", "=", False),
         ],
     )
