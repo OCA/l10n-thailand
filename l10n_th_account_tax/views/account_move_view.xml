@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="name">account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button
+                    class="oe_stat_button"
+                    name="button_wht_certs"
+                    string="WHT Certs"
+                    type="object"
+                    groups="account.group_account_invoice"
+                    attrs="{'invisible':[('wht_cert_ids','=',[])]}"
+                    icon="fa-bars"
+                />
+                <field name="wht_cert_ids" invisible="1" />
+            </div>
+            <xpath expr="//header[last()]" position="after">
+                <field name="wht_cert_status" invisible="1" />
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    attrs="{'invisible': ['|', ('wht_cert_status', '!=', 'none'), ('state', '!=', 'posted')]}"
+                >
+                    This entry containg withholding tax, but no withholding tax certs. created yet.
+                    <button
+                        name="create_wht_cert"
+                        string="⇒ Create withholding tax cert."
+                        type="object"
+                        class="oe_link"
+                        states="posted"
+                        title="Create withholding tax certificate objects, based on withholding moves"
+                    />
+                </div>
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    attrs="{'invisible': ['|', ('move_type', '!=', 'entry'), ('wht_cert_status', '!=', 'draft')]}"
+                >
+                    Withholding tax certs. created but still draft.
+                    <button
+                        id="link_wht_certs"
+                        name="button_wht_certs"
+                        string="⇒ Show withholding tax certs"
+                        type="object"
+                        class="oe_link"
+                    />
+                </div>
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    attrs="{'invisible': ['|', ('move_type', '!=', 'entry'), ('wht_cert_status', '!=', 'cancel')]}"
+                >
+                    All related withholding tax certs. was cancelled.
+                    <button
+                        name="button_wht_certs"
+                        string="⇒ Show withholding tax certs"
+                        type="object"
+                        class="oe_link"
+                    />
+                </div>
+            </xpath>
+            <xpath
+                expr="//page/field[@name='invoice_line_ids']/tree/field[@name='tax_ids']"
+                position="after"
+            >
+                <field
+                    name="wht_tax_id"
+                    options="{'no_create': True}"
+                    optional="show"
+                />
+            </xpath>
+            <xpath
+                expr="//page/field[@name='invoice_line_ids']/form//field[@name='tax_ids']"
+                position="after"
+            >
+                <field
+                    name="wht_tax_id"
+                    options="{'no_create': True}"
+                    optional="hide"
+                />
+            </xpath>
+            <xpath
+                expr="//page/field[@name='line_ids']/tree/field[@name='tax_ids']"
+                position="after"
+            >
+                <field
+                    name="wht_tax_id"
+                    options="{'no_create': True}"
+                    optional="hide"
+                />
+            </xpath>
+            <xpath
+                expr="//page/field[@name='line_ids']/form//field[@name='tax_ids']"
+                position="after"
+            >
+                <field
+                    name="wht_tax_id"
+                    options="{'no_create': True}"
+                    optional="hide"
+                />
+            </xpath>
+            <xpath
+                expr="//field[@name='line_ids']//field[@name='tax_tag_ids']"
+                position="after"
+            >
+                <field name="manual_tax_invoice" optional="hide" />
+            </xpath>
+            <page id="other_tab" position="before">
+                <page
+                    id="tax_invoice"
+                    string="Tax Invoice"
+                    attrs="{'invisible': [('tax_invoice_ids', '=', [])]}"
+                >
+                    <field name="tax_invoice_ids">
+                        <tree editable="bottom" create="0" delete="1">
+                            <field name="move_state" invisible="1" />
+                            <field name="account_id" optional="hide" />
+                            <field name="partner_id" optional="hide" />
+                            <field name="tax_invoice_number" />
+                            <field name="tax_invoice_date" />
+                            <field name="report_late_mo" optional="show" />
+                            <field name="report_date" optional="show" />
+                            <field name="tax_base_amount" />
+                            <field name="balance" sum="Tax Amount" />
+                            <button
+                                name="copy"
+                                string="Split"
+                                type="object"
+                                icon="fa-files-o"
+                                attrs="{'invisible': [('move_state', '!=', 'draft')]}"
+                            />
+                        </tree>
+                    </field>
+                </page>
+                <page
+                    id="wht_move"
+                    string="Withholding Moves"
+                    attrs="{'invisible': [('wht_move_ids', '=', [])]}"
+                >
+                    <field name="wht_move_ids" nolabel="1">
+                        <tree editable="bottom" create="0" delete="0">
+                            <field name="date" invisible="1" />
+                            <field name="calendar_year" invisible="1" />
+                            <field name="partner_id" readonly="1" />
+                            <field name="wht_cert_income_type" />
+                            <field name="wht_cert_income_desc" optional="show" />
+                            <field name="amount_income" />
+                            <field name="amount_wht" />
+                            <field name="is_pit" />
+                        </tree>
+                    </field>
+                </page>
+            </page>
+        </field>
+    </record>
+    <!-- Tax Invoice -->
+    <record id="view_tax_invoice_search" model="ir.ui.view">
+        <field name="model">account.move.tax.invoice</field>
+        <field name="arch" type="xml">
+            <search string="Tax Invoices">
+                <field name="tax_invoice_number" />
+                <field name="partner_id" />
+                <field name="account_id" />
+                <field name="tax_line_id" />
+                <group string="Group By">
+                    <filter
+                        string="Date"
+                        name="date"
+                        context="{'group_by':'tax_invoice_date'}"
+                    />
+                    <filter
+                        string="Partner"
+                        name="partner"
+                        context="{'group_by':'partner_id'}"
+                    />
+                    <filter
+                        string="Account"
+                        name="account"
+                        context="{'group_by':'account_id'}"
+                    />
+                    <filter
+                        string="Originator Tax"
+                        name="tax_line"
+                        context="{'group_by':'tax_line_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="view_tax_invoice_form" model="ir.ui.view">
+        <field name="model">account.move.tax.invoice</field>
+        <field name="arch" type="xml">
+            <form string="Tax Invoices">
+                <sheet>
+                    <group string="Tax Invoice Detail">
+                        <group>
+                            <field name="tax_invoice_number" />
+                            <field name="tax_invoice_date" />
+                            <label for="report_date" />
+                            <div class="o_row">
+                                <field name="report_late_mo" />
+                                <span>=</span>
+                                <field name="report_date" />
+                            </div>
+                            <field name="partner_id" />
+                            <field name="account_id" readonly="1" />
+                            <field name="tax_line_id" readonly="1" />
+                            <field name="tax_base_amount" />
+                            <field name="balance" />
+                        </group>
+                        <group>
+                            <field
+                                name="company_id"
+                                readonly="1"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="move_id" readonly="1" />
+                            <field name="move_line_id" readonly="1" />
+                            <field name="payment_id" readonly="1" />
+                        </group>
+                    </group>
+                    <group string="Misc." groups="base.group_no_one">
+                        <group>
+                            <field name="reversing_id" readonly="1" />
+                            <field name="reversed_id" readonly="1" />
+                        </group>
+                        <group>
+                            <field name="to_clear_tax" readonly="1" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_tax_invoice_tree" model="ir.ui.view">
+        <field name="model">account.move.tax.invoice</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="tax_invoice_number" />
+                <field name="tax_invoice_date" />
+                <field name="report_late_mo" />
+                <field name="report_date" />
+                <field name="partner_id" />
+                <field name="account_id" />
+                <field name="tax_line_id" />
+                <field name="tax_base_amount" />
+                <field name="balance" />
+            </tree>
+        </field>
+    </record>
+    <record id="action_tax_invoice" model="ir.actions.act_window">
+        <field name="name">Tax Invoices</field>
+        <field name="res_model">account.move.tax.invoice</field>
+        <field name="view_id" ref="view_tax_invoice_tree" />
+    </record>
+    <menuitem
+        action="action_tax_invoice"
+        id="menu_action_tax_invoice"
+        groups="account.group_account_invoice"
+        parent="account.menu_finance_entries_accounting_miscellaneous"
+        sequence="100"
+    />
+</odoo>

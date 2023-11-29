@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_partner_property_form" model="ir.ui.view">
+        <field name="name">res.partner.property.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form" />
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button
+                    class="oe_stat_button"
+                    name="button_wht_certs"
+                    string="WHT Certs"
+                    type="object"
+                    groups="account.group_account_invoice"
+                    attrs="{'invisible':[('pit_move_ids','=',[])]}"
+                    icon="fa-bars"
+                />
+            </div>
+            <xpath expr="//page[@name='accounting']" position="after">
+                <page
+                    name="pit"
+                    string="Personal Income Tax"
+                    groups="account.group_account_invoice,account.group_account_readonly"
+                >
+                    <div class="oe_right" name="buttons">
+                        <button
+                            name="action_view_pit_move_yearly_summary"
+                            string="View Yearly Summary"
+                            icon="fa-bar-chart-o"
+                            type="object"
+                        />
+                    </div>
+                    <field name="pit_move_ids" nolabel="1">
+                        <tree editable="bottom" create="1" delete="0">
+                            <field name="partner_id" optional="hide" />
+                            <field name="payment_id" />
+                            <field name="date" optional="show" />
+                            <field name="calendar_year" optional="show" />
+                            <field
+                                name="wht_cert_income_type"
+                                style="white-space: normal;"
+                            />
+                            <field
+                                name="wht_cert_income_desc"
+                                optional="show"
+                                style="white-space: normal;"
+                            />
+                            <field name="amount_income" sum="Total Income" />
+                            <field
+                                name="amount_wht"
+                                sum="Total Amount Withholding Tax"
+                            />
+                            <field name="cancelled" optional="show" />
+                            <field
+                                name="payment_state"
+                                widget="badge"
+                                decoration-info="payment_state == 'draft'"
+                                decoration-success="payment_state == 'posted'"
+                            />
+                            <field name="currency_id" invisible="1" />
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

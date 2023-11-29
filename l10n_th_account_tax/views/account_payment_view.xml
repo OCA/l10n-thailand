@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_payment_form" model="ir.ui.view">
+        <field name="name">account.view.account.payment.form</field>
+        <field name="model">account.payment</field>
+        <field eval="2" name="priority" />
+        <field name="inherit_id" ref="account.view_account_payment_form" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button
+                    name="button_wht_certs"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-bars"
+                    attrs="{'invisible': [('wht_certs_count','=', 0)]}"
+                    groups="account.group_account_invoice"
+                >
+                    <field name="wht_certs_count" />
+                    <span
+                        attrs="{'invisible': [('wht_certs_count','&gt;', 1)]}"
+                    >WHT Cert</span>
+                    <span
+                        attrs="{'invisible': [('wht_certs_count','&lt;=', 1)]}"
+                    >WHT Certs</span>
+                </button>
+            </div>
+            <xpath expr="//header[last()]" position="after">
+                <field name="wht_cert_status" invisible="1" />
+                <field name="move_type" invisible="1" />
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    attrs="{'invisible': ['|', '|', ('wht_cert_status', '!=', 'none'), ('state', '!=', 'posted'), ('payment_type', '!=', 'outbound')]}"
+                >
+                    This entry containg withholding tax, but no withholding tax certs. created yet.
+                    <button
+                        name="create_wht_cert"
+                        string="⇒ Create withholding tax cert."
+                        type="object"
+                        class="oe_link"
+                        states="posted"
+                        title="Create withholding tax certificate objects, based on withholding moves"
+                    />
+                </div>
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    attrs="{'invisible': ['|', '|', ('move_type', '!=', 'entry'), ('wht_cert_status', '!=', 'draft'), ('payment_type', '!=', 'outbound')]}"
+                >
+                    Withholding tax certs. created but still draft.
+                    <button
+                        id="link_wht_certs"
+                        name="button_wht_certs"
+                        string="⇒ Show withholding tax certs"
+                        type="object"
+                        class="oe_link"
+                        states="posted"
+                    />
+                </div>
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    attrs="{'invisible': ['|', '|', ('move_type', '!=', 'entry'), ('wht_cert_status', '!=', 'cancel'), ('payment_type', '!=', 'outbound')]}"
+                >
+                    All related withholding tax certs. was cancelled.
+                    <button
+                        name="button_wht_certs"
+                        string="⇒ Show withholding tax certs"
+                        type="object"
+                        class="oe_link"
+                    />
+                </div>
+            </xpath>
+            <button name="action_post" position="after">
+                <field name="to_clear_tax" invisible="1" />
+                <button
+                    name="clear_tax_cash_basis"
+                    type="object"
+                    string="Clear Tax"
+                    class="oe_highlight"
+                    attrs="{'invisible': ['|', ('to_clear_tax', '=', False), ('state', '!=', 'posted')]}"
+                />
+            </button>
+            <group position="after">
+                <notebook attrs="{'invisible': [('tax_invoice_ids', '=', [])]}">
+                    <page string="Tax Invoice" name="tax_invoice">
+                        <field name="tax_invoice_ids">
+                            <tree editable="bottom" create="0" delete="1">
+                                <field name="to_clear_tax" invisible="1" />
+                                <field name="account_id" optional="hide" />
+                                <field name="partner_id" optional="hide" />
+                                <field
+                                    name="tax_invoice_number"
+                                    attrs="{'readonly': [('to_clear_tax', '=', False)]}"
+                                />
+                                <field
+                                    name="tax_invoice_date"
+                                    attrs="{'readonly': [('to_clear_tax', '=', False)]}"
+                                />
+                                <field
+                                    name="report_late_mo"
+                                    attrs="{'readonly': [('to_clear_tax', '=', False)]}"
+                                    optional="show"
+                                />
+                                <field name="report_date" optional="show" />
+                                <field name="tax_base_amount" />
+                                <field name="balance" sum="Total Tax" />
+                                <button
+                                    name="copy"
+                                    string="Split"
+                                    type="object"
+                                    icon="fa-files-o"
+                                    attrs="{'invisible': [('to_clear_tax', '=', False)]}"
+                                />
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+                <group
+                    id="wht_move"
+                    string="Withholding Moves"
+                    attrs="{'invisible': ['|', ('wht_move_ids', '=', []), ('payment_type', '!=', 'outbound')]}"
+                >
+                    <field
+                        name="wht_move_ids"
+                        nolabel="1"
+                        colspan="2"
+                        attrs="{'invisible': [('payment_type', '!=', 'outbound')]}"
+                    >
+                        <tree editable="bottom" create="0" delete="0">
+                            <field name="date" invisible="1" />
+                            <field name="calendar_year" invisible="1" />
+                            <field name="partner_id" readonly="1" />
+                            <field name="wht_cert_income_type" />
+                            <field
+                                name="wht_cert_income_desc"
+                                optional="show"
+                                style="white-space: normal;"
+                            />
+                            <field name="amount_income" />
+                            <field name="amount_wht" />
+                            <field name="is_pit" />
+                        </tree>
+                    </field>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

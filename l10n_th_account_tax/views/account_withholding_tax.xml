@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_withholding_tax_form" model="ir.ui.view">
+        <field name="name">view.account.withholding.tax.form</field>
+        <field name="model">account.withholding.tax</field>
+        <field name="arch" type="xml">
+            <form string="Withholding Tax">
+                <group>
+                    <group>
+                        <field name="name" />
+                        <field name="is_pit" />
+                        <field name="income_tax_form" />
+                        <field name="wht_cert_income_type" />
+                    </group>
+                    <group>
+                        <field
+                            name="account_id"
+                            context="{'default_wht_account': True}"
+                        />
+                        <label
+                            for="amount"
+                            attrs="{'invisible': [('is_pit', '=', True)]}"
+                        />
+                        <div attrs="{'invisible': [('is_pit', '=', True)]}">
+                            <field name="amount" class="oe_inline" />
+                            <span class="o_form_label oe_inline">%</span>
+                        </div>
+                        <field
+                            name="pit_id"
+                            attrs="{'invisible': [('is_pit', '=', False)]}"
+                        />
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="view_account_withholding_tax_tree" model="ir.ui.view">
+        <field name="name">view.account.withholding.tax.tree</field>
+        <field name="model">account.withholding.tax</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="account_id" />
+            </tree>
+        </field>
+    </record>
+    <record id="action_account_withholding_tax_menu" model="ir.actions.act_window">
+        <field name="name">Withholding Tax</field>
+        <field name="res_model">account.withholding.tax</field>
+        <field name="view_id" ref="view_account_withholding_tax_tree" />
+    </record>
+    <menuitem
+        id="menu_account_withholding_tax"
+        action="action_account_withholding_tax_menu"
+        parent="account.account_account_menu"
+        sequence="2"
+        groups="account.group_account_invoice"
+    />
+</odoo>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- WHT -->
+    <record id="view_wht_move_tree" model="ir.ui.view">
+        <field name="name">view.account.withholding.move.tree</field>
+        <field name="model">account.withholding.move</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom" create="1" delete="0">
+                <field name="partner_id" optional="hide" />
+                <field name="payment_id" />
+                <field name="date" optional="show" />
+                <field name="calendar_year" optional="show" />
+                <field name="wht_cert_income_type" />
+                <field name="wht_cert_income_desc" optional="show" />
+                <field name="amount_income" sum="Total Income" />
+                <field name="amount_wht" sum="Total Amount Withholding Tax" />
+                <field name="cancelled" optional="show" />
+                <field
+                    name="payment_state"
+                    widget="badge"
+                    decoration-info="payment_state == 'draft'"
+                    decoration-success="payment_state == 'posted'"
+                />
+                <field name="currency_id" invisible="1" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_wht_move_form" model="ir.ui.view">
+        <field name="name">view.account.withholding.move.form</field>
+        <field name="model">account.withholding.move</field>
+        <field name="arch" type="xml">
+            <form string="Withholding Tax Move">
+                <header>
+                    <field
+                        name="payment_state"
+                        widget="statusbar"
+                        statusbar_visible="draft,posted"
+                    />
+                </header>
+                <sheet>
+                    <group>
+                        <group name="group_left">
+                            <field name="partner_id" />
+                            <field name="payment_id" />
+                            <field name="date" />
+                            <field name="calendar_year" />
+                        </group>
+                        <group name="group_right">
+                            <field name="wht_cert_income_type" />
+                            <field name="wht_cert_income_desc" />
+                            <field name="amount_income" />
+                            <field name="amount_wht" />
+                            <field name="currency_id" invisible="1" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_wht_move_search" model="ir.ui.view">
+        <field name="name">view.account.withholding.move.search</field>
+        <field name="model">account.withholding.move</field>
+        <field name="arch" type="xml">
+            <search string="Withholding Tax Move">
+                <field name="calendar_year" string="Calendar Year" />
+                <field name="partner_id" string="Vendor" />
+                <group expand="1" string="Group By">
+                    <separator orientation="vertical_groupby" />
+                    <filter
+                        name="group_by_calendar_year"
+                        string="Calendar Year"
+                        context="{'group_by':'calendar_year'}"
+                    />
+                    <filter
+                        name="group_by_partner_id"
+                        string="Partner"
+                        context="{'group_by':'partner_id'}"
+                    />
+                    <filter
+                        name="group_by_payment_id"
+                        string="Payment"
+                        context="{'group_by':'payment_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+        <record id="action_withholding_tax_move_view" model="ir.actions.act_window">
+        <field name="name">Withholding Tax Move</field>
+        <field name="res_model">account.withholding.move</field>
+        <field name="view_id" ref="view_wht_move_tree" />
+    </record>
+    <menuitem
+        action="action_withholding_tax_move_view"
+        id="menu_action_withholding_tax_move"
+        groups="account.group_account_invoice"
+        parent="account.menu_finance_entries_accounting_miscellaneous"
+        sequence="120"
+    />
+
+    <!-- PIT -->
+    <record id="view_pit_move_pivot" model="ir.ui.view">
+        <field name="name">view.account.withholding.move.pivot</field>
+        <field name="model">account.withholding.move</field>
+        <field name="arch" type="xml">
+            <pivot string="PIT Move Monitoring">
+                <field name="partner_id" type="row" />
+                <field name="calendar_year" type="col" />
+                <field name="amount_income" type="measure" />
+                <field name="amount_wht" type="measure" />
+            </pivot>
+        </field>
+    </record>
+    <record id="view_pit_move_graph" model="ir.ui.view">
+        <field name="name">view.account.withholding.move.graph</field>
+        <field name="model">account.withholding.move</field>
+        <field name="arch" type="xml">
+            <graph string="PIT Move Monitoring">
+                <field name="calendar_year" />
+                <field name="amount_income" type="measure" />
+                <field name="amount_wht" type="measure" />
+            </graph>
+        </field>
+    </record>
+    <record id="action_pit_move_view" model="ir.actions.act_window">
+        <field name="name">Personal Income Tax Move</field>
+        <field name="res_model">account.withholding.move</field>
+        <field name="view_mode">pivot,tree,graph</field>
+        <field name="domain">[('is_pit', '=', True)]</field>
+        <field name="context">{'group_by':[], 'group_by_no_leaf':1}</field>
+    </record>
+</odoo>
