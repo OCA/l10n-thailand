@@ -10,6 +10,7 @@ setuptools.setup(
     install_requires=[
         'odoo-addon-l10n_th_account_tax>=16.0dev,<16.1dev',
         'odoo-addon-l10n_th_amount_to_text>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_th_base_location>=16.0dev,<16.1dev',
         'odoo-addon-l10n_th_fonts>=16.0dev,<16.1dev',
     ],
     classifiers=[
