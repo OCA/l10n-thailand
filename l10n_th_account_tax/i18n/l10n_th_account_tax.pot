@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,9 +24,17 @@ msgid "% Tax"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#. odoo-python
 #: code:addons/l10n_th_account_tax/models/personal_income_tax.py:0
 #, python-format
 msgid "%s (copy)"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#. odoo-python
+#: code:addons/l10n_th_account_tax/models/account_move.py:0
+#, python-format
+msgid "(Discount)"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -228,7 +236,13 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model:ir.model,name:l10n_th_account_tax.model_account_account
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__account_id
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_tax_invoice_search
 msgid "Account"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model:ir.model,name:l10n_th_account_tax.model_account_move_reversal
+msgid "Account Move Reversal"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -325,12 +339,14 @@ msgid "Cancelled"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#. odoo-python
 #: code:addons/l10n_th_account_tax/models/account_move_tax_invoice.py:0
 #, python-format
 msgid "Cannot delete this last tax invoice line"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#. odoo-python
 #: code:addons/l10n_th_account_tax/models/account_move.py:0
 #, python-format
 msgid "Cannot set tax invoice number, number already exists."
@@ -421,9 +437,24 @@ msgid "Currency"
 msgstr ""
 
 #. module: l10n_th_account_tax
-#: model:ir.model.fields,field_description:l10n_th_account_tax.field_res_company__customer_tax_name
-#: model:ir.model.fields,field_description:l10n_th_account_tax.field_res_config_settings__customer_tax_name
-msgid "Customer Tax Invoices Number"
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__res_company__customer_tax_invoice_number__invoice
+msgid "Customer Invoice Number"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__res_company__customer_tax_invoice_number__payment
+msgid "Customer Payment Number"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.res_config_settings_view_form
+msgid "Customer Tax Invoice Number"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_res_company__customer_tax_invoice_number
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_res_config_settings__customer_tax_invoice_number
+msgid "Customer Tax Invoice Number (Undue VAT)"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -467,11 +498,7 @@ msgid "Default withholding tax for the vendor that is individual"
 msgstr ""
 
 #. module: l10n_th_account_tax
-#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.res_config_settings_view_form
-msgid "Define your tax number reference (Undue Vat)"
-msgstr ""
-
-#. module: l10n_th_account_tax
+#. odoo-python
 #: code:addons/l10n_th_account_tax/models/personal_income_tax.py:0
 #, python-format
 msgid ""
@@ -588,20 +615,20 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,help:l10n_th_account_tax.field_withholding_tax_cert__message_needaction
-#: model:ir.model.fields,help:l10n_th_account_tax.field_withholding_tax_cert__message_unread
 msgid "If checked, new messages require your attention."
 msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,help:l10n_th_account_tax.field_withholding_tax_cert__message_has_error
-#: model:ir.model.fields,help:l10n_th_account_tax.field_withholding_tax_cert__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
 #. module: l10n_th_account_tax
-#: model:ir.model.fields,help:l10n_th_account_tax.field_res_company__customer_tax_name
-#: model:ir.model.fields,help:l10n_th_account_tax.field_res_config_settings__customer_tax_name
-msgid "If checked, wht cert form will show layout pre-print"
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.res_config_settings_view_form
+msgid ""
+"In case of Sales Undue VAT,\n"
+"                                Define your tax invoice number which is created after payment\n"
+"                                when user didn't setup Tax Invoice Sequence in Tax setting."
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -640,6 +667,7 @@ msgid "Income To (<=)"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#. odoo-python
 #: code:addons/l10n_th_account_tax/models/personal_income_tax.py:0
 #, python-format
 msgid "Income amount must start from 0.0"
@@ -657,13 +685,16 @@ msgid "Individual Vendor Withholding Tax"
 msgstr ""
 
 #. module: l10n_th_account_tax
-#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__res_company__customer_tax_name__invoice
-msgid "Invoice"
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__message_is_follower
+msgid "Is Follower"
 msgstr ""
 
 #. module: l10n_th_account_tax
-#: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__message_is_follower
-msgid "Is Follower"
+#: model:ir.model.fields,help:l10n_th_account_tax.field_res_company__customer_tax_invoice_number
+#: model:ir.model.fields,help:l10n_th_account_tax.field_res_config_settings__customer_tax_invoice_number
+msgid ""
+"It default running tax number by payment\n"
+"        when user not select 'Tax Invoice Sequence' in taxes"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -672,14 +703,11 @@ msgid "Journal"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#. odoo-python
 #: code:addons/l10n_th_account_tax/models/account_payment.py:0
-#, python-format
-msgid "Journal Entries"
-msgstr ""
-
-#. module: l10n_th_account_tax
 #: model:ir.model,name:l10n_th_account_tax.model_account_move
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_move__move_id
+#, python-format
 msgid "Journal Entry"
 msgstr ""
 
@@ -813,8 +841,8 @@ msgid "Next Number"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#. odoo-python
 #: code:addons/l10n_th_account_tax/models/account_move.py:0
-#: code:addons/l10n_th_account_tax/wizard/account_payment_register.py:0
 #, python-format
 msgid "No effective PIT rate for date %s"
 msgstr ""
@@ -841,7 +869,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,help:l10n_th_account_tax.field_withholding_tax_cert__message_needaction_counter
-msgid "Number of messages which requires an action"
+msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -850,11 +878,7 @@ msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: l10n_th_account_tax
-#: model:ir.model.fields,help:l10n_th_account_tax.field_withholding_tax_cert__message_unread_counter
-msgid "Number of unread messages"
-msgstr ""
-
-#. module: l10n_th_account_tax
+#. odoo-python
 #: code:addons/l10n_th_account_tax/models/account_withholding_tax.py:0
 #, python-format
 msgid "Only 1 personal income tax allowed!"
@@ -877,6 +901,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__tax_line_id
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_tax_invoice_search
 msgid "Originator Tax"
 msgstr ""
 
@@ -941,6 +966,11 @@ msgid "PND53"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert__tax_payer__paid_continue
+msgid "Paid Continuously"
+msgstr ""
+
+#. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert__tax_payer__paid_one_time
 msgid "Paid One Time"
 msgstr ""
@@ -961,7 +991,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__payment_id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_move__payment_id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__payment_id
-#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__res_company__customer_tax_name__payment
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_wht_move_search
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_withholding_tax_cert_search
 msgid "Payment"
@@ -994,12 +1023,14 @@ msgid "Personal Income Tax Move"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#. odoo-python
 #: code:addons/l10n_th_account_tax/models/res_partner.py:0
 #, python-format
 msgid "Personal Income Tax Yearly"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#. odoo-python
 #: code:addons/l10n_th_account_tax/wizard/account_payment_register.py:0
 #, python-format
 msgid ""
@@ -1008,6 +1039,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_th_account_tax
+#. odoo-python
 #: code:addons/l10n_th_account_tax/models/account_move.py:0
 #: code:addons/l10n_th_account_tax/models/account_payment.py:0
 #, python-format
@@ -1015,6 +1047,7 @@ msgid "Please fill in tax invoice and tax date"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#. odoo-python
 #: code:addons/l10n_th_account_tax/models/account_move.py:0
 #, python-format
 msgid "Please select Type of Income on every withholding moves"
@@ -1022,7 +1055,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model,name:l10n_th_account_tax.model_product_template
-msgid "Product Template"
+msgid "Product"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -1066,11 +1099,7 @@ msgid "Reversing"
 msgstr ""
 
 #. module: l10n_th_account_tax
-#: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr ""
-
-#. module: l10n_th_account_tax
+#. odoo-python
 #: code:addons/l10n_th_account_tax/models/account_withholding_tax.py:0
 #, python-format
 msgid "Selected account is not for withholding tax"
@@ -1127,11 +1156,6 @@ msgid "Tax Base"
 msgstr ""
 
 #. module: l10n_th_account_tax
-#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_move_form
-msgid "Tax Cash Basis Moves"
-msgstr ""
-
-#. module: l10n_th_account_tax
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_withholding_tax_cert_search
 msgid "Tax Form"
 msgstr ""
@@ -1152,6 +1176,7 @@ msgid "Tax Invoice"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_reversal__tax_invoice_date
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__tax_invoice_date
 msgid "Tax Invoice Date"
 msgstr ""
@@ -1167,6 +1192,7 @@ msgid "Tax Invoice Info"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_reversal__tax_invoice_number
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__tax_invoice_number
 msgid "Tax Invoice Number"
 msgstr ""
@@ -1187,11 +1213,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_tax_invoice_form
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_tax_invoice_search
 msgid "Tax Invoices"
-msgstr ""
-
-#. module: l10n_th_account_tax
-#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.res_config_settings_view_form
-msgid "Tax Number Reference"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -1219,8 +1240,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_th_account_tax.field_withholding_tax_cert__company_vat
 #: model:ir.model.fields,help:l10n_th_account_tax.field_withholding_tax_cert__partner_vat
 msgid ""
-"The Tax Identification Number. Complete it if the contact is subjected to "
-"government taxes. Used in some legal statements."
+"The Tax Identification Number. Values here will be validated based on the "
+"country format. You can use '/' to indicate that the partner is not subject "
+"to tax."
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -1234,6 +1256,7 @@ msgid "The next sequence number will be used for the next tax invoice."
 msgstr ""
 
 #. module: l10n_th_account_tax
+#. odoo-python
 #: code:addons/l10n_th_account_tax/models/withholding_tax_cert.py:0
 #, python-format
 msgid "This document was substituted by %s."
@@ -1297,16 +1320,6 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,help:l10n_th_account_tax.field_withholding_tax_cert__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr ""
-
-#. module: l10n_th_account_tax
-#: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: l10n_th_account_tax
-#: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__message_unread_counter
-msgid "Unread Messages Counter"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -1497,12 +1510,15 @@ msgid "Withholding tax certs. created but still draft."
 msgstr ""
 
 #. module: l10n_th_account_tax
+#. odoo-python
 #: code:addons/l10n_th_account_tax/models/withholding_tax_cert.py:0
 #, python-format
-msgid "You can not default field '{} - {}' more than 1."
+msgid ""
+"You can not default field '%(income)s - %(wht_income_type)s' more than 1."
 msgstr ""
 
 #. module: l10n_th_account_tax
+#. odoo-python
 #: code:addons/l10n_th_account_tax/wizard/account_payment_register.py:0
 #, python-format
 msgid ""
