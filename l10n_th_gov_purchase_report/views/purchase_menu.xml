@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Main Thai Purchase Reports -->
+    <menuitem
+        id="purchase_reports_l10n_th_menu"
+        name="Thai Purchase Reports"
+        parent="purchase.purchase_report_main"
+        sequence="20"
+        groups="purchase.group_purchase_manager"
+    />
+
+    <!-- Add main report purchase request -->
+    <menuitem
+        id="main_menu_purchase_request_report"
+        name="Reports"
+        parent="purchase_request.parent_menu_purchase_request"
+        groups="purchase_request.group_purchase_request_user"
+    />
+
+</odoo>
