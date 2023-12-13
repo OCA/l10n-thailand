@@ -1,6 +1,7 @@
 # Copyright 2020 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
+from odoo.exceptions import ValidationError
 from odoo.tests.common import Form, TransactionCase
 
 
@@ -46,3 +47,18 @@ class TestL10nThPartner(TransactionCase):
         self.assertEqual(self.user.name, "Firstname Lastname")
         self.user.title = self.title
         self.assertEqual(self.user.name, "MissFirstname Lastname")
+
+    def test_duplicate_partner_vat_branch(self):
+        partner1 = self.env["res.partner"].create(
+            {
+                "firstname": "Firstname",
+                "lastname": "Lastname",
+                "vat": "0123456789012",
+                "branch": "00000",
+                "company_id": self.main_company.id,
+            }
+        )
+        partner2 = partner1.copy()
+        with self.assertRaises(ValidationError):
+            with Form(partner2) as p2:
+                p2.branch = "00000"
