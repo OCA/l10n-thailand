@@ -374,7 +374,7 @@ class WizardCurrencyRevaluation(models.TransientModel):
                             float_compare(
                                 rate,
                                 ml_origin.revaluation_created_line_id.gl_currency_rate,
-                                precision_rounding=currency.rounding,
+                                precision_digits=12,
                             )
                             == 0
                             and not move_reversed
