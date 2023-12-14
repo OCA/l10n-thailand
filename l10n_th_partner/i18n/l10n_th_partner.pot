@@ -65,6 +65,12 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_th_partner
+#: code:addons/l10n_th_partner/models/res_partner.py:0
+#, python-format
+msgid "Each contact's Tax ID and Tax Branch should not be the same."
+msgstr ""
+
+#. module: l10n_th_partner
 #: model:ir.model,name:l10n_th_partner.model_hr_employee
 msgid "Employee"
 msgstr ""
