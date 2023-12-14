@@ -3,31 +3,31 @@
     <record id="view_move_form" model="ir.ui.view">
         <field name="name">account.move.form</field>
         <field name="model">account.move</field>
-        <field name="inherit_id" ref="l10n_th_withholding_tax.view_move_form" />
+        <field name="inherit_id" ref="l10n_th_account_tax.view_move_form" />
         <field name="arch" type="xml">
             <xpath
-                expr="//page/field[@name='invoice_line_ids']/tree/field[@name='wt_tax_id']"
+                expr="//page/field[@name='invoice_line_ids']/tree/field[@name='wht_tax_id']"
                 position="before"
             >
-                <field name="wtvat" />
+                <field name="whtvat" />
             </xpath>
             <xpath
-                expr="//page/field[@name='invoice_line_ids']/form//field[@name='wt_tax_id']"
+                expr="//page/field[@name='invoice_line_ids']/form//field[@name='wht_tax_id']"
                 position="after"
             >
-                <field name="wtvat" />
+                <field name="whtvat" />
             </xpath>
             <xpath
-                expr="//page/field[@name='line_ids']/tree/field[@name='wt_tax_id']"
+                expr="//page/field[@name='line_ids']/tree/field[@name='wht_tax_id']"
                 position="after"
             >
-                <field name="wtvat" />
+                <field name="whtvat" />
             </xpath>
             <xpath
-                expr="//page/field[@name='line_ids']/form//field[@name='wt_tax_id']"
+                expr="//page/field[@name='line_ids']/form//field[@name='wht_tax_id']"
                 position="after"
             >
-                <field name="wtvat" />
+                <field name="whtvat" />
             </xpath>
         </field>
     </record>

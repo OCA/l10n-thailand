@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="date_range_type_test" model="date.range.type">
+        <field name="name">Type Date Range</field>
+        <field name="active" eval="True" />
+    </record>
+    <record id="date_range_test" model="date.range">
+        <field name="name">Range FiscalYear</field>
+        <field name="type_id" ref="date_range_type_test" />
+        <field name="date_start" eval="time.strftime('%Y-01-01')" />
+        <field name="date_end" eval="time.strftime('%Y-12-31')" />
+        <field name="active" eval="True" />
+    </record>
+</odoo>

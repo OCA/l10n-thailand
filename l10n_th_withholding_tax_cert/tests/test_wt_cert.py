@@ -242,7 +242,7 @@ class TestWTCert(SavepointCase):
         with Form(self.wt_cert.with_context(ctx_cert)) as f:
             f.income_tax_form = "pnd3"
         wt_cert = f.save()
-        self.assertEqual(wt_cert.supplier_partner_id, self.partner_1)
+        self.assertEqual(wt_cert.partner_id, self.partner_1)
         invoice.button_wt_certs()
 
     def test_03_create_wt_cert_payment_multi(self):
