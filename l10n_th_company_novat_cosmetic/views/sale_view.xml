@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <field name="order_line" position="before">
+                <div
+                    class="oe_right"
+                    attrs="{'invisible': [('company_novat', '=', False)]}"
+                >
+                    <field name="company_novat" invisible="1" />
+                    <label for="cosmetic_vat" string="Calculate VAT" />
+                    <field
+                        name="cosmetic_vat"
+                        force_save="1"
+                        class="oe_inline"
+                        attrs="{'readonly': ['|', ('set_cosmetic_vat', '=', True), ('state', '!=', 'draft')]}"
+                    />
+                    <field name="set_cosmetic_vat" invisible="1" />
+                    <button
+                        name="apply_cosmetic_vat"
+                        type="object"
+                        icon="fa-toggle-off"
+                        class="oe_stat_button"
+                        attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('set_cosmetic_vat', '=', True)]}"
+                    />
+                    <button
+                        name="remove_cosmetic_vat"
+                        type="object"
+                        icon="fa-toggle-on"
+                        class="oe_stat_button"
+                        attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('set_cosmetic_vat', '=', False)]}"
+                    />
+                </div>
+            </field>
+            <field name="amount_total" position="after">
+                <separator />
+                <field
+                    name="cosmetic_untaxed"
+                    attrs="{'invisible': [('set_cosmetic_vat', '=', False)]}"
+                    decoration-success="True"
+                />
+                <field
+                    name="cosmetic_tax"
+                    attrs="{'invisible': [('set_cosmetic_vat', '=', False)]}"
+                    decoration-success="True"
+                />
+            </field>
+            <xpath
+                expr="//field[@name='order_line']/tree/field[@name='price_subtotal']"
+                position="after"
+            >
+                <field name="set_cosmetic_vat" invisible="1" />
+                <button
+                    name="apply_cosmetic_vat"
+                    type="object"
+                    icon="fa-toggle-off"
+                    class="oe_stat_button"
+                    attrs="{'invisible': [('set_cosmetic_vat', '=', True)], 'column_invisible': [('parent.set_cosmetic_vat', '=', False)]}"
+                />
+                <button
+                    name="remove_cosmetic_vat"
+                    type="object"
+                    icon="fa-toggle-on"
+                    class="oe_stat_button"
+                    attrs="{'invisible': [('set_cosmetic_vat', '=', False)], 'column_invisible': [('parent.set_cosmetic_vat', '=', False)]}"
+                />
+                <field
+                    name="cosmetic_price_unit"
+                    attrs="{'column_invisible': [('parent.set_cosmetic_vat', '=', False)]}"
+                    decoration-success="set_cosmetic_vat == True and cosmetic_price_unit > 0"
+                    decoration-danger="set_cosmetic_vat == True and cosmetic_price_unit == 0"
+                />
+                <field
+                    name="cosmetic_price_subtotal"
+                    attrs="{'column_invisible': [('parent.set_cosmetic_vat', '=', False)]}"
+                    decoration-success="set_cosmetic_vat == True and cosmetic_price_unit > 0"
+                    decoration-danger="set_cosmetic_vat == True and cosmetic_price_unit == 0"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
