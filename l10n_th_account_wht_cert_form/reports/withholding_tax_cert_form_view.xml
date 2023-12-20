@@ -170,6 +170,9 @@
             <t t-if="o.income_tax_form == 'pnd1'">
                 <p class="choice_pnd1a">X</p>
             </t>
+            <t t-if="o.income_tax_form == 'pnd2'">
+                <p class="choice_pnd2">X</p>
+            </t>
             <t t-if="o.income_tax_form == 'pnd3'">
                 <p class="choice_pnd3">X</p>
             </t>
@@ -380,10 +383,13 @@
                 />
             </p>
             <t t-if="o.tax_payer == 'withholding'">
-                <p class="choich_withholding_tax">X</p>
+                <p class="choice_withholding_tax">X</p>
+            </t>
+            <t t-if="o.tax_payer == 'paid_continue'">
+                <p class="choice_paid_continue">X</p>
             </t>
             <t t-if="o.tax_payer == 'paid_one_time'">
-                <p class="choich_paid_one_time">X</p>
+                <p class="choice_paid_one_time">X</p>
             </t>
         </div>
     </template>
