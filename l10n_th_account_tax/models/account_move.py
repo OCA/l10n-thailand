@@ -709,16 +709,14 @@ class AccountMove(models.Model):
             )
             for wht_move in wht_moves:
                 cert_line_vals.append(
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "wht_cert_income_type": wht_move["wht_cert_income_type"],
                             "wht_cert_income_desc": wht_move["wht_cert_income_desc"],
                             "base": wht_move["amount_income"],
                             "amount": wht_move["amount_wht"],
                             "wht_tax_id": wht_move["wht_tax_id"][0],
-                        },
+                        }
                     )
                 )
                 wht_tax_set.add(wht_move["wht_tax_id"][0])

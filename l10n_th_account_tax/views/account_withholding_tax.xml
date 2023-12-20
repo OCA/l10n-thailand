@@ -5,32 +5,34 @@
         <field name="model">account.withholding.tax</field>
         <field name="arch" type="xml">
             <form string="Withholding Tax">
-                <group>
+                <sheet>
                     <group>
-                        <field name="name" />
-                        <field name="is_pit" />
-                        <field name="income_tax_form" />
-                        <field name="wht_cert_income_type" />
+                        <group>
+                            <field name="name" />
+                            <field name="is_pit" />
+                            <field name="income_tax_form" />
+                            <field name="wht_cert_income_type" />
+                        </group>
+                        <group>
+                            <field
+                                name="account_id"
+                                context="{'default_wht_account': True}"
+                            />
+                            <label
+                                for="amount"
+                                attrs="{'invisible': [('is_pit', '=', True)]}"
+                            />
+                            <div attrs="{'invisible': [('is_pit', '=', True)]}">
+                                <field name="amount" class="oe_inline" />
+                                <span class="o_form_label oe_inline">%</span>
+                            </div>
+                            <field
+                                name="pit_id"
+                                attrs="{'invisible': [('is_pit', '=', False)]}"
+                            />
+                        </group>
                     </group>
-                    <group>
-                        <field
-                            name="account_id"
-                            context="{'default_wht_account': True}"
-                        />
-                        <label
-                            for="amount"
-                            attrs="{'invisible': [('is_pit', '=', True)]}"
-                        />
-                        <div attrs="{'invisible': [('is_pit', '=', True)]}">
-                            <field name="amount" class="oe_inline" />
-                            <span class="o_form_label oe_inline">%</span>
-                        </div>
-                        <field
-                            name="pit_id"
-                            attrs="{'invisible': [('is_pit', '=', False)]}"
-                        />
-                    </group>
-                </group>
+                </sheet>
             </form>
         </field>
     </record>
