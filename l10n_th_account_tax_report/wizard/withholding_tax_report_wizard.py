@@ -6,7 +6,13 @@ from dateutil.relativedelta import relativedelta
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-INCOME_TAX_FORM = {"pnd1": "P01", "pnd1a": "P01A", "pnd3": "P03", "pnd53": "P53"}
+INCOME_TAX_FORM = {
+    "pnd1": "P01",
+    "pnd1a": "P01A",
+    "pnd2": "P02",
+    "pnd3": "P03",
+    "pnd53": "P53",
+}
 
 
 class WithHoldingTaxReportWizard(models.TransientModel):
@@ -17,6 +23,7 @@ class WithHoldingTaxReportWizard(models.TransientModel):
         selection=[
             ("pnd1", "PND1"),
             ("pnd1a", "PND1A"),
+            ("pnd2", "PND2"),
             ("pnd3", "PND3"),
             ("pnd53", "PND53"),
         ],
@@ -315,6 +322,9 @@ class WithHoldingTaxReportWizard(models.TransientModel):
         return {
             "partner_vat": partner.vat or " " * 13,  # space when no vat
             "partner_branch": partner.branch,
+            "partner_bank_account": line.wht_cert_bank_account.sanitized_acc_number
+            if line.wht_cert_income_type == "4A"
+            else "",
             "partner_firstname": firstname,
             "partner_lastname": lastname,
             "partner_address": address,
