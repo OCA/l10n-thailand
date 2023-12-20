@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -28,16 +28,15 @@ msgstr ""
 #. module: l10n_th_account_wht_cert_form
 #: model:mail.template,body_html:l10n_th_account_wht_cert_form.wht_cert_email_template
 msgid ""
-"<?xml version=\"1.0\"?>\n"
 "<div style=\"margin: 0px; padding: 0px;\">\n"
 "                <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
-"                    Dear ${object.partner_id.name}<br/><br/>\n"
+"                    Dear ${object.partner_id.name}<br><br>\n"
 "                    Here is your withholding tax certificate <strong>${(object.name or \"\").replace(\"/\",\"-\")}</strong> tax amounting\n"
 "                    to <strong>${format_amount(sum(object.wht_line.mapped(\"amount\")), object.currency_id)}</strong> from ${object.company_id.name}.\n"
-"                    <br/><br/>\n"
+"                    <br><br>\n"
 "                    Do not hesitate to contact us if you have any questions.\n"
-"                    <br/><br/>\n"
-"                    Best regards,<br/>\n"
+"                    <br><br>\n"
+"                    Best regards,<br>\n"
 "                    % if user and user.signature:\n"
 "                    ${user.signature | safe}\n"
 "                    % endif\n"
@@ -92,7 +91,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_wht_cert_form.res_config_settings_view_form
 msgid ""
 "Thai withholding tax layout with pre-print (No background).\n"
-"                            You must customize template `withholding_layout_preprint_report`"
+"                            You must customize template 'withholding_layout_preprint_report'"
 msgstr ""
 
 #. module: l10n_th_account_wht_cert_form
@@ -106,6 +105,7 @@ msgid "WHT Certificates - ${(object.name or '').replace('/','-')}"
 msgstr ""
 
 #. module: l10n_th_account_wht_cert_form
+#. odoo-python
 #: code:addons/l10n_th_account_wht_cert_form/models/withholding_tax_cert.py:0
 #, python-format
 msgid "WHT Certificates - {name}"
