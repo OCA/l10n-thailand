@@ -21,13 +21,6 @@
             <xpath expr="//field[@name='profile_id']" position="after">
                 <field name="parent_id" />
             </xpath>
-            <xpath expr="/form/sheet" position="after">
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" groups="base.group_user" />
-                    <field name="activity_ids" />
-                    <field name="message_ids" />
-                </div>
-            </xpath>
         </field>
     </record>
     <record model="ir.ui.view" id="account_asset_view_tree">
@@ -44,6 +37,7 @@
                     string="Asset Image"
                     optional="show"
                     widget="image"
+                    options="{'size': [128, 128]}"
                 />
             </xpath>
             <xpath expr="//field[@name='value_residual']" position="after">
