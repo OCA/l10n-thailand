@@ -9,7 +9,12 @@
         />
         <field name="arch" type="xml">
             <xpath expr="//div[hasclass('oe_title')]" position="before">
-                <field name="image" widget="image" class="oe_avatar" />
+                <field
+                    name="image"
+                    widget="image"
+                    class="oe_avatar"
+                    options="{'zoom': True}"
+                />
             </xpath>
             <xpath expr="//field[@name='value_residual']" position="after">
                 <field name="depreciation_rate" />
@@ -20,13 +25,6 @@
             </xpath>
             <xpath expr="//field[@name='profile_id']" position="after">
                 <field name="parent_id" />
-            </xpath>
-            <xpath expr="/form/sheet" position="after">
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" groups="base.group_user" />
-                    <field name="activity_ids" />
-                    <field name="message_ids" />
-                </div>
             </xpath>
         </field>
     </record>
@@ -44,6 +42,7 @@
                     string="Asset Image"
                     optional="show"
                     widget="image"
+                    options="{'size': [64, 64], 'zoom': True}"
                 />
             </xpath>
             <xpath expr="//field[@name='value_residual']" position="after">
