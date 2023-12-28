@@ -25,21 +25,19 @@ class TestAssetManagementThailand(TransactionCase):
             }
         )
         # Create expense account
-        account_type_expense = cls.env.ref("account.data_account_type_expenses")
         cls.account_expense = cls.account_model.create(
             {
-                "code": "TEST99999-Expense",
+                "code": "TEST99999.Expense",
                 "name": "Account - Test Expense",
-                "user_type_id": account_type_expense.id,
+                "account_type": "expense",
             }
         )
         # Create asset account
-        account_type_asset = cls.env.ref("account.data_account_type_current_assets")
         cls.account_asset = cls.account_model.create(
             {
-                "code": "TEST99999-Asset",
+                "code": "TEST99999.Asset",
                 "name": "Account - Test Asset",
-                "user_type_id": account_type_asset.id,
+                "account_type": "asset_current",
             }
         )
         # Create Journal Purchase
@@ -96,7 +94,7 @@ class TestAssetManagementThailand(TransactionCase):
             }
         )
         asset.compute_depreciation_board()
-        asset.refresh()
+        asset.invalidate_recordset()
         self.assertEqual(asset.depreciation_rate, 20.0)
         # check values in the depreciation board
         self.assertEqual(len(asset.depreciation_line_ids), 62)
@@ -121,7 +119,7 @@ class TestAssetManagementThailand(TransactionCase):
             }
         )
         asset.compute_depreciation_board()
-        asset.refresh()
+        asset.invalidate_recordset()
         self.assertEqual(asset.state, "draft")
         asset.validate()
         self.assertEqual(asset.state, "open")
@@ -169,7 +167,7 @@ class TestAssetManagementThailand(TransactionCase):
         self.assertEqual(asset.state, "close")
 
     def test_04_parent_asset(self):
-        parent_asset = self.asset_parent_model.create({"name": "Parent Test"})
+        parent_asset = self.asset_parent_model.create([{"name": "Parent Test"}])
         self.assertNotEqual(parent_asset.code, "/")
         # Check display name of parent asset must show code
         display_name = "[{}] {}".format(parent_asset.code, parent_asset.name)

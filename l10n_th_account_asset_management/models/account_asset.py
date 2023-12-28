@@ -5,8 +5,7 @@ from odoo import api, fields, models
 
 
 class AccountAsset(models.Model):
-    _name = "account.asset"
-    _inherit = ["account.asset", "mail.thread", "mail.activity.mixin"]
+    _inherit = "account.asset"
 
     image = fields.Binary(
         attachment=True,
@@ -90,10 +89,11 @@ class AccountAsset(models.Model):
     def validate(self):
         res = super().validate()
         AccountAssetSubState = self.env["account.asset.sub.state"]
+        main_currency = self.env.company.currency_id
         for asset in self:
             if (
                 asset.method_number > 0
-                and asset.company_currency_id.compare_amounts(
+                and main_currency.compare_amounts(
                     asset.value_residual, asset.salvage_value
                 )
                 == 0

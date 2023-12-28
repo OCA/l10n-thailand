@@ -61,12 +61,15 @@ class AccountAssetParent(models.Model):
             expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid
         )
 
-    @api.model
-    def create(self, vals):
-        if vals.get("code", "/") == "/":
-            code = self.env["ir.sequence"].next_by_code("account.asset.parent") or "/"
-            vals["code"] = code
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("code", "/") == "/":
+                code = (
+                    self.env["ir.sequence"].next_by_code("account.asset.parent") or "/"
+                )
+                vals["code"] = code
+        return super().create(vals_list)
 
     def action_view_assets(self):
         asset_ids = self.asset_ids

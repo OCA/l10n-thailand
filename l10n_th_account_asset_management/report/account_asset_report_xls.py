@@ -1,7 +1,7 @@
 # Copyright 2021 Ecosoft Co., Ltd (https://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import models
+from odoo import _, models
 
 from odoo.addons.report_xlsx_helper.report.report_xlsx_format import FORMATS
 
@@ -14,7 +14,7 @@ class AssetReportXlsx(models.AbstractModel):
         res.update(
             {
                 "profile": {
-                    "header": {"type": "string", "value": self._("Asset Profile")},
+                    "header": {"type": "string", "value": _("Asset Profile")},
                     "asset": {
                         "type": "string",
                         "value": self._render("asset.profile_id.name"),
@@ -24,7 +24,7 @@ class AssetReportXlsx(models.AbstractModel):
                 "depreciation_rate": {
                     "header": {
                         "type": "string",
-                        "value": self._("Depreciation Rate"),
+                        "value": _("Depreciation Rate"),
                         "format": FORMATS["format_theader_yellow_right"],
                     },
                     "asset": {
