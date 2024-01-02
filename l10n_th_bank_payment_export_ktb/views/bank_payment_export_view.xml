@@ -37,15 +37,11 @@
                 position="inside"
             >
                 <field
-                    name="config_ktb_company_id"
-                    options="{'no_create': True, 'no_create_edit': True}"
-                    domain="[('field_id.name', '=', 'config_ktb_company_id')]"
+                    name="ktb_company_id"
                     attrs="{'invisible': [('ktb_is_editable', '!=', True)], 'required': [('ktb_is_editable', '!=', False)]}"
                 />
                 <field
-                    name="config_ktb_sender_name"
-                    options="{'no_create': True, 'no_create_edit': True}"
-                    domain="[('field_id.name', '=', 'config_ktb_sender_name')]"
+                    name="ktb_sender_name"
                     attrs="{'invisible': [('ktb_is_editable', '!=', True)], 'required': [('ktb_is_editable', '!=', False)]}"
                 />
             </xpath>

@@ -13,27 +13,14 @@ class BankPaymentExport(models.Model):
         ondelete={"KRTHTHBK": "cascade"},
     )
     # Configuration
-    config_ktb_company_id = fields.Many2one(
-        comodel_name="bank.payment.config",
+    ktb_company_id = fields.Char(
         string="KTB Company ID",
-        default=lambda self: self._default_common_config("config_ktb_company_id"),
         readonly=True,
         states={"draft": [("readonly", False)]},
-        help="""
-            You can config this field from menu
-            Invoicing > Configuration > Payments > Bank Payment Configuration
-        """,
     )
-    config_ktb_sender_name = fields.Many2one(
-        comodel_name="bank.payment.config",
-        string="KTB Sender Name",
-        default=lambda self: self._default_common_config("config_ktb_sender_name"),
+    ktb_sender_name = fields.Char(
         readonly=True,
         states={"draft": [("readonly", False)]},
-        help="""
-            You can config this field from menu
-            Invoicing > Configuration > Payments > Bank Payment Configuration
-        """,
     )
     # filter
     ktb_is_editable = fields.Boolean(
@@ -130,7 +117,7 @@ class BankPaymentExport(models.Model):
             export.ktb_is_editable = True if export.bank == "KRTHTHBK" else False
 
     def _get_ktb_sender_name(self):
-        return self.config_ktb_sender_name.value or self.env.company.display_name
+        return self.ktb_sender_name
 
     def _get_ktb_receiver_info(self, pe_line):
         return "".ljust(8)
@@ -168,12 +155,10 @@ class BankPaymentExport(models.Model):
         return "0".zfill(4)
 
     def _get_text_header_ktb(self, payment_lines):
-        ktb_company_id = (
-            self.config_ktb_company_id.value or "**Company ID on KTB is not config**"
-        )
+        ktb_company_id = self.ktb_company_id or "**Company ID on KTB is not config**"
         total_batch = len(payment_lines.ids)
         total_amount = sum(payment_lines.mapped("payment_amount"))
-        total_batch_amount = payment_lines._get_amount_no_decimal(total_amount)
+        total_batch_amount = payment_lines._get_amount_no_decimal(total_amount, 2)
         text = (
             "101{idx}006{total_batch_transaction}{total_batch_amount}"
             "{effective_date}C{receiver_no}{ktb_company_id}{space}\r\n".format(
@@ -257,7 +242,9 @@ class BankPaymentExport(models.Model):
         for idx, pe_line in enumerate(payment_lines):
             # This amount related decimal from invoice, Odoo invoice do not rounding.
             payment_net_amount = pe_line._get_payment_net_amount()
-            payment_net_amount_bank = pe_line._get_amount_no_decimal(payment_net_amount)
+            payment_net_amount_bank = pe_line._get_amount_no_decimal(
+                payment_net_amount, 2
+            )
             text += self._get_text_body_ktb(idx, pe_line, payment_net_amount_bank)
             total_amount += payment_net_amount_bank
         return text
@@ -313,13 +300,45 @@ class BankPaymentExport(models.Model):
                 ctx.update({"default_ktb_bank_type": "standard"})
         return ctx
 
+    def _check_constraint_line(self):
+        # Add condition with line on this function
+        res = super()._check_constraint_line()
+        self.ensure_one()
+        if self.bank == "KRTHTHBK":
+            for line in self.export_line_ids:
+                if not line.payment_partner_bank_id:
+                    raise UserError(
+                        _("Recipient Bank with {} is not selected.").format(
+                            line.payment_id.name
+                        )
+                    )
+        return res
+
     def _check_constraint_create_bank_payment_export(self, payments):
         res = super()._check_constraint_create_bank_payment_export(payments)
         payment_bic_bank = list(set(payments.mapped("journal_id.bank_id.bic")))
         payment_bank = len(payment_bic_bank) == 1 and payment_bic_bank[0] or ""
+        method_manual_out = self.env.ref("account.account_payment_method_manual_out")
         # Check case KTB must have 1 journal / 1 PE
         if payment_bank == "KRTHTHBK" and len(payments.mapped("journal_id")) > 1:
             raise UserError(
                 _("KTB can create bank payment export 1 Journal / 1 Payment Export.")
             )
+        for payment in payments:
+            if (
+                payment.payment_method_id.id != method_manual_out.id
+                or payment.journal_id.type != "bank"
+            ):
+                raise UserError(
+                    _(
+                        "You can export bank payments with journal 'Bank' "
+                        "and Payment method 'Manual' only"
+                    )
+                )
+            if payment.company_id.currency_id != payment.currency_id:
+                raise UserError(
+                    _("Payments must be currency '{}' only").format(
+                        payment.company_id.currency_id.name
+                    )
+                )
         return res

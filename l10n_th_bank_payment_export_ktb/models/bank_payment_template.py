@@ -4,8 +4,8 @@
 from odoo import fields, models
 
 
-class BankPaymentConfig(models.Model):
-    _inherit = "bank.payment.config"
+class BankPaymentTemplate(models.Model):
+    _inherit = "bank.payment.template"
 
     bank = fields.Selection(
         selection_add=[("KRTHTHBK", "KTB")],

@@ -15,21 +15,22 @@ class TestBankPaymentExportKTB(CommonBankPaymentExport):
     def setUpClass(cls):
         super().setUpClass()
         # setup config
-        cls.config_ktb_company_id = cls.create_bank_payment_config(
+        ktb_company_id = cls.field_model.search([("name", "=", "ktb_company_id")])
+        ktb_sender_name = cls.field_model.search([("name", "=", "ktb_sender_name")])
+        data_dict = [
+            {
+                "field_id": ktb_company_id.id,
+                "value": "COMPANY01",
+            },
+            {
+                "field_id": ktb_sender_name.id,
+                "value": "SENDER_NAME01",
+            },
+        ]
+        cls.template1 = cls.create_bank_payment_template(
             cls,
-            name="KTB Company ID",
-            field_name="config_ktb_company_id",
-            value="Test KTB Company",
-            bank="KRTHTHBK",
-            default=True,
-        )
-        cls.config_ktb_sender_name = cls.create_bank_payment_config(
-            cls,
-            name="KTB Sender Name",
-            field_name="config_ktb_sender_name",
-            value="Test KTB Sender Name",
-            bank="KRTHTHBK",
-            default=True,
+            "KRTHTHBK",
+            data_dict,
         )
         cls.journal_new_bank = cls.env["account.journal"].create(
             {
@@ -39,46 +40,31 @@ class TestBankPaymentExportKTB(CommonBankPaymentExport):
             }
         )
 
-    def test_01_bank_payment_config(self):
-        """Test default bank payment config"""
-        self.config_ktb_sender_name.is_default = False
+    def test_01_bank_payment_template(self):
+        """Test default bank payment template"""
         bank_payment = self.bank_payment_export_model.create(
             {
                 "name": "/",
                 "bank": "KRTHTHBK",
+                "template_id": self.template1.id,
             }
         )
-        self.assertEqual(bank_payment.config_ktb_company_id, self.config_ktb_company_id)
-        self.assertFalse(bank_payment.config_ktb_sender_name)
-        # Test change it to default
-        self.config_ktb_sender_name.is_default = True
-        bank_payment = self.bank_payment_export_model.create(
-            {
-                "name": "/",
-                "bank": "KRTHTHBK",
-            }
-        )
-        self.assertEqual(
-            bank_payment.config_ktb_sender_name, self.config_ktb_sender_name
-        )
-
-        # Can't create config default with field duplicate
-        with self.assertRaises(UserError):
-            self.create_bank_payment_config(
-                name="KTB Company ID2",
-                field_name="config_ktb_company_id",
-                value="Test KTB Company2",
-                bank="KRTHTHBK",
-                default=True,
-            )
+        self.assertFalse(bank_payment.ktb_company_id)
+        self.assertFalse(bank_payment.ktb_sender_name)
+        # Add template in bank payment export, it should default
+        bank_payment._onchange_template_id()
+        self.assertEqual(bank_payment.ktb_company_id, "COMPANY01")
+        self.assertEqual(bank_payment.ktb_sender_name, "SENDER_NAME01")
 
     def test_02_ktb_export(self):
         bank_payment = self.bank_payment_export_model.create(
             {
                 "name": "/",
                 "bank": "KRTHTHBK",
+                "template_id": self.template1.id,
             }
         )
+        bank_payment._onchange_template_id()
         bank_payment.action_get_all_payments()
         self.assertEqual(len(bank_payment.export_line_ids), 2)
         # Add recipient bank on line

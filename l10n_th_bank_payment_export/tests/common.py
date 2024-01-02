@@ -1,7 +1,9 @@
 # Copyright 2021 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import fields
+from odoo_test_helper import FakeModelLoader
+
+from odoo import Command, fields
 from odoo.tests.common import TransactionCase
 
 
@@ -9,10 +11,20 @@ class CommonBankPaymentExport(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.loader = FakeModelLoader(cls.env, cls.__module__)
+        cls.loader.backup_registry()
+        from .bank_payment_export_tester import (
+            BankPaymentExportTester,
+            BankPaymentTemplateTester,
+        )
+
+        cls.loader.update_registry((BankPaymentExportTester, BankPaymentTemplateTester))
+
         cls.move_model = cls.env["account.move"]
         cls.journal_model = cls.env["account.journal"]
-        cls.bank_payment_config_model = cls.env["bank.payment.config"]
+        cls.bank_payment_template_model = cls.env["bank.payment.template"]
         cls.bank_payment_export_model = cls.env["bank.payment.export"]
+        cls.field_model = cls.env["ir.model.fields"]
         cls.register_payments_model = cls.env["account.payment.register"]
         cls.main_company_id = cls.env.ref("base.main_company").id
         cls.main_currency_id = cls.env.ref("base.USD").id
@@ -113,26 +125,6 @@ class CommonBankPaymentExport(TransactionCase):
             init=True,
         )
 
-    def create_bank_payment_config(self, name, field_name, value, bank, default=False):
-        field_id = self.env["ir.model.fields"].search(
-            [
-                ("model", "=", "bank.payment.export"),
-                ("ttype", "=", "many2one"),
-                ("relation", "=", "bank.payment.config"),
-                ("name", "=", field_name),
-            ]
-        )
-        bank_config_id = self.bank_payment_config_model.create(
-            {
-                "name": name,
-                "bank": bank,
-                "field_id": field_id.id,
-                "value": value,
-                "is_default": default,
-            }
-        )
-        return bank_config_id
-
     def create_partner_bank(self, acc_number, partner, bank):
         return self.partner_bank_model.create(
             {"acc_number": acc_number, "partner_id": partner.id, "bank_id": bank.id}
@@ -177,6 +169,7 @@ class CommonBankPaymentExport(TransactionCase):
         partner=False,
         journal=False,
         is_export=False,
+        bank_payment_template_id=False,
         multi=False,
         init=False,
     ):
@@ -200,6 +193,7 @@ class CommonBankPaymentExport(TransactionCase):
                 "partner_bank_id": invoices.mapped("partner_bank_id").id,
                 "payment_date": fields.Date.today(),
                 "is_export": is_export,
+                "bank_payment_template_id": bank_payment_template_id,
             }
         )
         payment_list = register_payments.action_create_payments()
@@ -224,3 +218,36 @@ class CommonBankPaymentExport(TransactionCase):
                 "token": "dummy-because-api-expects-one",
             },
         )
+
+    def create_bank_payment_template(self, bank, data_dict):
+        """This function is common create template, Format of data_dict is
+        [
+            {
+                'field_id': field_id,
+                'value': value,
+            },
+            {
+                'field_id': field_id,
+                'value': value,
+            }
+        ]
+        """
+        template = self.bank_payment_template_model.create(
+            {
+                "name": "Test Template %(bank)s"
+                % {
+                    "bank": bank,
+                },
+                "bank": bank,
+                "template_config_line": [
+                    Command.create(
+                        {
+                            "field_id": data.get("field_id"),
+                            "value": data.get("value"),
+                        }
+                    )
+                    for data in data_dict
+                ],
+            }
+        )
+        return template
