@@ -19,6 +19,18 @@ msgid "=&gt;"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_account_setup_bank_manual_config__acc_holder_name_en
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_res_partner_bank__acc_holder_name_en
+msgid "Account Holder Name (EN)"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_account_setup_bank_manual_config__acc_holder_name_en
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_res_partner_bank__acc_holder_name_en
+msgid "Account holder name, in case it is bank bahtnet"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__message_needaction
 msgid "Action Needed"
 msgstr ""
@@ -44,6 +56,12 @@ msgid "Activity Type Icon"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
+#, python-format
+msgid "All payments must have the same bank payment template."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__payment_amount
 msgid "Amount"
 msgstr ""
@@ -59,24 +77,26 @@ msgid "Attachment Count"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
-#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__bank
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__bank
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__payment_bank_id
-#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_config_view_search
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__bank
 #: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_template_view_search
 msgid "Bank"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
-#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_config_view_search
+#: model:ir.model,name:l10n_th_bank_payment_export.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_template_view_search
 msgid "Bank Payment Config"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
-#: model:ir.actions.act_window,name:l10n_th_bank_payment_export.action_bank_payment_config
 #: model:ir.model,name:l10n_th_bank_payment_export.model_bank_payment_config
-#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_account_journal__payment_export_config_ids
-#: model:ir.ui.menu,name:l10n_th_bank_payment_export.menu_bank_payment_config
 msgid "Bank Payment Configuration"
 msgstr ""
 
@@ -102,9 +122,18 @@ msgid "Bank Payment Exported"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
-#: code:addons/l10n_th_bank_payment_export/models/bank_payment_config.py:0
-#, python-format
-msgid "Can not selected Journal more than 1."
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_account_payment__bank_payment_template_id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_account_payment_register__bank_payment_template_id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_res_partner__property_bank_payment_template_id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_res_users__property_bank_payment_template_id
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_account_payment_search
+msgid "Bank Payment Template"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.actions.act_window,name:l10n_th_bank_payment_export.action_bank_payment_template
+#: model:ir.ui.menu,name:l10n_th_bank_payment_export.menu_bank_payment_template
+msgid "Bank Payment Templates"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
@@ -119,6 +148,11 @@ msgid "Cancelled"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_template_view_form
+msgid "Config"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
 msgid "Confirm"
 msgstr ""
@@ -130,6 +164,11 @@ msgid "Confirmed"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model,name:l10n_th_bank_payment_export.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: model:ir.actions.server,name:l10n_th_bank_payment_export.action_server_bank_payment_export
 msgid "Create Bank Payment Export"
 msgstr ""
@@ -138,6 +177,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__create_uid
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__create_uid
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__create_uid
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__create_uid
 msgid "Created by"
 msgstr ""
 
@@ -145,6 +185,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__create_date
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__create_date
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__create_date
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__create_date
 msgid "Created on"
 msgstr ""
 
@@ -160,15 +201,16 @@ msgid "Date"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
-#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__is_default
-#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_config_view_search
-msgid "Default"
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_res_partner__property_bank_payment_template_id
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_res_users__property_bank_payment_template_id
+msgid "Default bank payment template on each partner."
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__display_name
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__display_name
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__display_name
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -255,7 +297,6 @@ msgstr ""
 
 #. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__field_id
-#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_config_view_search
 msgid "Field"
 msgstr ""
 
@@ -285,8 +326,8 @@ msgid "Get a list of all payments that haven't been exported yet."
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
-#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_config_view_search
 #: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_template_view_search
 msgid "Group By"
 msgstr ""
 
@@ -299,6 +340,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__id
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__id
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__id
 msgid "ID"
 msgstr ""
 
@@ -339,10 +381,7 @@ msgid "Is Required Effective Date"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
-#: model:ir.model,name:l10n_th_bank_payment_export.model_account_journal
-#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__journal_id
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__payment_journal_id
-#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_config_view_search
 msgid "Journal"
 msgstr ""
 
@@ -350,6 +389,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config____last_update
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export____last_update
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line____last_update
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -357,6 +397,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__write_uid
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__write_uid
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__write_uid
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__write_uid
 msgid "Last Updated by"
 msgstr ""
 
@@ -364,6 +405,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__write_date
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__write_date
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__write_date
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__write_date
 msgid "Last Updated on"
 msgstr ""
 
@@ -393,8 +435,8 @@ msgid "My Activity Deadline"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
-#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__name
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__name
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__name
 msgid "Name"
 msgstr ""
 
@@ -466,20 +508,8 @@ msgid "Payments have been already exported."
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
-#: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
-#, python-format
-msgid "Payments must be currency '{}' only"
-msgstr ""
-
-#. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__payment_partner_bank_id
 msgid "Recipient Bank"
-msgstr ""
-
-#. module: l10n_th_bank_payment_export
-#: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
-#, python-format
-msgid "Recipient Bank with {} is not selected."
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
@@ -528,6 +558,28 @@ msgstr ""
 #. module: l10n_th_bank_payment_export
 #: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
 msgid "System Configuration"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__template_id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__template_id
+msgid "Template"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__template_config_line
+msgid "Template Config Line"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model,name:l10n_th_bank_payment_export.model_bank_payment_template
+msgid "Template of Bank Payment Configuration"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_payment_export__bank__test
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_payment_template__bank__test
+msgid "Test Bank"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
@@ -605,15 +657,7 @@ msgstr ""
 #. module: l10n_th_bank_payment_export
 #: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
 #, python-format
-msgid ""
-"You can export bank payments with journal 'Bank' and Payment method 'Manual'"
-" only"
-msgstr ""
-
-#. module: l10n_th_bank_payment_export
-#: code:addons/l10n_th_bank_payment_export/models/bank_payment_config.py:0
-#, python-format
-msgid "You can not default field '{}' more than 1."
+msgid "You can export bank payments with 1 currency only."
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
@@ -635,6 +679,11 @@ msgid "if checked, it means the money has already been sent to the bank."
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_account_payment__bank_payment_template_id
+msgid "it help default value from bank payment template"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,help:l10n_th_bank_payment_export.field_account_payment__export_status
 msgid "it means status the money has already been sent to the bank."
 msgstr ""
@@ -643,10 +692,4 @@ msgstr ""
 #: model:ir.actions.report,print_report_name:l10n_th_bank_payment_export.action_export_payment_xlsx
 #: model:ir.actions.report,print_report_name:l10n_th_bank_payment_export.action_payment_demo_txt
 msgid "object._get_report_base_filename()"
-msgstr ""
-
-#. module: l10n_th_bank_payment_export
-#: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
-#, python-format
-msgid "{} can not use '-' in Recipient Bank (Account Number)"
 msgstr ""
