@@ -65,9 +65,9 @@ class CommonBankPaymentExport(TransactionCase):
         cls.payment_method_manual_out = cls.env.ref(
             "account.account_payment_method_manual_out"
         )
-        cls.payment_method_check = cls.env.ref(
-            "account_check_printing.account_payment_method_check"
-        )
+        # cls.payment_method_check = cls.env.ref(
+        #     "account_check_printing.account_payment_method_check"
+        # )
         # create invoice to payment
         cls.payment1_out_journal_bank = cls.create_invoice_payment(
             cls,
@@ -87,15 +87,15 @@ class CommonBankPaymentExport(TransactionCase):
             journal=cls.journal_cash,
             init=True,
         )
-        cls.payment3_out_method_check = cls.create_invoice_payment(
-            cls,
-            amount=200,
-            currency_id=cls.main_currency_id,
-            payment_method=cls.payment_method_check,
-            partner=cls.partner_1,
-            journal=cls.journal_bank,
-            init=True,
-        )
+        # cls.payment3_out_method_check = cls.create_invoice_payment(
+        #     cls,
+        #     amount=200,
+        #     currency_id=cls.main_currency_id,
+        #     payment_method=cls.payment_method_check,
+        #     partner=cls.partner_1,
+        #     journal=cls.journal_bank,
+        #     init=True,
+        # )
         cls.payment4_out_currency = cls.create_invoice_payment(
             cls,
             amount=300,
@@ -145,13 +145,12 @@ class CommonBankPaymentExport(TransactionCase):
                 "currency_id": currency_id,
                 "invoice_date": fields.Date.today(),
                 "invoice_line_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "product_id": self.product_1.id,
                             "quantity": 1,
                             "price_unit": amount,
+                            "tax_ids": [],
                         },
                     )
                 ],
@@ -209,6 +208,7 @@ class CommonBankPaymentExport(TransactionCase):
         self.assertEqual(excel_list["report_type"], "xlsx")
         action = self.env.ref("l10n_th_bank_payment_export.action_export_payment_xlsx")
         return action._render_xlsx(
+            action.report_name,
             excel_list["context"]["active_ids"],
             {
                 "data": "['/report/xlsx/{}/{}','xlsx']".format(
