@@ -3,6 +3,7 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import float_round
 
 INCOME_TAX_FORM = [
     ("pnd1", "PND1"),
@@ -258,7 +259,12 @@ class WithholdingTaxCertLine(models.Model):
     def _compute_wht_percent(self):
         for rec in self:
             rec.wht_percent = (
-                rec.wht_tax_id.amount or rec.base and (rec.amount / rec.base) * 100
+                rec.wht_tax_id.amount
+                or rec.base
+                and float_round(
+                    (rec.amount / rec.base) * 100,
+                    precision_rounding=rec.company_id.currency_id.rounding,
+                )
             )
 
     @api.onchange("wht_cert_income_type")
