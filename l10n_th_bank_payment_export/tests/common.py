@@ -182,6 +182,36 @@ class CommonBankPaymentExport(TransactionCase):
         invoice.action_post()
         return invoice
 
+    def _get_payment_list(
+        self,
+        invoices,
+        amount=100,
+        payment_method=False,
+        partner=False,
+        journal=False,
+        is_export=False,
+        bank_payment_template_id=False,
+        group_payment=True,
+    ):
+        ctx = {"active_model": "account.move", "active_ids": invoices.ids}
+        # Support scb module
+        if hasattr(self.register_payments_model, "check_payee"):
+            ctx["default_check_payee"] = partner.name
+        register_payments = self.register_payments_model.with_context(**ctx).create(
+            {
+                "journal_id": journal.id,
+                "payment_method_line_id": payment_method.id,
+                "amount": amount,
+                "partner_bank_id": invoices.mapped("partner_bank_id").id,
+                "payment_date": fields.Date.today(),
+                "is_export": is_export,
+                "bank_payment_template_id": bank_payment_template_id,
+                "group_payment": group_payment,
+            }
+        )
+        payment_list = register_payments.action_create_payments()
+        return payment_list
+
     def create_invoice_payment(
         self,
         amount=100,
@@ -206,19 +236,27 @@ class CommonBankPaymentExport(TransactionCase):
             else:
                 invoice = self.create_invoice(amount, inv_type, currency_id, partner)
             invoices += invoice
-        ctx = {"active_model": "account.move", "active_ids": invoices.ids}
-        register_payments = self.register_payments_model.with_context(**ctx).create(
-            {
-                "journal_id": journal.id,
-                "payment_method_line_id": payment_method.id,
-                "amount": amount,
-                "partner_bank_id": invoices.mapped("partner_bank_id").id,
-                "payment_date": fields.Date.today(),
-                "is_export": is_export,
-                "bank_payment_template_id": bank_payment_template_id,
-            }
-        )
-        payment_list = register_payments.action_create_payments()
+        if init:
+            payment_list = self._get_payment_list(
+                self,
+                invoices,
+                amount,
+                payment_method,
+                partner,
+                journal,
+                is_export,
+                bank_payment_template_id,
+            )
+        else:
+            payment_list = self._get_payment_list(
+                invoices,
+                amount,
+                payment_method,
+                partner,
+                journal,
+                is_export,
+                bank_payment_template_id,
+            )
         domain = ("id", "=", payment_list.get("res_id", False))
         if not payment_list.get("res_id", False):
             domain = ("id", "in", payment_list["domain"][0][2])
