@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+    <record id="purchase_request_gov_tier_definition_1" model="tier.definition">
+        <field name="name">Approval Level 1</field>
+        <field name="model_id" ref="purchase_request.model_purchase_request" />
+        <field name="definition_type">domain</field>
+        <field name="definition_domain" />
+        <field name="review_type">expression</field>
+        <field
+            name="reviewer_expression"
+        >rec.requested_by.department_id and rec.requested_by.department_id.find_reviewer_level(level=1) or rec.env.user</field>
+        <field name="sequence">50</field>
+        <field name="approve_sequence" eval="True" />
+        <field name="active" eval="False" />
+    </record>
+    <record id="purchase_request_gov_tier_definition_2" model="tier.definition">
+        <field name="name">Approval Level 2</field>
+        <field name="model_id" ref="purchase_request.model_purchase_request" />
+        <field name="definition_type">domain</field>
+        <field name="definition_domain">[('estimated_cost', '&gt;', 30000)]</field>
+        <field name="review_type">expression</field>
+        <field
+            name="reviewer_expression"
+        >rec.requested_by.department_id and rec.requested_by.department_id.find_reviewer_level(level=2) or rec.env.user</field>
+        <field name="sequence">40</field>
+        <field name="approve_sequence" eval="True" />
+        <field name="active" eval="False" />
+    </record>
+    <record id="purchase_request_gov_tier_definition_3" model="tier.definition">
+        <field name="name">Approval Level 3</field>
+        <field name="model_id" ref="purchase_request.model_purchase_request" />
+        <field name="definition_type">domain</field>
+        <field name="definition_domain">[('estimated_cost', '&gt;', 100000)]</field>
+        <field name="review_type">expression</field>
+        <field
+            name="reviewer_expression"
+        >rec.requested_by.department_id and rec.requested_by.department_id.find_reviewer_level(level=3) or rec.env.user</field>
+        <field name="sequence">30</field>
+        <field name="approve_sequence" eval="True" />
+        <field name="active" eval="False" />
+    </record>
+    <record id="purchase_request_gov_tier_definition_4" model="tier.definition">
+        <field name="name">Approval Level 4</field>
+        <field name="model_id" ref="purchase_request.model_purchase_request" />
+        <field name="definition_type">domain</field>
+        <field name="definition_domain">[('estimated_cost', '&gt;', 500000)]</field>
+        <field name="review_type">expression</field>
+        <field
+            name="reviewer_expression"
+        >rec.requested_by.department_id and rec.requested_by.department_id.find_reviewer_level(level=4) or rec.env.user</field>
+        <field name="sequence">20</field>
+        <field name="approve_sequence" eval="True" />
+        <field name="active" eval="False" />
+    </record>
+    <record id="purchase_request_gov_tier_definition_5" model="tier.definition">
+        <field name="name">Approval Level 5</field>
+        <field name="model_id" ref="purchase_request.model_purchase_request" />
+        <field name="definition_type">domain</field>
+        <field name="definition_domain">[('estimated_cost', '&gt;', 1000000)]</field>
+        <field name="review_type">expression</field>
+        <field
+            name="reviewer_expression"
+        >rec.requested_by.department_id and rec.requested_by.department_id.find_reviewer_level(level=5) or rec.env.user</field>
+        <field name="sequence">10</field>
+        <field name="approve_sequence" eval="True" />
+        <field name="active" eval="False" />
+    </record>
+</odoo>
