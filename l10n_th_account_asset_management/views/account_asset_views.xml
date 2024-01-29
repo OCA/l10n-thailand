@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="account_asset_view_form">
+        <field name="name">account.asset.form</field>
+        <field name="model">account.asset</field>
+        <field
+            name="inherit_id"
+            ref="account_asset_management.account_asset_view_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_title')]" position="before">
+                <field name="image" widget="image" class="oe_avatar" />
+            </xpath>
+            <xpath expr="//field[@name='value_residual']" position="after">
+                <field name="depreciation_rate" />
+            </xpath>
+            <xpath expr="//field[@name='date_start']" position="after">
+                <field name="asset_sub_state_all" invisible="1" />
+                <field name="asset_sub_state_id" />
+            </xpath>
+            <xpath expr="//field[@name='profile_id']" position="after">
+                <field name="parent_id" />
+            </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="account_asset_view_tree">
+        <field name="name">account.asset.tree</field>
+        <field name="model">account.asset</field>
+        <field
+            name="inherit_id"
+            ref="account_asset_management.account_asset_view_tree"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field
+                    name="image"
+                    string="Asset Image"
+                    optional="show"
+                    widget="image"
+                    options="{'size': [128, 128]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='value_residual']" position="after">
+                <field name="depreciation_rate" optional="hide" />
+            </xpath>
+            <xpath expr="//field[@name='state']" position="after">
+                <field
+                    name="asset_sub_state_id"
+                    widget="badge"
+                    decoration-success="state == 'open'"
+                    decoration-warning="state == 'removed'"
+                    decoration-info="state == 'draft'"
+                    decoration-muted="state == 'close'"
+                    optional="hide"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

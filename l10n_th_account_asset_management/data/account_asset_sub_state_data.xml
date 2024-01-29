@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="asset_sub_state_open_1" model="account.asset.sub.state">
+        <field name="name">ปกติ</field>
+        <field name="draft" eval="False" />
+        <field name="open" eval="True" />
+        <field name="close" eval="False" />
+        <field name="removed" eval="False" />
+        <field name="sequence" eval="1" />
+    </record>
+    <record id="asset_sub_state_open_2" model="account.asset.sub.state">
+        <field name="name">ชำรุด</field>
+        <field name="draft" eval="False" />
+        <field name="open" eval="True" />
+        <field name="close" eval="False" />
+        <field name="removed" eval="False" />
+        <field name="sequence" eval="2" />
+    </record>
+    <record id="asset_sub_state_open_3" model="account.asset.sub.state">
+        <field name="name">รอจำหน่าย</field>
+        <field name="draft" eval="False" />
+        <field name="open" eval="True" />
+        <field name="close" eval="False" />
+        <field name="removed" eval="False" />
+        <field name="sequence" eval="3" />
+    </record>
+    <record id="asset_sub_state_open_4" model="account.asset.sub.state">
+        <field name="name">หมดอายุ</field>
+        <field name="draft" eval="False" />
+        <field name="open" eval="True" />
+        <field name="close" eval="False" />
+        <field name="removed" eval="False" />
+        <field name="sequence" eval="4" />
+    </record>
+    <record id="asset_sub_state_remove_1" model="account.asset.sub.state">
+        <field name="name">ยกเลิก</field>
+        <field name="draft" eval="False" />
+        <field name="open" eval="False" />
+        <field name="close" eval="False" />
+        <field name="removed" eval="True" />
+        <field name="sequence" eval="5" />
+    </record>
+    <record id="asset_sub_state_remove_2" model="account.asset.sub.state">
+        <field name="name">ส่งมอบ</field>
+        <field name="draft" eval="False" />
+        <field name="open" eval="False" />
+        <field name="close" eval="False" />
+        <field name="removed" eval="True" />
+        <field name="sequence" eval="6" />
+    </record>
+    <record id="asset_sub_state_remove_3" model="account.asset.sub.state">
+        <field name="name">จำหน่าย</field>
+        <field name="draft" eval="False" />
+        <field name="open" eval="False" />
+        <field name="close" eval="False" />
+        <field name="removed" eval="True" />
+        <field name="sequence" eval="7" />
+    </record>
+    <record id="asset_sub_state_remove_4" model="account.asset.sub.state">
+        <field name="name">โอน</field>
+        <field name="draft" eval="False" />
+        <field name="open" eval="False" />
+        <field name="close" eval="False" />
+        <field name="removed" eval="True" />
+        <field name="sequence" eval="8" />
+    </record>
+</odoo>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_asset_parent_invoice,account.asset.parent,model_account_asset_parent,account.group_account_invoice,1,1,1,1
+access_account_asset_parent_user,account.asset.parent,model_account_asset_parent,account.group_account_user,1,1,1,1
+access_account_asset_parent_manager,account.asset.parent,model_account_asset_parent,account.group_account_manager,1,1,1,1
+access_account_asset_sub_state_invoice,account.asset.sub.state,model_account_asset_sub_state,account.group_account_invoice,1,0,0,0
+access_account_asset_sub_state_user,account.asset.sub.state,model_account_asset_sub_state,account.group_account_user,1,0,0,0
+access_account_asset_sub_state_manager,account.asset.sub.state,model_account_asset_sub_state,account.group_account_manager,1,1,1,1
