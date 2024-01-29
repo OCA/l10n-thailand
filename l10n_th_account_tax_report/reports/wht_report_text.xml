@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Format Text File should start at line1, Don't change it -->
+    <template id="report_withholding_tax_text"><t t-foreach="docs" t-as="o"><t
+                t-out="o._create_text(o)"
+            /></t></template>
+</odoo>

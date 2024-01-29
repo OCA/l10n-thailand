@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 Ecosoft
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.thai.account</field>
+        <field name="model">res.config.settings</field>
+        <field
+            name="inherit_id"
+            ref="l10n_th_account_tax.res_config_settings_view_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='l10n_th_account_settings']" position="inside">
+                <div class="col-xs-12 col-md-6 o_setting_box">
+                    <div class="o_setting_left_pane" />
+                    <div class="o_setting_right_pane">
+                        <span class="o_form_label">Tax Report Format</span>
+                        <div class="text-muted">
+                            Default format tax report applied to standard or revenue department
+                        </div>
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label
+                                    string="Tax Report"
+                                    for="tax_report_format"
+                                    class="col-lg-3 o_light_label"
+                                />
+                                <field name="tax_report_format" />
+                            </div>
+                            <div class="row">
+                                <label
+                                    string="WHT Report"
+                                    for="wht_report_format"
+                                    class="col-lg-3 o_light_label"
+                                />
+                                <field name="wht_report_format" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
