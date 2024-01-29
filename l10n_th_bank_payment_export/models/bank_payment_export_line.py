@@ -192,5 +192,7 @@ class BankPaymentExportLine(models.Model):
         sender_journal_id = self.payment_id.journal_id
         sender_bank_code = sender_journal_id.bank_id.bank_code
         sender_branch_code = sender_journal_id.bank_id.bank_branch_code
-        sender_acc_number = sender_journal_id.bank_account_id.acc_number
+        sender_acc_number = sanitize_account_number(
+            sender_journal_id.bank_account_id.acc_number
+        )
         return sender_bank_code, sender_branch_code, sender_acc_number
