@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 Ecosoft Co., Ltd (http://ecosoft.co.th/)
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html) -->
+<odoo>
+    <record id="hr_expense_view_form" model="ir.ui.view">
+        <field name="name">hr.expense.view.form</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.hr_expense_view_form" />
+        <field name="priority">30</field>
+        <field name="arch" type="xml">
+            <!-- Core odoo invisible field reference when there is product_has_cost.
+            So, we overwrite attributes in reference for not hide field -->
+            <xpath expr="//field[@name='reference']" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'readonly': [('is_ref_editable', '=', False)]}</attribute>
+                <attribute name="force_save">1</attribute>
+                <attribute name="groups" />
+            </xpath>
+            <xpath expr="//field[@name='reference']" position="before">
+                <field
+                    name="bill_partner_id"
+                    force_save="1"
+                    attrs="{'readonly': ['|', ('is_editable', '=', False), '&amp;', ('tax_ids', '=', []), ('wht_tax_id', '=', False)]}"
+                    title="Vendor related to tax invoice and withholding tax"
+                />
+            </xpath>
+            <xpath expr="//field[@name='tax_ids']" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'readonly': ['|', ('advance', '=', True), ('is_editable', '=', False)]}</attribute>
+                <attribute name="force_save">1</attribute>
+                <attribute name="groups" />
+            </xpath>
+            <xpath expr="//field[@name='tax_ids']" position="after">
+                <field
+                    name="wht_tax_id"
+                    options="{'no_create': True}"
+                    attrs="{'readonly': ['|', ('advance', '=', True), ('is_editable', '=', False)]}"
+                    force_save="1"
+                />
+            </xpath>
+            <xpath expr="//field[@name='payment_mode']" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'readonly': ['|', ('advance', '=', True), ('state', 'in', ['done', 'approved', 'reported'])]}</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_hr_expense_sheet_form" model="ir.ui.view">
+        <field name="name">view.hr.expense.sheet.form</field>
+        <field name="model">hr.expense.sheet</field>
+        <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form" />
+        <field name="arch" type="xml">
+            <button name="action_register_payment" position="before">
+                <field name="need_wht_entry" invisible="1" />
+                <button
+                    name="action_create_withholding_tax_entry"
+                    type="object"
+                    class="oe_highlight"
+                    attrs="{'invisible': ['|', ('state', 'not in', ('post', 'done')), ('need_wht_entry', '!=', True)]}"
+                    string="Create Withholding Tax JV"
+                    groups="account.group_account_invoice"
+                />
+            </button>
+            <field name="account_move_id" invisible="1" />
+            <xpath expr="//field[@name='account_move_id']" position="after">
+                <field name="wht_move_id" invisible="1" />
+                <button
+                    name="action_open_wht_move"
+                    class="oe_stat_button"
+                    icon="fa-file-text-o"
+                    type="object"
+                    attrs="{'invisible': ['|', ('state', 'not in', ['post', 'done']), ('wht_move_id', '=', False)]}"
+                    groups="account.group_account_invoice,account.group_account_readonly"
+                >
+                    WHT
+                </button>
+            </xpath>
+            <xpath
+                expr="//field[@name='expense_line_ids']/tree/field[@name='tax_ids']"
+                position="after"
+            >
+                <field
+                    name="wht_tax_id"
+                    options="{'no_create': True}"
+                    optional="show"
+                    attrs="{'readonly': [('advance', '=', True)]}"
+                    force_save="1"
+                />
+            </xpath>
+            <xpath
+                expr="//field[@name='expense_line_ids']/tree/field[@name='tax_ids']"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'readonly': [('advance', '=', True)]}</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='expense_line_ids']/tree/field[@name='date']"
+                position="before"
+            >
+                <field name="bill_partner_id" optional="show" />
+            </xpath>
+            <xpath
+                expr="//field[@name='expense_line_ids']/tree/field[@name='date']"
+                position="after"
+            >
+                <field name="product_id" optional="hide" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
