@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="report_check_base_thailand">
+        <t t-call="web.html_container">
+            <div class="header" />
+            <div class="article">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page o_report_check_printing">
+                        <t t-set="currency_id" t-value="o.currency_id" />
+                        <div style="padding-top:1mm;">
+                            <t t-if="o.is_ac_payee">
+                                <span class="payee_only">A/C Payee Only</span>
+                            </t>
+                            <t t-set="check_date" t-value="format_date(o.check_date)" />
+                            <span class="check_date_0" t-out="check_date[0]" />
+                            <span class="check_date_1" t-out="check_date[1]" />
+                            <span class="check_date_2" t-out="check_date[2]" />
+                            <span class="check_date_3" t-out="check_date[3]" />
+                            <span class="check_date_4" t-out="check_date[4]" />
+                            <span class="check_date_5" t-out="check_date[5]" />
+                            <span class="check_date_6" t-out="check_date[6]" />
+                            <span class="check_date_7" t-out="check_date[7]" />
+                            <span class="pay_to" t-out="o.check_payee" />
+                            <span
+                                class="amount_word"
+                                t-out="fill_bracket_amount_text(o.amount, currency_id, o.lang_amount_check)"
+                            />
+                            <span class="amount" t-out="fill_equal_number(o.amount)" />
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>
