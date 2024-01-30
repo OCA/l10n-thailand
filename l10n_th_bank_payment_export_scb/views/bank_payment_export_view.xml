@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 Ecosoft Co., Ltd (http://ecosoft.co.th/)
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html) -->
+<odoo>
+    <record id="bank_payment_export_view_form" model="ir.ui.view">
+        <field name="name">bank.payment.export.view.form</field>
+        <field name="model">bank.payment.export</field>
+        <field
+            name="inherit_id"
+            ref="l10n_th_bank_payment_export.bank_payment_export_view_form"
+        />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//page[@name='information']//group[@name='left_information']"
+                position="inside"
+            >
+                <field name="scb_is_editable" invisible="1" />
+                <field
+                    name="scb_outward_remittance"
+                    attrs="{'invisible': [('scb_is_editable', '!=', True)]}"
+                />
+                <field
+                    name="scb_rate_type"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '=', False)], 'required': [('scb_is_editable', '!=', False), ('scb_outward_remittance', '!=', False)]}"
+                />
+                <field
+                    name="scb_rate"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '=', False)]}"
+                />
+                <field
+                    name="scb_contract_ref_no"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '=', False)]}"
+                />
+                <field
+                    name="scb_charge_flag"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '=', False)], 'required': [('scb_is_editable', '!=', False), ('scb_outward_remittance', '!=', False)]}"
+                />
+                <label
+                    for="scb_intermediary_bank_id"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '=', False)]}"
+                />
+                <div>
+                    <field
+                        name="scb_intermediary_bank_id"
+                        attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '=', False)]}"
+                    />
+                    <field
+                        name="scb_intermediary_bank_account_number"
+                        placeholder="Add an Account Number here..."
+                        attrs="{'invisible': [('scb_intermediary_bank_id', '=', False)]}"
+                    />
+                </div>
+                <field
+                    name="scb_additional_instruction"
+                    widget="text"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '=', False)]}"
+                />
+                <field
+                    name="scb_product_code"
+                    string="Product Code"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '!=', False)], 'required': [('scb_is_editable', '!=', False), ('scb_outward_remittance', '=', False)]}"
+                />
+                <field
+                    name="scb_bank_type"
+                    string="Bank Type"
+                    widget="radio"
+                    attrs="{
+                        'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_product_code', '!=', 'MCL')],
+                        'required': [('scb_is_editable', '!=', False), ('scb_product_code', '=', 'MCL')]
+                    }"
+                />
+                <field
+                    name="scb_cheque_ref"
+                    string="Cheque Reference"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_product_code', 'not in', ['MCP', 'DDP', 'CCP', 'XMQ'])], 'required': [('scb_is_editable', '!=', False), ('scb_product_code', 'in', ['MCP', 'DDP', 'CCP', 'XMQ'])]}"
+                />
+                <field
+                    name="scb_remark"
+                    string="Remark"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_product_code', 'not in', ['MCP', 'DDP', 'CCP', 'XMQ'])]}"
+                />
+                <field
+                    name="scb_payment_type_code"
+                    string="Payment Type"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_product_code', '!=', 'BNT')], 'required': [('scb_is_editable', '!=', False), ('scb_product_code', '=', 'BNT')]}"
+                />
+                <field
+                    name="scb_delivery_mode"
+                    string="Delivery Mode"
+                    attrs="{
+                        'invisible': [
+                            '|',
+                            ('scb_is_editable', '!=', True),
+                            ('scb_product_code', 'not in', ['MCP', 'DDP', 'CCP']),
+                            ('scb_is_invoice_present', '!=', True),
+                            ('scb_is_wht_present', '!=', True),
+                            ('scb_is_credit_advice', '!=', True)
+                        ],
+                        'required': [
+                            '&amp;',
+                            ('scb_is_editable', '!=', False),
+                            '|',
+                            ('scb_product_code', 'in', ['MCP', 'DDP', 'CCP']),
+                            '|',
+                            ('scb_is_invoice_present', '!=', False),
+                            '|',
+                            ('scb_is_wht_present', '!=', False),
+                            ('scb_is_credit_advice', '!=', False)
+                        ]
+                    }"
+                />
+                <field
+                    name="scb_pickup_location"
+                    string="Pickup Location"
+                    attrs="{
+                        'invisible': ['|', '|', ('scb_is_editable', '!=', True), ('scb_delivery_mode', '!=', 'C'), ('scb_product_code', 'in', ['MCP', 'CCP', 'DDP', 'XMQ', 'XDQ'])],
+                        'required': [('scb_is_editable', '!=', False), ('scb_delivery_mode', '=', 'C'), ('scb_product_code', 'not in', ['MCP', 'CCP', 'DDP', 'XMQ', 'XDQ'])]}"
+                />
+                <field
+                    name="scb_pickup_location_cheque"
+                    string="Pickup Location"
+                    attrs="{
+                        'invisible': ['|', '|',('scb_is_editable', '!=', True), ('scb_delivery_mode', 'not in', ['P', 'C']), ('scb_product_code', 'not in', ['MCP', 'CCP', 'DDP', 'XMQ', 'XDQ'])],
+                        'required': [('scb_is_editable', '!=', False), ('scb_delivery_mode', 'in', ['P', 'C']), ('scb_product_code', 'in', ['MCP', 'CCP', 'DDP', 'XMQ', 'XDQ'])]}"
+                />
+                <field
+                    name="scb_service_type"
+                    string="Service Type"
+                    attrs="{
+                        'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_product_code', 'not in', ['MCL', 'PA4', 'PA5', 'PA6'])],
+                        'required': [('scb_is_editable', '!=', False), ('scb_product_code', 'in', ['MCL', 'PA4', 'PA5', 'PA6'])]
+                    }"
+                />
+                <field
+                    name="scb_service_type_bahtnet"
+                    string="Service Type (BahtNet)"
+                    attrs="{
+                        'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_product_code', '!=', 'BNT')],
+                        'required': [('scb_is_editable', '!=', False), ('scb_product_code', '=', 'BNT')]
+                    }"
+                />
+            </xpath>
+            <xpath
+                expr="//page[@name='information']//group[@name='right_information']"
+                position="inside"
+            >
+                <field
+                    name="scb_execution_date"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '=', False)]}"
+                />
+                <field
+                    name="scb_objective_code"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '=', False)], 'required': [('scb_is_editable', '!=', False), ('scb_outward_remittance', '!=', False)]}"
+                />
+                <field
+                    name="scb_objective_description"
+                    widget="text"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '=', False)], 'required': [('scb_is_editable', '!=', False), ('scb_objective_code', 'in', ['318131', '318036', '318246'])]}"
+                />
+                <field
+                    name="scb_document_support"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '=', False)], 'required': [('scb_is_editable', '!=', False), ('scb_outward_remittance', '!=', False)]}"
+                />
+                <field
+                    name="scb_document_other"
+                    widget="text"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '=', False)], 'required': [('scb_is_editable', '!=', False), ('scb_document_support', '=', '04')]}"
+                />
+                <field
+                    name="scb_commodity_code"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '=', False)], 'required': [('scb_is_editable', '!=', False), ('scb_objective_code', '=', '318231')]}"
+                />
+                <field
+                    name="scb_pre_advice"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '=', False)]}"
+                />
+                <label
+                    for="scb_is_invoice_present"
+                    string="Invoice Details Present"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '!=', False)]}"
+                />
+                <div>
+                    <field
+                        name="scb_is_invoice_present"
+                        class="oe_inline"
+                        attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '!=', False)]}"
+                    />
+                    <field
+                        name="scb_invoice_language"
+                        class="oe_inline"
+                        attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_is_invoice_present', '=', False)], 'required': [('scb_is_invoice_present', '!=', False)]}"
+                    />
+                </div>
+                <label
+                    for="scb_is_wht_present"
+                    string="WHT Present"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '!=', False)]}"
+                />
+                <div>
+                    <field
+                        name="scb_is_wht_present"
+                        class="oe_inline"
+                        attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '!=', False)]}"
+                    />
+                    <span
+                        attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_is_wht_present', '=', False)]}"
+                    >Signatory = </span>
+                    <field
+                        name="scb_wht_signatory"
+                        class="oe_inline"
+                        attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_is_wht_present', '=', False)], 'required': [('scb_is_wht_present', '!=', False)]}"
+                    />
+                </div>
+                <field
+                    name="scb_is_credit_advice"
+                    string="Credit Advice Required"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '!=', False)]}"
+                />
+                <field
+                    name="scb_beneficiary_charge"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '!=', False)]}"
+                />
+            </xpath>
+            <xpath
+                expr="//page[@name='information']/group[@name='system_config']"
+                position="inside"
+            >
+                <field
+                    name="scb_company_id"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '!=', False)], 'required': [('scb_is_editable', '!=', False), ('scb_outward_remittance', '=', False)]}"
+                />
+                <field
+                    name="scb_corp_id"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '=', False)], 'required': [('scb_is_editable', '!=', False), ('scb_outward_remittance', '!=', False)]}"
+                />
+                <field
+                    name="scb_for_id"
+                    attrs="{'invisible': ['|', ('scb_is_editable', '!=', True), ('scb_outward_remittance', '=', False)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Bank Payment Export Line -->
+    <record id="bank_payment_export_line_view_tree" model="ir.ui.view">
+        <field name="name">bank.payment.export.line.view.tree</field>
+        <field name="model">bank.payment.export.line</field>
+        <field
+            name="inherit_id"
+            ref="l10n_th_bank_payment_export.bank_payment_export_line_view_tree"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='state']" position="before">
+                <field
+                    name="scb_beneficiary_noti"
+                    string="Beneficiary Notification"
+                    attrs="{'column_invisible': ['|', ('parent.bank', '!=', 'SICOTHBK'), ('parent.scb_outward_remittance', '!=', False)], 'required': [('parent.bank', '=', 'SICOTHBK'), ('parent.scb_outward_remittance', '=', False)]}"
+                />
+                <field
+                    name="scb_beneficiary_phone"
+                    string="Phone/Fax"
+                    attrs="{'column_invisible': ['|', ('parent.bank', '!=', 'SICOTHBK'), ('parent.scb_outward_remittance', '!=', False)], 'required': [('scb_beneficiary_noti', 'in', ['F', 'S'])]}"
+                />
+                <field
+                    name="scb_beneficiary_email"
+                    string="Email"
+                    attrs="{'column_invisible': [('parent.bank', '!=', 'SICOTHBK')], 'required': [('scb_beneficiary_noti', '=', 'E')]}"
+                />
+                <field
+                    name="scb_beneficiary_charge"
+                    string="Beneficiary Charge"
+                    attrs="{'column_invisible': ['|', ('parent.bank', '!=', 'SICOTHBK'), ('parent.scb_outward_remittance', '!=', False)]}"
+                />
+                <!-- Outward Remittance -->
+                <field
+                    name="scb_customer_ref1"
+                    attrs="{'column_invisible': ['|', ('parent.bank', '!=', 'SICOTHBK'), ('parent.scb_outward_remittance', '!=', True)]}"
+                />
+                <field
+                    name="scb_customer_ref2"
+                    attrs="{'column_invisible': ['|', ('parent.bank', '!=', 'SICOTHBK'), ('parent.scb_outward_remittance', '!=', True)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
