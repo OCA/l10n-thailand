@@ -1408,9 +1408,10 @@ class BankPaymentExport(models.Model):
                     and not line.payment_partner_bank_id
                 ):
                     raise UserError(
-                        _("Recipient Bank with {} is not selected.").format(
-                            line.payment_id.name
-                        )
+                        _("Recipient Bank with %(payment)s is not selected.")
+                        % {
+                            "payment": line.payment_id.name,
+                        }
                     )
                 if (
                     not self.scb_outward_remittance
@@ -1419,7 +1420,10 @@ class BankPaymentExport(models.Model):
                 ):
                     raise UserError(
                         _(
-                            "The length of an email {} cannot exceed 64 characters."
-                        ).format(line.payment_id.name)
+                            "The length of an email %(payment)s cannot exceed 64 characters."
+                        )
+                        % {
+                            "payment": line.payment_id.name,
+                        }
                     )
         return res
