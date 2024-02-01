@@ -270,7 +270,7 @@ class AccountMoveLine(models.Model):
                 fixed_multiplicator=sign,
             )
             rate = line.amount_currency / line.balance if line.balance else 1
-            rounding = self.company_id.currency_id.rounding
+            rounding = line.currency_id.rounding
             for tax in compute_all_currency["taxes"]:
                 # create tax lines with zero taxes
                 if (
