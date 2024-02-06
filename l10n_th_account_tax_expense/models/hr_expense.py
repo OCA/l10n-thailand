@@ -39,3 +39,8 @@ class HrExpense(models.Model):
                 if ml.get("product_id"):
                     ml.update(wht_tax_dict)
         return move_line_values_by_expense
+
+    def _prepare_move_values(self):
+        move_values = super()._prepare_move_values()
+        move_values.update({"ref": self.sheet_id.number})
+        return move_values
