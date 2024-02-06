@@ -56,8 +56,7 @@ class TaxReport(models.TransientModel):
             then t.tax_base_amount else 0.0 end as tax_base_amount,
             case when ml.parent_state = 'posted' and t.reversing_id is null
             then t.balance else 0.0 end as tax_amount,
-            case when m.ref is not null
-            then m.ref else ml.move_name end as name"""
+            ml.move_name as name"""
 
     def _query_groupby_tax(self):
         return "company_id, account_id, partner_id, tax_invoice_number, tax_date, name"
