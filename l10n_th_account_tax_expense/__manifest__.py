@@ -11,6 +11,7 @@
     "depends": [
         "l10n_th_account_tax",
         "hr_expense_advance_clearing",
+        "hr_expense_sequence",
     ],
     "data": [
         "views/hr_expense_view.xml",
