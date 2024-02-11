@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_withholding_tax_cert_form" model="ir.ui.view">
+        <field name="name">view.withholding.tax.cert.form</field>
+        <field name="model">withholding.tax.cert</field>
+        <field
+            name="inherit_id"
+            ref="l10n_th_account_tax.view_withholding_tax_cert_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_vat']" position="after">
+                <field
+                    name="branch_id"
+                    domain="[('company_id', '=', company_id)]"
+                    options="{'no_create': True}"
+                />
+            </xpath>
+        </field>
+    </record>
+    <record id="view_withholding_tax_cert_search" model="ir.ui.view">
+        <field name="name">view.withholding.tax.cert.search</field>
+        <field name="model">withholding.tax.cert</field>
+        <field
+            name="inherit_id"
+            ref="l10n_th_account_tax.view_withholding_tax_cert_search"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="inside">
+                <filter
+                    name="group_by_branch"
+                    string="Branch"
+                    context="{'group_by':'branch_id'}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

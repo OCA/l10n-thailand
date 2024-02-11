@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_payment_form" model="ir.ui.view">
+        <field name="name">account.view.account.payment.form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="l10n_th_account_tax.view_account_payment_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tax_invoice_ids']/tree" position="inside">
+                <field name="branch_id" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
