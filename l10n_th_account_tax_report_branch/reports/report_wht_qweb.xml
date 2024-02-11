@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="header_report_withholding_tax"
+        inherit_id="l10n_th_account_tax_report.header_report_withholding_tax"
+        priority="100"
+    >
+        <xpath expr="//div/div[2]/div[5]" position="replace">
+            <t t-set="tax_branch" t-value="o._get_tax_branch_filter(o.branch_ids)" />
+            <div class="act_as_cell">
+                <span t-out="tax_branch" />
+            </div>
+        </xpath>
+    </template>
+    <template
+        id="header_line_report_withholding_tax"
+        inherit_id="l10n_th_account_tax_report.header_line_report_withholding_tax"
+    >
+        <xpath expr="//div[4]" position="after">
+            <div class="act_as_cell">Branch ID</div>
+        </xpath>
+    </template>
+    <template
+        id="line_report_withholding_tax"
+        inherit_id="l10n_th_account_tax_report.line_report_withholding_tax"
+    >
+        <xpath expr="//div[4]" position="after">
+            <div class="act_as_cell left">
+                <t t-out="supplier.branch" />
+            </div>
+        </xpath>
+    </template>
+    <template
+        id="total_line_report_withholding_tax"
+        inherit_id="l10n_th_account_tax_report.total_line_report_withholding_tax"
+    >
+        <xpath expr="//div[4]" position="after">
+            <div class="act_as_cell" />
+        </xpath>
+    </template>
+</odoo>
