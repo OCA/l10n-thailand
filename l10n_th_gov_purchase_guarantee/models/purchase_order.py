@@ -19,17 +19,16 @@ class PurchaseOrder(models.Model):
 
     @api.depends("purchase_guarantee_ids")
     def _compute_purchase_guarantee_count(self):
-        for rec in self:
+        for rec in self.sudo():
             rec.purchase_guarantee_count = len(rec.purchase_guarantee_ids)
 
     def action_view_purchase_guarantee(self):
         self.ensure_one()
-        action = self.env.ref(
+        action = self.env["ir.actions.act_window"]._for_xml_id(
             "l10n_th_gov_purchase_guarantee.purchase_guarantee_action"
         )
-        result = action.sudo().read()[0]
-        result["domain"] = [("purchase_id", "=", self.id)]
-        result["context"] = {
+        action["domain"] = [("purchase_id", "=", self.id)]
+        action["context"] = {
             "default_reference": "purchase.order,%s" % (str(self.id),),
         }
-        return result
+        return action
