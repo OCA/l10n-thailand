@@ -31,6 +31,8 @@ class PurchaseType(models.Model):
         required=True,
         help="Create purchase agreement or expense when pr is approved",
     )
+    visible_on_purchase_request = fields.Boolean(string="Purchase Request")
+    visible_on_expense = fields.Boolean(string="Expense")
     is_default = fields.Boolean(
         string="Default",
         default=False,
