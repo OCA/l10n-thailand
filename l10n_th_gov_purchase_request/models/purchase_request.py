@@ -19,6 +19,7 @@ class PurchaseRequest(models.Model):
         string="Purchase Type",
         ondelete="restrict",
         index=True,
+        domain=lambda self: self._get_domain_purchase_type(),
         default=lambda self: self.env["purchase.type"].search(
             [("is_default", "=", True)], limit=1
         ),
@@ -77,6 +78,9 @@ class PurchaseRequest(models.Model):
         copy=False,
     )
     substate_sequence = fields.Integer(related="substate_id.sequence")
+
+    def _get_domain_purchase_type(self):
+        return [("visible_on_purchase_request", "=", True)]
 
     def get_estimated_cost_currency(self, date=False):
         """Get estimated cost with currency"""
