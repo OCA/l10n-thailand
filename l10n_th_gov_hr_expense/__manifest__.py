@@ -18,6 +18,7 @@
         "views/account_move_views.xml",
         "views/hr_expense_views.xml",
         "views/purchase_request_views.xml",
+        "views/purchase_type_views.xml",
         "views/reminder_definition_view.xml",
     ],
     "installable": True,

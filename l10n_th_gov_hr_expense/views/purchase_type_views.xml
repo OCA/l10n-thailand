@@ -1,0 +1,29 @@
+<odoo>
+    <record id="purchase_type_view_tree" model="ir.ui.view">
+        <field name="name">purchase.type.view.tree</field>
+        <field name="model">purchase.type</field>
+        <field
+            name="inherit_id"
+            ref="l10n_th_gov_purchase_request.purchase_type_view_tree"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='visible_on_purchase_request']" position="after">
+                <field name="visible_on_expense" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_type_view_form" model="ir.ui.view">
+        <field name="name">purchase.type.view.form</field>
+        <field name="model">purchase.type</field>
+        <field
+            name="inherit_id"
+            ref="l10n_th_gov_purchase_request.purchase_type_view_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='visible_on']" position="inside">
+                <field name="visible_on_expense" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
