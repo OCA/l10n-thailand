@@ -19,12 +19,15 @@ class HrExpense(models.Model):
         string="Purchase Type",
         comodel_name="purchase.type",
         compute="_compute_purchase_type_id",
-        domain=[("to_create", "=", "expense")],
+        domain=lambda self: self._get_domain_purchase_type(),
         store=True,
         readonly=False,
         index=True,
         ondelete="restrict",
     )
+
+    def _get_domain_purchase_type(self):
+        return [("to_create", "=", "expense"), ("visible_on_expense", "=", True)]
 
     @api.depends("sheet_id.purchase_request_id")
     def _compute_purchase_type_id(self):
