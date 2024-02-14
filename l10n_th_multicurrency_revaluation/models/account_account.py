@@ -13,10 +13,22 @@ class AccountAccount(models.Model):
     )
 
     _sql_mapping = {
-        "balance": "COALESCE(SUM(debit),0) - COALESCE(SUM(credit), 0) as balance",
-        "debit": "COALESCE(SUM(debit), 0) as debit",
-        "credit": "COALESCE(SUM(credit), 0) as credit",
-        "foreign_balance": "COALESCE(SUM(amount_currency), 0) as foreign_balance",
+        "balance": """
+            CASE WHEN COALESCE(SUM(amount_residual), 0) <> 0
+            THEN COALESCE(SUM(amount_residual), 0)
+            ELSE COALESCE(SUM(debit), 0) - COALESCE(SUM(credit), 0) END AS balance""",
+        "debit": """
+            CASE WHEN COALESCE(SUM(amount_residual), 0) <> 0 AND
+            COALESCE(SUM(amount_residual), 0) > 0 THEN COALESCE(SUM(amount_residual), 0)
+            ELSE COALESCE(SUM(debit), 0) END AS debit""",
+        "credit": """
+            CASE WHEN COALESCE(SUM(amount_residual), 0) <> 0 AND
+            COALESCE(SUM(amount_residual), 0) < 0 THEN -1 * COALESCE(SUM(amount_residual), 0)
+            ELSE COALESCE(SUM(credit), 0) END AS credit""",
+        "foreign_balance": """
+            CASE WHEN COALESCE(SUM(amount_residual_currency), 0) <> 0 THEN
+            COALESCE(SUM(amount_residual_currency), 0)
+            ELSE COALESCE(SUM(amount_currency), 0) END AS foreign_balance""",
     }
 
     def init(self):
@@ -97,7 +109,9 @@ WITH amount AS (
         aml.currency_id,
         aml.debit,
         aml.credit,
-        aml.amount_currency
+        aml.amount_currency,
+        aml.amount_residual,
+        aml.amount_residual_currency
     FROM """
             + tables
             + """
