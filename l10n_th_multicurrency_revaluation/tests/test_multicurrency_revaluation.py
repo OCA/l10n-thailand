@@ -94,6 +94,7 @@ class TestTHMultiCurrencyRevaluation(TransactionCase):
                             "product_id": self.product.id,
                             "quantity": 1,
                             "price_unit": amount,
+                            "tax_ids": False,
                         }
                     )
                 ],
@@ -245,10 +246,28 @@ class TestTHMultiCurrencyRevaluation(TransactionCase):
             wizard.export_xlsx()
         wizard.export_xlsx()
 
+        # generate xlsx (Purchase Vat)
+        report = wizard.export_xlsx()
+        self.assertEqual(report["name"], "Currency Revaluation Report XLSX")
+        self.assertEqual(report["report_type"], "xlsx")
+        self.assertEqual(
+            report["report_name"], "l10n_th_revaluation.curr_unrealized_report_xlsx"
+        )
+        # Test export excel by code
         action = self.env.ref(
             "l10n_th_multicurrency_revaluation.action_report_currency_unrealized_xlsx"
         )
-        action._render_xlsx(action.report_name, wizard.ids, data)
+        report_xlsx = action._render_xlsx(
+            action.report_name,
+            wizard.ids,
+            {
+                "data": "['/report/xlsx/{}/{}','xlsx']".format(
+                    report["report_name"], str(wizard.ids[0])
+                ),
+                "token": "dummy-because-api-expects-one",
+            },
+        )
+        self.assertEqual(report_xlsx[1], "xlsx")
 
     @freeze_time("2010-01-05")
     def test_05_multi_currency_revaluation_invoice(self):
