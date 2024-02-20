@@ -93,6 +93,7 @@
                                 <field name="to_clear_tax" invisible="1" />
                                 <field name="account_id" optional="hide" />
                                 <field name="partner_id" optional="hide" />
+                                <field name="move_id" optional="hide" readonly="1" />
                                 <field
                                     name="tax_invoice_number"
                                     attrs="{'readonly': [('to_clear_tax', '=', False)]}"
