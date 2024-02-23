@@ -40,6 +40,13 @@
                     force_save="1"
                 />
             </xpath>
+            <!-- Show payment mode for all product cost-->
+            <xpath expr="//label[@for='payment_mode']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+            </xpath>
+            <xpath expr="//div[@id='payment_mode']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+            </xpath>
             <xpath expr="//field[@name='payment_mode']" position="attributes">
                 <attribute
                     name="attrs"
