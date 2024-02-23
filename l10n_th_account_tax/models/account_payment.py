@@ -86,6 +86,12 @@ class AccountPayment(models.Model):
                     counterpart_line = origin_ml.filtered(
                         lambda l: l.account_id.id == line.account_id.id
                     )
+                    # Get counterpart line for expense
+                    credit_move = move.tax_cash_basis_rec_id.credit_move_id
+                    if hasattr(credit_move, "expense_id") and credit_move.expense_id:
+                        counterpart_line = counterpart_line.filtered(
+                            lambda l: l.expense_id.id == credit_move.expense_id.id
+                        )
                     (line + counterpart_line).reconcile()
         return True
 
