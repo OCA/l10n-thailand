@@ -233,7 +233,7 @@
                                         </td>
                                         <td>
                                             <span
-                                                t-out="(line.tax_date + relativedelta(years=543)).strftime('%d/%m/%Y')"
+                                                t-out="'{day}/{month}/{year}'.format(day=str(line.tax_date.day).zfill(2), month=str(line.tax_date.month).zfill(2), year=line.tax_date.year+543)"
                                             />
                                         </td>
                                         <td>
