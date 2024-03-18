@@ -83,14 +83,10 @@
                 </t>
                 <t t-if="o.company_partner_id.state_id">
                     <span>,</span>
-                    <span t-field="o.company_partner_id.state_id" />
+                    <span t-field="o.company_partner_id.state_id.name" />
                 </t>
                 <t t-if="o.company_partner_id.zip">
                     <span t-field="o.company_partner_id.zip" />
-                </t>
-                <t t-if="o.company_partner_id.country_id">
-                    <span>,</span>
-                    <span t-field="o.company_partner_id.country_id" />
                 </t>
             </div>
             <div class="supplier_vat">
@@ -157,14 +153,10 @@
                 </t>
                 <t t-if="o.partner_id.state_id">
                     <span>,</span>
-                    <span t-field="o.partner_id.state_id" />
+                    <span t-field="o.partner_id.state_id.name" />
                 </t>
                 <t t-if="o.partner_id.zip">
                     <span t-field="o.partner_id.zip" />
-                </t>
-                <t t-if="o.partner_id.country_id">
-                    <span>,</span>
-                    <span t-field="o.partner_id.country_id" />
                 </t>
             </div>
             <t t-if="o.income_tax_form == 'pnd1'">
