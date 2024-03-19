@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_account_payment_register_perm_serach" model="ir.ui.view">
+        <field name="name">account.payment.register.perm.search</field>
+        <field name="model">account.payment.register.perm</field>
+        <field name="arch" type="xml">
+            <search string="Payment Registers">
+
+                <filter
+                    string="Send Money"
+                    name="payment_type_outbound"
+                    domain="[('payment_type', '=', 'outbound')]"
+                />
+                <filter
+                    string="Receive Money"
+                    name="payment_type_inbound"
+                    domain="[('payment_type', '=', 'inbound')]"
+                />
+                <separator />
+                <filter
+                    string="Draft"
+                    name="draft"
+                    domain="[('state', '=', 'draft')]"
+                />
+                <filter string="Paid" name="paid" domain="[('state', '=', 'paid')]" />
+                <filter
+                    string="Cancel"
+                    name="cancel"
+                    domain="[('state', '=', 'cancel')]"
+                />
+                <separator />
+                <field
+                    name="name"
+                    filter_domain="['|', '|', '|', ('name','ilike',self), ('partner_id.name','ilike',self), ('line_ids.name','ilike',self), ('payment_ids.name','ilike',self)]"
+                />
+                <field name="partner_id" />
+                <field name="payment_date" />
+                <field name="line_ids" string="Invoices" />
+                <field name="payment_ids" />
+                <field name="communication" />
+            </search>
+        </field>
+    </record>
+
+
+    <record id="view_account_payment_register_perm_tree" model="ir.ui.view">
+        <field name="name">account.payment.register.perm.tree</field>
+        <field name="model">account.payment.register.perm</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="payment_date" />
+                <field name="name" />
+                <field name="journal_id" />
+                <field name="payment_type" />
+                <field name="partner_bank_id" optional="hide" />
+                <field name="partner_id" />
+                <field name="amount" string="Payment Amount" />
+                <field name="currency_id" invisible="1" />
+                <field name="line_ids" widget="many2many_tags" />
+                <field name="payment_ids" widget="many2many_tags" />
+                <field name="communication" optional="hide" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-muted="state == 'draft'"
+                    decoration-success="state == 'paid'"
+                    decoration-danger="state == 'cancel'"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_account_payment_register_perm_form" model="ir.ui.view">
+        <field name="name">account.payment.register.perm.form</field>
+        <field name="model">account.payment.register.perm</field>
+        <field name="arch" type="xml">
+            <form string="Register Payment Form">
+                <header>
+                    <button
+                        string="Submit"
+                        name="action_submit"
+                        type="object"
+                        class="oe_highlight"
+                        attrs="{'invisible': [('state', '!=', 'draft')]}"
+                    />
+                    <button
+                        string="Create Payment"
+                        name="action_create_payments"
+                        type="object"
+                        class="oe_highlight"
+                        attrs="{'invisible': [('state', '!=', 'submit')]}"
+                    />
+                    <button
+                        string="Cancel"
+                        name="action_cancel"
+                        type="object"
+                        confirm="This will set related payment to draft and unreconciled state."
+                        attrs="{'invisible': [('state', '=', 'cancel')]}"
+                    />
+                    <button
+                        string="Set to Draft"
+                        name="action_draft"
+                        type="object"
+                        attrs="{'invisible': ['|', ('state', '!=', 'cancel'), ('payment_ids', '!=', [])]}"
+                    />
+                    <button
+                        string="Reconcile Invoice/Payment "
+                        name="action_reconcile_invoice_payment"
+                        type="object"
+                        attrs="{'invisible': ['|', ('payment_ids', '=', []), ('state', '!=', 'cancel')]}"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,submit,paid"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            name="open_invoices"
+                            icon="fa-bars"
+                            class="oe_stat_button"
+                            string="Invoices"
+                            type="object"
+                            attrs="{'invisible': [('line_ids', '=', [])]}"
+                        />
+                        <button
+                            name="open_payments"
+                            icon="fa-bars"
+                            class="oe_stat_button"
+                            string="Payments"
+                            type="object"
+                            attrs="{'invisible': [('payment_ids', '=', [])]}"
+                        />
+                    </div>
+                    <!-- Invisible fields -->
+                    <field name="can_edit_wizard" invisible="1" force_save="1" />
+                    <field name="can_group_payments" invisible="1" force_save="1" />
+                    <field
+                        name="early_payment_discount_mode"
+                        invisible="1"
+                        force_save="1"
+                    />
+                    <field name="partner_type" invisible="1" force_save="1" />
+                    <field name="source_amount" invisible="1" force_save="1" />
+                    <field name="source_amount_currency" invisible="1" force_save="1" />
+                    <field name="source_currency_id" invisible="1" force_save="1" />
+                    <field name="company_id" invisible="1" force_save="1" />
+                    <field name="country_code" invisible="1" force_save="1" />
+                    <field name="show_partner_bank_account" invisible="1" />
+                    <field name="require_partner_bank_account" invisible="1" />
+                    <field name="available_journal_ids" invisible="1" />
+                    <field name="available_payment_method_line_ids" invisible="1" />
+                    <field name="available_partner_bank_ids" invisible="1" />
+                    <field name="company_currency_id" invisible="1" />
+                    <field name="hide_writeoff_section" invisible="1" />
+                    <div
+                        role="alert"
+                        class="alert alert-info"
+                        attrs="{'invisible': [('hide_writeoff_section', '=', False)]}"
+                    >
+                        <p><b>Early Payment Discount applied.</b></p>
+                    </div>
+                    <group>
+                        <group name="group1">
+                            <field
+                                name="payment_type"
+                                readonly="1"
+                                widget="radio"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                            <field
+                                name="partner_id"
+                                readonly="1"
+                                options="{'no_open': True, 'no_create': True}"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                            <field
+                                name="journal_id"
+                                options="{'no_open': True, 'no_create': True}"
+                                required="1"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                            <field
+                                name="payment_method_line_id"
+                                required="1"
+                                options="{'no_create': True, 'no_open': True}"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                            <field
+                                name="partner_bank_id"
+                                attrs="{'invisible': ['|', ('show_partner_bank_account', '=', False), '|', ('can_edit_wizard', '=', False), '&amp;', ('can_group_payments', '=', True), ('group_payment', '=', False)],
+                                        'required': [('require_partner_bank_account', '=', True), ('can_edit_wizard', '=', True), '|', ('can_group_payments', '=', False), ('group_payment', '=', False)], 'readonly': [('payment_type', '=', 'inbound')],
+                                        'readonly': [('state', '!=', 'draft')]}"
+                                context="{'default_allow_out_payment': True}"
+                            />
+                            <field
+                                name="group_payment"
+                                attrs="{'invisible': [('can_group_payments', '=', False)], 'readonly': [('state', '!=', 'draft')]}"
+                            />
+                        </group>
+                        <group name="group2">
+                            <label
+                                for="amount"
+                                attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': ['|', ('can_edit_wizard', '=', False), '&amp;', ('can_group_payments', '=', True), ('group_payment', '=', False)]}"
+                            />
+                            <div
+                                name="amount_div"
+                                class="o_row"
+                                attrs="{'invisible': ['|', ('can_edit_wizard', '=', False), '&amp;', ('can_group_payments', '=', True), ('group_payment', '=', False)]}"
+                            >
+                                <field
+                                    name="amount"
+                                    attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                />
+                                <field
+                                    name="currency_id"
+                                    required="1"
+                                    options="{'no_create': True, 'no_open': True}"
+                                    attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                    groups="base.group_multi_currency"
+                                />
+                            </div>
+                            <field
+                                name="payment_date"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                            <field
+                                name="payment_ids"
+                                widget="many2many_tags"
+                                string="Payment(s)"
+                            />
+                            <field
+                                name="line_ids"
+                                widget="many2many_tags"
+                                string="Invoice(s)"
+                            />
+                            <field
+                                name="communication"
+                                attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': ['|', ('can_edit_wizard', '=', False), '&amp;', ('can_group_payments', '=', True), ('group_payment', '=', False)]}"
+                            />
+                        </group>
+                        <group
+                            name="group3"
+                            attrs="{'invisible': ['|', ('payment_difference', '=', 0.0), '|', ('can_edit_wizard', '=', False), '&amp;', ('can_group_payments', '=', True), ('group_payment', '=', False)]}"
+                        >
+                            <label for="payment_difference" />
+                            <div>
+                                <field
+                                    name="payment_difference"
+                                    attrs="{'invisible': [('state', '=', 'paid')]}"
+                                />
+                                <field
+                                    name="payment_difference_handling"
+                                    widget="radio"
+                                    nolabel="1"
+                                    attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                />
+                                <div
+                                    attrs="{'invisible': [('payment_difference_handling','!=','reconcile')]}"
+                                >
+                                    <label
+                                        for="wht_tax_id"
+                                        class="oe_edit_only"
+                                        string="Withholding Tax"
+                                        attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                    />
+                                    <field
+                                        name="wht_tax_id"
+                                        placeholder="Withholding Tax"
+                                        options="{'no_create': True, 'no_open': True}"
+                                        attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                    />
+                                    <label
+                                        for="wht_amount_base"
+                                        class="oe_edit_only"
+                                        string="Withholding Base"
+                                        attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                    />
+                                    <field
+                                        name="wht_amount_base"
+                                        attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                    />
+                                </div>
+                                <div
+                                    attrs="{'invisible': ['|', ('hide_writeoff_section', '=', True), ('payment_difference_handling','!=','reconcile')]}"
+                                >
+                                    <label
+                                        for="writeoff_account_id"
+                                        string="Post Difference In"
+                                        class="oe_edit_only"
+                                    />
+                                    <field
+                                        name="writeoff_account_id"
+                                        string="Post Difference In"
+                                        options="{'no_create': True}"
+                                        attrs="{'readonly': [('state', '!=', 'draft')], 'required': [('payment_difference_handling', '=', 'reconcile'), ('early_payment_discount_mode', '=', False)]}"
+                                    />
+                                    <div
+                                        attrs="{'invisible': [('payment_difference_handling', '!=', 'reconcile')]}"
+                                        groups="analytic.group_analytic_accounting"
+                                    >
+                                        <label
+                                            for="analytic_distribution"
+                                            class="oe_edit_only"
+                                        />
+                                        <field
+                                            name="analytic_distribution"
+                                            widget="analytic_distribution"
+                                            groups="analytic.group_analytic_accounting"
+                                            attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                            options="{'product_field': 'product_id', 'account_field': 'account_id', 'business_domain': 'expense'}"
+                                        />
+                                    </div>
+                                    <label
+                                        for="writeoff_label"
+                                        class="oe_edit_only"
+                                        string="Label"
+                                    />
+                                    <field
+                                        name="writeoff_label"
+                                        attrs="{'readonly': [('state', '!=', 'draft')], 'required': [('payment_difference_handling', '=', 'reconcile')]}"
+                                    />
+                                </div>
+                            </div>
+                        </group>
+                        <group
+                            colspan="4"
+                            attrs="{'invisible': [('payment_difference_handling', '!=', 'reconcile_multi_deduct')]}"
+                        >
+                            <field name="deduct_residual" invisible="1" />
+                            <field name="deduct_analytic_distribution" invisible="1" />
+                            <field
+                                name="deduction_ids"
+                                nolabel="1"
+                                colspan="2"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                context="{'default_amount': deduct_residual, 'default_analytic_distribution': deduct_analytic_distribution}"
+                            >
+                                <tree editable="bottom">
+                                    <field name="currency_id" invisible="1" />
+                                    <field name="is_open" />
+                                    <field
+                                        name="account_id"
+                                        attrs="{'required': [('is_open', '=', False)]}"
+                                    />
+                                    <field name="partner_id" />
+                                    <field name="wht_tax_id" string="WHT" />
+                                    <field name="wht_amount_base" string="Base" />
+                                    <field
+                                        name="analytic_distribution"
+                                        widget="analytic_distribution"
+                                        groups="analytic.group_analytic_accounting"
+                                        options="{'product_field': 'product_id', 'account_field': 'account_id', 'business_domain': 'expense'}"
+                                    />
+                                    <field name="name" />
+                                    <field name="amount" sum="Total Deduction" />
+                                </tree>
+                            </field>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_account_payment_register_perm_in" model="ir.actions.act_window">
+        <field name="name">Payment Registers</field>
+        <field name="res_model">account.payment.register.perm</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">
+            {'search_default_payment_type_inbound': 1}
+        </field>
+    </record>
+
+    <menuitem
+        id="account_payment_register_perm_in_menu"
+        action="action_account_payment_register_perm_in"
+        parent="account.menu_finance_receivables"
+        sequence="16"
+    />
+
+    <record id="action_account_payment_register_perm_out" model="ir.actions.act_window">
+        <field name="name">Payment Registers</field>
+        <field name="res_model">account.payment.register.perm</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">
+            {'search_default_payment_type_outbound': 1}
+        </field>
+    </record>
+
+    <menuitem
+        id="account_payment_register_perm_out_menu"
+        action="action_account_payment_register_perm_out"
+        parent="account.menu_finance_payables"
+        sequence="20"
+    />
+
+</odoo>
