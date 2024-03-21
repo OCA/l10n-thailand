@@ -37,7 +37,6 @@ class ReportThaiTaxXlsx(models.TransientModel):
                 "header": {"value": "Date"},
                 "data": {
                     "value": self._render("tax_date"),
-                    "type": "datetime",
                     "format": FORMATS["format_date_dmy_right"],
                 },
                 "width": 12,

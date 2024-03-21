@@ -237,15 +237,15 @@
                                             <t t-set="n" t-value="n + 1" />
                                             <span t-out="n" />
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <span
-                                                t-out="(line.tax_date + relativedelta(years=543)).strftime('%d/%m/%Y')"
+                                                t-out="line.tax_date and (line.tax_date + relativedelta(years=543)).strftime('%d/%m/%Y')"
                                             />
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <span t-out="line.tax_invoice_number" />
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <t t-out="line.name" />
                                         </td>
                                         <td>
@@ -253,7 +253,7 @@
                                                 t-out="line.partner_id.display_name"
                                             />
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <span t-out="line.partner_id.vat" />
                                         </td>
                                         <td>
