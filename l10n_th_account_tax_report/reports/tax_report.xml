@@ -23,9 +23,9 @@
                     />
                 </div>
                 <div class="col-6 text-right custom_footer">
-                            <span class="page" />
-                            /
-                            <span class="topage" />
+                    <span class="page" />
+                    /
+                    <span class="topage" />
                 </div>
             </div>
         </div>
@@ -118,7 +118,7 @@
                 <t t-out="n" />
             </div>
             <div class="act_as_cell left">
-                <t t-out="line.tax_date.strftime('%d/%m/%Y')" />
+                <t t-out="line.tax_date and line.tax_date.strftime('%d/%m/%Y')" />
             </div>
             <div class="act_as_cell left">
                 <t t-out="line.tax_invoice_number" />
