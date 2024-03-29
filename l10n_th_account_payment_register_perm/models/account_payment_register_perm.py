@@ -10,6 +10,7 @@ class AccountPaymentRegisterPerm(models.Model):
     _inherit = ["account.payment.register", "mail.thread"]
     _description = "Payment Register Permanemt Model"
     _order = "id desc"
+    _transient = False
 
     name = fields.Char(
         required=True,

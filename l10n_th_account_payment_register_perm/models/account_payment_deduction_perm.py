@@ -8,6 +8,7 @@ class AccountPaymentDeductionPerm(models.Model):
     _name = "account.payment.deduction.perm"
     _inherit = "account.payment.deduction"
     _description = "Payment Deduction Line Permanemt Model"
+    _transient = False
 
     payment_id = fields.Many2one(
         comodel_name="account.payment.register.perm",
