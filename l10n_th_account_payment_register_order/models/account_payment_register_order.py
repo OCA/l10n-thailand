@@ -3,6 +3,7 @@
 
 from odoo import _, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import float_compare
 
 
 class AccountPaymentRegisterOrder(models.Model):
@@ -62,6 +63,7 @@ class AccountPaymentRegisterOrder(models.Model):
 
     def action_submit(self):
         for rec in self.filtered(lambda x: not x.name or x.name == "/"):
+            rec._check_constraint_create_payment()
             rec.write({"name": rec._get_payment_number()})
         self.write({"state": "submit"})
 
@@ -98,8 +100,28 @@ class AccountPaymentRegisterOrder(models.Model):
             ).reconcile()
         self.write({"state": "paid"})
 
+    def _check_constraint_create_payment(self):
+        self.ensure_one()
+        prec_digits = self.company_id.currency_id.decimal_places
+        amount_residual = sum(self.line_ids.mapped("amount_residual"))
+        if (
+            float_compare(
+                amount_residual,
+                self.amount,
+                precision_digits=prec_digits,
+            )
+            == -1
+        ):
+            raise UserError(
+                _(
+                    "Total amount residual must be less than or equal to %(amount_residual)s"
+                )
+                % {"amount_residual": amount_residual}
+            )
+
     def action_create_payments(self):
         self.ensure_one()
+        self._check_constraint_create_payment()
         self = self.with_context(dont_redirect_to_payments=False)
         self.write({"state": "paid"})
         res = super().action_create_payments()
