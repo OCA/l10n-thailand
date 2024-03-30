@@ -16,17 +16,17 @@ class AccountMove(models.Model):
         elif ctx.get("active_model") == "account.move.line":
             lines = self.env["account.move.line"].browse(ctx.get("active_ids", []))
             moves = lines.mapped("move_id")
-        # Check move types with invoice settings, whether to use perm
+        # Check move types with invoice settings, whether to use order
         if moves:
             move_types = set(moves.mapped("move_type"))
             if (
                 move_types <= {"out_invoice", "out_refund"}
-                and self.env.company.module_payment_register_perm_inbound
+                and self.env.company.module_payment_register_order_inbound
             ) or (
                 move_types <= {"in_invoice", "in_refund"}
-                and self.env.company.module_payment_register_perm_outbound
+                and self.env.company.module_payment_register_order_outbound
             ):
                 res["name"] = _("Register Payment Form")
-                res["res_model"] = "account.payment.register.perm"
+                res["res_model"] = "account.payment.register.order"
                 res["target"] = "current"
         return res

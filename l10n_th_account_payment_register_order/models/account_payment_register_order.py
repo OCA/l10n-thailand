@@ -5,10 +5,10 @@ from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 
-class AccountPaymentRegisterPerm(models.Model):
-    _name = "account.payment.register.perm"
+class AccountPaymentRegisterOrder(models.Model):
+    _name = "account.payment.register.order"
     _inherit = ["account.payment.register", "mail.thread"]
-    _description = "Payment Register Permanemt Model"
+    _description = "Payment Register Order Model"
     _order = "id desc"
     _transient = False
 
@@ -28,7 +28,7 @@ class AccountPaymentRegisterPerm(models.Model):
     )
     line_ids = fields.Many2many(
         "account.move.line",
-        "account_payment_register_perm_move_line_rel",
+        "account_payment_register_order_move_line_rel",
         "register_id",
         "line_id",
         string="Journal items",
@@ -37,7 +37,7 @@ class AccountPaymentRegisterPerm(models.Model):
     )
     payment_ids = fields.Many2many(
         "account.payment",
-        "account_payment_register_perm_payment_rel",
+        "account_payment_register_order_payment_rel",
         "register_id",
         "payment_id",
         string="Payments",
@@ -45,7 +45,7 @@ class AccountPaymentRegisterPerm(models.Model):
         copy=False,
     )
     deduction_ids = fields.One2many(
-        comodel_name="account.payment.deduction.perm",
+        comodel_name="account.payment.deduction.order",
         inverse_name="payment_id",
         string="Deductions",
         copy=False,
@@ -55,7 +55,7 @@ class AccountPaymentRegisterPerm(models.Model):
     def _get_payment_number(self):
         self.ensure_one()
         # payment_type is either inbound or outbound
-        code = "account.payment.register.perm.%s" % self.payment_type
+        code = "account.payment.register.order.%s" % self.payment_type
         self = self.with_context(ir_sequence_date=self.payment_date)
         number = self.env["ir.sequence"].next_by_code(code) or "/"
         return number

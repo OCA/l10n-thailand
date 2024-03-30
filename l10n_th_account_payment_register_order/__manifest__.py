@@ -13,7 +13,7 @@
         "security/ir.model.access.csv",
         "data/ir_sequence.xml",
         "views/res_config_settings_views.xml",
-        "views/account_register_payment_perm.xml",
+        "views/account_register_payment_order.xml",
     ],
     "installable": True,
     "auto_install": True,

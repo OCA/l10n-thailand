@@ -4,14 +4,14 @@
 from odoo import fields, models
 
 
-class AccountPaymentDeductionPerm(models.Model):
-    _name = "account.payment.deduction.perm"
+class AccountPaymentDeductionOrder(models.Model):
+    _name = "account.payment.deduction.order"
     _inherit = "account.payment.deduction"
-    _description = "Payment Deduction Line Permanemt Model"
+    _description = "Payment Deduction Line Order Model"
     _transient = False
 
     payment_id = fields.Many2one(
-        comodel_name="account.payment.register.perm",
+        comodel_name="account.payment.register.order",
         readonly=True,
         ondelete="cascade",
     )

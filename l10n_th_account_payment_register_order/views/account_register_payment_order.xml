@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-    <record id="view_account_payment_register_perm_serach" model="ir.ui.view">
-        <field name="name">account.payment.register.perm.search</field>
-        <field name="model">account.payment.register.perm</field>
+    <record id="view_account_payment_register_order_serach" model="ir.ui.view">
+        <field name="name">account.payment.register.order.search</field>
+        <field name="model">account.payment.register.order</field>
         <field name="arch" type="xml">
             <search string="Payment Registers">
 
@@ -44,9 +44,9 @@
     </record>
 
 
-    <record id="view_account_payment_register_perm_tree" model="ir.ui.view">
-        <field name="name">account.payment.register.perm.tree</field>
-        <field name="model">account.payment.register.perm</field>
+    <record id="view_account_payment_register_order_tree" model="ir.ui.view">
+        <field name="name">account.payment.register.order.tree</field>
+        <field name="model">account.payment.register.order</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="payment_date" />
@@ -71,9 +71,9 @@
         </field>
     </record>
 
-    <record id="view_account_payment_register_perm_form" model="ir.ui.view">
-        <field name="name">account.payment.register.perm.form</field>
-        <field name="model">account.payment.register.perm</field>
+    <record id="view_account_payment_register_order_form" model="ir.ui.view">
+        <field name="name">account.payment.register.order.form</field>
+        <field name="model">account.payment.register.order</field>
         <field name="arch" type="xml">
             <form string="Register Payment Form">
                 <header>
@@ -163,6 +163,9 @@
                     >
                         <p><b>Early Payment Discount applied.</b></p>
                     </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1" /></h1>
+                    </div>
                     <group>
                         <group name="group1">
                             <field
@@ -226,16 +229,6 @@
                             <field
                                 name="payment_date"
                                 attrs="{'readonly': [('state', '!=', 'draft')]}"
-                            />
-                            <field
-                                name="payment_ids"
-                                widget="many2many_tags"
-                                string="Payment(s)"
-                            />
-                            <field
-                                name="line_ids"
-                                widget="many2many_tags"
-                                string="Invoice(s)"
                             />
                             <field
                                 name="communication"
@@ -360,6 +353,14 @@
                                 </tree>
                             </field>
                         </group>
+                        <notebook>
+                            <page name="invoices" string="Invoice(s)">
+                                <field name="line_ids" />
+                            </page>
+                            <page name="payments" string="Payment(s)">
+                                <field name="payment_ids" />
+                            </page>
+                        </notebook>
                     </group>
                 </sheet>
                 <div class="oe_chatter">
@@ -370,9 +371,9 @@
         </field>
     </record>
 
-    <record id="action_account_payment_register_perm_in" model="ir.actions.act_window">
+    <record id="action_account_payment_register_order_in" model="ir.actions.act_window">
         <field name="name">Payment Registers</field>
-        <field name="res_model">account.payment.register.perm</field>
+        <field name="res_model">account.payment.register.order</field>
         <field name="view_mode">tree,form</field>
         <field name="context">
             {'search_default_payment_type_inbound': 1}
@@ -380,15 +381,18 @@
     </record>
 
     <menuitem
-        id="account_payment_register_perm_in_menu"
-        action="action_account_payment_register_perm_in"
+        id="account_payment_register_order_in_menu"
+        action="action_account_payment_register_order_in"
         parent="account.menu_finance_receivables"
         sequence="16"
     />
 
-    <record id="action_account_payment_register_perm_out" model="ir.actions.act_window">
+    <record
+        id="action_account_payment_register_order_out"
+        model="ir.actions.act_window"
+    >
         <field name="name">Payment Registers</field>
-        <field name="res_model">account.payment.register.perm</field>
+        <field name="res_model">account.payment.register.order</field>
         <field name="view_mode">tree,form</field>
         <field name="context">
             {'search_default_payment_type_outbound': 1}
@@ -396,8 +400,8 @@
     </record>
 
     <menuitem
-        id="account_payment_register_perm_out_menu"
-        action="action_account_payment_register_perm_out"
+        id="account_payment_register_order_out_menu"
+        action="action_account_payment_register_order_out"
         parent="account.menu_finance_payables"
         sequence="20"
     />

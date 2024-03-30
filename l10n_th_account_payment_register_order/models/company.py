@@ -6,9 +6,9 @@ from odoo import fields, models
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    module_payment_register_perm_inbound = fields.Boolean(
+    module_payment_register_order_inbound = fields.Boolean(
         string="Use Persistent Document on Inbound Payment",
     )
-    module_payment_register_perm_outbound = fields.Boolean(
+    module_payment_register_order_outbound = fields.Boolean(
         string="Use Persistent Document on Outbound Payment",
     )
