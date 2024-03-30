@@ -6,7 +6,16 @@
         <field name="model">account.payment.register.order</field>
         <field name="arch" type="xml">
             <search string="Payment Registers">
-
+                <field
+                    name="name"
+                    filter_domain="['|', '|', '|', ('name','ilike',self), ('partner_id.name','ilike',self), ('line_ids.name','ilike',self), ('payment_ids.name','ilike',self)]"
+                />
+                <field name="partner_id" />
+                <field name="payment_date" />
+                <field name="line_ids" string="Invoices" />
+                <field name="payment_ids" />
+                <field name="communication" />
+                <separator />
                 <filter
                     string="Send Money"
                     name="payment_type_outbound"
@@ -23,22 +32,29 @@
                     name="draft"
                     domain="[('state', '=', 'draft')]"
                 />
+                <filter
+                    string="Submit"
+                    name="submit"
+                    domain="[('state', '=', 'submit')]"
+                />
                 <filter string="Paid" name="paid" domain="[('state', '=', 'paid')]" />
                 <filter
                     string="Cancel"
                     name="cancel"
                     domain="[('state', '=', 'cancel')]"
                 />
-                <separator />
-                <field
-                    name="name"
-                    filter_domain="['|', '|', '|', ('name','ilike',self), ('partner_id.name','ilike',self), ('line_ids.name','ilike',self), ('payment_ids.name','ilike',self)]"
-                />
-                <field name="partner_id" />
-                <field name="payment_date" />
-                <field name="line_ids" string="Invoices" />
-                <field name="payment_ids" />
-                <field name="communication" />
+                <group name="group_by" string="Group By">
+                    <filter
+                        name="groupby_state"
+                        string="State"
+                        context="{'group_by': 'state'}"
+                    />
+                    <filter
+                        name="groupby_payment_type"
+                        string="Payment Type"
+                        context="{'group_by': 'payment_type'}"
+                    />
+                </group>
             </search>
         </field>
     </record>
