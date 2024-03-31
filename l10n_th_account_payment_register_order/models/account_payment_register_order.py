@@ -103,7 +103,7 @@ class AccountPaymentRegisterOrder(models.Model):
     def _check_constraint_create_payment(self):
         self.ensure_one()
         prec_digits = self.company_id.currency_id.decimal_places
-        amount_residual = sum(self.line_ids.mapped("amount_residual"))
+        amount_residual = abs(sum(self.line_ids.mapped("amount_residual")))
         if (
             float_compare(
                 amount_residual,
