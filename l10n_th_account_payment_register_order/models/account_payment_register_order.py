@@ -83,7 +83,8 @@ class AccountPaymentRegisterOrder(models.Model):
         if self.payment_ids.filtered(lambda l: l.state != "draft"):
             raise UserError(_("To reconcile, payment(s) should be in draft state"))
         if self.line_ids.filtered(
-            lambda l: l.parent_state != "posted" or l.move_id.payment_state == "paid"
+            lambda l: l.move_id.move_type in ("in_invoice", "out_invoice")
+            and (l.parent_state != "posted" or l.move_id.payment_state == "paid")
         ):
             raise UserError(_("To reconcile, invoice(s) should be posted but not paid"))
         self.payment_ids.action_post()
