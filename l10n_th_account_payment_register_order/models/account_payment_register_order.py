@@ -12,6 +12,8 @@ class AccountPaymentRegisterOrder(models.Model):
     _description = "Payment Register Order Model"
     _order = "id desc"
     _transient = False
+    _transient_max_hours = False
+    _transient_max_count = False
 
     name = fields.Char(
         required=True,

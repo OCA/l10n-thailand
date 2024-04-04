@@ -9,6 +9,8 @@ class AccountPaymentDeductionOrder(models.Model):
     _inherit = "account.payment.deduction"
     _description = "Payment Deduction Line Order Model"
     _transient = False
+    _transient_max_hours = False
+    _transient_max_count = False
 
     payment_id = fields.Many2one(
         comodel_name="account.payment.register.order",
