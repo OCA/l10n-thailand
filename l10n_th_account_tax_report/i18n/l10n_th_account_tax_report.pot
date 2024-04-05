@@ -29,8 +29,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.internal_layout
 msgid ""
 "<span class=\"page\"/>\n"
-"                            /\n"
-"                            <span class=\"topage\"/>"
+"                    /\n"
+"                    <span class=\"topage\"/>"
 msgstr ""
 
 #. module: l10n_th_account_tax_report
