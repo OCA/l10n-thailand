@@ -208,8 +208,12 @@ class ReportPurchaseReportXlsx(models.AbstractModel):
             row_pos,
             len(wl) - 1,
             "ณ วันที่ {} - {}".format(
-                self._change_ad_to_be(objects.date_from).strftime("%d/%m/%Y"),
-                self._change_ad_to_be(objects.date_to).strftime("%d/%m/%Y"),
+                self.format_date_dmy(
+                    objects.date_from, format_date="{day}/{month}/{year}"
+                ),
+                self.format_date_dmy(
+                    objects.date_to, format_date="{day}/{month}/{year}"
+                ),
             ),
             ctx_format["format_ws_title"],
         )
