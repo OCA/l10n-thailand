@@ -24,6 +24,7 @@ class TestGovPurchaseReport(TestGovPurchaseRequest):
         cls.purchase_report_wizard = cls.env["purchase.report.wizard"]
         cls.non_purchase_report_wizard = cls.env["non.purchase.report.wizard"]
         cls.purchase_tracking_report_wizard = cls.env["purchase.tracking.report.wizard"]
+        cls.common_purchase_report = cls.env["common.purchase.report.xlsx"]
         cls.company = cls.env.company
 
         cls.product = cls.env.ref("l10n_th_gov_purchase_request.product_type_001")
@@ -280,3 +281,18 @@ class TestGovPurchaseReport(TestGovPurchaseRequest):
             },
         )
         self.assertEqual(report_xlsx[1], "xlsx")
+
+    def test_04_check_format_date(self):
+        # Test No format date
+        date = datetime.date(2023, 1, 15)
+        expected_result = "15012566"
+        result = self.common_purchase_report.format_date_dmy(date)
+        self.assertEqual(result, expected_result)
+        # Test Custom format date
+        date = datetime.date(2023, 1, 15)
+        custom_format = "{day}-{month}-{year}"
+        expected_result = "15-01-2566"
+        result = self.common_purchase_report.format_date_dmy(
+            date, format_date=custom_format
+        )
+        self.assertEqual(result, expected_result)

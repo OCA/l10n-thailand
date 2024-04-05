@@ -1,9 +1,6 @@
 # Copyright 2023 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-
-from dateutil.relativedelta import relativedelta
-
 from odoo import models
 
 from odoo.addons.report_xlsx_helper.report.report_xlsx_format import FORMATS
@@ -14,8 +11,14 @@ class CommonPurchaseReportXlsx(models.AbstractModel):
     _inherit = "report.report_xlsx.abstract"
     _description = "Common Function Purchase Report"
 
-    def _change_ad_to_be(self, date):
-        return date + relativedelta(years=543)
+    def format_date_dmy(self, date, format_date=None):
+        if format_date is None:
+            format_date = "{day}{month}{year}"
+        year_thai = date.year + 543
+        date_format = format_date.format(
+            day=str(date.day).zfill(2), month=str(date.month).zfill(2), year=year_thai
+        )
+        return date_format
 
     def _get_format(self, wb):
         ctx_format = {
