@@ -68,12 +68,34 @@ class CommonBankPaymentExport(TransactionCase):
         cls.payment_method_check = cls.env.ref(
             "account_check_printing.account_payment_method_check"
         )
+
+        cls.journal_bank_manual_out = (
+            cls.journal_bank.outbound_payment_method_line_ids.filtered(
+                lambda line: line.payment_method_id == cls.payment_method_manual_out
+            )
+        )
+        cls.journal_bank_manual_out_check = (
+            cls.journal_bank.outbound_payment_method_line_ids.filtered(
+                lambda line: line.payment_method_id == cls.payment_method_check
+            )
+        )
+        cls.journal_bank_manual_in = (
+            cls.journal_bank.inbound_payment_method_line_ids.filtered(
+                lambda line: line.payment_method_id == cls.payment_method_manual_in
+            )
+        )
+        cls.journal_cash_manual_out = (
+            cls.journal_cash.outbound_payment_method_line_ids.filtered(
+                lambda line: line.payment_method_id == cls.payment_method_manual_out
+            )
+        )
+
         # create invoice to payment
         cls.payment1_out_journal_bank = cls.create_invoice_payment(
             cls,
             amount=100,
             currency_id=cls.main_currency_id,
-            payment_method=cls.payment_method_manual_out,
+            payment_method=cls.journal_bank_manual_out,
             partner=cls.partner_1,
             journal=cls.journal_bank,
             init=True,
@@ -82,7 +104,7 @@ class CommonBankPaymentExport(TransactionCase):
             cls,
             amount=100,
             currency_id=cls.main_currency_id,
-            payment_method=cls.payment_method_manual_out,
+            payment_method=cls.journal_cash_manual_out,
             partner=cls.partner_1,
             journal=cls.journal_cash,
             init=True,
@@ -91,7 +113,7 @@ class CommonBankPaymentExport(TransactionCase):
             cls,
             amount=200,
             currency_id=cls.main_currency_id,
-            payment_method=cls.payment_method_check,
+            payment_method=cls.journal_bank_manual_out_check,
             partner=cls.partner_1,
             journal=cls.journal_bank,
             init=True,
@@ -100,7 +122,7 @@ class CommonBankPaymentExport(TransactionCase):
             cls,
             amount=300,
             currency_id=cls.currency_id,
-            payment_method=cls.payment_method_manual_out,
+            payment_method=cls.journal_bank_manual_out,
             partner=cls.partner_1,
             journal=cls.journal_bank,
             init=True,
@@ -110,7 +132,7 @@ class CommonBankPaymentExport(TransactionCase):
             amount=400,
             inv_type="out_invoice",
             currency_id=cls.main_currency_id,
-            payment_method=cls.payment_method_manual_in,
+            payment_method=cls.journal_bank_manual_in,
             partner=cls.partner_1,
             journal=cls.journal_bank,
             init=True,
@@ -119,7 +141,7 @@ class CommonBankPaymentExport(TransactionCase):
             cls,
             amount=600,
             currency_id=cls.main_currency_id,
-            payment_method=cls.payment_method_manual_out,
+            payment_method=cls.journal_bank_manual_out,
             partner=cls.partner_2,
             journal=cls.journal_bank,
             init=True,
