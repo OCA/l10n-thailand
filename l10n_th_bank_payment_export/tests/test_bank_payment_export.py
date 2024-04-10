@@ -36,7 +36,7 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         self.payment_exported_from_wizard = self.create_invoice_payment(
             amount=100,
             currency_id=self.main_currency_id,
-            payment_method=self.payment_method_manual_out,
+            payment_method=self.journal_bank_manual_out,
             partner=self.partner_2,
             journal=self.journal_bank,
             is_export=True,
@@ -46,7 +46,7 @@ class TestBankPaymentExport(CommonBankPaymentExport):
             self.create_invoice_payment(
                 amount=100,
                 currency_id=self.main_currency_id,
-                payment_method=self.payment_method_manual_out,
+                payment_method=self.journal_bank_manual_out,
                 partner=self.partner_2,
                 journal=self.journal_bank,
                 multi=True,
@@ -55,7 +55,7 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         self.payment_multi_invoice_exported_from_wizard = self.create_invoice_payment(
             amount=100,
             currency_id=self.main_currency_id,
-            payment_method=self.payment_method_manual_out,
+            payment_method=self.journal_bank_manual_out,
             partner=self.partner_2,
             journal=self.journal_bank,
             is_export=True,
@@ -253,7 +253,7 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         register_payments = self.register_payments_model.with_context(**ctx).create(
             {
                 "journal_id": self.journal_bank.id,
-                "payment_method_line_id": self.payment_method_manual_out.id,
+                "payment_method_line_id": self.journal_bank_manual_out.id,
                 "amount": 10.0,
                 "partner_bank_id": invoice.partner_bank_id.id,
                 "payment_date": fields.Date.today(),
