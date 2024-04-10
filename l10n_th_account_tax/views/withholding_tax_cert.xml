@@ -67,8 +67,14 @@
                             <field
                                 name="wht_cert_income_code"
                                 options="{'no_create': True, 'no_create_edit': True}"
-                                optional="show"
+                                attrs="{'column_invisible': [('parent.income_tax_form', '!=', 'pnd1')]}"
                                 domain="[('income_tax_form', '=', wht_income_tax_form), ('wht_cert_income_type', '=', wht_cert_income_type)]"
+                            />
+                            <field
+                                name="wht_cert_bank_account"
+                                options="{'no_create': True, 'no_create_edit': True}"
+                                attrs="{'column_invisible': [('parent.income_tax_form', '!=', 'pnd2')], 'required': [('parent.income_tax_form', '=', 'pnd2'), ('wht_cert_income_type', '=', '4A')]}"
+                                domain="[('partner_id', '=', parent.partner_id)]"
                             />
                             <field name="wht_cert_income_desc" optional="show" />
                             <field name="amount" sum="Total Tax" />

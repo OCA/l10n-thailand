@@ -7,6 +7,7 @@ from odoo.tools import float_round
 
 INCOME_TAX_FORM = [
     ("pnd1", "PND1"),
+    ("pnd2", "PND2"),
     ("pnd3", "PND3"),
     ("pnd3a", "PND3a"),
     ("pnd53", "PND53"),
@@ -233,6 +234,14 @@ class WithholdingTaxCertLine(models.Model):
         index=True,
         help="For Text File income code",
     )
+    wht_cert_bank_account = fields.Many2one(
+        comodel_name="res.partner.bank",
+        compute="_compute_wht_bank_account",
+        store=True,
+        readonly=False,
+        string="Bank Account",
+        help="PND2 type 4A need bank account",
+    )
     wht_cert_income_desc = fields.Char(
         string="Income Description", size=500, required=False
     )
@@ -266,6 +275,13 @@ class WithholdingTaxCertLine(models.Model):
                     precision_rounding=rec.company_id.currency_id.rounding,
                 )
             )
+
+    @api.depends("cert_id", "wht_cert_income_type")
+    def _compute_wht_bank_account(self):
+        for rec in self:
+            rec.wht_cert_bank_account = False
+            if rec.cert_id.payment_id:
+                rec.wht_cert_bank_account = rec.cert_id.payment_id.partner_bank_id.id
 
     @api.onchange("wht_cert_income_type")
     def _onchange_wht_cert_income_type(self):

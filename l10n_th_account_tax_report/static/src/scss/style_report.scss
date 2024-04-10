@@ -422,6 +422,165 @@
     }
 }
 
+.o_report_rd_withholding_tax_report_pnd2 {
+    font-family: "THSarabun";
+    font-size: 18px;
+
+    .company_vat {
+        position: fixed;
+        margin-left: 690px;
+        top: 28px;
+    }
+    .company_branch {
+        position: fixed;
+        margin-left: 1192px;
+        top: 70px;
+    }
+    .num_page_from {
+        position: fixed;
+        margin-left: 1080px;
+        top: 160px;
+        box-sizing: content-box;
+        text-align: center;
+        width: 45px;
+        height: 24px;
+    }
+    .num_page_to {
+        position: fixed;
+        margin-left: 1180px;
+        top: 160px;
+        box-sizing: content-box;
+        text-align: center;
+        width: 45px;
+        height: 24px;
+    }
+    .wht_line {
+        position: fixed;
+        margin-left: 25px;
+        top: 255px;
+        width: 1230px;
+        height: 455px;
+    }
+    .wht_line_number {
+        margin-top: 10px;
+        margin-left: 30px;
+        box-sizing: content-box;
+        text-align: center;
+        width: 60px;
+        height: 21px;
+    }
+    .wht_line_vat {
+        margin-top: 6px;
+        margin-left: 30px;
+    }
+    .wht_bank_partner_account {
+        margin-top: 7px;
+        margin-left: 33px;
+        box-sizing: content-box;
+        width: 285px;
+        height: 25px;
+    }
+    .wht_line_firstname {
+        margin-top: 7px;
+        margin-left: 25px;
+        box-sizing: content-box;
+        width: 160px;
+        height: 25px;
+    }
+    .wht_line_lastname {
+        margin-top: 7px;
+        margin-left: 35px;
+        box-sizing: content-box;
+        width: 150px;
+        height: 25px;
+    }
+    .wht_line_date {
+        margin-top: 33px;
+        margin-left: 60px;
+        box-sizing: content-box;
+        text-align: center;
+        width: 120px;
+        height: 21px;
+    }
+    .wht_line_percent {
+        margin-top: 33px;
+        margin-left: 32px;
+        box-sizing: content-box;
+        width: 45px;
+        height: 25px;
+    }
+    .wht_line_base {
+        margin-top: 33px;
+        box-sizing: content-box;
+        text-align: right;
+        width: 136px;
+        height: 25px;
+    }
+    .wht_line_amount {
+        margin-top: 33px;
+        margin-left: 12px;
+        box-sizing: content-box;
+        text-align: right;
+        width: 136px;
+        height: 25px;
+    }
+    .wht_line_tax_payer {
+        margin-top: 33px;
+        margin-left: 55px;
+        box-sizing: content-box;
+        text-align: center;
+        width: 30px;
+        height: 25px;
+    }
+    .total_base {
+        position: fixed;
+        margin-left: 885px;
+        top: 678px;
+        box-sizing: content-box;
+        text-align: right;
+        width: 150px;
+        height: 24px;
+    }
+    .total_amount {
+        position: fixed;
+        margin-left: 1050px;
+        top: 678px;
+        box-sizing: content-box;
+        text-align: right;
+        width: 137px;
+        height: 24px;
+    }
+    .sum_total_base {
+        position: fixed;
+        margin-left: 885px;
+        top: 710px;
+        box-sizing: content-box;
+        text-align: right;
+        width: 150px;
+        height: 24px;
+    }
+    .sum_total_amount {
+        position: fixed;
+        margin-left: 1050px;
+        top: 710px;
+        box-sizing: content-box;
+        text-align: right;
+        width: 137px;
+        height: 24px;
+    }
+    .box-vat {
+        box-sizing: content-box;
+        width: 17px;
+        height: 21px;
+        text-align: center;
+        margin-bottom: 0px;
+        padding-left: 1px;
+    }
+    .vat_tab {
+        margin-left: 10px;
+    }
+}
+
 .o_report_rd_withholding_tax_report_pnd3 {
     font-family: "THSarabun";
     font-size: 18px;
