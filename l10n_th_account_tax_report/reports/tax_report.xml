@@ -10,6 +10,11 @@
                 href="/l10n_th_account_tax_report/static/src/css/report.css"
                 rel="stylesheet"
             />
+            <link
+                href="/l10n_th_account_tax_report/static/src/scss/style_report.scss"
+                rel="stylesheet"
+                type="text/scss"
+            />
             <script
                 type="text/javascript"
                 src="/l10n_th_account_tax_report/static/src/js/l10n_th_account_tax_report_backend.js"

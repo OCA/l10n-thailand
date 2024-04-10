@@ -8,7 +8,13 @@ from odoo import api, fields, models
 DEFAULT_DAY_FORMAT_WHT = "%d"
 DEFAULT_MONTH_FORMAT_WHT = "%m"
 DEFAULT_YEAR_FORMAT_WHT = "%Y"
-INCOME_TAX_FORM = {"pnd1": "P01", "pnd3": "P03", "pnd53": "P53"}
+INCOME_TAX_FORM = {
+    "pnd1": "P01",
+    "pnd1a": "P01A",
+    "pnd2": "P02",
+    "pnd3": "P03",
+    "pnd53": "P53",
+}
 
 
 class WithHoldingTaxReport(models.TransientModel):
@@ -16,8 +22,13 @@ class WithHoldingTaxReport(models.TransientModel):
     _description = "Withholding Tax Report"
 
     income_tax_form = fields.Selection(
-        selection=[("pnd1", "PND1"), ("pnd3", "PND3"), ("pnd53", "PND53")],
-        string="Income Tax Form",
+        selection=[
+            ("pnd1", "PND1"),
+            ("pnd1a", "PND1A"),
+            ("pnd2", "PND2"),
+            ("pnd3", "PND3"),
+            ("pnd53", "PND53"),
+        ],
         required=True,
     )
     company_id = fields.Many2one(
@@ -303,6 +314,9 @@ class WithHoldingTaxReport(models.TransientModel):
         return {
             "partner_vat": partner.vat or "XXXXXXXXXXXXX",
             "partner_branch": partner.branch,
+            "partner_bank_account": line.wht_cert_bank_account.sanitized_acc_number
+            if line.wht_cert_income_type == "4A"
+            else "",
             "partner_firstname": firstname,
             "partner_lastname": lastname,
             "partner_address": address,
