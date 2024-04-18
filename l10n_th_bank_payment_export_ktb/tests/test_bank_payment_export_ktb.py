@@ -39,6 +39,11 @@ class TestBankPaymentExportKTB(CommonBankPaymentExport):
                 "type": "bank",
             }
         )
+        cls.journal_new_bank_manual_out = (
+            cls.journal_new_bank.outbound_payment_method_line_ids.filtered(
+                lambda line: line.payment_method_id == cls.payment_method_manual_out
+            )
+        )
 
     def test_01_bank_payment_template(self):
         """Test default bank payment template"""
@@ -130,7 +135,7 @@ class TestBankPaymentExportKTB(CommonBankPaymentExport):
         self.payment7_out_journal_new = self.create_invoice_payment(
             amount=100,
             currency_id=self.main_currency_id,
-            payment_method=self.payment_method_manual_out,
+            payment_method=self.journal_new_bank_manual_out,
             partner=self.partner_1,
             journal=self.journal_new_bank,
         )
