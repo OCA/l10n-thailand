@@ -401,6 +401,200 @@
         <div style="page-break-before: always;" />
     </template>
 
+    <!-- RD PND2 -->
+    <template id="report_rd_withholding_tax_pnd2">
+        <t t-set="number" t-value="0" />
+        <t t-set="sum_total_base" t-value="0" />
+        <t t-set="sum_total_amount" t-value="0" />
+        <t t-set="num_page" t-value="ceil(len(o.results)/7)" />
+        <t t-foreach="range(num_page)" t-as="num">
+            <!-- Header -->
+            <div
+                class="article o_report_rd_withholding_tax_report_pnd2"
+                t-attf-style="background-image:url('/l10n_th_account_tax_report/static/src/img/pnd2.png'); background-size:340mm 242mm; width:340mm; height:242mm;"
+            >
+                <t
+                    t-call="l10n_th_account_tax_report.report_rd_base_company_withholding_tax"
+                />
+                <t t-set="total_base" t-value="0.0" />
+                <t t-set="total_amount" t-value="0.0" />
+                <!-- Lines -->
+                <div class="wht_line">
+                    <t
+                        t-foreach="range(num * 7, min((num + 1) * 7, len(o.results)))"
+                        t-as="i"
+                    >
+                        <t t-set="line" t-value="o.results[i]" />
+                        <div class="row" style="width: 100%;">
+                            <div class="col" style="width: 6%;">
+                                <div class="row">
+                                    <div class="wht_line_number">
+                                        <t t-set="number" t-value="number + 1" />
+                                        <span t-out="number" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 50%;">
+                                <t
+                                    t-set="wht_data"
+                                    t-value="o._prepare_cert_data(line)"
+                                />
+                                <div class="row">
+                                    <div class="wht_line_vat">
+                                        <t t-if="wht_data['partner_vat']">
+                                            <t
+                                                t-call="l10n_th_account_tax_report.report_rd_base_partner_vat_withholding_tax"
+                                            />
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="wht_bank_partner_account">
+                                        <t t-if="wht_data['partner_bank_account']">
+                                            <div class="row">
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="wht_data['partner_bank_account'][:1]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="wht_data['partner_bank_account'][1:2]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="wht_data['partner_bank_account'][2:3]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="wht_data['partner_bank_account'][3:4]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="wht_data['partner_bank_account'][4:5]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="wht_data['partner_bank_account'][5:6]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="wht_data['partner_bank_account'][6:7]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="wht_data['partner_bank_account'][7:8]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="wht_data['partner_bank_account'][8:9]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="wht_data['partner_bank_account'][9:10]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="wht_data['partner_bank_account'][10:11]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="wht_data['partner_bank_account'][11:12]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="wht_data['partner_bank_account'][12:13]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="wht_data['partner_bank_account'][13:14]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="wht_data['partner_bank_account'][14:15]"
+                                                    />
+                                                </p>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <div class="wht_line_firstname">
+                                        <span t-out="wht_data['partner_firstname']" />
+                                    </div>
+                                    <div class="wht_line_lastname">
+                                        <span t-out="wht_data['partner_lastname']" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 13%;">
+                                <div class="row">
+                                    <div class="wht_line_date">
+                                        <span t-out="wht_data['date']" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 26%;">
+                                <div class="row">
+                                    <div class="wht_line_percent">
+                                        <t
+                                            t-out="'{0:,.2f}'.format(line.wht_percent)"
+                                        />
+                                    </div>
+                                    <div class="wht_line_base">
+                                        <t
+                                            t-set="total_base"
+                                            t-value="total_base + line.base"
+                                        />
+                                        <t t-out="'{0:,.2f}'.format(line.base)" />
+                                    </div>
+                                    <div class="wht_line_amount">
+                                        <t
+                                            t-set="total_amount"
+                                            t-value="total_amount + line.amount"
+                                        />
+                                        <t t-out="'{0:,.2f}'.format(line.amount)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 5%;">
+                                <div class="row">
+                                    <div class="wht_line_tax_payer">
+                                        <span t-out="wht_data['tax_payer']" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+                <!-- NOTE: Not sure PND2 has lastpage for sum total -->
+                <t t-set="sum_total_base" t-value="sum_total_base + total_base" />
+                <t t-set="sum_total_amount" t-value="sum_total_amount + total_amount" />
+                <!-- <t
+                    t-call="l10n_th_account_tax_report.report_rd_base_total_withholding_tax"
+                /> -->
+                <div class="total_base">
+                    <t t-out="'{0:,.2f}'.format(total_base)" />
+                </div>
+                <div class="total_amount">
+                    <t t-out="'{0:,.2f}'.format(total_amount)" />
+                </div>
+            </div>
+        </t>
+        <div style="page-break-before: always;" />
+    </template>
+
     <!-- RD PND3 -->
     <template id="report_rd_withholding_tax_pnd3">
         <t t-set="number" t-value="0" />
@@ -764,6 +958,10 @@
                 <t
                     t-if="o.income_tax_form == 'pnd1a'"
                     t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd1a"
+                />
+                <t
+                    t-if="o.income_tax_form == 'pnd2'"
+                    t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd2"
                 />
                 <t
                     t-if="o.income_tax_form == 'pnd3'"

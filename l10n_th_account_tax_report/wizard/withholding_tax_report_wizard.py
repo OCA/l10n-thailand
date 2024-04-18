@@ -13,6 +13,7 @@ class WithHoldingTaxReportWizard(models.TransientModel):
         selection=[
             ("pnd1", "PND1"),
             ("pnd1a", "PND1A"),
+            ("pnd2", "PND2"),
             ("pnd3", "PND3"),
             ("pnd53", "PND53"),
         ],
