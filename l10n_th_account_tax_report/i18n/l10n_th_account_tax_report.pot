@@ -322,6 +322,12 @@ msgid "PND1A"
 msgstr ""
 
 #. module: l10n_th_account_tax_report
+#: model:ir.model.fields.selection,name:l10n_th_account_tax_report.selection__withholding_tax_report__income_tax_form__pnd2
+#: model:ir.model.fields.selection,name:l10n_th_account_tax_report.selection__withholding_tax_report_wizard__income_tax_form__pnd2
+msgid "PND2"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
 #: model:ir.model.fields.selection,name:l10n_th_account_tax_report.selection__withholding_tax_report__income_tax_form__pnd3
 #: model:ir.model.fields.selection,name:l10n_th_account_tax_report.selection__withholding_tax_report_wizard__income_tax_form__pnd3
 msgid "PND3"
