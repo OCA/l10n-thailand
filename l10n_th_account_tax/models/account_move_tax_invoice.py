@@ -132,8 +132,10 @@ class AccountMoveTaxInvoice(models.Model):
             tax_invoice_date = self.tax_invoice_date.replace(day=1)
             difference = relativedelta(accounting_date, tax_invoice_date)
             # Check accounting date and tax invoice date is difference
-            if difference.years > 0 or (
-                difference.years == 0 and difference.months >= 6
+            if (
+                difference.years > 0
+                or (difference.years == 0 and difference.months >= 6)
+                or difference.months < 0
             ):
                 report_late = "0"
             else:
