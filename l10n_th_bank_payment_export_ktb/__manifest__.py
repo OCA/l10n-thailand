@@ -3,7 +3,7 @@
 
 {
     "name": "Thai Localization - Bank Payment Export KTB",
-    "version": "15.0.2.0.0",
+    "version": "15.0.2.0.1",
     "author": "Ecosoft, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-thailand",
     "license": "AGPL-3",
