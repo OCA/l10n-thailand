@@ -301,6 +301,11 @@ msgid "Attachment Count"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert_line__wht_cert_bank_account
+msgid "Bank Account"
+msgstr ""
+
+#. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert_line__base
 msgid "Base Amount"
 msgstr ""
@@ -917,6 +922,18 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__income_tax_form__pnd1
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_account_withholding_tax_income_code_search
 msgid "PND1"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__income_tax_form__pnd2
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert__income_tax_form__pnd2
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__income_tax_form__pnd2
+msgid "PND2"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model:ir.model.fields,help:l10n_th_account_tax.field_withholding_tax_cert_line__wht_cert_bank_account
+msgid "PND2 type 4A need bank account"
 msgstr ""
 
 #. module: l10n_th_account_tax
