@@ -23,12 +23,12 @@ addon | version | maintainers | summary
 --- | --- | --- | ---
 [currency_rate_update_TH_BOT](currency_rate_update_TH_BOT/) | 15.0.1.0.1 | [![ps-tubtim](https://github.com/ps-tubtim.png?size=30px)](https://github.com/ps-tubtim) | Currency Rate Update - BOT
 [l10n_th_account_asset_management](l10n_th_account_asset_management/) | 15.0.2.2.0 | [![ps-tubtim](https://github.com/ps-tubtim.png?size=30px)](https://github.com/ps-tubtim) | Thai Localization - Assets Management
-[l10n_th_account_tax](l10n_th_account_tax/) | 15.0.1.7.4 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - VAT and Withholding Tax
+[l10n_th_account_tax](l10n_th_account_tax/) | 15.0.1.8.0 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - VAT and Withholding Tax
 [l10n_th_account_tax_expense](l10n_th_account_tax_expense/) | 15.0.1.1.4 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Expense Tax
 [l10n_th_account_tax_expense_operating_unit](l10n_th_account_tax_expense_operating_unit/) | 15.0.1.0.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Thai Localization - Expense Tax Operating Unit
 [l10n_th_account_tax_multi](l10n_th_account_tax_multi/) | 15.0.1.0.1 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Tax with Payment Multi Deduction
-[l10n_th_account_tax_report](l10n_th_account_tax_report/) | 15.0.1.2.2 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - VAT and Withholding Tax Reports
-[l10n_th_account_wht_cert_form](l10n_th_account_wht_cert_form/) | 15.0.1.0.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Thai Localization - Withholding Tax Certificate Form
+[l10n_th_account_tax_report](l10n_th_account_tax_report/) | 15.0.1.3.0 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - VAT and Withholding Tax Reports
+[l10n_th_account_wht_cert_form](l10n_th_account_wht_cert_form/) | 15.0.1.1.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Thai Localization - Withholding Tax Certificate Form
 [l10n_th_amount_to_text](l10n_th_amount_to_text/) | 15.0.1.0.1 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Convert Amount Text to Thai
 [l10n_th_bank_payment_export](l10n_th_bank_payment_export/) | 15.0.2.0.2 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Base export payment text file to bank
 [l10n_th_bank_payment_export_ktb](l10n_th_bank_payment_export_ktb/) | 15.0.2.0.1 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Bank Payment Export File KTB
