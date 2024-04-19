@@ -107,9 +107,18 @@ class AccountPaymentRegisterOrder(models.Model):
         self.ensure_one()
         prec_digits = self.company_id.currency_id.decimal_places
         amount_residual = abs(sum(self.line_ids.mapped("amount_residual")))
+        # Find amount wht (if any)
+        move_lines = self.line_ids.mapped("move_id.line_ids").filtered("wht_tax_id")
+        amount_deduct = 0.0
+        if move_lines:
+            (deduction_list, amount_deduct) = move_lines._prepare_deduction_list(
+                self.payment_date, self.currency_id
+            )
+        # Total Residual include WHT
+        total_amount_residual = amount_residual - amount_deduct
         if (
             float_compare(
-                amount_residual,
+                total_amount_residual,
                 self.amount,
                 precision_digits=prec_digits,
             )
@@ -119,7 +128,7 @@ class AccountPaymentRegisterOrder(models.Model):
                 _(
                     "Total amount residual must be less than or equal to %(amount_residual)s"
                 )
-                % {"amount_residual": amount_residual}
+                % {"amount_residual": total_amount_residual}
             )
 
     def action_create_payments(self):
