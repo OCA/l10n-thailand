@@ -100,6 +100,15 @@ class TaxReportWizard(models.TransientModel):
         date_format = "{}{}".format(year_thai, str(date.month).zfill(2))
         return date_format
 
+    def format_tax_date(self, date, format_date=None):
+        if format_date is None:
+            format_date = "{day}{month}{year}"
+        year_thai = date.year + 543
+        date_format = format_date.format(
+            day=str(date.day).zfill(2), month=str(date.month).zfill(2), year=year_thai
+        )
+        return date_format
+
     def _get_report_base_filename(self):
         self.ensure_one()
         date_format = self.format_date_ym_wht()

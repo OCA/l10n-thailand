@@ -229,18 +229,20 @@
                                 <t t-set="total_base" t-value="0.00" />
                                 <t t-set="total_tax" t-value="0.00" />
                                 <t t-foreach="result" t-as="line">
+                                    <t t-set="n" t-value="n + 1" />
+                                    <t
+                                        t-set="tax_date_format"
+                                        t-value="line.tax_date and o.format_tax_date(line.tax_date, format_date='{day}/{month}/{year}')"
+                                    />
                                     <tr>
                                         <td
                                             class="text-center"
                                             style="border-left: 1px solid black;"
                                         >
-                                            <t t-set="n" t-value="n + 1" />
                                             <span t-out="n" />
                                         </td>
                                         <td class="text-center">
-                                            <span
-                                                t-out="line.tax_date and (line.tax_date + relativedelta(years=543)).strftime('%d/%m/%Y')"
-                                            />
+                                            <span t-out="tax_date_format" />
                                         </td>
                                         <td class="text-center">
                                             <span t-out="line.tax_invoice_number" />
