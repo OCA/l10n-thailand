@@ -1,0 +1,1102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="report_assets_common"
+        name="rd withholding tax cert common assets"
+        inherit_id="web.report_assets_common"
+    >
+        <xpath expr="." position="inside">
+            <link
+                rel="stylesheet"
+                type="text/scss"
+                href="/l10n_th_account_tax_report/static/src/scss/style_report.scss"
+            />
+        </xpath>
+    </template>
+
+    <template id="report_rd_withholding_tax_pnd1">
+        <t t-set="number" t-value="0" />
+        <t t-set="sum_total_base" t-value="0" />
+        <t t-set="sum_total_amount" t-value="0" />
+        <t t-set="results" t-value="o._convert_result_to_dict(o.results)" />
+        <t t-set="result_keys" t-value="list(results.keys())" />
+        <t t-set="num_page" t-value="ceil(len(result_keys)/8)" />
+        <t t-foreach="range(num_page)" t-as="num">
+            <!-- Header -->
+            <div
+                class="article o_report_rd_withholding_tax_report_pnd1"
+                t-attf-style="background-image:url('/l10n_th_account_tax_report/static/src/img/{{ num + 1 == num_page and 'pnd1_lastpage.png' or 'pnd1.png' }}'); background-size:340mm 242mm; width:340mm; height:242mm;"
+            >
+                <div class="company_vat">
+                    <t t-if="o.company_id.vat">
+                        <div class="row">
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[:1]" />
+                            </p>
+                            <p class="box-vat vat_tab">
+                                <t t-esc="o.company_id.vat[1:2]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[2:3]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[3:4]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[4:5]" />
+                            </p>
+                            <p class="box-vat vat_tab">
+                                <t t-esc="o.company_id.vat[5:6]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[6:7]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[7:8]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[8:9]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[9:10]" />
+                            </p>
+                            <p class="box-vat vat_tab">
+                                <t t-esc="o.company_id.vat[10:11]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[11:12]" />
+                            </p>
+                            <p class="box-vat vat_tab">
+                                <t t-esc="o.company_id.vat[12:13]" />
+                            </p>
+                        </div>
+                    </t>
+                </div>
+                <div class="company_branch">
+                    <t t-if="o.company_id.branch">
+                        <div class="row">
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[:1]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[1:2]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[2:3]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[3:4]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[4:5]" />
+                            </p>
+                        </div>
+                    </t>
+                </div>
+                <span class="num_page_from" t-esc="num + 1" />
+                <span class="num_page_to" t-esc="num_page" />
+                <!-- Lines -->
+                <t t-set="total_base" t-value="0.0" />
+                <t t-set="total_amount" t-value="0.0" />
+                <div class="wht_line">
+                    <t
+                        t-foreach="range(num * 8, min((num + 1) * 8, len(result_keys)))"
+                        t-as="i"
+                    >
+                        <t t-set="line" t-value="results[result_keys[i]]" />
+                        <div class="row" style="width: 100%;">
+                            <div class="col" style="width: 8%;">
+                                <div class="row">
+                                    <div class="wht_line_number">
+                                        <t t-set="number" t-value="number + 1" />
+                                        <span t-esc="number" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 48%;">
+                                <div class="row">
+                                    <div class="wht_line_vat">
+                                        <t t-if="line['partner_vat']">
+                                            <div class="row">
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][:1]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat vat_tab">
+                                                    <t
+                                                        t-esc="line['partner_vat'][1:2]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][2:3]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][3:4]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][4:5]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat vat_tab">
+                                                    <t
+                                                        t-esc="line['partner_vat'][5:6]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][6:7]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][7:8]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][8:9]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][9:10]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat vat_tab">
+                                                    <t
+                                                        t-esc="line['partner_vat'][10:11]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][11:12]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat vat_tab">
+                                                    <t
+                                                        t-esc="line['partner_vat'][12:13]"
+                                                    />
+                                                </p>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="wht_line_firstname">
+                                        <span t-esc="line['partner_firstname']" />
+                                    </div>
+                                    <div class="wht_line_lastname">
+                                        <span t-esc="line['partner_lastname']" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 13%;">
+                                <div class="row">
+                                    <div class="wht_line_date">
+                                        <span t-esc="line['date']" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 26%;">
+                                <div class="row">
+                                    <t t-foreach="line['wht_lines']" t-as="l">
+                                        <div class="wht_line_base">
+                                            <t
+                                                t-set="total_base"
+                                                t-value="total_base + l['base']"
+                                            />
+                                            <t t-esc="'{0:,.2f}'.format(l['base'])" />
+                                        </div>
+                                        <div class="wht_line_amount">
+                                            <t
+                                                t-set="total_amount"
+                                                t-value="total_amount + l['amount']"
+                                            />
+                                            <t t-esc="'{0:,.2f}'.format(l['amount'])" />
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 5%;">
+                                <div class="row">
+                                    <div class="wht_line_tax_payer">
+                                        <span t-esc="line['tax_payer']" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+                <!-- Total -->
+                <div class="total_base">
+                    <t t-set="sum_total_base" t-value="sum_total_base + total_base" />
+                    <t t-esc="'{0:,.2f}'.format(total_base)" />
+                </div>
+                <div class="total_amount">
+                    <t
+                        t-set="sum_total_amount"
+                        t-value="sum_total_amount + total_amount"
+                    />
+                    <t t-esc="'{0:,.2f}'.format(total_amount)" />
+                </div>
+                <t t-if="num + 1 == num_page">
+                    <div class="sum_total_base">
+                        <t t-esc="'{0:,.2f}'.format(sum_total_base)" />
+                    </div>
+                    <div class="sum_total_amount">
+                        <t t-esc="'{0:,.2f}'.format(sum_total_amount)" />
+                    </div>
+                </t>
+            </div>
+        </t>
+        <div style="page-break-before: always;" />
+    </template>
+
+    <template id="report_rd_withholding_tax_pnd1a">
+        <t t-set="number" t-value="0" />
+        <t t-set="sum_total_base" t-value="0" />
+        <t t-set="sum_total_amount" t-value="0" />
+        <t t-set="results" t-value="o._convert_result_to_dict(o.results)" />
+        <t t-set="result_keys" t-value="list(results.keys())" />
+        <t t-set="num_page" t-value="ceil(len(result_keys)/7)" />
+        <t t-foreach="range(num_page)" t-as="num">
+            <!-- Header -->
+            <div
+                class="article o_report_rd_withholding_tax_report_pnd1a"
+                t-attf-style="background-image:url('/l10n_th_account_tax_report/static/src/img/{{ num + 1 == num_page and 'pnd1a_lastpage.png' or 'pnd1a.png' }}'); background-size:340mm 242mm; width:340mm; height:242mm;"
+            >
+                <div class="company_vat">
+                    <t t-if="o.company_id.vat">
+                        <div class="row">
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[:1]" />
+                            </p>
+                            <p class="box-vat vat_tab">
+                                <t t-esc="o.company_id.vat[1:2]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[2:3]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[3:4]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[4:5]" />
+                            </p>
+                            <p class="box-vat vat_tab">
+                                <t t-esc="o.company_id.vat[5:6]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[6:7]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[7:8]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[8:9]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[9:10]" />
+                            </p>
+                            <p class="box-vat vat_tab">
+                                <t t-esc="o.company_id.vat[10:11]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[11:12]" />
+                            </p>
+                            <p class="box-vat vat_tab">
+                                <t t-esc="o.company_id.vat[12:13]" />
+                            </p>
+                        </div>
+                    </t>
+                </div>
+                <div class="company_branch">
+                    <t t-if="o.company_id.branch">
+                        <div class="row">
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[:1]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[1:2]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[2:3]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[3:4]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[4:5]" />
+                            </p>
+                        </div>
+                    </t>
+                </div>
+                <span class="num_page_from" t-esc="num + 1" />
+                <span class="num_page_to" t-esc="num_page" />
+                <!-- Lines -->
+                <t t-set="total_base" t-value="0.0" />
+                <t t-set="total_amount" t-value="0.0" />
+                <div class="wht_line">
+                    <t
+                        t-foreach="range(num * 7, min((num + 1) * 7, len(result_keys)))"
+                        t-as="i"
+                    >
+                        <t t-set="line" t-value="results[result_keys[i]]" />
+                        <div class="row" style="width: 100%;">
+                            <div class="col" style="width: 7%;">
+                                <div class="row">
+                                    <div class="wht_line_number">
+                                        <t t-set="number" t-value="number + 1" />
+                                        <span t-esc="number" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 25%;">
+                                <div class="row">
+                                    <div class="wht_line_vat">
+                                        <t t-if="line['partner_vat']">
+                                            <div class="row">
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][:1]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat vat_tab">
+                                                    <t
+                                                        t-esc="line['partner_vat'][1:2]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][2:3]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][3:4]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][4:5]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat vat_tab">
+                                                    <t
+                                                        t-esc="line['partner_vat'][5:6]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][6:7]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][7:8]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][8:9]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][9:10]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat vat_tab">
+                                                    <t
+                                                        t-esc="line['partner_vat'][10:11]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][11:12]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat vat_tab">
+                                                    <t
+                                                        t-esc="line['partner_vat'][12:13]"
+                                                    />
+                                                </p>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 35%;">
+                                <div class="row">
+                                    <div class="wht_line_firstname">
+                                        <span t-esc="line['partner_firstname']" />
+                                    </div>
+                                    <div class="wht_line_lastname">
+                                        <span t-esc="line['partner_lastname']" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="wht_line_address">
+                                        <span t-esc="line['partner_address']" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 30%;">
+                                <div class="row">
+                                    <t t-foreach="line['wht_lines']" t-as="l">
+                                        <div class="wht_line_base">
+                                            <t
+                                                t-set="total_base"
+                                                t-value="total_base + l['base']"
+                                            />
+                                            <t t-esc="'{0:,.2f}'.format(l['base'])" />
+                                        </div>
+                                        <div class="wht_line_amount">
+                                            <t
+                                                t-set="total_amount"
+                                                t-value="total_amount + l['amount']"
+                                            />
+                                            <t t-esc="'{0:,.2f}'.format(l['amount'])" />
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 3%;">
+                                <div class="row">
+                                    <div class="wht_line_tax_payer">
+                                        <span t-esc="line['tax_payer']" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+                <!-- Total -->
+                <div class="total_base">
+                    <t t-set="sum_total_base" t-value="sum_total_base + total_base" />
+                    <t t-esc="'{0:,.2f}'.format(total_base)" />
+                </div>
+                <div class="total_amount">
+                    <t
+                        t-set="sum_total_amount"
+                        t-value="sum_total_amount + total_amount"
+                    />
+                    <t t-esc="'{0:,.2f}'.format(total_amount)" />
+                </div>
+                <t t-if="num + 1 == num_page">
+                    <div class="sum_total_base">
+                        <t t-esc="'{0:,.2f}'.format(sum_total_base)" />
+                    </div>
+                    <div class="sum_total_amount">
+                        <t t-esc="'{0:,.2f}'.format(sum_total_amount)" />
+                    </div>
+                </t>
+            </div>
+        </t>
+        <div style="page-break-before: always;" />
+    </template>
+
+    <template id="report_rd_withholding_tax_pnd3">
+        <t t-set="number" t-value="0" />
+        <t t-set="sum_total_base" t-value="0" />
+        <t t-set="sum_total_amount" t-value="0" />
+        <t t-set="results" t-value="o._convert_result_to_dict(o.results)" />
+        <t t-set="result_keys" t-value="list(results.keys())" />
+        <t t-set="num_page" t-value="ceil(len(result_keys)/6)" />
+        <t t-foreach="range(num_page)" t-as="num">
+            <!-- Header -->
+            <div
+                class="article o_report_rd_withholding_tax_report_pnd3"
+                t-attf-style="background-image:url('/l10n_th_account_tax_report/static/src/img/{{ num + 1 == num_page and 'pnd3_lastpage.png' or 'pnd3.png' }}'); background-size:340mm 242mm; width:340mm; height:242mm;"
+            >
+                <div class="company_vat">
+                    <t t-if="o.company_id.vat">
+                        <div class="row">
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[:1]" />
+                            </p>
+                            <p class="box-vat vat_tab">
+                                <t t-esc="o.company_id.vat[1:2]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[2:3]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[3:4]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[4:5]" />
+                            </p>
+                            <p class="box-vat vat_tab">
+                                <t t-esc="o.company_id.vat[5:6]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[6:7]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[7:8]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[8:9]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[9:10]" />
+                            </p>
+                            <p class="box-vat vat_tab">
+                                <t t-esc="o.company_id.vat[10:11]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[11:12]" />
+                            </p>
+                            <p class="box-vat vat_tab">
+                                <t t-esc="o.company_id.vat[12:13]" />
+                            </p>
+                        </div>
+                    </t>
+                </div>
+                <div class="company_branch">
+                    <t t-if="o.company_id.branch">
+                        <div class="row">
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[:1]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[1:2]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[2:3]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[3:4]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[4:5]" />
+                            </p>
+                        </div>
+                    </t>
+                </div>
+                <span class="num_page_from" t-esc="num + 1" />
+                <span class="num_page_to" t-esc="num_page" />
+                <!-- Lines -->
+                <t t-set="total_base" t-value="0.0" />
+                <t t-set="total_amount" t-value="0.0" />
+                <div class="wht_line">
+                    <t
+                        t-foreach="range(num * 6, min((num + 1) * 6, len(result_keys)))"
+                        t-as="i"
+                    >
+                        <t t-set="line" t-value="results[result_keys[i]]" />
+                        <div class="row" style="width: 100%;">
+                            <div class="col" style="width: 5%;">
+                                <div class="row">
+                                    <div class="wht_line_number">
+                                        <t t-set="number" t-value="number + 1" />
+                                        <span t-esc="number" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 43%;">
+                                <div class="row">
+                                    <div class="wht_line_vat">
+                                        <t t-if="line['partner_vat']">
+                                            <div class="row">
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][:1]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat vat_tab">
+                                                    <t
+                                                        t-esc="line['partner_vat'][1:2]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][2:3]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][3:4]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][4:5]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat vat_tab">
+                                                    <t
+                                                        t-esc="line['partner_vat'][5:6]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][6:7]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][7:8]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][8:9]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][9:10]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat vat_tab">
+                                                    <t
+                                                        t-esc="line['partner_vat'][10:11]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][11:12]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat vat_tab">
+                                                    <t
+                                                        t-esc="line['partner_vat'][12:13]"
+                                                    />
+                                                </p>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <div class="wht_line_branch">
+                                        <t t-if="line['partner_branch']">
+                                            <div class="row">
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_branch'][:1]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_branch'][1:2]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_branch'][2:3]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_branch'][3:4]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_branch'][4:5]"
+                                                    />
+                                                </p>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="wht_line_firstname">
+                                        <span t-esc="line['partner_firstname']" />
+                                    </div>
+                                    <div class="wht_line_lastname">
+                                        <span t-esc="line['partner_lastname']" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="wht_line_address">
+                                        <span t-esc="line['partner_address']" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 7%;">
+                                <div class="row">
+                                    <div class="wht_line_date">
+                                        <span t-esc="line['date']" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 42%;">
+                                <div class="row">
+                                    <t t-foreach="line['wht_lines']" t-as="l">
+                                        <div class="wht_line_desc">
+                                            <span t-esc="l['wht_cert_income_desc']" />
+                                        </div>
+                                        <div class="wht_line_percent">
+                                            <t
+                                                t-esc="'{0:,.2f}'.format(l['wht_percent'])"
+                                            />
+                                        </div>
+                                        <div class="wht_line_base">
+                                            <t
+                                                t-set="total_base"
+                                                t-value="total_base + l['base']"
+                                            />
+                                            <t t-esc="'{0:,.2f}'.format(l['base'])" />
+                                        </div>
+                                        <div class="wht_line_amount">
+                                            <t
+                                                t-set="total_amount"
+                                                t-value="total_amount + l['amount']"
+                                            />
+                                            <t t-esc="'{0:,.2f}'.format(l['amount'])" />
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 3%;">
+                                <div class="row">
+                                    <div class="wht_line_tax_payer">
+                                        <span t-esc="line['tax_payer']" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+                <!-- Total -->
+                <div class="total_base">
+                    <t t-set="sum_total_base" t-value="sum_total_base + total_base" />
+                    <t t-esc="'{0:,.2f}'.format(total_base)" />
+                </div>
+                <div class="total_amount">
+                    <t
+                        t-set="sum_total_amount"
+                        t-value="sum_total_amount + total_amount"
+                    />
+                    <t t-esc="'{0:,.2f}'.format(total_amount)" />
+                </div>
+                <t t-if="num + 1 == num_page">
+                    <div class="sum_total_base">
+                        <t t-esc="'{0:,.2f}'.format(sum_total_base)" />
+                    </div>
+                    <div class="sum_total_amount">
+                        <t t-esc="'{0:,.2f}'.format(sum_total_amount)" />
+                    </div>
+                </t>
+            </div>
+        </t>
+        <div style="page-break-before: always;" />
+    </template>
+
+    <template id="report_rd_withholding_tax_pnd53">
+        <t t-set="number" t-value="0" />
+        <t t-set="sum_total_base" t-value="0" />
+        <t t-set="sum_total_amount" t-value="0" />
+        <t t-set="results" t-value="o._convert_result_to_dict(o.results)" />
+        <t t-set="result_keys" t-value="list(results.keys())" />
+        <t t-set="num_page" t-value="ceil(len(result_keys)/6)" />
+        <t t-foreach="range(num_page)" t-as="num">
+            <!-- Header -->
+            <div
+                class="article o_report_rd_withholding_tax_report_pnd53"
+                t-attf-style="background-image:url('/l10n_th_account_tax_report/static/src/img/{{ num + 1 == num_page and 'pnd53_lastpage.png' or 'pnd53.png' }}'); background-size:340mm 242mm; width:340mm; height:242mm;"
+            >
+                <div class="company_vat">
+                    <t t-if="o.company_id.vat">
+                        <div class="row">
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[:1]" />
+                            </p>
+                            <p class="box-vat vat_tab">
+                                <t t-esc="o.company_id.vat[1:2]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[2:3]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[3:4]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[4:5]" />
+                            </p>
+                            <p class="box-vat vat_tab">
+                                <t t-esc="o.company_id.vat[5:6]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[6:7]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[7:8]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[8:9]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[9:10]" />
+                            </p>
+                            <p class="box-vat vat_tab">
+                                <t t-esc="o.company_id.vat[10:11]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.vat[11:12]" />
+                            </p>
+                            <p class="box-vat vat_tab">
+                                <t t-esc="o.company_id.vat[12:13]" />
+                            </p>
+                        </div>
+                    </t>
+                </div>
+                <div class="company_branch">
+                    <t t-if="o.company_id.branch">
+                        <div class="row">
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[:1]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[1:2]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[2:3]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[3:4]" />
+                            </p>
+                            <p class="box-vat">
+                                <t t-esc="o.company_id.branch[4:5]" />
+                            </p>
+                        </div>
+                    </t>
+                </div>
+                <span class="num_page_from" t-esc="num + 1" />
+                <span class="num_page_to" t-esc="num_page" />
+                <!-- Lines -->
+                <t t-set="total_base" t-value="0.0" />
+                <t t-set="total_amount" t-value="0.0" />
+                <div class="wht_line">
+                    <t
+                        t-foreach="range(num * 6, min((num + 1) * 6, len(result_keys)))"
+                        t-as="i"
+                    >
+                        <t t-set="line" t-value="results[result_keys[i]]" />
+                        <div class="row" style="width: 100%;">
+                            <div class="col" style="width: 5%;">
+                                <div class="row">
+                                    <div class="wht_line_number">
+                                        <t t-set="number" t-value="number + 1" />
+                                        <span t-esc="number" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 43%;">
+                                <div class="row">
+                                    <div class="wht_line_vat">
+                                        <t t-if="line['partner_vat']">
+                                            <div class="row">
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][:1]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat vat_tab">
+                                                    <t
+                                                        t-esc="line['partner_vat'][1:2]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][2:3]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat vat_tab">
+                                                    <t
+                                                        t-esc="line['partner_vat'][3:4]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat vat_tab">
+                                                    <t
+                                                        t-esc="line['partner_vat'][4:5]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][5:6]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][6:7]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat vat_tab">
+                                                    <t
+                                                        t-esc="line['partner_vat'][7:8]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][8:9]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][9:10]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][10:11]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_vat'][11:12]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat vat_tab">
+                                                    <t
+                                                        t-esc="line['partner_vat'][12:13]"
+                                                    />
+                                                </p>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <div class="wht_line_branch">
+                                        <t t-if="line['partner_branch']">
+                                            <div class="row">
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_branch'][:1]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_branch'][1:2]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_branch'][2:3]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_branch'][3:4]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-esc="line['partner_branch'][4:5]"
+                                                    />
+                                                </p>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="wht_line_name">
+                                        <span
+                                            t-esc="line['partner_firstname'] + line['partner_lastname']"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="wht_line_address">
+                                        <span t-esc="line['partner_address']" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 7%;">
+                                <div class="row">
+                                    <div class="wht_line_date">
+                                        <span t-esc="line['date']" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 42%;">
+                                <div class="row">
+                                    <t t-foreach="line['wht_lines']" t-as="l">
+                                        <div class="wht_line_desc">
+                                            <span t-esc="l['wht_cert_income_desc']" />
+                                        </div>
+                                        <div class="wht_line_percent">
+                                            <t
+                                                t-esc="'{0:,.2f}'.format(l['wht_percent'])"
+                                            />
+                                        </div>
+                                        <div class="wht_line_base">
+                                            <t
+                                                t-set="total_base"
+                                                t-value="total_base + l['base']"
+                                            />
+                                            <t t-esc="'{0:,.2f}'.format(l['base'])" />
+                                        </div>
+                                        <div class="wht_line_amount">
+                                            <t
+                                                t-set="total_amount"
+                                                t-value="total_amount + l['amount']"
+                                            />
+                                            <t t-esc="'{0:,.2f}'.format(l['amount'])" />
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 3%;">
+                                <div class="row">
+                                    <div class="wht_line_tax_payer">
+                                        <span t-esc="line['tax_payer']" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+                <!-- Total -->
+                <div class="total_base">
+                    <t t-set="sum_total_base" t-value="sum_total_base + total_base" />
+                    <t t-esc="'{0:,.2f}'.format(total_base)" />
+                </div>
+                <div class="total_amount">
+                    <t
+                        t-set="sum_total_amount"
+                        t-value="sum_total_amount + total_amount"
+                    />
+                    <t t-esc="'{0:,.2f}'.format(total_amount)" />
+                </div>
+                <t t-if="num + 1 == num_page">
+                    <div class="sum_total_base">
+                        <t t-esc="'{0:,.2f}'.format(sum_total_base)" />
+                    </div>
+                    <div class="sum_total_amount">
+                        <t t-esc="'{0:,.2f}'.format(sum_total_amount)" />
+                    </div>
+                </t>
+            </div>
+        </t>
+        <div style="page-break-before: always;" />
+    </template>
+
+    <template id="report_rd_withholding_tax_qweb">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t
+                    t-if="o.income_tax_form == 'pnd1'"
+                    t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd1"
+                />
+                <t
+                    t-if="o.income_tax_form == 'pnd1a'"
+                    t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd1a"
+                />
+                <t
+                    t-if="o.income_tax_form == 'pnd3'"
+                    t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd3"
+                />
+                <t
+                    t-if="o.income_tax_form == 'pnd53'"
+                    t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd53"
+                />
+            </t>
+        </t>
+    </template>
+</odoo>

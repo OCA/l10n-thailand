@@ -19,19 +19,19 @@ class TestCompanyNoVat(SavepointCase):
         cls.account_payment_register = cls.env["account.payment.register"]
         cls.account_account = cls.env["account.account"]
         cls.account_journal = cls.env["account.journal"]
-        cls.account_wtax = cls.env["account.withholding.tax"]
-        cls.wt_account = cls.account_account.create(
+        cls.account_wht = cls.env["account.withholding.tax"]
+        cls.wht_account = cls.account_account.create(
             {
                 "code": "X152000",
                 "name": "Withholding Tax Account Test",
                 "user_type_id": cls.current_asset.id,
-                "wt_account": True,
+                "wht_account": True,
             }
         )
-        cls.wt_1 = cls.account_wtax.create(
+        cls.wht_1 = cls.account_wht.create(
             {
                 "name": "Withholding Tax 1%",
-                "account_id": cls.wt_account.id,
+                "account_id": cls.wht_account.id,
                 "amount": 1,
             }
         )
@@ -71,7 +71,7 @@ class TestCompanyNoVat(SavepointCase):
         tax=False,
     ):
         invoice_dict = {
-            "name": "Test Supplier Invoice WT",
+            "name": "Test Supplier Invoice WHT",
             "partner_id": partner_id,
             "journal_id": journal_id,
             "move_type": invoice_type,
@@ -136,11 +136,11 @@ class TestCompanyNoVat(SavepointCase):
             self.expense_account.id,
             price_unit,
         )
-        # Assign WT
-        invoice.invoice_line_ids.write({"wt_tax_id": self.wt_1.id})
-        # partner No-VAT, no special wtvat
-        wtvat = invoice.invoice_line_ids[:1].wtvat
-        self.assertEqual(wtvat, 0)
+        # Assign WHT
+        invoice.invoice_line_ids.write({"wht_tax_id": self.wht_1.id})
+        # partner No-VAT, no special whtvat
+        whtvat = invoice.invoice_line_ids[:1].whtvat
+        self.assertEqual(whtvat, 0)
         invoice.invoice_date = invoice.date
         invoice.action_post()
         # Payment by writeoff with withholding tax account
@@ -171,11 +171,11 @@ class TestCompanyNoVat(SavepointCase):
             self.expense_account.id,
             price_unit,
         )
-        # Assign WT
-        invoice.invoice_line_ids.write({"wt_tax_id": self.wt_1.id})
-        # partner No-VAT, no special wtvat
-        wtvat = invoice.invoice_line_ids[:1].wtvat
-        self.assertEqual(wtvat, 7)
+        # Assign WHT
+        invoice.invoice_line_ids.write({"wht_tax_id": self.wht_1.id})
+        # partner No-VAT, no special whtvat
+        whtvat = invoice.invoice_line_ids[:1].whtvat
+        self.assertEqual(whtvat, 7)
         invoice.invoice_date = invoice.date
         invoice.action_post()
         # Payment by writeoff with withholding tax account

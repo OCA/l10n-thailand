@@ -105,8 +105,7 @@ class WithholdingTaxCert(models.Model):
         copy=False,
         readonly=True,
         states={"draft": [("readonly", False)]},
-        domain="[('partner_id', '=', supplier_partner_id),"
-        "('wt_cert_cancel', '=', True)]",
+        domain="[('partner_id', '=', partner_id)," "('wt_cert_cancel', '=', True)]",
         ondelete="restrict",
         tracking=True,
     )
@@ -129,7 +128,7 @@ class WithholdingTaxCert(models.Model):
         default=lambda self: self.env.company.partner_id,
         ondelete="restrict",
     )
-    supplier_partner_id = fields.Many2one(
+    partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Supplier",
         required=True,
@@ -152,11 +151,11 @@ class WithholdingTaxCert(models.Model):
         string="Currency",
         readonly=True,
     )
-    company_taxid = fields.Char(
+    company_vat = fields.Char(
         related="company_partner_id.vat", string="Company Tax ID", readonly=True
     )
-    supplier_taxid = fields.Char(
-        related="supplier_partner_id.vat", string="Supplier Tax ID", readonly=True
+    partner_vat = fields.Char(
+        related="partner_id.vat", string="Supplier Tax ID", readonly=True
     )
     income_tax_form = fields.Selection(
         selection=INCOME_TAX_FORM,
@@ -214,7 +213,7 @@ class WithholdingTaxCert(models.Model):
                         "name": record.payment_id.name or record.move_id.name,
                         "date": record.payment_id.date or record.move_id.date,
                         "ref_wt_cert_id": wt_reference or False,
-                        "supplier_partner_id": partner_id,
+                        "partner_id": partner_id,
                         "income_tax_form": income_tax_form,
                     }
                 )

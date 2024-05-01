@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_withholding_tax_report_wizard" model="ir.ui.view">
+        <field name="name">withholding.tax.report.wizard.view</field>
+        <field name="model">withholding.tax.report.wizard</field>
+        <field
+            name="inherit_id"
+            ref="l10n_th_account_tax_report.view_withholding_tax_report_wizard"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='income_tax_form']" position="after">
+                <field
+                    name="operating_unit_ids"
+                    widget="many2many_tags"
+                    options="{'no_create_edit': True, 'no_open': True}"
+                />
+                <field name="show_operating_unit" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

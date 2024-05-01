@@ -47,11 +47,11 @@
                         <group>
                             <field name="name" invisible="1" />
                             <field name="company_partner_id" />
-                            <field name="company_taxid" string="Tax ID" />
+                            <field name="company_vat" string="Tax ID" />
                         </group>
                         <group>
-                            <field name="supplier_partner_id" />
-                            <field name="supplier_taxid" string="Tax ID" />
+                            <field name="partner_id" />
+                            <field name="partner_vat" string="Tax ID" />
                         </group>
                     </group>
                     <group>
@@ -98,7 +98,7 @@
         <field name="arch" type="xml">
             <tree create="1" edit="1" delete="1">
                 <field name="name" />
-                <field name="supplier_partner_id" />
+                <field name="partner_id" />
                 <field name="income_tax_form" />
                 <field name="tax_payer" />
                 <field name="date" />
@@ -112,7 +112,7 @@
         <field name="arch" type="xml">
             <search string="WHT Cert.">
                 <field name="name" string="WHT Cert." />
-                <field name="supplier_partner_id" />
+                <field name="partner_id" />
                 <filter
                     string="Payment"
                     name="payment"

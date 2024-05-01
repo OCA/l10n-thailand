@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_withholding_tax_report_wizard" model="ir.ui.view">
+        <field name="name">withholding.tax.report.wizard.view</field>
+        <field name="model">withholding.tax.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Withholding Tax Report Options">
+                <group>
+                    <group>
+                        <field name="income_tax_form" />
+                        <field name="show_cancel" />
+                    </group>
+                    <group>
+                        <field
+                            name="date_range_id"
+                            options="{'no_create_edit': True, 'no_open': True}"
+                        />
+                        <field name="date_from" />
+                        <field name="date_to" />
+                        <field name="company_id" groups="base.group_multi_company" />
+                    </group>
+                </group>
+                <footer>
+                    <button
+                        name="button_export_html"
+                        string="View"
+                        type="object"
+                        default_focus="1"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="button_export_pdf"
+                        string="Export PDF"
+                        type="object"
+                    />
+                    <button
+                        name="button_export_xlsx"
+                        string="Export XLSX"
+                        type="object"
+                    />
+                    <button
+                        name="button_export_txt"
+                        string="Export TXT"
+                        type="object"
+                    />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_withholding_tax_report_wizard" model="ir.actions.act_window">
+        <field name="name">WHT Income Tax Report</field>
+        <field name="res_model">withholding.tax.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_withholding_tax_report_wizard" />
+        <field name="target">new</field>
+    </record>
+</odoo>
