@@ -420,7 +420,15 @@ msgstr ""
 #, python-format
 msgid ""
 "You are not allowed to reject a document that has already been approved.\n"
-"Please contact the Purchase Request Manager."
+"Please contact the Procurement."
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: code:addons/l10n_th_gov_purchase_request/models/purchase_request.py:0
+#, python-format
+msgid ""
+"You are not allowed to reset a document that has already been approved.\n"
+"Please contact the Procurement."
 msgstr ""
 
 #. module: l10n_th_gov_purchase_request
