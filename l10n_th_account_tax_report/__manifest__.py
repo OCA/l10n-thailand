@@ -3,7 +3,7 @@
 
 {
     "name": "Thai Localization - VAT and Withholding Tax Reports",
-    "version": "16.0.1.2.0",
+    "version": "16.0.1.3.0",
     "author": "Ecosoft, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-thailand",
     "license": "AGPL-3",
