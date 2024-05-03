@@ -163,6 +163,15 @@ class TaxReport(models.TransientModel):
     def get_html(self, given_context=None):
         return self.with_context(**given_context)._get_html()
 
+    def format_tax_date(self, date, format_date=None):
+        if format_date is None:
+            format_date = "{day}{month}{year}"
+        year_thai = date.year + 543
+        date_format = format_date.format(
+            day=str(date.day).zfill(2), month=str(date.month).zfill(2), year=year_thai
+        )
+        return date_format
+
     def _get_period_be(self, date_start, date_end):
         month = year = "-"
         date_start = (date_start + relativedelta(years=543)).strftime("%m-%Y")

@@ -1,7 +1,6 @@
 # Copyright 2019 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
 
@@ -179,9 +178,11 @@ class WithHoldingTaxReport(models.TransientModel):
         return 3  # Paid One Time
 
     def format_date_dmy(self, date, format_date=None):
+        if format_date is None:
+            format_date = "{day}{month}{year}"
         year_thai = date.year + 543
-        date_format = "{}{}{}".format(
-            str(date.day).zfill(2), str(date.month).zfill(2), year_thai
+        date_format = format_date.format(
+            day=str(date.day).zfill(2), month=str(date.month).zfill(2), year=year_thai
         )
         return date_format
 
@@ -334,7 +335,9 @@ class WithHoldingTaxReport(models.TransientModel):
             "partner_firstname": firstname,
             "partner_lastname": lastname,
             "partner_address": address,
-            "date": (line.cert_id.date + relativedelta(years=543)).strftime("%d/%m/%Y"),
+            "date": self.format_date_dmy(
+                line.cert_id.date, format_date="{day}/{month}/{year}"
+            ),
             "tax_payer": tax_payer,
             "total_base": 0.0,
             "total_amount": 0.0,
