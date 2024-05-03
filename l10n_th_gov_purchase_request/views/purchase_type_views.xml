@@ -8,6 +8,8 @@
                 <field name="active" invisible="True" />
                 <field name="name" />
                 <field name="to_create" />
+                <field name="visible_on_purchase_request" optional="show" />
+                <field name="visible_on_expense" optional="show" />
                 <field name="is_default" />
                 <field name="procurement_method_ids" widget="many2many_tags" />
                 <field name="description" />
@@ -47,6 +49,10 @@
                                 widget="many2many_tags"
                             />
                         </group>
+                    </group>
+                    <group name="visible_on" string="Visible On">
+                        <field name="visible_on_purchase_request" />
+                        <field name="visible_on_expense" />
                     </group>
                     <group string="Description">
                         <field name="description" nolabel="1" />
