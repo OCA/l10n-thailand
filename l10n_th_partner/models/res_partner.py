@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 
 class ResPartner(models.Model):
@@ -58,6 +58,18 @@ class ResPartner(models.Model):
                 return "".join(p for p in (title, name) if p)
             return " ".join(p for p in (title, name) if p)
         return name
+
+    @api.constrains("firstname", "lastname", "name_company")
+    def _check_name(self):
+        """Overwrite: Ensure at least one name is set."""
+        for record in self:
+            if all(
+                (
+                    record.type == "contact" or record.is_company,
+                    not (record.firstname or record.lastname or record.name_company),
+                )
+            ):
+                raise UserError(_("Error(s) with partner %d's name.") % record.id)
 
     @api.depends(
         "title", "firstname", "lastname", "name_company", "partner_company_type_id"
