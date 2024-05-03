@@ -137,25 +137,40 @@ class PurchaseRequest(models.Model):
         )
         return super().button_approved()
 
-    def button_rejected(self):
-        """Allows the PR Manager to reject documents after procurement approved only."""
-        pr_manager = self.user_has_groups(
-            "purchase_request.group_purchase_request_manager"
-        )
+    def _get_condition_reset_reject(self):
+        po_manager = self.user_has_groups("purchase.group_purchase_user")
         substate_verify = self.env.ref(
             "l10n_th_gov_purchase_request.base_substate_verified"
         )
-        if self.filtered(
+        return self.filtered(
             lambda l: (
-                l.state == "approved"
+                l.state in ["approved", "done"]
                 or (l.state == "to_approve" and l.substate_id == substate_verify)
             )
-            and not pr_manager
-        ):
+            and not po_manager
+            and not self._context.get("bypass_pr_reject")
+        )
+
+    def button_rejected(self):
+        """Allows the Procurement to reject documents after
+        procurement approved by procurement only."""
+        if self._get_condition_reset_reject():
             raise UserError(
                 _(
                     "You are not allowed to reject a document that has already been approved.\n"
-                    "Please contact the Purchase Request Manager."
+                    "Please contact the Procurement."
                 )
             )
         return super().button_rejected()
+
+    def button_draft(self):
+        """Allows the Procurement to reset documents after
+        procurement approved by procurement only."""
+        if self._get_condition_reset_reject():
+            raise UserError(
+                _(
+                    "You are not allowed to reset a document that has already been approved.\n"
+                    "Please contact the Procurement."
+                )
+            )
+        return super().button_draft()
