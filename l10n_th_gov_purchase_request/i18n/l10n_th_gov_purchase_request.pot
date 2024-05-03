@@ -143,6 +143,7 @@ msgid "Employee"
 msgstr ""
 
 #. module: l10n_th_gov_purchase_request
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_type__visible_on_expense
 #: model:ir.model.fields.selection,name:l10n_th_gov_purchase_request.selection__purchase_type__to_create__expense
 msgid "Expense"
 msgstr ""
@@ -260,6 +261,7 @@ msgstr ""
 #. module: l10n_th_gov_purchase_request
 #: model:ir.model,name:l10n_th_gov_purchase_request.model_purchase_request
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__request_id
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_type__visible_on_purchase_request
 msgid "Purchase Request"
 msgstr ""
 
@@ -385,6 +387,11 @@ msgstr ""
 #. module: l10n_th_gov_purchase_request
 #: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.view_purchase_request_form_substate
 msgid "Verify"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_request.purchase_type_view_form
+msgid "Visible On"
 msgstr ""
 
 #. module: l10n_th_gov_purchase_request
