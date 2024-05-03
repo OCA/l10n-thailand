@@ -173,4 +173,4 @@ class PurchaseRequest(models.Model):
                     "Please contact the Procurement."
                 )
             )
-        return super().button_rejected()
+        return super().button_draft()
