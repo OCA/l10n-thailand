@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+  <record id="l10n_th_tax_address_api" model="ir.config_parameter">
+      <field name="key">l10n_th.tax_address_api</field>
+      <field
+            name="value"
+        >https://rdws.rd.go.th/serviceRD3/vatserviceRD3.asmx?wsdl</field>
+  </record>
+
+</odoo>
