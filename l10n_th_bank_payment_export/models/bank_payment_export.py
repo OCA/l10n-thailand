@@ -9,6 +9,7 @@ class BankPaymentExport(models.Model):
     _name = "bank.payment.export"
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Bank Payment Export File"
+    _check_company_auto = True
 
     name = fields.Char(
         default="/",
@@ -29,6 +30,7 @@ class BankPaymentExport(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
         tracking=True,
+        check_company=True,
     )
     effective_date = fields.Date(
         copy=False,
@@ -46,9 +48,14 @@ class BankPaymentExport(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        default=lambda self: self.env.company,
+        required=True,
+    )
     currency_id = fields.Many2one(
         comodel_name="res.currency",
-        default=lambda self: self.env.user.company_id.currency_id,
+        default=lambda self: self.env.company.currency_id,
         required=True,
     )
     total_amount = fields.Monetary(
@@ -112,17 +119,19 @@ class BankPaymentExport(models.Model):
     def _domain_payment_id(self):
         """Condition search all payment
         1. Currency same as company currency
-        2. Payment not exported and state 'posted' only
-        3. Payment method must be 'Manual' on Vendor Payment
-        4. Journal payment must be type 'Bank' only
+        2. Company same as company_id
+        3. Payment not exported and state 'posted' only
+        4. Payment method must be 'Manual' on Vendor Payment
+        5. Journal payment must be type 'Bank' only
         """
         method_manual_out = self.env.ref("account.account_payment_method_manual_out")
         domain = [
             ("export_status", "=", "draft"),
             ("state", "=", "posted"),
             ("payment_method_id", "=", method_manual_out.id),
-            ("currency_id", "=", self.currency_id.id),
             ("journal_id.type", "=", "bank"),
+            ("company_id", "=", self.company_id.id),
+            ("currency_id", "=", self.currency_id.id),
         ]
         return domain
 
