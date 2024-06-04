@@ -7,6 +7,7 @@ from odoo import fields, models
 class BankPaymentTemplate(models.Model):
     _name = "bank.payment.template"
     _description = "Template of Bank Payment Configuration"
+    _check_company_auto = True
 
     name = fields.Char(required=True)
     bank = fields.Selection(
@@ -16,6 +17,11 @@ class BankPaymentTemplate(models.Model):
     template_config_line = fields.One2many(
         comodel_name="bank.payment.config",
         inverse_name="template_id",
+    )
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        required=True,
+        default=lambda self: self.env.company,
     )
 
 
