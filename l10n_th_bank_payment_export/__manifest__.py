@@ -12,6 +12,7 @@
     "depends": ["account", "partner_bank_code", "report_xlsx_helper"],
     "data": [
         "security/ir.model.access.csv",
+        "security/bank_payment_export_security.xml",
         "data/bank_payment_export_sequence.xml",
         "data/report_action.xml",
         "data/server_action.xml",
