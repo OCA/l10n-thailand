@@ -1,0 +1,26 @@
+<odoo noupdate="1">
+    <record id="bank_payment_export_rule" model="ir.rule">
+        <field name="name">Bank Payment Export multi-company</field>
+        <field name="model_id" ref="model_bank_payment_export" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('company_id','=',False),('company_id','in',company_ids)]
+        </field>
+    </record>
+    <record id="bank_payment_export_line_rule" model="ir.rule">
+        <field name="name">Bank Payment Export Line multi-company</field>
+        <field name="model_id" ref="model_bank_payment_export" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('company_id','=',False),('company_id','in',company_ids)]
+        </field>
+    </record>
+    <record id="bank_payment_template_multi_company_rule" model="ir.rule">
+        <field name="name">Bank Payment Template multi-company</field>
+        <field name="model_id" ref="model_bank_payment_template" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('company_id','=',False),('company_id','in',company_ids)]
+        </field>
+    </record>
+</odoo>

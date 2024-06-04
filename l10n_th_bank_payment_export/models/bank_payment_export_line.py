@@ -17,7 +17,7 @@ class BankPaymentExportLine(models.Model):
     payment_id = fields.Many2one(
         comodel_name="account.payment",
         required=True,
-        domain=lambda self: self.payment_export_id._domain_payment_id(),
+        domain=lambda self: self._domain_payment_id(),
         ondelete="restrict",
         index=True,
     )
@@ -48,9 +48,14 @@ class BankPaymentExportLine(models.Model):
     )
     payment_date = fields.Date(related="payment_id.date")
     payment_amount = fields.Monetary(related="payment_id.amount")
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        related="payment_export_id.company_id",
+        store=True,
+    )
     currency_id = fields.Many2one(
         comodel_name="res.currency",
-        related="payment_id.currency_id",
+        related="payment_export_id.currency_id",
         store=True,
     )
     state = fields.Selection(
@@ -71,6 +76,26 @@ class BankPaymentExportLine(models.Model):
     def _compute_payment_default(self):
         for rec in self:
             rec.payment_partner_bank_id = rec.payment_id.partner_bank_id or False
+
+    def _domain_payment_id(self):
+        """Condition search all payment
+        1. Currency same as company currency
+        2. Company same as company_id
+        3. Payment not exported and state 'posted' only
+        4. Payment method must be 'Manual' on Vendor Payment
+        5. Journal payment must be type 'Bank' only
+        """
+        method_manual_out = self.env.ref("account.account_payment_method_manual_out")
+        domain = (
+            "[('export_status', '=', 'draft'), \
+            ('state', '=', 'posted'), \
+            ('payment_method_id', '=', %s), \
+            ('journal_id.type', '=', 'bank'), \
+            ('company_id', '=', company_id), \
+            ('currency_id', '=', currency_id)]"
+            % (method_manual_out.id)
+        )
+        return domain
 
     def clear_payment_exported(self):
         return self.mapped("payment_id").write(
