@@ -1,4 +1,4 @@
-<data noupdate="1">
+<odoo noupdate="1">
     <record id="withholding_tax_rule" model="ir.rule">
         <field name="name">Withholding Tax</field>
         <field name="model_id" ref="model_withholding_tax_cert" />
@@ -15,4 +15,20 @@
             ['|',('company_id','=',False),('company_id','in',company_ids)]
         </field>
     </record>
-</data>
+    <record id="account_withholding_tax_multi_company_rule" model="ir.rule">
+        <field name="name">Multi-Company Withholding Tax Config</field>
+        <field name="model_id" ref="model_account_withholding_tax" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('company_id','=',False),('company_id','in',company_ids)]
+        </field>
+    </record>
+    <record id="account_withholding_move_multi_company_rule" model="ir.rule">
+        <field name="name">Multi-Company Withholding Move</field>
+        <field name="model_id" ref="model_account_withholding_move" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('company_id','=',False),('company_id','in',company_ids)]
+        </field>
+    </record>
+</odoo>
