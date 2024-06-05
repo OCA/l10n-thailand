@@ -9,15 +9,21 @@ class ProductTemplate(models.Model):
     wht_tax_id = fields.Many2one(
         comodel_name="account.withholding.tax",
         string="Withholding Tax",
+        company_dependent=True,
+        domain="[('company_id', '=', current_company_id)]",
         help="Default withholding tax for the customer",
     )
     supplier_wht_tax_id = fields.Many2one(
         comodel_name="account.withholding.tax",
         string="Individual Vendor Withholding Tax",
+        company_dependent=True,
+        domain="[('company_id', '=', current_company_id)]",
         help="Default withholding tax for the vendor that is individual",
     )
     supplier_company_wht_tax_id = fields.Many2one(
         comodel_name="account.withholding.tax",
         string="Company Vendor Withholding Tax",
+        company_dependent=True,
+        domain="[('company_id', '=', current_company_id)]",
         help="Default withholding tax for the vendor that is company",
     )

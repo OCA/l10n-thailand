@@ -20,6 +20,7 @@ class AccountMoveLine(models.Model):
         comodel_name="account.withholding.tax",
         string="WHT",
         compute="_compute_wht_tax_id",
+        check_company=True,
         store=True,
         readonly=False,
     )
@@ -576,6 +577,7 @@ class AccountMove(models.Model):
             "amount_wht": abs(wht_move.balance),
             "wht_tax_id": wht_move.wht_tax_id.id,
             "wht_cert_income_type": wht_move.wht_tax_id.wht_cert_income_type,
+            "company_id": wht_move.company_id.id,
         }
 
     def _get_tax_invoice_number(self, move, tax_invoice, tax):
