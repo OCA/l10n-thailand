@@ -9,12 +9,13 @@ from .withholding_tax_cert import INCOME_TAX_FORM, WHT_CERT_INCOME_TYPE
 class AccountWithholdingTax(models.Model):
     _name = "account.withholding.tax"
     _description = "Account Withholding Tax"
+    _check_company_auto = True
 
     name = fields.Char(required=True)
     account_id = fields.Many2one(
         comodel_name="account.account",
         string="Withholding Tax Account",
-        domain=[("wht_account", "=", True)],
+        domain="[('wht_account', '=', True), ('company_id', '=', company_id)]",
         required=True,
         ondelete="restrict",
     )
@@ -39,9 +40,14 @@ class AccountWithholdingTax(models.Model):
         selection=WHT_CERT_INCOME_TYPE,
         string="Default Type of Income",
     )
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        required=True,
+        default=lambda self: self.env.company,
+    )
 
     _sql_constraints = [
-        ("name_unique", "UNIQUE(name)", "Name must be unique!"),
+        ("name_unique", "UNIQUE(name,company_id)", "Name must be unique!"),
     ]
 
     @api.constrains("is_pit")

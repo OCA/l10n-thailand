@@ -9,6 +9,7 @@ from .withholding_tax_cert import WHT_CERT_INCOME_TYPE
 class AccountWithholdingMove(models.Model):
     _name = "account.withholding.move"
     _description = "Withholding Tax Moves"
+    _check_company_auto = True
 
     payment_id = fields.Many2one(
         comodel_name="account.payment",
@@ -55,6 +56,7 @@ class AccountWithholdingMove(models.Model):
     wht_tax_id = fields.Many2one(
         comodel_name="account.withholding.tax",
         index=True,
+        check_company=True,
     )
     is_pit = fields.Boolean(
         related="wht_tax_id.is_pit",
@@ -74,15 +76,23 @@ class AccountWithholdingMove(models.Model):
         store=True,
         readonly=False,
     )
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        string="Company",
+        index=True,
+        required=True,
+        default=lambda self: self.env.company,
+    )
     currency_id = fields.Many2one(
         comodel_name="res.currency",
-        default=lambda self: self.env.user.company_id.currency_id,
+        default=lambda self: self.env.company.currency_id,
     )
     cert_id = fields.Many2one(
         comodel_name="withholding.tax.cert",
         string="Withholding Cert.",
         readonly=True,
         copy=False,
+        check_company=True,
     )
 
     @api.depends("move_id")
