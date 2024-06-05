@@ -10,6 +10,7 @@
                 <field name="payment_id" />
                 <field name="date" optional="show" />
                 <field name="calendar_year" optional="show" />
+                <field name="wht_tax_id" optional="hide" />
                 <field name="wht_cert_income_type" />
                 <field name="wht_cert_income_desc" optional="show" />
                 <field name="amount_income" sum="Total Income" />
@@ -21,6 +22,8 @@
                     decoration-info="payment_state == 'draft'"
                     decoration-success="payment_state == 'posted'"
                 />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="company_id" invisible="1" />
                 <field name="currency_id" invisible="1" />
             </tree>
         </field>
@@ -50,6 +53,10 @@
                             <field name="wht_cert_income_desc" />
                             <field name="amount_income" />
                             <field name="amount_wht" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
                             <field name="currency_id" invisible="1" />
                         </group>
                     </group>
@@ -62,6 +69,7 @@
         <field name="model">account.withholding.move</field>
         <field name="arch" type="xml">
             <search string="Withholding Tax Move">
+                <field name="payment_id" />
                 <field name="calendar_year" string="Calendar Year" />
                 <field name="partner_id" string="Vendor" />
                 <group expand="1" string="Group By">
@@ -80,6 +88,12 @@
                         name="group_by_payment_id"
                         string="Payment"
                         context="{'group_by':'payment_id'}"
+                    />
+                    <filter
+                        name="group_by_company"
+                        string="Company"
+                        context="{'group_by':'company_id'}"
+                        groups="base.group_multi_company"
                     />
                 </group>
             </search>
