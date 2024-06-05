@@ -11,6 +11,7 @@ class AccountPaymentRegister(models.TransientModel):
     wht_tax_id = fields.Many2one(
         comodel_name="account.withholding.tax",
         string="Withholding Tax",
+        check_company=True,
         help="Optional hidden field to keep wht_tax. Useful for case 1 tax only",
     )
     wht_amount_base = fields.Monetary(
