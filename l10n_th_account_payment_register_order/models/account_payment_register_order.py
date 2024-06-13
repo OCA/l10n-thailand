@@ -143,7 +143,7 @@ class AccountPaymentRegisterOrder(models.Model):
             self.payment_ids = [res["res_id"]]
         # Ref to this payment register
         for payment in self.payment_ids:
-            payment.ref += " %s" % self.name
+            payment.ref = f"{payment.ref} {self.name}" if payment.ref else self.name
         return True
 
     def open_invoices(self):
