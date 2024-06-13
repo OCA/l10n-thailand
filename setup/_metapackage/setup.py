@@ -8,6 +8,7 @@ setuptools.setup(
     description="Meta package for oca-l10n-thailand Odoo addons",
     version=version,
     install_requires=[
+        'odoo-addon-currency_rate_update_TH_BOT>=16.0dev,<16.1dev',
         'odoo-addon-l10n_th_account_tax>=16.0dev,<16.1dev',
         'odoo-addon-l10n_th_account_tax_multi>=16.0dev,<16.1dev',
         'odoo-addon-l10n_th_account_tax_report>=16.0dev,<16.1dev',
