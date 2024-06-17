@@ -18,6 +18,8 @@ setuptools.setup(
         'odoo-addon-l10n_th_fonts>=16.0dev,<16.1dev',
         'odoo-addon-l10n_th_mis_report>=16.0dev,<16.1dev',
         'odoo-addon-l10n_th_partner>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_th_tier_department>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_th_tier_department_demo>=16.0dev,<16.1dev',
     ],
     classifiers=[
         'Programming Language :: Python',
