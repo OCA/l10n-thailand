@@ -73,10 +73,7 @@ class AccountMoveLine(models.Model):
             amount_wht = 0
             for line in wht_lines:
                 base_amount = line._get_wht_base_amount(currency, wht_date)
-                amount_wht += float_round(
-                    line.wht_tax_id.amount / 100 * base_amount,
-                    precision_digits=currency.decimal_places,
-                )
+                amount_wht += line.wht_tax_id.amount / 100 * base_amount
                 amount_base += base_amount
             return (amount_base, amount_wht)
         # PIT
