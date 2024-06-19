@@ -3,7 +3,6 @@
 
 from odoo import _, fields, models
 from odoo.exceptions import UserError
-from odoo.tools import float_compare
 
 
 class AccountPaymentRegisterOrder(models.Model):
@@ -65,7 +64,6 @@ class AccountPaymentRegisterOrder(models.Model):
 
     def action_submit(self):
         for rec in self.filtered(lambda x: not x.name or x.name == "/"):
-            rec._check_constraint_create_payment()
             rec.write({"name": rec._get_payment_number()})
         self.write({"state": "submit"})
 
@@ -103,37 +101,8 @@ class AccountPaymentRegisterOrder(models.Model):
             ).reconcile()
         self.write({"state": "paid"})
 
-    def _check_constraint_create_payment(self):
-        self.ensure_one()
-        prec_digits = self.company_id.currency_id.decimal_places
-        amount_residual = abs(sum(self.line_ids.mapped("amount_residual")))
-        # Find amount wht (if any)
-        move_lines = self.line_ids.mapped("move_id.line_ids").filtered("wht_tax_id")
-        amount_deduct = 0.0
-        if move_lines:
-            (deduction_list, amount_deduct) = move_lines._prepare_deduction_list(
-                self.payment_date, self.currency_id
-            )
-        # Total Residual include WHT
-        total_amount_residual = amount_residual - amount_deduct
-        if (
-            float_compare(
-                total_amount_residual,
-                self.amount,
-                precision_digits=prec_digits,
-            )
-            == -1
-        ):
-            raise UserError(
-                _(
-                    "Total amount residual must be less than or equal to %(amount_residual)s"
-                )
-                % {"amount_residual": total_amount_residual}
-            )
-
     def action_create_payments(self):
         self.ensure_one()
-        self._check_constraint_create_payment()
         self = self.with_context(dont_redirect_to_payments=False)
         self.write({"state": "paid"})
         res = super().action_create_payments()
