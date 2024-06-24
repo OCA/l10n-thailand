@@ -28,7 +28,7 @@ class Currency(models.Model):
             # lang is 'th' only
             return num2words(number, lang=lang).title()
 
-        formatted = "%.{}f".format(self.decimal_places) % amount
+        formatted = f"%.{self.decimal_places}f" % amount
         parts = formatted.partition(".")
         integer_value = int(parts[0])
         fractional_value = int(parts[2] or 0)
