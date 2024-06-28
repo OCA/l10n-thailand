@@ -148,6 +148,15 @@ msgid "Cancelled"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__company_id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__company_id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__company_id
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_template_view_search
+msgid "Company"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_template_view_form
 msgid "Config"
 msgstr ""
@@ -192,6 +201,7 @@ msgstr ""
 #. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__currency_id
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__currency_id
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
 msgid "Currency"
 msgstr ""
 
@@ -580,11 +590,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_payment_export__bank__test
 #: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_payment_template__bank__test
 msgid "Test Bank"
-msgstr ""
-
-#. module: l10n_th_bank_payment_export
-#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_bank_payment_export_line__currency_id
-msgid "The payment's currency."
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
