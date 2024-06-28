@@ -4,12 +4,13 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='vat']" position="after">
+            <xpath expr="//field[@name='branch']" position="after">
                 <button
                     string="Get Address"
                     name="action_get_address"
                     type="object"
                     colspan="2"
+                    class="oe_highlight"
                 />
             </xpath>
         </field>
