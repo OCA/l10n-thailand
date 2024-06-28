@@ -15,6 +15,7 @@ class AccountPaymentRegister(models.TransientModel):
         comodel_name="bank.payment.template",
         compute="_compute_bank_payment_template",
         readonly=False,
+        check_company=True,
         store=True,
     )
 

@@ -9,6 +9,7 @@
             <tree>
                 <field name="name" />
                 <field name="bank" />
+                <field name="company_id" groups="base.group_multi_company" />
             </tree>
         </field>
     </record>
@@ -29,7 +30,12 @@
                         <group name="left">
                             <field name="bank" />
                         </group>
-                        <group name="right" />
+                        <group name="right">
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                        </group>
                     </group>
                     <notebook>
                         <page name="bank_payment_config" string="Config">
@@ -57,11 +63,16 @@
                         name="group_by_bank"
                         context="{'group_by': 'bank'}"
                     />
+                    <filter
+                        string="Company"
+                        name="group_by_company"
+                        context="{'group_by': 'company_id'}"
+                        groups="base.group_multi_company"
+                    />
                 </group>
             </search>
         </field>
     </record>
-
     <record id="action_bank_payment_template" model="ir.actions.act_window">
         <field name="name">Bank Payment Templates</field>
         <field name="res_model">bank.payment.template</field>
