@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -56,6 +56,7 @@ msgid "Activity Type Icon"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#. odoo-python
 #: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
 #, python-format
 msgid "All payments must have the same bank payment template."
@@ -101,6 +102,7 @@ msgid "Bank Payment Configuration"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#. odoo-python
 #: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
 #: model:ir.actions.act_window,name:l10n_th_bank_payment_export.action_bank_payment_export
 #: model:ir.ui.menu,name:l10n_th_bank_payment_export.menu_bank_payment_export
@@ -148,6 +150,15 @@ msgid "Cancelled"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__company_id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__company_id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__company_id
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_template_view_search
+msgid "Company"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_template_view_form
 msgid "Config"
 msgstr ""
@@ -192,6 +203,7 @@ msgstr ""
 #. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__currency_id
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__currency_id
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
 msgid "Currency"
 msgstr ""
 
@@ -238,6 +250,7 @@ msgid "Effective Date"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#. odoo-python
 #: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
 #, python-format
 msgid "Effective Date must be more than or equal {}"
@@ -356,7 +369,6 @@ msgstr ""
 
 #. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,help:l10n_th_bank_payment_export.field_bank_payment_export__message_needaction
-#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_bank_payment_export__message_unread
 msgid "If checked, new messages require your attention."
 msgstr ""
 
@@ -467,17 +479,12 @@ msgstr ""
 
 #. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,help:l10n_th_bank_payment_export.field_bank_payment_export__message_needaction_counter
-msgid "Number of messages which requires an action"
+msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,help:l10n_th_bank_payment_export.field_bank_payment_export__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
-
-#. module: l10n_th_bank_payment_export
-#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_bank_payment_export__message_unread_counter
-msgid "Number of unread messages"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
@@ -502,6 +509,7 @@ msgid "Payments"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#. odoo-python
 #: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
 #, python-format
 msgid "Payments have been already exported."
@@ -577,17 +585,6 @@ msgid "Template of Bank Payment Configuration"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
-#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_payment_export__bank__test
-#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_payment_template__bank__test
-msgid "Test Bank"
-msgstr ""
-
-#. module: l10n_th_bank_payment_export
-#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_bank_payment_export_line__currency_id
-msgid "The payment's currency."
-msgstr ""
-
-#. module: l10n_th_bank_payment_export
 #: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
 msgid "This operation cannot be undone. Are you sure to continue?"
 msgstr ""
@@ -613,16 +610,6 @@ msgid "Type of the exception activity on record."
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
-#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: l10n_th_bank_payment_export
-#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr ""
-
-#. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__value
 msgid "Value"
 msgstr ""
@@ -643,30 +630,35 @@ msgid "Website communication history"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#. odoo-python
 #: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
 #, python-format
 msgid "You are trying to delete a record state is not 'draft'"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#. odoo-python
 #: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
 #, python-format
 msgid "You can export bank payments state 'posted' only"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#. odoo-python
 #: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
 #, python-format
 msgid "You can export bank payments with 1 currency only."
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#. odoo-python
 #: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
 #, python-format
 msgid "You can not selected bank difference with bank journal on payment."
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#. odoo-python
 #: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
 #, python-format
 msgid "You need to add a line before confirm."
