@@ -363,7 +363,11 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__company_id
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_move__company_id
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_tax__company_id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__company_partner_id
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_account_withholding_tax_search
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_wht_move_search
 msgid "Company"
 msgstr ""
 
@@ -551,6 +555,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_account_withholding_tax_income_code_search
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_account_withholding_tax_search
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_tax_invoice_search
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_wht_move_search
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_withholding_tax_cert_search
