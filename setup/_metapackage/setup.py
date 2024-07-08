@@ -14,6 +14,7 @@ setuptools.setup(
         'odoo-addon-l10n_th_account_tax_report>=16.0dev,<16.1dev',
         'odoo-addon-l10n_th_account_wht_cert_form>=16.0dev,<16.1dev',
         'odoo-addon-l10n_th_amount_to_text>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_th_bank_payment_export>=16.0dev,<16.1dev',
         'odoo-addon-l10n_th_base_location>=16.0dev,<16.1dev',
         'odoo-addon-l10n_th_fonts>=16.0dev,<16.1dev',
         'odoo-addon-l10n_th_mis_report>=16.0dev,<16.1dev',
