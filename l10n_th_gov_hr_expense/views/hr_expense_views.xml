@@ -25,7 +25,7 @@
                 <field
                     name="purchase_request_id"
                     attrs="{'invisible': [('advance_sheet_id', '!=', False)]}"
-                    options="{'no_open': True, 'no_create_edit': True}"
+                    options="{'no_create_edit': True}"
                     groups="purchase_request.group_purchase_request_user"
                 />
                 <field
