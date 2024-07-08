@@ -102,13 +102,14 @@ class BankPaymentExport(models.Model):
                 )
             )
 
-    @api.model
-    def create(self, vals):
-        if vals.get("name", "/") == "/":
-            vals["name"] = (
-                self.env["ir.sequence"].next_by_code("bank.payment.export") or "/"
-            )
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("name", "/") == "/":
+                vals["name"] = (
+                    self.env["ir.sequence"].next_by_code("bank.payment.export") or "/"
+                )
+        return super().create(vals_list)
 
     def unlink(self):
         """Check state draft can delete only."""
@@ -170,16 +171,14 @@ class BankPaymentExport(models.Model):
 
     def _generate_bank_payment_text(self):
         self.ensure_one()
-        return
-
-    def _export_bank_payment_text_file(self):
-        self.ensure_one()
-        if self.bank:
-            return self._generate_bank_payment_text()
         return (
             "Demo Text File. You can inherit function "
             "_generate_bank_payment_text() for customize your format."
         )
+
+    def _export_bank_payment_text_file(self):
+        self.ensure_one()
+        return self._generate_bank_payment_text()
 
     def _check_constraint_line(self):
         # Add condition with line on this function

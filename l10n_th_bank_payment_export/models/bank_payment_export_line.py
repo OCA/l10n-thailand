@@ -119,16 +119,17 @@ class BankPaymentExportLine(models.Model):
             self._action_reject_bank_payment()
         return True
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """link payment and bank payment export"""
-        export_line = super().create(vals)
-        export_line.payment_id.write(
-            {
-                "export_status": "to_export",
-                "payment_export_id": vals["payment_export_id"],
-            }
-        )
+        export_line = super().create(vals_list)
+        for vals in vals_list:
+            export_line.payment_id.write(
+                {
+                    "export_status": "to_export",
+                    "payment_export_id": vals["payment_export_id"],
+                }
+            )
         return export_line
 
     def unlink(self):
@@ -151,7 +152,7 @@ class BankPaymentExportLine(models.Model):
         return payment_net_amount
 
     def _get_amount_no_decimal(self, amount, digits=False):
-        """Implementation is available"""
+        """This function for implement amount format each bank"""
         return amount
 
     def _get_acc_number_digit(self, partner_bank_id):
@@ -217,7 +218,5 @@ class BankPaymentExportLine(models.Model):
         sender_journal_id = self.payment_id.journal_id
         sender_bank_code = sender_journal_id.bank_id.bank_code
         sender_branch_code = sender_journal_id.bank_id.bank_branch_code
-        sender_acc_number = sanitize_account_number(
-            sender_journal_id.bank_account_id.acc_number
-        )
+        sender_acc_number = sender_journal_id.bank_account_id.acc_number
         return sender_bank_code, sender_branch_code, sender_acc_number
