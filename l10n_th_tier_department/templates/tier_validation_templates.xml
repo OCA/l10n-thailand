@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template
+        id="tier_validation_buttons"
+        inherit_id="base_tier_validation.tier_validation_buttons"
+    >
+        <xpath expr="//button[@name='restart_validation']" position="attributes">
+            <attribute
+                name="groups"
+            >l10n_th_tier_department.group_allow_restart_validation</attribute>
+            <attribute
+                name="confirm"
+            >This action will restart all tier validation it cannot be undone. Are you sure to continue?</attribute>
+        </xpath>
+    </template>
+</odoo>

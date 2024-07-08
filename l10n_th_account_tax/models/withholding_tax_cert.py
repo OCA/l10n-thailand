@@ -76,6 +76,7 @@ class WithholdingTaxCert(models.Model):
     _name = "withholding.tax.cert"
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Withholding Tax Certificate"
+    _check_company_auto = True
 
     name = fields.Char(
         string="Number",
@@ -103,6 +104,7 @@ class WithholdingTaxCert(models.Model):
         comodel_name="withholding.tax.cert",
         tracking=True,
         readonly=True,
+        check_company=True,
         states={"draft": [("readonly", False)]},
         help="This field related from Old WHT Cert.",
     )
@@ -122,7 +124,7 @@ class WithholdingTaxCert(models.Model):
         copy=False,
         readonly=True,
         states={"draft": [("readonly", False)]},
-        domain="[('journal_id.type', '=', 'general')," "('state', '=', 'posted')]",
+        domain="[('journal_id.type', '=', 'general'), ('state', '=', 'posted')]",
         ondelete="restrict",
         tracking=True,
     )
@@ -220,6 +222,7 @@ class WithholdingTaxCert(models.Model):
 class WithholdingTaxCertLine(models.Model):
     _name = "withholding.tax.cert.line"
     _description = "Withholding Tax Cert Lines"
+    _check_company_auto = True
 
     cert_id = fields.Many2one(
         comodel_name="withholding.tax.cert", string="WHT Cert", index=True
@@ -238,6 +241,7 @@ class WithholdingTaxCertLine(models.Model):
         compute="_compute_wht_bank_account",
         store=True,
         readonly=False,
+        check_company=True,
         string="Bank Account",
         help="PND2 type 4A need bank account",
     )
@@ -248,6 +252,7 @@ class WithholdingTaxCertLine(models.Model):
     wht_tax_id = fields.Many2one(
         comodel_name="account.withholding.tax",
         string="Tax",
+        check_company=True,
         readonly=False,
     )
     wht_percent = fields.Float(
