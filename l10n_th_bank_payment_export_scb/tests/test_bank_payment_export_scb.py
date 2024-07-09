@@ -186,3 +186,27 @@ class TestBankPaymentExportSCB(CommonBankPaymentExport):
 
         # Delivery Mode C should default from pickup location cheque
         self.assertEqual(text_split[2][65:69], "C002")
+
+    def test_06_scb_outward_remittance(self):
+        # Add value test
+        self.bank_payment.write(
+            {
+                "scb_outward_remittance": True,
+                "scb_rate_type": "SP",
+                "scb_charge_flag": "A",
+                "effective_date": self.today,
+                "scb_objective_code": "318004",
+                "scb_document_support": "01",
+                "scb_corp_id": "corp12345678",
+            }
+        )
+
+        self.assertEqual(len(self.bank_payment.export_line_ids), 2)
+
+        # Export Text File Outward Remittance
+        text_list = self.bank_payment.action_export_text_file()
+        self.assertEqual(self.bank_payment.state, "done")
+        self.assertEqual(text_list["report_type"], "qweb-text")
+        text_word = self.bank_payment._export_bank_payment_text_file()
+        # Check corp_id in text file (char 39 - 50)
+        self.assertEqual(text_word[38:50], "corp12345678")

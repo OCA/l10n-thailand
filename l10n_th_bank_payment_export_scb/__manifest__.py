@@ -18,6 +18,7 @@
         "data/report_action.xml",
         "views/bank_payment_export_view.xml",
         "views/res_partner_views.xml",
+        "views/res_bank_views.xml",
     ],
     "installable": True,
     "development_status": "Alpha",
