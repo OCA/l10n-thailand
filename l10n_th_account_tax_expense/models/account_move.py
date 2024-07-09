@@ -115,19 +115,20 @@ class AccountMove(models.Model):
             rec.has_wht = False if exp_move else True
         return res
 
-    def _prepare_withholding_move(self, wht_move):
-        """Prepare dict for account.withholding.move on Expense"""
-        res = super()._prepare_withholding_move(wht_move)
-        # Is this an expense's journal entry?
-        is_expense = wht_move.expense_id and not wht_move.payment_id
-        if is_expense:
-            res.update(
-                {
-                    "amount_income": abs(wht_move.balance),
-                    "amount_wht": 0.0,
-                }
-            )
-        return res
+    # NOTE: maybe not needed
+    # def _prepare_withholding_move(self, wht_move):
+    #     """Prepare dict for account.withholding.move on Expense"""
+    #     res = super()._prepare_withholding_move(wht_move)
+    #     # Is this an expense's journal entry?
+    #     is_expense = wht_move.expense_id and not wht_move.payment_id
+    #     if is_expense:
+    #         res.update(
+    #             {
+    #                 "amount_income": abs(wht_move.balance),
+    #                 "amount_wht": 0.0,
+    #             }
+    #         )
+    #     return res
 
     def button_draft(self):
         """Unlink withholding tax on clearing"""
