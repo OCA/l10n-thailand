@@ -58,6 +58,7 @@ class TestAccountEntry(TransactionCase):
                 "property_account_expense_id": cls.account_expense.id,
             }
         )
+        cls.partner1 = cls.env.ref("base.res_partner_12")
         # Create new employee
         partner = cls.env["res.partner"].create({"name": "Test Employee"})
         cls.employee1 = cls.env["hr.employee"].create(
@@ -87,6 +88,11 @@ class TestAccountEntry(TransactionCase):
             UserError, msg="Please fill in tax invoice and tax date"
         ):
             expense.action_sheet_move_create()
-        expense_line.write({"reference": "TAXINV-001"})
+        expense_line.write(
+            {
+                "reference": "TAXINV-001",
+                "bill_partner_id": self.partner1.id,
+            }
+        )
         expense.action_sheet_move_create()
         self.assertEqual(expense.state, "post")
