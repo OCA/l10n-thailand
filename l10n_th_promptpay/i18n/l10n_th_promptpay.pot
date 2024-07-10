@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_th_promptpay
-#: model:ir.model.fields,help:l10n_th_promptpay.field_payment_acquirer__promptpay_id
+#: model:ir.model.fields,help:l10n_th_promptpay.field_payment_provider__promptpay_id
 msgid "13 digits for company's tax ID or 10 digits for mobile phone number"
 msgstr ""
 
@@ -24,12 +24,12 @@ msgid "Amount"
 msgstr ""
 
 #. module: l10n_th_promptpay
-#: model:ir.model,name:l10n_th_promptpay.model_payment_acquirer
-msgid "Payment Acquirer"
+#: model:ir.model,name:l10n_th_promptpay.model_payment_provider
+msgid "Payment Provider"
 msgstr ""
 
 #. module: l10n_th_promptpay
-#: model:ir.model.fields,field_description:l10n_th_promptpay.field_payment_acquirer__promptpay_id
+#: model:ir.model.fields,field_description:l10n_th_promptpay.field_payment_provider__promptpay_id
 #: model_terms:ir.ui.view,arch_db:l10n_th_promptpay.payment_promptpay_web_display
 msgid "PromptPay ID"
 msgstr ""
@@ -40,11 +40,11 @@ msgid "PromptPay QR Code"
 msgstr ""
 
 #. module: l10n_th_promptpay
-#: model_terms:ir.ui.view,arch_db:l10n_th_promptpay.acquirer_form_inherit_promptpay
+#: model_terms:ir.ui.view,arch_db:l10n_th_promptpay.payment_provider_form
 msgid "PromptPay QR code"
 msgstr ""
 
 #. module: l10n_th_promptpay
-#: model:ir.model.fields,field_description:l10n_th_promptpay.field_payment_acquirer__qr_code_promptpay
+#: model:ir.model.fields,field_description:l10n_th_promptpay.field_payment_provider__qr_code_promptpay
 msgid "Use PromptPay QR code"
 msgstr ""
