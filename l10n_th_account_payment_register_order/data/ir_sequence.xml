@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="seq_paymen_register_order_outbound" model="ir.sequence">
+        <field name="name">Payment Register</field>
+        <field name="code">account.payment.register.order.outbound</field>
+        <field name="prefix">PRO</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False" />
+    </record>
+    <record id="seq_paymen_register_order_inbound" model="ir.sequence">
+        <field name="name">Payment Register</field>
+        <field name="code">account.payment.register.order.inbound</field>
+        <field name="prefix">PRI</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False" />
+    </record>
+</odoo>
