@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_payment_register_order_serach" model="ir.ui.view">
+        <field name="name">account.payment.register.order.search</field>
+        <field name="model">account.payment.register.order</field>
+        <field
+            name="inherit_id"
+            ref="l10n_th_account_payment_register_order.view_account_payment_register_order_serach"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='group_by']" position="before">
+                <separator />
+                <filter
+                    string="Netting"
+                    name="netting"
+                    domain="[('netting', '=', True)]"
+                />
+                <filter
+                    string="Not Netting"
+                    name="not_netting"
+                    domain="[('netting', '=', False)]"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_payment_register_order_tree" model="ir.ui.view">
+        <field name="name">account.payment.register.order.tree</field>
+        <field name="model">account.payment.register.order</field>
+        <field
+            name="inherit_id"
+            ref="l10n_th_account_payment_register_order.view_account_payment_register_order_tree"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='communication']" position="after">
+                <field name="netting" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_payment_register_order_form" model="ir.ui.view">
+        <field name="name">account.payment.register.order.form</field>
+        <field name="model">account.payment.register.order</field>
+        <field
+            name="inherit_id"
+            ref="l10n_th_account_payment_register_order.view_account_payment_register_order_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='group2']" position="inside">
+                <field name="netting" readonly="1" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
