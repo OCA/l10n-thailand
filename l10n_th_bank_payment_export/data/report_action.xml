@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- TEXT COMMON FILE -->
+    <record id="action_payment_demo_txt" model="ir.actions.report">
+        <field name="name">Export Text Payment Demo</field>
+        <field name="model">bank.payment.export</field>
+        <field name="type">ir.actions.report</field>
+        <field
+            name="report_name"
+        >l10n_th_bank_payment_export.bank_payment_export_text_file</field>
+        <field name="report_type">qweb-text</field>
+        <field name="print_report_name">object._get_report_base_filename()</field>
+    </record>
+
+    <!-- XLSX COMMON FILE -->
+    <record id="action_export_payment_xlsx" model="ir.actions.report">
+        <field name="name">Export Excel Payment</field>
+        <field name="model">bank.payment.export</field>
+        <field name="type">ir.actions.report</field>
+        <field name="report_name">bank.payment.export.xlsx</field>
+        <field name="report_type">xlsx</field>
+        <field name="print_report_name">object._get_report_base_filename()</field>
+    </record>
+</odoo>

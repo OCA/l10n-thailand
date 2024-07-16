@@ -20,6 +20,7 @@ class AccountMoveLine(models.Model):
         comodel_name="account.withholding.tax",
         string="WHT",
         compute="_compute_wht_tax_id",
+        check_company=True,
         store=True,
         readonly=False,
     )
@@ -126,7 +127,7 @@ class AccountMoveLine(models.Model):
         self.ensure_one()
         tax_base_amount = self._get_tax_base_amount(sign, vals_list)
         # For case customer invoice, customer credit note and not manual reconcile
-        # it default value in tax invoice
+        # it default value following accounting date
         default_tax_invoice = self.move_id.move_type in [
             "out_invoice",
             "out_refund",
@@ -136,7 +137,7 @@ class AccountMoveLine(models.Model):
             "move_line_id": self.id,
             "partner_id": self.partner_id.id,
             "tax_invoice_number": default_tax_invoice and "/" or False,
-            "tax_invoice_date": default_tax_invoice and fields.Date.today() or False,
+            "tax_invoice_date": default_tax_invoice and self.move_id.date or False,
             "tax_base_amount": tax_base_amount,
             "balance": sign * abs(self.balance),
             "reversed_id": (
@@ -576,6 +577,7 @@ class AccountMove(models.Model):
             "amount_wht": abs(wht_move.balance),
             "wht_tax_id": wht_move.wht_tax_id.id,
             "wht_cert_income_type": wht_move.wht_tax_id.wht_cert_income_type,
+            "company_id": wht_move.company_id.id,
         }
 
     def _get_tax_invoice_number(self, move, tax_invoice, tax):

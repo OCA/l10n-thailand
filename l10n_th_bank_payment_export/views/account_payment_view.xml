@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_payment_tree" model="ir.ui.view">
+        <field name="name">account.view.account.payment.tree</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="before">
+                <field name="bank_payment_template_id" optional="show" />
+                <field
+                    name="export_status"
+                    widget="badge"
+                    decoration-info="export_status == 'draft'"
+                    decoration-warning="export_status == 'to_export'"
+                    decoration-success="export_status == 'exported'"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_payment_form" model="ir.ui.view">
+        <field name="name">account.view.account.payment.form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='group2']" position="inside">
+                <label for="export_status" />
+                <div class="oe_inline">
+                    <field
+                        name="export_status"
+                        widget="badge"
+                        decoration-info="export_status == 'draft'"
+                        decoration-warning="export_status == 'to_export'"
+                        decoration-success="export_status == 'exported'"
+                        groups="account.group_account_user"
+                    />
+                    <span attrs="{'invisible': [('payment_export_id', '=', False)]}">
+                        =>
+                        <field name="payment_export_id" options="{'no_create': True}" />
+                    </span>
+                </div>
+                <field
+                    name="bank_payment_template_id"
+                    attrs="{'readonly': [('state', '!=', 'draft')]}"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_payment_search" model="ir.ui.view">
+        <field name="name">account.payment.search</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='reconciled']" position="after">
+                <separator name="payment_export" />
+                <filter
+                    name="export_status_draft"
+                    string="Export Status - Draft"
+                    domain="[('export_status', '=', 'draft')]"
+                />
+                <filter
+                    name="export_status_to_export"
+                    string="Export Status - To Export"
+                    domain="[('export_status', '=', 'to_export')]"
+                />
+                <filter
+                    name="export_status_exported"
+                    string="Export Status - Exported"
+                    domain="[('export_status', '=', 'exported')]"
+                />
+            </xpath>
+            <xpath expr="//filter[@name='groupby_date']" position="before">
+                <filter
+                    name="groupby_bank_payment_template"
+                    string="Bank Payment Template"
+                    context="{'group_by': 'bank_payment_template_id'}"
+                />
+                <filter
+                    name="groupby_export_status"
+                    string="Export Status"
+                    context="{'group_by': 'export_status'}"
+                />
+                <filter
+                    name="groupby_payment_export_id"
+                    string="Bank Payment Export"
+                    context="{'group_by': 'payment_export_id'}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

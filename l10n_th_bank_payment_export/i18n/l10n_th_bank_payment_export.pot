@@ -1,0 +1,687 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_bank_payment_export
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_account_payment_form
+msgid "=&gt;"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_account_setup_bank_manual_config__acc_holder_name_en
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_res_partner_bank__acc_holder_name_en
+msgid "Account Holder Name (EN)"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_account_setup_bank_manual_config__acc_holder_name_en
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_res_partner_bank__acc_holder_name_en
+msgid "Account holder name, in case it is bank bahtnet"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#. odoo-python
+#: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
+#, python-format
+msgid "All payments must have the same bank payment template."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__payment_amount
+msgid "Amount"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_line_view_tree
+msgid "Are you sure to reject this line ?"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__bank
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__payment_bank_id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__bank
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_template_view_search
+msgid "Bank"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model,name:l10n_th_bank_payment_export.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_template_view_search
+msgid "Bank Payment Config"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model,name:l10n_th_bank_payment_export.model_bank_payment_config
+msgid "Bank Payment Configuration"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#. odoo-python
+#: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
+#: model:ir.actions.act_window,name:l10n_th_bank_payment_export.action_bank_payment_export
+#: model:ir.ui.menu,name:l10n_th_bank_payment_export.menu_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_account_payment_search
+#, python-format
+msgid "Bank Payment Export"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model,name:l10n_th_bank_payment_export.model_bank_payment_export
+#: model:ir.model,name:l10n_th_bank_payment_export.model_bank_payment_export_line
+msgid "Bank Payment Export File"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_account_payment_register__is_export
+msgid "Bank Payment Exported"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_account_payment__bank_payment_template_id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_account_payment_register__bank_payment_template_id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_res_partner__property_bank_payment_template_id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_res_users__property_bank_payment_template_id
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_account_payment_search
+msgid "Bank Payment Template"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.actions.act_window,name:l10n_th_bank_payment_export.action_bank_payment_template
+#: model:ir.ui.menu,name:l10n_th_bank_payment_export.menu_bank_payment_template
+msgid "Bank Payment Templates"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
+msgid "Cancel"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_payment_export__state__cancel
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
+msgid "Cancelled"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__company_id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__company_id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__company_id
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_template_view_search
+msgid "Company"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_template_view_form
+msgid "Config"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
+msgid "Confirm"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_payment_export__state__confirm
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
+msgid "Confirmed"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model,name:l10n_th_bank_payment_export.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.actions.server,name:l10n_th_bank_payment_export.action_server_bank_payment_export
+msgid "Create Bank Payment Export"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__create_uid
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__create_uid
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__create_uid
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__create_date
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__create_date
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__create_date
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__currency_id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__currency_id
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__payment_date
+msgid "Date"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_res_partner__property_bank_payment_template_id
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_res_users__property_bank_payment_template_id
+msgid "Default bank payment template on each partner."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__display_name
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__display_name
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__display_name
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
+msgid "Done"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__account_payment__export_status__draft
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_payment_export__state__draft
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
+msgid "Draft"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.constraint,message:l10n_th_bank_payment_export.constraint_bank_payment_export_line_export_product_uniq
+msgid "Duplicate payment in transaction not allowed!"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__effective_date
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
+msgid "Effective Date"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#. odoo-python
+#: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
+#, python-format
+msgid "Effective Date must be more than or equal {}"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
+msgid "Export Excel"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.actions.report,name:l10n_th_bank_payment_export.action_export_payment_xlsx
+msgid "Export Excel Payment"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__export_line_ids
+msgid "Export Line"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_account_payment__export_status
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_account_payment_search
+msgid "Export Status"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_account_payment_search
+msgid "Export Status - Draft"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_account_payment_search
+msgid "Export Status - Exported"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_account_payment_search
+msgid "Export Status - To Export"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
+msgid "Export Text File"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.actions.report,name:l10n_th_bank_payment_export.action_payment_demo_txt
+msgid "Export Text Payment Demo"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__account_payment__export_status__exported
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_payment_export__state__done
+msgid "Exported"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__field_id
+msgid "Field"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_bank_payment_export__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
+msgid "Get All Payments"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
+msgid "Get a list of all payments that haven't been exported yet."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_template_view_search
+msgid "Group By"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_bank_payment_export__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_bank_payment_export__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_bank_payment_export__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
+msgid "Information Export"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__is_required_effective_date
+msgid "Is Required Effective Date"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__payment_journal_id
+msgid "Journal"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config____last_update
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export____last_update
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line____last_update
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__write_uid
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__write_uid
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__write_uid
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__write_date
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__write_date
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__write_date
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_account_payment__payment_export_id
+msgid "Link to Bank Payment Export"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__name
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_bank_payment_export__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_bank_payment_export__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__payment_id
+msgid "Payment"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_account_payment__payment_export_id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__payment_export_id
+msgid "Payment Export"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model,name:l10n_th_bank_payment_export.model_report_bank_payment_export_xlsx
+msgid "Payment Export xlsx"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model,name:l10n_th_bank_payment_export.model_account_payment
+msgid "Payments"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#. odoo-python
+#: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
+#, python-format
+msgid "Payments have been already exported."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__payment_partner_bank_id
+msgid "Recipient Bank"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model,name:l10n_th_bank_payment_export.model_account_payment_register
+msgid "Register Payment"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_line_view_tree
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
+msgid "Reject"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_payment_export__state__reject
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
+msgid "Rejected"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
+msgid "Set to Draft"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__state
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__state
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
+msgid "Status"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_bank_payment_export__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
+msgid "System Configuration"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__template_id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__template_id
+msgid "Template"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__template_config_line
+msgid "Template Config Line"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model,name:l10n_th_bank_payment_export.model_bank_payment_template
+msgid "Template of Bank Payment Configuration"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
+msgid "This operation cannot be undone. Are you sure to continue?"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__account_payment__export_status__to_export
+msgid "To Export"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__total_amount
+msgid "Total Amount"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
+msgid "Transaction"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_bank_payment_export__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__value
+msgid "Value"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__payment_partner_id
+msgid "Vendor"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_bank_payment_export__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#. odoo-python
+#: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
+#, python-format
+msgid "You are trying to delete a record state is not 'draft'"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#. odoo-python
+#: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
+#, python-format
+msgid "You can export bank payments state 'posted' only"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#. odoo-python
+#: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
+#, python-format
+msgid "You can export bank payments with 1 currency only."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#. odoo-python
+#: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
+#, python-format
+msgid "You can not selected bank difference with bank journal on payment."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#. odoo-python
+#: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
+#, python-format
+msgid "You need to add a line before confirm."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_account_payment_register__is_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_account_payment_register_form
+msgid "if checked, it means the money has already been sent to the bank."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_account_payment__bank_payment_template_id
+msgid "it help default value from bank payment template"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_account_payment__export_status
+msgid "it means status the money has already been sent to the bank."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.actions.report,print_report_name:l10n_th_bank_payment_export.action_export_payment_xlsx
+#: model:ir.actions.report,print_report_name:l10n_th_bank_payment_export.action_payment_demo_txt
+msgid "object._get_report_base_filename()"
+msgstr ""

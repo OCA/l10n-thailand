@@ -15,6 +15,11 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: l10n_th_partner
+#: model:ir.model,name:l10n_th_partner.model_hr_employee_base
+msgid "Basic Employee"
+msgstr ""
+
+#. module: l10n_th_partner
 #: model:ir.model.fields,help:l10n_th_partner.field_res_company__branch
 #: model:ir.model.fields,help:l10n_th_partner.field_res_partner__branch
 #: model:ir.model.fields,help:l10n_th_partner.field_res_users__branch
@@ -61,14 +66,10 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_th_partner
+#. odoo-python
 #: code:addons/l10n_th_partner/models/res_partner.py:0
 #, python-format
 msgid "Each contact's Tax ID and Tax Branch should not be the same."
-msgstr ""
-
-#. module: l10n_th_partner
-#: model:ir.model,name:l10n_th_partner.model_hr_employee
-msgid "Employee"
 msgstr ""
 
 #. module: l10n_th_partner
@@ -100,6 +101,8 @@ msgid "Legal Form"
 msgstr ""
 
 #. module: l10n_th_partner
+#: model:ir.model.fields,field_description:l10n_th_partner.field_hr_employee_base__name
+#: model:ir.model.fields,field_description:l10n_th_partner.field_hr_employee_public__name
 #: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__name
 #: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__name
 #: model:ir.model.fields,field_description:l10n_th_partner.field_resource_resource__name
@@ -148,11 +151,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__branch
 #: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__branch
 msgid "Tax Branch"
-msgstr ""
-
-#. module: l10n_th_partner
-#: model:ir.model,name:l10n_th_partner.model_ir_translation
-msgid "Translation"
 msgstr ""
 
 #. module: l10n_th_partner
