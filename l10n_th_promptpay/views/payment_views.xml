@@ -1,0 +1,15 @@
+<odoo>
+    <record id="payment_provider_form" model="ir.ui.view">
+        <field name="name">payment.payment_provider_form</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='payment_form']" position="after">
+                <group string="PromptPay QR code" name="promptpay_group">
+                    <field name="qr_code_promptpay" invisible="code != 'custom'"/>
+                    <field name="promptpay_id" invisible="code != 'custom'"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
