@@ -1,6 +1,5 @@
 # Copyright 2020 Poonlap V.
 # Copyright 2023 Ecosoft Co., Ltd (https://ecosoft.co.th/)
-# Copyright 2024 CreativeDEV Co., Ltd. (https://creativedev.co.th/)
 # Licensed AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 {
