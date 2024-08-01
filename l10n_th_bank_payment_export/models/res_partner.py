@@ -10,5 +10,7 @@ class ResPartner(models.Model):
     property_bank_payment_template_id = fields.Many2one(
         comodel_name="bank.payment.template",
         string="Bank Payment Template",
+        company_dependent=True,
+        check_company=True,
         help="Default bank payment template on each partner.",
     )
