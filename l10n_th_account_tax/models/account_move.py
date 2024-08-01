@@ -188,7 +188,8 @@ class AccountMoveLine(models.Model):
                         }
                     )
                     line.tax_invoice_ids |= taxinv
-            else:
+            # Unlink all tax invoice, when manual_tax_invoice change from True to False
+            elif self.manual_tax_invoice and vals["manual_tax_invoice"] is False:
                 self = self.with_context(force_remove_tax_invoice=True)
                 self.mapped("tax_invoice_ids").unlink()
         # For case change type taxes, check cash basis
