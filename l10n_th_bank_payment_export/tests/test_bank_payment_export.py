@@ -1,7 +1,6 @@
 # Copyright 2021 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests.common import Form
 
@@ -222,19 +221,15 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         invoice = self.create_invoice(
             10.0, "in_invoice", self.main_currency_id, self.partner_2
         )
-        ctx = {"active_model": "account.move", "active_ids": invoice.ids}
-        register_payments = self.register_payments_model.with_context(**ctx).create(
-            {
-                "journal_id": self.journal_bank.id,
-                "payment_method_line_id": self.journal_bank_manual_out.id,
-                "amount": 10.0,
-                "partner_bank_id": invoice.partner_bank_id.id,
-                "payment_date": fields.Date.today(),
-                "is_export": True,
-                "group_payment": False,
-            }
+        payment_list = self._get_payment_list(
+            invoice,
+            10.0,
+            self.journal_bank_manual_out,
+            self.partner_2,
+            self.journal_bank,
+            is_export=True,
+            group_payment=False,
         )
-        payment_list = register_payments.action_create_payments()
         payment = self.env["account.payment"].search(
             [("id", "=", payment_list["res_id"])]
         )
