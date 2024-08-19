@@ -1,7 +1,8 @@
 [project]
 name = "odoo-addons-oca-l10n-thailand"
-version = "17.0.20240816.0"
+version = "17.0.20240819.0"
 dependencies = [
+    "odoo-addon-l10n_th_amount_to_text>=17.0dev,<17.1dev",
     "odoo-addon-l10n_th_mis_report>=17.0dev,<17.1dev",
 ]
 classifiers=[
