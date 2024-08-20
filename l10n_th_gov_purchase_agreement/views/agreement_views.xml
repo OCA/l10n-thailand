@@ -8,7 +8,6 @@
                 <field
                     name="purchase_order_id"
                     attrs="{'invisible': [('is_template', '=', True)]}"
-                    groups="purchase.group_purchase_user"
                 />
             </field>
             <page name="products" position="after">
