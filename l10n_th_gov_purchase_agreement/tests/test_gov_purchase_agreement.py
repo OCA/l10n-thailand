@@ -1,6 +1,7 @@
 # Copyright 2022 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
+from odoo import Command
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 from odoo.tests.common import Form, TransactionCase
@@ -22,18 +23,16 @@ class TestGovPurchaseAgreement(TransactionCase):
         pr = self.pr_model.create(
             {
                 "user_id": self.env.ref("base.user_root").id,
-                "type_id": self.env.ref("purchase_requisition.type_multi").id,
+                "type_id": self.env.ref("purchase_requisition.type_single").id,
                 "po_type": po_type,
                 "line_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "product_id": self.product1.id,
                             "product_qty": qty,
                             "product_uom_id": self.product1.uom_po_id.id,
                             "price_unit": unit_price,
-                        },
+                        }
                     )
                 ],
             }

@@ -27,20 +27,18 @@ class PurchaseOrder(models.Model):
             rec.agreement_count = len(rec.agreement_ids)
 
     def action_view_agreement(self):
-        action = (
-            self.env.ref("agreement_legal.agreement_operations_agreement")
-            .sudo()
-            .read()[0]
+        result = self.env["ir.actions.act_window"]._for_xml_id(
+            "agreement_legal.agreement_operations_agreement"
         )
         agreements = self.agreement_ids
         if len(agreements) > 1:
-            action["domain"] = [("id", "in", agreements.ids)]
+            result["domain"] = [("id", "in", agreements.ids)]
         elif agreements:
-            action["views"] = [
+            result["views"] = [
                 (self.env.ref("agreement_legal.partner_agreement_form_view").id, "form")
             ]
-            action["res_id"] = agreements.id
-        return action
+            result["res_id"] = agreements.id
+        return result
 
     def button_confirm(self):
         for rec in self:
