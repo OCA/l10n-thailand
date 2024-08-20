@@ -1,0 +1,85 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_gov_purchase_agreement
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_th_gov_purchase_agreement
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_agreement.report_agreement_document
+msgid "(Version:"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_agreement
+#: model:ir.model,name:l10n_th_gov_purchase_agreement.model_agreement
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_agreement.field_purchase_order__agreement_ids
+#: model:ir.model.fields.selection,name:l10n_th_gov_purchase_agreement.selection__purchase_requisition__po_type__agreement
+msgid "Agreement"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_agreement
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_agreement.field_purchase_order__agreement_count
+msgid "Agreement Count"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_agreement
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_agreement.purchase_order_form
+msgid "Agreements"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_agreement
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_agreement.field_agreement__invoice_plan_ids
+#: model_terms:ir.ui.view,arch_db:l10n_th_gov_purchase_agreement.partner_agreement_form_view
+msgid "Invoice Plan"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_agreement
+#: model:ir.model.fields.selection,name:l10n_th_gov_purchase_agreement.selection__purchase_requisition__po_type__no_agreement
+msgid "No Agreement"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_agreement
+#: code:addons/l10n_th_gov_purchase_agreement/models/purchase.py:0
+#, python-format
+msgid "No Agreement."
+msgstr ""
+
+#. module: l10n_th_gov_purchase_agreement
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_agreement.field_purchase_order__po_type
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_agreement.field_purchase_requisition__po_type
+msgid "PO Type"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_agreement
+#: model:ir.model,name:l10n_th_gov_purchase_agreement.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_agreement
+#: model:ir.model,name:l10n_th_gov_purchase_agreement.model_purchase_requisition
+msgid "Purchase Requisition"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_agreement
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_agreement.field_agreement__purchase_order_id
+msgid "RFQ"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_agreement
+#: code:addons/l10n_th_gov_purchase_agreement/models/agreement.py:0
+#, python-format
+msgid "The partner should be the same as in RFQ."
+msgstr ""
+
+#. module: l10n_th_gov_purchase_agreement
+#: model:ir.model.fields,field_description:l10n_th_gov_purchase_agreement.field_agreement__use_invoice_plan
+msgid "Use Invoice Plan"
+msgstr ""
