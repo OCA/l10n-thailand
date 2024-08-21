@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="name">account.move.form.account.asset.management</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account_asset_management.view_move_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_view_assets']" position="attributes">
+                <attribute
+                    name="groups"
+                >account.group_account_invoice, l10n_th_gov_account_asset_management.group_enable_asset_purchase</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

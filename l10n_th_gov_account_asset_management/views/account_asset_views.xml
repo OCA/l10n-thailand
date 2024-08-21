@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_asset_view_form" model="ir.ui.view">
+        <field name="name">account.asset.form</field>
+        <field name="model">account.asset</field>
+        <field
+            name="inherit_id"
+            ref="account_asset_management.account_asset_view_form"
+        />
+        <field name="arch" type="xml">
+            <!-- Additional Fields -->
+            <xpath expr="//field[@name='code']" position="after">
+                <field name="purchase_id" groups="purchase.group_purchase_user" />
+            </xpath>
+            <xpath expr="//field[@name='date_remove']" position="after">
+                <field
+                    name="remove_reason"
+                    readonly="True"
+                    attrs="{'invisible':['|', ('date_remove', '=', False), ('state', '!=', 'removed')]}"
+                />
+            </xpath>
+            <!-- New Tabs -->
+            <xpath expr="//notebook" position="inside">
+                <page name="asset_info" string="Other Information">
+                    <group>
+                        <group>
+                            <field name="employee_id" />
+                            <field name="asset_location_id" />
+                        </group>
+                        <group>
+                            <field name="asset_serial_number" />
+                            <label for="asset_guarantee_start" string="Guarantee" />
+                            <div class="o_row">
+                                <field
+                                    name="asset_guarantee_start"
+                                    class="oe_inline"
+                                    placeholder="Start Date"
+                                />
+                                <span class="oe_inline">-</span>
+                                <field
+                                    name="asset_guarantee_end"
+                                    class="oe_inline"
+                                    placeholder="End Date"
+                                />
+                            </div>
+                            <field name="asset_model" />
+                            <field name="asset_brand" />
+                        </group>
+                    </group>
+                </page>
+                <page name="asset_maintenance" string="Maintenance">
+                    <field name="maintenance_line_ids">
+                        <tree editable="bottom" default_order="date_maintenance, id">
+                            <field name="date_maintenance" />
+                            <field name="ref" />
+                            <field name="description" />
+                        </tree>
+                        <form string="Maintenance Lines">
+                            <group>
+                                <group>
+                                    <field name="date_maintenance" />
+                                    <field name="ref" />
+                                </group>
+                                <group>
+                                    <field name="description" />
+                                </group>
+                            </group>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="account_asset_view_search" model="ir.ui.view">
+        <field name="name">account.asset.search</field>
+        <field name="model">account.asset</field>
+        <field
+            name="inherit_id"
+            ref="account_asset_management.account_asset_view_search"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="employee_id" />
+                <field name="asset_serial_number" />
+                <field name="asset_model" />
+                <field name="asset_brand" />
+                <field name="asset_location_id" />
+            </xpath>
+            <xpath expr="//group" position="inside">
+                <filter
+                    string="Location"
+                    name="asset_location_groupby"
+                    domain=""
+                    context="{'group_by': 'asset_location_id'}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
