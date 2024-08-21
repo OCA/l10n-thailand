@@ -24,8 +24,7 @@ class AccountAssetLine(models.Model):
         if self.env.company.asset_move_line_analytic and ml_type == "depreciation":
             move_line_data.update(
                 {
-                    "analytic_account_id": asset.account_analytic_id.id,
-                    "analytic_tag_ids": [(4, tag.id) for tag in asset.analytic_tag_ids],
+                    "analytic_distribution": asset.analytic_distribution,
                 }
             )
         return move_line_data

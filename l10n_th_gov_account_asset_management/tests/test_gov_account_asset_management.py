@@ -34,12 +34,10 @@ class TestGovAssetManagementThailand(
             {
                 "groups_id": [
                     (4, cls.env.ref("analytic.group_analytic_accounting").id),
-                    (4, cls.env.ref("analytic.group_analytic_tags").id),
                 ],
             }
         )
         cls.analytic1 = cls.env.ref("analytic.analytic_administratif")
-        cls.analytic_tag1 = cls.env.ref("analytic.tag_contract")
 
     def test_01_flow_purchase_to_asset(self):
         self.env.company.asset_move_line_analytic = True
@@ -71,9 +69,13 @@ class TestGovAssetManagementThailand(
         with self.assertRaises(UserError):
             work_acceptance.button_draft()
         # Create Vendor Bill
-        f = Form(self.env["account.move"].with_context(default_move_type="in_invoice"))
+        f = Form(
+            self.env["account.move"].with_context(
+                default_move_type="in_invoice", default_purchase_id=purchase_order
+            )
+        )
         f.partner_id = purchase_order.partner_id
-        f.purchase_id = purchase_order
+        # f.purchase_id = purchase_order
         invoice = f.save()
         invoice.wa_id = work_acceptance
         invoice_line = invoice.invoice_line_ids[0]
@@ -146,9 +148,13 @@ class TestGovAssetManagementThailand(
         with self.assertRaises(UserError):
             work_acceptance.button_draft()
         # Create Vendor Bill
-        f = Form(self.env["account.move"].with_context(default_move_type="in_invoice"))
+        f = Form(
+            self.env["account.move"].with_context(
+                default_move_type="in_invoice", default_purchase_id=purchase_order
+            )
+        )
         f.partner_id = purchase_order.partner_id
-        f.purchase_id = purchase_order
+        # f.purchase_id = purchase_order
         invoice = f.save()
         invoice.wa_id = work_acceptance
         invoice_line = invoice.invoice_line_ids[0]
@@ -192,12 +198,12 @@ class TestGovAssetManagementThailand(
 
     def test_03_config_analytic(self):
         self.env.company.asset_move_line_analytic = True
+        analytic_distribution = {str(self.analytic1.id): 100}
         asset = self.asset_model.create(
             {
                 "name": "test asset analytic",
                 "number": "test number",
-                "account_analytic_id": self.analytic1.id,
-                "analytic_tag_ids": [(4, self.analytic_tag1.id)],
+                "analytic_distribution": analytic_distribution,
                 "profile_id": self.car5y.id,
                 "purchase_value": 1000,
                 "salvage_value": 0,
@@ -217,8 +223,7 @@ class TestGovAssetManagementThailand(
         move = self.env["account.move"].browse(move_id)
         self.assertEqual(move.ref, "test number")
         for line in move.line_ids:
-            self.assertEqual(line.analytic_account_id, self.analytic1)
-            self.assertEqual(line.analytic_tag_ids, self.analytic_tag1)
+            self.assertEqual(line.analytic_distribution, analytic_distribution)
 
     def test_04_asset_transfer_with_asset_number(self):
         asset_auc = self.asset_model.create(

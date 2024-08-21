@@ -6,17 +6,31 @@
         <field name="inherit_id" ref="purchase.purchase_order_form" />
         <field name="arch" type="xml">
             <xpath
-                expr="//field[@name='order_line']/tree//field[@name='analytic_tag_ids']"
+                expr="//field[@name='order_line']/tree//field[@name='analytic_distribution']"
                 position="after"
             >
                 <field name="asset_profile_id" />
             </xpath>
             <xpath
-                expr="//field[@name='order_line']/form//field[@name='analytic_tag_ids']"
+                expr="//field[@name='order_line']/form//field[@name='analytic_distribution']"
                 position="after"
             >
                 <field name="asset_profile_id" />
             </xpath>
         </field>
     </record>
+
+    <!-- Add new menu asset -->
+    <menuitem
+        id="menu_purchase_assets"
+        name="Assets"
+        parent="purchase.menu_purchase_root"
+        sequence="80"
+        groups="l10n_th_gov_account_asset_management.group_enable_asset_purchase"
+    />
+    <menuitem
+        id="purchase_account_asset_menu"
+        action="account_asset_management.account_asset_action"
+        parent="menu_purchase_assets"
+    />
 </odoo>

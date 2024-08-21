@@ -43,15 +43,13 @@ class AccountAssetRemove(models.TransientModel):
     def _get_removal_data(self, asset, residual_value):
         move_lines = super()._get_removal_data(asset, residual_value)
         name = asset.display_name
-        analytic_account = asset.account_analytic_id.id
-        analytic_tags = [(4, tag.id) for tag in asset.analytic_tag_ids]
+        analytic_distribution = asset.analytic_distribution
         for move_line in move_lines:
             move_line[2].update({"name": name})
             if self.env.company.asset_move_line_analytic:
                 move_line[2].update(
                     {
-                        "analytic_account_id": analytic_account,
-                        "analytic_tag_ids": analytic_tags,
+                        "analytic_distribution": analytic_distribution,
                     }
                 )
         return move_lines

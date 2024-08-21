@@ -29,11 +29,26 @@ class AccountAsset(models.Model):
         string="Location",
         tracking=True,
     )
-    asset_serial_number = fields.Char(string="Serial Number")
-    asset_guarantee_start = fields.Date(string="Guarantee Start")
-    asset_guarantee_end = fields.Date(string="Guarantee End")
-    asset_model = fields.Char(string="Model")
-    asset_brand = fields.Char(string="Brand")
+    asset_serial_number = fields.Char(
+        string="Serial Number",
+        tracking=True,
+    )
+    asset_guarantee_start = fields.Date(
+        string="Guarantee Start",
+        tracking=True,
+    )
+    asset_guarantee_end = fields.Date(
+        string="Guarantee End",
+        tracking=True,
+    )
+    asset_model = fields.Char(
+        string="Model",
+        tracking=True,
+    )
+    asset_brand = fields.Char(
+        string="Brand",
+        tracking=True,
+    )
     # Maintenance
     maintenance_line_ids = fields.One2many(
         comodel_name="account.asset.maintenance",

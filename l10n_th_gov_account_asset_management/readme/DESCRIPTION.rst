@@ -14,3 +14,5 @@ This module adds the following features to asset management, aimed to follow Tha
 4. Change the display name of the asset.
 5. Pass the asset number to the reference of the journal entry.
 6. Add asset profile to purchase order line.
+
+Note: Users must have the permission "Enable Assets in Purchase" to view assets in the purchase order.
