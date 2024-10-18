@@ -1,13 +1,12 @@
-This module is base export payment file to bank.
+The ``l10n_th_bank_payment_export`` module provides a **base wizard model** to support exporting payment files in **text format**, which is commonly required by Thai banks.
 
-Text file payment bank is a common need across different banks.
-With this module you will be able to export payment text file each your bank.
+This module itself does **not generate a payment file directly**, but serves as a foundation that other modules can extend to support bank-specific formats (e.g. KTB, BBL, SCB, etc.)
 
-This module does not provide a functionality by itself but an wizard model
-to implement a export format each bank on other models (e.g.
-KTB, BBL, SCB, KBANK...).
+**Key Features:**
 
-**Note:** To be able to use this module in a new model you will need some
-development.
+- Supports exporting payments to a bank-specific text format.
+- Includes a flexible **template system** to define default values.
+- Export structure can be configured dynamically using conditions and expressions.
 
-See `l10n_th_bank_payment_export_ktb` as an example of implementation.
+.. note::
+   This module requires further development to be functional with a specific bank. See module ``l10n_th_bank_payment_export_ktb`` as a reference implementation.

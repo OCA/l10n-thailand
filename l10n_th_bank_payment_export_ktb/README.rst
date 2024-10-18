@@ -40,44 +40,35 @@ This module extends the functionality of Bank Export Payment to support a KTB.
 .. contents::
    :local:
 
-Configuration
-=============
-
-To configure this module, you need to setup
-your `KTB Company ID` and `KTB Sender Name` first:
-
-#. Go to *Invoicing > Configuration > Payments > Bank Payment Configuration*.
-#. Select `Field` and add your value
-#. Select `Journal` field, if you want to default on Bank Payment Export following journal
-#. Check `default` field, if you want to default on Bank Payment Export menu
-
 Usage
 =====
 
-To use this module, you can create 2 ways:
+You can use this module to export a bank payment file in the format required by KTB. There are two main ways to initiate the export:
 
-* Create bank payment export from Payment
+* Create from a Vendor Payment
     #. Go to menu *Invoicing > Vendors > Payments*.
     #. Select payment > Action > Create Bank Payment Export
 
-* Create bank payment export direct
+* Create from the Export Menu
     #. Go to menu *Invoicing > Accounting > Bank Payment Export*.
     #. Create > select payment or Click *Get All Payments* when you need all payment to export
 
 Then you can do following:
 
-#. Select Bank *KTB* and add value on 'Information Export' Tab
-#. Click 'Confirm'
-#. Check data excel by 'Export Excel'
-#. Click 'Export Text File', state will change to 'Done' and the text file is downloaded to your computer.
+#. Select Bank *KTB*
+#. Fill in required fields under the Information Export tab manually, or choose a pre-configured Template to auto-fill values.
+#. Click `Confirm` to validate the document.
+#. Click `Export Excel` to preview the information in .xlsx format.
+#. Click `Export Text File` to generate and download the `.txt` file. The document's state will change to Done.
 #. If a payment fails (after sending a text file to the bank), you can reject each line and generate a new document by clicking 'reject' on each line.
 
-Note:
+Notes:
 
 * Export Excel: To review information (.xlsx)
 * Export Text File: To create a text file and send it to the bank (.txt)
-* You will need the "Show Full Accounting Features" to see Bank Payment Export menu and Account Manager can confirm document
-* You can 'cancel' a text file before sending it to the bank (difference with reject by bank)
+* You must enable "Show Full Accounting Features" in user settings to access Bank Payment Export.
+* Only `Account Managers` can confirm and export documents.
+* You can `Cancel` an export document before it is submitted to the bank (different from Reject, which occurs post-submission).
 
 Bug Tracker
 ===========

@@ -17,6 +17,7 @@
         "data/report_action.xml",
         "data/server_action.xml",
         "templates/report_template.xml",
+        "views/bank_export_format_view.xml",
         "views/bank_payment_template_view.xml",
         "views/account_payment_view.xml",
         "views/bank_payment_export_view.xml",

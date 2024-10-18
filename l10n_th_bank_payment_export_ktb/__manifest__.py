@@ -11,7 +11,9 @@
     "summary": "Bank Payment Export File KTB",
     "depends": ["l10n_th_bank_payment_export"],
     "data": [
-        "data/report_action.xml",
+        "data/bank.export.format.csv",
+        "data/bank.export.format.line.csv",
+        "views/res_partner_views.xml",
         "views/bank_payment_export_view.xml",
     ],
     "installable": True,
