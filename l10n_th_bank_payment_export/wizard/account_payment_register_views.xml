@@ -6,7 +6,10 @@
         <field name="inherit_id" ref="account.view_account_payment_register_form" />
         <field name="arch" type="xml">
             <xpath expr="//group[@name='group2']" position="inside">
-                <field name="bank_payment_template_id" />
+                <field
+                    name="bank_payment_template_id"
+                    domain="['|', ('journal_ids', 'in', journal_id), ('journal_ids', '=', False)]"
+                />
                 <label for="is_export" />
                 <div class="oe_inline">
                     <field name="is_export" />
