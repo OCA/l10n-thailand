@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_bank_export_format_tree" model="ir.ui.view">
+        <field name="name">bank.export.format.tree</field>
+        <field name="model">bank.export.format</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="bank" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_bank_export_format_form" model="ir.ui.view">
+        <field name="name">bank.export.format.form</field>
+        <field name="model">bank.export.format</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="bank" />
+                    </group>
+                    <notebook>
+                        <page string="Export Format">
+                            <field
+                                name="export_format_ids"
+                                widget="section_and_note_one2many"
+                            >
+                                <tree editable="bottom">
+                                    <control>
+                                        <create
+                                            name="add_line_control"
+                                            string="Add a line"
+                                        />
+                                        <create
+                                            name="add_section_control"
+                                            string="Add a section"
+                                            context="{'default_display_type': 'line_section'}"
+                                        />
+                                        <create
+                                            name="add_note_control"
+                                            string="Add a note"
+                                            context="{'default_display_type': 'line_note'}"
+                                        />
+                                    </control>
+
+                                    <field
+                                        name="display_type"
+                                        force_save="1"
+                                        invisible="1"
+                                    />
+                                    <field name="sequence" widget="handle" />
+                                    <field name="match_group" string="Group" />
+                                    <field name="need_loop" string="Loop" />
+                                    <field name="new_line" />
+                                    <field name="name" style="white-space: normal;" />
+                                    <field name="lenght" />
+                                    <field name="lenght_from" />
+                                    <field name="lenght_to" />
+                                    <field name="value_alignment" />
+                                    <field name="value_blank_space" />
+                                    <field name="value_type" />
+                                    <field name="value" style="white-space: normal;" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_bank_export_format_template" model="ir.actions.act_window">
+        <field name="name">Bank Export Format</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bank.export.format</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a Format Bank Export.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem
+        id="menu_bank_export_format"
+        name="Bank Export Format"
+        parent="base.menu_custom"
+        sequence="90"
+    />
+    <menuitem
+        id="menu_bank_export_format_template"
+        parent="menu_bank_export_format"
+        action="action_bank_export_format_template"
+        sequence="10"
+    />
+</odoo>

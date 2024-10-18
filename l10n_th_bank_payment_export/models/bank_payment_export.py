@@ -3,6 +3,7 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.safe_eval import safe_eval
 
 
 class BankPaymentExport(models.Model):
@@ -170,7 +171,58 @@ class BankPaymentExport(models.Model):
 
     def _generate_bank_payment_text(self):
         self.ensure_one()
-        return
+        globals_dict = {"rec": self, "line": self.export_line_ids}
+        text_parts = []
+        processed_match = set()
+
+        # Get format from bank
+        bank_format = self.env["bank.export.format"].search(
+            [("bank", "=", self.bank)], limit=1
+        )
+        if not bank_format:
+            raise UserError(_("Bank format not found."))
+
+        exp_format_lines = bank_format.export_format_ids
+
+        for exp_format in exp_format_lines:
+            if exp_format.display_type:
+                continue
+
+            # Skip if value has already been processed, and need_loop is True
+            if exp_format.need_loop and exp_format.match_group in processed_match:
+                continue
+
+            # Add value to the set of processed values
+            processed_match.add(exp_format.match_group)
+
+            if exp_format.need_loop:
+                exp_format_line_group = exp_format_lines.filtered(
+                    lambda l: l.match_group == exp_format.match_group
+                )
+                # Get all lines that match the current group
+                for line in self.export_line_ids:
+                    # Change the value of the line in the globals_dict
+                    globals_dict["line"] = line
+                    for exp_format_line in exp_format_line_group:
+                        if exp_format_line.new_line:
+                            # TODO: Change this to configurable
+                            text_parts.append("\r\n")
+
+                        # Get value from instruction
+                        text_line = exp_format_line._get_value(globals_dict)
+                        text_parts.append(text_line)
+                continue
+
+            if exp_format.new_line:
+                # TODO: Change this to configurable
+                text_parts.append("\r\n")
+
+            # Get value from instruction
+            text_line = exp_format._get_value(globals_dict)
+            text_parts.append(text_line)
+
+        text = "".join(text_parts)
+        return text
 
     def _export_bank_payment_text_file(self):
         self.ensure_one()
