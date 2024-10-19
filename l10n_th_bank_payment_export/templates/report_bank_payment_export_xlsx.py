@@ -125,7 +125,6 @@ class BankPaymentExportXslx(models.AbstractModel):
         acc_number = recipient_bank.acc_number or False
         received_bank = recipient_bank.bank_id
         partner_id = pe_line.payment_partner_id
-        payment_net_amount = pe_line._get_payment_net_amount()
         return {
             "sequence": idx + 1,
             "reference": pe_line.payment_id.name,
@@ -136,7 +135,7 @@ class BankPaymentExportXslx(models.AbstractModel):
             "acc_holder_name": recipient_bank.acc_holder_name
             or recipient_bank.partner_id.display_name
             or "",
-            "amount": payment_net_amount,
+            "amount": pe_line.payment_amount,
             "bank_code": received_bank.bank_code or "",
             "bank_branch_code": received_bank.bank_branch_code or "",
             "email": partner_id.email or "",

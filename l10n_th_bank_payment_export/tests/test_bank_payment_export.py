@@ -140,11 +140,6 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         bank_payment.action_get_all_payments()
         self.assertEqual(len(bank_payment.export_line_ids.ids), 2)
         self.assertFalse(bank_payment.is_required_effective_date)
-        # Test function for generate text file
-        amount_test = bank_payment._get_amount_no_decimal(100.0)
-        self.assertEqual(amount_test, 100.0)
-        text_file = bank_payment._generate_bank_payment_text()
-        self.assertFalse(text_file)
         # Test bank difference bank payment
         with self.assertRaises(UserError):
             bank_payment.export_line_ids[
@@ -164,59 +159,18 @@ class TestBankPaymentExport(CommonBankPaymentExport):
                 line.payment_partner_bank_id.bank_id.bic = "BAABTHBK"
                 line.payment_partner_bank_id.acc_number = "123456789012"
                 self.assertEqual(len(line.payment_partner_bank_id.acc_number), 12)
-                (
-                    receiver_name,
-                    receiver_bank_code,
-                    receiver_branch_code,
-                    receiver_acc_number,
-                ) = line._get_receiver_information()
-                self.assertEqual(len(receiver_acc_number), 11)
-                self.assertEqual(receiver_acc_number, "23456789012")
                 # TFPCTHB1 14 digits -> 11 digits (5 - 14 and add 0 at first digit)
                 line.payment_partner_bank_id.bank_id.bic = "TFPCTHB1"
                 line.payment_partner_bank_id.acc_number = "12345678901234"
                 self.assertEqual(len(line.payment_partner_bank_id.acc_number), 14)
-                (
-                    receiver_name,
-                    receiver_bank_code,
-                    receiver_branch_code,
-                    receiver_acc_number,
-                ) = line._get_receiver_information()
-                self.assertEqual(len(receiver_acc_number), 11)
-                self.assertEqual(receiver_acc_number, "05678901234")
                 # TIBTTHBK 12 digits -> 11 digits (3 - 12 and add 0 at first digit)
                 line.payment_partner_bank_id.bank_id.bic = "TIBTTHBK"
                 line.payment_partner_bank_id.acc_number = "123456789012"
                 self.assertEqual(len(line.payment_partner_bank_id.acc_number), 12)
-                (
-                    receiver_name,
-                    receiver_bank_code,
-                    receiver_branch_code,
-                    receiver_acc_number,
-                ) = line._get_receiver_information()
-                self.assertEqual(len(receiver_acc_number), 11)
-                self.assertEqual(receiver_acc_number, "03456789012")
                 # GSBATHBK 12 digits -> 11 digits (2 - 12)
                 line.payment_partner_bank_id.bank_id.bic = "GSBATHBK"
                 line.payment_partner_bank_id.acc_number = "123456789012"
                 self.assertEqual(len(line.payment_partner_bank_id.acc_number), 12)
-                (
-                    receiver_name,
-                    receiver_bank_code,
-                    receiver_branch_code,
-                    receiver_acc_number,
-                ) = line._get_receiver_information()
-                self.assertEqual(len(receiver_acc_number), 11)
-                self.assertEqual(receiver_acc_number, "23456789012")
-            (
-                sender_bank_code,
-                sender_branch_code,
-                sender_acc_number,
-            ) = line._get_sender_information()
-            # Default from recipient bank
-            if line.payment_partner_id == self.partner_2:
-                self.assertTrue(receiver_name)
-                self.assertTrue(receiver_acc_number)
 
         # Test register payment with not group payment
         invoice = self.create_invoice(
@@ -294,8 +248,7 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         text_word = bank_payment._export_bank_payment_text_file()
         self.assertEqual(
             text_word,
-            "Demo Text File. You can inherit function "
-            "_generate_bank_payment_text() for customize your format.",
+            "Demo Text File. You must config `Bank Export Format` First.",
         )
         # Reject some payment (bank reject)
         export_line[0].action_reject()

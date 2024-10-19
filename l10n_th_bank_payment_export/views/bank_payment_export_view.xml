@@ -91,6 +91,7 @@
                         <group name="left_header">
                             <field name="template_id" />
                             <field name="bank" />
+                            <field name="bank_format_id" />
                         </group>
                         <group name="right_header">
                             <field

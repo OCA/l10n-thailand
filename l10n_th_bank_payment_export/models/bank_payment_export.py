@@ -33,6 +33,14 @@ class BankPaymentExport(models.Model):
         tracking=True,
         check_company=True,
     )
+    bank_format_id = fields.Many2one(
+        comodel_name="bank.export.format",
+        string="Bank Export Format",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        domain="[('bank', '=', bank)]",
+        tracking=True,
+    )
     effective_date = fields.Date(
         copy=False,
         readonly=True,
@@ -155,7 +163,7 @@ class BankPaymentExport(models.Model):
         return "{}".format(self.name)
 
     def _get_view_report_text(self):
-        return "l10n_th_bank_payment_export.action_payment_demo_txt"
+        return "l10n_th_bank_payment_export.action_payment_txt"
 
     def _get_view_report_xlsx(self):
         return "l10n_th_bank_payment_export.action_export_payment_xlsx"
@@ -176,15 +184,12 @@ class BankPaymentExport(models.Model):
         processed_match = set()
 
         # Get format from bank
-        bank_format = self.env["bank.export.format"].search(
-            [("bank", "=", self.bank)], limit=1
-        )
-        if not bank_format:
+        if not self.bank_format_id:
             raise UserError(_("Bank format not found."))
 
-        exp_format_lines = bank_format.export_format_ids
+        exp_format_lines = self.bank_format_id.export_format_ids
 
-        for exp_format in exp_format_lines:
+        for idx, exp_format in enumerate(exp_format_lines):
             if exp_format.display_type:
                 continue
 
@@ -195,14 +200,18 @@ class BankPaymentExport(models.Model):
             # Add value to the set of processed values
             processed_match.add(exp_format.match_group)
 
+            # Add idx to globals_dict
+            globals_dict["idx"] = idx
+
             if exp_format.need_loop:
                 exp_format_line_group = exp_format_lines.filtered(
                     lambda l: l.match_group == exp_format.match_group
                 )
                 # Get all lines that match the current group
-                for line in self.export_line_ids:
+                for idx_line, line in enumerate(self.export_line_ids):
                     # Change the value of the line in the globals_dict
                     globals_dict["line"] = line
+                    globals_dict["idx_line"] = idx_line
                     for exp_format_line in exp_format_line_group:
                         if exp_format_line.new_line:
                             # TODO: Change this to configurable
@@ -228,10 +237,7 @@ class BankPaymentExport(models.Model):
         self.ensure_one()
         if self.bank:
             return self._generate_bank_payment_text()
-        return (
-            "Demo Text File. You can inherit function "
-            "_generate_bank_payment_text() for customize your format."
-        )
+        return "Demo Text File. You must config `Bank Export Format` First."
 
     def _check_constraint_line(self):
         # Add condition with line on this function
@@ -290,10 +296,6 @@ class BankPaymentExport(models.Model):
             }
         )
         return ctx
-
-    def _get_amount_no_decimal(self, amount, digits=False):
-        """Implementation is available"""
-        return amount
 
     @api.constrains("effective_date")
     def check_effective_date(self):
