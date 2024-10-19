@@ -38,61 +38,35 @@ class BankPaymentExport(models.Model):
     )
     ktb_service_type_standard = fields.Selection(
         selection=[
-            ("01", "เงินเดือน ค่าจ้าง บำเหน็จ บำนาญ"),
-            ("02", "เงินปันผล"),
-            ("03", "ดอกเบี้ย"),
-            ("04", "ค่าสินค้า บริการ"),
-            ("05", "ขายหลักทรัพย์"),
-            ("06", "คืนภาษี"),
-            ("07", "เงินกู้"),
-            ("59", "อื่น ๆ"),
+            ("01", "01 - เงินเดือน ค่าจ้าง บำเหน็จ บำนาญ"),
+            ("02", "02 - เงินปันผล"),
+            ("03", "03 - ดอกเบี้ย"),
+            ("04", "04 - ค่าสินค้า บริการ"),
+            ("05", "05 - ขายหลักทรัพย์"),
+            ("06", "06 - คืนภาษี"),
+            ("07", "07 - เงินกู้"),
+            ("59", "59 - อื่น ๆ"),
         ],
-        ondelete={
-            "01": "cascade",
-            "02": "cascade",
-            "03": "cascade",
-            "04": "cascade",
-            "05": "cascade",
-            "06": "cascade",
-            "07": "cascade",
-            "59": "cascade",
-        },
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
     ktb_service_type_direct = fields.Selection(
         selection=[
-            ("02", "รายการเข้าบัญชีเงินเดือน (Salary)"),
-            ("04", "รายการชำระดอกเบี้ย (Bond Interest)"),
-            ("09", "รายการชำระเบี้ยประกัน (Insurance Premium)"),
-            ("10", "รายการชำระค่าโทรศัพท์ (Telephone Payment)"),
-            ("11", "รายการชำระค่าไฟฟ้า (Electricity Payment)"),
-            ("12", "รายการชำระค่าน้ำประปา (Water Payment)"),
-            ("14", "รายการชำระค่าสินค้าและบริการ (Purchase & Service)"),
-            ("15", "รายการชำระเงินของธนาคารอาคารสงเคราะห์ (GSB)"),
-            ("21", "รายการชำระราคาหลักทรัพย์ (Securities)"),
-            ("25", "รายการชำระ Clearing Bank"),
-            ("27", "รายการชำระค่าประกันสังคม (SSO)"),
-            ("28", "รายการชำระของกองสลากฯ (Lottery)"),
-            ("37", "รายการชำระด้วยบัตรอิเลคทรอนิคส์ (Electronic Card)"),
-            ("46", "รายการจ่ายเงินบำนาญ (Pension Fund)"),
+            ("02", "02 - รายการเข้าบัญชีเงินเดือน (Salary)"),
+            ("04", "04 - รายการชำระดอกเบี้ย (Bond Interest)"),
+            ("09", "09 - รายการชำระเบี้ยประกัน (Insurance Premium)"),
+            ("10", "10 - รายการชำระค่าโทรศัพท์ (Telephone Payment)"),
+            ("11", "11 - รายการชำระค่าไฟฟ้า (Electricity Payment)"),
+            ("12", "12 - รายการชำระค่าน้ำประปา (Water Payment)"),
+            ("14", "14 - รายการชำระค่าสินค้าและบริการ (Purchase & Service)"),
+            ("15", "15 - รายการชำระเงินของธนาคารอาคารสงเคราะห์ (GSB)"),
+            ("21", "21 - รายการชำระราคาหลักทรัพย์ (Securities)"),
+            ("25", "25 - รายการชำระ Clearing Bank"),
+            ("27", "27 - รายการชำระค่าประกันสังคม (SSO)"),
+            ("28", "28 - รายการชำระของกองสลากฯ (Lottery)"),
+            ("37", "37 - รายการชำระด้วยบัตรอิเลคทรอนิคส์ (Electronic Card)"),
+            ("46", "46 - รายการจ่ายเงินบำนาญ (Pension Fund)"),
         ],
-        ondelete={
-            "02": "cascade",
-            "04": "cascade",
-            "09": "cascade",
-            "10": "cascade",
-            "11": "cascade",
-            "12": "cascade",
-            "14": "cascade",
-            "15": "cascade",
-            "21": "cascade",
-            "25": "cascade",
-            "27": "cascade",
-            "28": "cascade",
-            "37": "cascade",
-            "46": "cascade",
-        },
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -115,150 +89,6 @@ class BankPaymentExport(models.Model):
     def _compute_ktb_editable(self):
         for export in self:
             export.ktb_is_editable = True if export.bank == "KRTHTHBK" else False
-
-    def _get_ktb_sender_name(self):
-        return self.ktb_sender_name
-
-    def _get_ktb_receiver_info(self, pe_line):
-        return "".ljust(8)
-
-    def _get_ktb_receiver_id(self, pe_line):
-        return "0".zfill(10)
-
-    def _get_ktb_other_info1(self, pe_line):
-        return "".ljust(40)
-
-    def _get_ktb_other_info2(self, pe_line):
-        return "".ljust(20)
-
-    def _get_ktb_ddr_ref1(self, pe_line):
-        return "".ljust(18)
-
-    def _get_ktb_ddr_ref2(self, pe_line):
-        return pe_line.payment_id.name.ljust(18)
-
-    def _get_ktb_email(self, pe_line):
-        return (
-            pe_line.payment_partner_id.email
-            and pe_line.payment_partner_id.email[:40].ljust(40)
-            or "".ljust(40)
-        )
-
-    def _get_ktb_sms(self, pe_line):
-        return (
-            pe_line.payment_partner_id.phone
-            and pe_line.payment_partner_id.phone[:20].ljust(20)
-            or "".ljust(20)
-        )
-
-    def _get_ktb_receiver_sub_branch_code(self, pe_line):
-        return "0".zfill(4)
-
-    def _get_text_header_ktb(self, payment_lines):
-        ktb_company_id = self.ktb_company_id or "**Company ID on KTB is not config**"
-        total_batch = len(payment_lines.ids)
-        total_amount = sum(payment_lines.mapped("payment_amount"))
-        total_batch_amount = payment_lines._get_amount_no_decimal(total_amount, 2)
-        text = (
-            "101{idx}006{total_batch_transaction}{total_batch_amount}"
-            "{effective_date}C{receiver_no}{ktb_company_id}{space}\r\n".format(
-                idx="1".zfill(6),  # 1 Batch = 1 File, How we can add more than 1 batch?
-                total_batch_transaction=str(total_batch).zfill(7),
-                total_batch_amount=str(total_batch_amount).zfill(19),
-                effective_date=self.effective_date.strftime("%d%m%Y"),
-                receiver_no="0".zfill(8),
-                ktb_company_id=ktb_company_id.ljust(16),
-                space="".ljust(427),  # user id and filter (20 + 407 char)
-            )
-        )
-        return text
-
-    def _get_text_body_ktb(self, idx, pe_line, payment_net_amount_bank):
-        # Sender
-        sender_name = self._get_ktb_sender_name()
-        (
-            sender_bank_code,
-            sender_branch_code,
-            sender_acc_number,
-        ) = pe_line._get_sender_information()
-        # Receiver
-        (
-            receiver_name,
-            receiver_bank_code,
-            receiver_branch_code,
-            receiver_acc_number,
-        ) = pe_line._get_receiver_information()
-        ktb_service_type = (
-            self.ktb_bank_type == "standard"
-            and self.ktb_service_type_standard
-            or self.ktb_service_type_direct
-        )
-        text = (
-            "102{idx}{receiver_bank_code}{receiver_branch_code}{receiver_acc_number}"
-            "{sender_bank_code}{sender_branch_code}{sender_acc_number}"
-            "{effective_date}{ktb_service_type}00{payment_net_amount_bank}"
-            "{receiver_info}{receiver_id}{receiver_name}{sender_name}{other_info1}"
-            "{ddr_ref1}{space}{ddr_ref2}{space}{other_info2}"
-            "{ref_running_number}09{email}{sms}{receiver_sub_branch_code}"
-            "{filter}\r\n".format(
-                idx="1".zfill(6),  # 1 Batch = 1 File, How we can add more than 1 batch?
-                receiver_bank_code=receiver_bank_code,  # 10-12
-                receiver_branch_code=receiver_branch_code,  # 13-16
-                receiver_acc_number=receiver_acc_number,  # 17-27
-                sender_bank_code=sender_bank_code,  # 28-30
-                sender_branch_code=sender_branch_code,  # 31-34
-                sender_acc_number=sender_acc_number,  # 35-45
-                effective_date=self.effective_date.strftime("%d%m%Y"),  # 46-53
-                ktb_service_type=ktb_service_type,  # 54-55
-                payment_net_amount_bank=payment_net_amount_bank  # 58-74
-                and str(payment_net_amount_bank)[:17].zfill(17)
-                or "0".zfill(17),
-                receiver_info=self._get_ktb_receiver_info(pe_line),  # 75-82
-                receiver_id=self._get_ktb_receiver_id(pe_line),  # 83-92
-                receiver_name=receiver_name,  # 93-192
-                sender_name=sender_name[:100].ljust(100),  # 193-292
-                other_info1=self._get_ktb_other_info1(pe_line),  # 293-332
-                ddr_ref1=self._get_ktb_ddr_ref1(pe_line),  # 333-350
-                ddr_ref2=self._get_ktb_ddr_ref2(pe_line),  # 353-370
-                space="".ljust(2),  # 351-352 and 371-372
-                other_info2=self._get_ktb_other_info2(pe_line),  # 373-392
-                ref_running_number=str(idx + 1).zfill(6),  # 393-398
-                email=self._get_ktb_email(pe_line),  # 401-440
-                sms=self._get_ktb_sms(pe_line),  # 441-460
-                receiver_sub_branch_code=self._get_ktb_receiver_sub_branch_code(
-                    pe_line
-                ),  # 461-464
-                filter="".ljust(34),
-            )
-        )
-        return text
-
-    def _format_ktb_text(self):
-        total_amount = 0
-        payment_lines = self.export_line_ids
-        # Header
-        text = self._get_text_header_ktb(payment_lines)
-        # Details
-        for idx, pe_line in enumerate(payment_lines):
-            # This amount related decimal from invoice, Odoo invoice do not rounding.
-            payment_net_amount = pe_line._get_payment_net_amount()
-            payment_net_amount_bank = pe_line._get_amount_no_decimal(
-                payment_net_amount, 2
-            )
-            text += self._get_text_body_ktb(idx, pe_line, payment_net_amount_bank)
-            total_amount += payment_net_amount_bank
-        return text
-
-    def _generate_bank_payment_text(self):
-        self.ensure_one()
-        if self.bank == "KRTHTHBK":  # KTB
-            return self._format_ktb_text()
-        return super()._generate_bank_payment_text()
-
-    def _get_view_report_text(self):
-        if self.bank == "KRTHTHBK":
-            return "l10n_th_bank_payment_export_ktb.action_payment_ktb_txt"
-        return super()._get_view_report_text()
 
     def _check_constraint_confirm(self):
         res = super()._check_constraint_confirm()
