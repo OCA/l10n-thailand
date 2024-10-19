@@ -91,7 +91,11 @@ class BankExportFormatLine(models.Model):
             for line in export_format_lines:
                 line.lenght_from = previous_lenght_to + 1
                 line.lenght_to = line.lenght_from + line.lenght - 1
-                previous_lenght_to = line.lenght_to
+                # Reset the starting point for lenght_from if new_line is True
+                if line.new_line:
+                    previous_lenght_to = 0
+                else:
+                    previous_lenght_to = line.lenght_to
 
     def _get_value(self, globals_dict):
         value = self.value or ""
