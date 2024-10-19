@@ -33,7 +33,7 @@ class BankPaymentExport(models.Model):
         tracking=True,
         check_company=True,
     )
-    bank_format_id = fields.Many2one(
+    bank_export_format_id = fields.Many2one(
         comodel_name="bank.export.format",
         string="Bank Export Format",
         readonly=True,
@@ -184,10 +184,10 @@ class BankPaymentExport(models.Model):
         processed_match = set()
 
         # Get format from bank
-        if not self.bank_format_id:
+        if not self.bank_export_format_id:
             raise UserError(_("Bank format not found."))
 
-        exp_format_lines = self.bank_format_id.export_format_ids
+        exp_format_lines = self.bank_export_format_id.export_format_ids
 
         for idx, exp_format in enumerate(exp_format_lines):
             if exp_format.display_type:

@@ -10,6 +10,9 @@ class BankExportFormat(models.Model):
     _name = "bank.export.format"
     _description = "Bank Export Format"
 
+    name = fields.Char(
+        required=True,
+    )
     bank = fields.Selection(
         selection=[],
     )
