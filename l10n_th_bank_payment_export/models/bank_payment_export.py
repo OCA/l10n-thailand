@@ -179,8 +179,8 @@ class BankPaymentExport(models.Model):
             view_report = self._get_view_report_xlsx()
         return self.env.ref(view_report).sudo().report_action(self, config=False)
 
-    def _generate_bank_payment_text(self):
-        self.ensure_one()
+    def _set_global_dict(self):
+        """Set global dict for eval"""
         today = fields.Date.context_today(self)
         today_datetime = fields.Datetime.context_timestamp(
             self.env.user, datetime.now()
@@ -191,6 +191,16 @@ class BankPaymentExport(models.Model):
             "today": today,
             "today_datetime": today_datetime,
         }
+        return globals_dict
+
+    def _update_global_dict(self, globals_dict, **kwargs):
+        """Update global dict with kwargs"""
+        globals_dict.update(kwargs)
+        return globals_dict
+
+    def _generate_bank_payment_text(self):
+        self.ensure_one()
+        globals_dict = self._set_global_dict()
         text_parts = []
         processed_match = set()
 
@@ -209,7 +219,7 @@ class BankPaymentExport(models.Model):
                 continue
 
             # Add idx to globals_dict
-            globals_dict["idx"] = idx
+            globals_dict = self._update_global_dict(globals_dict, idx=idx)
 
             # Skip this line if condition is not met
             if exp_format.condition_line:
@@ -220,20 +230,29 @@ class BankPaymentExport(models.Model):
                     continue
 
             # Add value to the set of processed values
-            processed_match.add(exp_format.match_group)
+            if exp_format.match_group:
+                processed_match.add(exp_format.match_group)
 
             if exp_format.need_loop:
+                # search only lines that match the current group and condition
                 exp_format_line_group = exp_format_lines.filtered(
                     lambda l: l.match_group == exp_format.match_group
+                    and (
+                        not l.condition_line
+                        or safe_eval(l.condition_line, globals_dict=globals_dict)
+                    )
                 )
+
                 # Get all lines that match the current group
                 for idx_line, line in enumerate(self.export_line_ids):
                     # Change the value of the line in the globals_dict
-                    globals_dict["line"] = line
-                    globals_dict["idx_line"] = idx_line
+                    globals_dict_line = self._update_global_dict(
+                        globals_dict, line=line, idx_line=idx_line
+                    )
+
                     for exp_format_line in exp_format_line_group:
                         # Get value from instruction
-                        text_line = exp_format_line._get_value(globals_dict)
+                        text_line = exp_format_line._get_value(globals_dict_line)
                         text_parts.append(text_line)
 
                         if exp_format_line.end_line:
