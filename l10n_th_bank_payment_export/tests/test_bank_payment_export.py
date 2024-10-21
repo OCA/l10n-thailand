@@ -16,19 +16,49 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         field_effective_date = cls.field_model.search(
             [("name", "=", "effective_date"), ("model", "=", "bank.payment.export")]
         )
-        cls.template_test_bank = cls.bank_payment_template_model.create(
+        field_bank_export_format_id = cls.field_model.search(
+            [("name", "=", "bank_export_format_id")]
+        )
+
+        data_dict = [
             {
-                "name": "Template Bank Test",
+                "field_id": field_effective_date.id,
+                "value": "9999-01-01",
+            }
+        ]
+
+        cls.template_test_bank = cls.create_bank_payment_template(
+            cls,
+            "TEST",
+            data_dict,
+        )
+        cls.bank_export_format = cls.bank_export_format_model.create(
+            {
+                "name": "Test Bank",
                 "bank": "TEST",
-                "template_config_line": [
+                "export_format_ids": [
                     (
                         0,
                         0,
                         {
-                            "field_id": field_effective_date.id,
-                            "value": "9999-01-01",
+                            "sequence": 10,
+                            "lenght": 10,
+                            "name": "Test Line1",
+                            "value_type": "fixed",
+                            "value": "9999999999",
                         },
-                    )
+                    ),
+                    (
+                        0,
+                        0,
+                        {
+                            "sequence": 11,
+                            "lenght": 4,
+                            "name": "Test Line2",
+                            "value_type": "fixed",
+                            "value": "TEST",
+                        },
+                    ),
                 ],
             }
         )
@@ -140,11 +170,6 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         bank_payment.action_get_all_payments()
         self.assertEqual(len(bank_payment.export_line_ids.ids), 2)
         self.assertFalse(bank_payment.is_required_effective_date)
-        # Test function for generate text file
-        amount_test = bank_payment._get_amount_no_decimal(100.0)
-        self.assertEqual(amount_test, 100.0)
-        text_file = bank_payment._generate_bank_payment_text()
-        self.assertFalse(text_file)
         # Test bank difference bank payment
         with self.assertRaises(UserError):
             bank_payment.export_line_ids[
@@ -164,59 +189,18 @@ class TestBankPaymentExport(CommonBankPaymentExport):
                 line.payment_partner_bank_id.bank_id.bic = "BAABTHBK"
                 line.payment_partner_bank_id.acc_number = "123456789012"
                 self.assertEqual(len(line.payment_partner_bank_id.acc_number), 12)
-                (
-                    receiver_name,
-                    receiver_bank_code,
-                    receiver_branch_code,
-                    receiver_acc_number,
-                ) = line._get_receiver_information()
-                self.assertEqual(len(receiver_acc_number), 11)
-                self.assertEqual(receiver_acc_number, "23456789012")
                 # TFPCTHB1 14 digits -> 11 digits (5 - 14 and add 0 at first digit)
                 line.payment_partner_bank_id.bank_id.bic = "TFPCTHB1"
                 line.payment_partner_bank_id.acc_number = "12345678901234"
                 self.assertEqual(len(line.payment_partner_bank_id.acc_number), 14)
-                (
-                    receiver_name,
-                    receiver_bank_code,
-                    receiver_branch_code,
-                    receiver_acc_number,
-                ) = line._get_receiver_information()
-                self.assertEqual(len(receiver_acc_number), 11)
-                self.assertEqual(receiver_acc_number, "05678901234")
                 # TIBTTHBK 12 digits -> 11 digits (3 - 12 and add 0 at first digit)
                 line.payment_partner_bank_id.bank_id.bic = "TIBTTHBK"
                 line.payment_partner_bank_id.acc_number = "123456789012"
                 self.assertEqual(len(line.payment_partner_bank_id.acc_number), 12)
-                (
-                    receiver_name,
-                    receiver_bank_code,
-                    receiver_branch_code,
-                    receiver_acc_number,
-                ) = line._get_receiver_information()
-                self.assertEqual(len(receiver_acc_number), 11)
-                self.assertEqual(receiver_acc_number, "03456789012")
                 # GSBATHBK 12 digits -> 11 digits (2 - 12)
                 line.payment_partner_bank_id.bank_id.bic = "GSBATHBK"
                 line.payment_partner_bank_id.acc_number = "123456789012"
                 self.assertEqual(len(line.payment_partner_bank_id.acc_number), 12)
-                (
-                    receiver_name,
-                    receiver_bank_code,
-                    receiver_branch_code,
-                    receiver_acc_number,
-                ) = line._get_receiver_information()
-                self.assertEqual(len(receiver_acc_number), 11)
-                self.assertEqual(receiver_acc_number, "23456789012")
-            (
-                sender_bank_code,
-                sender_branch_code,
-                sender_acc_number,
-            ) = line._get_sender_information()
-            # Default from recipient bank
-            if line.payment_partner_id == self.partner_2:
-                self.assertTrue(receiver_name)
-                self.assertTrue(receiver_acc_number)
 
         # Test register payment with not group payment
         invoice = self.create_invoice(
@@ -248,6 +232,7 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         self.assertFalse(bank_payment.bank)
         with Form(bank_payment) as pe:
             pe.template_id = self.template_test_bank
+            pe.bank_export_format_id = self.bank_export_format
         bank_payment = pe.save()
         self.assertEqual(bank_payment.bank, "TEST")
         # Test unlink document state draft
@@ -294,8 +279,7 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         text_word = bank_payment._export_bank_payment_text_file()
         self.assertEqual(
             text_word,
-            "Demo Text File. You can inherit function "
-            "_generate_bank_payment_text() for customize your format.",
+            "Demo Text File. You must config `Bank Export Format` First.",
         )
         # Reject some payment (bank reject)
         export_line[0].action_reject()

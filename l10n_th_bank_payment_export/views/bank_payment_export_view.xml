@@ -91,6 +91,10 @@
                         <group name="left_header">
                             <field name="template_id" />
                             <field name="bank" />
+                            <field
+                                name="bank_export_format_id"
+                                attrs="{'required': [('bank', '!=', False)]}"
+                            />
                         </group>
                         <group name="right_header">
                             <field

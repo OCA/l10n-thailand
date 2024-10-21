@@ -1,0 +1,44 @@
+id,bank_id/id,sequence,name,display_type,lenght,match_group,need_loop,end_line,value_type,value_alignment,value_blank_space,value
+ktb_format_01,l10n_th_bank_payment_export_ktb.ktb_ipay,10,HEADER,line_section,,,,,fixed,ljust,,
+ktb_format_02,l10n_th_bank_payment_export_ktb.ktb_ipay,11,File Type,,2,,,,fixed,ljust,,10
+ktb_format_03,l10n_th_bank_payment_export_ktb.ktb_ipay,12,Record Type,,1,,,,fixed,ljust,,1
+ktb_format_04,l10n_th_bank_payment_export_ktb.ktb_ipay,13,Batch Number,,6,,,,fixed,rjust,0,1
+ktb_format_05,l10n_th_bank_payment_export_ktb.ktb_ipay,14,Sending Bank Code,,3,,,,fixed,rjust,0,6
+ktb_format_06,l10n_th_bank_payment_export_ktb.ktb_ipay,15,Total Transaction in Batch,,7,,,,dynamic,rjust,0,str(len(line.ids))
+ktb_format_07,l10n_th_bank_payment_export_ktb.ktb_ipay,16,Total Amount,,19,,,,dynamic,rjust,0,str(int(rec.total_amount * 100))
+ktb_format_08,l10n_th_bank_payment_export_ktb.ktb_ipay,17,Effective Date,,8,,,,dynamic,ljust,,"rec.effective_date.strftime(""%d%m%Y"")"
+ktb_format_09,l10n_th_bank_payment_export_ktb.ktb_ipay,18,Transaction Code,,1,,,,fixed,ljust,,C
+ktb_format_10,l10n_th_bank_payment_export_ktb.ktb_ipay,19,Receiver No.,,8,,,,fixed,rjust,0,
+ktb_format_11,l10n_th_bank_payment_export_ktb.ktb_ipay,20,Company ID,,16,,,,dynamic,ljust,,rec.ktb_company_id
+ktb_format_12,l10n_th_bank_payment_export_ktb.ktb_ipay,21,User ID,,20,,,,fixed,ljust,,
+ktb_format_13,l10n_th_bank_payment_export_ktb.ktb_ipay,22,Fillers,,407,,,TRUE,fixed,ljust,,
+ktb_format_14,l10n_th_bank_payment_export_ktb.ktb_ipay,24,DETAILS,line_section,,,,,fixed,ljust,,
+ktb_format_15,l10n_th_bank_payment_export_ktb.ktb_ipay,25,File Type,,2,line,TRUE,,fixed,ljust,,10
+ktb_format_16,l10n_th_bank_payment_export_ktb.ktb_ipay,26,Record Type,,1,line,TRUE,,fixed,ljust,,2
+ktb_format_17,l10n_th_bank_payment_export_ktb.ktb_ipay,27,Batch No.,,6,line,TRUE,,fixed,rjust,0,1
+ktb_format_18,l10n_th_bank_payment_export_ktb.ktb_ipay,28,Receiving Bank,,3,line,TRUE,,dynamic,ljust,,"line.payment_partner_bank_id.bank_id.bank_code or """""
+ktb_format_19,l10n_th_bank_payment_export_ktb.ktb_ipay,29,Receiving Branch Code,,4,line,TRUE,,dynamic,ljust,,"line.payment_partner_bank_id.bank_id.bank_branch_code or """""
+ktb_format_20,l10n_th_bank_payment_export_ktb.ktb_ipay,30,Receiving A/C,,11,line,TRUE,,dynamic,rjust,0,line._get_acc_number_digit(line.payment_partner_bank_id)
+ktb_format_21,l10n_th_bank_payment_export_ktb.ktb_ipay,31,Sending Bank Code,,3,line,TRUE,,fixed,rjust,0,6
+ktb_format_22,l10n_th_bank_payment_export_ktb.ktb_ipay,32,Sending Branch Code,,4,line,TRUE,,dynamic,rjust,0,"line.payment_bank_id.bank_branch_code or """""
+ktb_format_23,l10n_th_bank_payment_export_ktb.ktb_ipay,33,Sending A/C,,11,line,TRUE,,dynamic,rjust,0,line.sanitize_account_number(line.payment_journal_id.bank_account_id.acc_number)
+ktb_format_24,l10n_th_bank_payment_export_ktb.ktb_ipay,34,Effective Date,,8,line,TRUE,,dynamic,ljust,,"rec.effective_date.strftime(""%d%m%Y"")"
+ktb_format_25,l10n_th_bank_payment_export_ktb.ktb_ipay,35,Service Type,,2,line,TRUE,,dynamic,ljust,,"rec.ktb_bank_type == ""standard"" and rec.ktb_service_type_standard or rec.ktb_service_type_direct"
+ktb_format_26,l10n_th_bank_payment_export_ktb.ktb_ipay,36,Clearing House Code,,2,line,TRUE,,fixed,rjust,0,
+ktb_format_27,l10n_th_bank_payment_export_ktb.ktb_ipay,37,Amount,,17,line,TRUE,,dynamic,rjust,0,str(int(line.payment_amount * 100))
+ktb_format_28,l10n_th_bank_payment_export_ktb.ktb_ipay,38,Receiver Info.,,8,line,TRUE,,fixed,ljust,,
+ktb_format_29,l10n_th_bank_payment_export_ktb.ktb_ipay,39,Receiver ID,,10,line,TRUE,,fixed,rjust,0,
+ktb_format_30,l10n_th_bank_payment_export_ktb.ktb_ipay,40,Receiver Name,,100,line,TRUE,,dynamic,ljust,,line.payment_partner_bank_id.acc_holder_name or line.payment_partner_bank_id.partner_id.display_name
+ktb_format_31,l10n_th_bank_payment_export_ktb.ktb_ipay,41,Sender Name,,100,line,TRUE,,dynamic,ljust,,rec.ktb_sender_name
+ktb_format_32,l10n_th_bank_payment_export_ktb.ktb_ipay,42,Other Info 1,,40,line,TRUE,,fixed,ljust,,
+ktb_format_33,l10n_th_bank_payment_export_ktb.ktb_ipay,43,DDA Ref 1,,18,line,TRUE,,fixed,ljust,,
+ktb_format_34,l10n_th_bank_payment_export_ktb.ktb_ipay,44,Reserve Field,,2,line,TRUE,,fixed,ljust,,
+ktb_format_35,l10n_th_bank_payment_export_ktb.ktb_ipay,45,Ref No./ DDA Ref 2,,18,line,TRUE,,dynamic,ljust,,line.payment_id.name
+ktb_format_36,l10n_th_bank_payment_export_ktb.ktb_ipay,46,Reserve Field,,2,line,TRUE,,fixed,ljust,,
+ktb_format_37,l10n_th_bank_payment_export_ktb.ktb_ipay,47,Other Info 2,,20,line,TRUE,,fixed,ljust,,
+ktb_format_38,l10n_th_bank_payment_export_ktb.ktb_ipay,48,Ref Running Number,,6,line,TRUE,,dynamic,rjust,0,str(idx_line+1)
+ktb_format_39,l10n_th_bank_payment_export_ktb.ktb_ipay,49,Status,,2,line,TRUE,,fixed,rjust,0,9
+ktb_format_40,l10n_th_bank_payment_export_ktb.ktb_ipay,50,E-mail Address,,40,line,TRUE,,fixed,ljust,,
+ktb_format_41,l10n_th_bank_payment_export_ktb.ktb_ipay,51,SMS/Mobile Phone,,20,line,TRUE,,fixed,ljust,,
+ktb_format_42,l10n_th_bank_payment_export_ktb.ktb_ipay,52,Receiving Sub-Branch Code,,4,line,TRUE,,fixed,rjust,0,
+ktb_format_43,l10n_th_bank_payment_export_ktb.ktb_ipay,53,Fillers,,34,line,TRUE,TRUE,fixed,ljust,,

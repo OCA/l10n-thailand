@@ -1,8 +1,11 @@
 # Copyright 2021 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from datetime import datetime
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.safe_eval import safe_eval
 
 
 class BankPaymentExport(models.Model):
@@ -31,6 +34,14 @@ class BankPaymentExport(models.Model):
         states={"draft": [("readonly", False)]},
         tracking=True,
         check_company=True,
+    )
+    bank_export_format_id = fields.Many2one(
+        comodel_name="bank.export.format",
+        string="Bank Export Format",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        domain="[('bank', '=', bank)]",
+        tracking=True,
     )
     effective_date = fields.Date(
         copy=False,
@@ -154,7 +165,7 @@ class BankPaymentExport(models.Model):
         return "{}".format(self.name)
 
     def _get_view_report_text(self):
-        return "l10n_th_bank_payment_export.action_payment_demo_txt"
+        return "l10n_th_bank_payment_export.action_payment_txt"
 
     def _get_view_report_xlsx(self):
         return "l10n_th_bank_payment_export.action_export_payment_xlsx"
@@ -168,18 +179,103 @@ class BankPaymentExport(models.Model):
             view_report = self._get_view_report_xlsx()
         return self.env.ref(view_report).sudo().report_action(self, config=False)
 
+    def _set_global_dict(self):
+        """Set global dict for eval"""
+        today = fields.Date.context_today(self)
+        today_datetime = fields.Datetime.context_timestamp(
+            self.env.user, datetime.now()
+        )
+        globals_dict = {
+            "rec": self,
+            "line": self.export_line_ids,
+            "today": today,
+            "today_datetime": today_datetime,
+        }
+        return globals_dict
+
+    def _update_global_dict(self, globals_dict, **kwargs):
+        """Update global dict with kwargs"""
+        globals_dict.update(kwargs)
+        return globals_dict
+
     def _generate_bank_payment_text(self):
         self.ensure_one()
-        return
+        globals_dict = self._set_global_dict()
+        text_parts = []
+        processed_match = set()
+
+        # Get format from bank
+        if not self.bank_export_format_id:
+            raise UserError(_("Bank format not found."))
+
+        exp_format_lines = self.bank_export_format_id.export_format_ids
+
+        for idx, exp_format in enumerate(exp_format_lines):
+            if exp_format.display_type:
+                continue
+
+            # Skip if value has already been processed, and need_loop is True
+            if exp_format.need_loop and exp_format.match_group in processed_match:
+                continue
+
+            # Add idx to globals_dict
+            globals_dict = self._update_global_dict(globals_dict, idx=idx)
+
+            # Skip this line if condition is not met
+            if exp_format.condition_line:
+                condition = safe_eval(
+                    exp_format.condition_line, globals_dict=globals_dict
+                )
+                if not condition:
+                    continue
+
+            # Add value to the set of processed values
+            if exp_format.match_group:
+                processed_match.add(exp_format.match_group)
+
+            if exp_format.need_loop:
+                # search only lines that match the current group and condition
+                exp_format_line_group = exp_format_lines.filtered(
+                    lambda l: l.match_group == exp_format.match_group
+                    and (
+                        not l.condition_line
+                        or safe_eval(l.condition_line, globals_dict=globals_dict)
+                    )
+                )
+
+                # Get all lines that match the current group
+                for idx_line, line in enumerate(self.export_line_ids):
+                    # Change the value of the line in the globals_dict
+                    globals_dict_line = self._update_global_dict(
+                        globals_dict, line=line, idx_line=idx_line
+                    )
+
+                    for exp_format_line in exp_format_line_group:
+                        # Get value from instruction
+                        text_line = exp_format_line._get_value(globals_dict_line)
+                        text_parts.append(text_line)
+
+                        if exp_format_line.end_line:
+                            # TODO: Change this to configurable
+                            text_parts.append("\r\n")
+                continue
+
+            # Get value from instruction
+            text_line = exp_format._get_value(globals_dict)
+            text_parts.append(text_line)
+
+            if exp_format.end_line:
+                # TODO: Change this to configurable
+                text_parts.append("\r\n")
+
+        text = "".join(text_parts)
+        return text
 
     def _export_bank_payment_text_file(self):
         self.ensure_one()
         if self.bank:
             return self._generate_bank_payment_text()
-        return (
-            "Demo Text File. You can inherit function "
-            "_generate_bank_payment_text() for customize your format."
-        )
+        return "Demo Text File. You must config `Bank Export Format` First."
 
     def _check_constraint_line(self):
         # Add condition with line on this function
@@ -238,10 +334,6 @@ class BankPaymentExport(models.Model):
             }
         )
         return ctx
-
-    def _get_amount_no_decimal(self, amount, digits=False):
-        """Implementation is available"""
-        return amount
 
     @api.constrains("effective_date")
     def check_effective_date(self):

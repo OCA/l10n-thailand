@@ -17,6 +17,14 @@ class TestBankPaymentExportKTB(CommonBankPaymentExport):
         # setup config
         ktb_company_id = cls.field_model.search([("name", "=", "ktb_company_id")])
         ktb_sender_name = cls.field_model.search([("name", "=", "ktb_sender_name")])
+        field_bank_export_format_id = cls.field_model.search(
+            [("name", "=", "bank_export_format_id")]
+        )
+
+        bank_export_format = cls.bank_export_format_model.search(
+            [("bank", "=", "KRTHTHBK")], limit=1
+        )
+
         data_dict = [
             {
                 "field_id": ktb_company_id.id,
@@ -25,6 +33,10 @@ class TestBankPaymentExportKTB(CommonBankPaymentExport):
             {
                 "field_id": ktb_sender_name.id,
                 "value": "SENDER_NAME01",
+            },
+            {
+                "field_id": field_bank_export_format_id.id,
+                "value": bank_export_format.id,
             },
         ]
         cls.template1 = cls.create_bank_payment_template(
