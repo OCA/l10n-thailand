@@ -54,15 +54,24 @@
                                         invisible="1"
                                     />
                                     <field name="sequence" widget="handle" />
-                                    <field name="match_group" string="Group" />
-                                    <field name="need_loop" string="Loop" />
-                                    <field name="new_line" />
                                     <field name="name" style="white-space: normal;" />
+                                    <field
+                                        name="match_group"
+                                        string="Group"
+                                        optional="show"
+                                    />
+                                    <field
+                                        name="need_loop"
+                                        string="Loop"
+                                        optional="show"
+                                    />
+                                    <field name="end_line" optional="show" />
+                                    <field name="condition_line" />
                                     <field name="lenght" />
-                                    <field name="lenght_from" />
-                                    <field name="lenght_to" />
-                                    <field name="value_alignment" />
-                                    <field name="value_blank_space" />
+                                    <field name="lenght_from" optional="show" />
+                                    <field name="lenght_to" optional="show" />
+                                    <field name="value_alignment" optional="show" />
+                                    <field name="value_blank_space" optional="show" />
                                     <field name="value_type" />
                                     <field name="value" style="white-space: normal;" />
                                 </tree>

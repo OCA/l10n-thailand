@@ -14,11 +14,14 @@ class CommonBankPaymentExport(TransactionCase):
         cls.loader = FakeModelLoader(cls.env, cls.__module__)
         cls.loader.backup_registry()
         from .bank_payment_export_tester import (
+            BankExportFormatTester,
             BankPaymentExportTester,
             BankPaymentTemplateTester,
         )
 
-        cls.loader.update_registry((BankPaymentExportTester, BankPaymentTemplateTester))
+        cls.loader.update_registry(
+            (BankPaymentExportTester, BankPaymentTemplateTester, BankExportFormatTester)
+        )
 
         cls.move_model = cls.env["account.move"]
         cls.journal_model = cls.env["account.journal"]

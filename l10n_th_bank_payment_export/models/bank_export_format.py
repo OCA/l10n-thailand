@@ -51,8 +51,9 @@ class BankExportFormatLine(models.Model):
     lenght_from = fields.Integer(compute="_compute_lenght", store=True, string="From")
     lenght_to = fields.Integer(compute="_compute_lenght", store=True, string="To")
     name = fields.Char(string="Description")
+    condition_line = fields.Text()
     match_group = fields.Char()
-    new_line = fields.Boolean()
+    end_line = fields.Boolean()
     need_loop = fields.Boolean()
     value_type = fields.Selection(
         selection=[
@@ -75,7 +76,7 @@ class BankExportFormatLine(models.Model):
         string="Blank Space",
         help="Blank space for fill in value",
     )
-    value = fields.Char()
+    value = fields.Text()
 
     @api.depends("lenght", "sequence")
     def _compute_lenght(self):
@@ -91,8 +92,8 @@ class BankExportFormatLine(models.Model):
             for line in export_format_lines:
                 line.lenght_from = previous_lenght_to + 1
                 line.lenght_to = line.lenght_from + line.lenght - 1
-                # Reset the starting point for lenght_from if new_line is True
-                if line.new_line:
+                # Reset the starting point for lenght_from if end_line is True
+                if line.end_line:
                     previous_lenght_to = 0
                 else:
                     previous_lenght_to = line.lenght_to

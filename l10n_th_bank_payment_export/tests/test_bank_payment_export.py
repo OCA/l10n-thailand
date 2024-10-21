@@ -16,19 +16,49 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         field_effective_date = cls.field_model.search(
             [("name", "=", "effective_date"), ("model", "=", "bank.payment.export")]
         )
-        cls.template_test_bank = cls.bank_payment_template_model.create(
+        field_bank_export_format_id = cls.field_model.search(
+            [("name", "=", "bank_export_format_id")]
+        )
+
+        data_dict = [
             {
-                "name": "Template Bank Test",
+                "field_id": field_effective_date.id,
+                "value": "9999-01-01",
+            }
+        ]
+
+        cls.template_test_bank = cls.create_bank_payment_template(
+            cls,
+            "TEST",
+            data_dict,
+        )
+        cls.bank_export_format = cls.bank_export_format_model.create(
+            {
+                "name": "Test Bank",
                 "bank": "TEST",
-                "template_config_line": [
+                "export_format_ids": [
                     (
                         0,
                         0,
                         {
-                            "field_id": field_effective_date.id,
-                            "value": "9999-01-01",
+                            "sequence": 10,
+                            "lenght": 10,
+                            "name": "Test Line1",
+                            "value_type": "fixed",
+                            "value": "9999999999",
                         },
-                    )
+                    ),
+                    (
+                        0,
+                        0,
+                        {
+                            "sequence": 11,
+                            "lenght": 4,
+                            "name": "Test Line2",
+                            "value_type": "fixed",
+                            "value": "TEST",
+                        },
+                    ),
                 ],
             }
         )
@@ -202,6 +232,7 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         self.assertFalse(bank_payment.bank)
         with Form(bank_payment) as pe:
             pe.template_id = self.template_test_bank
+            pe.bank_export_format_id = self.bank_export_format
         bank_payment = pe.save()
         self.assertEqual(bank_payment.bank, "TEST")
         # Test unlink document state draft
