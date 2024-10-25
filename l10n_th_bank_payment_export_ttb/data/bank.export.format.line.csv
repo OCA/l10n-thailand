@@ -1,0 +1,178 @@
+id,bank_id/id,sequence,name,display_type,lenght,match_group,need_loop,sub_loop,sub_value_loop,end_line,condition_line,value_type,value_alignment,value_blank_space,value
+ttb_format_transaction_01,l10n_th_bank_payment_export_ttb.ttb_h2h,10,Transaction ,line_section,,,,,,,,fixed,ljust,,
+ttb_format_transaction_02,l10n_th_bank_payment_export_ttb.ttb_h2h,11,Record Identifier,,3,line,TRUE,,,,,fixed,ljust,,TXN
+ttb_format_transaction_03,l10n_th_bank_payment_export_ttb.ttb_h2h,12,Payer Name (On behalf of),,120,line,TRUE,,,,,dynamic,ljust,,rec.company_id.partner_id.display_name
+ttb_format_transaction_04,l10n_th_bank_payment_export_ttb.ttb_h2h,13,Beneficiary Name ,,130,line,TRUE,,,,"rec.ttb_transaction_type != ""BNT""",dynamic,ljust,,"rec.ttb_transaction_type in (""MCP"", ""COP"") and line.payment_id.check_payee or line.payment_partner_bank_id.acc_holder_name or line.payment_partner_bank_id.partner_id.display_name"
+ttb_format_transaction_05,l10n_th_bank_payment_export_ttb.ttb_h2h,14,Beneficiary Name ,,130,line,TRUE,,,,"rec.ttb_transaction_type == ""BNT""",dynamic,ljust,,"line.payment_partner_bank_id.acc_holder_name_en or ""**Account Holder Name (EN) is not data**"""
+ttb_format_transaction_06,l10n_th_bank_payment_export_ttb.ttb_h2h,15,Mail to Name,,40,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_07,l10n_th_bank_payment_export_ttb.ttb_h2h,16,Beneficiary Address 1 – 4,,160,line,TRUE,,,,"rec.ttb_transaction_type != ""BNT""",dynamic,ljust,,"rec._get_address(line.payment_partner_id, 160)"
+ttb_format_transaction_08,l10n_th_bank_payment_export_ttb.ttb_h2h,17,Beneficiary Address 1 – 4,,160,line,TRUE,,,,"rec.ttb_transaction_type == ""BNT""",dynamic,ljust,,"line.payment_partner_id.street3[:160] or ""**Address (EN) is not data**"""
+ttb_format_transaction_09,l10n_th_bank_payment_export_ttb.ttb_h2h,18,Filler,,10,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_10,l10n_th_bank_payment_export_ttb.ttb_h2h,19,Customer Reference,,16,line,TRUE,,,,,dynamic,ljust,,line.payment_id.name
+ttb_format_transaction_11,l10n_th_bank_payment_export_ttb.ttb_h2h,20,Effective Date,,8,line,TRUE,,,,,dynamic,ljust,,"rec.effective_date.strftime(""%d%m%Y"")"
+ttb_format_transaction_12,l10n_th_bank_payment_export_ttb.ttb_h2h,21,Pickup Date,,8,line,TRUE,,,,,dynamic,ljust,,"rec.effective_date.strftime(""%d%m%Y"")"
+ttb_format_transaction_13,l10n_th_bank_payment_export_ttb.ttb_h2h,22,Payment Currency,,3,line,TRUE,,,,,dynamic,ljust,,line.currency_id.name
+ttb_format_transaction_14,l10n_th_bank_payment_export_ttb.ttb_h2h,23,Comcode(4)+Business area(4)+Fisical year(4),,15,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_15,l10n_th_bank_payment_export_ttb.ttb_h2h,24,Run Date + Identification (15),,15,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_16,l10n_th_bank_payment_export_ttb.ttb_h2h,25,Vendor Code or ID,,20,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_17,l10n_th_bank_payment_export_ttb.ttb_h2h,26,Debit Account Number,,20,line,TRUE,,,,,dynamic,ljust,,str(0) + line.sanitize_account_number(line.payment_journal_id.bank_account_id.acc_number)[:10]
+ttb_format_transaction_18,l10n_th_bank_payment_export_ttb.ttb_h2h,27,Payment Amount,,15,line,TRUE,,,,,dynamic,rjust,,"str(""{:.2f}"".format(line.payment_amount))"
+ttb_format_transaction_19,l10n_th_bank_payment_export_ttb.ttb_h2h,28,Beneficiary Bank Code / SWIFT Code,,3,line,TRUE,,,,,dynamic,ljust,,line.payment_bank_id.bank_code
+ttb_format_transaction_20,l10n_th_bank_payment_export_ttb.ttb_h2h,29,Beneficiary Bank Branch Code / SWIFT Code,,13,line,TRUE,,,,,dynamic,ljust,,line.payment_bank_id.bank_branch_code
+ttb_format_transaction_21,l10n_th_bank_payment_export_ttb.ttb_h2h,30,Beneficiary's Account Number,,20,line,TRUE,,,,,dynamic,ljust,,line._get_acc_number_digit(line.payment_partner_bank_id)
+ttb_format_transaction_22,l10n_th_bank_payment_export_ttb.ttb_h2h,31,"Transaction Code for ""SMART""",,2,line,TRUE,,,,,dynamic,ljust,,"rec.ttb_transaction_type not in (""MCP"", ""COP"") and rec.ttb_transaction_code or """""
+ttb_format_transaction_23,l10n_th_bank_payment_export_ttb.ttb_h2h,32,"Objective Code for ""Bahtnet""",,2,line,TRUE,,,,,dynamic,ljust,,"rec.ttb_transaction_type == ""BNT"" and ""00"" or """""
+ttb_format_transaction_24,l10n_th_bank_payment_export_ttb.ttb_h2h,33,"Delivery Method - (For Cheques), WHT Delivery Method - (For all domestic transfer)",,2,line,TRUE,,,,,dynamic,ljust,,"rec.ttb_transaction_type in (""MCP"", ""COP"") and rec.ttb_delivery_method or """""
+ttb_format_transaction_25,l10n_th_bank_payment_export_ttb.ttb_h2h,34,Pickup Location,,20,line,TRUE,,,,,dynamic,ljust,,"rec.ttb_delivery_method in (""OC"", ""RT"") and rec.ttb_pickup_location or """""
+ttb_format_transaction_26,l10n_th_bank_payment_export_ttb.ttb_h2h,35,Advise Mode,,5,line,TRUE,,,,,dynamic,ljust,,"line.payment_partner_id.ttb_advise_mode or """""
+ttb_format_transaction_27,l10n_th_bank_payment_export_ttb.ttb_h2h,36,Beneficiary's Fax Number,,50,line,TRUE,,,,,dynamic,ljust,,"line.payment_partner_id.ttb_advise_mode == ""FAX"" and line.payment_partner_id.ttb_fax or """""
+ttb_format_transaction_28,l10n_th_bank_payment_export_ttb.ttb_h2h,37,Beneficiary's Email Address,,50,line,TRUE,,,,,dynamic,ljust,,"line.payment_partner_id.ttb_advise_mode == ""EMAIL"" and line.payment_partner_id.ttb_email or """""
+ttb_format_transaction_29,l10n_th_bank_payment_export_ttb.ttb_h2h,38,Beneficiary's Mobile Number,,50,line,TRUE,,,,,dynamic,ljust,,"line.payment_partner_id.ttb_advise_mode == ""SMS"" and line.payment_partner_id.ttb_sms or """""
+ttb_format_transaction_30,l10n_th_bank_payment_export_ttb.ttb_h2h,39,Charge On Account of,,13,line,TRUE,,,,,dynamic,ljust,,"line.payment_partner_id.ttb_fee_charge or """""
+ttb_format_transaction_31,l10n_th_bank_payment_export_ttb.ttb_h2h,40,Transaction Type,,3,line,TRUE,,,,,dynamic,ljust,,rec.ttb_transaction_type
+ttb_format_transaction_32,l10n_th_bank_payment_export_ttb.ttb_h2h,41,"DD Sameday, DC Sameday, SMART Sameday, Posting Interval",,5,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_33,l10n_th_bank_payment_export_ttb.ttb_h2h,42,Comp ID,,4,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_34,l10n_th_bank_payment_export_ttb.ttb_h2h,43,Document(s) Required,,30,line,TRUE,,,,,dynamic,ljust,,"rec.ttb_document_required or """""
+ttb_format_transaction_35,l10n_th_bank_payment_export_ttb.ttb_h2h,44,Payment Details,,105,line,TRUE,,,,,dynamic,ljust,,"rec.ttb_payment_details or """""
+ttb_format_transaction_36,l10n_th_bank_payment_export_ttb.ttb_h2h,45,Beneficiary Bank Name,,70,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_37,l10n_th_bank_payment_export_ttb.ttb_h2h,46,Beneficiary Bank Address1,,40,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_38,l10n_th_bank_payment_export_ttb.ttb_h2h,47,Beneficiary Bank Address2,,40,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_39,l10n_th_bank_payment_export_ttb.ttb_h2h,48,Beneficiary Bank Address3,,40,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_40,l10n_th_bank_payment_export_ttb.ttb_h2h,49,Beneficiary Bank Address4,,40,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_41,l10n_th_bank_payment_export_ttb.ttb_h2h,50,FX Rate Contract No.,,16,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_42,l10n_th_bank_payment_export_ttb.ttb_h2h,51,TMB Cheque Number,,7,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_43,l10n_th_bank_payment_export_ttb.ttb_h2h,52,Status,,2,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_44,l10n_th_bank_payment_export_ttb.ttb_h2h,53,SMART Comp ID,,15,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_45,l10n_th_bank_payment_export_ttb.ttb_h2h,54,New TMB Cheque Number ,,16,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_46,l10n_th_bank_payment_export_ttb.ttb_h2h,55,Error Code,,10,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_47,l10n_th_bank_payment_export_ttb.ttb_h2h,56,Reason,,100,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_48,l10n_th_bank_payment_export_ttb.ttb_h2h,57,Batch Reference Number,,16,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_49,l10n_th_bank_payment_export_ttb.ttb_h2h,58,Transaction Reference Number,,17,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_50,l10n_th_bank_payment_export_ttb.ttb_h2h,59,Payer Proxy Type,,10,line,TRUE,,,,,dynamic,ljust,,"rec.ttb_transaction_type in [""PBS"", ""PBN""] and rec.company_id.partner_id.ttb_proxy_type or """""
+ttb_format_transaction_51,l10n_th_bank_payment_export_ttb.ttb_h2h,60,Payer Proxy Value,,100,line,TRUE,,,,,dynamic,ljust,,"rec.ttb_transaction_type in [""PBS"", ""PBN""] and rec.company_id.partner_id.ttb_proxy_value or """""
+ttb_format_transaction_52,l10n_th_bank_payment_export_ttb.ttb_h2h,61,Payee Proxy Type,,10,line,TRUE,,,,,dynamic,ljust,,"rec.ttb_transaction_type in [""PBS"", ""PBN""] and line.payment_partner_id.ttb_proxy_type or """""
+ttb_format_transaction_53,l10n_th_bank_payment_export_ttb.ttb_h2h,62,Payee Proxy Value,,100,line,TRUE,,,,,dynamic,ljust,,"rec.ttb_transaction_type in [""PBS"", ""PBN""] and line.payment_partner_id.ttb_proxy_value or """""
+ttb_format_transaction_54,l10n_th_bank_payment_export_ttb.ttb_h2h,63,Collector ID Card No 1,,20,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_55,l10n_th_bank_payment_export_ttb.ttb_h2h,64,Collector name 1,,100,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_56,l10n_th_bank_payment_export_ttb.ttb_h2h,65,Collector company name 1,,130,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_57,l10n_th_bank_payment_export_ttb.ttb_h2h,66,Collector ID Card No 2,,20,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_58,l10n_th_bank_payment_export_ttb.ttb_h2h,67,Collector name 2,,100,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_59,l10n_th_bank_payment_export_ttb.ttb_h2h,68,Collector company name 2,,130,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_60,l10n_th_bank_payment_export_ttb.ttb_h2h,69,Collector ID Card No 3,,20,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_61,l10n_th_bank_payment_export_ttb.ttb_h2h,70,Collector name 3,,100,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_62,l10n_th_bank_payment_export_ttb.ttb_h2h,71,Collector company name 3,,130,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_63,l10n_th_bank_payment_export_ttb.ttb_h2h,72,Cheque Status,,15,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_64,l10n_th_bank_payment_export_ttb.ttb_h2h,73,Cheque Released Date,,8,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_65,l10n_th_bank_payment_export_ttb.ttb_h2h,74,Cheque Paid Date,,8,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_66,l10n_th_bank_payment_export_ttb.ttb_h2h,75,Cheque Expired/Hold/Cancelled/Stopped/Returned Date,,8,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_67,l10n_th_bank_payment_export_ttb.ttb_h2h,76,TBANK Reference,,21,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_68,l10n_th_bank_payment_export_ttb.ttb_h2h,77,PA Code for Payroll,,4,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_69,l10n_th_bank_payment_export_ttb.ttb_h2h,78,Smart Infra Flag,,4,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_70,l10n_th_bank_payment_export_ttb.ttb_h2h,79,Filler,,70,line,TRUE,,,,,fixed,ljust,,
+ttb_format_transaction_71,l10n_th_bank_payment_export_ttb.ttb_h2h,80,End of Record Indicator,,3,line,TRUE,,,TRUE,,fixed,ljust,,END
+ttb_format_transaction_72,l10n_th_bank_payment_export_ttb.ttb_h2h,81,WHT ,line_section,,,,,,,,fixed,ljust,,
+ttb_format_transaction_73,l10n_th_bank_payment_export_ttb.ttb_h2h,82,Record Identifier,,3,line,TRUE,,,,wht_cert,fixed,ljust,,WHT
+ttb_format_transaction_74,l10n_th_bank_payment_export_ttb.ttb_h2h,83,Beneficiary's Tax ID/ID Card No.,,13,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[:1].partner_vat or """""
+ttb_format_transaction_75,l10n_th_bank_payment_export_ttb.ttb_h2h,84,WHT Payer's Tax ID,,13,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[:1].company_vat or """""
+ttb_format_transaction_76,l10n_th_bank_payment_export_ttb.ttb_h2h,85,WHT Type (Cert. Form #1),,2,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[:1].income_tax_form == ""pnd1"" and ""01"" or (wht_cert[:1].income_tax_form == ""pnd2"" and ""02"") or (wht_cert[:1].income_tax_form == ""pnd3"" and ""03"") or (wht_cert[:1].income_tax_form == ""pnd3a"" and ""3A"") or (wht_cert[:1].income_tax_form == ""pnd53"" and ""53"")"
+ttb_format_transaction_77,l10n_th_bank_payment_export_ttb.ttb_h2h,86,Taxable Amount 1,,15,line,TRUE,,,,wht_cert,dynamic,rjust,,"wht_cert[:1].wht_line[:1] and str(""{:.2f}"".format(wht_cert[:1].wht_line[:1].base)) or """""
+ttb_format_transaction_78,l10n_th_bank_payment_export_ttb.ttb_h2h,87,Tax Type 1,,2,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[:1].wht_line[:1] and rec._get_ttb_wht_type_code(wht_cert[:1].wht_line[:1]) or """""
+ttb_format_transaction_79,l10n_th_bank_payment_export_ttb.ttb_h2h,88,Tax Type Description 1,,35,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[:1].wht_line[:1] and wht_cert[:1].wht_line[:1].wht_cert_income_desc[:35] or """""
+ttb_format_transaction_80,l10n_th_bank_payment_export_ttb.ttb_h2h,89,Tax Rate 1,,5,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[:1].wht_line[:1] and str(""{:.2f}"".format(wht_cert[:1].wht_line[:1].wht_percent / 100)) or """""
+ttb_format_transaction_81,l10n_th_bank_payment_export_ttb.ttb_h2h,90,Tax Amount 1,,15,line,TRUE,,,,wht_cert,dynamic,rjust,,"wht_cert[:1].wht_line[:1] and str(""{:.2f}"".format(wht_cert[:1].wht_line[:1].amount)) or """""
+ttb_format_transaction_82,l10n_th_bank_payment_export_ttb.ttb_h2h,91,Taxable Amount 2,,15,line,TRUE,,,,wht_cert,dynamic,rjust,,"wht_cert[:1].wht_line[1:2] and str(""{:.2f}"".format(wht_cert[:1].wht_line[1:2].base)) or """""
+ttb_format_transaction_83,l10n_th_bank_payment_export_ttb.ttb_h2h,92,Tax Type 2,,2,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[:1].wht_line[1:2] and rec._get_ttb_wht_type_code(wht_cert[:1].wht_line[1:2]) or """""
+ttb_format_transaction_84,l10n_th_bank_payment_export_ttb.ttb_h2h,93,Tax Type Description 2,,35,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[:1].wht_line[1:2] and wht_cert[:1].wht_line[1:2].wht_cert_income_desc[:35] or """""
+ttb_format_transaction_85,l10n_th_bank_payment_export_ttb.ttb_h2h,94,Tax Rate 2,,5,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[:1].wht_line[1:2] and str(""{:.2f}"".format(wht_cert[:1].wht_line[1:2].wht_percent / 100)) or """""
+ttb_format_transaction_86,l10n_th_bank_payment_export_ttb.ttb_h2h,95,Tax Amount 2,,15,line,TRUE,,,,wht_cert,dynamic,rjust,,"wht_cert[:1].wht_line[1:2] and str(""{:.2f}"".format(wht_cert[:1].wht_line[1:2].amount)) or """""
+ttb_format_transaction_87,l10n_th_bank_payment_export_ttb.ttb_h2h,96,Taxable Amount 3,,15,line,TRUE,,,,wht_cert,dynamic,rjust,,"wht_cert[:1].wht_line[2:3] and str(""{:.2f}"".format(wht_cert[:1].wht_line[2:3].base)) or """""
+ttb_format_transaction_88,l10n_th_bank_payment_export_ttb.ttb_h2h,97,Tax Type 3,,2,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[:1].wht_line[2:3] and rec._get_ttb_wht_type_code(wht_cert[:1].wht_line[2:3]) or """""
+ttb_format_transaction_89,l10n_th_bank_payment_export_ttb.ttb_h2h,98,Tax Type Description 3,,35,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[:1].wht_line[2:3] and wht_cert[:1].wht_line[2:3].wht_cert_income_desc[:35] or """""
+ttb_format_transaction_90,l10n_th_bank_payment_export_ttb.ttb_h2h,99,Tax Rate 3,,5,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[:1].wht_line[2:3] and str(""{:.2f}"".format(wht_cert[:1].wht_line[2:3].wht_percent / 100)) or """""
+ttb_format_transaction_91,l10n_th_bank_payment_export_ttb.ttb_h2h,100,Tax Amount 3,,15,line,TRUE,,,,wht_cert,dynamic,rjust,,"wht_cert[:1].wht_line[2:3] and str(""{:.2f}"".format(wht_cert[:1].wht_line[2:3].amount)) or """""
+ttb_format_transaction_92,l10n_th_bank_payment_export_ttb.ttb_h2h,101,Taxable Amount 4,,15,line,TRUE,,,,wht_cert,dynamic,rjust,,"wht_cert[:1].wht_line[3:4] and str(""{:.2f}"".format(wht_cert[:1].wht_line[3:4].base)) or """""
+ttb_format_transaction_93,l10n_th_bank_payment_export_ttb.ttb_h2h,102,Tax Type 4,,2,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[:1].wht_line[3:4] and rec._get_ttb_wht_type_code(wht_cert[:1].wht_line[3:4]) or """""
+ttb_format_transaction_94,l10n_th_bank_payment_export_ttb.ttb_h2h,103,Tax Type Description 4,,35,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[:1].wht_line[3:4] and wht_cert[:1].wht_line[3:4].wht_cert_income_desc[:35] or """""
+ttb_format_transaction_95,l10n_th_bank_payment_export_ttb.ttb_h2h,104,Tax Rate 4,,5,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[:1].wht_line[3:4] and str(""{:.2f}"".format(wht_cert[:1].wht_line[3:4].wht_percent / 100)) or """""
+ttb_format_transaction_96,l10n_th_bank_payment_export_ttb.ttb_h2h,105,Tax Amount 4,,15,line,TRUE,,,,wht_cert,dynamic,rjust,,"wht_cert[:1].wht_line[3:4] and str(""{:.2f}"".format(wht_cert[:1].wht_line[3:4].amount)) or """""
+ttb_format_transaction_97,l10n_th_bank_payment_export_ttb.ttb_h2h,106,WHT Payer Name,,120,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[:1].company_partner_id.name or """""
+ttb_format_transaction_98,l10n_th_bank_payment_export_ttb.ttb_h2h,107,WHT Payer Address1 – 4,,160,line,TRUE,,,,wht_cert,dynamic,ljust,,"rec._get_address(wht_cert[:1].company_partner_id, 160)"
+ttb_format_transaction_99,l10n_th_bank_payment_export_ttb.ttb_h2h,108,WHT Payee Name,,120,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[:1].partner_id.name or """""
+ttb_format_transaction_100,l10n_th_bank_payment_export_ttb.ttb_h2h,109,WHT Payee Address1 – 4,,160,line,TRUE,,,,wht_cert,dynamic,ljust,,"rec._get_address(wht_cert[:1].partner_id, 160)"
+ttb_format_transaction_101,l10n_th_bank_payment_export_ttb.ttb_h2h,110,WHT Document No.,,20,line,TRUE,,,,wht_cert,fixed,ljust,,
+ttb_format_transaction_102,l10n_th_bank_payment_export_ttb.ttb_h2h,111,WHT Attach No.,,20,line,TRUE,,,,wht_cert,fixed,ljust,,
+ttb_format_transaction_103,l10n_th_bank_payment_export_ttb.ttb_h2h,112,WHT Condition Code,,1,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[:1].tax_payer == ""withholding"" and ""3"" or (wht_cert[:1].tax_payer == ""paid_one_time"" and ""1"") or (wht_cert[:1].tax_payer == ""paid_continue"" and ""2"")"
+ttb_format_transaction_104,l10n_th_bank_payment_export_ttb.ttb_h2h,113,WHT Condition Code Desc,,70,line,TRUE,,,,wht_cert,fixed,ljust,,
+ttb_format_transaction_105,l10n_th_bank_payment_export_ttb.ttb_h2h,114,Beneficiary's Tax ID/ID Card No. (Set 2),,13,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[1:2].partner_vat or """""
+ttb_format_transaction_106,l10n_th_bank_payment_export_ttb.ttb_h2h,115,WHT Payer's Tax ID,,13,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[1:2].company_vat or """""
+ttb_format_transaction_107,l10n_th_bank_payment_export_ttb.ttb_h2h,116,WHT Type (Form 2.),,2,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[1:2].income_tax_form == ""pnd1"" and ""01"" or (wht_cert[1:2].income_tax_form == ""pnd2"" and ""02"") or (wht_cert[1:2].income_tax_form == ""pnd3"" and ""03"") or (wht_cert[1:2].income_tax_form == ""pnd3a"" and ""3A"") or (wht_cert[1:2].income_tax_form == ""pnd53"" and ""53"") or """""
+ttb_format_transaction_108,l10n_th_bank_payment_export_ttb.ttb_h2h,117,Taxable Amount 1,,15,line,TRUE,,,,wht_cert,dynamic,rjust,,"wht_cert[1:2].wht_line[:1] and str(""{:.2f}"".format(wht_cert[1:2].wht_line[:1].base)) or """""
+ttb_format_transaction_109,l10n_th_bank_payment_export_ttb.ttb_h2h,118,Tax Type 1,,2,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[1:2].wht_line[:1] and rec._get_ttb_wht_type_code(wht_cert[1:2].wht_line[:1]) or """""
+ttb_format_transaction_110,l10n_th_bank_payment_export_ttb.ttb_h2h,119,Tax Type Description 1,,35,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[1:2].wht_line[:1] and wht_cert[1:2].wht_line[:1].wht_cert_income_desc[:35] or """""
+ttb_format_transaction_111,l10n_th_bank_payment_export_ttb.ttb_h2h,120,Tax Rate 1,,5,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[1:2].wht_line[:1] and str(""{:.2f}"".format(wht_cert[1:2].wht_line[:1].wht_percent / 100)) or """""
+ttb_format_transaction_112,l10n_th_bank_payment_export_ttb.ttb_h2h,121,Tax Amount 1,,15,line,TRUE,,,,wht_cert,dynamic,rjust,,"wht_cert[1:2].wht_line[:1] and str(""{:.2f}"".format(wht_cert[1:2].wht_line[:1].amount)) or """""
+ttb_format_transaction_113,l10n_th_bank_payment_export_ttb.ttb_h2h,122,Taxable Amount 2,,15,line,TRUE,,,,wht_cert,dynamic,rjust,,"wht_cert[1:2].wht_line[1:2] and str(""{:.2f}"".format(wht_cert[1:2].wht_line[1:2].base)) or """""
+ttb_format_transaction_114,l10n_th_bank_payment_export_ttb.ttb_h2h,123,Tax Type 2,,2,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[1:2].wht_line[1:2] and rec._get_ttb_wht_type_code(wht_cert[1:2].wht_line[1:2]) or """""
+ttb_format_transaction_115,l10n_th_bank_payment_export_ttb.ttb_h2h,124,Tax Type Description 2,,35,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[1:2].wht_line[1:2] and wht_cert[1:2].wht_line[1:2].wht_cert_income_desc[:35] or """""
+ttb_format_transaction_116,l10n_th_bank_payment_export_ttb.ttb_h2h,125,Tax Rate 2,,5,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[1:2].wht_line[1:2] and str(""{:.2f}"".format(wht_cert[1:2].wht_line[1:2].wht_percent / 100)) or """""
+ttb_format_transaction_117,l10n_th_bank_payment_export_ttb.ttb_h2h,126,Tax Amount 2,,15,line,TRUE,,,,wht_cert,dynamic,rjust,,"wht_cert[1:2].wht_line[1:2] and str(""{:.2f}"".format(wht_cert[1:2].wht_line[1:2].amount)) or """""
+ttb_format_transaction_118,l10n_th_bank_payment_export_ttb.ttb_h2h,127,Taxable Amount 3,,15,line,TRUE,,,,wht_cert,dynamic,rjust,,"wht_cert[1:2].wht_line[2:3] and str(""{:.2f}"".format(wht_cert[1:2].wht_line[2:3].base)) or """""
+ttb_format_transaction_119,l10n_th_bank_payment_export_ttb.ttb_h2h,128,Tax Type 3,,2,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[1:2].wht_line[2:3] and rec._get_ttb_wht_type_code(wht_cert[1:2].wht_line[2:3]) or """""
+ttb_format_transaction_120,l10n_th_bank_payment_export_ttb.ttb_h2h,129,Tax Type Description 3,,35,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[1:2].wht_line[2:3] and wht_cert[1:2].wht_line[2:3].wht_cert_income_desc[:35] or """""
+ttb_format_transaction_121,l10n_th_bank_payment_export_ttb.ttb_h2h,130,Tax Rate 3,,5,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[1:2].wht_line[2:3] and str(""{:.2f}"".format(wht_cert[1:2].wht_line[2:3].wht_percent / 100)) or """""
+ttb_format_transaction_122,l10n_th_bank_payment_export_ttb.ttb_h2h,131,Tax Amount 3,,15,line,TRUE,,,,wht_cert,dynamic,rjust,,"wht_cert[1:2].wht_line[2:3] and str(""{:.2f}"".format(wht_cert[1:2].wht_line[2:3].amount)) or """""
+ttb_format_transaction_123,l10n_th_bank_payment_export_ttb.ttb_h2h,132,Taxable Amount 4,,15,line,TRUE,,,,wht_cert,dynamic,rjust,,"wht_cert[1:2].wht_line[3:4] and str(""{:.2f}"".format(wht_cert[1:2].wht_line[3:4].base)) or """""
+ttb_format_transaction_124,l10n_th_bank_payment_export_ttb.ttb_h2h,133,Tax Type 4,,2,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[1:2].wht_line[3:4] and rec._get_ttb_wht_type_code(wht_cert[1:2].wht_line[3:4]) or """""
+ttb_format_transaction_125,l10n_th_bank_payment_export_ttb.ttb_h2h,134,Tax Type Description 4,,35,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[1:2].wht_line[3:4] and wht_cert[1:2].wht_line[3:4].wht_cert_income_desc[:35] or """""
+ttb_format_transaction_126,l10n_th_bank_payment_export_ttb.ttb_h2h,135,Tax Rate 4,,5,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[1:2].wht_line[3:4] and str(""{:.2f}"".format(wht_cert[1:2].wht_line[3:4].wht_percent / 100)) or """""
+ttb_format_transaction_127,l10n_th_bank_payment_export_ttb.ttb_h2h,136,Tax Amount 4,,15,line,TRUE,,,,wht_cert,dynamic,rjust,,"wht_cert[1:2].wht_line[3:4] and str(""{:.2f}"".format(wht_cert[1:2].wht_line[3:4].amount)) or """""
+ttb_format_transaction_128,l10n_th_bank_payment_export_ttb.ttb_h2h,137,WHT Payer Name,,120,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[1:2].company_partner_id.name or """""
+ttb_format_transaction_129,l10n_th_bank_payment_export_ttb.ttb_h2h,138,WHT Payer Address1 – 4,,160,line,TRUE,,,,wht_cert,dynamic,ljust,,"rec._get_address(wht_cert[1:2].company_partner_id, 160)"
+ttb_format_transaction_130,l10n_th_bank_payment_export_ttb.ttb_h2h,139,WHT Payee Name,,120,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[1:2].partner_id.name or """""
+ttb_format_transaction_131,l10n_th_bank_payment_export_ttb.ttb_h2h,140,WHT Payee Address1 – 4,,160,line,TRUE,,,,wht_cert,dynamic,ljust,,"rec._get_address(wht_cert[1:2].partner_id, 160)"
+ttb_format_transaction_132,l10n_th_bank_payment_export_ttb.ttb_h2h,141,WHT Document No.,,20,line,TRUE,,,,wht_cert,fixed,ljust,,
+ttb_format_transaction_133,l10n_th_bank_payment_export_ttb.ttb_h2h,142,WHT Attach No.,,20,line,TRUE,,,,wht_cert,fixed,ljust,,
+ttb_format_transaction_134,l10n_th_bank_payment_export_ttb.ttb_h2h,143,WHT Condition Code,,1,line,TRUE,,,,wht_cert,dynamic,ljust,,"wht_cert[1:2].tax_payer == ""withholding"" and ""3"" or (wht_cert[1:2].tax_payer == ""paid_one_time"" and ""1"") or (wht_cert[1:2].tax_payer == ""paid_continue"" and ""2"") or """""
+ttb_format_transaction_135,l10n_th_bank_payment_export_ttb.ttb_h2h,144,WHT Condition Code Desc,,70,line,TRUE,,,TRUE,wht_cert,fixed,ljust,,
+ttb_format_transaction_136,l10n_th_bank_payment_export_ttb.ttb_h2h,145,Record Identifier ,,3,line,TRUE,,,,invoices,fixed,ljust,,INV
+ttb_format_transaction_137,l10n_th_bank_payment_export_ttb.ttb_h2h,146,Vendor Invoice Number ,,15,line,TRUE,,,,invoices,fixed,ljust,,VENDOR INV. NO.
+ttb_format_transaction_138,l10n_th_bank_payment_export_ttb.ttb_h2h,147,Separator ,,1,line,TRUE,,,,invoices,fixed,ljust,,
+ttb_format_transaction_139,l10n_th_bank_payment_export_ttb.ttb_h2h,148,Invoice Amount ,,12,line,TRUE,,,,invoices,fixed,ljust,,INV. AMOUNT
+ttb_format_transaction_140,l10n_th_bank_payment_export_ttb.ttb_h2h,149,Separator ,,1,line,TRUE,,,,invoices,fixed,ljust,,
+ttb_format_transaction_141,l10n_th_bank_payment_export_ttb.ttb_h2h,150,Vat Amount,,11,line,TRUE,,,,invoices,fixed,ljust,,VAT AMOUNT
+ttb_format_transaction_142,l10n_th_bank_payment_export_ttb.ttb_h2h,151,Separator,,1,line,TRUE,,,,invoices,fixed,ljust,,
+ttb_format_transaction_143,l10n_th_bank_payment_export_ttb.ttb_h2h,152,WHT Amount,,11,line,TRUE,,,,invoices,fixed,ljust,,WHT AMOUNT
+ttb_format_transaction_144,l10n_th_bank_payment_export_ttb.ttb_h2h,153,Separator,,1,line,TRUE,,,,invoices,fixed,ljust,,
+ttb_format_transaction_145,l10n_th_bank_payment_export_ttb.ttb_h2h,154,Net Invoice Amount,,12,line,TRUE,,,,invoices,fixed,ljust,,NET AMOUNT
+ttb_format_transaction_146,l10n_th_bank_payment_export_ttb.ttb_h2h,155,Separator,,1,line,TRUE,,,,invoices,fixed,ljust,,
+ttb_format_transaction_147,l10n_th_bank_payment_export_ttb.ttb_h2h,156,Payment Details,,24,line,TRUE,,,TRUE,invoices,fixed,ljust,,PAYMENT DETAILS
+ttb_format_transaction_148,l10n_th_bank_payment_export_ttb.ttb_h2h,157,=======,,93,line,TRUE,,,TRUE,invoices,fixed,ljust,=,INV
+ttb_format_transaction_149,l10n_th_bank_payment_export_ttb.ttb_h2h,158,Record Identifier ,,3,line,TRUE,TRUE,invoices,,invoices,fixed,ljust,,INV
+ttb_format_transaction_150,l10n_th_bank_payment_export_ttb.ttb_h2h,159,Vendor Invoice Number ,,15,line,TRUE,TRUE,invoices,,invoices,dynamic,ljust,,"sub_line.name != ""/"" and sub_line.name[:15] or """""
+ttb_format_transaction_151,l10n_th_bank_payment_export_ttb.ttb_h2h,160,Separator ,,1,line,TRUE,TRUE,invoices,,invoices,fixed,ljust,,
+ttb_format_transaction_152,l10n_th_bank_payment_export_ttb.ttb_h2h,161,Invoice Amount ,,12,line,TRUE,TRUE,invoices,,invoices,dynamic,rjust,,"str(""{:.2f}"".format(sub_line.amount_untaxed))"
+ttb_format_transaction_153,l10n_th_bank_payment_export_ttb.ttb_h2h,162,Separator ,,1,line,TRUE,TRUE,invoices,,invoices,fixed,ljust,,
+ttb_format_transaction_154,l10n_th_bank_payment_export_ttb.ttb_h2h,163,Vat Amount,,11,line,TRUE,TRUE,invoices,,invoices,dynamic,rjust,,"str(""{:.2f}"".format(sub_line.amount_tax))"
+ttb_format_transaction_155,l10n_th_bank_payment_export_ttb.ttb_h2h,164,Separator,,1,line,TRUE,TRUE,invoices,,invoices,fixed,ljust,,
+ttb_format_transaction_156,l10n_th_bank_payment_export_ttb.ttb_h2h,165,WHT Amount,,11,line,TRUE,TRUE,invoices,,invoices,dynamic,rjust,,"str(""{:.2f}"".format(rec._get_amount_wht_invoice(sub_line, line)))"
+ttb_format_transaction_157,l10n_th_bank_payment_export_ttb.ttb_h2h,166,Separator,,1,line,TRUE,TRUE,invoices,,invoices,fixed,ljust,,
+ttb_format_transaction_158,l10n_th_bank_payment_export_ttb.ttb_h2h,167,Net Invoice Amount,,12,line,TRUE,TRUE,invoices,,invoices,dynamic,rjust,,"str(""{:.2f}"".format(sub_line.amount_total - rec._get_amount_wht_invoice(sub_line, line)))"
+ttb_format_transaction_159,l10n_th_bank_payment_export_ttb.ttb_h2h,168,Separator,,1,line,TRUE,TRUE,invoices,,invoices,fixed,ljust,,
+ttb_format_transaction_160,l10n_th_bank_payment_export_ttb.ttb_h2h,169,Payment Details,,24,line,TRUE,TRUE,invoices,TRUE,invoices,dynamic,ljust,,sub_line.narration[:24]
+ttb_format_transaction_161,l10n_th_bank_payment_export_ttb.ttb_h2h,170,=======,,93,line,TRUE,,,TRUE,invoices,fixed,ljust,=,INV
+ttb_format_transaction_162,l10n_th_bank_payment_export_ttb.ttb_h2h,171,Record Identifier,,3,line,TRUE,,,,invoices,fixed,ljust,,INV
+ttb_format_transaction_163,l10n_th_bank_payment_export_ttb.ttb_h2h,172,Total Amount ,,16,line,TRUE,,,,invoices,fixed,ljust,,TOTAL AMOUNT
+ttb_format_transaction_164,l10n_th_bank_payment_export_ttb.ttb_h2h,173,Total Invoice Amount ,,12,line,TRUE,,,,invoices,dynamic,rjust,,"str(""{:.2f}"".format(sum(invoices.mapped(""amount_untaxed""))))"
+ttb_format_transaction_165,l10n_th_bank_payment_export_ttb.ttb_h2h,174,Separator,,1,line,TRUE,,,,invoices,fixed,ljust,,
+ttb_format_transaction_166,l10n_th_bank_payment_export_ttb.ttb_h2h,175,Total Vat Amount,,11,line,TRUE,,,,invoices,dynamic,rjust,,"str(""{:.2f}"".format(sum(invoices.mapped(""amount_tax""))))"
+ttb_format_transaction_167,l10n_th_bank_payment_export_ttb.ttb_h2h,176,Separator,,1,line,TRUE,,,,invoices,fixed,ljust,,
+ttb_format_transaction_168,l10n_th_bank_payment_export_ttb.ttb_h2h,177,Total WHT Amount,,11,line,TRUE,,,,invoices,dynamic,rjust,,"str(""{:.2f}"".format(rec._get_amount_wht_invoice(invoices, line)))"
+ttb_format_transaction_169,l10n_th_bank_payment_export_ttb.ttb_h2h,178,Separator,,1,line,TRUE,,,,invoices,fixed,ljust,,
+ttb_format_transaction_170,l10n_th_bank_payment_export_ttb.ttb_h2h,179,Total Net Amount,,12,line,TRUE,,,,invoices,dynamic,rjust,,"str(""{:.2f}"".format(sum(invoices.mapped(""amount_total"")) - rec._get_amount_wht_invoice(invoices, line)))"
+ttb_format_transaction_171,l10n_th_bank_payment_export_ttb.ttb_h2h,180,Filler,,25,line,TRUE,,,TRUE,invoices,fixed,ljust,,
+ttb_format_transaction_172,l10n_th_bank_payment_export_ttb.ttb_h2h,181,Record Identifier,,3,line,TRUE,,,,invoices,fixed,ljust,,INV
+ttb_format_transaction_173,l10n_th_bank_payment_export_ttb.ttb_h2h,182,Net Payment Amount,,20,line,TRUE,,,,invoices,fixed,ljust,,NET PAYMENT AMOUNT =
+ttb_format_transaction_174,l10n_th_bank_payment_export_ttb.ttb_h2h,183,Total Net Amount,,15,line,TRUE,,,,invoices,dynamic,rjust,,"str(""{:.2f}"".format(line.payment_id.amount))"
+ttb_format_transaction_175,l10n_th_bank_payment_export_ttb.ttb_h2h,184,Separator,,1,line,TRUE,,,,invoices,fixed,ljust,,
+ttb_format_transaction_176,l10n_th_bank_payment_export_ttb.ttb_h2h,185,Currency ,,3,line,TRUE,,,,invoices,dynamic,ljust,,line.currency_id.name
+ttb_format_transaction_177,l10n_th_bank_payment_export_ttb.ttb_h2h,186,Filler,,51,line,TRUE,,,TRUE,invoices,fixed,ljust,,

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath expr='//notebook' position='inside'>
+                <page name="ttb_bank_config" string="TTB Configuration">
+                    <group>
+                        <group name="ttb_information_left">
+                            <field name="ttb_advise_mode" />
+                            <field
+                                name="ttb_fax"
+                                attrs="{'invisible': [('ttb_advise_mode', '!=', 'FAX')]}"
+                            />
+                            <field
+                                name="ttb_email"
+                                attrs="{'invisible': [('ttb_advise_mode', '!=', 'EMAIL')]}"
+                            />
+                            <field
+                                name="ttb_sms"
+                                attrs="{'invisible': [('ttb_advise_mode', '!=', 'SMS')]}"
+                            />
+                            <field name="ttb_fee_charge" />
+                        </group>
+                        <group name="ttb_information_right">
+                            <field name="ttb_proxy_type" />
+                            <field
+                                name="ttb_proxy_value"
+                                attrs="{'invisible': [('ttb_proxy_type', '=', False)]}"
+                            />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
