@@ -17,18 +17,19 @@ Thai Localization - Tier Department Level
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-thailand/tree/16.0/l10n_th_tier_department
+    :target: https://github.com/OCA/l10n-thailand/tree/17.0/l10n_th_tier_department
     :alt: OCA/l10n-thailand
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-thailand-16-0/l10n-thailand-16-0-l10n_th_tier_department
+    :target: https://translation.odoo-community.org/projects/l10n-thailand-17-0/l10n-thailand-17-0-l10n_th_tier_department
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&target_branch=16.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&target_branch=17.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module adds an additional level of hierarchical validation in the department for approvals when there are more than one.
+This module adds an additional level of hierarchical validation in the
+department for approvals when there are more than one.
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -43,10 +44,11 @@ This module adds an additional level of hierarchical validation in the departmen
 Usage
 =====
 
-To use this module, call the `find_reviewer_level` function on the `hr.department` object,
-and provide the `level` attribute as an argument.
+To use this module, call the find_reviewer_level function on the
+hr.department object, and provide the level attribute as an argument.
 
-This function retrieves reviewers from the specified department and returns a user.
+This function retrieves reviewers from the specified department and
+returns a user.
 
 For example, Department AA has 3 Approvers:
 
@@ -54,14 +56,14 @@ For example, Department AA has 3 Approvers:
 - User B
 - User C
 
-and you need to find the reviewer at level 1, you can use the following code:
+and you need to find the reviewer at level 1, you can use the following
+code:
 
-.. code-block:: python
+.. code:: python
 
-  rec.employee_id.department_id.find_reviewer_level(level=1)
+   rec.employee_id.department_id.find_reviewer_level(level=1)
 
 The result will be User A.
-
 
 Bug Tracker
 ===========
@@ -69,7 +71,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-thailand/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_tier_department%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_tier_department%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -77,19 +79,19 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Ecosoft
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `Ecosoft <http://ecosoft.co.th>`__:
+- `Ecosoft <http://ecosoft.co.th>`__:
 
-  * Pimolnat Suntian <pimolnats@ecosoft.co.th>
+  - Pimolnat Suntian <pimolnats@ecosoft.co.th>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -109,6 +111,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-ps-tubtim| 
 
-This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/16.0/l10n_th_tier_department>`_ project on GitHub.
+This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/17.0/l10n_th_tier_department>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
