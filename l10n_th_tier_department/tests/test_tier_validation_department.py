@@ -50,11 +50,12 @@ class TierTierValidationDepartment(TransactionCase):
         )
         # Create tier definitions:
         cls.tier_def_obj = cls.env["tier.definition"]
+        reviewer_expression = "rec.user_id.department_id.find_reviewer_level(level=1)"
         cls.tier_def = cls.tier_def_obj.create(
             {
                 "model_id": cls.tester_model.id,
                 "review_type": "expression",
-                "reviewer_expression": "rec.user_id.department_id.find_reviewer_level(level=1)",
+                "reviewer_expression": reviewer_expression,
                 "definition_domain": "[('test_field', '>', 1.0)]",
             }
         )
