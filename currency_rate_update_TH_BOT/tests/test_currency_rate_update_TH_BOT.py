@@ -96,8 +96,8 @@ class TestResCurrencyRateProviderBOT(common.TransactionCase):
                     ],
                     "report_remark": [
                         {
-                            "report_remark_eng": "Since Nov 16, 2015 the data regarding "
-                            "Buying Transfer Rate of PKR has been changed to "
+                            "report_remark_eng": "Since Nov 16, 2015 the data regarding"
+                            " Buying Transfer Rate of PKR has been changed to "
                             "Buying Rate using Foreign Exchange Rates "
                             "(THOMSON REUTERS) with Bangkok Market Crossing.",
                             "report_remark_th": "ตั้งแต่วันที่ 16 พ.ย. 2558 "

@@ -10,7 +10,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='currency_name']" position="after">
                 <div
-                    attrs="{'invisible':['|',('service','!=','BOT'),('currency_name','=','THB')]}"
+                    invisible="service != 'BOT' or currency_name == 'THB'"
                     class="alert alert-warning"
                     colspan="2"
                     role="alert"

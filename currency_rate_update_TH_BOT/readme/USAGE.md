@@ -1,5 +1,6 @@
 To update historical currency rates:
 
-\# Go to *Invoicing \> Configuration \> Currency Rates Providers* \#
-Select specific providers \# Launch *Actions \> Update Rates Wizard* \#
-Configure date interval and click *Update*
+1. Go to **Invoicing > Configuration > Currency Rates Providers**
+2. Select specific providers
+3. Launch **Actions > Update Rates Wizard**
+4. Configure date interval and click **Update**
