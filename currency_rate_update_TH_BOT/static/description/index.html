@@ -395,21 +395,73 @@ Only for development or testing purpose, do not use in production.
 <div class="section" id="configuration">
 <h1><a class="toc-backref" href="#toc-entry-1">Configuration</a></h1>
 <p>To enable scheduled currency rates update:</p>
-<p># Go to <em>Invoicing &gt; Configuration &gt; Settings</em> # Ensure <em>Automatic
-Currency Rates (OCA)</em> is checked</p>
+<ol class="arabic simple">
+<li>Go to <strong>Invoicing &gt; Configuration &gt; Settings</strong></li>
+<li>Ensure <strong>Automatic Currency Rates (OCA)</strong> is checked</li>
+</ol>
 <p>To configure currency rates providers:</p>
-<p># Go to <em>Invoicing &gt; Configuration &gt; Currency Rates Providers</em> # Create
-and configure one or more providers</p>
-<p>To configure bot.or.th currency rates provider credentials:</p>
-<p># Go to <em>Invoicing &gt; Configuration &gt; Settings</em> # Fill application
-credentials in <em>Currencies &gt; bot.or.th Provider</em> section</p>
+<ol class="arabic simple">
+<li>Go to <strong>Invoicing &gt; Configuration &gt; Currency Rates Providers</strong></li>
+<li>Create and configure one or more providers</li>
+</ol>
+<p>To configure bot.or.th currency rates provider credentials</p>
+<p>Follow the steps below to obtain the API token from <strong>BOT</strong> (bot.or.th)
+and configure it in Odoo:</p>
+<ol class="arabic">
+<li><div class="first line-block">
+<div class="line"><strong>Login / Sign Up</strong></div>
+<div class="line">Visit the following URL to log in or sign up for a new account:</div>
+<div class="line"><a class="reference external" href="https://apiportal.bot.or.th/bot/public/user/login">BOT API Login / Sign
+Up</a></div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><strong>Access API Products</strong></div>
+<div class="line">After logging in, go to <strong>API Products</strong>. Select <strong>Exchange Rates
+(2.0.1)</strong> from the available products.</div>
+<div class="line">Alternatively, you can access the Exchange Rates product directly
+via this link:</div>
+<div class="line"><a class="reference external" href="https://apiportal.bot.or.th/bot/public/node/504">Exchange Rates API
+Product</a></div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><strong>Subscribe to the Exchange Rates API</strong></div>
+<div class="line">Click on <strong>Subscribe</strong> to start the subscription process. Follow
+the on-screen instructions until you receive your API token.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><strong>Copy the API Token</strong></div>
+<div class="line">Once the subscription is complete, you will be provided with an API
+token. <strong>Copy the token</strong> to use in the next step.</div>
+</div>
+</li>
+<li><p class="first"><strong>Configure Odoo with the BOT Token</strong></p>
+<ul class="simple">
+<li>In Odoo, Go to <em>Invoicing &gt; Configuration &gt; Settings</em></li>
+<li>Find the <strong>BOT Provider</strong> section under the <strong>Currencies</strong>
+settings.</li>
+<li>Paste the copied API token into the <strong>Client ID</strong> field.</li>
+</ul>
+</li>
+<li><div class="first line-block">
+<div class="line"><strong>Save the Settings</strong></div>
+<div class="line">After pasting the token, save the changes in Odoo. Your system will
+now be connected to the BOT API for currency rate updates.</div>
+</div>
+</li>
+</ol>
 </div>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-2">Usage</a></h1>
 <p>To update historical currency rates:</p>
-<p># Go to <em>Invoicing &gt; Configuration &gt; Currency Rates Providers</em> # Select
-specific providers # Launch <em>Actions &gt; Update Rates Wizard</em> # Configure
-date interval and click <em>Update</em></p>
+<ol class="arabic simple">
+<li>Go to <strong>Invoicing &gt; Configuration &gt; Currency Rates Providers</strong></li>
+<li>Select specific providers</li>
+<li>Launch <strong>Actions &gt; Update Rates Wizard</strong></li>
+<li>Configure date interval and click <strong>Update</strong></li>
+</ol>
 </div>
 <div class="section" id="bug-tracker">
 <h1><a class="toc-backref" href="#toc-entry-3">Bug Tracker</a></h1>
@@ -432,6 +484,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <ul class="simple">
 <li><a class="reference external" href="http://ecosoft.co.th">Ecosoft</a>:<ul>
 <li>Pimolnat Suntian &lt;<a class="reference external" href="mailto:pimolnats&#64;ecosoft.co.th">pimolnats&#64;ecosoft.co.th</a>&gt;</li>
+<li>Saran Lim. &lt;<a class="reference external" href="mailto:saranl&#64;ecosoft.co.th">saranl&#64;ecosoft.co.th</a>&gt;</li>
 </ul>
 </li>
 </ul>
