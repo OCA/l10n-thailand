@@ -46,7 +46,7 @@ class PersonalIncomeTax(models.Model):
                 and len(rec.calendar_year) == 4
                 and len(str(int(rec.calendar_year))) == 4
             ):
-                rec.effective_date = "{}-01-01".format(rec.calendar_year)
+                rec.effective_date = f"{rec.calendar_year}-01-01"
 
     def copy(self, default=None):
         self.ensure_one()
