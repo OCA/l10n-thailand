@@ -174,6 +174,7 @@ class TestTaxInvoice(TransactionCase):
                 "cash_basis_transition_account_id": cls.undue_input_vat_acct.id,
             }
         )
+        undue_reconcile_input_vat_id = cls.undue_reconcile_input_vat_acct.id
         cls.undue_input_reconcile_vat = cls.env["account.tax"].create(
             {
                 "name": "DV7 (reconcile)",
@@ -194,7 +195,7 @@ class TestTaxInvoice(TransactionCase):
                         }
                     ),
                 ],
-                "cash_basis_transition_account_id": cls.undue_reconcile_input_vat_acct.id,
+                "cash_basis_transition_account_id": undue_reconcile_input_vat_id,
             }
         )
         cls.payment_term_immediate = cls.env["account.payment.term"].create(
@@ -370,7 +371,7 @@ class TestTaxInvoice(TransactionCase):
         self.assertEqual(payment.state, "posted")
         payable_account = payment.move_id.partner_id.property_account_payable_id
         ml_payment = payment.move_id.line_ids.filtered(
-            lambda l: l.account_id == payable_account
+            lambda line: line.account_id == payable_account
         )
         self.supplier_invoice_undue_vat.js_assign_outstanding_line(ml_payment.id)
         bill_tax_cash_basis = (
@@ -444,7 +445,7 @@ class TestTaxInvoice(TransactionCase):
         self.assertEqual(payment.state, "posted")
         payable_account = payment.move_id.partner_id.property_account_payable_id
         ml_payment = payment.move_id.line_ids.filtered(
-            lambda l: l.account_id == payable_account
+            lambda line: line.account_id == payable_account
         )
         self.supplier_invoice_undue_vat_reconcile.js_assign_outstanding_line(
             ml_payment.id
@@ -670,7 +671,9 @@ class TestTaxInvoice(TransactionCase):
         refund.action_post()
         # At invoice add refund to reconcile
         payable_account = refund.partner_id.property_account_payable_id
-        refund_ml = refund.line_ids.filtered(lambda l: l.account_id == payable_account)
+        refund_ml = refund.line_ids.filtered(
+            lambda line: line.account_id == payable_account
+        )
         invoice.js_assign_outstanding_line(refund_ml.id)
         cash_basis_entries = self.env["account.move"].search(
             [("ref", "in", [invoice.name, refund.name])]
@@ -717,11 +720,11 @@ class TestTaxInvoice(TransactionCase):
 
         included tax = 20%
 
-        Name                   | Debit     | Credit    | Tax_ids       | Tax_line_id's name
-        -----------------------|-----------|-----------|---------------|-------------------
-        debit_line_1           | 1000      |           | tax           |
-        included_tax_line      | 200       |           |               | included_tax_line
-        credit_line_1          |           | 1200      |               |
+        Name                   | Debit     | Credit    | Tax_ids  | Tax_line_id's name
+        -----------------------|-----------|-----------|----------|-------------------
+        debit_line_1           | 1000      |           | tax      |
+        included_tax_line      | 200       |           |          | included_tax_line
+        credit_line_1          |           | 1200      |          |
         """
 
         self.included_percent_tax = self.env["account.tax"].create(
@@ -786,7 +789,9 @@ class TestTaxInvoice(TransactionCase):
     def test_supplier_invoice_zero_tax(self):
         """Case on 0% tax, Core odoo not create line with zero tax"""
         invoice = self.supplier_invoice_zero_vat
-        line_zero = invoice.line_ids.filtered(lambda l: not (l.debit or l.credit))
+        line_zero = invoice.line_ids.filtered(
+            lambda line: not (line.debit or line.credit)
+        )
         # There is 1 line for tax 0%
         self.assertEqual(len(invoice.line_ids), 3)
         self.assertTrue(line_zero)
@@ -824,7 +829,7 @@ class TestTaxInvoice(TransactionCase):
         )
         self.assertFalse(move.tax_invoice_ids)
         # Add tax manual in line tax
-        line_tax = move.line_ids.filtered(lambda l: l.balance == 200.0)
+        line_tax = move.line_ids.filtered(lambda line: line.balance == 200.0)
         line_tax.manual_tax_invoice = True
         self.assertTrue(move.tax_invoice_ids)
         self.assertEqual(move.tax_invoice_ids.tax_base_amount, 0.0)

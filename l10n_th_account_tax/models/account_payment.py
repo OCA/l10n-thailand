@@ -74,19 +74,20 @@ class AccountPayment(models.Model):
                     raise UserError(_("Please fill in tax invoice and tax date"))
             payment.write({"to_clear_tax": False})
             moves = payment.tax_invoice_ids.mapped("move_id")
+            payment_tax_ml = payment.tax_invoice_ids.mapped("move_line_id").ids
             for move in moves:
                 if move.state != "draft":
                     continue
                 move.action_post()
                 # Reconcile Case Basis
                 line = move.line_ids.filtered(
-                    lambda l: l.id
-                    not in payment.tax_invoice_ids.mapped("move_line_id").ids
+                    lambda ml, payment_tax_ml=payment_tax_ml: ml.id
+                    not in payment_tax_ml
                 )
                 if line.account_id.reconcile:
                     origin_ml = move.tax_cash_basis_origin_move_id.line_ids
                     counterpart_line = origin_ml.filtered(
-                        lambda l: l.account_id.id == line.account_id.id
+                        lambda ml, line=line: ml.account_id.id == line.account_id.id
                     )
                     (line + counterpart_line).reconcile()
         return True

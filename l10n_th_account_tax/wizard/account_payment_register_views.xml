@@ -7,9 +7,7 @@
         <field name="inherit_id" ref="account.view_account_payment_register_form" />
         <field name="arch" type="xml">
             <field name="payment_difference_handling" position="after">
-                <div
-                    attrs="{'invisible': [('payment_difference_handling', '!=', 'reconcile')]}"
-                >
+                <div invisible="payment_difference_handling != 'reconcile'">
                     <label
                         for="wht_tax_id"
                         class="oe_edit_only"
