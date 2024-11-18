@@ -21,7 +21,7 @@
                         name="web_ribbon"
                         title="Archived"
                         bg_color="bg-danger"
-                        attrs="{'invisible': [('active', '=', True)]}"
+                        invisible="active"
                     />
                     <div class="oe_title">
                         <label for="calendar_year" class="oe_edit_only" />
@@ -39,10 +39,7 @@
                             <field name="active" />
                         </group>
                     </group>
-                    <span
-                        style="color: red;"
-                        attrs="{'invisible': [('effective_date', '!=', False)]}"
-                    >
+                    <span style="color: red;" invisible="effective_date">
                         *Effective Date is required. Please provide a valid calendar year as an integer.
                     </span>
                     <separator string="Withholding Tax Rates" />
