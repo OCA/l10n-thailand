@@ -13,16 +13,12 @@
                     type="object"
                     class="oe_stat_button"
                     icon="fa-bars"
-                    attrs="{'invisible': [('wht_certs_count','=', 0)]}"
+                    invisible="wht_certs_count == 0"
                     groups="account.group_account_invoice"
                 >
                     <field name="wht_certs_count" />
-                    <span
-                        attrs="{'invisible': [('wht_certs_count','&gt;', 1)]}"
-                    >WHT Cert</span>
-                    <span
-                        attrs="{'invisible': [('wht_certs_count','&lt;=', 1)]}"
-                    >WHT Certs</span>
+                    <span invisible="wht_certs_count &gt; 1">WHT Cert</span>
+                    <span invisible="wht_certs_count &lt;= 1">WHT Certs</span>
                 </button>
             </div>
             <xpath expr="//header[last()]" position="after">
@@ -32,7 +28,7 @@
                     class="alert alert-warning"
                     role="alert"
                     style="margin-bottom:0px;"
-                    attrs="{'invisible': ['|', '|', ('wht_cert_status', '!=', 'none'), ('state', '!=', 'posted'), ('payment_type', '!=', 'outbound')]}"
+                    invisible="wht_cert_status != 'none' or state != 'posted' or payment_type != 'outbound'"
                 >
                     This entry containg withholding tax, but no withholding tax certs. created yet.
                     <button
@@ -40,7 +36,7 @@
                         string="⇒ Create withholding tax cert."
                         type="object"
                         class="oe_link"
-                        states="posted"
+                        invisible="state != 'posted'"
                         title="Create withholding tax certificate objects, based on withholding moves"
                     />
                 </div>
@@ -48,7 +44,7 @@
                     class="alert alert-warning"
                     role="alert"
                     style="margin-bottom:0px;"
-                    attrs="{'invisible': ['|', '|', ('move_type', '!=', 'entry'), ('wht_cert_status', '!=', 'draft'), ('payment_type', '!=', 'outbound')]}"
+                    invisible="move_type != 'entry' or wht_cert_status != 'draft' or payment_type != 'outbound'"
                 >
                     Withholding tax certs. created but still draft.
                     <button
@@ -57,14 +53,14 @@
                         string="⇒ Show withholding tax certs"
                         type="object"
                         class="oe_link"
-                        states="posted"
+                        invisible="state != 'posted'"
                     />
                 </div>
                 <div
                     class="alert alert-warning"
                     role="alert"
                     style="margin-bottom:0px;"
-                    attrs="{'invisible': ['|', '|', ('move_type', '!=', 'entry'), ('wht_cert_status', '!=', 'cancel'), ('payment_type', '!=', 'outbound')]}"
+                    invisible="move_type != 'entry' or wht_cert_status != 'cancel' or payment_type != 'outbound'"
                 >
                     All related withholding tax certs. was cancelled.
                     <button
@@ -82,11 +78,11 @@
                     type="object"
                     string="Clear Tax"
                     class="oe_highlight"
-                    attrs="{'invisible': ['|', ('to_clear_tax', '=', False), ('state', '!=', 'posted')]}"
+                    invisible="not to_clear_tax or state != 'posted'"
                 />
             </button>
             <group position="after">
-                <notebook attrs="{'invisible': [('tax_invoice_ids', '=', [])]}">
+                <notebook invisible="not tax_invoice_ids">
                     <page string="Tax Invoice" name="tax_invoice">
                         <field name="tax_invoice_ids">
                             <tree editable="bottom" create="0" delete="1">
@@ -95,15 +91,15 @@
                                 <field name="partner_id" optional="hide" />
                                 <field
                                     name="tax_invoice_number"
-                                    attrs="{'readonly': [('to_clear_tax', '=', False)]}"
+                                    readonly="not to_clear_tax"
                                 />
                                 <field
                                     name="tax_invoice_date"
-                                    attrs="{'readonly': [('to_clear_tax', '=', False)]}"
+                                    readonly="not to_clear_tax"
                                 />
                                 <field
                                     name="report_late_mo"
-                                    attrs="{'readonly': [('to_clear_tax', '=', False)]}"
+                                    readonly="not to_clear_tax"
                                     optional="show"
                                 />
                                 <field name="report_date" optional="show" />
@@ -114,7 +110,7 @@
                                     string="Split"
                                     type="object"
                                     icon="fa-files-o"
-                                    attrs="{'invisible': [('to_clear_tax', '=', False)]}"
+                                    invisible="not to_clear_tax"
                                 />
                             </tree>
                         </field>
@@ -123,13 +119,13 @@
                 <group
                     id="wht_move"
                     string="Withholding Moves"
-                    attrs="{'invisible': ['|', ('wht_move_ids', '=', []), ('payment_type', '!=', 'outbound')]}"
+                    invisible="not wht_move_ids or payment_type != 'outbound'"
                 >
                     <field
                         name="wht_move_ids"
                         nolabel="1"
                         colspan="2"
-                        attrs="{'invisible': [('payment_type', '!=', 'outbound')]}"
+                        invisible="payment_type != 'outbound'"
                     >
                         <tree editable="bottom" create="0" delete="0">
                             <field name="date" invisible="1" />

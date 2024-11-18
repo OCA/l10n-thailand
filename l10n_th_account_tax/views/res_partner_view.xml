@@ -12,7 +12,7 @@
                     string="WHT Certs"
                     type="object"
                     groups="account.group_account_invoice"
-                    attrs="{'invisible':[('pit_move_ids','=',[])]}"
+                    invisible="not pit_move_ids"
                     icon="fa-bars"
                 />
             </div>

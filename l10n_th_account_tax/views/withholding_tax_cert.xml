@@ -10,20 +10,20 @@
                         name="action_draft"
                         string="Set to Draft"
                         type="object"
-                        states="done,cancel"
+                        invisible="state not in ('done','cancel')"
                     />
                     <button
                         name="action_done"
                         string="Done"
                         type="object"
-                        states="draft"
+                        invisible="state != 'draft'"
                         class="oe_highlight"
                     />
                     <button
                         name="action_cancel"
                         string="Cancel"
                         type="object"
-                        states="draft"
+                        invisible="state != 'draft'"
                     />
                     <field
                         name="state"
@@ -34,32 +34,36 @@
                 </header>
                 <sheet>
                     <h1>
-                        <field name="move_id" />
+                        <field name="move_id" readonly="state != 'draft'" />
                     </h1>
                     <group>
                         <group>
                             <field name="name" invisible="1" />
-                            <field name="company_partner_id" />
+                            <field name="company_partner_id" readonly="1" />
                             <field name="company_vat" string="Tax ID" />
                         </group>
                         <group>
-                            <field name="partner_id" />
+                            <field name="partner_id" readonly="state != 'draft'" />
                             <field name="partner_vat" string="Tax ID" />
                         </group>
                     </group>
                     <group>
                         <group string="Options">
-                            <field name="income_tax_form" required="1" />
-                            <field name="tax_payer" />
+                            <field
+                                name="income_tax_form"
+                                readonly="state != 'draft'"
+                                required="1"
+                            />
+                            <field name="tax_payer" readonly="state != 'draft'" />
                         </group>
                         <group string="References">
-                            <field name="company_id" invisible="1" />
+                            <field name="company_id" invisible="1" readonly="1" />
                             <field name="currency_id" invisible="1" />
-                            <field name="ref_wht_cert_id" />
-                            <field name="date" />
+                            <field name="ref_wht_cert_id" readonly="state != 'draft'" />
+                            <field name="date" readonly="state != 'draft'" />
                         </group>
                     </group>
-                    <field name="wht_line">
+                    <field name="wht_line" readonly="state != 'draft'">
                         <tree editable="bottom">
                             <field name="wht_income_tax_form" invisible="1" />
                             <field name="company_id" invisible="1" />
@@ -67,13 +71,14 @@
                             <field
                                 name="wht_cert_income_code"
                                 options="{'no_create': True, 'no_create_edit': True}"
-                                attrs="{'column_invisible': [('parent.income_tax_form', '!=', 'pnd1')]}"
+                                column_invisible="parent.income_tax_form != 'pnd1'"
                                 domain="[('income_tax_form', '=', wht_income_tax_form), ('wht_cert_income_type', '=', wht_cert_income_type)]"
                             />
                             <field
                                 name="wht_cert_bank_account"
                                 options="{'no_create': True, 'no_create_edit': True}"
-                                attrs="{'column_invisible': [('parent.income_tax_form', '!=', 'pnd2')], 'required': [('parent.income_tax_form', '=', 'pnd2'), ('wht_cert_income_type', '=', '4A')]}"
+                                column_invisible="parent.income_tax_form != 'pnd2'"
+                                required="parent.income_tax_form == 'pnd2' and wht_cert_income_type == '4A'"
                                 domain="[('partner_id', '=', parent.partner_id)]"
                             />
                             <field name="wht_cert_income_desc" optional="show" />

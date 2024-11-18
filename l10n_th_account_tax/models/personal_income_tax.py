@@ -76,7 +76,7 @@ class PersonalIncomeTax(models.Model):
         self.ensure_one()
         pit_date.strftime("%Y")
         rate_ranges = self.rate_ids.filtered(
-            lambda l: abs(total_income) > l.income_from
+            lambda rate: abs(total_income) > rate.income_from
         )
         current_amount = 0.0
         income_residual = income
@@ -117,7 +117,7 @@ class PersonalIncomeTax(models.Model):
     def _get_pit_amount_yearly(self, partner, pit_date):
         calendar_year = pit_date.strftime("%Y")
         pit_year = partner.pit_move_ids.filtered(
-            lambda l: l.calendar_year == calendar_year
+            lambda pit: pit.calendar_year == calendar_year
         )
         return sum(pit_year.mapped("amount_income"))
 
@@ -162,5 +162,5 @@ class PersonalIncomeTaxRate(models.Model):
 
     def _compute_amount_accum(self):
         for rec in self:
-            prev_rec = self.filtered(lambda l: l.sequence <= rec.sequence)
+            prev_rec = self.filtered(lambda pit, rec=rec: pit.sequence <= rec.sequence)
             rec.amount_tax_accum = sum(prev_rec.mapped("amount_tax_max"))

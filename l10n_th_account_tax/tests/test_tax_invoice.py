@@ -174,6 +174,7 @@ class TestTaxInvoice(TransactionCase):
                 "cash_basis_transition_account_id": cls.undue_input_vat_acct.id,
             }
         )
+        undue_reconcile_input_vat_id = cls.undue_reconcile_input_vat_acct.id
         cls.undue_input_reconcile_vat = cls.env["account.tax"].create(
             {
                 "name": "DV7 (reconcile)",
@@ -194,11 +195,8 @@ class TestTaxInvoice(TransactionCase):
                         }
                     ),
                 ],
-                "cash_basis_transition_account_id": cls.undue_reconcile_input_vat_acct.id,
+                "cash_basis_transition_account_id": undue_reconcile_input_vat_id,
             }
-        )
-        cls.payment_term_immediate = cls.env["account.payment.term"].create(
-            {"name": "", "line_ids": [Command.create({"value": "balance", "days": 15})]}
         )
 
         # Optiona tax sequence
@@ -351,6 +349,7 @@ class TestTaxInvoice(TransactionCase):
         self.assertEqual(len(bill_tax_cash_basis), 1)
         self.assertEqual(bill_tax_cash_basis.state, "draft")
         # Test reset payment, tax cash basis in vendor bill must create 1 reversal
+        # and document will change to state posted
         payment.action_draft()
         self.assertEqual(payment.state, "draft")
         # Check button Journal Entry must have only move_id
@@ -370,7 +369,7 @@ class TestTaxInvoice(TransactionCase):
         self.assertEqual(payment.state, "posted")
         payable_account = payment.move_id.partner_id.property_account_payable_id
         ml_payment = payment.move_id.line_ids.filtered(
-            lambda l: l.account_id == payable_account
+            lambda line: line.account_id == payable_account
         )
         self.supplier_invoice_undue_vat.js_assign_outstanding_line(ml_payment.id)
         bill_tax_cash_basis = (
@@ -444,7 +443,7 @@ class TestTaxInvoice(TransactionCase):
         self.assertEqual(payment.state, "posted")
         payable_account = payment.move_id.partner_id.property_account_payable_id
         ml_payment = payment.move_id.line_ids.filtered(
-            lambda l: l.account_id == payable_account
+            lambda line: line.account_id == payable_account
         )
         self.supplier_invoice_undue_vat_reconcile.js_assign_outstanding_line(
             ml_payment.id
@@ -625,7 +624,7 @@ class TestTaxInvoice(TransactionCase):
         tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
         self.assertEqual(tax_invoice_number, cust_undue_doc_seq_invoice.name)
 
-        # Assign opptional sequence to undue vat
+        # Assign optional sequence to undue vat
         self.cust_vat_sequence.prefix = "CTX"
         self.cust_vat_sequence.number_next_actual = 2  # CTX0002
         self.undue_output_vat.taxinv_sequence_id = self.cust_vat_sequence
@@ -670,7 +669,9 @@ class TestTaxInvoice(TransactionCase):
         refund.action_post()
         # At invoice add refund to reconcile
         payable_account = refund.partner_id.property_account_payable_id
-        refund_ml = refund.line_ids.filtered(lambda l: l.account_id == payable_account)
+        refund_ml = refund.line_ids.filtered(
+            lambda line: line.account_id == payable_account
+        )
         invoice.js_assign_outstanding_line(refund_ml.id)
         cash_basis_entries = self.env["account.move"].search(
             [("ref", "in", [invoice.name, refund.name])]
@@ -693,17 +694,17 @@ class TestTaxInvoice(TransactionCase):
             "active_ids": self.supplier_invoice_vat.ids,
             "active_model": "account.move",
         }
-        with Form(self.env["account.move.reversal"].with_context(**ctx)) as f:
-            f.refund_method = "cancel"
-        reversal_move = f.save()
+        reversal_move = Form(
+            self.env["account.move.reversal"].with_context(**ctx)
+        ).save()
         # Can't reversal move, if not add tax number, date in account.move.reversal
         with self.assertRaises(UserError):
-            reversal_move.reverse_moves()
+            reversal_move.modify_moves()  # reverse with new invoices
         tax_reversal_invoice = "RSINV-10001"
         reversal_move.write(
             {"tax_invoice_number": tax_reversal_invoice, "tax_invoice_date": tax_date}
         )
-        reversal_move.reverse_moves()
+        reversal_move.modify_moves()
         self.assertEqual(self.supplier_invoice_vat.payment_state, "reversed")
 
     def test_included_tax(self):
@@ -717,11 +718,11 @@ class TestTaxInvoice(TransactionCase):
 
         included tax = 20%
 
-        Name                   | Debit     | Credit    | Tax_ids       | Tax_line_id's name
-        -----------------------|-----------|-----------|---------------|-------------------
-        debit_line_1           | 1000      |           | tax           |
-        included_tax_line      | 200       |           |               | included_tax_line
-        credit_line_1          |           | 1200      |               |
+        Name                   | Debit     | Credit    | Tax_ids  | Tax_line_id's name
+        -----------------------|-----------|-----------|----------|-------------------
+        debit_line_1           | 1000      |           | tax      |
+        included_tax_line      | 200       |           |          | included_tax_line
+        credit_line_1          |           | 1200      |          |
         """
 
         self.included_percent_tax = self.env["account.tax"].create(
@@ -786,7 +787,9 @@ class TestTaxInvoice(TransactionCase):
     def test_supplier_invoice_zero_tax(self):
         """Case on 0% tax, Core odoo not create line with zero tax"""
         invoice = self.supplier_invoice_zero_vat
-        line_zero = invoice.line_ids.filtered(lambda l: not (l.debit or l.credit))
+        line_zero = invoice.line_ids.filtered(
+            lambda line: not (line.debit or line.credit)
+        )
         # There is 1 line for tax 0%
         self.assertEqual(len(invoice.line_ids), 3)
         self.assertTrue(line_zero)
@@ -824,7 +827,7 @@ class TestTaxInvoice(TransactionCase):
         )
         self.assertFalse(move.tax_invoice_ids)
         # Add tax manual in line tax
-        line_tax = move.line_ids.filtered(lambda l: l.balance == 200.0)
+        line_tax = move.line_ids.filtered(lambda line: line.balance == 200.0)
         line_tax.manual_tax_invoice = True
         self.assertTrue(move.tax_invoice_ids)
         self.assertEqual(move.tax_invoice_ids.tax_base_amount, 0.0)

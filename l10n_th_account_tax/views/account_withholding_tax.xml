@@ -23,18 +23,12 @@
                                 name="account_id"
                                 context="{'default_wht_account': True}"
                             />
-                            <label
-                                for="amount"
-                                attrs="{'invisible': [('is_pit', '=', True)]}"
-                            />
-                            <div attrs="{'invisible': [('is_pit', '=', True)]}">
+                            <label for="amount" invisible="is_pit" />
+                            <div invisible="is_pit">
                                 <field name="amount" class="oe_inline" />
                                 <span class="o_form_label oe_inline">%</span>
                             </div>
-                            <field
-                                name="pit_id"
-                                attrs="{'invisible': [('is_pit', '=', False)]}"
-                            />
+                            <field name="pit_id" invisible="not is_pit" />
                         </group>
                     </group>
                 </sheet>

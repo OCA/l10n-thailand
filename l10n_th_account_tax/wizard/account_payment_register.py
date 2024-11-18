@@ -102,10 +102,10 @@ class AccountPaymentRegister(models.TransientModel):
         # Get the sum withholding tax amount from invoice line
         skip_wht_deduct = self.env.context.get("skip_wht_deduct")
         active_model = self.env.context.get("active_model")
-        if not skip_wht_deduct and active_model == "account.move":
+        if not skip_wht_deduct and active_model == "account.move.line":
             active_ids = self.env.context.get("active_ids", [])
-            invoices = self.env["account.move"].browse(active_ids)
-            wht_move_lines = invoices.mapped("line_ids").filtered("wht_tax_id")
+            inv_lines = self.env["account.move.line"].browse(active_ids)
+            wht_move_lines = inv_lines.filtered("wht_tax_id")
             if not wht_move_lines:
                 return res
             # Case WHT only, ensure only 1 wizard
@@ -139,9 +139,11 @@ class AccountPaymentRegister(models.TransientModel):
     @api.model
     def default_get(self, fields_list):
         res = super().default_get(fields_list)
-        if self.env.context.get("active_model") == "account.move":
+        if self.env.context.get("active_model") == "account.move.line":
             active_ids = self.env.context.get("active_ids", False)
-            move_ids = self.env["account.move"].browse(active_ids)
+            move_ids = (
+                self.env["account.move.line"].browse(active_ids).mapped("move_id")
+            )
             partner_ids = move_ids.mapped("partner_id")
             wht_tax_line = move_ids.line_ids.filtered("wht_tax_id")
             if len(partner_ids) > 1 and wht_tax_line:
@@ -209,9 +211,13 @@ class AccountPaymentRegister(models.TransientModel):
             self = self.with_context(partial_payment=True)
         elif self.payment_difference_handling == "reconcile":
             self = self.with_context(skip_account_move_synchronization=True)
-        # Add context reverse_tax_invoice for case reversal
+        # Find original moves
+        model = self.env.context.get("active_model")
         active_ids = self.env.context.get("active_ids", False)
-        move_ids = self.env["account.move"].browse(active_ids)
-        if any(move.move_type in ["in_refund", "out_refund"] for move in move_ids):
+        moves = self.env[model].browse(active_ids)
+        if model == "account.move.line":
+            moves = moves.mapped("move_id")
+        # Add context reverse_tax_invoice for case reversal
+        if any(move.move_type in ["in_refund", "out_refund"] for move in moves):
             self = self.with_context(reverse_tax_invoice=True)
         return super().action_create_payments()

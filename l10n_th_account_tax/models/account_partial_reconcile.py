@@ -31,7 +31,9 @@ class AccountPartialReconcile(models.Model):
             ],
             lazy=False,
         )
-        del_ml_groups = list(filter(lambda l: l["debit"] == l["credit"], ml_groups))
+        del_ml_groups = list(
+            filter(lambda line: line["debit"] == line["credit"], ml_groups)
+        )
         account_ids = [g.get("account_id")[0] for g in del_ml_groups]
         # Not include taxes (0%) and not reconciled
         del_move_lines = moves.mapped("line_ids").filtered(

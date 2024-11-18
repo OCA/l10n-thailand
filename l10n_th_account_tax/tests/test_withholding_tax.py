@@ -1,6 +1,6 @@
 # Copyright 2020 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
-from odoo import fields
+from odoo import Command, fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import Form, TransactionCase
 
@@ -13,10 +13,11 @@ class TestWithholdingTax(TransactionCase):
         cls.partner_2 = cls.env.ref("base.res_partner_2")
         cls.product_1 = cls.env.ref("product.product_product_4")
         cls.currency_eur = cls.env.ref("base.EUR")
+        cls.currency_eur.write({"active": True})
         cls.currency_usd = cls.env.ref("base.USD")
+        cls.currency_usd.write({"active": True})
         cls.currency_rate = cls.env["res.currency.rate"]
         cls.main_company = cls.env.ref("base.main_company")
-        cls.register_view_id = "account.view_account_payment_register_form"
         cls.account_move = cls.env["account.move"]
         cls.account_payment_register = cls.env["account.payment.register"]
         cls.account_payment = cls.env["account.payment"]
@@ -134,9 +135,7 @@ class TestWithholdingTax(TransactionCase):
             invoice_dict.update(
                 {
                     "line_ids": [
-                        (
-                            0,
-                            0,
+                        Command.create(
                             {
                                 "account_id": line_account_id,  # wht
                                 "wht_tax_id": wht_tax_id,
@@ -145,18 +144,14 @@ class TestWithholdingTax(TransactionCase):
                                 "partner_id": partner_id,
                             },
                         ),
-                        (
-                            0,
-                            0,
+                        Command.create(
                             {
                                 "account_id": self.liquidity_account.id,
                                 "name": "Test line balance",
                                 "credit": price_unit - wht_amount,
                             },
                         ),
-                        (
-                            0,
-                            0,
+                        Command.create(
                             {
                                 "account_id": self.expense_account.id,
                                 "name": "Test line product",
@@ -170,9 +165,7 @@ class TestWithholdingTax(TransactionCase):
             invoice_dict.update(
                 {
                     "invoice_line_ids": [
-                        (
-                            0,
-                            0,
+                        Command.create(
                             {
                                 "product_id": product_id,
                                 "quantity": 1.0,
@@ -217,14 +210,12 @@ class TestWithholdingTax(TransactionCase):
         invoice.action_post()
         # Payment by writeoff with withholding tax account
         ctx = {
-            "active_ids": [invoice.id],
-            "active_id": invoice.id,
-            "active_model": "account.move",
+            "active_ids": invoice.line_ids.ids,
+            "active_model": "account.move.line",
         }
         # Test Change WHT to 1%
         with Form(
             self.account_payment_register.with_context(**ctx),
-            view=self.register_view_id,
         ) as f:
             f.wht_tax_id = self.wht_1
         register_payment = f.save()
@@ -242,7 +233,6 @@ class TestWithholdingTax(TransactionCase):
         # Change back to 3%
         with Form(
             self.account_payment_register.with_context(**ctx),
-            view=self.register_view_id,
         ) as f:
             f.wht_tax_id = self.wht_3
         register_payment = f.save()
@@ -314,15 +304,12 @@ class TestWithholdingTax(TransactionCase):
         invoice.action_post()
         # Payment by writeoff with withholding tax account
         ctx = {
-            "active_ids": [invoice.id],
-            "active_id": invoice.id,
-            "active_model": "account.move",
+            "active_ids": invoice.line_ids.ids,
+            "active_model": "account.move.line",
         }
-        with Form(
+        register_payment = Form(
             self.account_payment_register.with_context(**ctx),
-            view=self.register_view_id,
-        ) as f:
-            register_payment = f.save()
+        ).save()
         self.assertEqual(
             register_payment.writeoff_account_id,
             invoice.invoice_line_ids.wht_tax_id.account_id,
@@ -382,35 +369,38 @@ class TestWithholdingTax(TransactionCase):
             invoice.action_post()
         # Test multi partners
         ctx = {
-            "active_ids": [invoice_dict["invoice1"].id, invoice_dict["invoice3"].id],
-            "active_model": "account.move",
+            "active_ids": (
+                invoice_dict["invoice1"].line_ids + invoice_dict["invoice3"].line_ids
+            ).ids,
+            "active_model": "account.move.line",
         }
         with self.assertRaises(UserError):
             Form(
                 self.account_payment_register.with_context(**ctx),
-                view=self.register_view_id,
             )
         # Test same partner and not group payments
         ctx = {
-            "active_ids": [invoice_dict["invoice1"].id, invoice_dict["invoice2"].id],
-            "active_model": "account.move",
+            "active_ids": (
+                invoice_dict["invoice1"].line_ids + invoice_dict["invoice2"].line_ids
+            ).ids,
+            "active_model": "account.move.line",
         }
         with self.assertRaises(UserError):
             with Form(
                 self.account_payment_register.with_context(**ctx),
-                view=self.register_view_id,
             ) as f:
                 register_payment = f.save()
             register_payment.group_payment = False
             register_payment.action_create_payments()
         # Test same partner and group payments
         ctx = {
-            "active_ids": [invoice_dict["invoice1"].id, invoice_dict["invoice2"].id],
-            "active_model": "account.move",
+            "active_ids": (
+                invoice_dict["invoice1"].line_ids + invoice_dict["invoice2"].line_ids
+            ).ids,
+            "active_model": "account.move.line",
         }
         with Form(
             self.account_payment_register.with_context(**ctx),
-            view=self.register_view_id,
         ) as f:
             register_payment = f.save()
         self.assertEqual(
@@ -497,14 +487,12 @@ class TestWithholdingTax(TransactionCase):
         invoice.action_post()
         # Payment by writeoff with withholding tax account
         ctx = {
-            "active_ids": [invoice.id],
-            "active_id": invoice.id,
-            "active_model": "account.move",
+            "active_ids": invoice.line_ids.ids,
+            "active_model": "account.move.line",
         }
         # Test change currency in wizard register
         with Form(
             self.account_payment_register.with_context(**ctx),
-            view=self.register_view_id,
         ) as f:
             f.currency_id = self.currency_usd
             f.wht_tax_id = self.wht_1
@@ -517,7 +505,6 @@ class TestWithholdingTax(TransactionCase):
         invoice.currency_id = self.currency_usd.id
         with Form(
             self.account_payment_register.with_context(**ctx),
-            view=self.register_view_id,
         ) as f:
             f.currency_id = self.currency_eur
             f.wht_tax_id = self.wht_1
