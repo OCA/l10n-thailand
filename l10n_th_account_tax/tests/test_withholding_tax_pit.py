@@ -119,7 +119,7 @@ class TestWithholdingTaxPIT(TransactionCase):
         # User MUST change to to calendar year
         pit_rate_copy = self.pit_rate.copy()
         self.assertEqual(
-            pit_rate_copy.calendar_year, "{} (copy)".format(self.pit_rate.calendar_year)
+            pit_rate_copy.calendar_year, f"{self.pit_rate.calendar_year} (copy)"
         )
         self.assertFalse(pit_rate_copy.effective_date)
 
