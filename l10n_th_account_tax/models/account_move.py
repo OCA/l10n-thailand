@@ -50,7 +50,8 @@ class AccountMoveLine(models.Model):
             # Payment expressed on the company's currency.
             wht_base_amount = self.balance
         else:
-            # Foreign currency on payment different than the one set on the journal entries.
+            # Foreign currency on payment different than
+            # the one set on the journal entries.
             wht_base_amount = self.company_currency_id._convert(
                 self.balance, currency, self.company_id, currency_date
             )
@@ -80,7 +81,7 @@ class AccountMoveLine(models.Model):
         if pit_lines:
             pit_tax = pit_lines.mapped("wht_tax_id")
             pit_tax.ensure_one()
-            move_lines = self.filtered(lambda l: l.wht_tax_id == pit_tax)
+            move_lines = self.filtered(lambda line: line.wht_tax_id == pit_tax)
             amount_invoice_currency = sum(move_lines.mapped("amount_currency"))
             move = move_lines[0]
             company = move.company_id
@@ -319,7 +320,7 @@ class AccountMoveLine(models.Model):
 
     def _get_partner_wht_lines(self, wht_tax_lines, partner_id):
         partner_wht_lines = wht_tax_lines.filtered(
-            lambda l: l.partner_id.id == partner_id
+            lambda line: line.partner_id.id == partner_id
         )
         return partner_wht_lines
 
@@ -331,7 +332,9 @@ class AccountMoveLine(models.Model):
         amount_deduct = 0
         wht_taxes = self.mapped("wht_tax_id")
         for wht_tax in wht_taxes:
-            wht_tax_lines = self.filtered(lambda l: l.wht_tax_id == wht_tax)
+            wht_tax_lines = self.filtered(
+                lambda line, wht_tax=wht_tax: line.wht_tax_id == wht_tax
+            )
             partner_ids = self._get_partner_wht(wht_tax_lines)
             for partner_id in partner_ids:
                 partner_wht_lines = self._get_partner_wht_lines(
@@ -348,7 +351,7 @@ class AccountMoveLine(models.Model):
                 deductions.append(deduct)
         return (deductions, amount_deduct)
 
-    def reconcile(self):
+    def _reconcile_post_hook(self, data):
         """
         Case: Vendor Bills only.
         Reset tax cash basis to draft. until clear tax or reset payment
@@ -359,20 +362,24 @@ class AccountMoveLine(models.Model):
         - Bill manual reconcile payment
             create cash basis (3) is draft
         """
-        res = super().reconcile()
-        tax_move = res.get("tax_cash_basis_moves")
-        net_invoice_refund = self.env.context.get("net_invoice_refund")
-        net_invoice_payment = self.env.context.get("net_invoice_payment")
-        if (
-            tax_move
-            and all(
-                move.move_type == "in_invoice"
-                for move in tax_move.mapped("tax_cash_basis_origin_move_id")
+        res = super()._reconcile_post_hook(data)
+        payment_id = self.env.context.get("payment_id")
+        if payment_id:
+            payment = self.env["account.payment"].browse(payment_id)
+            # Bills only
+            moves = payment.reconciled_bill_ids
+            all_tax_move = moves.mapped("tax_cash_basis_created_move_ids")
+            reversed_tax_ids = all_tax_move.filtered(
+                lambda tax_inv: tax_inv.reversed_entry_id
+            ).ids
+            linked_reversed_tax_ids = all_tax_move.mapped("reversed_entry_id").ids
+            tax_move = all_tax_move.filtered(
+                lambda tax_inv: tax_inv.id not in reversed_tax_ids
+                and tax_inv.id not in linked_reversed_tax_ids
             )
-            and (not net_invoice_refund or net_invoice_payment)
-        ):
-            tax_move.mapped("line_ids").remove_move_reconcile()
-            tax_move.write({"state": "draft", "is_move_sent": False})
+            if tax_move:
+                tax_move.mapped("line_ids").remove_move_reconcile()
+                tax_move.write({"state": "draft", "is_move_sent": False})
         return res
 
 
@@ -382,8 +389,6 @@ class AccountMove(models.Model):
     tax_invoice_ids = fields.One2many(
         comodel_name="account.move.tax.invoice",
         inverse_name="move_id",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
         copy=False,
     )
     wht_cert_ids = fields.One2many(
@@ -459,12 +464,12 @@ class AccountMove(models.Model):
         # Purchase Taxes
         for move in self:
             for tax_invoice in move.tax_invoice_ids.filtered(
-                lambda l: l.tax_line_id.type_tax_use == "purchase"
+                lambda tax: tax.tax_line_id.type_tax_use == "purchase"
                 or (
-                    l.move_id.move_type == "entry"
-                    and not l.payment_id
-                    and l.move_id.journal_id.type != "sale"
-                    and l.tax_line_id.type_tax_use != "sale"
+                    tax.move_id.move_type == "entry"
+                    and not tax.payment_id
+                    and tax.move_id.journal_id.type != "sale"
+                    and tax.tax_line_id.type_tax_use != "sale"
                 )
             ):
                 if (
@@ -482,9 +487,12 @@ class AccountMove(models.Model):
                             tax_invoice.move_id.reversed_entry_id.write(
                                 {"state": "posted"}
                             )
+                            tax_account_id = tax_invoice.account_id
                             line_reconcile = moves.mapped("line_ids").filtered(
-                                lambda l: l.account_id != tax_invoice.account_id
-                                and l.reconciled
+                                lambda line,
+                                tax_account_id=tax_account_id: line.account_id
+                                != tax_account_id
+                                and line.reconciled
                             )
                             line_reconcile.reconcile()
                         continue
@@ -524,8 +532,8 @@ class AccountMove(models.Model):
         if not self.env.context.get("net_invoice_refund"):
             for move in self:
                 for tax_invoice in move.tax_invoice_ids.filtered(
-                    lambda l: l.tax_line_id.type_tax_use == "sale"
-                    or l.move_id.journal_id.type == "sale"
+                    lambda tax: tax.tax_line_id.type_tax_use == "sale"
+                    or tax.move_id.journal_id.type == "sale"
                 ):
                     tinv_number, tinv_date = self._get_tax_invoice_number(
                         move, tax_invoice, tax_invoice.tax_line_id
@@ -549,7 +557,8 @@ class AccountMove(models.Model):
                 for wht_move in wht_moves
             ]
             move.write({"wht_move_ids": [Command.clear()] + withholding_moves})
-            # On payment JE, keep track of move when PIT not withheld, use data from vendor bill
+            # On payment JE, keep track of move when PIT not withheld,
+            # use data from vendor bill
             if move.payment_id and not move.payment_id.wht_move_ids.mapped("is_pit"):
                 if self.env.context.get("active_model") == "account.move":
                     bills = self.env["account.move"].browse(
@@ -598,7 +607,7 @@ class AccountMove(models.Model):
             if sequence:
                 if move != origin_move:  # Case reversed entry, use origin
                     tax_invoices = origin_move.tax_invoice_ids.filtered(
-                        lambda l: l.tax_line_id == tax
+                        lambda tax_inv: tax_inv.tax_line_id == tax
                     )
                     number = (
                         tax_invoices and tax_invoices[0].tax_invoice_number or False
@@ -669,7 +678,7 @@ class AccountMove(models.Model):
         Group by partner and income type, regardless of wht_tax_id
         """
         self.ensure_one()
-        if self.wht_move_ids.filtered(lambda l: not l.wht_cert_income_type):
+        if self.wht_move_ids.filtered(lambda wht: not wht.wht_cert_income_type):
             raise UserError(
                 _("Please select Type of Income on every withholding moves")
             )
@@ -705,7 +714,7 @@ class AccountMove(models.Model):
             cert_line_vals = []
             wht_tax_set = set()
             wht_moves = list(
-                filter(lambda l: l["partner_id"][0] == partner.id, wht_move_groups)
+                filter(lambda wht: wht["partner_id"][0] == partner.id, wht_move_groups)
             )
             for wht_move in wht_moves:
                 cert_line_vals.append(

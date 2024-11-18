@@ -80,7 +80,6 @@ class WithholdingTaxCert(models.Model):
     name = fields.Char(
         string="Number",
         compute="_compute_wht_cert_data",
-        states={"draft": [("readonly", False)]},
         store=True,
         tracking=True,
     )
@@ -88,7 +87,6 @@ class WithholdingTaxCert(models.Model):
         required=True,
         compute="_compute_wht_cert_data",
         store=True,
-        states={"draft": [("readonly", False)]},
         tracking=True,
     )
     state = fields.Selection(
@@ -102,27 +100,20 @@ class WithholdingTaxCert(models.Model):
         string="Ref WHT Cert.",
         comodel_name="withholding.tax.cert",
         tracking=True,
-        readonly=True,
         check_company=True,
-        states={"draft": [("readonly", False)]},
         help="This field related from Old WHT Cert.",
     )
     payment_id = fields.Many2one(
         comodel_name="account.payment",
         string="Payment",
         copy=False,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
         domain="[('partner_id', '=', partner_id)]",
         ondelete="restrict",
         tracking=True,
     )
     move_id = fields.Many2one(
         comodel_name="account.move",
-        string="Move",
         copy=False,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
         domain="[('journal_id.type', '=', 'general'), ('state', '=', 'posted')]",
         ondelete="restrict",
         tracking=True,
@@ -130,7 +121,6 @@ class WithholdingTaxCert(models.Model):
     company_partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Company",
-        readonly=True,
         copy=False,
         default=lambda self: self.env.company.partner_id,
         ondelete="restrict",
@@ -139,8 +129,6 @@ class WithholdingTaxCert(models.Model):
         comodel_name="res.partner",
         string="Vendor",
         required=True,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
         tracking=True,
         ondelete="restrict",
     )
@@ -148,7 +136,6 @@ class WithholdingTaxCert(models.Model):
         comodel_name="res.company",
         string="Main Company",
         required=True,
-        readonly=True,
         default=lambda self: self.env.company,
     )
     currency_id = fields.Many2one(
@@ -156,36 +143,24 @@ class WithholdingTaxCert(models.Model):
         related="company_id.currency_id",
         store=True,
         string="Currency",
-        readonly=True,
     )
-    company_vat = fields.Char(
-        related="company_partner_id.vat", string="Company Tax ID", readonly=True
-    )
-    partner_vat = fields.Char(
-        related="partner_id.vat", string="Vendor Tax ID", readonly=True
-    )
+    company_vat = fields.Char(related="company_partner_id.vat", string="Company Tax ID")
+    partner_vat = fields.Char(related="partner_id.vat", string="Vendor Tax ID")
     income_tax_form = fields.Selection(
         selection=INCOME_TAX_FORM,
-        required=False,
-        readonly=True,
         copy=False,
-        states={"draft": [("readonly", False)]},
         tracking=True,
     )
     wht_line = fields.One2many(
         comodel_name="withholding.tax.cert.line",
         inverse_name="cert_id",
         string="Withholding Line",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
         copy=False,
     )
     tax_payer = fields.Selection(
         selection=TAX_PAYER,
         default="withholding",
         required=True,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
         copy=False,
         tracking=True,
     )
@@ -334,7 +309,8 @@ class WithholdingTaxCodeIncome(models.Model):
             dict_income_tax_form = dict(INCOME_TAX_FORM)
             raise UserError(
                 _(
-                    "You can not default field '%(income)s - %(wht_income_type)s' more than 1."
+                    "You can not default field '%(income)s - %(wht_income_type)s' "
+                    "more than 1."
                 )
                 % {
                     "income": dict_income_tax_form[self.income_tax_form],
