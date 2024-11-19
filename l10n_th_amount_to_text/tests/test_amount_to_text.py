@@ -1,7 +1,7 @@
 # Copyright 2020 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
 
@@ -29,5 +29,11 @@ class TestAmountToText(TransactionCase):
         self.assertEqual(
             amount_text_eur, "One Thousand And Fifty Euros and Seventy-Five Cents"
         )
+        # Test with other currency, Thai language.
+        # If not activated thai language, it should error.
+        with self.assertRaises(UserError):
+            amount_text_eur = currency.with_context(lang="th_TH").amount_to_text(amount)
+        # Activate Thai language
+        self.env.ref("base.lang_th").write({"active": True})
         amount_text_eur = currency.with_context(lang="th_TH").amount_to_text(amount)
         self.assertEqual(amount_text_eur, "หนึ่งพันห้าสิบยูโรเจ็ดสิบห้าเซนต์")

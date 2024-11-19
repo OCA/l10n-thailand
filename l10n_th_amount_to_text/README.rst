@@ -17,70 +17,77 @@ Thai Localization - Convert Amount Text to Thai
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-thailand/tree/17.0/l10n_th_amount_to_text
+    :target: https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_amount_to_text
     :alt: OCA/l10n-thailand
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-thailand-17-0/l10n-thailand-17-0-l10n_th_amount_to_text
+    :target: https://translation.odoo-community.org/projects/l10n-thailand-18-0/l10n-thailand-18-0-l10n_th_amount_to_text
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&target_branch=17.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Normally, Core odoo has function ``amount_to_text`` and return text
-language from context or user setting
+Odoo's core functionality includes the ``amount_to_text`` function,
+which converts numerical amounts into text based on the user's language
+settings or context. However, this conversion may produce incorrect
+results for Thai.
 
-Example : 45.75 Baht
+**Example:**
 
--  User Language 'Thai' -> สี่สิบห้า Baht และ เจ็ดสิบห้า Satang
--  User Language 'English' -> Forty-Five Baht and Seventy-Five Satang
+- Amount: 45.75 Baht
 
-Which is incorrect when converted into thai.
+  - User Language: **Thai** → สี่สิบห้า Baht และ เจ็ดสิบห้า Satang
+  - User Language: **English** → Forty-Five Baht and Seventy-Five Satang
 
-This module provides base for convert number to text thai.
+These results are inaccurate for Thai language formatting. This module
+provides a base for accurately converting numbers to Thai text.
 
 **Table of contents**
 
 .. contents::
    :local:
 
-Configuration
-=============
-
-**Important** : you need to upgrade num2words package version >= 0.5.7
-
-Step to check version and upgrade version in terminal / command
-
--  pip3 freeze
--  pip3 install num2words -U
-
 Usage
 =====
 
-Call function amount_to_text in model currency (res.currency).
+The ``amount_to_text`` function in the ``res.currency`` model allows you
+to convert amounts into text. Below is an example of how to use it in a
+QWEB report:
 
-For example if you need to convert amount to text in the QWEB your
-report, add this code to your report:
+Example Usage:
 
-::
+.. code:: xml
 
    <t t-foreach="docs" t-as="o">
        <t t-set="currency" t-value="o.currency_id"/>
-       # Convert to Thai Text
-       <t t-esc="currency.with_context({'lang': 'th_TH'}).amount_to_text(45.75)"/>
-
-       # Convert to Text, By core odoo
-       <t t-esc="currency.amount_to_text(45.75)"/>
+       
+       <!-- Convert amount to Thai text -->
+       <t t-out="currency.with_context({'lang': 'th_TH'}).amount_to_text(45.75)"/>
+       
+       <!-- Convert amount to text using Odoo's default behavior -->
+       <t t-out="currency.amount_to_text(45.75)"/>
    </t>
 
-If you send context lang th_TH
+**Results Based on Context:**
 
--  Currency is THB, result is ``สี่สิบห้าบาทเจ็ดสิบห้าสตางค์``
--  Currency is EUR, result is ``สี่สิบห้ายูโรเจ็ดสิบห้าเซนต์``
--  Currency is USD, result is ``สี่สิบห้าดอลลาร์เจ็ดสิบห้าเซนต์``
+- When ``lang=th_TH`` context is sent:
 
-if not send context, result will call core odoo
+  - Currency: **THB** → ``สี่สิบห้าบาทเจ็ดสิบห้าสตางค์``
+  - Currency: **EUR** → ``สี่สิบห้ายูโรเจ็ดสิบห้าเซนต์``
+  - Currency: **USD** → ``สี่สิบห้าดอลลาร์เจ็ดสิบห้าเซนต์``
+
+- When no context is sent: Odoo's default logic will handle the
+  conversion.
+
+**Important Notes:**
+
+Ensure the Thai language (``th_TH``) is **activated** in your system
+before using the ``lang='th_TH'`` context.
+
+Before sending the context with ``th_TH`` language, If it is not
+activated, combining the ``th_TH`` language context with non-THB
+currencies may result in errors.
 
 Bug Tracker
 ===========
@@ -88,7 +95,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-thailand/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_amount_to_text%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_amount_to_text%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -103,10 +110,10 @@ Authors
 Contributors
 ------------
 
--  `Ecosoft <http://ecosoft.co.th>`__:
+- `Ecosoft <http://ecosoft.co.th>`__:
 
-   -  Saran Lim. <saranl@ecosoft.co.th>
-   -  Pimolnat Suntian <pimolnats@ecosoft.co.th>
+  - Saran Lim. <saranl@ecosoft.co.th>
+  - Pimolnat Suntian <pimolnats@ecosoft.co.th>
 
 Maintainers
 -----------
@@ -129,6 +136,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-Saran440| 
 
-This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/17.0/l10n_th_amount_to_text>`_ project on GitHub.
+This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_amount_to_text>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
