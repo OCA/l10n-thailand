@@ -5,24 +5,35 @@ import datetime
 
 from freezegun import freeze_time
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests.common import Form, TransactionCase
+from odoo.tests import Form, tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestWithholdingTaxPIT(TransactionCase):
+@tagged("post_install", "-at_install")
+class TestWithholdingTaxPIT(AccountTestInvoicingCommon):
     @classmethod
     @freeze_time("2001-02-01")
     def setUpClass(cls):
         super().setUpClass()
-        cls.account_wht = cls.env["account.withholding.tax"]
-        cls.partner = cls.env["res.partner"].create({"name": "Test Partner"})
-        cls.product = cls.env["product.product"].create(
-            {"name": "Test", "standard_price": 500.0}
-        )
-        cls.RegisterPayment = cls.env["account.payment.register"]
+        cls.account_wht_obj = cls.env["account.withholding.tax"]
+        cls.partner_obj = cls.env["res.partner"]
+        cls.product_obj = cls.env["product.product"]
+        cls.wiz_payment_register_obj = cls.env["account.payment.register"]
+        cls.account_account_obj = cls.env["account.account"]
+        cls.account_payment_obj = cls.env["account.payment"]
+        cls.journal_obj = cls.env["account.journal"]
+
+        cls.partner = cls.partner_obj.create({"name": "Test Partner"})
+        cls.product = cls.product_obj.create({"name": "Test", "standard_price": 500.0})
+        cls.journal_bank = cls.company_data["default_journal_bank"]
+        cls.purchase_journal = cls.company_data["default_journal_purchase"]
+        cls.expense_account = cls.company_data["default_account_expense"]
+
         # Setup PIT withholding tax
-        cls.account_pit = cls.env["account.account"].create(
+        cls.account_pit = cls.account_account_obj.create(
             {
                 "code": "100",
                 "name": "Personal Income Tax",
@@ -30,14 +41,14 @@ class TestWithholdingTaxPIT(TransactionCase):
                 "wht_account": True,
             }
         )
-        cls.wht_pit = cls.account_wht.create(
+        cls.wht_pit = cls.account_wht_obj.create(
             {
                 "name": "PIT",
                 "account_id": cls.account_pit.id,
                 "is_pit": True,
             }
         )
-        cls.wht_1 = cls.account_wht.create(
+        cls.wht_1 = cls.account_wht_obj.create(
             {
                 "name": "Withholding Tax 1%",
                 "account_id": cls.account_pit.id,
@@ -66,30 +77,43 @@ class TestWithholdingTaxPIT(TransactionCase):
     @freeze_time("2001-02-01")
     def _create_invoice(self, data):
         """Create test invoice
-        data = [{"amount": 1, "pit": True}, ...]
+        data = [{
+            "product_id": <value>,
+            "quantity": <value>,
+            "account_id": <value>,
+            "name": <value>,
+            "price_unit": <value>,
+            "wht_tax_id": <value>,
+        }, ...]
         """
-        move_form = Form(
-            self.env["account.move"].with_context(
-                default_move_type="in_invoice", check_move_validity=False
-            )
-        )
-        move_form.invoice_date = fields.Date.context_today(self.env.user)
-        move_form.partner_id = self.partner
-        for line in data:
-            with move_form.invoice_line_ids.new() as line_form:
-                line_form.product_id = self.product
-                line_form.price_unit = line["amount"]
-                line_form.wht_tax_id = (
-                    line["pit"] and self.wht_pit or self.env["account.withholding.tax"]
+        invoice_dict = {
+            "name": "/",
+            "partner_id": self.partner.id,
+            "journal_id": self.purchase_journal.id,
+            "move_type": "in_invoice",
+            "invoice_date": fields.Date.today(),
+            "invoice_line_ids": [
+                Command.create(
+                    {
+                        "product_id": line.get("product_id", self.product.id),
+                        "quantity": line.get("quantity", 1.0),
+                        "account_id": line.get("account_id", self.expense_account.id),
+                        "name": line.get("name", "Advice"),
+                        "price_unit": line.get("price_unit", 0.0),
+                        "wht_tax_id": line.get("wht_tax_id", False),
+                        "tax_ids": False,  # Clear all taxes
+                    },
                 )
-                for i in range(len(line_form.tax_ids)):
-                    line_form.tax_ids.remove(index=i)
-        return move_form.save()
+                for line in data
+            ],
+        }
+        invoice = self.env["account.move"].create(invoice_dict)
+        return invoice
 
     def test_00_pit_tax(self):
         """No 2 PIT Tax allowed"""
         with self.assertRaises(ValidationError):
-            self.wht_pit = self.env["account.withholding.tax"].create(
+            self.wht_pit = self.account_wht_obj.create(
                 {
                     "name": "PIT2",
                     "account_id": self.account_pit.id,
@@ -133,65 +157,120 @@ class TestWithholdingTaxPIT(TransactionCase):
         Then, create withholding tax cert for year 2001, total withholding = 40
         """
         # 1st invoice
-        data = [{"amount": 500, "pit": True}, {"amount": 1500, "pit": False}]
-        self.invoice = self._create_invoice(data)
-        self.invoice.action_post()
-        res = self.invoice.action_register_payment()
+        data = [
+            {
+                "price_unit": 500.0,
+                "wht_tax_id": self.wht_pit.id,
+            },
+            {
+                "price_unit": 1500.0,
+                "wht_tax_id": False,
+            },
+        ]
+        invoice1 = self._create_invoice(data)
+        invoice1.action_post()
+
         # Register payment, without PIT rate yet
-        with self.assertRaises(UserError):
-            form = Form(self.RegisterPayment.with_context(**res["context"]))
+        with self.assertRaisesRegex(UserError, r"No effective PIT rate for date"):
+            Form.from_action(self.env, invoice1.action_register_payment())
+
         # Create an effective PIT Rate, and try again.
         self.pit_rate = self._create_pit("2001")
-        f = Form(self.RegisterPayment.with_context(**res["context"]))
-        wizard = f.save()
-        wizard.action_create_payments()
+
+        with Form.from_action(self.env, invoice1.action_register_payment()) as wiz_form:
+            self.assertEqual(wiz_form.amount, 2000)
+            self.assertEqual(wiz_form.payment_difference_handling, "open")
+            wiz_form.save().action_create_payments()
+
         # PIT created but not PIT amount yet.
         self.assertEqual(sum(self.partner.pit_move_ids.mapped("amount_income")), 500)
         self.assertEqual(sum(self.partner.pit_move_ids.mapped("amount_wht")), 0)
 
         # 2nd invoice
-        data = [{"amount": 1000, "pit": True}]
-        self.invoice = self._create_invoice(data)
-        self.invoice.action_post()
-        res = self.invoice.action_register_payment()
-        form = Form(self.RegisterPayment.with_context(**res["context"]))
-        wizard = form.save()
-        wizard.action_create_payments()
+        data = [
+            {
+                "price_unit": 1000.0,
+                "wht_tax_id": self.wht_pit.id,
+            }
+        ]
+        invoice2 = self._create_invoice(data)
+        invoice2.action_post()
+
+        with Form.from_action(self.env, invoice2.action_register_payment()) as wiz_form:
+            self.assertEqual(wiz_form.amount, 990.0)
+            self.assertEqual(wiz_form.payment_difference_handling, "reconcile")
+            self.assertEqual(wiz_form.payment_difference, 10.0)
+            wiz_form.save().action_create_payments()
+
         # Sum up amount_income and withholding amount = 10
         self.assertEqual(sum(self.partner.pit_move_ids.mapped("amount_income")), 1500)
         self.assertEqual(sum(self.partner.pit_move_ids.mapped("amount_wht")), 10)
 
         # 3nd invoice
-        data = [{"amount": 1000, "pit": True}]
-        self.invoice = self._create_invoice(data)
-        self.invoice.action_post()
-        res = self.invoice.action_register_payment()
-        form = Form(self.RegisterPayment.with_context(**res["context"]))
-        wizard = form.save()
-        res = wizard.action_create_payments()
+        data = [
+            {
+                "price_unit": 1000.0,
+                "wht_tax_id": self.wht_pit.id,
+            }
+        ]
+        invoice3 = self._create_invoice(data)
+        invoice3.action_post()
+
+        with Form.from_action(self.env, invoice3.action_register_payment()) as wiz_form:
+            self.assertEqual(wiz_form.amount, 970.0)
+            self.assertEqual(wiz_form.payment_difference_handling, "reconcile")
+            self.assertEqual(wiz_form.payment_difference, 30.0)
+            action_payment = wiz_form.save().action_create_payments()
+
         # Sum up amount_income and withholding amount = 10 + 30 = 40
         self.assertEqual(sum(self.partner.pit_move_ids.mapped("amount_income")), 2500)
         self.assertEqual(sum(self.partner.pit_move_ids.mapped("amount_wht")), 40)
+
         # Cancel payment
-        payment = self.env[res["res_model"]].browse(res["res_id"])
+        payment = self.account_payment_obj.browse(action_payment["res_id"])
         self.assertEqual(sum(payment.pit_move_ids.mapped("amount_wht")), 30)
         payment.action_cancel()
         self.assertEqual(sum(payment.pit_move_ids.mapped("amount_wht")), 0)
+
         # Test calling report for this partner, to get remaining = 10
         res = self.partner.action_view_pit_move_yearly_summary()
         moves = self.env[res["res_model"]].search(res["domain"])
         self.assertEqual(sum(moves.mapped("amount_wht")), 10)
+
         # Test check withholding tax in partner
         action = self.partner.button_wht_certs()
         self.assertEqual(action["domain"][0][2], [])
 
         # 4th invoice
-        data = [{"amount": 400000, "pit": True}]
-        self.invoice = self._create_invoice(data)
-        self.invoice.action_post()
-        res = self.invoice.action_register_payment()
-        with Form(self.RegisterPayment.with_context(**res["context"])) as f:
-            f.wht_tax_id = self.wht_pit
-        wizard = f.save()
+        data = [
+            {
+                "price_unit": 400000.0,
+                "wht_tax_id": self.wht_pit.id,
+            }
+        ]
+        invoice4 = self._create_invoice(data)
+        invoice4.action_post()
+
+        with Form.from_action(self.env, invoice4.action_register_payment()) as wiz_form:
+            wiz_form.wht_tax_id = self.wht_pit
+            wizard = wiz_form.save()
         self.assertEqual(wizard.writeoff_label, self.wht_pit.display_name)
         res = wizard.action_create_payments()
+
+    def test_03_get_model_move(self):
+        """Test send model move to get move lines"""
+        data = [
+            {
+                "price_unit": 500.0,
+                "wht_tax_id": self.wht_pit.id,
+            }
+        ]
+        invoice1 = self._create_invoice(data)
+        invoice1.action_post()
+
+        result1 = invoice1._get_movelines_from_model("account.move", invoice1.ids)
+        result2 = invoice1._get_movelines_from_model(
+            "account.move.line", invoice1.line_ids.ids
+        )
+
+        self.assertEqual(result1, result2)

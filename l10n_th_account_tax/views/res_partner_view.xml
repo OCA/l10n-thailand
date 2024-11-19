@@ -31,7 +31,7 @@
                         />
                     </div>
                     <field name="pit_move_ids" nolabel="1">
-                        <tree editable="bottom" create="1" delete="0">
+                        <list editable="bottom" create="1" delete="0">
                             <field name="partner_id" optional="hide" />
                             <field name="payment_id" />
                             <field name="date" optional="show" />
@@ -58,7 +58,7 @@
                                 decoration-success="payment_state == 'posted'"
                             />
                             <field name="currency_id" invisible="1" />
-                        </tree>
+                        </list>
                     </field>
                 </page>
             </xpath>

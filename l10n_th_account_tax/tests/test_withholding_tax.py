@@ -1,37 +1,42 @@
 # Copyright 2020 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
+
 from odoo import Command, fields
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests.common import Form, TransactionCase
+from odoo.tests import Form, tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestWithholdingTax(TransactionCase):
+@tagged("post_install", "-at_install")
+class TestWithholdingTax(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+
+        cls.move_obj = cls.env["account.move"]
+        cls.wiz_payment_register_obj = cls.env["account.payment.register"]
+        cls.account_account_obj = cls.env["account.account"]
+        cls.journal_obj = cls.env["account.journal"]
+        cls.account_wht_obj = cls.env["account.withholding.tax"]
+        cls.wht_cert_obj = cls.env["withholding.tax.cert"]
+
         cls.partner_1 = cls.env.ref("base.res_partner_12")
         cls.partner_2 = cls.env.ref("base.res_partner_2")
         cls.product_1 = cls.env.ref("product.product_product_4")
-        cls.currency_eur = cls.env.ref("base.EUR")
-        cls.currency_eur.write({"active": True})
+
+        # Main currency is USD, EUR is multi-currency
         cls.currency_usd = cls.env.ref("base.USD")
-        cls.currency_usd.write({"active": True})
-        cls.currency_rate = cls.env["res.currency.rate"]
+        cls.other_currency = cls.setup_other_currency("EUR")
+
         cls.main_company = cls.env.ref("base.main_company")
-        cls.account_move = cls.env["account.move"]
-        cls.account_payment_register = cls.env["account.payment.register"]
-        cls.account_payment = cls.env["account.payment"]
-        cls.account_account = cls.env["account.account"]
-        cls.account_journal = cls.env["account.journal"]
-        cls.account_wht = cls.env["account.withholding.tax"]
         cls.wht_income_code_402I = cls.env.ref(
             "l10n_th_account_tax.withholding_tax_pnd1_402I"
         )
         cls.wht_income_code_402E = cls.env.ref(
             "l10n_th_account_tax.withholding_tax_pnd1_402E"
         )
-        cls.wht_cert = cls.env["withholding.tax.cert"]
-        cls.wht_account = cls.account_account.create(
+        cls.wht_account = cls.account_account_obj.create(
             {
                 "code": "X152000",
                 "name": "Withholding Tax Account Test",
@@ -39,79 +44,35 @@ class TestWithholdingTax(TransactionCase):
                 "wht_account": True,
             }
         )
-        cls.wht_1 = cls.account_wht.create(
+        cls.wht_1 = cls.account_wht_obj.create(
             {
                 "name": "Withholding Tax 1%",
                 "account_id": cls.wht_account.id,
                 "amount": 1,
             }
         )
-        cls.wht_3 = cls.account_wht.create(
+        cls.wht_3 = cls.account_wht_obj.create(
             {
                 "name": "Withholding Tax 3%",
                 "account_id": cls.wht_account.id,
                 "amount": 3,
             }
         )
-        cls.expense_account = cls.account_account.search(
-            [
-                ("account_type", "=", "expense"),
-                ("company_id", "=", cls.env.user.company_id.id),
-            ],
-            limit=1,
-        )
-        cls.sale_account = cls.account_account.search(
-            [
-                ("account_type", "=", "income"),
-                ("company_id", "=", cls.env.user.company_id.id),
-            ],
-            limit=1,
-        )
-        cls.expenses_journal = cls.account_journal.search(
-            [
-                ("type", "=", "purchase"),
-                ("company_id", "=", cls.env.user.company_id.id),
-            ],
-            limit=1,
-        )
-        cls.sales_journal = cls.account_journal.search(
-            [("type", "=", "sale"), ("company_id", "=", cls.env.user.company_id.id)],
-            limit=1,
-        )
-        cls.liquidity_account = cls.account_account.search(
+        cls.expense_account = cls.company_data["default_account_expense"]
+        cls.sale_account = cls.company_data["default_account_revenue"]
+        cls.purchase_journal = cls.company_data["default_journal_purchase"]
+        cls.sales_journal = cls.company_data["default_journal_sale"]
+        cls.journal_bank = cls.company_data["default_journal_bank"]
+        cls.misc_journal = cls.company_data["default_journal_misc"]
+        cls.liquidity_account = cls.account_account_obj.search(
             [
                 ("account_type", "=", "asset_cash"),
-                ("company_id", "=", cls.env.user.company_id.id),
             ],
             limit=1,
         )
-        cls.misc_journal = cls.account_journal.search(
-            [("type", "=", "general"), ("company_id", "=", cls.env.user.company_id.id)],
-            limit=1,
-        )
-        # SetUp currency and rates 1 Euro = 2$
-        cls.env.cr.execute(
-            """UPDATE res_company SET currency_id = %s""",
-            [cls.currency_eur.id],
-        )
-        cls.currency_rate.search([]).unlink()
-        cls.currency_rate.create(
-            {
-                "name": "2020-01-01",
-                "rate": 1.0,
-                "currency_id": cls.currency_eur.id,
-                "company_id": cls.main_company.id,
-            }
-        )
 
-        cls.currency_rate.create(
-            {
-                "name": "2020-01-01",
-                "rate": 2,
-                "currency_id": cls.currency_usd.id,
-                "company_id": cls.main_company.id,
-            }
-        )
+        # SetUp currency and rates 2 Euro = 1$
+        cls.other_currency.rate_ids.sorted()[0].write({"rate": 2.0})
 
     def _create_invoice(
         self,
@@ -178,7 +139,7 @@ class TestWithholdingTax(TransactionCase):
                     ],
                 }
             )
-        invoice = self.account_move.create(invoice_dict)
+        invoice = self.move_obj.create(invoice_dict)
         return invoice
 
     def _config_product_withholding_tax(
@@ -199,7 +160,7 @@ class TestWithholdingTax(TransactionCase):
             self.wht_3.write({"account_id": self.expense_account.id})
         invoice = self._create_invoice(
             self.partner_1.id,
-            self.expenses_journal.id,
+            self.purchase_journal.id,
             "in_invoice",
             self.expense_account.id,
             price_unit,
@@ -215,7 +176,7 @@ class TestWithholdingTax(TransactionCase):
         }
         # Test Change WHT to 1%
         with Form(
-            self.account_payment_register.with_context(**ctx),
+            self.wiz_payment_register_obj.with_context(**ctx),
         ) as f:
             f.wht_tax_id = self.wht_1
         register_payment = f.save()
@@ -232,7 +193,7 @@ class TestWithholdingTax(TransactionCase):
         )  # WHT 1%
         # Change back to 3%
         with Form(
-            self.account_payment_register.with_context(**ctx),
+            self.wiz_payment_register_obj.with_context(**ctx),
         ) as f:
             f.wht_tax_id = self.wht_3
         register_payment = f.save()
@@ -244,19 +205,24 @@ class TestWithholdingTax(TransactionCase):
         self.assertEqual(register_payment.writeoff_label, "Withholding Tax 3%")
         action_payment = register_payment.action_create_payments()
         payment = self.env[action_payment["res_model"]].browse(action_payment["res_id"])
-        self.assertEqual(payment.state, "posted")
+        self.assertEqual(payment.state, "paid")
         self.assertEqual(payment.amount, price_unit * 0.97)
         self.assertFalse(payment.wht_certs_count)
+        # Allow create WHT Cert, but not yet
+        self.assertEqual(payment.wht_cert_status, "none")
         # Check no update income type on payment, it should error
         with self.assertRaises(UserError):
             payment.create_wht_cert()
         # Create WHT Cert from Payment
         payment.wht_move_ids.write({"wht_cert_income_type": "1"})
         payment.create_wht_cert()
+
+        # WHT Cert created, wht cert status should change to draft
+        self.assertEqual(payment.wht_cert_status, "draft")
         self.assertEqual(payment.wht_certs_count, 1)
         # Open WHT certs
         res = payment.button_wht_certs()
-        cert = self.wht_cert.search(res["domain"])
+        cert = self.wht_cert_obj.search(res["domain"])
         self.assertEqual(cert.state, "draft")
         self.assertEqual(cert.name, payment.name)
         self.assertEqual(cert.date, payment.date)
@@ -267,6 +233,7 @@ class TestWithholdingTax(TransactionCase):
         cert_line = cert.wht_line
         self.assertEqual(len(cert_line), 1)
         self.assertEqual(cert_line.wht_percent, 3.0)
+
         # Test add default income code more than 1, it should error
         self.wht_income_code_402I.is_default = True
         with self.assertRaises(UserError):
@@ -280,9 +247,15 @@ class TestWithholdingTax(TransactionCase):
 
         cert.action_done()
         self.assertEqual(cert.state, "done")
+        # WHT Cert created and done, wht cert status should change to done
+        self.assertEqual(payment.wht_cert_status, "done")
         # After done, can draft withholding tax
         cert.action_draft()
         self.assertEqual(cert.state, "draft")
+        # WHT Cert cancel, wht cert status should change to cancel
+        cert.action_cancel()
+        self.assertEqual(cert.state, "cancel")
+        self.assertEqual(payment.wht_cert_status, "cancel")
 
     def test_02_create_payment_withholding_tax_product(self):
         """Create payment with withholding tax from product"""
@@ -292,7 +265,7 @@ class TestWithholdingTax(TransactionCase):
         )
         invoice = self._create_invoice(
             self.partner_1.id,
-            self.expenses_journal.id,
+            self.purchase_journal.id,
             "in_invoice",
             self.expense_account.id,
             price_unit,
@@ -308,7 +281,7 @@ class TestWithholdingTax(TransactionCase):
             "active_model": "account.move.line",
         }
         register_payment = Form(
-            self.account_payment_register.with_context(**ctx),
+            self.wiz_payment_register_obj.with_context(**ctx),
         ).save()
         self.assertEqual(
             register_payment.writeoff_account_id,
@@ -320,7 +293,7 @@ class TestWithholdingTax(TransactionCase):
         payment_id = self.env[action_payment["res_model"]].browse(
             action_payment["res_id"]
         )
-        self.assertEqual(payment_id.state, "posted")
+        self.assertEqual(payment_id.state, "paid")
         self.assertEqual(payment_id.amount, price_unit * 0.97)
 
     def test_03_withholding_tax_customer_invoice(self):
@@ -342,12 +315,24 @@ class TestWithholdingTax(TransactionCase):
         self.assertEqual(wht_tax_id.account_id, self.wht_3.account_id)
         invoice.action_post()
 
+        with Form.from_action(self.env, invoice.action_register_payment()) as wiz_form:
+            action_payment = wiz_form.save().action_create_payments()
+
+        # After register payment with withholding tax,
+        # it should not have withholding tax in payment
+        payment = self.env["account.payment"].browse(action_payment["res_id"])
+        self.assertFalse(payment.has_wht)
+        self.assertFalse(payment.wht_cert_status)
+
+        self.assertFalse(payment.move_id.has_wht)
+        self.assertFalse(payment.move_id.wht_cert_status)
+
     def test_04_withholding_tax_multi_invoice(self):
         """Test case withholding tax with multi invoices"""
         price_unit = 100.0
         invoice = self._create_invoice(
             self.partner_1.id,
-            self.expenses_journal.id,
+            self.purchase_journal.id,
             "in_invoice",
             self.expense_account.id,
             price_unit,
@@ -376,7 +361,7 @@ class TestWithholdingTax(TransactionCase):
         }
         with self.assertRaises(UserError):
             Form(
-                self.account_payment_register.with_context(**ctx),
+                self.wiz_payment_register_obj.with_context(**ctx),
             )
         # Test same partner and not group payments
         ctx = {
@@ -387,7 +372,7 @@ class TestWithholdingTax(TransactionCase):
         }
         with self.assertRaises(UserError):
             with Form(
-                self.account_payment_register.with_context(**ctx),
+                self.wiz_payment_register_obj.with_context(**ctx),
             ) as f:
                 register_payment = f.save()
             register_payment.group_payment = False
@@ -400,7 +385,7 @@ class TestWithholdingTax(TransactionCase):
             "active_model": "account.move.line",
         }
         with Form(
-            self.account_payment_register.with_context(**ctx),
+            self.wiz_payment_register_obj.with_context(**ctx),
         ) as f:
             register_payment = f.save()
         self.assertEqual(
@@ -411,7 +396,7 @@ class TestWithholdingTax(TransactionCase):
         self.assertEqual(register_payment.writeoff_label, "Withholding Tax 3%")
         action_payment = register_payment.action_create_payments()
         payment = self.env[action_payment["res_model"]].browse(action_payment["res_id"])
-        self.assertEqual(payment.state, "posted")
+        self.assertEqual(payment.state, "paid")
         self.assertEqual(payment.amount, 2 * price_unit * 0.97)
 
     def test_05_create_wht_cert_journal(self):
@@ -441,7 +426,7 @@ class TestWithholdingTax(TransactionCase):
         self.assertEqual(invoice.wht_cert_status, "draft")
         # Open WHT certs
         res = invoice.button_wht_certs()
-        cert = self.wht_cert.search(res["domain"])
+        cert = self.wht_cert_obj.search(res["domain"])
         self.assertEqual(cert.partner_id, self.partner_1)
         # Check wht cert status in invoice
         cert.action_cancel()
@@ -463,7 +448,7 @@ class TestWithholdingTax(TransactionCase):
         invoice2.wht_move_ids.write({"wht_cert_income_type": "1"})
         invoice2.create_wht_cert()
         res = invoice2.button_wht_certs()
-        cert2 = self.wht_cert.search(res["domain"])
+        cert2 = self.wht_cert_obj.search(res["domain"])
         cert2.ref_wht_cert_id = cert.id
         # After done new WHT. it will change state old WHT to cancel
         self.assertEqual(cert.state, "done")
@@ -476,7 +461,7 @@ class TestWithholdingTax(TransactionCase):
         price_unit = 100.0
         invoice = self._create_invoice(
             self.partner_1.id,
-            self.expenses_journal.id,
+            self.purchase_journal.id,
             "in_invoice",
             self.expense_account.id,
             price_unit,
@@ -492,9 +477,9 @@ class TestWithholdingTax(TransactionCase):
         }
         # Test change currency in wizard register
         with Form(
-            self.account_payment_register.with_context(**ctx),
+            self.wiz_payment_register_obj.with_context(**ctx),
         ) as f:
-            f.currency_id = self.currency_usd
+            f.currency_id = self.other_currency
             f.wht_tax_id = self.wht_1
         register_payment = f.save()
         self.assertEqual(
@@ -502,11 +487,13 @@ class TestWithholdingTax(TransactionCase):
         )
 
         # Test change currency move
-        invoice.currency_id = self.currency_usd.id
+        invoice.button_draft()
+        invoice.currency_id = self.other_currency.id
+        invoice.action_post()
         with Form(
-            self.account_payment_register.with_context(**ctx),
+            self.wiz_payment_register_obj.with_context(**ctx),
         ) as f:
-            f.currency_id = self.currency_eur
+            f.currency_id = self.currency_usd
             f.wht_tax_id = self.wht_1
         self.assertEqual(
             register_payment.amount, (price_unit - (price_unit * 0.01)) * 2

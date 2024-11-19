@@ -1,6 +1,6 @@
 # Copyright 2020 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from .withholding_tax_cert import INCOME_TAX_FORM, WHT_CERT_INCOME_TYPE
@@ -15,7 +15,8 @@ class AccountWithholdingTax(models.Model):
     account_id = fields.Many2one(
         comodel_name="account.account",
         string="Withholding Tax Account",
-        domain="[('wht_account', '=', True), ('company_id', '=', company_id)]",
+        # domain="[('wht_account', '=', True), ('company_ids', 'in', company_id)]",
+        domain="[('wht_account', '=', True)]",
         required=True,
         ondelete="restrict",
     )
@@ -54,13 +55,15 @@ class AccountWithholdingTax(models.Model):
     def _check_is_pit(self):
         pits = self.search_count([("is_pit", "=", True)])
         if pits > 1:
-            raise ValidationError(_("Only 1 personal income tax allowed!"))
+            raise ValidationError(self.env._("Only 1 personal income tax allowed!"))
 
     @api.constrains("account_id")
     def _check_account_id(self):
         for rec in self:
             if rec.account_id and not rec.account_id.wht_account:
-                raise ValidationError(_("Selected account is not for withholding tax"))
+                raise ValidationError(
+                    self.env._("Selected account is not for withholding tax")
+                )
 
     @api.depends("is_pit")
     def _compute_pit_id(self):

@@ -16,6 +16,9 @@ class AccountPaymentRegister(models.TransientModel):
     )
     wht_amount_base = fields.Monetary(
         string="Withholding Base",
+        compute="_compute_wht_amount",
+        store=True,
+        readonly=False,
         help="Based amount for the tax amount",
     )
 
@@ -23,21 +26,26 @@ class AccountPaymentRegister(models.TransientModel):
     def _compute_payment_difference_handling(self):
         res = super()._compute_payment_difference_handling()
         for wizard in self:
-            if wizard.wht_amount_base and wizard.wht_tax_id:
+            if (
+                wizard.wht_amount_base
+                and wizard.wht_tax_id
+                and wizard.payment_difference
+            ):
                 wizard.payment_difference_handling = "reconcile"
         return res
 
-    @api.onchange("wht_tax_id", "wht_amount_base")
-    def _onchange_wht_tax_id(self):
-        if self.wht_tax_id and self.wht_amount_base:
-            if self.wht_tax_id.is_pit:
-                self._onchange_pit()
-            else:
-                self._onchange_wht()
+    @api.depends("wht_tax_id", "wht_amount_base")
+    def _compute_wht_amount(self):
+        for rec in self:
+            if rec.wht_tax_id and rec.wht_amount_base:
+                if rec.wht_tax_id.is_pit:
+                    rec._onchange_pit()
+                else:
+                    rec._onchange_wht()
 
     def _onchange_wht(self):
         """Onchange set for normal withholding tax"""
-        amount_wht = self.wht_tax_id.amount / 100 * self.wht_amount_base
+        amount_wht = (self.wht_tax_id.amount / 100) * self.wht_amount_base
         amount_currency = self.company_id.currency_id._convert(
             self.source_amount,
             self.currency_id,
@@ -84,17 +92,19 @@ class AccountPaymentRegister(models.TransientModel):
         # Check case auto and manual withholding tax
         if self.payment_difference_handling == "reconcile" and self.wht_tax_id:
             payment_vals["write_off_line_vals"] = self._prepare_writeoff_move_line(
-                payment_vals.get("write_off_line_vals", False)
+                payment_vals.get("write_off_line_vals", [])
             )
         return payment_vals
 
     @api.depends(
+        "can_edit_wizard",
         "source_amount",
         "source_amount_currency",
         "source_currency_id",
         "company_id",
         "currency_id",
         "payment_date",
+        "installments_mode",
     )
     def _compute_amount(self):
         """This function is the first entry point, to calculate withholding amount"""
@@ -114,7 +124,7 @@ class AccountPaymentRegister(models.TransientModel):
                 self.payment_date, self.currency_id
             )
             # Support only case single WHT line in this module
-            # Use l10n_th_account_tax_mult if there are mixed lines
+            # Use `l10n_th_account_tax_multi` if there are mixed lines
             amount_base = 0
             amount_wht = 0
             if len(deduction_list) == 1:
@@ -156,6 +166,14 @@ class AccountPaymentRegister(models.TransientModel):
             res["group_payment"] = True
         return res
 
+    @api.onchange("currency_id")
+    def _onchange_currency_id(self):
+        """Change currency in wizard, Withholding Base should be updated"""
+        res = super()._onchange_currency_id()
+        if self.custom_user_amount:
+            self.wht_amount_base = self.amount + self.payment_difference
+        return res
+
     def _create_payments(self):
         self.ensure_one()
         if self.wht_tax_id and not self.group_payment:
@@ -167,7 +185,7 @@ class AccountPaymentRegister(models.TransientModel):
             )
         return super()._create_payments()
 
-    def _prepare_writeoff_move_line(self, write_off_line_vals=None):
+    def _prepare_writeoff_move_line(self, write_off_line_vals):
         """Prepare value withholding tax move of payment"""
         conversion_rate = self.env["res.currency"]._get_conversion_rate(
             self.currency_id,
@@ -178,32 +196,10 @@ class AccountPaymentRegister(models.TransientModel):
         wht_amount_base_company = self.company_id.currency_id.round(
             self.wht_amount_base * conversion_rate
         )
-        if write_off_line_vals:
-            for write_off in write_off_line_vals:
-                write_off["wht_tax_id"] = self.wht_tax_id.id
-                write_off["tax_base_amount"] = wht_amount_base_company
-            return write_off_line_vals
-
-        write_off_amount_currency = (
-            self.payment_difference
-            if self.payment_type == "inbound"
-            else -self.payment_difference
-        )
-        write_off_balance = self.company_id.currency_id.round(
-            write_off_amount_currency * conversion_rate
-        )
-        return [
-            {
-                "name": self.writeoff_label,
-                "account_id": self.writeoff_account_id.id,
-                "partner_id": self.partner_id.id,
-                "currency_id": self.currency_id.id,
-                "amount_currency": write_off_amount_currency,
-                "balance": write_off_balance,
-                "wht_tax_id": self.wht_tax_id.id,
-                "tax_base_amount": wht_amount_base_company,
-            }
-        ]
+        for write_off in write_off_line_vals:
+            write_off["wht_tax_id"] = self.wht_tax_id.id
+            write_off["tax_base_amount"] = wht_amount_base_company
+        return write_off_line_vals
 
     def action_create_payments(self):
         # For case calculate tax invoice partial payment

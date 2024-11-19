@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_clear_tax_form" model="ir.ui.view">
+        <field name="name">clear.tax.form</field>
+        <field name="model">clear.tax</field>
+        <field name="arch" type="xml">
+            <form string="Clear Tax">
+                <group>
+                    <field name="date" />
+                    <field name="payment_id" invisible="1" />
+                </group>
+                <footer>
+                    <button
+                        name="action_clear_tax"
+                        string="Clear Tax"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_clear_tax_wizard" model="ir.actions.act_window">
+        <field name="name">Clear Tax</field>
+        <field name="res_model">clear.tax</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

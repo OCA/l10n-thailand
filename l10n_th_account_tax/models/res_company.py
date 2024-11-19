@@ -17,3 +17,4 @@ class ResCompany(models.Model):
         help="""It default running tax number by payment
         when user not select 'Tax Invoice Sequence' in taxes""",
     )
+    tax_zero_line = fields.Boolean(default=True, string="Keep Zero Line Taxes")

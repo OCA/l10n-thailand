@@ -12,7 +12,7 @@ class AccountMoveReversal(models.TransientModel):
 
     def reverse_moves(self, is_modify=False):
         self.ensure_one()
-        if is_modify and self.move_type == "in_invoice":
+        if self.move_type == "in_invoice":
             self = self.with_context(
                 tax_invoice_number=self.tax_invoice_number,
                 tax_invoice_date=self.tax_invoice_date,

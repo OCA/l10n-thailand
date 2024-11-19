@@ -1,7 +1,7 @@
 # Copyright 2021 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.float_utils import float_compare
 
@@ -50,7 +50,9 @@ class PersonalIncomeTax(models.Model):
 
     def copy(self, default=None):
         self.ensure_one()
-        default = dict(default or {}, calendar_year=_("%s (copy)") % self.calendar_year)
+        default = dict(
+            default or {}, calendar_year=self.env._("%s (copy)") % self.calendar_year
+        )
         return super().copy(default)
 
     @api.constrains("rate_ids")
@@ -59,10 +61,10 @@ class PersonalIncomeTax(models.Model):
             prev_income_to = 0.0
             for i, rate in enumerate(rec.rate_ids):
                 if i == 0 and rate.income_from != 0.0:
-                    raise UserError(_("Income amount must start from 0.0"))
+                    raise UserError(self.env._("Income amount must start from 0.0"))
                 if i > 0 and float_compare(rate.income_from, prev_income_to, 2) != 0:
                     raise UserError(
-                        _(
+                        self.env._(
                             "Discontinued income range!\n"
                             "Please make sure Income From = Previous Income To"
                         )
