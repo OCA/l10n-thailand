@@ -1,21 +1,32 @@
-Call function amount_to_text in model currency (res.currency).
+The `amount_to_text` function in the `res.currency` model allows you to convert amounts into text.
+Below is an example of how to use it in a QWEB report:
 
-For example if you need to convert amount to text in the QWEB your
-report, add this code to your report:
+Example Usage:
+``` xml
+<t t-foreach="docs" t-as="o">
+    <t t-set="currency" t-value="o.currency_id"/>
+    
+    <!-- Convert amount to Thai text -->
+    <t t-out="currency.with_context({'lang': 'th_TH'}).amount_to_text(45.75)"/>
+    
+    <!-- Convert amount to text using Odoo's default behavior -->
+    <t t-out="currency.amount_to_text(45.75)"/>
+</t>
+```
 
-    <t t-foreach="docs" t-as="o">
-        <t t-set="currency" t-value="o.currency_id"/>
-        # Convert to Thai Text
-        <t t-esc="currency.with_context({'lang': 'th_TH'}).amount_to_text(45.75)"/>
+**Results Based on Context:**
 
-        # Convert to Text, By core odoo
-        <t t-esc="currency.amount_to_text(45.75)"/>
-    </t>
+- When `lang=th_TH` context is sent:
+  - Currency: **THB** → `สี่สิบห้าบาทเจ็ดสิบห้าสตางค์`
+  - Currency: **EUR** → `สี่สิบห้ายูโรเจ็ดสิบห้าเซนต์`
+  - Currency: **USD** → `สี่สิบห้าดอลลาร์เจ็ดสิบห้าเซนต์`
 
-If you send context lang th_TH
+- When no context is sent:
+  Odoo's default logic will handle the conversion.
 
-- Currency is THB, result is `สี่สิบห้าบาทเจ็ดสิบห้าสตางค์`
-- Currency is EUR, result is `สี่สิบห้ายูโรเจ็ดสิบห้าเซนต์`
-- Currency is USD, result is `สี่สิบห้าดอลลาร์เจ็ดสิบห้าเซนต์`
+**Important Notes:**
 
-if not send context, result will call core odoo
+Ensure the Thai language (`th_TH`) is **activated** in your system before using the `lang='th_TH'` context.
+
+Before sending the context with `th_TH` language,
+If it is not activated, combining the `th_TH` language context with non-THB currencies may result in errors.

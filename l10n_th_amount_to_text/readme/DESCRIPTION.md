@@ -1,11 +1,11 @@
-Normally, Core odoo has function `amount_to_text` and return text
-language from context or user setting
+Odoo's core functionality includes the `amount_to_text` function,
+which converts numerical amounts into text based on the user's language settings or context.
+However, this conversion may produce incorrect results for Thai.
 
-Example : 45.75 Baht
+**Example:**
+- Amount: 45.75 Baht
+    - User Language: **Thai** → สี่สิบห้า Baht และ เจ็ดสิบห้า Satang
+    - User Language: **English** → Forty-Five Baht and Seventy-Five Satang
 
-- User Language 'Thai' -\> สี่สิบห้า Baht และ เจ็ดสิบห้า Satang
-- User Language 'English' -\> Forty-Five Baht and Seventy-Five Satang
-
-Which is incorrect when converted into thai.
-
-This module provides base for convert number to text thai.
+These results are inaccurate for Thai language formatting.
+This module provides a base for accurately converting numbers to Thai text.
