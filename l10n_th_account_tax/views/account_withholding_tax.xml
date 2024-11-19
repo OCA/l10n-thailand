@@ -35,15 +35,15 @@
             </form>
         </field>
     </record>
-    <record id="view_account_withholding_tax_tree" model="ir.ui.view">
-        <field name="name">view.account.withholding.tax.tree</field>
+    <record id="view_account_withholding_tax_list" model="ir.ui.view">
+        <field name="name">view.account.withholding.tax.list</field>
         <field name="model">account.withholding.tax</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="account_id" />
                 <field name="company_id" groups="base.group_multi_company" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="view_account_withholding_tax_search" model="ir.ui.view">
@@ -66,7 +66,7 @@
         <field name="name">Withholding Tax</field>
         <field name="res_model">account.withholding.tax</field>
         <field name="search_view_id" ref="view_account_withholding_tax_search" />
-        <field name="view_id" ref="view_account_withholding_tax_tree" />
+        <field name="view_id" ref="view_account_withholding_tax_list" />
     </record>
     <menuitem
         id="menu_account_withholding_tax"

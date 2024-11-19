@@ -6,7 +6,7 @@ import datetime
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -155,6 +155,6 @@ class AccountMoveTaxInvoice(models.Model):
             if len(line_taxinv[rec.move_line_id.id]) == 1 and not self.env.context.get(
                 "force_remove_tax_invoice"
             ):
-                raise UserError(_("Cannot delete this last tax invoice line"))
+                raise UserError(self.env._("Cannot delete this last tax invoice line"))
             line_taxinv[rec.move_line_id.id].remove(rec.id)
         return super().unlink()

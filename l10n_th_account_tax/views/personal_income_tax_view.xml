@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <record id="view_personal_income_tax_tree" model="ir.ui.view">
-        <field name="name">view.personal.income.tax.tree</field>
+    <record id="view_personal_income_tax_list" model="ir.ui.view">
+        <field name="name">view.personal.income.tax.list</field>
         <field name="model">personal.income.tax</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="calendar_year" />
                 <field name="effective_date" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -44,14 +44,14 @@
                     </span>
                     <separator string="Withholding Tax Rates" />
                     <field name="rate_ids" nolabel="1">
-                        <tree editable="bottom">
+                        <list editable="bottom">
                             <field name="sequence" widget="handle" />
                             <field name="income_from" />
                             <field name="income_to" />
                             <field name="tax_rate" />
                             <field name="amount_tax_max" />
                             <field name="amount_tax_accum" />
-                        </tree>
+                        </list>
                     </field>
                 </sheet>
             </form>
@@ -61,7 +61,7 @@
     <record id="action_personal_income_tax" model="ir.actions.act_window">
         <field name="name">PIT Rate Table</field>
         <field name="res_model">personal.income.tax</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem

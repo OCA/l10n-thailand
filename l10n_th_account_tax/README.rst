@@ -80,6 +80,17 @@ using this sequence instead of customer invoice number / payment number
 Note: this option is not avaiable for purchase tax, because the Tax
 Invoice Number is from vendor, and are filled manually.
 
+**Preparing Zero Tax Line**
+
+If you want tax lines with zero amount (such as 0% tax) to be shown in
+journal entries, follow these steps:
+
+- Go to Invoicing > Configuration > Settings and select
+  ``Keep Zero Line Taxes``,
+- Create an invoice or bill and select a tax with 0% rate
+- Go to Journal Items, and you will see a tax line created with zero
+  value
+
 Withholding Tax and Personal Income Tax (PIT)
 ---------------------------------------------
 

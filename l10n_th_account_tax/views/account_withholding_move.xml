@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!-- WHT -->
-    <record id="view_wht_move_tree" model="ir.ui.view">
-        <field name="name">view.account.withholding.move.tree</field>
+    <record id="view_wht_move_list" model="ir.ui.view">
+        <field name="name">view.account.withholding.move.list</field>
         <field name="model">account.withholding.move</field>
         <field name="arch" type="xml">
-            <tree editable="bottom" create="1" delete="0">
+            <list editable="bottom" create="1" delete="0">
                 <field name="partner_id" optional="hide" />
                 <field name="payment_id" />
                 <field name="date" optional="show" />
@@ -25,7 +25,7 @@
                 <field name="company_id" groups="base.group_multi_company" />
                 <field name="company_id" invisible="1" />
                 <field name="currency_id" invisible="1" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="view_wht_move_form" model="ir.ui.view">
@@ -102,13 +102,13 @@
     <record id="action_withholding_tax_move_view" model="ir.actions.act_window">
         <field name="name">Withholding Tax Move</field>
         <field name="res_model">account.withholding.move</field>
-        <field name="view_id" ref="view_wht_move_tree" />
+        <field name="view_id" ref="view_wht_move_list" />
     </record>
     <menuitem
         action="action_withholding_tax_move_view"
         id="menu_action_withholding_tax_move"
         groups="account.group_account_invoice"
-        parent="account.menu_finance_entries_accounting_miscellaneous"
+        parent="account.menu_finance_entries"
         sequence="120"
     />
 
@@ -139,7 +139,7 @@
     <record id="action_pit_move_view" model="ir.actions.act_window">
         <field name="name">Personal Income Tax Move</field>
         <field name="res_model">account.withholding.move</field>
-        <field name="view_mode">pivot,tree,graph</field>
+        <field name="view_mode">pivot,list,graph</field>
         <field name="domain">[('is_pit', '=', True)]</field>
         <field name="context">{'group_by':[], 'group_by_no_leaf':1}</field>
     </record>
