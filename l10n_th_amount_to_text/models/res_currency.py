@@ -3,7 +3,7 @@
 
 from num2words import num2words
 
-from odoo import models, tools
+from odoo import _, models
 
 
 class Currency(models.Model):
@@ -28,10 +28,8 @@ class Currency(models.Model):
             # lang is 'th' only
             return num2words(number, lang=lang).title()
 
-        formatted = f"%.{self.decimal_places}f" % amount
-        parts = formatted.partition(".")
-        integer_value = int(parts[0])
-        fractional_value = int(parts[2] or 0)
+        integral, _sep, fractional = f"{amount:.{self.decimal_places}f}".partition(".")
+        integer_value = int(integral)
         lang = (
             self.env["res.lang"]
             .with_context(active_test=False)
@@ -42,16 +40,18 @@ class Currency(models.Model):
             return num2words(amount, to="currency", lang=lang.iso_code)
         # Thai Text with Foreign currency
         currency_unit_label = self._convert_currency_name_hook(self.currency_unit_label)
-        amount_words = tools.ustr("{amt_value}{amt_word}").format(
-            amt_value=_num2words(integer_value, lang=lang.iso_code),
-            amt_word=currency_unit_label,
+        amount_words = _(
+            "%(integral_amount)s%(currency_unit)s",
+            integral_amount=_num2words(integer_value, lang=lang.iso_code),
+            currency_unit=currency_unit_label,
         )
         if not self.is_zero(amount - integer_value):
             currency_subunit_label = self._convert_currency_name_hook(
                 self.currency_subunit_label
             )
-            amount_words += tools.ustr("{amt_value}{amt_word}").format(
-                amt_value=_num2words(fractional_value, lang=lang.iso_code),
-                amt_word=currency_subunit_label,
+            amount_words += _(
+                "%(fractional_amount)s%(currency_subunit)s",
+                fractional_amount=_num2words(int(fractional or 0), lang=lang.iso_code),
+                currency_subunit=currency_subunit_label,
             )
         return amount_words
