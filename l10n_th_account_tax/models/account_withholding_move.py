@@ -100,7 +100,7 @@ class AccountWithholdingMove(models.Model):
         for rec in self:
             rec.date = rec.move_id and rec.move_id.date or False
             rec.calendar_year = rec.date and rec.date.strftime("%Y")
-            rec.payment_id = rec.move_id.payment_id
+            rec.payment_id = rec.move_id.origin_payment_id
 
     @api.depends("wht_tax_id")
     def _compute_wht_cert_income_type(self):

@@ -15,6 +15,13 @@ class AccountPartialReconcile(models.Model):
         payment = move_lines.mapped("payment_id")
         if len(payment) == 1:
             self = self.with_context(payment_id=payment.id)
+
+        if (
+            self.debit_move_id.move_type == "in_refund"
+            and self.credit_move_id.move_type == "in_invoice"
+        ):
+            self = self.with_context(net_invoice_refund=1)
+
         moves = super()._create_tax_cash_basis_moves()
         # EXPERIMENT: remove income / expense account move lines
         ml_groups = self.env["account.move.line"].read_group(

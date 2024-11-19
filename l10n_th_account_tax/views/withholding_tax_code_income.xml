@@ -43,17 +43,17 @@
             </search>
         </field>
     </record>
-    <record id="view_account_withholding_tax_income_code_tree" model="ir.ui.view">
-        <field name="name">view.withholding.tax.income.code.tree</field>
+    <record id="view_account_withholding_tax_income_code_list" model="ir.ui.view">
+        <field name="name">view.withholding.tax.income.code.list</field>
         <field name="model">withholding.tax.code.income</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="code" />
                 <field name="name" />
                 <field name="income_tax_form" optional="show" />
                 <field name="wht_cert_income_type" optional="show" />
                 <field name="is_default" optional="show" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="view_account_withholding_tax_income_code_form" model="ir.ui.view">
@@ -89,7 +89,7 @@
     >
         <field name="name">WHT Income Code</field>
         <field name="res_model">withholding.tax.code.income</field>
-        <field name="view_id" ref="view_account_withholding_tax_income_code_tree" />
+        <field name="view_id" ref="view_account_withholding_tax_income_code_list" />
     </record>
     <menuitem
         id="menu_withholding_tax_income_code"

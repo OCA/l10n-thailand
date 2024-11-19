@@ -1,7 +1,7 @@
 # Copyright 2019 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import float_round
 
@@ -179,7 +179,7 @@ class WithholdingTaxCert(models.Model):
             if rec.ref_wht_cert_id:
                 rec.ref_wht_cert_id.write({"state": "cancel"})
                 rec.ref_wht_cert_id.message_post(
-                    body=_("This document was substituted by %s.") % rec.name
+                    body=self.env._("This document was substituted by %s.") % rec.name
                 )
         self.write({"state": "done"})
         return True
@@ -308,7 +308,7 @@ class WithholdingTaxCodeIncome(models.Model):
             dict_wht_income_type = dict(WHT_CERT_INCOME_TYPE)
             dict_income_tax_form = dict(INCOME_TAX_FORM)
             raise UserError(
-                _(
+                self.env._(
                     "You can not default field '%(income)s - %(wht_income_type)s' "
                     "more than 1."
                 )
