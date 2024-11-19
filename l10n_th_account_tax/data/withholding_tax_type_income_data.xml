@@ -13,7 +13,6 @@
         <field name="code">4012</field>
         <field name="income_tax_form">pnd1</field>
         <field name="wht_cert_income_type">1</field>
-
     </record>
     <record id="withholding_tax_pnd1_402I" model="withholding.tax.code.income">
         <field

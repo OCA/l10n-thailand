@@ -67,5 +67,4 @@
         <field name="income_to">99999999999.0</field>
         <field name="tax_rate">35.0</field>
     </record>
-
 </odoo>
