@@ -32,13 +32,13 @@
                 >
                     This entry containg withholding tax, but no withholding tax certs. created yet.
                     <button
-                        name="create_wht_cert"
-                        string="⇒ Create withholding tax cert."
-                        type="object"
-                        class="oe_link"
-                        invisible="state != 'posted'"
-                        title="Create withholding tax certificate objects, based on withholding moves"
-                    />
+                    name="create_wht_cert"
+                    string="⇒ Create withholding tax cert."
+                    type="object"
+                    class="oe_link"
+                    invisible="state != 'posted'"
+                    title="Create withholding tax certificate objects, based on withholding moves"
+                />
                 </div>
                 <div
                     class="alert alert-warning"
@@ -48,13 +48,13 @@
                 >
                     Withholding tax certs. created but still draft.
                     <button
-                        id="link_wht_certs"
-                        name="button_wht_certs"
-                        string="⇒ Show withholding tax certs"
-                        type="object"
-                        class="oe_link"
-                        invisible="state != 'posted'"
-                    />
+                    id="link_wht_certs"
+                    name="button_wht_certs"
+                    string="⇒ Show withholding tax certs"
+                    type="object"
+                    class="oe_link"
+                    invisible="state != 'posted'"
+                />
                 </div>
                 <div
                     class="alert alert-warning"
@@ -64,11 +64,11 @@
                 >
                     All related withholding tax certs. was cancelled.
                     <button
-                        name="button_wht_certs"
-                        string="⇒ Show withholding tax certs"
-                        type="object"
-                        class="oe_link"
-                    />
+                    name="button_wht_certs"
+                    string="⇒ Show withholding tax certs"
+                    type="object"
+                    class="oe_link"
+                />
                 </div>
             </xpath>
             <button name="action_post" position="after">

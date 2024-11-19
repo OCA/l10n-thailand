@@ -99,7 +99,7 @@
             </search>
         </field>
     </record>
-        <record id="action_withholding_tax_move_view" model="ir.actions.act_window">
+    <record id="action_withholding_tax_move_view" model="ir.actions.act_window">
         <field name="name">Withholding Tax Move</field>
         <field name="res_model">account.withholding.move</field>
         <field name="view_id" ref="view_wht_move_tree" />
