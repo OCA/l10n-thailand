@@ -432,5 +432,4 @@
         <field name="binding_model_id" ref="model_withholding_tax_cert" />
         <field name="binding_type">report</field>
     </record>
-
 </odoo>
