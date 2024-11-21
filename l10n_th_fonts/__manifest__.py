@@ -3,7 +3,7 @@
 
 {
     "name": "Thai Localization - Thai Fonts",
-    "version": "16.0.1.0.0",
+    "version": "18.0.1.0.0",
     "author": "Ecosoft, Odoo Community Association (OCA)",
     "summary": "Collection of all Thai fonts",
     "license": "AGPL-3",
