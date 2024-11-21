@@ -13,7 +13,7 @@ class WithholdingTaxCert(models.Model):
 
     def _compute_desc_type_other(self, lines, ttype, income_type):
         base_type_other = lines.filtered(
-            lambda l: l.wht_cert_income_type in [income_type]
+            lambda line: line.wht_cert_income_type in [income_type]
         ).mapped(ttype)
         base_type_other = [x or "" for x in base_type_other]
         desc = ", ".join(base_type_other)
