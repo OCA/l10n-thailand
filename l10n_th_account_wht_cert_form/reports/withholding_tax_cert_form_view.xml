@@ -19,6 +19,9 @@
             <h4 class="number_payment">
                 <span t-out="o.name" />
             </h4>
+            <h4 class="number_wht">
+                <span t-out="o.number" />
+            </h4>
             <div class="company_vat">
                 <t t-if="o.company_partner_id.vat">
                     <div class="row">

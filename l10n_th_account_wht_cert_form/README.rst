@@ -33,7 +33,7 @@ WHT Certificates menu.
 
 This module used :
 
-- Font 'THSarabunNew Bold'
+-  Font 'THSarabunNew Bold'
 
 **Table of contents**
 
@@ -80,8 +80,8 @@ Authors
 Contributors
 ------------
 
-- Saran Lim. <saranl@ecosoft.co.th>
-- Pimolnat Suntian <pimolnats@ecosoft.co.th>
+-  Saran Lim. <saranl@ecosoft.co.th>
+-  Pimolnat Suntian <pimolnats@ecosoft.co.th>
 
 Maintainers
 -----------

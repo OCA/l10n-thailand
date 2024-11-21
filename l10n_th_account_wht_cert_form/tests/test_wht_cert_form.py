@@ -1,11 +1,11 @@
 # Copyright 2020 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import fields
-from odoo.tests.common import SingleTransactionCase
+from odoo import Command, fields
+from odoo.tests.common import TransactionCase
 
 
-class TestWHTCertForm(SingleTransactionCase):
+class TestWHTCertForm(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -14,6 +14,7 @@ class TestWHTCertForm(SingleTransactionCase):
         cls.withholdin_tax_cert_form = cls.env.ref(
             "l10n_th_account_wht_cert_form.withholding_tax_pdf_report"
         )
+        cls.th_lang = cls.env.ref("base.lang_th")
 
     def _create_direct_wht_cert(self):
         wht_cert = self.wht_cert.create(
@@ -22,9 +23,7 @@ class TestWHTCertForm(SingleTransactionCase):
                 "income_tax_form": "pnd3",
                 "date": fields.Date.today(),
                 "wht_line": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "wht_cert_income_type": "6",
                             "wht_cert_income_desc": "Other Text",

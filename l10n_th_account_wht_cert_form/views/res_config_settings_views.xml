@@ -10,19 +10,15 @@
             ref="l10n_th_account_tax.res_config_settings_view_form"
         />
         <field name="arch" type="xml">
-            <xpath expr="//div[@name='l10n_th_account_settings']" position="inside">
-                <div class="col-xs-12 col-md-6 o_setting_box">
-                    <div class="o_setting_left_pane">
-                        <field name="wht_form_preprint" />
-                    </div>
-                    <div class="o_setting_right_pane">
-                        <label for="wht_form_preprint" />
-                        <div class="text-muted">
-                            Thai withholding tax layout with pre-print (No background).
-                            You must customize template 'withholding_layout_preprint_report'
-                        </div>
-                    </div>
-                </div>
+            <xpath expr="//block[@id='l10n_th_account_settings']" position="inside">
+                <setting
+                    id="manage_customer_tax_payment_setting"
+                    company_dependent="1"
+                    string="Preprint - Withholding Tax Cert Form"
+                    help="Thai withholding tax layout with pre-print (No background). You must customize template 'withholding_layout_preprint_report'"
+                >
+                    <field name="wht_form_preprint" />
+                </setting>
             </xpath>
         </field>
     </record>
