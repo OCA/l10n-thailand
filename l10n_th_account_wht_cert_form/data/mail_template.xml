@@ -16,9 +16,9 @@
                 <p style="margin: 0px; padding: 0px; font-size: 13px;">
                     Dear ${object.partner_id.name}<br /><br />
                     Here is your withholding tax certificate <strong
-                    >${(object.name or "").replace("/","-")}</strong> tax amounting
+                >${(object.name or "").replace("/","-")}</strong> tax amounting
                     to <strong
-                    >${format_amount(sum(object.wht_line.mapped("amount")), object.currency_id)}</strong> from ${object.company_id.name}.
+                >${format_amount(sum(object.wht_line.mapped("amount")), object.currency_id)}</strong> from ${object.company_id.name}.
                     <br /><br />
                     Do not hesitate to contact us if you have any questions.
                     <br /><br />
