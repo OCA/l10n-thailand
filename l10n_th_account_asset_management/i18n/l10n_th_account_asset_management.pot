@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -14,34 +14,9 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__message_needaction
-msgid "Action Needed"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_parent__active
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__active
 msgid "Active"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__activity_ids
-msgid "Activities"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__activity_exception_decoration
-msgid "Activity Exception Decoration"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__activity_state
-msgid "Activity State"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__activity_type_icon
-msgid "Activity Type Icon"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
@@ -63,6 +38,7 @@ msgid "Asset Image"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
+#. odoo-python
 #: code:addons/l10n_th_account_asset_management/report/account_asset_report_xls.py:0
 #, python-format
 msgid "Asset Profile"
@@ -98,11 +74,6 @@ msgid "Assets"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__message_attachment_count
-msgid "Attachment Count"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__close
 msgid "Close"
 msgstr ""
@@ -133,6 +104,7 @@ msgid "Created on"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
+#. odoo-python
 #: code:addons/l10n_th_account_asset_management/report/account_asset_report_xls.py:0
 #, python-format
 msgid "Depreciation Rate"
@@ -160,28 +132,8 @@ msgid "Dynamic XLS asset report generator"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__message_follower_ids
-msgid "Followers"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__message_partner_ids
-msgid "Followers (Partners)"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,help:l10n_th_account_asset_management.field_account_asset__activity_type_icon
-msgid "Font awesome icon e.g. fa-tasks"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_asset_management.account_asset_transfer_view_form
 msgid "From Sub-State"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__has_message
-msgid "Has Message"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
@@ -191,34 +143,8 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__activity_exception_icon
-msgid "Icon"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,help:l10n_th_account_asset_management.field_account_asset__activity_exception_icon
-msgid "Icon to indicate an exception activity."
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,help:l10n_th_account_asset_management.field_account_asset__message_needaction
-#: model:ir.model.fields,help:l10n_th_account_asset_management.field_account_asset__message_unread
-msgid "If checked, new messages require your attention."
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,help:l10n_th_account_asset_management.field_account_asset__message_has_error
-msgid "If checked, some messages have a delivery error."
-msgstr ""
-
-#. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__image
 msgid "Image"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__message_is_follower
-msgid "Is Follower"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
@@ -245,75 +171,15 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__message_main_attachment_id
-msgid "Main Attachment"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__message_has_error
-msgid "Message Delivery error"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__message_ids
-msgid "Messages"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__my_activity_date_deadline
-msgid "My Activity Deadline"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_parent__name
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__name
 msgid "Name"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__activity_date_deadline
-msgid "Next Activity Deadline"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__activity_summary
-msgid "Next Activity Summary"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__activity_type_id
-msgid "Next Activity Type"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_parent__note
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__note
 msgid "Note"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__message_needaction_counter
-msgid "Number of Actions"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__message_has_error_counter
-msgid "Number of errors"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,help:l10n_th_account_asset_management.field_account_asset__message_needaction_counter
-msgid "Number of messages which requires an action"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,help:l10n_th_account_asset_management.field_account_asset__message_has_error_counter
-msgid "Number of messages with delivery error"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,help:l10n_th_account_asset_management.field_account_asset__message_unread_counter
-msgid "Number of unread messages"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
@@ -334,11 +200,6 @@ msgstr ""
 #. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_sub_state__removed
 msgid "Removed"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__activity_user_id
-msgid "Responsible User"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
@@ -372,15 +233,6 @@ msgid "Show this asset sub-status on the running asset"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
-#: model:ir.model.fields,help:l10n_th_account_asset_management.field_account_asset__activity_state
-msgid ""
-"Status based on activities\n"
-"Overdue: Due date is already passed\n"
-"Today: Activity date is today\n"
-"Planned: Future activities."
-msgstr ""
-
-#. module: l10n_th_account_asset_management
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__asset_sub_state_id
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_remove__asset_sub_state_id
 #: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset_transfer__asset_sub_state_id
@@ -398,33 +250,8 @@ msgid "Transfer Asset"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
-#: model:ir.model.fields,help:l10n_th_account_asset_management.field_account_asset__activity_exception_decoration
-msgid "Type of the exception activity on record."
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
 #: model:ir.model.fields,help:l10n_th_account_asset_management.field_account_asset_sub_state__sequence
 msgid "Used to order Asset Sub Status"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,field_description:l10n_th_account_asset_management.field_account_asset__website_message_ids
-msgid "Website Messages"
-msgstr ""
-
-#. module: l10n_th_account_asset_management
-#: model:ir.model.fields,help:l10n_th_account_asset_management.field_account_asset__website_message_ids
-msgid "Website communication history"
 msgstr ""
 
 #. module: l10n_th_account_asset_management
