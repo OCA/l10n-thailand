@@ -12,9 +12,28 @@ class AccountMoveReversal(models.TransientModel):
 
     def reverse_moves(self):
         self.ensure_one()
+        # Send context to reverse moves for case Full Refund
+        # because it will auto post moves
         if self.move_type == "in_invoice":
             self = self.with_context(
                 tax_invoice_number=self.tax_invoice_number,
                 tax_invoice_date=self.tax_invoice_date,
             )
-        return super().reverse_moves()
+        action = super().reverse_moves()
+
+        # Reverse moves with Partial Refund or Full refund and new draft invoice
+        # Update tax invoice number and tax invoice date
+        if (
+            self.move_type == "in_invoice"
+            and self.tax_invoice_number
+            and self.tax_invoice_date
+        ):
+            move_resversal = self.env[action["res_model"]].browse(action["res_id"])
+            if not move_resversal.tax_invoice_ids.mapped("tax_invoice_number"):
+                move_resversal.tax_invoice_ids.write(
+                    {
+                        "tax_invoice_number": self.tax_invoice_number,
+                        "tax_invoice_date": self.tax_invoice_date,
+                    }
+                )
+        return action
