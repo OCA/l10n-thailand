@@ -399,6 +399,9 @@ class AccountMove(models.Model):
                     # Skip Error when found refund
                     elif self.env.context.get("net_invoice_refund"):
                         continue
+                    # Skip Error when the origin of tax cash basis has move_type in ("in_refund", "out_refund", "in_invoice", "out_invoice")
+                    elif move.tax_cash_basis_origin_move_id.move_type in ("in_refund", "out_refund", "in_invoice", "out_invoice"):
+                        continue
                     else:
                         raise UserError(_("Please fill in tax invoice and tax date"))
 
