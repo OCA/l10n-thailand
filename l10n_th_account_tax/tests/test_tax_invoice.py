@@ -1,5 +1,10 @@
 # Copyright 2019 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
+
+from datetime import timedelta
+
+from freezegun import freeze_time
+
 from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests.common import Form, TransactionCase
@@ -7,11 +12,23 @@ from odoo.tests.common import Form, TransactionCase
 
 class TestTaxInvoice(TransactionCase):
     @classmethod
+    @freeze_time("2000-12-15")
     def setUpClass(cls):
         super().setUpClass()
-        Journal = cls.env["account.journal"]
+        cls.journal_model = cls.env["account.journal"]
+        cls.account_model = cls.env["account.account"]
+        cls.move_model = cls.env["account.move"]
+        cls.payment_model = cls.env["account.payment"]
+        cls.account_tax_group_model = cls.env["account.tax.group"]
+        cls.account_tax_model = cls.env["account.tax"]
+        cls.payment_term_model = cls.env["account.payment.term"]
+        cls.sequence_model = cls.env["ir.sequence"]
+        cls.move_reversal_model = cls.env["account.move.reversal"]
+        cls.register_payment_wizard_model = cls.env["account.payment.register"]
+        cls.clear_tax_wizard_model = cls.env["clear.tax"]
+
         # Setup company to allow using tax cash basis
-        cls.journal_undue = cls.env["account.journal"].create(
+        cls.journal_undue = cls.journal_model.create(
             {"name": "UndueVAT", "type": "general", "code": "UNDUE"}
         )
         company = cls.env.ref("base.main_company")
@@ -23,9 +40,9 @@ class TestTaxInvoice(TransactionCase):
             "account.data_account_type_current_liabilities"
         )
         # Journals
-        cls.journal_purchase = Journal.search([("type", "=", "purchase")])[0]
-        cls.journal_sale = Journal.search([("type", "=", "sale")])[0]
-        cls.journal_bank = Journal.search([("type", "=", "bank")])[0]
+        cls.journal_purchase = cls.journal_model.search([("type", "=", "purchase")])[0]
+        cls.journal_sale = cls.journal_model.search([("type", "=", "sale")])[0]
+        cls.journal_bank = cls.journal_model.search([("type", "=", "bank")])[0]
         # Payment Methods
         cls.payment_method_manual_out = cls.env.ref(
             "account.account_payment_method_manual_out"
@@ -34,28 +51,28 @@ class TestTaxInvoice(TransactionCase):
             "account.account_payment_method_manual_out"
         )
         # Accounts
-        cls.output_vat_acct = cls.env["account.account"].create(
+        cls.output_vat_acct = cls.account_model.create(
             {"name": "O7", "code": "O7", "user_type_id": type_current_liability.id}
         )
-        cls.undue_output_vat_acct = cls.env["account.account"].create(
+        cls.undue_output_vat_acct = cls.account_model.create(
             {"name": "DO7", "code": "DO7", "user_type_id": type_current_asset.id}
         )
-        cls.input_vat_acct = cls.env["account.account"].create(
+        cls.input_vat_acct = cls.account_model.create(
             {"name": "V7", "code": "V7", "user_type_id": type_current_liability.id}
         )
-        cls.input_zero_vat_acct = cls.env["account.account"].create(
+        cls.input_zero_vat_acct = cls.account_model.create(
             {"name": "V0", "code": "V0", "user_type_id": type_current_liability.id}
         )
-        cls.undue_input_vat_acct = cls.env["account.account"].create(
+        cls.undue_input_vat_acct = cls.account_model.create(
             {"name": "DV7", "code": "DV7", "user_type_id": type_current_asset.id}
         )
         # Tax Group
-        cls.tax_group_undue_vat = cls.env["account.tax.group"].create(
+        cls.tax_group_undue_vat = cls.account_tax_group_model.create(
             {"name": "UndueVAT"}
         )
-        cls.tax_group_vat = cls.env["account.tax.group"].create({"name": "VAT"})
+        cls.tax_group_vat = cls.account_tax_group_model.create({"name": "VAT"})
         # Tax
-        cls.output_vat = cls.env["account.tax"].create(
+        cls.output_vat = cls.account_tax_model.create(
             {
                 "name": "O7",
                 "type_tax_use": "sale",
@@ -77,7 +94,7 @@ class TestTaxInvoice(TransactionCase):
                 ],
             }
         )
-        cls.undue_output_vat = cls.env["account.tax"].create(
+        cls.undue_output_vat = cls.account_tax_model.create(
             {
                 "name": "DO7",
                 "type_tax_use": "sale",
@@ -100,7 +117,7 @@ class TestTaxInvoice(TransactionCase):
                 "cash_basis_transition_account_id": cls.undue_output_vat_acct.id,
             }
         )
-        cls.input_vat = cls.env["account.tax"].create(
+        cls.input_vat = cls.account_tax_model.create(
             {
                 "name": "V7",
                 "type_tax_use": "purchase",
@@ -122,7 +139,7 @@ class TestTaxInvoice(TransactionCase):
                 ],
             }
         )
-        cls.input_zero_vat = cls.env["account.tax"].create(
+        cls.input_zero_vat = cls.account_tax_model.create(
             {
                 "name": "V0",
                 "type_tax_use": "purchase",
@@ -144,7 +161,7 @@ class TestTaxInvoice(TransactionCase):
                 ],
             }
         )
-        cls.undue_input_vat = cls.env["account.tax"].create(
+        cls.undue_input_vat = cls.account_tax_model.create(
             {
                 "name": "DV7",
                 "type_tax_use": "purchase",
@@ -167,12 +184,12 @@ class TestTaxInvoice(TransactionCase):
                 "cash_basis_transition_account_id": cls.undue_input_vat_acct.id,
             }
         )
-        cls.payment_term_immediate = cls.env["account.payment.term"].create(
+        cls.payment_term_immediate = cls.payment_term_model.create(
             {"name": "", "line_ids": [(0, 0, {"value": "balance", "days": 15})]}
         )
 
         # Optiona tax sequence
-        cls.cust_vat_sequence = cls.env["ir.sequence"].create(
+        cls.cust_vat_sequence = cls.sequence_model.create(
             {"name": "Cust VAT Sequence", "padding": 4}
         )
 
@@ -189,9 +206,9 @@ class TestTaxInvoice(TransactionCase):
                         0,
                         {
                             "quantity": 1.0,
-                            "account_id": cls.env["account.account"]
-                            .search([("user_type_id", "=", account_type.id)], limit=1)
-                            .id,
+                            "account_id": cls.account_model.search(
+                                [("user_type_id", "=", account_type.id)], limit=1
+                            ).id,
                             "name": "Advice",
                             "price_unit": 100.00,
                             "tax_ids": [(6, 0, [vat.id])],
@@ -199,7 +216,7 @@ class TestTaxInvoice(TransactionCase):
                     )
                 ],
             }
-            return cls.env["account.move"].create(invoice_dict)
+            return cls.move_model.create(invoice_dict)
 
         # Prepare Supplier Invoices
         cls.supplier_invoice_vat = create_invoice(
@@ -263,6 +280,7 @@ class TestTaxInvoice(TransactionCase):
         )
         cls.customer_invoice_undue_vat_seq = cls.customer_invoice_undue_vat.copy()
 
+    @freeze_time("2000-12-15")
     def test_supplier_invoice_vat(self):
         """Supplier Invoice with VAT,
         user must fill in Tax Invoice/Date on Invoice"""
@@ -286,6 +304,7 @@ class TestTaxInvoice(TransactionCase):
         move_tax = tax.save()
         self.assertNotEqual(move_tax.report_date, move_tax.tax_invoice_date)
 
+    @freeze_time("2000-12-15")
     def test_supplier_invoice_undue_vat(self):
         """Register Payment from Vendor Invoice"""
         # Do not allow user to fill in Tax Invoice/Date
@@ -298,11 +317,11 @@ class TestTaxInvoice(TransactionCase):
             self.supplier_invoice_undue_vat.tax_cash_basis_created_move_ids
         )
         # Make full payment from invoice
-        with Form(self.env["account.payment.register"].with_context(**ctx)) as f:
+        with Form(self.register_payment_wizard_model.with_context(**ctx)) as f:
             f.journal_id = self.journal_bank
         payment_wiz = f.save()
         res = payment_wiz.action_create_payments()
-        payment = self.env["account.payment"].browse(res.get("res_id"))
+        payment = self.payment_model.browse(res.get("res_id"))
         self.assertTrue(payment.tax_invoice_ids)
         # Cash Basis created and state is draft
         bill_tax_cash_basis = (
@@ -336,13 +355,23 @@ class TestTaxInvoice(TransactionCase):
         )  # state draft and posted
         # Clear tax cash basis
         with self.assertRaises(UserError) as e:
-            payment.clear_tax_cash_basis()
+            payment.open_clear_tax()
         self.assertEqual(e.exception.args[0], "Please fill in tax invoice and tax date")
         # Fill in tax invoice and clear undue vat
         payment.tax_invoice_ids.write(
             {"tax_invoice_number": tax_invoice, "tax_invoice_date": tax_date}
         )
-        payment.clear_tax_cash_basis()
+        action_clear_tax = payment.open_clear_tax()
+        self.assertEqual(action_clear_tax.get("res_model"), "clear.tax")
+        self.assertEqual(
+            action_clear_tax.get("context")["default_payment_id"], payment.id
+        )
+
+        # Test clear tax with accounting date 5 days before tax date
+        self.clear_tax_wizard_model.create(
+            {"payment_id": payment.id, "date": tax_date - timedelta(days=5)}
+        ).action_clear_tax()
+
         # Cash basis journal is now posted
         bill_tax_cash_basis = (
             self.supplier_invoice_undue_vat.tax_cash_basis_created_move_ids
@@ -356,6 +385,7 @@ class TestTaxInvoice(TransactionCase):
         self.assertEqual(payment.move_id.state, "draft")
         self.assertFalse(payment.tax_invoice_move_ids)
 
+    @freeze_time("2000-12-15")
     def test_supplier_invoice_undue_vat_partial_payment(self):
         """Register Partial Payment from Vendor Invoice"""
         # Do not allow user to fill in Tax Invoice/Date
@@ -365,13 +395,13 @@ class TestTaxInvoice(TransactionCase):
         ctx = action.get("context")
 
         # Keep open
-        with Form(self.env["account.payment.register"].with_context(**ctx)) as f:
+        with Form(self.register_payment_wizard_model.with_context(**ctx)) as f:
             f.journal_id = self.journal_bank
             f.amount = 30
             f.payment_difference_handling = "open"
         payment_wiz = f.save()
         res = payment_wiz.action_create_payments()
-        payment = self.env["account.payment"].browse(res.get("res_id"))
+        payment = self.payment_model.browse(res.get("res_id"))
         self.assertTrue(payment.tax_invoice_ids)
         self.assertEqual(payment.amount, 30.00)
         self.assertEqual(payment.reconciled_bill_ids.payment_state, "partial")
@@ -388,6 +418,7 @@ class TestTaxInvoice(TransactionCase):
         payment.tax_invoice_ids.with_context(force_remove_tax_invoice=1).unlink()
         self.assertEqual(len(payment.tax_invoice_ids), 0)
 
+    @freeze_time("2000-12-15")
     def test_customer_invoice_vat(self):
         """Supplier Invoice with VAT,
         system auto fill in Tax Invoice/Date on Invoice"""
@@ -396,6 +427,7 @@ class TestTaxInvoice(TransactionCase):
         tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
         self.assertEqual(tax_invoice_number, "Test Customer Invoice VAT")
 
+    @freeze_time("2000-12-15")
     def test_customer_invoice_undue_vat(self):
         """Register Payment from Customer Invoice"""
         # Do not allow user to fill in Tax Invoice/Date
@@ -403,11 +435,11 @@ class TestTaxInvoice(TransactionCase):
         action = self.customer_invoice_undue_vat.action_register_payment()
         ctx = action.get("context")
         # Make full payment from invoice
-        with Form(self.env["account.payment.register"].with_context(**ctx)) as f:
+        with Form(self.register_payment_wizard_model.with_context(**ctx)) as f:
             f.journal_id = self.journal_bank
         payment_wiz = f.save()
         res = payment_wiz.action_create_payments()
-        payment = self.env["account.payment"].browse(res.get("res_id"))
+        payment = self.payment_model.browse(res.get("res_id"))
         self.assertTrue(payment.tax_invoice_ids)
         # Clear tax cash basis
         payment.clear_tax_cash_basis()
@@ -423,6 +455,7 @@ class TestTaxInvoice(TransactionCase):
         self.assertEqual(payment.move_id.state, "draft")
         self.assertFalse(payment.tax_invoice_move_ids)
 
+    @freeze_time("2000-12-15")
     def test_customer_invoice_vat_sequence(self):
         """Supplier Invoice with VAT,
         system auto fill in Tax Invoice using sequence"""
@@ -435,6 +468,7 @@ class TestTaxInvoice(TransactionCase):
         tax_invoice_number = tax_invoices.mapped("tax_invoice_number")[0]
         self.assertEqual(tax_invoice_number, "CTX0001")
 
+    @freeze_time("2000-12-15")
     def test_customer_invoice_undue_vat_sequence(self):
         """Register Payment from Customer Invoice
         system auto fill in Tax Invoice using sequence"""
@@ -447,11 +481,11 @@ class TestTaxInvoice(TransactionCase):
         # Make full payment from invoice
         action = self.customer_invoice_undue_vat_seq.action_register_payment()
         ctx = action.get("context")
-        with Form(self.env["account.payment.register"].with_context(**ctx)) as f:
+        with Form(self.register_payment_wizard_model.with_context(**ctx)) as f:
             f.journal_id = self.journal_bank
         payment_wiz = f.save()
         res = payment_wiz.action_create_payments()
-        payment = self.env["account.payment"].browse(res.get("res_id"))
+        payment = self.payment_model.browse(res.get("res_id"))
         self.assertTrue(payment.tax_invoice_ids)
         # Clear tax cash basis
         payment.clear_tax_cash_basis()
@@ -467,6 +501,7 @@ class TestTaxInvoice(TransactionCase):
         self.assertEqual(payment.move_id.state, "draft")
         self.assertFalse(payment.tax_invoice_move_ids)
 
+    @freeze_time("2000-12-15")
     def test_supplier_invoice_refund_reconcile(self):
         """Case on undue vat, to net refund with vendor bill.
         In this case, cash basis journal entry will be created, make sure it
@@ -483,13 +518,14 @@ class TestTaxInvoice(TransactionCase):
         payable_account = refund.partner_id.property_account_payable_id
         refund_ml = refund.line_ids.filtered(lambda l: l.account_id == payable_account)
         invoice.js_assign_outstanding_line(refund_ml.id)
-        cash_basis_entries = self.env["account.move"].search(
+        cash_basis_entries = self.move_model.search(
             [("ref", "in", [invoice.name, refund.name])]
         )
         for move in cash_basis_entries:
             with self.assertRaises(UserError):
                 move.action_post()
 
+    @freeze_time("2000-12-15")
     def test_supplier_invoice_reversal(self):
         """Case on reversal vendor bill."""
         # Post suupplier invoice
@@ -504,7 +540,7 @@ class TestTaxInvoice(TransactionCase):
             "active_ids": self.supplier_invoice_vat.ids,
             "active_model": "account.move",
         }
-        with Form(self.env["account.move.reversal"].with_context(**ctx)) as f:
+        with Form(self.move_reversal_model.with_context(**ctx)) as f:
             f.refund_method = "cancel"
         reversal_move = f.save()
         # Can't reversal move, if not add tax number, date in account.move.reversal
@@ -517,6 +553,7 @@ class TestTaxInvoice(TransactionCase):
         reversal_move.reverse_moves()
         self.assertEqual(self.supplier_invoice_vat.payment_state, "reversed")
 
+    @freeze_time("2000-12-15")
     def test_included_tax(self):
         """
         Test an account.move.line is created automatically when adding a tax.
@@ -535,7 +572,7 @@ class TestTaxInvoice(TransactionCase):
         credit_line_1          |           | 1200      |               |
         """
 
-        self.included_percent_tax = self.env["account.tax"].create(
+        self.included_percent_tax = self.account_tax_model.create(
             {
                 "name": "included_tax_line",
                 "amount_type": "percent",
@@ -546,9 +583,7 @@ class TestTaxInvoice(TransactionCase):
         )
         # self.account = self.company_data['default_account_revenue']
 
-        move_form = Form(
-            self.env["account.move"].with_context(default_move_type="entry")
-        )
+        move_form = Form(self.move_model.with_context(default_move_type="entry"))
 
         # Create a new account.move.line with debit amount.
         with move_form.line_ids.new() as debit_line:
@@ -595,6 +630,7 @@ class TestTaxInvoice(TransactionCase):
             ],
         )
 
+    @freeze_time("2000-12-15")
     def test_supplier_invoice_zero_tax(self):
         """Case on 0% tax, Core odoo not create line with zero tax"""
         invoice = self.supplier_invoice_zero_vat

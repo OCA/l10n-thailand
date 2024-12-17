@@ -282,6 +282,9 @@ class AccountMoveLine(models.Model):
 class AccountMove(models.Model):
     _inherit = "account.move"
 
+    # Change date field required in view only
+    date = fields.Date(required=False)
+
     tax_invoice_ids = fields.One2many(
         comodel_name="account.move.tax.invoice",
         inverse_name="move_id",

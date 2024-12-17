@@ -78,7 +78,7 @@
             <button name="action_post" position="after">
                 <field name="to_clear_tax" invisible="1" />
                 <button
-                    name="clear_tax_cash_basis"
+                    name="open_clear_tax"
                     type="object"
                     string="Clear Tax"
                     class="oe_highlight"

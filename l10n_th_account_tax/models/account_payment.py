@@ -63,7 +63,7 @@ class AccountPayment(models.Model):
         result["domain"] = [("id", "in", self.wht_cert_ids.ids)]
         return result
 
-    def clear_tax_cash_basis(self):
+    def open_clear_tax(self):
         for payment in self:
             for tax_invoice in payment.tax_invoice_ids:
                 if (
@@ -71,6 +71,19 @@ class AccountPayment(models.Model):
                     or not tax_invoice.tax_invoice_date
                 ):
                     raise UserError(_("Please fill in tax invoice and tax date"))
+        return {
+            "name": "Clear Tax",
+            "type": "ir.actions.act_window",
+            "res_model": "clear.tax",
+            "view_mode": "form",
+            "target": "new",
+            "context": {
+                "default_payment_id": self.id,
+            },
+        }
+
+    def clear_tax_cash_basis(self):
+        for payment in self:
             payment.write({"to_clear_tax": False})
             moves = payment.tax_invoice_ids.mapped("move_id")
             for move in moves.filtered(lambda l: l.state == "draft"):
