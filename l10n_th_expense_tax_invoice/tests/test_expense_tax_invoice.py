@@ -1,10 +1,12 @@
 # Copyright 2020 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 from odoo.exceptions import UserError
+from odoo.tests import tagged
 
 from odoo.addons.hr_expense.tests.common import TestExpenseCommon
 
 
+@tagged("post_install", "-at_install")
 class TestAccountEntry(TestExpenseCommon):
     def setUp(self):
         super().setUp()

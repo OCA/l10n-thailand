@@ -17,10 +17,10 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_th_sequence_branch.ir_sequence_form_inherit
 msgid ""
 "<span colspan=\"2\">Company branch number (5-digit): %(b5)s</span>\n"
-"                    <span colspan=\"2\">Company branch number (4-digit): %(b4)s</span>\n"
-"                    <span colspan=\"2\">Company branch number (3-digit): %(b3)s</span>\n"
-"                    <span colspan=\"2\">Company branch number (2-digit): %(b2)s</span>\n"
-"                    <span colspan=\"2\">Company branch number (1-digit): %(b1)s</span>"
+"                <span colspan=\"2\">Company branch number (4-digit): %(b4)s</span>\n"
+"                <span colspan=\"2\">Company branch number (3-digit): %(b3)s</span>\n"
+"                <span colspan=\"2\">Company branch number (2-digit): %(b2)s</span>\n"
+"                <span colspan=\"2\">Company branch number (1-digit): %(b1)s</span>"
 msgstr ""
 
 #. module: l10n_th_sequence_branch

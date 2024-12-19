@@ -1,0 +1,57 @@
+<odoo>
+    <record id="procurement_method_view_tree" model="ir.ui.view">
+        <field name="name">procurement.method.view.tree</field>
+        <field name="model">procurement.method</field>
+        <field name="arch" type="xml">
+            <tree decoration-muted="active == False">
+                <field name="sequence" widget="handle" />
+                <field name="active" invisible="True" />
+                <field name="name" />
+                <field name="description" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="procurement_method_view_form" model="ir.ui.view">
+        <field name="name">procurement.method.view.form</field>
+        <field name="model">procurement.method</field>
+        <field name="arch" type="xml">
+            <form string="Procurement Methods">
+                <sheet>
+                    <div class="oe_button_box" name="button_box" />
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '=', True)]}"
+                    />
+                    <field name="active" invisible="1" />
+                    <group>
+                        <group>
+                            <field name="name" />
+                        </group>
+                        <group>
+                            <field name="description" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="procurement_method_action" model="ir.actions.act_window">
+        <field name="name">Procurement Methods</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">procurement.method</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="procurement_method_view_tree" />
+    </record>
+
+    <menuitem
+        id="procurement_method_menu"
+        parent="purchase.menu_purchase_config"
+        sequence="52"
+        action="procurement_method_action"
+        groups="purchase.group_purchase_manager"
+    />
+</odoo>

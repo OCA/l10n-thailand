@@ -153,6 +153,11 @@ msgid "Activity State"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_withholding_tax_cert__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_withholding_tax_cert__message_attachment_count
 msgid "Attachment Count"
 msgstr ""
@@ -222,14 +227,15 @@ msgstr ""
 #. module: l10n_th_withholding_tax_cert
 #: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_cert.create_withholding_tax_cert_multi
 msgid ""
-"Create multiple withholding tax certs, based on account move for withholding "
-"tax."
+"Create multiple withholding tax certs, based on account move for\n"
+"                    withholding tax."
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
 #: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_cert.create_withholding_tax_cert
 msgid ""
-"Create new withholding tax cert. based on account move for withholding tax."
+"Create new withholding tax cert. based on account move for\n"
+"                    withholding tax."
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
@@ -257,6 +263,8 @@ msgid "Date"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_account_payment__display_name
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_create_withholding_tax_cert__display_name
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_withholding_tax_cert__display_name
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_withholding_tax_cert_line__display_name
@@ -290,11 +298,18 @@ msgid "Followers (Partners)"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields,help:l10n_th_withholding_tax_cert.field_withholding_tax_cert__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert
 #: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_cert.view_withholding_tax_cert_search
 msgid "Group By"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_account_payment__id
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_create_withholding_tax_cert__id
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_withholding_tax_cert__id
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_withholding_tax_cert_line__id
@@ -351,10 +366,12 @@ msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
 #: model:ir.model,name:l10n_th_withholding_tax_cert.model_account_move
-msgid "Journal Entries"
+msgid "Journal Entry"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_account_move____last_update
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_account_payment____last_update
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_create_withholding_tax_cert____last_update
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_withholding_tax_cert____last_update
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_withholding_tax_cert_line____last_update
@@ -399,6 +416,11 @@ msgstr ""
 #. module: l10n_th_withholding_tax_cert
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_withholding_tax_cert__move_id
 msgid "Move"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_withholding_tax_cert__my_activity_date_deadline
+msgid "My Activity Deadline"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
@@ -494,7 +516,7 @@ msgstr ""
 #. module: l10n_th_withholding_tax_cert
 #: code:addons/l10n_th_withholding_tax_cert/wizard/create_withholding_tax_cert.py:0
 #, python-format
-msgid "Please select only 1 payment"
+msgid "Please select only 1 document"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
@@ -596,6 +618,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields,help:l10n_th_withholding_tax_cert.field_account_bank_statement_line__wt_cert_cancel
 #: model:ir.model.fields,help:l10n_th_withholding_tax_cert.field_account_move__wt_cert_cancel
 #: model:ir.model.fields,help:l10n_th_withholding_tax_cert.field_account_payment__wt_cert_cancel
 msgid "This document has WT Cert(s) and all are cancelled or not WT Cert"
@@ -697,9 +720,9 @@ msgid "Withholding Tax Cert Lines"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_account_bank_statement_line__wt_cert_ids
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_account_move__wt_cert_ids
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_account_payment__wt_cert_ids
-#: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_cert.view_withholding_tax_cert_tree
 msgid "Withholding Tax Cert."
 msgstr ""
 
@@ -732,6 +755,7 @@ msgid "Wt Cert"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_cert
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_account_bank_statement_line__wt_cert_cancel
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_account_move__wt_cert_cancel
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_cert.field_account_payment__wt_cert_cancel
 msgid "Wt Cert Cancel"

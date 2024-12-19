@@ -326,11 +326,8 @@ msgstr ""
 #. module: l10n_th_tax_invoice
 #: model:ir.actions.act_window,name:l10n_th_tax_invoice.action_tax_invoice
 #: model:ir.ui.menu,name:l10n_th_tax_invoice.menu_action_tax_invoice
-#: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_account_payment_form
-#: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_move_form
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_tax_invoice_form
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_tax_invoice_search
-#: model_terms:ir.ui.view,arch_db:l10n_th_tax_invoice.view_tax_invoice_tree
 msgid "Tax Invoices"
 msgstr ""
 

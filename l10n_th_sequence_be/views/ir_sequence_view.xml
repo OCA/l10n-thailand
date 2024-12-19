@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
-
-        <record id="ir_sequence_form_inherit" model="ir.ui.view">
-            <field name="name">sequence_view_inherit</field>
-            <field name="model">ir.sequence</field>
-            <field name="inherit_id" ref="base.sequence_view" />
-            <field name="priority" eval="40" />
-            <field name="arch" type="xml">
-                <xpath expr="//page/group[2]/group[1]/span[2]" position="after">
-                    <span
-                        colspan="2"
-                    >Current Buddhist Era (BE) year with century: %%(year_be)s</span>
-                    <span
-                        colspan="2"
-                    >Current Buddhist Era (BE) Year without Century: %%(y_be)s</span>
-                </xpath>
-            </field>
-        </record>
-    </data>
+    <record id="ir_sequence_form_inherit" model="ir.ui.view">
+        <field name="name">sequence_view_inherit</field>
+        <field name="model">ir.sequence</field>
+        <field name="inherit_id" ref="base.sequence_view" />
+        <field name="priority" eval="40" />
+        <field name="arch" type="xml">
+            <xpath expr="//page/group[2]/group[1]/span[2]" position="after">
+                <span
+                    colspan="2"
+                >Current Buddhist Era (BE) year with century: %%(year_be)s</span>
+                <span
+                    colspan="2"
+                >Current Buddhist Era (BE) Year without Century: %%(y_be)s</span>
+            </xpath>
+        </field>
+    </record>
 </odoo>

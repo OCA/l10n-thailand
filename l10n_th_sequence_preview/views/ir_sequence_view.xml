@@ -1,34 +1,31 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
-
-        <record id="ir_sequence_form_inherit" model="ir.ui.view">
-            <field name="name">sequence_view_inherit</field>
-            <field name="model">ir.sequence</field>
-            <field name="inherit_id" ref="base.sequence_view" />
-            <field name="priority" eval="16" />
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='number_next_actual']" position="after">
-                    <field
-                        name="preview"
-                        string="Preview"
-                        class="oe_edit_only"
-                        attrs="{'invisible': [('use_date_range', '=', True)]}"
-                        readonly="1"
-                    />
-                </xpath>
-                <xpath
-                    expr="//field[@name='date_range_ids']/tree/field[last()]"
-                    position="after"
-                >
-                    <field
-                        name="preview"
-                        string="Preview"
-                        class="oe_edit_only"
-                        readonly="1"
-                    />
-                </xpath>
-            </field>
-        </record>
-    </data>
+    <record id="ir_sequence_form_inherit" model="ir.ui.view">
+        <field name="name">sequence_view_inherit</field>
+        <field name="model">ir.sequence</field>
+        <field name="inherit_id" ref="base.sequence_view" />
+        <field name="priority" eval="16" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='number_next_actual']" position="after">
+                <field
+                    name="preview"
+                    string="Preview"
+                    class="oe_edit_only"
+                    attrs="{'invisible': [('use_date_range', '=', True)]}"
+                    readonly="1"
+                />
+            </xpath>
+            <xpath
+                expr="//field[@name='date_range_ids']/tree/field[last()]"
+                position="after"
+            >
+                <field
+                    name="preview"
+                    string="Preview"
+                    class="oe_edit_only"
+                    readonly="1"
+                />
+            </xpath>
+        </field>
+    </record>
 </odoo>

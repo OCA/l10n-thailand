@@ -1,0 +1,59 @@
+<odoo>
+    <record id="procurement_type_view_tree" model="ir.ui.view">
+        <field name="name">procurement.type.view.tree</field>
+        <field name="model">procurement.type</field>
+        <field name="arch" type="xml">
+            <tree decoration-muted="active == False">
+                <field name="sequence" widget="handle" />
+                <field name="active" invisible="True" />
+                <field name="name" />
+                <field name="description" />
+                <field name="product_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="procurement_type_view_form" model="ir.ui.view">
+        <field name="name">procurement.type.view.form</field>
+        <field name="model">procurement.type</field>
+        <field name="arch" type="xml">
+            <form string="Procurement Types">
+                <sheet>
+                    <div class="oe_button_box" name="button_box" />
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '=', True)]}"
+                    />
+                    <field name="active" invisible="1" />
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="product_id" />
+                        </group>
+                        <group>
+                            <field name="description" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="procurement_type_action" model="ir.actions.act_window">
+        <field name="name">Procurement Types</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">procurement.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="procurement_type_view_tree" />
+    </record>
+
+    <menuitem
+        id="procurement_type_menu"
+        parent="purchase.menu_purchase_config"
+        sequence="51"
+        action="procurement_type_action"
+        groups="purchase.group_purchase_manager"
+    />
+</odoo>

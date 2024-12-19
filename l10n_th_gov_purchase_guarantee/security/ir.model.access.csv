@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_purchase_guarantee,purchase.guarantee,model_purchase_guarantee,purchase.group_purchase_user,1,1,1,1
+access_purchase_guarantee_account_user,purchase.guarantee account user,model_purchase_guarantee,account.group_account_invoice,1,0,0,0
+access_purchase_guarantee_method_user,purchase.guarantee.method user,model_purchase_guarantee_method,purchase.group_purchase_user,1,0,0,0
+access_purchase_guarantee_method_manager,purchase.guarantee.method manager,model_purchase_guarantee_method,purchase.group_purchase_manager,1,1,1,1
+access_purchase_guarantee_method_account_user,purchase.guarantee.method account user,model_purchase_guarantee_method,account.group_account_invoice,1,0,0,0
+access_purchase_guarantee_type_user,purchase.guarantee.type user,model_purchase_guarantee_type,purchase.group_purchase_user,1,0,0,0
+access_purchase_guarantee_type_manager,purchase.guarantee.type manager,model_purchase_guarantee_type,purchase.group_purchase_manager,1,1,1,1
+access_purchase_guarantee_type_account_user,purchase.guarantee.type account user,model_purchase_guarantee_type,account.group_account_invoice,1,0,0,0

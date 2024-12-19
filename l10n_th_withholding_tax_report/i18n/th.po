@@ -15,15 +15,6 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: l10n_th_withholding_tax_report
-#: model:ir.actions.report,print_report_name:l10n_th_withholding_tax_report.action_withholding_tax_report_qweb
-#: model:ir.actions.report,print_report_name:l10n_th_withholding_tax_report.action_withholding_tax_report_txt
-#: model:ir.actions.report,print_report_name:l10n_th_withholding_tax_report.action_withholding_tax_report_xlsx
-msgid ""
-"'WT-%s-%s' % (object.format_pnd(object.income_tax_form), object."
-"format_date())"
-msgstr ""
-
-#. module: l10n_th_withholding_tax_report
 #: model_terms:ir.ui.view,arch_db:l10n_th_withholding_tax_report.report_buttons
 msgid "<span class=\"fa fa-download\">Export</span>"
 msgstr ""
@@ -109,6 +100,7 @@ msgid "Date range"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_report
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_ir_actions_report__display_name
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_report_withholding_tax_report_xlsx__display_name
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report__display_name
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report_wizard__display_name
@@ -131,6 +123,7 @@ msgid "Export XLSX"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_report
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_ir_actions_report__id
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_report_withholding_tax_report_xlsx__id
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report__id
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report_wizard__id
@@ -145,6 +138,7 @@ msgid "Income Tax Form"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_report
+#: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_ir_actions_report____last_update
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_report_withholding_tax_report_xlsx____last_update
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report____last_update
 #: model:ir.model.fields,field_description:l10n_th_withholding_tax_report.field_withholding_tax_report_wizard____last_update
@@ -281,6 +275,13 @@ msgstr ""
 #. module: l10n_th_withholding_tax_report
 #: model:ir.model,name:l10n_th_withholding_tax_report.model_withholding_tax_report_wizard
 msgid "Withholding Tax Report Wizard"
+msgstr ""
+
+#. module: l10n_th_withholding_tax_report
+#: model:ir.actions.report,print_report_name:l10n_th_withholding_tax_report.action_withholding_tax_report_qweb
+#: model:ir.actions.report,print_report_name:l10n_th_withholding_tax_report.action_withholding_tax_report_txt
+#: model:ir.actions.report,print_report_name:l10n_th_withholding_tax_report.action_withholding_tax_report_xlsx
+msgid "object._get_report_base_filename()"
 msgstr ""
 
 #. module: l10n_th_withholding_tax_report

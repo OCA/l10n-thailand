@@ -96,7 +96,7 @@
         <field name="name">view.withholding.tax.cert.tree</field>
         <field name="model">withholding.tax.cert</field>
         <field name="arch" type="xml">
-            <tree string="Withholding Tax Cert." create="1" edit="1" delete="1">
+            <tree create="1" edit="1" delete="1">
                 <field name="name" />
                 <field name="supplier_partner_id" />
                 <field name="income_tax_form" />
