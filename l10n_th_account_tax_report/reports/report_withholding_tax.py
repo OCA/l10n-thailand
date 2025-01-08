@@ -68,8 +68,6 @@ class WithHoldingTaxReport(models.TransientModel):
         return name
 
     def find_address(self, partner_id, line):
-        if line.wht_income_tax_form == "pnd1":
-            return ""
         return "|".join(
             [
                 partner_id.street or "",

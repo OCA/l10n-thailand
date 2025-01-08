@@ -42,6 +42,7 @@ TH	10100	Khlong Maha Nak, Pom Prap Sattru Phai	Bangkok	10	1008	100803
 TH	10100	Ban Bat, Pom Prap Sattru Phai	Bangkok	10	1008	100804
 TH	10100	Wat Sommanat, Pom Prap Sattru Phai	Bangkok	10	1008	100805
 TH	10260	Bang Chak, Phra Khanong	Bangkok	10	1009	100905
+TH	10260	Phra Khanong Tai, Phra Khanong	Bangkok	10	1009	100910
 TH	10510	Min Buri, Min Buri	Bangkok	10	1010	101001
 TH	10510	Saen Saep, Min Buri	Bangkok	10	1010	101002
 TH	10520	Lat Krabang, Lat Krabang	Bangkok	10	1011	101101
@@ -56,6 +57,7 @@ TH	10100	Chakkrawat, Samphanthawong	Bangkok	10	1013	101301
 TH	10100	Samphanthawong, Samphanthawong	Bangkok	10	1013	101302
 TH	10100	Talat Noi, Samphanthawong	Bangkok	10	1013	101303
 TH	10400	Samsen Nai, Phaya Thai	Bangkok	10	1014	101401
+TH	10400	Phaya Thai, Phaya Thai	Bangkok	10	1014	101406
 TH	10600	Wat Kanlaya, Thon Buri	Bangkok	10	1015	101501
 TH	10600	Hiranruchi, Thon Buri	Bangkok	10	1015	101502
 TH	10600	Bang Yi Ruea, Thon Buri	Bangkok	10	1015	101503
@@ -101,6 +103,7 @@ TH	10700	Bang Ao, Bang Phlat	Bangkok	10	1025	102502
 TH	10700	Bang Bumru, Bang Phlat	Bangkok	10	1025	102503
 TH	10700	Bang Yi Khan, Bang Phlat	Bangkok	10	1025	102504
 TH	10400	Din Daeng, Din Daeng	Bangkok	10	1026	102601
+TH	10400	Ratchadaphisek, Din Daeng	Bangkok	10	1026	102602
 TH	10240	Khlong Kum, Bueng Kum	Bangkok	10	1027	102701
 TH	10240	Nawamin, Bueng Kum	Bangkok	10	1027	102704
 TH	10240	Nuanchan, Bueng Kum	Bangkok	10	1027	102705
@@ -124,6 +127,8 @@ TH	10110	Khlong Toei, Khlong Toei	Bangkok	10	1033	103301
 TH	10110	Khlong Tan, Khlong Toei	Bangkok	10	1033	103302
 TH	10110	Phra Khanong, Khlong Toei	Bangkok	10	1033	103303
 TH	10250	Suan Luang, Suan Luang	Bangkok	10	1034	103401
+TH	10250	On Nut, Suan Luang	Bangkok	10	1034	103402
+TH	10250	Phatthanakan, Suan Luang	Bangkok	10	1034	103403
 TH	10150	Bang Khun Thian, Chom Thong	Bangkok	10	1035	103501
 TH	10150	Bang Kho, Chom Thong	Bangkok	10	1035	103502
 TH	10150	Bang Mot, Chom Thong	Bangkok	10	1035	103503
@@ -152,6 +157,8 @@ TH	10220	Khlong Thanon, Sai Mai	Bangkok	10	1042	104203
 TH	10230	Khan Na Yao, Khan Na Yao	Bangkok	10	1043	104301
 TH	10230	Ram Inthra, Khan Na Yao	Bangkok	10	1043	104302
 TH	10240	Saphan Sung, Saphan Sung	Bangkok	10	1044	104401
+TH	10240	Rat Phatthana, Saphan Sung	Bangkok	10	1044	104402
+TH	10240	Thap Chang, Saphan Sung	Bangkok	10	1044	104403
 TH	10310	Wang Thonglang, Wang Thonglang	Bangkok	10	1045	104501
 TH	10310	Saphansong, Wang Thonglang	Bangkok	10	1045	104502
 TH	10310	Khlong Chaokhunsing, Wang Thonglang	Bangkok	10	1045	104503
@@ -162,11 +169,16 @@ TH	10510	Bang Chan, Khlong Sam Wa	Bangkok	10	1046	104603
 TH	10510	Sai Kong Din, Khlong Sam Wa	Bangkok	10	1046	104604
 TH	10510	Sai Kong Din Tai, Khlong Sam Wa	Bangkok	10	1046	104605
 TH	10260	Bang Na, Bang Na	Bangkok	10	1047	104701
+TH	10260	Bang Na Nuea, Bang Na	Bangkok	10	1047	104702
+TH	10260	Bang Na Tai, Bang Na	Bangkok	10	1047	104703
 TH	10170	Thawi Watthana, Thawi Watthana	Bangkok	10	1048	104801
 TH	10170	Sala Thammasop, Thawi Watthana	Bangkok	10	1048	104802
 TH	10140	Bang Mot, Thung Khru	Bangkok	10	1049	104901
 TH	10140	Thung Khru, Thung Khru	Bangkok	10	1049	104902
-TH	10150	Bang Bon, Bang Bon	Bangkok	10	1050	105001
+TH	10150	Bang Bon Nuea, Bang Bon	Bangkok	10	1050	105002
+TH	10150	Bang Bon Tai, Bang Bon	Bangkok	10	1050	105003
+TH	10150	Khlong Bang Phran, Bang Bon	Bangkok	10	1050	105004
+TH	10150	Khlong Bang Bon, Bang Bon	Bangkok	10	1050	105005
 TH	10270	Pak Nam, Mueang Samut Prakan	Samut Prakan	11	1101	110101
 TH	10270	Samrong Nua, Mueang Samut Prakan	Samut Prakan	11	1101	110102
 TH	10270	Bang Mueang, Mueang Samut Prakan	Samut Prakan	11	1101	110103
