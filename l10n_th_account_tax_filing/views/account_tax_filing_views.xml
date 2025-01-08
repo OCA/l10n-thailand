@@ -1,0 +1,199 @@
+<odoo>
+    <!-- Copyright 2025 Ecosoft
+         License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+    <record id="account_tax_filing_view_form" model="ir.ui.view">
+        <field name="name">account.tax.filing.view.form</field>
+        <field name="model">account.tax.filing</field>
+        <field name="arch" type="xml">
+            <form string="Tax Filing">
+                <header>
+                    <button
+                        name="action_confirm"
+                        type="object"
+                        string="Confirm"
+                        states="draft"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="action_create_invoice"
+                        type="object"
+                        string="Create Invoice"
+                        states="confirm"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="action_draft"
+                        type="object"
+                        string="Set to Draft"
+                        states="confirm"
+                        class="oe_highlight"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,confirm,done"
+                    />
+                </header>
+                <sheet>
+                    <div
+                        class="oe_button_box"
+                        name="button_box"
+                        attrs="{'invisible': [('move_id', '=', False)]}"
+                    >
+                        <button
+                            name="action_view_entries"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-bars"
+                            attrs="{'invisible': [('move_type', '!=', 'entry')]}"
+                        >
+                                <div class="o_stat_info">
+                                    <span class="o_stat_text">Journal Entry</span>
+                                </div>
+                        </button>
+                        <button
+                            name="action_view_entries"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-bars"
+                            attrs="{'invisible': [('move_type', '!=', 'out_invoice')]}"
+                        >
+                                <div class="o_stat_info">
+                                    <span class="o_stat_text">Invoiced</span>
+                                </div>
+                        </button>
+                        <button
+                            name="action_view_entries"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-bars"
+                            attrs="{'invisible': [('move_type', '!=', 'in_invoice')]}"
+                        >
+                                <div class="o_stat_info">
+                                    <span class="o_stat_text">Vendor Bill</span>
+                                </div>
+                        </button>
+                    </div>
+                    <h1 class="mt0">
+                        <field name="name" />
+                    </h1>
+                    <group>
+                        <field name="date_range_id" />
+                        <field name="date_from" required="1" />
+                        <field name="date_to" required="1" />
+                        <field name="company_id" groups="base.group_multi_company" />
+                        <field name="account_adjust_id" invisible="1" />
+                        <field name="has_adjustment" invisible="1" />
+                        <field name="move_id" invisible="1" />
+                        <field name="move_type" invisible="1" />
+                    </group>
+                    <notebook>
+                        <page string="Journal items">
+                            <div class="oe_read_only oe_right" name="buttons">
+                                <button
+                                    type="object"
+                                    name="recompute_account_move_line"
+                                    string="Recompute"
+                                    states="draft"
+                                    icon="fa-refresh"
+                                />
+                            </div>
+                            <field name="line_ids" nolabel="1">
+                                <tree editable="false">
+                                    <field name="account_id" />
+                                    <field name="move_id" />
+                                    <field name="name" />
+                                    <field name="debit" sum="Total Debit" />
+                                    <field name="credit" sum="Total Credit" />
+                                    <field name="company_currency_id" invisible="1" />
+                                    <field name="currency_id" invisible="1" />
+                                    <field name="company_id" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page
+                            string="Adjust"
+                            attrs="{'invisible': [('has_adjustment', '=', False)]}"
+                        >
+                            <div class="oe_read_only oe_right" name="buttons">
+                                <button
+                                    type="object"
+                                    name="recompute_account_move_line"
+                                    string="Recompute"
+                                    states="draft"
+                                    icon="fa-refresh"
+                                />
+                            </div>
+                            <field name="adjust_line_ids" nolabel="1">
+                                <tree editable="false">
+                                    <field name="account_id" />
+                                    <field name="move_id" />
+                                    <field name="name" />
+                                    <field name="debit" sum="Total Debit" />
+                                    <field name="credit" sum="Total Credit" />
+                                    <field name="company_currency_id" invisible="1" />
+                                    <field name="currency_id" invisible="1" />
+                                    <field name="company_id" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="account_tax_filing_view_tree" model="ir.ui.view">
+        <field name="name">account.tax.filing.view.tree</field>
+        <field name="model">account.tax.filing</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="create_date" string="Create Date" widget="date" />
+                <field name="partner_id" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="account_tax_filing_search_view" model="ir.ui.view">
+        <field name="name">account.tax.filing.search</field>
+        <field name="model">account.tax.filing</field>
+        <field name="arch" type="xml">
+            <search string="Tax Filing">
+                <field name="name" />
+                <field name="create_date" />
+                <filter
+                    string="Draft"
+                    name="draft"
+                    domain="[('state', '=', 'draft')]"
+                />
+                <filter
+                    string="Confirmed"
+                    name="confirm"
+                    domain="[('state', '=', 'confirm')]"
+                />
+                <filter string="Done" name="done" domain="[('state', '=', 'done')]" />
+                <filter
+                    string="Date"
+                    name="group_by_date"
+                    context="{'group_by': 'create_date'}"
+                />
+            </search>
+        </field>
+    </record>
+
+    <record id="account_tax_filing_action" model="ir.actions.act_window">
+        <field name="name">Tax Filing</field>
+        <field name="res_model">account.tax.filing</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="menu_account_tax_filing"
+        name="Tax Filing"
+        parent="account.menu_finance_entries_actions"
+        action="account_tax_filing_action"
+    />
+</odoo>
