@@ -1,2 +1,0 @@
-id,name,code,prefix,padding,implementation,use_date_range
-seq_account_tax_filing,Account Tax Filing,account.tax.filing,ATF,5,no_gap,False

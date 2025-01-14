@@ -26,7 +26,6 @@
                         type="object"
                         string="Set to Draft"
                         states="confirm"
-                        class="oe_highlight"
                     />
                     <field
                         name="state"
@@ -78,14 +77,21 @@
                         <field name="name" />
                     </h1>
                     <group>
-                        <field name="date_range_id" />
-                        <field name="date_from" required="1" />
-                        <field name="date_to" required="1" />
-                        <field name="company_id" groups="base.group_multi_company" />
-                        <field name="account_adjust_id" invisible="1" />
-                        <field name="has_adjustment" invisible="1" />
-                        <field name="move_id" invisible="1" />
-                        <field name="move_type" invisible="1" />
+                        <group>
+                            <field name="date_range_id" />
+                            <field name="date_from" required="1" />
+                            <field name="date_to" required="1" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                        </group>
+                        <group>
+                            <field name="partner_id" />
+                            <field name="move_id" invisible="1" />
+                            <field name="has_adjustment" invisible="1" />
+                            <field name="move_type" invisible="1" />
+                        </group>
                     </group>
                     <notebook>
                         <page string="Journal items">
@@ -99,12 +105,21 @@
                                 />
                             </div>
                             <field name="line_ids" nolabel="1">
-                                <tree editable="false">
-                                    <field name="account_id" />
-                                    <field name="move_id" />
-                                    <field name="name" />
-                                    <field name="debit" sum="Total Debit" />
-                                    <field name="credit" sum="Total Credit" />
+                                <tree editable="bottom" delete="true" create="false">
+                                    <field name="account_id" readonly='True' />
+                                    <field name="move_id" readonly='True' />
+                                    <field name="name" readonly='True' />
+                                    <field name="date" readonly='True' />
+                                    <field
+                                        name="debit"
+                                        readonly='True'
+                                        sum="Total Debit"
+                                    />
+                                    <field
+                                        name="credit"
+                                        readonly='True'
+                                        sum="Total Credit"
+                                    />
                                     <field name="company_currency_id" invisible="1" />
                                     <field name="currency_id" invisible="1" />
                                     <field name="company_id" invisible="1" />
@@ -125,12 +140,21 @@
                                 />
                             </div>
                             <field name="adjust_line_ids" nolabel="1">
-                                <tree editable="false">
-                                    <field name="account_id" />
-                                    <field name="move_id" />
-                                    <field name="name" />
-                                    <field name="debit" sum="Total Debit" />
-                                    <field name="credit" sum="Total Credit" />
+                                <tree editable="bottom" delete="true" create="false">
+                                    <field name="account_id" readonly='True' />
+                                    <field name="move_id" readonly='True' />
+                                    <field name="name" readonly='True' />
+                                    <field name="date" readonly='True' />
+                                    <field
+                                        name="debit"
+                                        readonly='True'
+                                        sum="Total Debit"
+                                    />
+                                    <field
+                                        name="credit"
+                                        readonly='True'
+                                        sum="Total Credit"
+                                    />
                                     <field name="company_currency_id" invisible="1" />
                                     <field name="currency_id" invisible="1" />
                                     <field name="company_id" invisible="1" />
@@ -149,10 +173,12 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name" />
-                <field name="create_date" string="Create Date" widget="date" />
+                <field name="date_range_id" invisible="1" />
+                <field name="date_from" string="Start Date" widget="date" />
+                <field name="date_to" string="End Date" widget="date" />
                 <field name="partner_id" />
                 <field name="company_id" groups="base.group_multi_company" />
-                <field name="state" />
+                <field name="state" widget="badge" />
             </tree>
         </field>
     </record>
@@ -163,7 +189,7 @@
         <field name="arch" type="xml">
             <search string="Tax Filing">
                 <field name="name" />
-                <field name="create_date" />
+                <field name="partner_id" />
                 <filter
                     string="Draft"
                     name="draft"
@@ -176,9 +202,29 @@
                 />
                 <filter string="Done" name="done" domain="[('state', '=', 'done')]" />
                 <filter
-                    string="Date"
-                    name="group_by_date"
-                    context="{'group_by': 'create_date'}"
+                    string="State"
+                    name="group_by_state"
+                    context="{'group_by': 'state'}"
+                />
+                <filter
+                    string="Partner"
+                    name="group_by_partner"
+                    context="{'group_by': 'partner_id'}"
+                />
+                <filter
+                    string="Date Range"
+                    name="group_by_date_range"
+                    context="{'group_by': 'date_range_id'}"
+                />
+                <filter
+                    string="Start Date"
+                    name="group_by_date_from"
+                    context="{'group_by': 'date_from'}"
+                />
+                <filter
+                    string="End Date"
+                    name="group_by_date_to"
+                    context="{'group_by': 'date_to'}"
                 />
             </search>
         </field>

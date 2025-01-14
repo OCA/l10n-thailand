@@ -10,21 +10,18 @@ class ResCompany(models.Model):
     account_from_id = fields.Many2one(
         comodel_name="account.account",
         domain=lambda self: [
-            ("company_id", "=", self.env.company.id),
             ("user_type_id.type", "not in", ["payable", "receivable", "liquidity"]),
         ],
     )
     account_to_id = fields.Many2one(
         comodel_name="account.account",
         domain=lambda self: [
-            ("company_id", "=", self.env.company.id),
             ("user_type_id.type", "not in", ["payable", "receivable", "liquidity"]),
         ],
     )
     account_adjust_id = fields.Many2one(
         comodel_name="account.account",
         domain=lambda self: [
-            ("company_id", "=", self.env.company.id),
             ("user_type_id.type", "not in", ["payable", "receivable", "liquidity"]),
         ],
     )

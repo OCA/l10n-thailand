@@ -7,8 +7,10 @@ from odoo.exceptions import UserError
 
 class AccountTaxFiling(models.Model):
     _name = "account.tax.filing"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Account Tranfer Tax Filing"
     _check_company_auto = True
+    _order = "id desc"
 
     name = fields.Char(
         required=True,
@@ -65,10 +67,12 @@ class AccountTaxFiling(models.Model):
             ("draft", "Draft"),
             ("confirm", "Confirm"),
             ("done", "Done"),
+            ("cancel", "Cancel"),
         ],
         required=True,
         readonly=True,
         copy=False,
+        tracking=True,
         default="draft",
     )
     company_id = fields.Many2one(
@@ -91,8 +95,10 @@ class AccountTaxFiling(models.Model):
     )
     partner_id = fields.Many2one(
         comodel_name="res.partner",
+        readonly=True,
         required=True,
         default=lambda self: self.env.company.tax_authority_id,
+        states={"draft": [("readonly", False)]},
         copy=False,
         check_company=True,
     )
@@ -102,6 +108,7 @@ class AccountTaxFiling(models.Model):
         string="Journal items",
         copy=False,
         readonly=True,
+        states={"draft": [("readonly", False)]},
     )
     adjust_line_ids = fields.One2many(
         comodel_name="account.move.line",
@@ -109,6 +116,7 @@ class AccountTaxFiling(models.Model):
         string="Adjust lines",
         copy=False,
         readonly=True,
+        states={"draft": [("readonly", False)]},
     )
     has_adjustment = fields.Boolean(
         copy=False,
@@ -362,7 +370,7 @@ class AccountTaxFiling(models.Model):
     def action_confirm(self):
         for record in self:
             if not record.line_ids:
-                raise UserError(_("Cannot confirm tax filing without journal items"))
+                raise UserError(_("You need to add a line before confirm."))
             record.write(record.compute_account_amount())
             record.state = "confirm"
 
