@@ -23,9 +23,11 @@ class AccountMoveLine(models.Model):
 
     def write(self, vals):
         """Prevent modification of account move line when tax filing is done."""
-        if (self.tax_filing_id and self.tax_filing_id.state != "draft") or (
-            self.tax_filing_adjust_id and self.tax_filing_adjust_id.state != "draft"
-        ):
+        if (
+            not self._context.get("skip_tax_filing_check")
+            and self.tax_filing_id
+            and self.tax_filing_id.state != "draft"
+        ) or (self.tax_filing_adjust_id and self.tax_filing_adjust_id.state != "draft"):
             raise UserError(
                 _("You cannot modify a journal item that has already tax filing.")
             )

@@ -8,9 +8,9 @@
             <form string="Tax Filing">
                 <header>
                     <button
-                        name="action_confirm"
+                        name="action_submit"
                         type="object"
-                        string="Confirm"
+                        string="Submit"
                         states="draft"
                         class="oe_highlight"
                     />
@@ -18,19 +18,25 @@
                         name="action_create_invoice"
                         type="object"
                         string="Create Invoice"
-                        states="confirm"
+                        states="submit"
                         class="oe_highlight"
                     />
                     <button
                         name="action_draft"
                         type="object"
                         string="Set to Draft"
-                        states="confirm"
+                        states="submit,cancel"
+                    />
+                    <button
+                        name="action_cancel"
+                        type="object"
+                        string="Cancel"
+                        states="draft"
                     />
                     <field
                         name="state"
                         widget="statusbar"
-                        statusbar_visible="draft,confirm,done"
+                        statusbar_visible="draft,submit,done,cancel"
                     />
                 </header>
                 <sheet>
@@ -162,6 +168,11 @@
                             </field>
                         </page>
                     </notebook>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" />
+                        <field name="activity_ids" widget="mail_activity" />
+                        <field name="message_ids" widget="mail_thread" />
+                    </div>
                 </sheet>
             </form>
         </field>
@@ -173,12 +184,18 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name" />
-                <field name="date_range_id" invisible="1" />
+                <field name="date_range_id" optional="show" />
                 <field name="date_from" string="Start Date" widget="date" />
                 <field name="date_to" string="End Date" widget="date" />
-                <field name="partner_id" />
+                <field name="partner_id" optional="hide" />
                 <field name="company_id" groups="base.group_multi_company" />
-                <field name="state" widget="badge" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-success="state == 'done'"
+                    decoration-danger="state == 'cancel'"
+                    decoration-info="state == 'submit'"
+                />
             </tree>
         </field>
     </record>
@@ -196,9 +213,9 @@
                     domain="[('state', '=', 'draft')]"
                 />
                 <filter
-                    string="Confirmed"
-                    name="confirm"
-                    domain="[('state', '=', 'confirm')]"
+                    string="Submitted"
+                    name="submit"
+                    domain="[('state', '=', 'submit')]"
                 />
                 <filter string="Done" name="done" domain="[('state', '=', 'done')]" />
                 <filter

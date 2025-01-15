@@ -23,14 +23,20 @@ class AccountTaxFiling(models.Model):
         comodel_name="date.range",
         string="Date range",
         copy=False,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
     date_from = fields.Date(
         string="Start Date",
         copy=False,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
     date_to = fields.Date(
         string="End Date",
         copy=False,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
     account_from_id = fields.Many2one(
         comodel_name="account.account",
@@ -65,7 +71,7 @@ class AccountTaxFiling(models.Model):
     state = fields.Selection(
         selection=[
             ("draft", "Draft"),
-            ("confirm", "Confirm"),
+            ("submit", "Submitted"),
             ("done", "Done"),
             ("cancel", "Cancel"),
         ],
@@ -133,6 +139,11 @@ class AccountTaxFiling(models.Model):
         readonly=True,
     )
     amount_adjust = fields.Monetary(
+        currency_field="company_currency_id",
+        copy=False,
+        readonly=True,
+    )
+    total_amount = fields.Monetary(
         currency_field="company_currency_id",
         copy=False,
         readonly=True,
@@ -367,12 +378,12 @@ class AccountTaxFiling(models.Model):
             "type": "ir.actions.act_window",
         }
 
-    def action_confirm(self):
+    def action_submit(self):
         for record in self:
             if not record.line_ids:
                 raise UserError(_("You need to add a line before confirm."))
             record.write(record.compute_account_amount())
-            record.state = "confirm"
+            record.state = "submit"
 
     def action_create_invoice(self):
         for record in self:
@@ -411,3 +422,12 @@ class AccountTaxFiling(models.Model):
 
     def action_draft(self):
         return self.write({"state": "draft"})
+
+    def action_cancel(self):
+        return self.with_context(skip_tax_filing_check=True).write(
+            {
+                "state": "cancel",
+                "line_ids": False,
+                "adjust_line_ids": False,
+            }
+        )
