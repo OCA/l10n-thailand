@@ -9,7 +9,7 @@ class AccountPaymentRegister(models.TransientModel):
 
     bill_partner_id = fields.Many2one(
         comodel_name="res.partner",
-        string="Vendor",
+        string="Vendor Reference",
         default=lambda self: self._default_bill_partner_id(),
     )
 
@@ -18,11 +18,11 @@ class AccountPaymentRegister(models.TransientModel):
         If cannot get a single partner, user must select it.
         """
         active_ids = self.env.context.get("active_ids", [])
-        moves = self.env["account.move"].browse(active_ids)
-        expense_partners = moves.mapped("line_ids.expense_id.bill_partner_id")
+        move_lines = self.env["account.move.line"].browse(active_ids)
+        expense_partners = move_lines.mapped("expense_id.bill_partner_id")
         partner = expense_partners.id if len(expense_partners) == 1 else False
         if not partner:
-            bill_partners = moves.mapped("line_ids.partner_id")
+            bill_partners = move_lines.mapped("partner_id")
             partner = bill_partners.id if len(bill_partners) == 1 else False
         return partner
 

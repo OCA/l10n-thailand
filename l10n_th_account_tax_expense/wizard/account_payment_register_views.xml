@@ -13,11 +13,13 @@
                     for="bill_partner_id"
                     class="oe_edit_only"
                     string="Partner"
-                    attrs="{'required': [('wht_tax_id', '!=', False)], 'invisible': [('wht_tax_id', '=', False)]}"
+                    required="wht_tax_id"
+                    invisible="not wht_tax_id"
                 />
                 <field
                     name="bill_partner_id"
-                    attrs="{'required': [('wht_tax_id', '!=', False)], 'invisible': [('wht_tax_id', '=', False)]}"
+                    required="wht_tax_id"
+                    invisible="not wht_tax_id"
                 />
             </field>
         </field>

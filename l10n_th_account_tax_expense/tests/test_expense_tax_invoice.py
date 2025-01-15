@@ -4,95 +4,56 @@
 from odoo import Command
 from odoo.exceptions import UserError
 from odoo.tests import tagged
-from odoo.tests.common import TransactionCase
+
+from odoo.addons.hr_expense.tests.common import TestExpenseCommon
 
 
-@tagged("post_install", "-at_install")
-class TestAccountEntry(TransactionCase):
+@tagged("-at_install", "post_install")
+class TestAccountEntry(TestExpenseCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.account_expense = cls.env["account.account"].create(
+        cls.partner1 = cls.env.ref("base.res_partner_12")
+
+    def test_expense_tax_invoice(self):
+        """hr.expense's tax_number & tax_date is used as Tax Invoice and Date
+        if not filled, do not allow bill posting
+        """
+        expense_sheet = self.create_expense_report(
             {
-                "code": "NC1113",
-                "name": "HR Expense - Test Purchase Account",
-                "account_type": "expense",
-            }
-        )
-        cls.input_vat_acct = cls.env["account.account"].create(
-            {"name": "V7", "code": "V7", "account_type": "liability_current"}
-        )
-        cls.tax_group_vat = cls.env["account.tax.group"].create({"name": "VAT"})
-        cls.input_vat_include = cls.env["account.tax"].create(
-            {
-                "name": "V7",
-                "type_tax_use": "purchase",
-                "amount_type": "percent",
-                "amount": 7.0,
-                "tax_group_id": cls.tax_group_vat.id,
-                "price_include": True,
-                "tax_exigibility": "on_invoice",
-                "invoice_repartition_line_ids": [
-                    Command.create(
-                        {"factor_percent": 100.0, "repartition_type": "base"}
-                    ),
+                "name": "Expense for John Smith",
+                "expense_line_ids": [
                     Command.create(
                         {
-                            "factor_percent": 100.0,
-                            "repartition_type": "tax",
-                            "account_id": cls.input_vat_acct.id,
+                            "name": "PA 2*800 + 15%",  # Taxes are included
+                            "employee_id": self.expense_employee.id,
+                            # Test with a specific account override
+                            "account_id": self.expense_account.id,
+                            "product_id": self.product_a.id,
+                            "quantity": 2,
+                            "payment_mode": "own_account",
+                            "company_id": self.company_data["company"].id,
+                            "date": "2021-10-11",
+                            "analytic_distribution": {self.analytic_account_1.id: 100},
+                            "total_amount_currency": 1000.00,
+                            "tax_ids": [Command.set(self.tax_purchase_a.ids)],
                         }
-                    ),
+                    )
                 ],
             }
         )
-        cls.product_expense = cls.env["product.product"].create(
-            {
-                "name": "Delivered at cost",
-                "standard_price": 700,
-                "list_price": 700,
-                "type": "consu",
-                "supplier_taxes_id": [Command.set([cls.input_vat_include.id])],
-                "default_code": "CONSU-DELI-COST",
-                "taxes_id": False,
-                "property_account_expense_id": cls.account_expense.id,
-            }
-        )
-        cls.partner1 = cls.env.ref("base.res_partner_12")
-        # Create new employee
-        partner = cls.env["res.partner"].create({"name": "Test Employee"})
-        cls.employee1 = cls.env["hr.employee"].create(
-            {"name": "Test Employee", "address_home_id": partner.id}
-        )
-
-    def test_expense_tax_invoice(self):
-        """hr.expense's reference & date is used as Tax Invoice and Date
-        if not filled, do not allow journal entry posting
-        """
-        expense = self.env["hr.expense.sheet"].create(
-            {"name": "Expense for John Smith", "employee_id": self.employee1.id}
-        )
-        expense_line = self.env["hr.expense"].create(
-            {
-                "name": "Car Travel Expenses",
-                "employee_id": self.employee1.id,
-                "product_id": self.product_expense.id,
-                "total_amount": 700.00,
-                "tax_ids": [Command.set([self.input_vat_include.id])],
-                "sheet_id": expense.id,
-            }
-        )
-        expense.action_submit_sheet()
-        expense.approve_expense_sheets()
+        expense_sheet.action_submit_sheet()
+        expense_sheet.action_approve_expense_sheets()
         with self.assertRaises(
             UserError, msg="Please fill in tax invoice and tax date"
         ):
-            expense.action_sheet_move_create()
-        expense_line.write(
+            expense_sheet.action_sheet_move_post()
+        expense_sheet.expense_line_ids.write(
             {
-                "reference": "TAXINV-001",
+                "tax_number": "TAXINV-001",
+                "tax_date": "2021-10-11",
                 "bill_partner_id": self.partner1.id,
             }
         )
-        expense.action_sheet_move_create()
-        self.assertEqual(expense.state, "post")
+        expense_sheet.action_sheet_move_post()
+        self.assertEqual(expense_sheet.state, "post")

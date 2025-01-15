@@ -7,9 +7,11 @@ from odoo import api, fields, models
 class HrExpense(models.Model):
     _inherit = "hr.expense"
 
+    tax_number = fields.Char()
+    tax_date = fields.Date()
     bill_partner_id = fields.Many2one(
         comodel_name="res.partner",
-        string="Vendor",
+        string="Vendor Reference",
         tracking=True,
     )
     wht_tax_id = fields.Many2one(
@@ -30,13 +32,15 @@ class HrExpense(models.Model):
         for rec in self:
             rec.wht_tax_id = rec.product_id.supplier_wht_tax_id or False
 
-    def _prepare_move_line_vals(self):
-        """Add WHT in move line"""
-        ml_vals = super()._prepare_move_line_vals()
-        ml_vals["wht_tax_id"] = self.wht_tax_id.id
-        return ml_vals
-
     def _get_move_line_src(self, move_line_name, partner_id):
+        """Add wht_tax_id in Clearing document"""
         ml_src_dict = super()._get_move_line_src(move_line_name, partner_id)
         ml_src_dict["wht_tax_id"] = self.wht_tax_id.id
         return ml_src_dict
+
+    def _prepare_move_lines_vals(self):
+        """Add wht_tax_id in bills"""
+        self.ensure_one()
+        ml_vals = super()._prepare_move_lines_vals()
+        ml_vals["wht_tax_id"] = self.wht_tax_id.id
+        return ml_vals

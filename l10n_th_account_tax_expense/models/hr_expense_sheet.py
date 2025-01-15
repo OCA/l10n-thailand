@@ -19,7 +19,8 @@ class HrExpenseSheet(models.Model):
     )
     need_wht_entry = fields.Boolean(
         compute="_compute_need_wht_entry",
-        help="Tell user that this advance clearing is pending create withholding tax entry.",
+        help="Tell user that this advance clearing is pending "
+        "create withholding tax entry.",
     )
 
     def _compute_need_wht_entry(self):
@@ -30,6 +31,29 @@ class HrExpenseSheet(models.Model):
                 and (not rec.wht_move_id or rec.wht_move_id.state == "cancel")
                 and len(rec.expense_line_ids.mapped("wht_tax_id")) > 0
             )
+
+    def action_sheet_move_post(self):
+        """Update tax invoice from expense"""
+        for sheet in self:
+            tax_invoices = sheet.account_move_ids.tax_invoice_ids.filtered(
+                lambda tax: tax.tax_line_id.type_tax_use == "purchase"
+            )
+            for tax_invoice in tax_invoices:
+                expense = tax_invoice.move_line_id.expense_id
+
+                # Check tax_number and tax_date expense don't empty
+                if not (expense.tax_number and expense.tax_date):
+                    raise UserError(_("Please fill in tax invoice and tax date"))
+
+                tax_dict = {
+                    "tax_invoice_number": expense.tax_number,
+                    "tax_invoice_date": expense.tax_date,
+                }
+                bill_partner = expense.bill_partner_id
+                if bill_partner:
+                    tax_dict["partner_id"] = bill_partner.id
+                tax_invoice.write(tax_dict)
+        return super().action_sheet_move_post()
 
     def action_create_withholding_tax_entry(self):
         """From expense sheet with WHT lines, this action
@@ -42,16 +66,17 @@ class HrExpenseSheet(models.Model):
         if sheet.wht_move_id and sheet.wht_move_id.state != "cancel":
             raise UserError(_("Already created withholding tax JV"))
         # Window action
-        action = self.env.ref("account.action_move_journal_line")
-        result = action.sudo().read()[0]
+        xmlid = "account.action_move_journal_line"
+        action = self.env["ir.actions.act_window"]._for_xml_id(xmlid)
+        # Change default form
         view = self.env.ref("account.view_move_form", False)
-        result["views"] = [(view and view.id or False, "form")]
+        action["views"] = [(view and view.id or False, "form")]
         # Create wht JV
         move_vals = sheet._prepare_withholding_tax_entry()
         move = self.env["account.move"].create(move_vals)
         sheet.wht_move_id = move
-        result["res_id"] = move.id
-        return result
+        action["res_id"] = move.id
+        return action
 
     def _get_move_line_wht_vals(self, deduction, wht_move_lines):
         return {
@@ -70,7 +95,7 @@ class HrExpenseSheet(models.Model):
         self.ensure_one()
         # Prepare Dr. Advance, Cr. WHT lines
         line_vals_list = []
-        move_lines = self.account_move_id.line_ids
+        move_lines = self.account_move_ids.line_ids
         # Cr. WHT Lines
         wht_move_lines = move_lines.filtered("wht_tax_id")
         currency = self.env.company.currency_id
@@ -84,13 +109,16 @@ class HrExpenseSheet(models.Model):
         # amount goes to AP first, then the rest go to Advance
         av_account = self.advance_sheet_id.expense_line_ids.mapped("account_id")
         ap_accounts = move_lines.mapped("account_id").filtered(
-            lambda l: l.reconcile and l != av_account
+            lambda account, av_account=av_account: account.reconcile
+            and account != av_account
         )
         accounts = ap_accounts + av_account
-        partner_id = self.employee_id.sudo().address_home_id.commercial_partner_id.id
+        partner_id = self.employee_id.sudo().work_contact_id.commercial_partner_id.id
         for account in accounts:
             if amount_deduct:
-                account_ml = move_lines.filtered(lambda l: l.account_id == account)
+                account_ml = move_lines.filtered(
+                    lambda line, account=account: line.account_id == account
+                )
                 credit = sum(account_ml.mapped("credit"))
                 amount = credit if amount_deduct > credit else amount_deduct
                 line_vals_list.append(
@@ -108,7 +136,7 @@ class HrExpenseSheet(models.Model):
         # Create JV
         move_vals = {
             "move_type": "entry",
-            "ref": self.account_move_id.display_name,
+            "ref": self.account_move_ids.display_name,
             "line_ids": [Command.create(line_vals) for line_vals in line_vals_list],
         }
         return move_vals

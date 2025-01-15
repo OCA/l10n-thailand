@@ -9,93 +9,42 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     def _post(self, soft=True):
-        self._assign_tax_invoice()
         res = super()._post(soft)
         self._reconcile_withholding_tax_entry()
         return res
 
     def _reconcile_withholding_tax_entry(self):
         """Re-Reconciliation, for case wht_move that clear advance only"""
-        PartialReconcile = self.env["account.partial.reconcile"]
+        sheet_model = self.env["hr.expense.sheet"]
+
         for move in self:
-            clearing = self.env["hr.expense.sheet"].search(
-                [("wht_move_id", "=", move.id)]
-            )
+            clearing = sheet_model.search([("wht_move_id", "=", move.id)])
             if not clearing:
                 continue
-            advance = clearing.advance_sheet_id
+
             clearing.ensure_one()
+            advance = clearing.advance_sheet_id
+
             # Find Advance account (from advance sheet)
             av_account = advance.expense_line_ids.mapped("account_id")
             av_account.ensure_one()
-            # Find all related clearings, advance and return moves to unreconcile first
-            if move.line_ids.filtered(lambda l: l.account_id == av_account):
-                all_clearings = advance.clearing_sheet_ids
-                r_lines = all_clearings.mapped("account_move_id.line_ids").filtered(
-                    lambda l: l.account_id == av_account
-                )
-                md_lines = r_lines.mapped("matched_debit_ids.debit_move_id")
-                # Make sure that debit there're all line in advance
-                av_move_lines = advance.account_move_id.line_ids.filtered(
-                    lambda l: l.account_id == av_account
-                )
-                md_lines += av_move_lines
-                # all reconcile move include return advance
-                move_reconcile = PartialReconcile.search(
-                    [("debit_move_id", "in", md_lines.ids)]
-                )
-                mc_lines_all = move_reconcile.mapped("credit_move_id")
-                # Removes reconcile with all wht lines and only expenses
-                wht_lines = all_clearings.mapped("wht_move_id.line_ids").filtered(
-                    lambda l: l.account_id == av_account
-                )
-                wht_lines.remove_move_reconcile()
-                # Removes reconcile with only expenses
-                (md_lines + mc_lines_all).filtered(
-                    lambda l: l.expense_id
-                ).remove_move_reconcile()
-                # Re-reconcile again this time with the wht_tax JV, account by account
-                wht_lines_reconcile = wht_lines.filtered(
-                    lambda l: l.parent_state == "posted"
-                )
-                md_lines_without_wht = md_lines.filtered(
-                    lambda l: l.id not in wht_lines_reconcile.ids
-                )
-                (wht_lines_reconcile + md_lines_without_wht + mc_lines_all).reconcile()
-            # Then, in case there are left over amount to other AP,
-            # do reconcile when withholding tax state post only.
-            if clearing.wht_move_id.state == "posted":
-                ap_accounts = move.line_ids.mapped("account_id").filtered(
-                    lambda l: l.reconcile and l != av_account
-                )
-                for account in ap_accounts:
-                    ml_lines = (
-                        clearing.account_move_id.line_ids
-                        + clearing.wht_move_id.line_ids
-                    )
-                    ml_lines.filtered(
-                        lambda l: l.move_id.state == "posted"
-                        and l.account_id == account
-                    ).reconcile()
-
-    def _assign_tax_invoice(self):
-        """Use Bill Reference and Date from Expense Line as Tax Invoice"""
-        for move in self:
-            for tax_invoice in move.tax_invoice_ids.filtered(
-                lambda l: l.tax_line_id.type_tax_use == "purchase"
-            ):
-                if tax_invoice.move_line_id.expense_id:
-                    tinv_number = tax_invoice.move_line_id.expense_id.reference
-                    tinv_date = tax_invoice.move_line_id.expense_id.date
-                    tax_invoice.write(
-                        {
-                            "tax_invoice_number": tinv_number,
-                            "tax_invoice_date": tinv_date,
-                        }
-                    )
-                    bill_partner = tax_invoice.move_line_id.expense_id.bill_partner_id
-                    if bill_partner:
-                        tax_invoice.write({"partner_id": bill_partner.id})
+            ml_advance = advance.account_move_ids.line_ids.filtered(
+                lambda line, av_account=av_account: line.account_id == av_account
+            )
+            # Get all move line reconcile with advance
+            ml_reconciled = ml_advance._all_reconciled_lines()
+            # Get wht line with posted state only
+            wht_line = move.line_ids.filtered(
+                lambda line, av_account=av_account: line.account_id == av_account
+                and line.parent_state == "posted"
+            )
+            # Remove reconcile
+            all_ml_reconciled = ml_reconciled + wht_line
+            all_ml_reconciled.remove_move_reconcile()
+            # Clear cache
+            all_ml_reconciled.invalidate_recordset()
+            # Re-Reconcile with wht
+            all_ml_reconciled.reconcile()
 
     def _compute_has_wht(self):
         """Has WHT when
@@ -115,21 +64,6 @@ class AccountMove(models.Model):
             rec.has_wht = False if exp_move else True
         return res
 
-    # NOTE: maybe not needed
-    # def _prepare_withholding_move(self, wht_move):
-    #     """Prepare dict for account.withholding.move on Expense"""
-    #     res = super()._prepare_withholding_move(wht_move)
-    #     # Is this an expense's journal entry?
-    #     is_expense = wht_move.expense_id and not wht_move.payment_id
-    #     if is_expense:
-    #         res.update(
-    #             {
-    #                 "amount_income": abs(wht_move.balance),
-    #                 "amount_wht": 0.0,
-    #             }
-    #         )
-    #     return res
-
     def button_draft(self):
         """Unlink withholding tax on clearing"""
         res = super().button_draft()
@@ -140,13 +74,13 @@ class AccountMove(models.Model):
         """Check Withholding tax JV before cancel journal entry on clearing"""
         res = super().button_cancel()
         sheets = self.line_ids.mapped("expense_id.sheet_id").filtered(
-            lambda l: l.wht_move_id and l.wht_move_id.state != "cancel"
+            lambda sheet: sheet.wht_move_id and sheet.wht_move_id.state != "cancel"
         )
         if sheets:
             raise UserError(
                 _(
-                    "Unable to cancel this journal entry. "
-                    "You must first cancel the related withholding tax (Journal Voucher)."
+                    "Unable to cancel this journal entry. You must first cancel "
+                    "the related withholding tax (Journal Voucher)."
                 )
             )
         return res
@@ -163,8 +97,8 @@ class AccountMoveLine(models.Model):
             if vals["move_id"] == self.move_id.id:
                 line_ids = self.move_id.tax_cash_basis_origin_move_id.line_ids
                 move_line_tax_amount = line_ids.filtered(
-                    lambda l: l.tax_base_amount
-                    and l.amount_currency == self.amount_currency
+                    lambda line: line.tax_base_amount
+                    and line.amount_currency == self.amount_currency
                 )
                 if move_line_tax_amount:
                     tax_base_amount = move_line_tax_amount[0].tax_base_amount
@@ -173,20 +107,17 @@ class AccountMoveLine(models.Model):
     def _get_partner_wht_lines(self, wht_tax_lines, partner_id):
         if wht_tax_lines.filtered("expense_id"):
             partner_wht_lines = wht_tax_lines.filtered(
-                lambda l: l.expense_id.bill_partner_id.id == partner_id
-                or (not l.expense_id.bill_partner_id and l.partner_id.id == partner_id)
+                lambda line: line.expense_id.bill_partner_id.id == partner_id
+                or (
+                    not line.expense_id.bill_partner_id
+                    and line.partner_id.id == partner_id
+                )
             )
             return partner_wht_lines
         return super()._get_partner_wht_lines(wht_tax_lines, partner_id)
 
     def _get_partner_wht(self, wht_tax_lines):
         if wht_tax_lines.filtered("expense_id"):
-            return list(
-                {
-                    x.bill_partner_id.id
-                    or x.employee_id.sudo().address_home_id.commercial_partner_id.id
-                    or x.employee_id.sudo().user_partner_id.id
-                    for x in wht_tax_lines.mapped("expense_id")
-                }
-            )
+            partner_expense = wht_tax_lines.mapped("expense_id.bill_partner_id").ids
+            return partner_expense
         return super()._get_partner_wht(wht_tax_lines)
