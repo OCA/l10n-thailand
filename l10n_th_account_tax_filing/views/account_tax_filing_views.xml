@@ -36,7 +36,7 @@
                     <field
                         name="state"
                         widget="statusbar"
-                        statusbar_visible="draft,submit,done,cancel"
+                        statusbar_visible="draft,submit,done"
                     />
                 </header>
                 <sheet>
@@ -104,68 +104,35 @@
                             <div class="oe_read_only oe_right" name="buttons">
                                 <button
                                     type="object"
-                                    name="recompute_account_move_line"
-                                    string="Recompute"
+                                    name="action_compute_account_tax_filing_line"
+                                    string="Compute"
                                     states="draft"
                                     icon="fa-refresh"
                                 />
                             </div>
-                            <field name="line_ids" nolabel="1">
-                                <tree editable="bottom" delete="true" create="false">
-                                    <field name="account_id" readonly='True' />
-                                    <field name="move_id" readonly='True' />
-                                    <field name="name" readonly='True' />
-                                    <field name="date" readonly='True' />
-                                    <field
-                                        name="debit"
-                                        readonly='True'
-                                        sum="Total Debit"
-                                    />
-                                    <field
-                                        name="credit"
-                                        readonly='True'
-                                        sum="Total Credit"
-                                    />
-                                    <field name="company_currency_id" invisible="1" />
+                            <field
+                                name="tax_filing_line_ids"
+                                widget="section_and_note_one2many"
+                            >
+                                <tree editable="bottom" delete="1" create="0">
+                                    <field name="display_type" invisible="1" />
+                                    <field name="account_id" />
+                                    <field name="name" widget="section_and_note_text" />
+                                    <field name="move_line_id" />
+                                    <field name="date" />
+                                    <field name="debit" />
+                                    <field name="credit" />
                                     <field name="currency_id" invisible="1" />
                                     <field name="company_id" invisible="1" />
                                 </tree>
                             </field>
-                        </page>
-                        <page
-                            string="Adjust"
-                            attrs="{'invisible': [('has_adjustment', '=', False)]}"
-                        >
-                            <div class="oe_read_only oe_right" name="buttons">
-                                <button
-                                    type="object"
-                                    name="recompute_account_move_line"
-                                    string="Recompute"
-                                    states="draft"
-                                    icon="fa-refresh"
+                            <group class="oe_right">
+                                <field
+                                    name="amount_adjust"
+                                    attrs="{'invisible': [('has_adjustment', '=', False)]}"
                                 />
-                            </div>
-                            <field name="adjust_line_ids" nolabel="1">
-                                <tree editable="bottom" delete="true" create="false">
-                                    <field name="account_id" readonly='True' />
-                                    <field name="move_id" readonly='True' />
-                                    <field name="name" readonly='True' />
-                                    <field name="date" readonly='True' />
-                                    <field
-                                        name="debit"
-                                        readonly='True'
-                                        sum="Total Debit"
-                                    />
-                                    <field
-                                        name="credit"
-                                        readonly='True'
-                                        sum="Total Credit"
-                                    />
-                                    <field name="company_currency_id" invisible="1" />
-                                    <field name="currency_id" invisible="1" />
-                                    <field name="company_id" invisible="1" />
-                                </tree>
-                            </field>
+                                <field name="total_amount" />
+                            </group>
                         </page>
                     </notebook>
                     <div class="oe_chatter">
@@ -188,6 +155,7 @@
                 <field name="date_from" string="Start Date" widget="date" />
                 <field name="date_to" string="End Date" widget="date" />
                 <field name="partner_id" optional="hide" />
+                <field name="total_amount" />
                 <field name="company_id" groups="base.group_multi_company" />
                 <field
                     name="state"
