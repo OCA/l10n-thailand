@@ -6,11 +6,11 @@ from odoo import fields, models
 class AccountFiscalPosition(models.Model):
     _inherit = "account.fiscal.position"
 
-    def map_tax(self, taxes, product=None, partner=None):
+    def map_tax(self, taxes):
         """For non-VAT company, always result with no taxes"""
-        if self.env.company.novat or (partner and partner.novat):
+        if self.env.company.novat:
             return self.env["account.tax"]
-        return super().map_tax(taxes, product=product, partner=partner)
+        return super().map_tax(taxes)
 
 
 class ResPartner(models.Model):

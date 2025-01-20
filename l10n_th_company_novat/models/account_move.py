@@ -1,5 +1,6 @@
 # Copyright 2021 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
+
 from odoo import api, fields, models
 
 
@@ -8,9 +9,9 @@ class AccountMoveLine(models.Model):
     _inherit = ["account.move.line", "base.company.novat"]
     _tax_field_name = "tax_ids"
 
-    wtvat = fields.Float(
+    whtvat = fields.Float(
         string="Vat%",
-        compute="_compute_wtvat",
+        compute="_compute_whtvat",
         store=True,
         readonly=False,
         copy=True,
@@ -19,9 +20,9 @@ class AccountMoveLine(models.Model):
     )
 
     @api.depends("move_id.partner_id")
-    def _compute_wtvat(self):
+    def _compute_whtvat(self):
         if not self.env.company.novat:
-            self.update({"wtvat": False})
+            self.update({"whtvat": False})
             return
         for rec in self:
             partner = rec.move_id.partner_id
@@ -32,9 +33,9 @@ class AccountMoveLine(models.Model):
                     percent = self.env.company.account_sale_tax_id.amount
                 if move_type in ("in_invoice", "in_refund"):
                     percent = self.env.company.account_purchase_tax_id.amount
-            rec.wtvat = percent
+            rec.whtvat = percent
 
-    def _get_wt_base_amount(self, currency, currency_date):
-        """Use wtvat percent, to calculate the base_amout for WHT"""
-        price_subtotal = super()._get_wt_base_amount(currency, currency_date)
-        return price_subtotal * 100 / (100 + self.wtvat)
+    def _get_wht_base_amount(self, currency, currency_date):
+        """Use whtvat percent, to calculate the base_amout for WHT"""
+        price_subtotal = super()._get_wht_base_amount(currency, currency_date)
+        return price_subtotal * 100 / (100 + self.whtvat)

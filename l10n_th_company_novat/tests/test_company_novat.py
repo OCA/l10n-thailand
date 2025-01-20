@@ -2,10 +2,10 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
 from odoo.exceptions import UserError
-from odoo.tests.common import Form, SavepointCase
+from odoo.tests.common import Form, TransactionCase
 
 
-class TestCompanyNoVat(SavepointCase):
+class TestCompanyNoVat(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -20,18 +20,18 @@ class TestCompanyNoVat(SavepointCase):
         cls.account_account = cls.env["account.account"]
         cls.account_journal = cls.env["account.journal"]
         cls.account_wtax = cls.env["account.withholding.tax"]
-        cls.wt_account = cls.account_account.create(
+        cls.wht_account = cls.account_account.create(
             {
                 "code": "X152000",
                 "name": "Withholding Tax Account Test",
                 "user_type_id": cls.current_asset.id,
-                "wt_account": True,
+                "wht_account": True,
             }
         )
         cls.wt_1 = cls.account_wtax.create(
             {
                 "name": "Withholding Tax 1%",
-                "account_id": cls.wt_account.id,
+                "account_id": cls.wht_account.id,
                 "amount": 1,
             }
         )
@@ -137,10 +137,10 @@ class TestCompanyNoVat(SavepointCase):
             price_unit,
         )
         # Assign WT
-        invoice.invoice_line_ids.write({"wt_tax_id": self.wt_1.id})
-        # partner No-VAT, no special wtvat
-        wtvat = invoice.invoice_line_ids[:1].wtvat
-        self.assertEqual(wtvat, 0)
+        invoice.invoice_line_ids.write({"wht_tax_id": self.wt_1.id})
+        # partner No-VAT, no special whtvat
+        whtvat = invoice.invoice_line_ids[:1].whtvat
+        self.assertEqual(whtvat, 0)
         invoice.invoice_date = invoice.date
         invoice.action_post()
         # Payment by writeoff with withholding tax account
@@ -150,7 +150,8 @@ class TestCompanyNoVat(SavepointCase):
             "active_model": "account.move",
         }
         with Form(
-            self.account_payment_register.with_context(ctx), view=self.register_view_id
+            self.account_payment_register.with_context(**ctx),
+            view=self.register_view_id,
         ) as f:
             register_payment = f.save()
         # Based on untaxed amount = 107, the WHT1% amount is 1.07
@@ -172,10 +173,10 @@ class TestCompanyNoVat(SavepointCase):
             price_unit,
         )
         # Assign WT
-        invoice.invoice_line_ids.write({"wt_tax_id": self.wt_1.id})
-        # partner No-VAT, no special wtvat
-        wtvat = invoice.invoice_line_ids[:1].wtvat
-        self.assertEqual(wtvat, 7)
+        invoice.invoice_line_ids.write({"wht_tax_id": self.wt_1.id})
+        # partner No-VAT, no special whtvat
+        whtvat = invoice.invoice_line_ids[:1].whtvat
+        self.assertEqual(whtvat, 7)
         invoice.invoice_date = invoice.date
         invoice.action_post()
         # Payment by writeoff with withholding tax account
@@ -185,7 +186,8 @@ class TestCompanyNoVat(SavepointCase):
             "active_model": "account.move",
         }
         with Form(
-            self.account_payment_register.with_context(ctx), view=self.register_view_id
+            self.account_payment_register.with_context(**ctx),
+            view=self.register_view_id,
         ) as f:
             register_payment = f.save()
         # Based on untaxed amount = 100, the WHT1% amount is 1.07
