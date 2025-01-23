@@ -21,7 +21,7 @@
                         <div class="content-group">
                             <div class="row mt8">
                                 <label
-                                    string="Account From"
+                                    string="Sales Tax Account"
                                     for="account_from_id"
                                     class="col-lg-5 o_light_label"
                                 />
@@ -29,7 +29,7 @@
                             </div>
                             <div class="row">
                                 <label
-                                    string="Account To"
+                                    string="Purchase Tax Account"
                                     for="account_to_id"
                                     class="col-lg-5 o_light_label"
                                 />
@@ -37,7 +37,7 @@
                             </div>
                             <div class="row">
                                 <label
-                                    string="Account Adjust"
+                                    string="Adjust Tax Account"
                                     for="account_adjust_id"
                                     class="col-lg-5 o_light_label"
                                 />
