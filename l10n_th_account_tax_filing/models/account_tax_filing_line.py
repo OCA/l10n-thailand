@@ -4,7 +4,12 @@ from odoo import fields, models
 class AccountTaxFilingLine(models.Model):
     _name = "account.tax.filing.line"
     _description = "Account Tax Filing Line"
+    _order = "sequence"
 
+    sequence = fields.Integer(
+        default=10,
+        help="Used to order Asset Sub Status",
+    )
     name = fields.Char(
         string="Description",
         required=True,
@@ -15,7 +20,13 @@ class AccountTaxFilingLine(models.Model):
         string="Tax Filing",
         required=True,
         readonly=True,
-        ondelete="cascade",
+        index=True,
+        ondelete="restrict",
+    )
+    parent_state = fields.Selection(
+        related="filing_id.state",
+        readonly=True,
+        store=True,
     )
     company_id = fields.Many2one(
         comodel_name="res.company",
@@ -29,6 +40,7 @@ class AccountTaxFilingLine(models.Model):
     move_line_id = fields.Many2one(
         comodel_name="account.move.line",
         readonly=True,
+        index=True,
     )
     account_id = fields.Many2one(
         comodel_name="account.account",
@@ -37,19 +49,17 @@ class AccountTaxFilingLine(models.Model):
     debit = fields.Monetary(
         default=0.0,
         readonly=True,
-        currency_field="currency_id",
     )
     credit = fields.Monetary(
         default=0.0,
         readonly=True,
-        currency_field="currency_id",
     )
     date = fields.Date(
         readonly=True,
     )
     balance = fields.Monetary(
         default=0.0,
-        currency_field="currency_id",
+        readonly=True,
     )
     display_type = fields.Selection(
         selection=[("line_section", "Section"), ("line_note", "Note")],

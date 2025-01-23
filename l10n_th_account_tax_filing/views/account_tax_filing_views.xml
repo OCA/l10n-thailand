@@ -18,14 +18,21 @@
                         name="action_create_invoice"
                         type="object"
                         string="Create Invoice"
-                        states="submit"
                         class="oe_highlight"
+                        states="submit"
+                    />
+                    <button
+                        name="action_create_invoice"
+                        type="object"
+                        string="Create Invoice"
+                        class="oe_highlight"
+                        attrs="{'invisible': ['|', ('move_id', '!=', False), ('state', '!=', 'done')]}"
                     />
                     <button
                         name="action_draft"
                         type="object"
                         string="Set to Draft"
-                        states="submit,cancel"
+                        states="submit"
                     />
                     <button
                         name="action_cancel"
@@ -95,7 +102,6 @@
                         <group>
                             <field name="partner_id" />
                             <field name="move_id" invisible="1" />
-                            <field name="has_adjustment" invisible="1" />
                             <field name="move_type" invisible="1" />
                         </group>
                     </group>
@@ -127,10 +133,6 @@
                                 </tree>
                             </field>
                             <group class="oe_right">
-                                <field
-                                    name="amount_adjust"
-                                    attrs="{'invisible': [('has_adjustment', '=', False)]}"
-                                />
                                 <field name="total_amount" />
                             </group>
                         </page>
@@ -186,6 +188,11 @@
                     domain="[('state', '=', 'submit')]"
                 />
                 <filter string="Done" name="done" domain="[('state', '=', 'done')]" />
+                <filter
+                    string="Cancel"
+                    name="cancel"
+                    domain="[('state', '=', 'cancel')]"
+                />
                 <filter
                     string="State"
                     name="group_by_state"

@@ -4,10 +4,12 @@
 from odoo import fields, models
 
 
-class AccountMove(models.Model):
-    _inherit = "account.move"
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
 
     tax_filing_id = fields.Many2one(
         comodel_name="account.tax.filing",
         copy=False,
+        readonly=True,
+        index=True,
     )

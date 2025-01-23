@@ -1,7 +1,9 @@
 # Copyright 2025 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from collections import defaultdict
+
+from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -108,10 +110,6 @@ class AccountTaxFiling(models.Model):
         copy=False,
         check_company=True,
     )
-    has_adjustment = fields.Boolean(
-        copy=False,
-        readonly=True,
-    )
     amount_from = fields.Monetary(
         default=0.0,
         currency_field="company_currency_id",
@@ -132,7 +130,6 @@ class AccountTaxFiling(models.Model):
         readonly=True,
     )
     total_amount = fields.Monetary(
-        string="Total Invoice",
         currency_field="company_currency_id",
         readonly=True,
         compute="_compute_total_amount",
@@ -169,35 +166,20 @@ class AccountTaxFiling(models.Model):
     @api.depends("tax_filing_line_ids")
     def _compute_total_amount(self):
         for rec in self:
-            amount_from = abs(
-                sum(
-                    rec.tax_filing_line_ids.filtered(
-                        lambda line: line.account_id == rec.account_from_id
-                    ).mapped("balance")
-                )
-            )
-            amount_to = abs(
-                sum(
-                    rec.tax_filing_line_ids.filtered(
-                        lambda line: line.account_id == rec.account_to_id
-                    ).mapped("balance")
-                )
-            )
-            amount_adjust = abs(
-                sum(
-                    rec.tax_filing_line_ids.filtered(
-                        lambda line: line.account_id == rec.account_adjust_id
-                    ).mapped("balance")
-                )
-            )
-            rec.write(
-                {
-                    "amount_from": amount_from,
-                    "amount_to": amount_to,
-                    "amount_adjust": amount_adjust,
-                    "total_amount": (amount_from - amount_to) * -1,
-                }
-            )
+            balances = defaultdict(float)  # ใช้ float เพื่อสะสมค่า balance
+            for line in rec.tax_filing_line_ids.filtered(lambda l: not l.display_type):
+                balances[line.account_id] += line.balance
+            amount_from = abs(balances.get(rec.account_from_id, 0))
+            amount_to = abs(balances.get(rec.account_to_id, 0))
+            amount_adjust = abs(balances.get(rec.account_adjust_id, 0))
+            total_amount = (amount_from - amount_to) * -1
+            if amount_adjust != 0:
+                total_amount += amount_adjust
+
+            rec.amount_from = amount_from
+            rec.amount_to = amount_to
+            rec.amount_adjust = amount_adjust
+            rec.total_amount = total_amount
 
     @api.constrains("date_from", "date_to")
     def check_date_from_to(self):
@@ -206,105 +188,106 @@ class AccountTaxFiling(models.Model):
             if rec.date_from and rec.date_to and rec.date_from > rec.date_to:
                 raise UserError(_("Start Date must not be after End Date"))
 
+    def _get_account(self):
+        accounts = self.account_from_id + self.account_to_id + self.account_adjust_id
+        return accounts
+
+    def _get_section(self):
+        section = [("Journal Entries", 10), ("Invoice Lines", 30)]
+        return section
+
+    def _get_account_amount(self):
+        return [self.amount_from, self.amount_to, self.amount_adjust]
+
     def action_compute_account_tax_filing_line(self):
         # Clear all lines before recompute (if any)
         self.tax_filing_line_ids.unlink()
 
-        if self.account_adjust_id:
-            condition = "WHERE aml.account_id IN ({}, {}, {})".format(
-                self.account_from_id.id,
-                self.account_to_id.id,
-                self.account_adjust_id.id,
-            )
-        else:
-            condition = "WHERE aml.account_id IN ({}, {})".format(
-                self.account_from_id.id, self.account_to_id.id
-            )
+        accounts = self._get_account()
+
         query = """
             SELECT aml.id, aml.account_id, aml.name,
-                aml.date, aml.debit, aml.credit, aml.balance
+            aml.date, aml.debit, aml.credit, aml.balance
             FROM account_move_line aml
-            LEFT JOIN account_tax_filing_line filing_line ON filing_line.move_line_id = aml.id
-            LEFT JOIN account_move am ON am.id = aml.move_id
-            {condition}
-                AND aml.date BETWEEN %s AND %s
-                AND aml.parent_state = 'posted'
-                AND filing_line.id IS NULL
-                AND am.tax_filing_id IS NULL
-                AND aml.company_id = %s
-            """.format(
-            condition=condition
+            WHERE aml.account_id IN %s
+            AND aml.date BETWEEN %s AND %s
+            AND aml.parent_state = 'posted'
+            AND aml.tax_filing_id IS NULL
+            AND aml.company_id = %s
+            AND NOT EXISTS (
+                SELECT 1
+                FROM account_tax_filing_line filing_line
+                WHERE filing_line.move_line_id = aml.id
+                AND filing_line.parent_state != 'cancel'
+            )
+            """
+        self.env.cr.execute(
+            query,
+            (
+                tuple(accounts.ids),
+                self.date_from,
+                self.date_to,
+                self.company_id.id,
+            ),
         )
-        self.env.cr.execute(query, (self.date_from, self.date_to, self.company_id.id))
         result = self.env.cr.dictfetchall()
-        adjust_lines = [
-            {
-                "display_type": "line_section",
-                "name": "Journal Entries",
-                "filing_id": self.id,
-            }
+        self.tax_filing_line_ids = [
+            Command.create(
+                {
+                    "account_id": res["account_id"],
+                    "name": res["name"],
+                    "date": res["date"].strftime("%Y-%m-%d"),
+                    "debit": res["debit"],
+                    "credit": res["credit"],
+                    "move_line_id": res["id"],
+                    "balance": res["balance"],
+                    "sequence": 20
+                    if res["account_id"] == self.account_adjust_id.id
+                    else 40,
+                }
+            )
+            for res in result
         ]
-        lines = [
-            {
-                "display_type": "line_section",
-                "name": "Invoice Lines",
-                "filing_id": self.id,
-            }
-        ]
-        for res in result:
-            line_data = {
-                "account_id": res["account_id"],
-                "name": res["name"],
-                "date": res["date"].strftime("%Y-%m-%d"),
-                "debit": res["debit"],
-                "credit": res["credit"],
-                "move_line_id": res["id"],
-                "balance": res["balance"],
-                "filing_id": self.id,
-            }
-            if res["account_id"] == self.account_adjust_id.id:
-                adjust_lines.append(line_data)
-            else:
-                lines.append(line_data)
+        if self.tax_filing_line_ids:
+            self.tax_filing_line_ids = [
+                Command.create(
+                    {
+                        "display_type": "line_section",
+                        "name": name,
+                        "sequence": sequence,
+                        "filing_id": self.id,
+                    }
+                )
+                for name, sequence in self._get_section()
+            ]
 
-        if len(adjust_lines) == 1:
-            adjust_lines.pop(0)
-            lines.pop(0)
-
-        self.has_adjustment = bool(adjust_lines)
-        self.tax_filing_line_ids.create(adjust_lines + lines)
-
-    def prepare_invoice_line(self, account, amount, sign):
+    def prepare_invoice_line(self, account, amount, sign, tax_filing_id):
         return {
             "name": account.name,
             "account_id": account.id,
             "price_unit": amount * sign,
+            "tax_filing_id": tax_filing_id,
         }
 
     def create_invoice_line(self, move_type):
         # toggle amount with sign
         sign = -1 if move_type == "out_invoice" else 1
         invoice_lines = []
-        if self.amount_from > 0:
-            invoice_lines.append(
-                (
-                    0,
-                    0,
-                    self.prepare_invoice_line(
-                        self.account_from_id, self.amount_from, sign
-                    ),
+        account_amount = self._get_account_amount()
+        index = 0
+        for account in self._get_account():
+            if account_amount[index] > 0:
+                invoice_lines.append(
+                    Command.create(
+                        self.prepare_invoice_line(
+                            account,
+                            account_amount[index],
+                            sign if account == self.account_from_id else sign * -1,
+                            self.id,
+                        ),
+                    )
                 )
-            )
-        if self.amount_to > 0:
-            invoice_lines.append(
-                (
-                    0,
-                    0,
-                    self.prepare_invoice_line(
-                        self.account_to_id, self.amount_to, sign * -1
-                    ),
-                )
-            )
+            index += 1
         return invoice_lines
 
     def create_invoice(self, move_type):
@@ -313,52 +296,50 @@ class AccountTaxFiling(models.Model):
             "move_type": move_type,
             "partner_id": self.partner_id.id,
             "invoice_date": fields.Date.today(),
-            "tax_filing_id": self.id,
             "invoice_line_ids": self.create_invoice_line(move_type),
         }
         return invoice
 
-    def prepare_account_move_line(self, account, debit, credit):
+    def prepare_account_move_line(self, account, debit, credit, tax_filing_id=False):
         return {
             "name": account.name,
             "account_id": account.id,
             "partner_id": self.partner_id.id,
             "debit": debit,
             "credit": credit,
+            "tax_filing_id": tax_filing_id,
         }
 
     def create_account_move_line(self):
         amount = self.amount_from - self.amount_to
+        diff = self.amount_adjust - amount
         lines = []
-        if self.amount_from > 0:
-            lines.append(
-                (
-                    0,
-                    0,
-                    self.prepare_account_move_line(
-                        self.account_from_id, self.amount_from, 0
-                    ),
+        account_amount = self._get_account_amount()
+        index = 0
+        for account in self._get_account():
+            if account_amount[index] > 0:
+                lines.append(
+                    Command.create(
+                        self.prepare_account_move_line(
+                            account,
+                            abs(account_amount[index])
+                            if account == self.account_from_id
+                            else 0,
+                            0
+                            if account == self.account_from_id
+                            else abs(account_amount[index]),
+                            self.id,
+                        ),
+                    )
                 )
-            )
-        if self.amount_to > 0:
+            index += 1
+        if self.account_adjust_id and diff != 0:
             lines.append(
-                (
-                    0,
-                    0,
-                    self.prepare_account_move_line(
-                        self.account_to_id, 0, self.amount_to
-                    ),
-                )
-            )
-        if self.account_adjust_id and amount != 0:
-            lines.append(
-                (
-                    0,
-                    0,
+                Command.create(
                     self.prepare_account_move_line(
                         self.account_adjust_id,
-                        0 if amount > 0 else abs(amount),
-                        abs(amount) if amount > 0 else 0,
+                        abs(diff) if diff > 0 else 0,
+                        0 if diff > 0 else abs(diff),
                     ),
                 )
             )
@@ -369,7 +350,6 @@ class AccountTaxFiling(models.Model):
             "move_type": "entry",
             "ref": self.name,
             "invoice_date": fields.Date.today(),
-            "tax_filing_id": self.id,
             "line_ids": self.create_account_move_line(),
         }
         return journal_entry
@@ -392,21 +372,14 @@ class AccountTaxFiling(models.Model):
 
     def action_create_invoice(self):
         for record in self:
-            if record.state != "submit":
-                raise UserError(
-                    _("Only submitted tax filing can be used to create invoice")
-                )
-            diff = record.total_amount * -1
+            if record.state not in ["submit", "done"]:
+                raise UserError(_("Can not create invoice in state %s", record.state))
+            diff = record.total_amount
             move_type = "entry"
-
-            if record.account_adjust_id:
-                if diff > 0:
-                    if diff - record.amount_adjust > 0:
-                        move_type = "in_invoice"
-            else:
-                if diff > 0:
-                    move_type = "in_invoice"
-                elif diff < 0:
+            if diff < 0:
+                move_type = "in_invoice"
+            elif diff > 0:
+                if not record.account_adjust_id:
                     move_type = "out_invoice"
 
             if move_type != "entry":
@@ -426,6 +399,4 @@ class AccountTaxFiling(models.Model):
         return self.write({"state": "draft"})
 
     def action_cancel(self):
-        # Clear all lines before recompute (if any)
-        self.tax_filing_line_ids.unlink()
         return self.write({"state": "cancel"})
