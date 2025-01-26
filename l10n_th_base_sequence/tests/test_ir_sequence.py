@@ -1,5 +1,4 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
-
 from freezegun import freeze_time
 
 from odoo.exceptions import UserError
@@ -7,10 +6,6 @@ from odoo.tests.common import TransactionCase
 
 
 class TestBaseSequence(TransactionCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-
     def test_ir_sequence_invalid(self):
         """Create an ir.sequence record with invalid prefix/suffix."""
         seq = self.env["ir.sequence"].create(
