@@ -1,15 +1,10 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
-
 from freezegun import freeze_time
 
-from odoo.tests.common import Form, TransactionCase
+from odoo.tests.common import TransactionCase
 
 
 class TestIrSequenceDateRangePreviewStandard(TransactionCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-
     @freeze_time("2001-02-01")
     def test_ir_sequence_date_range_preview(self):
         """Create an ir.sequence record."""
@@ -47,9 +42,9 @@ class TestIrSequenceDateRangePreviewStandard(TransactionCase):
         self.assertEqual(seq.date_range_ids[1].preview, "test-02/01/01-0042-02/01/01")
 
         # Check change sequence padding, preview should change too
-        with Form(seq) as s:
-            s.padding = 5
-            s.implementation = "no_gap"
+        seq.write({"padding": 5, "implementation": "no_gap"})
+        self.env.flush_all()
+        self.env.clear()  # discard cache and pending recomputations
         self.assertEqual(seq.date_range_ids[0].preview, "test-01/01/01-00314-01/01/01")
         self.assertEqual(seq.date_range_ids[1].preview, "test-02/01/01-00042-02/01/01")
         next_number = seq.date_range_ids[0]._next()
