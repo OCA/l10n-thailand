@@ -369,40 +369,49 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:83c0f2fc5fecaaa0ea5d1501aaf9575e75f64820b68df5a9066901d97854eb27
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-thailand/tree/16.0/l10n_th_base_sequence"><img alt="OCA/l10n-thailand" src="https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-thailand-16-0/l10n-thailand-16-0-l10n_th_base_sequence"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>This module refactor the <cite>ir.sequence</cite> allowing more legends to be added with minimal code duplication and
-adding <cite>preview</cite> fields on both <cite>ir.sequence</cite> and <cite>ir.sequence.date_range</cite> models.
-the <cite>preview</cite> field is a computed fields that only visible in edit-mode of the form view works with <cite>range_</cite> and <cite>range_end_</cite>.
-It helps users to check and validate the prefix, suffix, and padding configuration easily without a need to actually generate an actual document.</p>
-<p>Adding more legends to <cite>ir.sequence</cite> requires an extension of an inner method <cite>_interpolation_dict()</cite>
-of the <cite>_get_prefix_suffix()</cite> method. An extension of an inner method is impractical,
-therefore this module override the <cite>_get_prefix_suffix()</cite> method
-by moving the inner private method <cite>_interpolation_dict()</cite> to a private method.
-Therefore, this allows another module to add more legends to the <cite>ir.sequence</cite>.</p>
-<p>This modules works as a base module to other modules to add more legends to <cite>ir.sequence</cite>.
-and extends the <cite>ir.sequence</cite> allowing <cite>range_end_</cite> , <cite>range_period_</cite> and <cite>qoy</cite> legends. It adds the following legends:</p>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-thailand/tree/17.0/l10n_th_base_sequence"><img alt="OCA/l10n-thailand" src="https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-thailand-17-0/l10n-thailand-17-0-l10n_th_base_sequence"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&amp;target_branch=17.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p>This module refactor the ir.sequence allowing more legends to be added
+with minimal code duplication and adding preview fields on both
+ir.sequence and ir.sequence.date_range models. the preview field is a
+computed fields that only visible in edit-mode of the form view works
+with range_ and range_end_. It helps users to check and validate the
+prefix, suffix, and padding configuration easily without a need to
+actually generate an actual document.</p>
+<p>Adding more legends to ir.sequence requires an extension of an inner
+method _interpolation_dict() of the _get_prefix_suffix() method. An
+extension of an inner method is impractical, therefore this module
+override the _get_prefix_suffix() method by moving the inner private
+method _interpolation_dict() to a private method. Therefore, this
+allows another module to add more legends to the ir.sequence.</p>
+<p>This modules works as a base module to other modules to add more legends
+to ir.sequence. and extends the ir.sequence allowing range_end_ ,
+range_period_ and qoy legends. It adds the following legends:</p>
 <ul class="simple">
-<li>The end of <cite>date_range</cite> year with century: <cite>%(range_end_year)s</cite></li>
-<li>The end of <cite>date_range</cite> year without century: <cite>%(range_end_y)s</cite></li>
-<li>The end of <cite>date_range</cite> month: <cite>%(range_end_month)s</cite></li>
-<li>The end of <cite>date_range</cite> day: <cite>%(range_end_day)s</cite></li>
-<li>The end of <cite>date_range</cite> day of the year: <cite>%(range_end_doy)s</cite></li>
-<li>The end of <cite>date_range</cite> week of the year: <cite>%(range_end_woy)s</cite></li>
-<li>The end of <cite>date_range</cite> weekday: <cite>%(range_end_weekday)s</cite></li>
-<li>The end of <cite>date_range</cite> hour in 24-hour: <cite>%(range_end_h24)s</cite></li>
-<li>The end of <cite>date_range</cite> hour in 12-hour: <cite>%(range_end_h12)s</cite></li>
-<li>The end of <cite>date_range</cite> minute: <cite>%(range_end_min)s</cite></li>
-<li>The end of <cite>date_range</cite> second: <cite>%(range_end_sec)s</cite></li>
-<li>The period of <cite>date_range</cite> month: <cite>%(range_period_month)s</cite></li>
-<li>Quarter of the Year: <cite>%(qoy)s</cite></li>
-<li>The begin of <cite>date_range</cite> quarter of the Year: <cite>%(range_qoy)s</cite></li>
-<li>The end of <cite>date_range</cite> quarter of the Year: <cite>%(range_end_qoy)s</cite></li>
-<li>Current Buddhist Era (BE) year with century: <cite>%(year_be)s</cite></li>
-<li>Current Buddhist Era (BE) year without century: <cite>%(y_be)s</cite></li>
-<li>The begin of <cite>date_range</cite> Buddhist Era (BE) year with century: <cite>%(range_year_be)s</cite></li>
-<li>The begin of <cite>date_range</cite> Buddhist Era (BE) year without century: <cite>%(range_y_be)s</cite></li>
-<li>The end of <cite>date_range</cite> Buddhist Era (BE) year with century: <cite>%(range_end_year_be)s</cite></li>
-<li>The end of <cite>date_range</cite> Buddhist Era (BE) year without century: <cite>%(range_end_y_be)s</cite></li>
+<li>The end of date_range year with century: %(range_end_year)s</li>
+<li>The end of date_range year without century: %(range_end_y)s</li>
+<li>The end of date_range month: %(range_end_month)s</li>
+<li>The end of date_range day: %(range_end_day)s</li>
+<li>The end of date_range day of the year: %(range_end_doy)s</li>
+<li>The end of date_range week of the year: %(range_end_woy)s</li>
+<li>The end of date_range weekday: %(range_end_weekday)s</li>
+<li>The end of date_range hour in 24-hour: %(range_end_h24)s</li>
+<li>The end of date_range hour in 12-hour: %(range_end_h12)s</li>
+<li>The end of date_range minute: %(range_end_min)s</li>
+<li>The end of date_range second: %(range_end_sec)s</li>
+<li>The period of date_range month: %(range_period_month)s</li>
+<li>Quarter of the Year: %(qoy)s</li>
+<li>The begin of date_range quarter of the Year: %(range_qoy)s</li>
+<li>The end of date_range quarter of the Year: %(range_end_qoy)s</li>
+<li>Current Buddhist Era (BE) year with century: %(year_be)s</li>
+<li>Current Buddhist Era (BE) year without century: %(y_be)s</li>
+<li>The begin of date_range Buddhist Era (BE) year with century:
+%(range_year_be)s</li>
+<li>The begin of date_range Buddhist Era (BE) year without century:
+%(range_y_be)s</li>
+<li>The end of date_range Buddhist Era (BE) year with century:
+%(range_end_year_be)s</li>
+<li>The end of date_range Buddhist Era (BE) year without century:
+%(range_end_y_be)s</li>
 </ul>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
@@ -421,7 +430,7 @@ and extends the <cite>ir.sequence</cite> allowing <cite>range_end_</cite> , <cit
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-thailand/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-<a class="reference external" href="https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_base_sequence%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<a class="reference external" href="https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_base_sequence%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
@@ -457,7 +466,7 @@ mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
 <p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainers</a>:</p>
 <p><a class="reference external image-reference" href="https://github.com/sansirit"><img alt="sansirit" src="https://github.com/sansirit.png?size=40px" /></a> <a class="reference external image-reference" href="https://github.com/Saran440"><img alt="Saran440" src="https://github.com/Saran440.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-thailand/tree/16.0/l10n_th_base_sequence">OCA/l10n-thailand</a> project on GitHub.</p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-thailand/tree/17.0/l10n_th_base_sequence">OCA/l10n-thailand</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
 </div>
 </div>
