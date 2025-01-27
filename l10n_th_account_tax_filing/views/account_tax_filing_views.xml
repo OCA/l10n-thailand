@@ -38,7 +38,7 @@
                         name="action_cancel"
                         type="object"
                         string="Cancel"
-                        states="draft"
+                        states="draft,done"
                     />
                     <field
                         name="state"
@@ -132,17 +132,23 @@
                                     <field name="company_id" invisible="1" />
                                 </tree>
                             </field>
-                            <group class="oe_right">
-                                <field name="total_amount" />
+                            <group class="oe_subtotal_footer">
+                                <field name="amount_from" string="Sales Amount" />
+                                <field name="amount_to" string="Purchases Amount" />
+                                <field name="amount_adjust" string="Adjusted Amount" />
+                                <field
+                                    name="total_amount"
+                                    class="oe_subtotal_footer_separator"
+                                />
                             </group>
                         </page>
                     </notebook>
-                    <div class="oe_chatter">
+                </sheet>
+                <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers" />
                         <field name="activity_ids" widget="mail_activity" />
                         <field name="message_ids" widget="mail_thread" />
                     </div>
-                </sheet>
             </form>
         </field>
     </record>
@@ -162,9 +168,9 @@
                 <field
                     name="state"
                     widget="badge"
-                    decoration-success="state == 'done'"
+                    decoration-success="state in 'done,submit'"
                     decoration-danger="state == 'cancel'"
-                    decoration-info="state == 'submit'"
+                    decoration-info="state == 'draft'"
                 />
             </tree>
         </field>

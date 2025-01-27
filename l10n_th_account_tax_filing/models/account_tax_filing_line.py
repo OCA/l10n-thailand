@@ -1,14 +1,17 @@
+# Copyright 2025 Ecosoft Co., Ltd. (http://ecosoft.co.th)
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
 from odoo import fields, models
 
 
 class AccountTaxFilingLine(models.Model):
     _name = "account.tax.filing.line"
     _description = "Account Tax Filing Line"
-    _order = "sequence"
+    _order = "sequence, account_id, date, balance"
 
     sequence = fields.Integer(
         default=10,
-        help="Used to order Asset Sub Status",
+        help="Used to order tax filing lines",
     )
     name = fields.Char(
         string="Description",

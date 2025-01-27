@@ -111,28 +111,25 @@ class AccountTaxFiling(models.Model):
         check_company=True,
     )
     amount_from = fields.Monetary(
-        default=0.0,
         currency_field="company_currency_id",
-        copy=False,
-        readonly=True,
+        compute="_compute_total_amount",
+        store=True,
     )
     amount_to = fields.Monetary(
-        default=0.0,
         currency_field="company_currency_id",
-        copy=False,
-        readonly=True,
+        compute="_compute_total_amount",
+        store=True,
     )
     amount_adjust = fields.Monetary(
         string="Total Adjust",
-        default=0.0,
         currency_field="company_currency_id",
-        copy=False,
-        readonly=True,
+        compute="_compute_total_amount",
+        store=True,
     )
     total_amount = fields.Monetary(
         currency_field="company_currency_id",
-        readonly=True,
         compute="_compute_total_amount",
+        store=True,
     )
     tax_filing_line_ids = fields.One2many(
         comodel_name="account.tax.filing.line",
@@ -249,6 +246,7 @@ class AccountTaxFiling(models.Model):
             for res in result
         ]
         if self.tax_filing_line_ids:
+            section_type = self._get_section()
             self.tax_filing_line_ids = [
                 Command.create(
                     {
@@ -258,7 +256,7 @@ class AccountTaxFiling(models.Model):
                         "filing_id": self.id,
                     }
                 )
-                for name, sequence in self._get_section()
+                for name, sequence in section_type
             ]
 
     def prepare_invoice_line(self, account, amount, sign, tax_filing_id):
