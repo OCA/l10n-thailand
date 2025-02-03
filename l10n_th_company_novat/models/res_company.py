@@ -25,6 +25,7 @@ class BaseCompanyNoVAT(models.AbstractModel):
             self.env.company.novat
             and self._tax_field_name in vals
             and res.mapped(self._tax_field_name)
+            and not self.env.context.get("skip_check_taxes")
         ):
             raise UserError(
                 _("Taxes not allowed for Non-VAT registered company, %s")
@@ -38,6 +39,7 @@ class BaseCompanyNoVAT(models.AbstractModel):
             self.env.company.novat
             and self._tax_field_name in vals
             and self.mapped(self._tax_field_name)
+            and not self.env.context.get("skip_check_taxes")
         ):
             raise UserError(
                 _("Taxes not allowed for Non-VAT registered company, %s")
