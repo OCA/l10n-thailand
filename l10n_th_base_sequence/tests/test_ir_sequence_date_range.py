@@ -43,9 +43,9 @@ class TestIrSequenceDateRangePreviewStandard(TransactionCase):
 
         # Check change sequence padding, preview should change too
         seq.write({"padding": 5, "implementation": "no_gap"})
-        self.env.flush_all()
         self.env.clear()  # discard cache and pending recomputations
         self.assertEqual(seq.date_range_ids[0].preview, "test-01/01/01-00314-01/01/01")
         self.assertEqual(seq.date_range_ids[1].preview, "test-02/01/01-00042-02/01/01")
         next_number = seq.date_range_ids[0]._next()
         self.assertEqual(next_number, "test-01/02/01-00314-01/02/01")
+        self.assertFalse(seq.preview)

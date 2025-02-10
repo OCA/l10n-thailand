@@ -27,11 +27,11 @@ class IrSequence(models.Model):
         "implementation",
     )
     def _compute_preview(self):
-        if self.use_date_range:
-            self.date_range_ids._compute_preview()
-            self.preview = None
-        else:
-            self.preview = self.get_next_char(self.number_next_actual)
+        for rec in self:
+            if rec.use_date_range:
+                rec.preview = False
+            else:
+                rec.preview = rec.get_next_char(rec.number_next_actual)
 
     def _interpolation_dict(self, date=None, date_range=None):
         """

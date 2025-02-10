@@ -10,7 +10,12 @@ class IrSequenceDateRange(models.Model):
 
     preview = fields.Char(compute="_compute_preview")
 
-    @api.depends("date_to", "date_from", "number_next_actual")
+    @api.depends(
+        "date_to",
+        "date_from",
+        "number_next_actual",
+        "sequence_id.use_date_range",
+    )
     def _compute_preview(self):
         for record in self:
             record.preview = record.with_context(

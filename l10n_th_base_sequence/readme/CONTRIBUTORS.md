@@ -2,3 +2,4 @@
   - Sansiri Tanachutiwat \<sansiri.t@tggs.kmutnb.ac.th\>
 - [Ecosoft](http://ecosoft.co.th):
   - Saran Lim. \<saranl@ecosoft.co.th\>
+- Baptiste P \<swano@ik.me\>
