@@ -108,6 +108,8 @@ Contributors
 
   - Saran Lim. <saranl@ecosoft.co.th>
 
+- Baptiste P <swano@ik.me>
+
 Maintainers
 -----------
 
