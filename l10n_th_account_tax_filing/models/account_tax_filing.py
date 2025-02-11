@@ -126,6 +126,12 @@ class AccountTaxFiling(models.Model):
         compute="_compute_total_amount",
         store=True,
     )
+    diff_amount = fields.Monetary(
+        string="Difference amount",
+        currency_field="company_currency_id",
+        compute="_compute_total_amount",
+        store=True,
+    )
     total_amount = fields.Monetary(
         currency_field="company_currency_id",
         compute="_compute_total_amount",
@@ -169,6 +175,7 @@ class AccountTaxFiling(models.Model):
             amount_from = abs(balances.get(rec.account_from_id, 0))
             amount_to = abs(balances.get(rec.account_to_id, 0))
             amount_adjust = abs(balances.get(rec.account_adjust_id, 0))
+            diff_amount = amount_adjust - (amount_from - amount_to)
             total_amount = (amount_from - amount_to) * -1
             if amount_adjust != 0:
                 total_amount += amount_adjust
@@ -176,6 +183,7 @@ class AccountTaxFiling(models.Model):
             rec.amount_from = amount_from
             rec.amount_to = amount_to
             rec.amount_adjust = amount_adjust
+            rec.diff_amount = diff_amount
             rec.total_amount = total_amount
 
     @api.constrains("date_from", "date_to")
@@ -192,9 +200,6 @@ class AccountTaxFiling(models.Model):
     def _get_section(self):
         section = [("Journal Entries", 10), ("Invoice Lines", 30)]
         return section
-
-    def _get_account_amount(self):
-        return [self.amount_from, self.amount_to, self.amount_adjust]
 
     def action_compute_account_tax_filing_line(self):
         # Clear all lines before recompute (if any)
@@ -259,33 +264,48 @@ class AccountTaxFiling(models.Model):
                 for name, sequence in section_type
             ]
 
-    def prepare_invoice_line(self, account, amount, sign, tax_filing_id):
+    def prepare_invoice_line(self, account, amount, sign):
         return {
             "name": account.name,
             "account_id": account.id,
             "price_unit": amount * sign,
-            "tax_filing_id": tax_filing_id,
+            "tax_filing_id": self.id,
         }
 
     def create_invoice_line(self, move_type):
         # toggle amount with sign
         sign = -1 if move_type == "out_invoice" else 1
         invoice_lines = []
-        account_amount = self._get_account_amount()
-        index = 0
-        for account in self._get_account():
-            if account_amount[index] > 0:
-                invoice_lines.append(
-                    Command.create(
-                        self.prepare_invoice_line(
-                            account,
-                            account_amount[index],
-                            sign if account == self.account_from_id else sign * -1,
-                            self.id,
-                        ),
+        if self.account_from_id and self.amount_from > 0:
+            invoice_lines.append(
+                Command.create(
+                    self.prepare_invoice_line(
+                        self.account_from_id,
+                        self.amount_from,
+                        sign,
                     )
                 )
-            index += 1
+            )
+        if self.account_to_id and self.amount_to > 0:
+            invoice_lines.append(
+                Command.create(
+                    self.prepare_invoice_line(
+                        self.account_to_id,
+                        self.amount_to,
+                        sign * -1,
+                    )
+                )
+            )
+        if self.account_adjust_id and self.amount_adjust > 0:
+            invoice_lines.append(
+                Command.create(
+                    self.prepare_invoice_line(
+                        self.account_adjust_id,
+                        self.amount_adjust,
+                        sign * -1,
+                    )
+                )
+            )
         return invoice_lines
 
     def create_invoice(self, move_type):
@@ -309,35 +329,47 @@ class AccountTaxFiling(models.Model):
         }
 
     def create_account_move_line(self):
-        amount = self.amount_from - self.amount_to
-        diff = self.amount_adjust - amount
         lines = []
-        account_amount = self._get_account_amount()
-        index = 0
-        for account in self._get_account():
-            if account_amount[index] > 0:
-                lines.append(
-                    Command.create(
-                        self.prepare_account_move_line(
-                            account,
-                            abs(account_amount[index])
-                            if account == self.account_from_id
-                            else 0,
-                            0
-                            if account == self.account_from_id
-                            else abs(account_amount[index]),
-                            self.id,
-                        ),
-                    )
+        if self.account_from_id and self.amount_from > 0:
+            lines.append(
+                Command.create(
+                    self.prepare_account_move_line(
+                        self.account_from_id,
+                        abs(self.amount_from),
+                        0,
+                        self.id,
+                    ),
                 )
-            index += 1
-        if self.account_adjust_id and diff != 0:
+            )
+        if self.account_to_id and self.amount_to > 0:
+            lines.append(
+                Command.create(
+                    self.prepare_account_move_line(
+                        self.account_to_id,
+                        0,
+                        abs(self.amount_to),
+                        self.id,
+                    ),
+                )
+            )
+        if self.account_adjust_id and self.amount_adjust > 0:
             lines.append(
                 Command.create(
                     self.prepare_account_move_line(
                         self.account_adjust_id,
-                        abs(diff) if diff > 0 else 0,
-                        0 if diff > 0 else abs(diff),
+                        0,
+                        abs(self.amount_adjust),
+                        self.id,
+                    ),
+                )
+            )
+        if self.account_adjust_id and self.diff_amount != 0:
+            lines.append(
+                Command.create(
+                    self.prepare_account_move_line(
+                        self.account_adjust_id,
+                        abs(self.diff_amount) if self.diff_amount > 0 else 0,
+                        0 if self.diff_amount > 0 else abs(self.diff_amount),
                     ),
                 )
             )
