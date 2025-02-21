@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
 import requests
-from zeep import Client, Transport
+from lxml import etree
 
 from odoo import _, models
 from odoo.exceptions import ValidationError
@@ -16,46 +16,69 @@ class ResPartner(models.Model):
         if not (tax_id and branch):
             raise ValidationError(_("Please provide Tax ID and Branch"))
 
+        # API Configuration
         base_url = (
             self.env["ir.config_parameter"].sudo().get_param("l10n_th.tax_address_api")
         )
+        querystring = {"wsdl": ""}
+        headers = {"content-type": "application/soap+xml; charset=utf-8"}
 
-        # Setting up the session and client
+        # Prepare SOAP payload
+        payload = (
+            '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" '
+            'xmlns:vat="https://rdws.rd.go.th/serviceRD3/vatserviceRD3">'
+            "<soap:Header/>"
+            "<soap:Body>"
+            "<vat:Service>"
+            "<vat:username>anonymous</vat:username>"
+            "<vat:password>anonymous</vat:password>"
+            "<vat:TIN>{}</vat:TIN>"
+            "<vat:Name></vat:Name>"
+            "<vat:ProvinceCode>0</vat:ProvinceCode>"
+            "<vat:BranchNumber>{}</vat:BranchNumber>"
+            "<vat:AmphurCode>0</vat:AmphurCode>"
+            "</vat:Service>"
+            "</soap:Body>"
+            "</soap:Envelope>"
+        ).format(tax_id, branch)
+
+        # Setup session with SSL verification disabled
         session = requests.Session()
-        session.verify = True
-        transport = Transport(session=session)
-        client = Client(base_url, transport=transport)
+        session.verify = False
 
-        # Calling the web service
         try:
-            result = client.service.Service(
-                username="anonymous",
-                password="anonymous",
-                TIN=tax_id,
-                ProvinceCode=0,
-                BranchNumber=int(branch.isnumeric() and branch or "0"),
-                AmphurCode=0,
+            # Make the API request
+            response = session.post(
+                base_url, data=payload, headers=headers, params=querystring
             )
-        except Exception as e:
-            raise ValidationError(_("Failed to call web service: %s") % str(e)) from e
+            response.raise_for_status()  # Raise exception for HTTP errors
 
-        # Check if result contains error message
-        if hasattr(result, "vmsgerr") and result.vmsgerr:
-            raise ValidationError(", ".join(result.vmsgerr["anyType"]))
+            # Parse XML response
+            result = etree.fromstring(response.content)
 
-        # Convert result to dict
-        data = {}
-        for key in result:
-            value = result[key]
-            if value and "anyType" in value:
-                any_type_list = value["anyType"]
-                data[key] = any_type_list[0] if any_type_list else None
-            else:
-                data[key] = value
+            # Process response data
+            data = {}
+            value = False
+            for element in result.iter():
+                tag = etree.QName(element).localname
+                if not value and tag[:1] == "v":
+                    value = tag
+                    continue
+                if value and tag == "anyType":
+                    data[value] = element.text.strip()
+                value = False
 
-        return self.finalize_address_dict(data)
+            if data.get("vmsgerr"):
+                raise ValidationError(_(data.get("vmsgerr")))
+
+            return self.finalize_address_dict(data)
+
+        except requests.exceptions.RequestException as e:
+            raise ValidationError(_("Request failed: %s") % str(e)) from e
 
     def finalize_address_dict(self, data):
+        """Final processing of the received address data."""
+
         def get_part(data, key, value):
             return (
                 data.get(key, "-") != "-"
@@ -68,7 +91,6 @@ class ResPartner(models.Model):
             "vFloorNumber": "ชั้น",
             "vVillageName": "หมู่บ้าน",
             "vRoomNumber": "ห้อง",
-            # "vHouseNumber": "เลขที่",
             "vMooNumber": "หมู่ที่",
             "vSoiName": "ซอย",
             "vStreetName": "ถนน",
@@ -76,9 +98,9 @@ class ResPartner(models.Model):
             "vAmphur": "อ.",
             "vProvince": "จ.",
         }
-        name = "{} {}".format(data.get("vtitleName"), data.get("vName"))
-        if data.get("vSurname", "-") != "-":
-            name = "{} {}".format(name, data["vSurname"])
+        name = f"{data.get('vBranchTitleName')} {data.get('vBranchName')}"
+        if "vSurname" in data and data["vSurname"] not in ("-", "", None):
+            name = f"{name} {data['vSurname']}"
         house = data.get("vHouseNumber", "")
         village = get_part(data, "vVillageName", "%s %s")
         soi = get_part(data, "vSoiName", "%s %s")
@@ -88,21 +110,22 @@ class ResPartner(models.Model):
         room = get_part(data, "vRoomNumber", "%s %s")
         street = get_part(data, "vStreetName", "%s%s")
         thambon = get_part(data, "vThambol", "%s%s")
-        get_part(data, "vAmphur", "%s%s")
+        amphur = get_part(data, "vAmphur", "%s%s")
         province = get_part(data, "vProvince", "%s%s")
         postal = data.get("vPostCode", "")
 
         if province == "จ.กรุงเทพมหานคร":
-            thambon = data.get("vThambol") and "แขวง%s" % data["vThambol"] or ""
-            amphur = data.get("vAmphur") and "เขต%s" % data["vAmphur"] or ""
-            province = data.get("vProvince") and "%s" % data["vProvince"] or ""
-
-        # Convert province name to state_id
-        province_id = self.env["res.country.state"].search([("name", "=", province)])
+            thambon = data.get("vThambol") and f"แขวง{data['vThambol']}" or ""
+            amphur = data.get("vAmphur") and f"เขต{data['vAmphur']}" or ""
+            province = data.get("vProvince") and f"{data['vProvince']}" or ""
 
         address_parts = filter(
             lambda x: x != "", [house, village, soi, moo, building, floor, room, street]
         )
+
+        # Convert province name to state_id
+        province_id = self.env["res.country.state"].search([("name", "=", province)])
+
         return {
             "company_type": "company",
             "name_company": name,
