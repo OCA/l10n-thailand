@@ -19,13 +19,6 @@ msgid "Contact"
 msgstr ""
 
 #. module: l10n_th_tax_address
-#. odoo-python
-#: code:addons/l10n_th_tax_address/models/res_partner.py:0
-#, python-format
-msgid "Failed to call web service: %s"
-msgstr ""
-
-#. module: l10n_th_tax_address
 #: model_terms:ir.ui.view,arch_db:l10n_th_tax_address.view_partner_form
 msgid "Get Address"
 msgstr ""
@@ -35,4 +28,11 @@ msgstr ""
 #: code:addons/l10n_th_tax_address/models/res_partner.py:0
 #, python-format
 msgid "Please provide Tax ID and Branch"
+msgstr ""
+
+#. module: l10n_th_tax_address
+#. odoo-python
+#: code:addons/l10n_th_tax_address/models/res_partner.py:0
+#, python-format
+msgid "Request failed: %s"
 msgstr ""
