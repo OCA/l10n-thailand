@@ -170,20 +170,22 @@ class HrExpenseSheet(models.Model):
         }
 
     @api.model
-    def create(self, vals):
-        sheet = super().create(vals)
+    def _create_pr_expense(self, sheets, vals):
         if "purchase_request_id" in vals:
-            sheet.mapped("expense_line_ids").filtered("pr_line_id").unlink()
-        sheet._do_process_from_purchase_request()
-        sheet.pr_line_ids.unlink()  # clean after use
+            sheets.mapped("expense_line_ids").filtered("pr_line_id").unlink()
+        sheets._do_process_from_purchase_request()
+        sheets.pr_line_ids.unlink()  # clean after use
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        sheet = super().create(vals_list)
+        for vals in vals_list:
+            self._create_pr_expense(sheet, vals)
         return sheet
 
     def write(self, vals):
         res = super().write(vals)
-        if "purchase_request_id" in vals:
-            self.mapped("expense_line_ids").filtered("pr_line_id").unlink()
-        self._do_process_from_purchase_request()
-        self.mapped("pr_line_ids").unlink()  # clean after use
+        self._create_pr_expense(self, vals)
         return res
 
     def _do_process_from_purchase_request(self):
@@ -255,10 +257,15 @@ class HrExpenseSheet(models.Model):
                 )
         return super().action_submit_sheet()
 
+    def _get_process_pr(self, purchase_requests):
+        """hooks function for do other process"""
+        return purchase_requests.button_done()
+
     def approve_expense_sheets(self):
         purchase_requests = self.mapped("purchase_request_id")
+        skip_check_state = self.env.context.get("skip_pr_check", False)
         for purchase_request in purchase_requests:
-            if purchase_request.state != "approved":
+            if purchase_request.state != "approved" and not skip_check_state:
                 raise UserError(
                     _(
                         "Purchase Request %s should be in status "
@@ -266,7 +273,7 @@ class HrExpenseSheet(models.Model):
                     )
                     % purchase_request.name
                 )
-        purchase_requests.button_done()
+        self._get_process_pr(purchase_requests)
         return super().approve_expense_sheets()
 
 
