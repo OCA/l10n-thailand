@@ -350,6 +350,13 @@ class AccountMove(models.Model):
         self = self.with_context(net_invoice_refund=True)
         return super().js_assign_outstanding_line(line_id)
 
+    def js_remove_outstanding_partial(self, partial_id):
+        # If you unreconcile with Journal Entry, it will create reverse tax cash basis
+        # Which raise error require tax number and tax invoice so we send context to
+        # skip this error.
+        self = self.with_context(net_invoice_refund=True)
+        return super().js_remove_outstanding_partial(partial_id)
+
     def _post(self, soft=True):
         """Additional tax invoice info (tax_invoice_number, tax_invoice_date)
         Case sales tax, use Odoo's info, as document is issued out.
