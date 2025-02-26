@@ -17,7 +17,11 @@ l10n-thailand
 
 [//]: # (addons)
 
-This part will be replaced when running the oca-gen-addons-table script from OCA/maintainer-tools.
+Available addons
+----------------
+addon | version | maintainers | summary
+--- | --- | --- | ---
+[l10n_th_amount_to_text](l10n_th_amount_to_text/) | 18.0.1.0.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Convert Amount Text to Thai
 
 [//]: # (end addons)
 
