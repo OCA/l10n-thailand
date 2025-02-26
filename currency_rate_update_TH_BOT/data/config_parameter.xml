@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="hostname_th_bot" model="ir.config_parameter">
+        <field name="key">hostname_TH_BOT</field>
+        <field name="value">https://apigw1.bot.or.th</field>
+    </record>
+    <record id="route_th_bot_exchange_daily" model="ir.config_parameter">
+        <field name="key">route_TH_BOT_exchange_daily</field>
+        <field name="value">/bot/public/Stat-ExchangeRate/v2/DAILY_AVG_EXG_RATE</field>
+    </record>
+</odoo>
