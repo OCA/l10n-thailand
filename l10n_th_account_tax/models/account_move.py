@@ -543,7 +543,9 @@ class AccountMove(models.Model):
         #   but still need to keep track the withholding.move base amount
         for move in self:
             # Normal case, create withholding.move only when withholding
-            wht_moves = move.line_ids.filtered("account_id.wht_account")
+            wht_moves = move.line_ids.filtered(
+                lambda l: l.account_id.wht_account and l.wht_tax_id
+            )
             withholding_moves = [
                 Command.create(self._prepare_withholding_move(wht_move))
                 for wht_move in wht_moves
