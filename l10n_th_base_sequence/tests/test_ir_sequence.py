@@ -1,8 +1,6 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
-from freezegun import freeze_time
-
 from odoo.exceptions import UserError
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import TransactionCase, freeze_time
 
 
 class TestBaseSequence(TransactionCase):
