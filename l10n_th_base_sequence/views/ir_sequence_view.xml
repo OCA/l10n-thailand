@@ -9,7 +9,7 @@
                 <field name="preview" />
             </xpath>
             <xpath
-                expr="//field[@name='date_range_ids']/tree/field[last()]"
+                expr="//field[@name='date_range_ids']/list/field[last()]"
                 position="after"
             >
                 <field name="preview" />
