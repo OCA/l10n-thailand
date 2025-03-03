@@ -169,7 +169,7 @@ class TestWithholdingTaxReport(TestWithholdingTax):
         # Check file download should name tax + date
         report_name = self.wht_report_pnd3_wizard._get_report_base_filename()
         format_date = self.wht_report_pnd3_wizard.format_date_ym_wht()
-        self.assertEqual(report_name, "WHT-P03-{}".format(format_date))
+        self.assertEqual(report_name, f"WHT-P03-{format_date}")
 
     def test_02_wht_button_export_pdf(self):
         report = self.wht_report_pnd3_wizard.button_export_pdf()

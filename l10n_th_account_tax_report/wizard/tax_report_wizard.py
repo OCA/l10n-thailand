@@ -97,7 +97,7 @@ class TaxReportWizard(models.TransientModel):
     def format_date_ym_wht(self, date=None):
         date = date or self.date_from
         year_thai = date.year + 543
-        date_format = "{}{}".format(year_thai, str(date.month).zfill(2))
+        date_format = f"{year_thai}{str(date.month).zfill(2)}"
         return date_format
 
     def format_tax_date(self, date, format_date=None):
@@ -112,7 +112,7 @@ class TaxReportWizard(models.TransientModel):
     def _get_report_base_filename(self):
         self.ensure_one()
         date_format = self.format_date_ym_wht()
-        return "{}-{}".format(self.tax_id.display_name, date_format)
+        return f"{self.tax_id.display_name}-{date_format}"
 
     def _get_period_be(self, date_start, date_end):
         month = year = "-"
@@ -174,14 +174,14 @@ class TaxReportWizard(models.TransientModel):
         self.ensure_one()
         domain = self._domain_where_clause_tax()
         self._cr.execute(
-            """
-            select {}
+            f"""
+            select {self._query_select_tax()}
             from (
-                select {}
+                select {self._query_select_sub_tax()}
                 from account_move_tax_invoice t
                 join account_move_line ml on ml.id = t.move_line_id
                 join account_move m on m.id = ml.move_id
-                where {}
+                where {domain}
                 and t.tax_invoice_number is not null
                 and ml.account_id in (select distinct account_id
                                         from account_tax_repartition_line
@@ -202,14 +202,9 @@ class TaxReportWizard(models.TransientModel):
                 and ml.company_id = %s
                 and t.reversed_id is null
             ) a
-            group by {}
+            group by {self._query_groupby_tax()}
             order by tax_date, tax_invoice_number
-        """.format(
-                self._query_select_tax(),
-                self._query_select_sub_tax(),
-                domain,
-                self._query_groupby_tax(),
-            ),
+        """,
             (
                 self.tax_id.id,
                 self.tax_id.id,

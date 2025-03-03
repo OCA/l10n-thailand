@@ -56,12 +56,12 @@ class TestTaxReport(TransactionCase):
         year = datetime.datetime.now().year
         generator = Generator.create(
             {
-                "name_prefix": "{}-".format(year),
+                "name_prefix": f"{year}-",
                 "duration_count": 1,
                 "unit_of_time": str(MONTHLY),
                 "count": 12,
                 "type_id": range_type.id,
-                "date_start": "{}-01-01".format(year),
+                "date_start": f"{year}-01-01",
             }
         )
         generator.action_apply()
@@ -124,9 +124,7 @@ class TestTaxReport(TransactionCase):
         format_date = self.tax_purchase_report_wizard.format_date_ym_wht()
         self.assertEqual(
             report_name,
-            "{}-{}".format(
-                self.tax_purchase_report_wizard.tax_id.display_name, format_date
-            ),
+            f"{self.tax_purchase_report_wizard.tax_id.display_name}-{format_date}",
         )
         # Display Header
         dict_format = self.tax_purchase_report_wizard._get_period_be(
