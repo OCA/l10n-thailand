@@ -101,6 +101,31 @@ class TaxReportWizard(models.TransientModel):
         return date_format
 
     def format_tax_date(self, date, format_date=None):
+        """
+        Format a given date to a custom string format with support
+        for Thai Buddhist year.
+
+        This function returns a formatted date string based on the given `format_date`.
+        - It supports 3 format placeholders: `{day}`, `{month}`, and `{year}`.
+        - `{day}`   = two-digit day (e.g. 01)
+        - `{month}` = two-digit month (e.g. 12)
+        - `{year}`  = year in Thai Buddhist calendar (e.g. 2567)
+
+        Parameters:
+            date (datetime.date): The date to format.
+            format_date (str, optional): A format string using the placeholders.
+                Example: "{day}/{month}/{year}" → "01/01/2567"
+
+        Returns:
+            str: Formatted date string.
+
+        If `format_date` is not provided,
+        the default format is "ddmmyyyy" (e.g. "01012567").
+
+        Example usage:
+            format_tax_date(date(2024, 1, 1), "{day}/{month}/{year}")
+            → "01/01/2567"
+        """
         if format_date is None:
             format_date = "{day}{month}{year}"
         year_thai = date.year + 543
@@ -147,16 +172,25 @@ class TaxReportWizard(models.TransientModel):
 
     def _query_select_sub_tax(self):
         return """t.id, t.company_id, ml.account_id, t.partner_id,
-            case when ml.parent_state = 'posted' and t.reversing_id is null
-            then t.tax_invoice_number else
-            t.tax_invoice_number || ' (VOID)' end as tax_invoice_number,
-            t.tax_invoice_date as tax_date,
-            case when ml.parent_state = 'posted' and t.reversing_id is null
-            then t.tax_base_amount else 0.0 end as tax_base_amount,
-            case when ml.parent_state = 'posted' and t.reversing_id is null
-            then t.balance else 0.0 end as tax_amount,
-            case when m.ref is not null
-            then m.ref else ml.move_name end as name"""
+            CASE WHEN ml.parent_state = 'posted' AND t.reversing_id IS NULL
+                THEN t.tax_invoice_number
+            ELSE
+                t.tax_invoice_number || ' (VOID)'
+            END AS tax_invoice_number,
+            t.tax_invoice_date AS tax_date,
+            CASE WHEN ml.parent_state = 'posted' AND t.reversing_id IS NULL
+                THEN t.tax_base_amount
+            ELSE 0.0
+            END AS tax_base_amount,
+            CASE WHEN ml.parent_state = 'posted' AND t.reversing_id IS NULL
+                THEN t.balance
+            ELSE 0.0
+            END AS tax_amount,
+            CASE WHEN m.ref IS NOT NULL
+                THEN m.ref
+            ELSE ml.move_name
+            END AS name
+        """
 
     def _query_groupby_tax(self):
         return "company_id, account_id, partner_id, tax_invoice_number, tax_date, name"
@@ -164,10 +198,10 @@ class TaxReportWizard(models.TransientModel):
     def _domain_where_clause_tax(self):
         reverse_cancel = ""
         if self.show_cancel:
-            condition = "in ('posted', 'cancel')"
+            condition = "IN ('posted', 'cancel')"
         else:
             condition = "= 'posted'"
-            reverse_cancel = "and t.reversing_id is null"
+            reverse_cancel = "AND t.reversing_id IS NULL"
         return " ".join(["ml.parent_state", condition, reverse_cancel])
 
     def _compute_results(self):
@@ -175,38 +209,38 @@ class TaxReportWizard(models.TransientModel):
         domain = self._domain_where_clause_tax()
         self._cr.execute(
             f"""
-            select {self._query_select_tax()}
-            from (
-                select {self._query_select_sub_tax()}
-                from account_move_tax_invoice t
-                join account_move_line ml on ml.id = t.move_line_id
-                join account_move m on m.id = ml.move_id
-                where {domain}
-                and t.tax_invoice_number is not null
-                and ml.account_id in (select distinct account_id
-                                        from account_tax_repartition_line
-                                        where account_id is not null
-                                        and invoice_tax_id = %s or refund_tax_id = %s)
-                -- query condition with normal report date by report date
-                -- and late report date within range date end
-                and (
-                    (t.report_date >= %s and t.report_date <= %s)
-                    or (
-                        t.report_late_mo != '0' and
-                        EXTRACT(MONTH FROM t.report_date) <= %s and
-                        EXTRACT(YEAR FROM t.report_date) <= %s and
-                        EXTRACT(MONTH FROM t.report_date) >= %s and
-                        EXTRACT(YEAR FROM t.report_date) >= %s
+            SELECT {self._query_select_tax()}
+            FROM (
+                SELECT {self._query_select_sub_tax()}
+                FROM account_move_tax_invoice t
+                JOIN account_move_line ml ON ml.id = t.move_line_id
+                JOIN account_move m ON m.id = ml.move_id
+                WHERE {domain}
+                    AND t.tax_invoice_number IS NOT NULL
+                    AND ml.account_id IN (
+                        SELECT distinct account_id
+                        FROM account_tax_repartition_line
+                        WHERE account_id is not null
+                            AND tax_id = %s)
+                    -- query condition with normal report date by report date
+                    -- and late report date within range date end
+                    AND (
+                        (t.report_date >= %s AND t.report_date <= %s)
+                        OR (
+                            t.report_late_mo != '0' AND
+                            EXTRACT(MONTH FROM t.report_date) <= %s AND
+                            EXTRACT(YEAR FROM t.report_date) <= %s AND
+                            EXTRACT(MONTH FROM t.report_date) >= %s AND
+                            EXTRACT(YEAR FROM t.report_date) >= %s
+                        )
                     )
-                )
-                and ml.company_id = %s
-                and t.reversed_id is null
+                AND ml.company_id = %s
+                AND t.reversed_id is null
             ) a
-            group by {self._query_groupby_tax()}
-            order by tax_date, tax_invoice_number
+            GROUP BY {self._query_groupby_tax()}
+            ORDER BY tax_date, tax_invoice_number
         """,
             (
-                self.tax_id.id,
                 self.tax_id.id,
                 self.date_from,
                 self.date_to,
