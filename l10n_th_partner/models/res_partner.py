@@ -15,12 +15,7 @@ class ResPartner(models.Model):
     )
     name_company = fields.Char(
         index=True,
-        translate=True,
     )
-    firstname = fields.Char(translate=True)
-    lastname = fields.Char(translate=True)
-    name = fields.Char(translate=True)
-    display_name = fields.Char(translate=True)
 
     @api.constrains("company_id", "vat", "branch")
     def _check_company_id_vat_branch(self):
@@ -37,7 +32,8 @@ class ResPartner(models.Model):
                 if len(partners) > 1:
                     raise ValidationError(
                         _(
-                            "Each contact's Tax ID and Tax Branch should not be the same."
+                            "Each contact's Tax ID and Tax Branch "
+                            "should not be the same."
                         )
                     )
 
@@ -57,7 +53,9 @@ class ResPartner(models.Model):
     )
     def _compute_name(self):
         """Compute name with company only"""
-        partner_company = self.filtered(lambda l: l.is_company and l.name_company)
+        partner_company = self.filtered(
+            lambda partner: partner.is_company and partner.name_company
+        )
         partner_inv = self - partner_company
         for rec in partner_company:
             prefix, suffix = False, False
