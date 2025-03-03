@@ -6,7 +6,7 @@ import datetime
 from dateutil.rrule import MONTHLY
 
 from odoo.exceptions import UserError
-from odoo.tests.common import Form, tagged
+from odoo.tests import Form, tagged
 
 from odoo.addons.l10n_th_account_tax.tests.test_withholding_tax import (
     TestWithholdingTax,
@@ -18,21 +18,21 @@ class TestWithholdingTaxReport(TestWithholdingTax):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.wht_wizard_object = cls.env["withholding.tax.report.wizard"]
-        cls.date_range_object = cls.env["date.range"]
-        cls.range_type_object = cls.env["date.range.type"]
-        cls.report_object = cls.env["ir.actions.report"]
+        cls.wht_wizard_obj = cls.env["withholding.tax.report.wizard"]
+        cls.date_range_obj = cls.env["date.range"]
+        cls.range_type_obj = cls.env["date.range.type"]
+        cls.report_obj = cls.env["ir.actions.report"]
+        cls.wht_cert_obj = cls.env["withholding.tax.cert"]
+
         # Create date range
-        cls.date_range_type = cls.range_type_object.create({"name": "TestQuarter"})
+        cls.date_range_type = cls.range_type_obj.create({"name": "TestQuarter"})
         cls.year = datetime.datetime.now().year
         cls._create_date_range_year(cls)
-        cls.date_range = cls.date_range_object.search([], limit=1)
-        cls.last_date_range = cls.date_range_object.search(
+        cls.date_range = cls.date_range_obj.search([], limit=1)
+        cls.last_date_range = cls.date_range_obj.search(
             [], limit=1, order="date_start desc"
         )
-        cls.report = cls.report_object._get_report_from_name(
-            "withholding.tax.report.xlsx"
-        )
+        cls.report = cls.report_obj._get_report_from_name("withholding.tax.report.xlsx")
         # Create demo for test
         cls.cert_pnd1 = cls._create_withholding_tax(cls, "pnd1")
         cls.cert_pnd1.tax_payer = "paid_one_time"
@@ -40,7 +40,7 @@ class TestWithholdingTaxReport(TestWithholdingTax):
         cls.cert_pnd53 = cls._create_withholding_tax(cls, "pnd53")
         cls.cert_pnd53.tax_payer = "paid_continue"
         # Create withholding tax wizard
-        cls.wht_report_pnd1_wizard = cls.wht_wizard_object.create(
+        cls.wht_report_pnd1_wizard = cls.wht_wizard_obj.create(
             {
                 "income_tax_form": "pnd1",
                 "date_from": cls.date_range.date_start,
@@ -48,7 +48,7 @@ class TestWithholdingTaxReport(TestWithholdingTax):
                 "show_cancel": False,
             }
         )
-        cls.wht_report_pnd3_wizard = cls.wht_wizard_object.create(
+        cls.wht_report_pnd3_wizard = cls.wht_wizard_obj.create(
             {
                 "income_tax_form": "pnd3",
                 "date_from": cls.date_range.date_start,
@@ -56,7 +56,7 @@ class TestWithholdingTaxReport(TestWithholdingTax):
                 "show_cancel": False,
             }
         )
-        cls.wht_report_pnd53_wizard = cls.wht_wizard_object.create(
+        cls.wht_report_pnd53_wizard = cls.wht_wizard_obj.create(
             {
                 "income_tax_form": "pnd53",
                 "date_from": cls.date_range.date_start,
@@ -69,8 +69,8 @@ class TestWithholdingTaxReport(TestWithholdingTax):
         Generator = self.env["date.range.generator"]
         generator = Generator.create(
             {
-                "date_start": "%s-01-01" % self.year,
-                "name_prefix": "%s/Test/Y-" % self.year,
+                "date_start": f"{self.year}-01-01",
+                "name_prefix": f"{self.year}/Test/Y-",
                 "type_id": self.date_range_type.id,
                 "duration_count": 12,
                 "unit_of_time": str(MONTHLY),
@@ -83,7 +83,7 @@ class TestWithholdingTaxReport(TestWithholdingTax):
         invoice = self._create_invoice(
             self,
             self.partner_1.id,
-            self.expenses_journal.id,
+            self.purchase_journal.id,
             "in_invoice",
             self.expense_account.id,
             price_unit=100.0,
@@ -93,27 +93,24 @@ class TestWithholdingTaxReport(TestWithholdingTax):
         invoice.action_post()
         # Payment by writeoff with withholding tax account
         ctx = {
-            "active_ids": [invoice.id],
-            "active_id": invoice.id,
-            "active_model": "account.move",
+            "active_ids": invoice.line_ids.ids,
+            "active_model": "account.move.line",
         }
-        with Form(
-            self.account_payment_register.with_context(**ctx),
-            view=self.register_view_id,
-        ) as f:
+        with Form(self.wiz_payment_register_obj.with_context(**ctx)) as f:
             register_payment = f.save()
         action_payment = register_payment.action_create_payments()
         payment = self.env[action_payment["res_model"]].browse(action_payment["res_id"])
         payment.wht_move_ids.write({"wht_cert_income_type": "1"})
         payment.create_wht_cert()
         res = payment.button_wht_certs()
-        cert = self.wht_cert.search(res["domain"])
+        cert = self.wht_cert_obj.search(res["domain"])
         cert.income_tax_form = income_tax_form
         cert.action_done()
         return cert
 
     def test_01_wht_button_export_html(self):
         # Check data query, it should have data
+        self.env.invalidate_all()
         self.assertTrue(self.wht_report_pnd3_wizard.results)
         # Test onchange date range
         self.assertEqual(
@@ -150,16 +147,16 @@ class TestWithholdingTaxReport(TestWithholdingTax):
 
         # Test with pnd1
         wht_cert_line_pnd1 = wht_cert_line.filtered(
-            lambda l: l.cert_id.tax_payer == "paid_one_time"
-            and l.cert_id.income_tax_form == "pnd1"
+            lambda cert_line: cert_line.cert_id.tax_payer == "paid_one_time"
+            and cert_line.cert_id.income_tax_form == "pnd1"
         )
         result_dict = self.wht_report_pnd1_wizard._convert_result_to_dict(wht_cert_line)
         self.assertEqual(result_dict[wht_cert_line_pnd1[0].id]["tax_payer"], 3)
 
         # Test with pnd53
         wht_cert_line_pnd53 = wht_cert_line.filtered(
-            lambda l: l.cert_id.tax_payer == "paid_continue"
-            and l.cert_id.income_tax_form == "pnd53"
+            lambda cert_line: cert_line.cert_id.tax_payer == "paid_continue"
+            and cert_line.cert_id.income_tax_form == "pnd53"
         )
         result_dict = self.wht_report_pnd53_wizard._convert_result_to_dict(
             wht_cert_line

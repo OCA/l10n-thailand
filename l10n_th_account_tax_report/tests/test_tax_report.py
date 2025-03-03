@@ -8,20 +8,22 @@ from freezegun import freeze_time
 
 from odoo import Command
 from odoo.exceptions import UserError
-from odoo.tests.common import Form, TransactionCase
+from odoo.tests import Form, tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestTaxReport(TransactionCase):
+@tagged("post_install", "-at_install")
+class TestTaxReport(AccountTestInvoicingCommon):
     @classmethod
     @freeze_time("2001-01-01")
     def setUpClass(cls):
         super().setUpClass()
         cls.date_range_obj = cls.env["date.range"]
         cls.company = cls.env.company
-        cls.tax = cls.env.ref("l10n_generic_coa.1_sale_tax_template")
-        cls.taxp = cls.env.ref("l10n_generic_coa.1_purchase_tax_template")
         cls.partner1 = cls.env.ref("base.res_partner_1")
         cls.product1 = cls.env.ref("product.product_product_7")
+        cls.tax_report_wizard = cls.env["tax.report.wizard"]
         # Create date range
         cls._create_date_range(cls)
         cls.date_range = cls.date_range_obj.search([], limit=1, order="date_start asc")
@@ -30,20 +32,20 @@ class TestTaxReport(TransactionCase):
         )
         # Create vendor bills
         cls._create_invoice(cls, "in_invoice")
-        cls.tax_purchase_report_wizard = cls.env["tax.report.wizard"].create(
+        cls.tax_purchase_report_wizard = cls.tax_report_wizard.create(
             {
                 "company_id": cls.company.id,
-                "tax_id": cls.taxp.id,
+                "tax_id": cls.tax_purchase_a.id,
                 "date_from": cls.date_range.date_start,
                 "date_to": cls.date_range.date_end,
             }
         )
         # Create customer invoices
         cls._create_invoice(cls, "out_invoice")
-        cls.tax_sale_report_wizard = cls.env["tax.report.wizard"].create(
+        cls.tax_sale_report_wizard = cls.tax_report_wizard.create(
             {
                 "company_id": cls.company.id,
-                "tax_id": cls.tax.id,
+                "tax_id": cls.tax_sale_a.id,
                 "date_from": cls.date_range.date_start,
                 "date_to": cls.date_range.date_end,
             }
@@ -67,7 +69,7 @@ class TestTaxReport(TransactionCase):
         generator.action_apply()
 
     def _create_invoice(self, move_type):
-        taxes = self.taxp if move_type == "in_invoice" else self.tax
+        taxes = self.tax_purchase_a if move_type == "in_invoice" else self.tax_sale_a
         date = self.date_range.date_end
         moves = self.env["account.move"].create(
             {
@@ -80,7 +82,7 @@ class TestTaxReport(TransactionCase):
                             "product_id": self.product1.id,
                             "quantity": 1,
                             "price_unit": 100.0,
-                            "tax_ids": [(6, 0, [taxes.id])],
+                            "tax_ids": [Command.set(taxes.ids)],
                         },
                     )
                 ],
@@ -204,3 +206,16 @@ class TestTaxReport(TransactionCase):
             },
         )
         self.assertEqual(report_xlsx[1], "xlsx")
+
+    def test_04_date_format(self):
+        """Test format date"""
+        # date_start = 2001-01-01
+        date_no_format = self.tax_report_wizard.format_tax_date(
+            self.date_range.date_start
+        )
+        self.assertEqual(date_no_format, "01012544")
+
+        date_no_format = self.tax_report_wizard.format_tax_date(
+            self.date_range.date_start, format_date="{day}/{month}/{year}"
+        )
+        self.assertEqual(date_no_format, "01/01/2544")
