@@ -183,16 +183,14 @@ class WithHoldingTaxReportWizard(models.TransientModel):
             for idx, line in enumerate(obj.results):
                 income_code = (
                     line.wht_cert_income_code
-                    and "{}|".format(line.wht_cert_income_code.code)
+                    and f"{line.wht_cert_income_code.code}|"
                     or ""
                 )
                 partner_id = line.cert_id.partner_id
                 vat = partner_id.vat or ""
                 type_income_desc = (
                     line.wht_income_tax_form != "pnd1"
-                    and "{}|{}|".format(
-                        line.wht_cert_income_desc, int(line.wht_percent)
-                    )
+                    and f"{line.wht_cert_income_desc}|{int(line.wht_percent)}|"
                     or ""
                 )
                 name = obj.find_information(partner_id, line)
@@ -213,13 +211,11 @@ class WithHoldingTaxReportWizard(models.TransientModel):
                         vat=vat,
                         tax_branch=tax_branch,
                         name=name,
-                        address=address
-                        and "{}|".format(address)
-                        or "",  # pnd3, 53 (optional)
+                        address=address and f"{address}|" or "",  # pnd3, 53 (optional)
                         date=self.format_wht_date_dmy(line.cert_id.date),
                         type_income_desc=type_income_desc,
-                        base_amount=not cancel and "{:,.2f}".format(line.base) or 0.00,
-                        wht_amount=not cancel and "{:,.2f}".format(line.amount) or 0.00,
+                        base_amount=not cancel and f"{line.base:,.2f}" or 0.00,
+                        wht_amount=not cancel and f"{line.amount:,.2f}" or 0.00,
                         tax_payer=self._convert_tax_payer(line.cert_id.tax_payer),
                     )
                 )
@@ -376,11 +372,11 @@ class WithHoldingTaxReportWizard(models.TransientModel):
     def format_date_ym_wht(self, date=None):
         date = date or self.date_from
         year_thai = date.year + 543
-        date_format = "{}{}".format(year_thai, str(date.month).zfill(2))
+        date_format = f"{year_thai}{str(date.month).zfill(2)}"
         return date_format
 
     def _get_report_base_filename(self):
         self.ensure_one()
         pnd = INCOME_TAX_FORM[self.income_tax_form]
         date_format = self.format_date_ym_wht()
-        return "WHT-{}-{}".format(pnd, date_format)
+        return f"WHT-{pnd}-{date_format}"
