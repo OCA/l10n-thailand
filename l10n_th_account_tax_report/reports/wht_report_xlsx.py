@@ -109,7 +109,7 @@ class ReportWHTXlsx(models.AbstractModel):
         ws_params = {
             "ws_name": "Withholding Tax Report",
             "generate_ws_method": "_withholding_tax_report",
-            "title": "Withholding Tax Report - %s" % (obj.company_id.name),
+            "title": f"Withholding Tax Report - {obj.company_id.name}",
             "wanted_list": [x for x in sorted(withholding_tax_template.keys())],
             "col_specs": withholding_tax_template,
         }
@@ -163,7 +163,7 @@ class ReportWHTXlsx(models.AbstractModel):
         return row_pos
 
     def _write_ws_footer(self, row_pos, ws, obj):
-        results = obj.results.filtered(lambda l: l.cert_id.state == "done")
+        results = obj.results.filtered(lambda result: result.cert_id.state == "done")
         ws.merge_range(row_pos, 0, row_pos, 6, "")
         ws.merge_range(row_pos, 9, row_pos, 10, "")
         ws.write_row(
