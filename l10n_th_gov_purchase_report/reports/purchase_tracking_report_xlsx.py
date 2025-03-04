@@ -315,13 +315,10 @@ class ReportPurchaseTrackingReportXlsx(models.AbstractModel):
                 pr.date_approved,
             )
         po_total_company_currency = po.amount_total
+        # Convert to company currency
         if po.currency_id != po.company_id.currency_id:
-            po_total_company_currency = po.currency_id._convert(
-                po_total_company_currency,
-                po.company_id.currency_id,
-                po.company_id,
-                po.date_approve,
-            )
+            po_total_company_currency = po_total_company_currency / po.currency_rate
+
         return {
             "number": i,
             "pr_name": pr.name or "",
