@@ -370,18 +370,13 @@ ul.auto-toc {
 !! source digest: sha256:a9fc2df875dcabc279af46788650c0af106c775e0602a33a6226b50eb320acb6
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-thailand/tree/17.0/l10n_th_partner"><img alt="OCA/l10n-thailand" src="https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-thailand-17-0/l10n-thailand-17-0-l10n_th_partner"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&amp;target_branch=17.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>This module add branch on res.company and res.partner.</p>
-<p>This module can computes Name of res.users and res.partner</p>
+<p>This module adds branch management to <tt class="docutils literal">res.company</tt> and
+<tt class="docutils literal">res.partner</tt>.</p>
+<p>It also enhances name computation for <tt class="docutils literal">res.users</tt> and <tt class="docutils literal">res.partner</tt>
+based on the entity type:</p>
 <ul class="simple">
-<li>Individual: computes Name by Title, First name and Last name</li>
-<li>Company: computes Name by Legal Form</li>
-</ul>
-<p>This module also make sure that following object’s name will work with
-multi-lang.</p>
-<ul class="simple">
-<li>res.partner</li>
-<li>res.users</li>
-<li>hr.employee</li>
+<li>Individual: Computes the name using Title, First Name, and Last Name.</li>
+<li>Company: Computes the name based on the Legal Form.</li>
 </ul>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">

@@ -9,8 +9,8 @@
         />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='shortcut']" position="after">
-                <field name="prefix" attrs="{'required': [('suffix', '=', False)]}" />
-                <field name="suffix" attrs="{'required': [('prefix', '=', False)]}" />
+                <field name="prefix" required="not suffix" />
+                <field name="suffix" required="not prefix" />
                 <field name="use_prefix_suffix" />
             </xpath>
         </field>
