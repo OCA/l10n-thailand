@@ -6,8 +6,8 @@ from odoo import fields, models
 class ResPartnerCompanyType(models.Model):
     _inherit = "res.partner.company.type"
 
-    prefix = fields.Char(translate=True)
-    suffix = fields.Char(translate=True)
+    prefix = fields.Char()
+    suffix = fields.Char()
     use_prefix_suffix = fields.Boolean(
         default=True,
         help="Select this field for compute partner name with prefix or suffix.",
