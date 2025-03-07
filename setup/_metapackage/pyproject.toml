@@ -1,11 +1,13 @@
 [project]
 name = "odoo-addons-oca-l10n-thailand"
-version = "17.0.20250225.1"
+version = "17.0.20250226.1"
 dependencies = [
     "odoo-addon-currency_rate_update_TH_BOT>=17.0dev,<17.1dev",
     "odoo-addon-l10n_th_amount_to_text>=17.0dev,<17.1dev",
     "odoo-addon-l10n_th_base_sequence>=17.0dev,<17.1dev",
     "odoo-addon-l10n_th_mis_report>=17.0dev,<17.1dev",
+    "odoo-addon-l10n_th_tier_department>=17.0dev,<17.1dev",
+    "odoo-addon-l10n_th_tier_department_demo>=17.0dev,<17.1dev",
 ]
 classifiers=[
     "Programming Language :: Python",
