@@ -36,7 +36,8 @@
                     <field
                         name="name_company"
                         placeholder="Company name"
-                        attrs="{'invisible': [('is_company', '=', False)], 'required': [('is_company', '=', True)]}"
+                        invisible="not is_company"
+                        required="is_company"
                     />
                 </div>
             </xpath>
