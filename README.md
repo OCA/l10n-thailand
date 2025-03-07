@@ -30,7 +30,7 @@ addon | version | maintainers | summary
 [l10n_th_account_wht_cert_form](l10n_th_account_wht_cert_form/) | 16.0.1.2.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Thai Localization - Withholding Tax Certificate Form
 [l10n_th_amount_to_text](l10n_th_amount_to_text/) | 16.0.1.0.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Convert Amount Text to Thai
 [l10n_th_bank_payment_export](l10n_th_bank_payment_export/) | 16.0.1.0.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Base export payment text file to bank
-[l10n_th_base_location](l10n_th_base_location/) | 16.0.1.0.0 |  | Thai Localization - Base Location
+[l10n_th_base_location](l10n_th_base_location/) | 16.0.1.0.1 |  | Thai Localization - Base Location
 [l10n_th_base_sequence](l10n_th_base_sequence/) | 16.0.1.0.0 | [![sansirit](https://github.com/sansirit.png?size=30px)](https://github.com/sansirit) [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Thai Localization - Base Sequence
 [l10n_th_fonts](l10n_th_fonts/) | 16.0.1.0.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Collection of all Thai fonts
 [l10n_th_gov_purchase_agreement](l10n_th_gov_purchase_agreement/) | 16.0.1.0.0 | [![newtratip](https://github.com/newtratip.png?size=30px)](https://github.com/newtratip) | Thai Localization - Government Purchase Agreement
