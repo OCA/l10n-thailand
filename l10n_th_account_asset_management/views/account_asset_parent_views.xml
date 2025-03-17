@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-   <record id="account_asset_parent_view_form" model="ir.ui.view">
+    <record id="account_asset_parent_view_form" model="ir.ui.view">
         <field name="name">account.asset.parent.form</field>
         <field name="model">account.asset.parent</field>
         <field name="arch" type="xml">
             <form string="Parent Asset">
-                 <sheet>
+                <sheet>
                     <widget
                         name="web_ribbon"
                         title="Archived"

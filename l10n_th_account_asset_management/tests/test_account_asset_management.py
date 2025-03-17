@@ -170,7 +170,7 @@ class TestAssetManagementThailand(TransactionCase):
         parent_asset = self.asset_parent_model.create([{"name": "Parent Test"}])
         self.assertNotEqual(parent_asset.code, "/")
         # Check display name of parent asset must show code
-        display_name = "[{}] {}".format(parent_asset.code, parent_asset.name)
+        display_name = f"[{parent_asset.code}] {parent_asset.name}"
         self.assertEqual(parent_asset.display_name, display_name)
         # Check search with code 'ASP' and != 'ASP'
         result_search = parent_asset.name_search("ASP")

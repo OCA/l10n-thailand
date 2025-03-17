@@ -39,7 +39,7 @@ class AccountAssetParent(models.Model):
         for rec in self:
             name = rec.name
             if rec.code and rec.code != "/":
-                name = "[{}] {}".format(rec.code, name)
+                name = f"[{rec.code}] {name}"
             result.append((rec.id, name))
         return result
 

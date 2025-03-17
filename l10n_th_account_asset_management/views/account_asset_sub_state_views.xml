@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-   <record id="account_asset_sub_state_view_form" model="ir.ui.view">
+    <record id="account_asset_sub_state_view_form" model="ir.ui.view">
         <field name="name">account.asset.sub.state.form</field>
         <field name="model">account.asset.sub.state</field>
         <field name="arch" type="xml">
             <form string="Asset Sub-Status">
-                 <sheet>
+                <sheet>
                     <widget
                         name="web_ribbon"
                         title="Archived"
