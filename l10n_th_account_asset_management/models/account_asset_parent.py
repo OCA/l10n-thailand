@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
-from odoo.osv import expression
 
 
 class AccountAssetParent(models.Model):
@@ -10,6 +9,7 @@ class AccountAssetParent(models.Model):
     _description = "Parent Asset"
     _order = "id desc"
     _check_company_auto = True
+    _rec_names_search = ["code", "name"]
 
     asset_ids = fields.One2many(
         comodel_name="account.asset",
@@ -34,32 +34,11 @@ class AccountAssetParent(models.Model):
     active = fields.Boolean(default=True)
 
     @api.depends("name", "code")
-    def name_get(self):
-        result = []
+    def _compute_display_name(self):
         for rec in self:
-            name = rec.name
+            rec.display_name = rec.name
             if rec.code and rec.code != "/":
-                name = f"[{rec.code}] {name}"
-            result.append((rec.id, name))
-        return result
-
-    @api.model
-    def _name_search(
-        self, name, args=None, operator="ilike", limit=100, name_get_uid=None
-    ):
-        args = args or []
-        domain = []
-        if name:
-            domain = [
-                "|",
-                ("code", "=ilike", name.split(" ")[0] + "%"),
-                ("name", operator, name),
-            ]
-            if operator in expression.NEGATIVE_TERM_OPERATORS:
-                domain = ["&", "!"] + domain[1:]
-        return self._search(
-            expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid
-        )
+                rec.display_name = f"[{rec.code}] {rec.name}"
 
     @api.model_create_multi
     def create(self, vals_list):

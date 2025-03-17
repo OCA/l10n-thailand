@@ -3,7 +3,7 @@
 
 from freezegun import freeze_time
 
-from odoo.tests.common import TransactionCase
+from odoo.tests import TransactionCase
 
 
 class TestAssetManagementXlsThailand(TransactionCase):
@@ -39,7 +39,9 @@ class TestAssetManagementXlsThailand(TransactionCase):
                 "report_name": self.xls_report_name,
             }.items(),
         )
-        model = self.env["report.%s" % self.report_action["report_name"]].with_context(
+        report_name = self.report_action["report_name"]
+        model_name = f"report.{report_name}"
+        model = self.env[model_name].with_context(
             active_model=self.xls_report._name, **self.report_action["context"]
         )
         model.create_xlsx_report(self.xls_report.ids, data=self.report_action["data"])

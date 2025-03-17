@@ -3,7 +3,7 @@
 
 {
     "name": "Thai Localization - Assets Management",
-    "version": "16.0.1.0.0",
+    "version": "18.0.1.0.0",
     "author": "Ecosoft, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-thailand",
@@ -11,7 +11,6 @@
     "depends": [
         "account_asset_number",
         "account_asset_transfer",
-        # "web_tree_image_tooltip",
     ],
     "data": [
         "data/account_asset_parent_data.xml",

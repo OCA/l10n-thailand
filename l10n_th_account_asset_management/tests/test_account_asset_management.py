@@ -1,8 +1,7 @@
 # Copyright 2021 Ecosoft Co., Ltd (https://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo.tests import tagged
-from odoo.tests.common import Form, TransactionCase
+from odoo.tests import Form, TransactionCase, tagged
 
 
 @tagged("post_install", "-at_install")
@@ -121,17 +120,22 @@ class TestAssetManagementThailand(TransactionCase):
         asset.compute_depreciation_board()
         asset.invalidate_recordset()
         self.assertEqual(asset.state, "draft")
+        self.assertEqual(len(asset.asset_sub_state_all), 0)
         asset.validate()
         self.assertEqual(asset.state, "open")
+        self.assertEqual(len(asset.asset_sub_state_all), 4)
         lines = asset.depreciation_line_ids.filtered(lambda x: not x.init_entry)
         for asset_line in lines:
             asset_line.create_move()
         self.assertEqual(asset.state, "close")
+        self.assertEqual(len(asset.asset_sub_state_all), 0)
         # when validate again, state must change to close
         asset.set_to_draft()
         self.assertEqual(asset.state, "draft")
+        self.assertEqual(len(asset.asset_sub_state_all), 0)
         asset.validate()
         self.assertEqual(asset.state, "close")
+        self.assertEqual(len(asset.asset_sub_state_all), 0)
 
     def test_03_asset_removal_with_value_residual(self):
         """Asset removal with value residual"""
@@ -172,10 +176,10 @@ class TestAssetManagementThailand(TransactionCase):
         # Check display name of parent asset must show code
         display_name = f"[{parent_asset.code}] {parent_asset.name}"
         self.assertEqual(parent_asset.display_name, display_name)
-        # Check search with code 'ASP' and != 'ASP'
+        # Check search with code 'ASP' and not 'ASP'
         result_search = parent_asset.name_search("ASP")
         self.assertTrue(result_search)
-        result_search = parent_asset.name_search("ASP", operator="!=")
+        result_search = parent_asset.name_search("ASP", operator="not ilike")
         self.assertEqual(result_search, [])
         # Parent asset link to asset (0 asset, 1 parent)
         action = parent_asset.action_view_assets()
@@ -254,6 +258,7 @@ class TestAssetManagementThailand(TransactionCase):
         wiz.remove()
         # state asset change to remove and substate will default
         self.assertEqual(asset.state, "removed")
+        self.assertEqual(len(asset.asset_sub_state_all), 4)
         self.assertEqual(asset.asset_sub_state_id, substate_default)
 
     def test_06_substate_asset_transfer(self):
@@ -289,3 +294,54 @@ class TestAssetManagementThailand(TransactionCase):
         # Source Asset change state to removed and substate equal transfer substate
         self.assertEqual(asset_auc.state, "removed")
         self.assertEqual(asset_auc.asset_sub_state_id, transfer_wiz.asset_sub_state_id)
+
+    def test_07_days_calc_linear_limit_quarter(self):
+        asset = self.asset_model.create(
+            {
+                "name": "test asset quarter",
+                "profile_id": self.car5y.id,
+                "purchase_value": 1200,
+                "salvage_value": 100,
+                "date_start": "2019-01-01",
+                "method_time": "year",
+                "method": "linear-limit",
+                "method_number": 5,
+                "method_period": "quarter",
+                "prorata": False,
+                "days_calc": True,
+            }
+        )
+        asset.compute_depreciation_board()
+        asset.invalidate_recordset()
+        lines = asset.depreciation_line_ids
+        # 1 init line + 5 years * 4 quarters = 21 lines
+        self.assertEqual(len(lines), 21)
+        # Last remaining value must equal salvage_value
+        self.assertAlmostEqual(lines[-1].remaining_value, 100.0, places=2)
+
+    def test_08_no_days_calc_fy_residual_zero(self):
+        """days_calc=False with salvage_value=0 triggers the is_zero break"""
+        asset = self.asset_model.create(
+            {
+                "name": "test asset fy_residual_zero",
+                "profile_id": self.car5y.id,
+                "purchase_value": 1200,
+                "salvage_value": 0,
+                "date_start": "2019-01-01",
+                "method_time": "year",
+                "method": "linear-limit",
+                "method_number": 5,
+                "method_period": "month",
+                "prorata": False,
+                "days_calc": False,
+            }
+        )
+        asset.compute_depreciation_board()
+        asset.invalidate_recordset()
+        lines = asset.depreciation_line_ids
+        # 1 init line + 5 years * 12 months = 61 lines
+        self.assertEqual(len(lines), 61)
+        # period_amount = (depreciation_base / method_number) / 12 = 1200/5/12 = 20.0
+        self.assertAlmostEqual(lines[1].amount, 20.0, places=2)
+        # fy_residual_amount = 0 after year 5 -> is_zero break -> last remaining = 0
+        self.assertAlmostEqual(lines[-1].remaining_value, 0.0, places=2)

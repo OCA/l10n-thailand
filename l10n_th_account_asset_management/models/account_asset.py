@@ -42,10 +42,9 @@ class AccountAsset(models.Model):
 
     @api.depends("state")
     def _compute_asset_sub_state_all(self):
+        asset_substate_model = self.env["account.asset.sub.state"]
         for rec in self:
-            asset_sub_state_all = self.env["account.asset.sub.state"].search(
-                [(rec.state, "=", True)]
-            )
+            asset_sub_state_all = asset_substate_model.search([(rec.state, "=", True)])
             rec.asset_sub_state_all = asset_sub_state_all
 
     def _domain_asset_sub_state(self):
@@ -117,7 +116,8 @@ class AccountAsset(models.Model):
         self, table, line_dates, depreciation_start_date, depreciation_stop_date
     ):
         """Override _compute_depreciation_amount_per_fiscal_year for Thai"""
-        digits = self.env["decimal.precision"].precision_get("Account")
+        self.ensure_one()
+        currency = self.company_id.currency_id
         fy_residual_amount = self.depreciation_base
         i_max = len(table) - 1
         asset_sign = self.depreciation_base >= 0 and 1 or -1
@@ -152,17 +152,22 @@ class AccountAsset(models.Model):
                     firstyear = i == 0 and True or False
                     fy_factor = self._get_fy_duration_factor(entry, firstyear)
                     fy_amount = year_amount * fy_factor
-                if asset_sign * (fy_amount - fy_residual_amount) > 0:
+                if (
+                    currency.compare_amounts(
+                        asset_sign * (fy_amount - fy_residual_amount), 0
+                    )
+                    > 0
+                ):
                     fy_amount = fy_residual_amount
-                period_amount = round(period_amount, digits)
-                fy_amount = round(fy_amount, digits)
+                period_amount = currency.round(period_amount)
+                fy_amount = currency.round(fy_amount)
             else:
                 fy_amount = False
                 if self.method_time == "number":
                     number = self.method_number
                 else:
                     number = len(line_dates)
-                period_amount = round(self.depreciation_base / number, digits)
+                period_amount = currency.round(self.depreciation_base / number)
             entry.update(
                 {
                     "period_amount": period_amount,
@@ -172,8 +177,9 @@ class AccountAsset(models.Model):
             )
             if self.method_time == "year":
                 fy_residual_amount -= fy_amount
-                if round(fy_residual_amount, digits) == 0:
+                if currency.is_zero(fy_residual_amount):
                     break
-        i_max = i
+        if table:
+            i_max = i
         table = table[: i_max + 1]
         return table
