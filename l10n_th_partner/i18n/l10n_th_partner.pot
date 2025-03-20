@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -12,11 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-
-#. module: l10n_th_partner
-#: model:ir.model,name:l10n_th_partner.model_hr_employee_base
-msgid "Basic Employee"
-msgstr ""
 
 #. module: l10n_th_partner
 #: model:ir.model.fields,help:l10n_th_partner.field_res_company__branch
@@ -54,13 +49,8 @@ msgstr ""
 #. module: l10n_th_partner
 #: model_terms:ir.ui.view,arch_db:l10n_th_partner.res_config_settings_view_form
 msgid ""
-"Disable space between title and name. example:<br/>\n"
-"                            Miss Firstname Lastname -&gt; MissFirstname Lastname"
-msgstr ""
-
-#. module: l10n_th_partner
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__display_name
-msgid "Display Name"
+"Disable space between title and name. example: Miss Firstname Lastname -> "
+"MissFirstname Lastname"
 msgstr ""
 
 #. module: l10n_th_partner
@@ -71,40 +61,14 @@ msgid "Each contact's Tax ID and Tax Branch should not be the same."
 msgstr ""
 
 #. module: l10n_th_partner
-#: model:ir.model.fields,field_description:l10n_th_partner.field_hr_employee__name
-msgid "Employee Name"
-msgstr ""
-
-#. module: l10n_th_partner
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__firstname
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__firstname
-msgid "First name"
-msgstr ""
-
-#. module: l10n_th_partner
 #: model:ir.model.fields,help:l10n_th_partner.field_res_company__no_space_title_name
 #: model:ir.model.fields,help:l10n_th_partner.field_res_config_settings__no_space_title_name
 msgid "If checked, title and name will no space"
 msgstr ""
 
 #. module: l10n_th_partner
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__lastname
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__lastname
-msgid "Last name"
-msgstr ""
-
-#. module: l10n_th_partner
 #: model_terms:ir.ui.view,arch_db:l10n_th_partner.view_res_partner_filter
 msgid "Legal Form"
-msgstr ""
-
-#. module: l10n_th_partner
-#: model:ir.model.fields,field_description:l10n_th_partner.field_hr_employee_base__name
-#: model:ir.model.fields,field_description:l10n_th_partner.field_hr_employee_public__name
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__name
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__name
-#: model:ir.model.fields,field_description:l10n_th_partner.field_resource_resource__name
-msgid "Name"
 msgstr ""
 
 #. module: l10n_th_partner
@@ -127,11 +91,6 @@ msgstr ""
 #. module: l10n_th_partner
 #: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner_company_type__prefix
 msgid "Prefix"
-msgstr ""
-
-#. module: l10n_th_partner
-#: model:ir.model,name:l10n_th_partner.model_resource_resource
-msgid "Resources"
 msgstr ""
 
 #. module: l10n_th_partner
@@ -194,17 +153,6 @@ msgstr ""
 #: model:res.partner.title,shortcut:l10n_th_partner.title_031
 #: model:res.partner.title,shortcut:l10n_th_partner.title_046
 msgid "จ.อ."
-msgstr ""
-
-#. module: l10n_th_partner
-#: model:res.partner.company.type,suffix:l10n_th_partner.company_type_3
-#: model:res.partner.company.type,suffix:l10n_th_partner.company_type_6
-msgid "จำกัด"
-msgstr ""
-
-#. module: l10n_th_partner
-#: model:res.partner.company.type,suffix:l10n_th_partner.company_type_4
-msgid "จำกัด (มหาชน)"
 msgstr ""
 
 #. module: l10n_th_partner
@@ -363,12 +311,6 @@ msgstr ""
 #. module: l10n_th_partner
 #: model:res.partner.company.type,shortcut:l10n_th_partner.company_type_4
 msgid "บมจ."
-msgstr ""
-
-#. module: l10n_th_partner
-#: model:res.partner.company.type,prefix:l10n_th_partner.company_type_3
-#: model:res.partner.company.type,prefix:l10n_th_partner.company_type_4
-msgid "บริษัท"
 msgstr ""
 
 #. module: l10n_th_partner
@@ -654,7 +596,6 @@ msgstr ""
 
 #. module: l10n_th_partner
 #: model:res.partner.company.type,name:l10n_th_partner.company_type_7
-#: model:res.partner.company.type,prefix:l10n_th_partner.company_type_7
 #: model:res.partner.company.type,shortcut:l10n_th_partner.company_type_7
 msgid "มูลนิธิ"
 msgstr ""
@@ -769,8 +710,6 @@ msgstr ""
 
 #. module: l10n_th_partner
 #: model:res.partner.company.type,name:l10n_th_partner.company_type_5
-#: model:res.partner.company.type,prefix:l10n_th_partner.company_type_5
-#: model:res.partner.company.type,prefix:l10n_th_partner.company_type_6
 #: model:res.partner.company.type,shortcut:l10n_th_partner.company_type_5
 msgid "สหกรณ์"
 msgstr ""
@@ -844,13 +783,11 @@ msgstr ""
 
 #. module: l10n_th_partner
 #: model:res.partner.company.type,name:l10n_th_partner.company_type_2
-#: model:res.partner.company.type,prefix:l10n_th_partner.company_type_2
 msgid "ห้างหุ้นส่วนจำกัด"
 msgstr ""
 
 #. module: l10n_th_partner
 #: model:res.partner.company.type,name:l10n_th_partner.company_type_1
-#: model:res.partner.company.type,prefix:l10n_th_partner.company_type_1
 msgid "ห้างหุ้นส่วนสามัญนิติบุคคล"
 msgstr ""
 
