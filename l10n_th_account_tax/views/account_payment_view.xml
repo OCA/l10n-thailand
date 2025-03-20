@@ -110,6 +110,7 @@
                                 <field name="report_date" optional="show" />
                                 <field name="tax_base_amount" />
                                 <field name="balance" sum="Total Tax" />
+                                <field name="company_currency_id" invisible="1" />
                                 <button
                                     name="copy"
                                     string="Split"
