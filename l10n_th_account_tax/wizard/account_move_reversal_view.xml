@@ -5,14 +5,14 @@
         <field name="model">account.move.reversal</field>
         <field name="inherit_id" ref="account.view_account_move_reversal" />
         <field name="arch" type="xml">
-            <xpath expr="/form/group[1]/group[1]" position="inside">
+            <xpath expr="//group[2]/group[2]" position="inside">
                 <field
                     name="tax_invoice_number"
-                    attrs="{'invisible': [('move_type', '!=', 'in_invoice')]}"
+                    attrs="{'invisible': [('move_type', 'not in', ['in_invoice', 'entry'])]}"
                 />
                 <field
                     name="tax_invoice_date"
-                    attrs="{'invisible': [('move_type', '!=', 'in_invoice')]}"
+                    attrs="{'invisible': [('move_type', 'not in', ['in_invoice', 'entry'])]}"
                 />
             </xpath>
         </field>
