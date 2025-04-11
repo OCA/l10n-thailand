@@ -1,7 +1,7 @@
 # Copyright 2019 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import fields, models
+from odoo import models
 
 
 class AccountPartialReconcile(models.Model):
@@ -11,7 +11,7 @@ class AccountPartialReconcile(models.Model):
         return ["in_invoice", "entry"]
 
     def _get_cash_basis_update(self, move):
-        return {"state": "draft", "is_move_sent": False, "date": False}
+        return {"state": "draft", "is_move_sent": False}
 
     def _update_state_cash_basis(self, moves):
         """Back state tax cash basis in bills and entry to draft
@@ -66,19 +66,3 @@ class AccountPartialReconcile(models.Model):
             self._update_state_cash_basis(moves)
         # --
         return moves
-
-    def unlink(self):
-        if not self:
-            return True
-
-        # Search moves to reverse with date is False
-        moves_to_reverse = self.env["account.move"].search(
-            [
-                ("tax_cash_basis_rec_id", "in", self.ids),
-                ("date", "=", False),
-            ]
-        )
-        if moves_to_reverse:
-            moves_to_reverse.write({"date": fields.Date.context_today(self)})
-
-        return super().unlink()

@@ -17,13 +17,6 @@
                 />
                 <field name="wht_cert_ids" invisible="1" />
             </div>
-            <!-- Add required in date (Bills, JE) -->
-            <xpath
-                expr="//group[@id='header_right_group']//field[@name='date']"
-                position="attributes"
-            >
-                <attribute name="required">1</attribute>
-            </xpath>
             <xpath expr="//header[last()]" position="after">
                 <field name="wht_cert_status" invisible="1" />
                 <div
