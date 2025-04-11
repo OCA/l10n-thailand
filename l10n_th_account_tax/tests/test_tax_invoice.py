@@ -364,7 +364,7 @@ class TestTaxInvoice(TransactionCase):
         action = self.supplier_invoice_undue_vat_partial.action_register_payment()
         ctx = action.get("context")
 
-        # Make full payment from invoice
+        # Keep open
         with Form(self.env["account.payment.register"].with_context(**ctx)) as f:
             f.journal_id = self.journal_bank
             f.amount = 30
@@ -376,9 +376,9 @@ class TestTaxInvoice(TransactionCase):
         self.assertEqual(payment.amount, 30.00)
         self.assertEqual(payment.reconciled_bill_ids.payment_state, "partial")
         self.assertEqual(payment.reconciled_bill_ids.amount_residual, 77)
+
         tax_calculated = 1.96  # payment - (payment * 100)/107
-        # NOTE: tax base amount is not correct because tax_calculated round 2 digits
-        tax_base_cal = (tax_calculated * 100) / 7  # calculat base tax
+        tax_base_cal = payment.amount - tax_calculated  # calculat base tax
         self.assertEqual(payment.tax_invoice_ids.balance, tax_calculated)
         self.assertEqual(payment.tax_invoice_ids.tax_base_amount, tax_base_cal)
         # Not allow delete tax invoice if it has 1 line.
