@@ -41,11 +41,12 @@ class TestTaxAddress(TransactionCase):
 
         # Check demo data after call api
         self.assertEqual(
-            self.partner.street, "281/19-23 อาคาร เอ็นเอสที วัน ชั้น 5 ห้อง 604 ถนนสีลม"
+            self.partner.street,
+            "459/132 หมู่บ้าน โครงการ นิว ไฮบ์ สุขสวัสดิ์ ถนนสุขสวัสดิ์",
         )
-        self.assertEqual(self.partner.street2, "แขวงสีลม")
-        self.assertEqual(self.partner.city, "เขตบางรัก")
+        self.assertEqual(self.partner.street2, "แขวงราษฎร์บูรณะ")
+        self.assertEqual(self.partner.city, "เขตราษฎร์บูรณะ")
         # False because not found.
         # if create master data it will return 'กรุงเทพมหานคร'
         self.assertEqual(self.partner.state_id.name, False)
-        self.assertEqual(self.partner.zip, "10500")
+        self.assertEqual(self.partner.zip, "10140")
