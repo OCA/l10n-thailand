@@ -1,7 +1,7 @@
 # Copyright 2019 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -31,7 +31,7 @@ class ResPartner(models.Model):
                 partners = Partner.search(domain)
                 if len(partners) > 1:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "Each contact's Tax ID and Tax Branch "
                             "should not be the same."
                         )
