@@ -409,8 +409,8 @@ class AccountMove(models.Model):
                                 "tax_invoice_date": tax_invoice_date,
                             }
                         )
-                    # Skip Error when found refund
-                    elif self.env.context.get("net_invoice_refund"):
+                    # Skip Error when found refund or reset to draft credit note
+                    elif self.env.context.get("net_invoice_refund") or self.env.context.get("default_move_type") in ["in_refund"]:
                         continue
                     else:
                         raise UserError(_("Please fill in tax invoice and tax date"))
