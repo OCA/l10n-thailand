@@ -19,7 +19,7 @@ ttb_format_transaction_17,l10n_th_bank_payment_export_ttb.ttb_h2h,26,Debit Accou
 ttb_format_transaction_18,l10n_th_bank_payment_export_ttb.ttb_h2h,27,Payment Amount,,15,line,TRUE,,,,,dynamic,rjust,,"str(""{:.2f}"".format(line.payment_amount))"
 ttb_format_transaction_19,l10n_th_bank_payment_export_ttb.ttb_h2h,28,Beneficiary Bank Code / SWIFT Code,,3,line,TRUE,,,,,dynamic,ljust,,line.payment_bank_id.bank_code
 ttb_format_transaction_20,l10n_th_bank_payment_export_ttb.ttb_h2h,29,Beneficiary Bank Branch Code / SWIFT Code,,13,line,TRUE,,,,,dynamic,ljust,,line.payment_bank_id.bank_branch_code
-ttb_format_transaction_21,l10n_th_bank_payment_export_ttb.ttb_h2h,30,Beneficiary's Account Number,,20,line,TRUE,,,,,dynamic,ljust,,line._get_acc_number_digit(line.payment_partner_bank_id)
+ttb_format_transaction_21,l10n_th_bank_payment_export_ttb.ttb_h2h,30,Beneficiary's Account Number,,20,line,TRUE,,,,,dynamic,ljust,,"rec.ttb_transaction_type not in (""MCP"", ""COP"") and line._get_acc_number_digit(line.payment_partner_bank_id) or """""
 ttb_format_transaction_22,l10n_th_bank_payment_export_ttb.ttb_h2h,31,"Transaction Code for ""SMART""",,2,line,TRUE,,,,,dynamic,ljust,,"rec.ttb_transaction_type not in (""MCP"", ""COP"") and rec.ttb_transaction_code or """""
 ttb_format_transaction_23,l10n_th_bank_payment_export_ttb.ttb_h2h,32,"Objective Code for ""Bahtnet""",,2,line,TRUE,,,,,dynamic,ljust,,"rec.ttb_transaction_type == ""BNT"" and ""00"" or """""
 ttb_format_transaction_24,l10n_th_bank_payment_export_ttb.ttb_h2h,33,"Delivery Method - (For Cheques), WHT Delivery Method - (For all domestic transfer)",,2,line,TRUE,,,,,dynamic,ljust,,"rec.ttb_transaction_type in (""MCP"", ""COP"") and rec.ttb_delivery_method or """""
