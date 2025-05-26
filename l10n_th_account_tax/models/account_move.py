@@ -73,10 +73,7 @@ class AccountMoveLine(models.Model):
             amount_wht = 0
             for line in wht_lines:
                 base_amount = line._get_wht_base_amount(currency, wht_date)
-                amount_wht += float_round(
-                    line.wht_tax_id.amount / 100 * base_amount,
-                    precision_digits=currency.decimal_places,
-                )
+                amount_wht += line.wht_tax_id.amount / 100 * base_amount
                 amount_base += base_amount
             return (amount_base, amount_wht)
         # PIT
@@ -188,7 +185,8 @@ class AccountMoveLine(models.Model):
                         }
                     )
                     line.tax_invoice_ids |= taxinv
-            else:
+            # Unlink all tax invoice, when manual_tax_invoice change from True to False
+            elif self.manual_tax_invoice and vals["manual_tax_invoice"] is False:
                 self = self.with_context(force_remove_tax_invoice=True)
                 self.mapped("tax_invoice_ids").unlink()
         # For case change type taxes, check cash basis
@@ -545,7 +543,9 @@ class AccountMove(models.Model):
         #   but still need to keep track the withholding.move base amount
         for move in self:
             # Normal case, create withholding.move only when withholding
-            wht_moves = move.line_ids.filtered("account_id.wht_account")
+            wht_moves = move.line_ids.filtered(
+                lambda l: l.account_id.wht_account and l.wht_tax_id
+            )
             withholding_moves = [
                 Command.create(self._prepare_withholding_move(wht_move))
                 for wht_move in wht_moves
