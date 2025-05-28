@@ -10,7 +10,6 @@ class TierLevel(models.Model):
 
     department_id = fields.Many2one(
         comodel_name="hr.department",
-        string="Department",
     )
     sequence = fields.Integer(default=10)
     level = fields.Integer(compute="_compute_level")
@@ -22,12 +21,11 @@ class TierLevel(models.Model):
     name = fields.Char(string="Description")
     company_id = fields.Many2one(
         comodel_name="res.company",
-        string="Company",
         required=True,
         readonly=True,
         index=True,
         default=lambda self: self.env.company,
-        help="Company related to this journal",
+        help="Company related to this tier level",
     )
 
     @api.depends("sequence")
