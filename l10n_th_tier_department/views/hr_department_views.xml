@@ -8,7 +8,7 @@
             <xpath expr="//sheet" position="inside">
                 <group name="approval_level" string="Approval Level">
                     <field name="tier_level_ids" nolabel="1" colspan="2">
-                        <tree editable="bottom">
+                        <list editable="bottom">
                             <field name="sequence" widget="handle" />
                             <field name="level" />
                             <field name="user_id" />
@@ -18,7 +18,7 @@
                                 options="{'no_create': True}"
                                 groups="base.group_multi_company"
                             />
-                        </tree>
+                        </list>
                     </field>
                 </group>
             </xpath>
