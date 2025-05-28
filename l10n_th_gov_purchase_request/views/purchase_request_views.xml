@@ -1,5 +1,4 @@
 <odoo>
-
     <record id="view_purchase_request_tree" model="ir.ui.view">
         <field name="name">purchase.request.tree</field>
         <field name="model">purchase.request</field>
@@ -204,5 +203,4 @@
             </button>
         </field>
     </record>
-
 </odoo>

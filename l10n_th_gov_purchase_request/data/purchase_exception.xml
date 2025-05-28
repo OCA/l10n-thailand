@@ -1,5 +1,4 @@
 <odoo noupdate="1">
-
     <record id="purchase_exception_amount_not_exceed_pr" model="exception.rule">
         <field
             name="name"
@@ -15,5 +14,4 @@ if pr_total:
     failed = po_total > (pr_total * max_percent)
         </field>
     </record>
-
 </odoo>
