@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_withholding_tax_cert_form" model="ir.ui.view">
+        <field name="name">view.withholding.tax.cert.form</field>
+        <field name="model">withholding.tax.cert</field>
+        <field name="arch" type="xml">
+            <form string="Withholding Tax Certificate" create="1" edit="1" delete="1">
+                <header>
+                    <button
+                        name="action_draft"
+                        string="Set to Draft"
+                        type="object"
+                        invisible="state not in ('done','cancel')"
+                    />
+                    <button
+                        name="action_done"
+                        string="Done"
+                        type="object"
+                        invisible="state != 'draft'"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="action_cancel"
+                        string="Cancel"
+                        type="object"
+                        invisible="state != 'draft'"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,done"
+                        clickable="True"
+                    />
+                </header>
+                <sheet>
+                    <h1>
+                        <field name="move_id" readonly="state != 'draft'" />
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="name" invisible="1" />
+                            <field name="company_partner_id" readonly="1" />
+                            <field name="company_vat" string="Tax ID" />
+                        </group>
+                        <group>
+                            <field name="partner_id" readonly="state != 'draft'" />
+                            <field name="partner_vat" string="Tax ID" />
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Options">
+                            <field
+                                name="income_tax_form"
+                                readonly="state != 'draft'"
+                                required="1"
+                            />
+                            <field name="tax_payer" readonly="state != 'draft'" />
+                        </group>
+                        <group string="References">
+                            <field name="company_id" invisible="1" readonly="1" />
+                            <field name="currency_id" invisible="1" />
+                            <field name="ref_wht_cert_id" readonly="state != 'draft'" />
+                            <field name="date" readonly="state != 'draft'" />
+                        </group>
+                    </group>
+                    <field name="wht_line" readonly="state != 'draft'">
+                        <list editable="bottom">
+                            <field name="wht_income_tax_form" invisible="1" />
+                            <field name="company_id" invisible="1" />
+                            <field name="wht_cert_income_type" />
+                            <field
+                                name="wht_cert_income_code"
+                                options="{'no_create': True, 'no_create_edit': True}"
+                                column_invisible="parent.income_tax_form != 'pnd1'"
+                                domain="[('income_tax_form', '=', wht_income_tax_form), ('wht_cert_income_type', '=', wht_cert_income_type)]"
+                            />
+                            <field
+                                name="wht_cert_bank_account"
+                                options="{'no_create': True, 'no_create_edit': True}"
+                                column_invisible="parent.income_tax_form != 'pnd2'"
+                                required="parent.income_tax_form == 'pnd2' and wht_cert_income_type == '4A'"
+                                domain="[('partner_id', '=', parent.partner_id)]"
+                            />
+                            <field name="wht_cert_income_desc" optional="show" />
+                            <field name="amount" sum="Total Tax" />
+                            <field name="wht_tax_id" optional="hide" />
+                            <field name="wht_percent" required="1" />
+                            <field name="base" required="1" sum="Total Base" />
+                        </list>
+                    </field>
+                </sheet>
+                <!-- Chatter -->
+                <chatter />
+            </form>
+        </field>
+    </record>
+    <record id="view_withholding_tax_cert_list" model="ir.ui.view">
+        <field name="name">view.withholding.tax.cert.list</field>
+        <field name="model">withholding.tax.cert</field>
+        <field name="arch" type="xml">
+            <list create="1" edit="1" delete="1">
+                <field name="name" />
+                <field name="partner_id" />
+                <field name="income_tax_form" />
+                <field name="tax_payer" />
+                <field name="date" />
+                <field
+                    name="company_id"
+                    groups="base.group_multi_company"
+                    optional="show"
+                />
+                <field name="state" />
+            </list>
+        </field>
+    </record>
+    <record id="view_withholding_tax_cert_search" model="ir.ui.view">
+        <field name="name">view.withholding.tax.cert.search</field>
+        <field name="model">withholding.tax.cert</field>
+        <field name="arch" type="xml">
+            <search string="WHT Cert.">
+                <field name="name" string="WHT Cert." />
+                <field name="partner_id" />
+                <filter
+                    string="Payment"
+                    name="payment"
+                    domain="[('payment_id','!=',False)]"
+                />
+                <filter
+                    string="Journal"
+                    name="journal"
+                    domain="[('move_id','!=',False)]"
+                />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="income_tax_form"
+                        string="Tax Form"
+                        context="{'group_by':'income_tax_form'}"
+                    />
+                    <filter
+                        name="tax_payer"
+                        string="Tax Payer"
+                        context="{'group_by':'tax_payer'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_withholding_tax_cert_menu" model="ir.actions.act_window">
+        <field name="name">WHT Certificates</field>
+        <field name="res_model">withholding.tax.cert</field>
+        <field name="view_id" ref="view_withholding_tax_cert_list" />
+    </record>
+    <menuitem
+        id="menu_withholding_tax_cert"
+        action="action_withholding_tax_cert_menu"
+        parent="account.menu_finance_payables"
+        sequence="30"
+    />
+</odoo>
