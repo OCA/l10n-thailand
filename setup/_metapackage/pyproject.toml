@@ -1,7 +1,8 @@
 [project]
 name = "odoo-addons-oca-l10n-thailand"
-version = "18.0.20250529.0"
+version = "18.0.20250529.1"
 dependencies = [
+    "odoo-addon-l10n_th_account_tax==18.0.*",
     "odoo-addon-l10n_th_amount_to_text==18.0.*",
     "odoo-addon-l10n_th_base_sequence==18.0.*",
     "odoo-addon-l10n_th_fonts==18.0.*",
