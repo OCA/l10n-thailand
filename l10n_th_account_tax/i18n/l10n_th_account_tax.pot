@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -26,15 +26,7 @@ msgstr ""
 #. module: l10n_th_account_tax
 #. odoo-python
 #: code:addons/l10n_th_account_tax/models/personal_income_tax.py:0
-#, python-format
 msgid "%s (copy)"
-msgstr ""
-
-#. module: l10n_th_account_tax
-#. odoo-python
-#: code:addons/l10n_th_account_tax/models/account_move.py:0
-#, python-format
-msgid "(Discount)"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -209,21 +201,21 @@ msgid "6. อื่นๆ (ระบุ)"
 msgstr ""
 
 #. module: l10n_th_account_tax
-#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_account_payment_form
-msgid ""
-"<span attrs=\"{'invisible': [('wht_certs_count','&gt;', 1)]}\">WHT Cert</span>\n"
-"                    <span attrs=\"{'invisible': [('wht_certs_count','&lt;=', 1)]}\">WHT Certs</span>"
-msgstr ""
-
-#. module: l10n_th_account_tax
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_account_withholding_tax_form
 msgid "<span class=\"o_form_label oe_inline\">%</span>"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_account_payment_form
+msgid ""
+"<span invisible=\"wht_certs_count &gt; 1\">WHT Cert</span>\n"
+"                    <span invisible=\"wht_certs_count &lt;= 1\">WHT Certs</span>"
+msgstr ""
+
+#. module: l10n_th_account_tax
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_personal_income_tax_form
 msgid ""
-"<span style=\"color: red;\" attrs=\"{'invisible': [('effective_date', '!=', False)]}\">\n"
+"<span style=\"color: red;\" invisible=\"effective_date\">\n"
 "                        *Effective Date is required. Please provide a valid calendar year as an integer.\n"
 "                    </span>"
 msgstr ""
@@ -248,6 +240,11 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model:ir.model,name:l10n_th_account_tax.model_account_withholding_tax
 msgid "Account Withholding Tax"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_clear_tax__date
+msgid "Accounting Date (Tax Cash Basis)"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -332,6 +329,7 @@ msgid "Calendar Year"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_clear_tax_form
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_withholding_tax_cert_form
 msgid "Cancel"
 msgstr ""
@@ -339,6 +337,7 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_move__cancelled
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_move__wht_cert_status__cancel
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_payment__wht_cert_status__cancel
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert__state__cancel
 msgid "Cancelled"
 msgstr ""
@@ -346,20 +345,24 @@ msgstr ""
 #. module: l10n_th_account_tax
 #. odoo-python
 #: code:addons/l10n_th_account_tax/models/account_move_tax_invoice.py:0
-#, python-format
 msgid "Cannot delete this last tax invoice line"
 msgstr ""
 
 #. module: l10n_th_account_tax
-#. odoo-python
-#: code:addons/l10n_th_account_tax/models/account_move.py:0
-#, python-format
-msgid "Cannot set tax invoice number, number already exists."
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.res_config_settings_view_form
+msgid "Check this if you want to include tax lines with 0.00 amount."
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model:ir.actions.act_window,name:l10n_th_account_tax.action_clear_tax_wizard
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_account_payment_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_clear_tax_form
 msgid "Clear Tax"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model:ir.model,name:l10n_th_account_tax.model_clear_tax
+msgid "Clear Tax Wizard"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -418,6 +421,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__create_uid
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_move__create_uid
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_tax__create_uid
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_clear_tax__create_uid
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax__create_uid
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax_rate__create_uid
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__create_uid
@@ -430,6 +434,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__create_date
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_move__create_date
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_tax__create_date
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_clear_tax__create_date
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax__create_date
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax_rate__create_date
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__create_date
@@ -509,7 +514,6 @@ msgstr ""
 #. module: l10n_th_account_tax
 #. odoo-python
 #: code:addons/l10n_th_account_tax/models/personal_income_tax.py:0
-#, python-format
 msgid ""
 "Discontinued income range!\n"
 "Please make sure Income From = Previous Income To"
@@ -519,6 +523,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__display_name
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_move__display_name
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_tax__display_name
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_clear_tax__display_name
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax__display_name
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax_rate__display_name
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__display_name
@@ -529,6 +534,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_move__wht_cert_status__done
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_payment__wht_cert_status__done
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert__state__done
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_withholding_tax_cert_form
 msgid "Done"
@@ -536,6 +542,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_move__wht_cert_status__draft
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_payment__wht_cert_status__draft
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert__state__draft
 msgid "Draft"
 msgstr ""
@@ -548,6 +555,11 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model:ir.model.constraint,message:l10n_th_account_tax.constraint_personal_income_tax_effective_date_unique
 msgid "Effective Date must be unique!"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.res_config_settings_view_form
+msgid "Enable this to record tax lines with zero amount in invoices."
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -600,6 +612,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_move__id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_tax__id
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_clear_tax__id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax__id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax_rate__id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__id
@@ -630,15 +643,15 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,help:l10n_th_account_tax.field_withholding_tax_cert__message_has_error
+#: model:ir.model.fields,help:l10n_th_account_tax.field_withholding_tax_cert__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
 #. module: l10n_th_account_tax
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.res_config_settings_view_form
 msgid ""
-"In case of Sales Undue VAT,\n"
-"                                Define your tax invoice number which is created after payment\n"
-"                                when user didn't setup Tax Invoice Sequence in Tax setting."
+"In case of Sales Undue VAT, Define your tax invoice number which is created "
+"after payment when user didn't setup Tax Invoice Sequence in Tax setting."
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -679,7 +692,6 @@ msgstr ""
 #. module: l10n_th_account_tax
 #. odoo-python
 #: code:addons/l10n_th_account_tax/models/personal_income_tax.py:0
-#, python-format
 msgid "Income amount must start from 0.0"
 msgstr ""
 
@@ -717,7 +729,6 @@ msgstr ""
 #: code:addons/l10n_th_account_tax/models/account_payment.py:0
 #: model:ir.model,name:l10n_th_account_tax.model_account_move
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_move__move_id
-#, python-format
 msgid "Journal Entry"
 msgstr ""
 
@@ -727,21 +738,16 @@ msgid "Journal Item"
 msgstr ""
 
 #. module: l10n_th_account_tax
-#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice____last_update
-#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_move____last_update
-#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_tax____last_update
-#: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax____last_update
-#: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax_rate____last_update
-#: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert____last_update
-#: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert_line____last_update
-#: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_code_income____last_update
-msgid "Last Modified on"
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_res_company__tax_zero_line
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_res_config_settings__tax_zero_line
+msgid "Keep Zero Line Taxes"
 msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__write_uid
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_move__write_uid
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_tax__write_uid
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_clear_tax__write_uid
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax__write_uid
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax_rate__write_uid
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__write_uid
@@ -754,6 +760,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__write_date
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_move__write_date
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_tax__write_date
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_clear_tax__write_date
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax__write_date
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax_rate__write_date
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__write_date
@@ -765,11 +772,6 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model:ir.model.fields,help:l10n_th_account_tax.field_account_withholding_tax__pit_id
 msgid "Latest PIT Rates used to calcuate withholiding amount"
-msgstr ""
-
-#. module: l10n_th_account_tax
-#: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__message_main_attachment_id
-msgid "Main Attachment"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -853,12 +855,12 @@ msgstr ""
 #. module: l10n_th_account_tax
 #. odoo-python
 #: code:addons/l10n_th_account_tax/models/account_move.py:0
-#, python-format
 msgid "No effective PIT rate for date %s"
 msgstr ""
 
 #. module: l10n_th_account_tax
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_move__wht_cert_status__none
+#: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_payment__wht_cert_status__none
 msgid "Not yet created"
 msgstr ""
 
@@ -890,7 +892,6 @@ msgstr ""
 #. module: l10n_th_account_tax
 #. odoo-python
 #: code:addons/l10n_th_account_tax/models/account_withholding_tax.py:0
-#, python-format
 msgid "Only 1 personal income tax allowed!"
 msgstr ""
 
@@ -1010,8 +1011,14 @@ msgid "Partner"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model:ir.model,name:l10n_th_account_tax.model_account_payment_register
+msgid "Pay"
+msgstr ""
+
+#. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__payment_id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_move__payment_id
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_clear_tax__payment_id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__payment_id
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_wht_move_search
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_withholding_tax_cert_search
@@ -1047,14 +1054,12 @@ msgstr ""
 #. module: l10n_th_account_tax
 #. odoo-python
 #: code:addons/l10n_th_account_tax/models/res_partner.py:0
-#, python-format
 msgid "Personal Income Tax Yearly"
 msgstr ""
 
 #. module: l10n_th_account_tax
 #. odoo-python
 #: code:addons/l10n_th_account_tax/wizard/account_payment_register.py:0
-#, python-format
 msgid ""
 "Please check Group Payments when dealing with multiple invoices that has "
 "withholding tax."
@@ -1064,14 +1069,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_th_account_tax/models/account_move.py:0
 #: code:addons/l10n_th_account_tax/models/account_payment.py:0
-#, python-format
 msgid "Please fill in tax invoice and tax date"
 msgstr ""
 
 #. module: l10n_th_account_tax
 #. odoo-python
 #: code:addons/l10n_th_account_tax/models/account_move.py:0
-#, python-format
 msgid "Please select Type of Income on every withholding moves"
 msgstr ""
 
@@ -1088,11 +1091,6 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_withholding_tax_cert_form
 msgid "References"
-msgstr ""
-
-#. module: l10n_th_account_tax
-#: model:ir.model,name:l10n_th_account_tax.model_account_payment_register
-msgid "Register Payment"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -1121,9 +1119,13 @@ msgid "Reversing"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: l10n_th_account_tax
 #. odoo-python
 #: code:addons/l10n_th_account_tax/models/account_withholding_tax.py:0
-#, python-format
 msgid "Selected account is not for withholding tax"
 msgstr ""
 
@@ -1139,8 +1141,12 @@ msgid "Split"
 msgstr ""
 
 #. module: l10n_th_account_tax
-#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__move_state
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_move__payment_state
+msgid "State"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__move_state
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__state
 msgid "Status"
 msgstr ""
@@ -1280,7 +1286,6 @@ msgstr ""
 #. module: l10n_th_account_tax
 #. odoo-python
 #: code:addons/l10n_th_account_tax/models/withholding_tax_cert.py:0
-#, python-format
 msgid "This document was substituted by %s."
 msgstr ""
 
@@ -1310,7 +1315,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_partner_property_form
-#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_wht_move_tree
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_wht_move_list
 msgid "Total Amount Withholding Tax"
 msgstr ""
 
@@ -1321,7 +1326,7 @@ msgstr ""
 
 #. module: l10n_th_account_tax
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_partner_property_form
-#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_wht_move_tree
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_wht_move_list
 msgid "Total Income"
 msgstr ""
 
@@ -1534,7 +1539,6 @@ msgstr ""
 #. module: l10n_th_account_tax
 #. odoo-python
 #: code:addons/l10n_th_account_tax/models/withholding_tax_cert.py:0
-#, python-format
 msgid ""
 "You can not default field '%(income)s - %(wht_income_type)s' more than 1."
 msgstr ""
@@ -1542,7 +1546,6 @@ msgstr ""
 #. module: l10n_th_account_tax
 #. odoo-python
 #: code:addons/l10n_th_account_tax/wizard/account_payment_register.py:0
-#, python-format
 msgid ""
 "You can't register a payment for invoices (with withholding tax) belong to "
 "multiple partners."
