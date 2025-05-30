@@ -151,7 +151,8 @@ class ResCurrencyRateProviderBOT(models.Model):
                 if not result:
                     raise UserError(
                         self.env._(
-                            f"httpCode: {data_dict.get('httpCode', False)}\nmoreInformation: {data_dict.get('moreInformation', False)}"
+                            f"httpCode: {data_dict.get('httpCode', False)}\n"
+                            f"moreInformation: {data_dict.get('moreInformation', False)}"
                         )
                         % (
                             {
