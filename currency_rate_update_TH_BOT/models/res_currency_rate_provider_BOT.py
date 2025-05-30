@@ -5,7 +5,7 @@ import datetime
 
 import requests
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 
@@ -94,7 +94,7 @@ class ResCurrencyRateProviderBOT(models.Model):
         last_updated = data["data_header"]["last_updated"]
         date_last_update = datetime.datetime.strptime(last_updated, "%Y-%m-%d").date()
         if date_from > date_last_update and date_to > date_last_update:
-            raise UserError(_("BOT Last Updated: {}").format(last_updated))
+            raise UserError(self.env._(f"BOT Last Updated: {last_updated}"))
         data_details = data["data_detail"]
         for data_detail in data_details:
             period = (
@@ -120,7 +120,7 @@ class ResCurrencyRateProviderBOT(models.Model):
         if self.service == "BOT":
             if base_currency != "THB":
                 raise UserError(
-                    _(
+                    self.env._(
                         "Bank of Thailand is suitable only for companies with THB as "
                         "base currency!"
                     )
@@ -128,7 +128,7 @@ class ResCurrencyRateProviderBOT(models.Model):
             ICP = self.env["ir.config_parameter"].sudo()
             bot_client_id = self.company_id.bot_client_id
             if not bot_client_id:
-                raise UserError(_("No bot.or.th credentials specified!"))
+                raise UserError(self.env._("No bot.or.th credentials specified!"))
             hostname = ICP.get_param("hostname_TH_BOT")
             route_BOT = ICP.get_param("route_TH_BOT_exchange_daily")
             url = "{}{}/?start_period={}&end_period={}".format(
@@ -150,7 +150,7 @@ class ResCurrencyRateProviderBOT(models.Model):
                 result = data_dict.get("result", False)
                 if not result:
                     raise UserError(
-                        _("httpCode: %(http_code)s\nmoreInformation: %(more_info)s")
+                        self.env._(f"httpCode: {data_dict.get('httpCode', False)}\nmoreInformation: {data_dict.get('moreInformation', False)}")
                         % (
                             {
                                 "http_code": data_dict.get("httpCode", False),
