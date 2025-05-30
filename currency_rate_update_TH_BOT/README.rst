@@ -17,13 +17,13 @@ Currency Rate Update - BOT
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-thailand/tree/17.0/currency_rate_update_TH_BOT
+    :target: https://github.com/OCA/l10n-thailand/tree/18.0/currency_rate_update_TH_BOT
     :alt: OCA/l10n-thailand
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-thailand-17-0/l10n-thailand-17-0-currency_rate_update_TH_BOT
+    :target: https://translation.odoo-community.org/projects/l10n-thailand-18-0/l10n-thailand-18-0-currency_rate_update_TH_BOT
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&target_branch=17.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -64,7 +64,12 @@ and configure it in Odoo:
    | `BOT API Login / Sign
      Up <https://apiportal.bot.or.th/bot/public/user/login>`__
 
-2. | **Access API Products**
+2. **Create New Apps** \| After logging in, navigate to **Apps > Create
+   New App** \| Fill in the required details for your application, such
+   as title and description. when done, you will have client secret then
+   verify Client Secret with secret key
+
+3. | **Access API Products**
    | After logging in, go to **API Products**. Select **Exchange Rates
      (2.0.1)** from the available products.
    | Alternatively, you can access the Exchange Rates product directly
@@ -72,22 +77,22 @@ and configure it in Odoo:
    | `Exchange Rates API
      Product <https://apiportal.bot.or.th/bot/public/node/504>`__
 
-3. | **Subscribe to the Exchange Rates API**
+4. | **Subscribe to the Exchange Rates API**
    | Click on **Subscribe** to start the subscription process. Follow
      the on-screen instructions until you receive your API token.
 
-4. | **Copy the API Token**
+5. | **Copy the API Token**
    | Once the subscription is complete, you will be provided with an API
      token. **Copy the token** to use in the next step.
 
-5. **Configure Odoo with the BOT Token**
+6. **Configure Odoo with the BOT Token**
 
    - In Odoo, Go to *Invoicing > Configuration > Settings*
    - Find the **BOT Provider** section under the **Currencies**
      settings.
    - Paste the copied API token into the **Client ID** field.
 
-6. | **Save the Settings**
+7. | **Save the Settings**
    | After pasting the token, save the changes in Odoo. Your system will
      now be connected to the BOT API for currency rate updates.
 
@@ -107,7 +112,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-thailand/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20currency_rate_update_TH_BOT%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20currency_rate_update_TH_BOT%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -148,6 +153,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-ps-tubtim| 
 
-This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/17.0/currency_rate_update_TH_BOT>`_ project on GitHub.
+This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/18.0/currency_rate_update_TH_BOT>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
