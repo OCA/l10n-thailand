@@ -11,34 +11,35 @@ from odoo.tests import common
 
 
 class TestResCurrencyRateProviderBOT(common.TransactionCase):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
-        self.Company = self.env["res.company"]
-        self.CurrencyRate = self.env["res.currency.rate"]
-        self.CurrencyRateProvider = self.env["res.currency.rate.provider"]
+        cls.Company = cls.env["res.company"]
+        cls.CurrencyRate = cls.env["res.currency.rate"]
+        cls.CurrencyRateProvider = cls.env["res.currency.rate.provider"]
 
-        self.today = fields.Date.today()
-        self.thb_currency = self.env.ref("base.THB")
-        self.eur_currency = self.env.ref("base.EUR")
-        self.my_company = self.Company.create(
-            {"name": "Test Company", "currency_id": self.thb_currency.id}
+        cls.today = fields.Date.today()
+        cls.thb_currency = cls.env.ref("base.THB")
+        cls.eur_currency = cls.env.ref("base.EUR")
+        cls.my_company = cls.Company.create(
+            {"name": "Test Company", "currency_id": cls.thb_currency.id}
         )
-        self.none_provider = self.CurrencyRateProvider.create(
+        cls.none_provider = cls.CurrencyRateProvider.create(
             {
                 "service": "none",
-                "currency_ids": [(4, self.eur_currency.id)],
-                "company_id": self.my_company.id,
+                "currency_ids": [(4, cls.eur_currency.id)],
+                "company_id": cls.my_company.id,
             }
         )
-        self.bot_provider = self.CurrencyRateProvider.create(
+        cls.bot_provider = cls.CurrencyRateProvider.create(
             {
                 "service": "BOT",
-                "currency_ids": [(4, self.eur_currency.id)],
-                "company_id": self.my_company.id,
+                "currency_ids": [(4, cls.eur_currency.id)],
+                "company_id": cls.my_company.id,
             }
         )
-        self.CurrencyRate.search([]).unlink()
+        cls.CurrencyRate.search([]).unlink()
 
     def test_01_supported_currencies(self):
         # None
