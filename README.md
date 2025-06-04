@@ -20,18 +20,18 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[l10n_th_account_asset_management](l10n_th_account_asset_management/) | 14.0.1.0.0 | [![ps-tubtim](https://github.com/ps-tubtim.png?size=30px)](https://github.com/ps-tubtim) | Thai Localization - Assets Management
-[l10n_th_amount_to_text](l10n_th_amount_to_text/) | 14.0.1.0.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Convert Amount Text to Thai
+[l10n_th_account_asset_management](l10n_th_account_asset_management/) | 14.0.1.0.0 | <a href='https://github.com/ps-tubtim'><img src='https://github.com/ps-tubtim.png' width='32' height='32' style='border-radius:50%;' alt='ps-tubtim'/></a> | Thai Localization - Assets Management
+[l10n_th_amount_to_text](l10n_th_amount_to_text/) | 14.0.1.0.0 | <a href='https://github.com/Saran440'><img src='https://github.com/Saran440.png' width='32' height='32' style='border-radius:50%;' alt='Saran440'/></a> | Convert Amount Text to Thai
 [l10n_th_base_location](l10n_th_base_location/) | 14.0.1.0.0 |  | Thai Localization - Base Location
-[l10n_th_company_novat](l10n_th_company_novat/) | 14.0.1.1.0 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Comapny/Partner, VAT/NOVAT setup
-[l10n_th_expense_tax_invoice](l10n_th_expense_tax_invoice/) | 14.0.1.0.1 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Expense Tax Invoice
-[l10n_th_expense_withholding_tax](l10n_th_expense_withholding_tax/) | 14.0.1.0.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Thai Localization - Expense Withholding Tax
-[l10n_th_fonts](l10n_th_fonts/) | 14.0.1.0.2 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Collection of all fonts thai
-[l10n_th_gov_purchase_agreement](l10n_th_gov_purchase_agreement/) | 14.0.1.0.0 | [![newtratip](https://github.com/newtratip.png?size=30px)](https://github.com/newtratip) | Thai Localization - Government Purchase Agreement
+[l10n_th_company_novat](l10n_th_company_novat/) | 14.0.1.1.0 | <a href='https://github.com/kittiu'><img src='https://github.com/kittiu.png' width='32' height='32' style='border-radius:50%;' alt='kittiu'/></a> | Thai Localization - Comapny/Partner, VAT/NOVAT setup
+[l10n_th_expense_tax_invoice](l10n_th_expense_tax_invoice/) | 14.0.1.0.1 | <a href='https://github.com/kittiu'><img src='https://github.com/kittiu.png' width='32' height='32' style='border-radius:50%;' alt='kittiu'/></a> | Thai Localization - Expense Tax Invoice
+[l10n_th_expense_withholding_tax](l10n_th_expense_withholding_tax/) | 14.0.1.0.0 | <a href='https://github.com/Saran440'><img src='https://github.com/Saran440.png' width='32' height='32' style='border-radius:50%;' alt='Saran440'/></a> | Thai Localization - Expense Withholding Tax
+[l10n_th_fonts](l10n_th_fonts/) | 14.0.1.0.2 | <a href='https://github.com/Saran440'><img src='https://github.com/Saran440.png' width='32' height='32' style='border-radius:50%;' alt='Saran440'/></a> | Collection of all fonts thai
+[l10n_th_gov_purchase_agreement](l10n_th_gov_purchase_agreement/) | 14.0.1.0.0 | <a href='https://github.com/newtratip'><img src='https://github.com/newtratip.png' width='32' height='32' style='border-radius:50%;' alt='newtratip'/></a> | Thai Localization - Government Purchase Agreement
 [l10n_th_gov_purchase_guarantee](l10n_th_gov_purchase_guarantee/) | 14.0.1.0.0 |  | Thai Localization - Government Purchase Guarantee
-[l10n_th_gov_purchase_request](l10n_th_gov_purchase_request/) | 14.0.1.0.0 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Government Purchase Request
-[l10n_th_gov_work_acceptance](l10n_th_gov_work_acceptance/) | 14.0.1.0.0 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Government Work Acceptance
-[l10n_th_partner](l10n_th_partner/) | 14.0.2.2.0 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Partner
+[l10n_th_gov_purchase_request](l10n_th_gov_purchase_request/) | 14.0.1.0.0 | <a href='https://github.com/kittiu'><img src='https://github.com/kittiu.png' width='32' height='32' style='border-radius:50%;' alt='kittiu'/></a> | Thai Localization - Government Purchase Request
+[l10n_th_gov_work_acceptance](l10n_th_gov_work_acceptance/) | 14.0.1.0.0 | <a href='https://github.com/kittiu'><img src='https://github.com/kittiu.png' width='32' height='32' style='border-radius:50%;' alt='kittiu'/></a> | Thai Localization - Government Work Acceptance
+[l10n_th_partner](l10n_th_partner/) | 14.0.2.2.0 | <a href='https://github.com/kittiu'><img src='https://github.com/kittiu.png' width='32' height='32' style='border-radius:50%;' alt='kittiu'/></a> | Thai Localization - Partner
 [l10n_th_promptpay](l10n_th_promptpay/) | 14.0.1.0.0 |  | Use PromptPay QR code with transfer acquirer.
 [l10n_th_sequence_be](l10n_th_sequence_be/) | 14.0.1.0.1 |  | Thai Localization - Sequence with Buddhist Era Year
 [l10n_th_sequence_branch](l10n_th_sequence_branch/) | 14.0.1.0.0 |  | Thai Localization - Sequence with Company Branch
@@ -39,10 +39,10 @@ addon | version | maintainers | summary
 [l10n_th_sequence_qoy](l10n_th_sequence_qoy/) | 14.0.1.0.1 |  | Thai Localization - Sequence with Quarter
 [l10n_th_sequence_range_end](l10n_th_sequence_range_end/) | 14.0.1.0.0 |  | Sequence - Range End
 [l10n_th_sequence_refactored](l10n_th_sequence_refactored/) | 14.0.1.0.1 |  | Base Sequence
-[l10n_th_tax_invoice](l10n_th_tax_invoice/) | 14.0.1.0.3 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Account Tax Invoice
+[l10n_th_tax_invoice](l10n_th_tax_invoice/) | 14.0.1.0.3 | <a href='https://github.com/kittiu'><img src='https://github.com/kittiu.png' width='32' height='32' style='border-radius:50%;' alt='kittiu'/></a> | Thai Localization - Account Tax Invoice
 [l10n_th_tax_report](l10n_th_tax_report/) | 14.0.1.0.0 |  | Thailand Localization - TAX Reports
-[l10n_th_withholding_tax](l10n_th_withholding_tax/) | 14.0.1.0.3 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Withholding Tax
-[l10n_th_withholding_tax_cert](l10n_th_withholding_tax_cert/) | 14.0.1.0.1 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Withholding Tax Certificate
+[l10n_th_withholding_tax](l10n_th_withholding_tax/) | 14.0.1.0.3 | <a href='https://github.com/kittiu'><img src='https://github.com/kittiu.png' width='32' height='32' style='border-radius:50%;' alt='kittiu'/></a> | Thai Localization - Withholding Tax
+[l10n_th_withholding_tax_cert](l10n_th_withholding_tax_cert/) | 14.0.1.0.1 | <a href='https://github.com/kittiu'><img src='https://github.com/kittiu.png' width='32' height='32' style='border-radius:50%;' alt='kittiu'/></a> | Thai Localization - Withholding Tax Certificate
 [l10n_th_withholding_tax_cert_form](l10n_th_withholding_tax_cert_form/) | 14.0.1.0.1 |  | Thai Localization - Withholding Tax Certificate Form
 [l10n_th_withholding_tax_report](l10n_th_withholding_tax_report/) | 14.0.1.0.0 |  | Thailand Localization - Withholding Tax Report
 
