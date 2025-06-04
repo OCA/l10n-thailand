@@ -3,9 +3,10 @@
 
 import logging
 
+import requests
+
 from odoo import Command
-from odoo.tests import tagged
-from odoo.tests.common import Form
+from odoo.tests import Form, tagged
 
 from odoo.addons.base_location.tests.test_base_location import TestBaseLocation
 
@@ -16,6 +17,7 @@ logger = logging.getLogger(__name__)
 class TestTHBaseLocation(TestBaseLocation):
     @classmethod
     def setUpClass(cls):
+        cls._super_send = requests.Session.send
         super().setUpClass()
         cls.thailand = cls.env.ref("base.th")
         cls.belgium = cls.env.ref("base.be")
@@ -24,6 +26,10 @@ class TestTHBaseLocation(TestBaseLocation):
         cls.zip_id = cls.env["res.city.zip"]
         cls.country_state = cls.env["res.country.state"]
         cls.geonames_import_wizard = cls.env["city.zip.geonames.import"]
+
+    @classmethod
+    def _request_handler(cls, s, r, /, **kw):
+        return cls._super_send(s, r, **kw)
 
     def create_geonames_import(self, country, lang):
         import_wizard = self.geonames_import_wizard.with_context(max_import=10).create(
@@ -53,8 +59,8 @@ class TestTHBaseLocation(TestBaseLocation):
                 "state_id": state_id.id,
             }
         )
-        name = record.state_id.name_get()
-        self.assertEqual(name[0][1], "กรุงเทพมหานคร")
+        name = record.state_id.display_name
+        self.assertEqual(name, "กรุงเทพมหานคร")
 
         city_zip = self.zip_id.search(
             [("city_id.country_id", "=", self.thailand.id)], limit=1
@@ -86,8 +92,8 @@ class TestTHBaseLocation(TestBaseLocation):
                 "state_id": state_id.id,
             }
         )
-        name = record.state_id.name_get()
-        self.assertEqual(name[0][1], "Bangkok")
+        name = record.state_id.display_name
+        self.assertEqual(name, "Bangkok")
 
     def test_02_import_not_th(self):
         """Test Import NOT Thailand Location"""
