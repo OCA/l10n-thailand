@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 Ecosoft Co., Ltd (http://ecosoft.co.th/)
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html) -->
+<odoo>
+    <!-- Bank Payment Export Line -->
+    <record id="bank_payment_export_line_view_tree" model="ir.ui.view">
+        <field name="name">bank.payment.export.line.view.tree</field>
+        <field name="model">bank.payment.export.line</field>
+        <field
+            name="inherit_id"
+            ref="l10n_th_bank_payment_export.bank_payment_export_line_view_tree"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='currency_id']" position="before">
+                <field name="cancel_reason" optional="show" readonly="1" />
+                <field name="write_uid" optional="show" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

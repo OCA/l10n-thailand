@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 Ecosoft Co., Ltd (http://ecosoft.co.th/)
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html) -->
+<odoo>
+    <record id="bank_payment_export_view_form" model="ir.ui.view">
+        <field name="name">bank.payment.export.view.form</field>
+        <field name="model">bank.payment.export</field>
+        <field
+            name="inherit_id"
+            ref="l10n_th_bank_payment_export.bank_payment_export_view_form"
+        />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//page[@name='information']//group[@name='left_information']"
+                position="inside"
+            >
+                <field name="ktb_is_editable" invisible="1" />
+                <field
+                    name="ktb_bank_type"
+                    string="Bank Type"
+                    widget="radio"
+                    attrs="{'invisible': [('ktb_is_editable', '!=', True)], 'required': [('ktb_is_editable', '!=', False)]}"
+                />
+                <field
+                    name="ktb_service_type_standard"
+                    string="Service Type"
+                    attrs="{'invisible': [('ktb_bank_type', '!=', 'standard')], 'required': [('ktb_bank_type', '=', 'standard')]}"
+                />
+                <field
+                    name="ktb_service_type_direct"
+                    string="Service Type"
+                    attrs="{'invisible': [('ktb_bank_type', '!=', 'direct')], 'required': [('ktb_bank_type', '=', 'direct')]}"
+                />
+            </xpath>
+            <xpath
+                expr="//page[@name='information']/group[@name='system_config']"
+                position="inside"
+            >
+                <field
+                    name="config_ktb_company_id"
+                    options="{'no_create': True, 'no_create_edit': True}"
+                    domain="[('field_id.name', '=', 'config_ktb_company_id')]"
+                    attrs="{'invisible': [('ktb_is_editable', '!=', True)], 'required': [('ktb_is_editable', '!=', False)]}"
+                />
+                <field
+                    name="config_ktb_sender_name"
+                    options="{'no_create': True, 'no_create_edit': True}"
+                    domain="[('field_id.name', '=', 'config_ktb_sender_name')]"
+                    attrs="{'invisible': [('ktb_is_editable', '!=', True)], 'required': [('ktb_is_editable', '!=', False)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
