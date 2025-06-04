@@ -21,14 +21,14 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[currency_rate_update_TH_BOT](currency_rate_update_TH_BOT/) | 17.0.1.0.0 | [![ps-tubtim](https://github.com/ps-tubtim.png?size=30px)](https://github.com/ps-tubtim) | Currency Rate Update - BOT
-[l10n_th_amount_to_text](l10n_th_amount_to_text/) | 17.0.1.0.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Convert Amount Text to Thai
-[l10n_th_base_sequence](l10n_th_base_sequence/) | 17.0.1.0.0 | [![sansirit](https://github.com/sansirit.png?size=30px)](https://github.com/sansirit) [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Thai Localization - Base Sequence
-[l10n_th_fonts](l10n_th_fonts/) | 17.0.1.0.0 | [![Saran440](https://github.com/Saran440.png?size=30px)](https://github.com/Saran440) | Collection of all Thai fonts
-[l10n_th_mis_report](l10n_th_mis_report/) | 17.0.1.1.0 | [![ps-tubtim](https://github.com/ps-tubtim.png?size=30px)](https://github.com/ps-tubtim) | Thai Localization - MIS Report
-[l10n_th_partner](l10n_th_partner/) | 17.0.1.0.0 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Thai Localization - Partner
-[l10n_th_tier_department](l10n_th_tier_department/) | 17.0.1.0.0 | [![ps-tubtim](https://github.com/ps-tubtim.png?size=30px)](https://github.com/ps-tubtim) | Thai Localization - Tier Department Level
-[l10n_th_tier_department_demo](l10n_th_tier_department_demo/) | 17.0.1.0.0 | [![ps-tubtim](https://github.com/ps-tubtim.png?size=30px)](https://github.com/ps-tubtim) | Thai Localization - Tier Department Level Demo
+[currency_rate_update_TH_BOT](currency_rate_update_TH_BOT/) | 17.0.1.0.0 | <a href='https://github.com/ps-tubtim'><img src='https://github.com/ps-tubtim.png' width='32' height='32' style='border-radius:50%;' alt='ps-tubtim'/></a> | Currency Rate Update - BOT
+[l10n_th_amount_to_text](l10n_th_amount_to_text/) | 17.0.1.0.0 | <a href='https://github.com/Saran440'><img src='https://github.com/Saran440.png' width='32' height='32' style='border-radius:50%;' alt='Saran440'/></a> | Convert Amount Text to Thai
+[l10n_th_base_sequence](l10n_th_base_sequence/) | 17.0.1.0.0 | <a href='https://github.com/sansirit'><img src='https://github.com/sansirit.png' width='32' height='32' style='border-radius:50%;' alt='sansirit'/></a> <a href='https://github.com/Saran440'><img src='https://github.com/Saran440.png' width='32' height='32' style='border-radius:50%;' alt='Saran440'/></a> | Thai Localization - Base Sequence
+[l10n_th_fonts](l10n_th_fonts/) | 17.0.1.0.0 | <a href='https://github.com/Saran440'><img src='https://github.com/Saran440.png' width='32' height='32' style='border-radius:50%;' alt='Saran440'/></a> | Collection of all Thai fonts
+[l10n_th_mis_report](l10n_th_mis_report/) | 17.0.1.1.0 | <a href='https://github.com/ps-tubtim'><img src='https://github.com/ps-tubtim.png' width='32' height='32' style='border-radius:50%;' alt='ps-tubtim'/></a> | Thai Localization - MIS Report
+[l10n_th_partner](l10n_th_partner/) | 17.0.1.0.0 | <a href='https://github.com/kittiu'><img src='https://github.com/kittiu.png' width='32' height='32' style='border-radius:50%;' alt='kittiu'/></a> | Thai Localization - Partner
+[l10n_th_tier_department](l10n_th_tier_department/) | 17.0.1.0.0 | <a href='https://github.com/ps-tubtim'><img src='https://github.com/ps-tubtim.png' width='32' height='32' style='border-radius:50%;' alt='ps-tubtim'/></a> | Thai Localization - Tier Department Level
+[l10n_th_tier_department_demo](l10n_th_tier_department_demo/) | 17.0.1.0.0 | <a href='https://github.com/ps-tubtim'><img src='https://github.com/ps-tubtim.png' width='32' height='32' style='border-radius:50%;' alt='ps-tubtim'/></a> | Thai Localization - Tier Department Level Demo
 
 [//]: # (end addons)
 
