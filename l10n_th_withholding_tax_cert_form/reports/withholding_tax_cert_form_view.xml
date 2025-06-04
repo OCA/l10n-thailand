@@ -107,77 +107,77 @@
                 </t>
             </div>
             <div class="supplier_vat">
-                <t t-if="o.supplier_partner_id.vat">
+                <t t-if="o.partner_id.vat">
                     <div class="row">
                         <p class="box-vat">
-                            <t t-esc="o.supplier_partner_id.vat[:1]" />
+                            <t t-esc="o.partner_id.vat[:1]" />
                         </p>
                         <p class="box-vat vat_tab">
-                            <t t-esc="o.supplier_partner_id.vat[1:2]" />
+                            <t t-esc="o.partner_id.vat[1:2]" />
                         </p>
                         <p class="box-vat">
-                            <t t-esc="o.supplier_partner_id.vat[2:3]" />
+                            <t t-esc="o.partner_id.vat[2:3]" />
                         </p>
                         <p class="box-vat">
-                            <t t-esc="o.supplier_partner_id.vat[3:4]" />
+                            <t t-esc="o.partner_id.vat[3:4]" />
                         </p>
                         <p class="box-vat">
-                            <t t-esc="o.supplier_partner_id.vat[4:5]" />
+                            <t t-esc="o.partner_id.vat[4:5]" />
                         </p>
                         <p class="box-vat vat_tab">
-                            <t t-esc="o.supplier_partner_id.vat[5:6]" />
+                            <t t-esc="o.partner_id.vat[5:6]" />
                         </p>
                         <p class="box-vat">
-                            <t t-esc="o.supplier_partner_id.vat[6:7]" />
+                            <t t-esc="o.partner_id.vat[6:7]" />
                         </p>
                         <p class="box-vat">
-                            <t t-esc="o.supplier_partner_id.vat[7:8]" />
+                            <t t-esc="o.partner_id.vat[7:8]" />
                         </p>
                         <p class="box-vat">
-                            <t t-esc="o.supplier_partner_id.vat[8:9]" />
+                            <t t-esc="o.partner_id.vat[8:9]" />
                         </p>
                         <p class="box-vat">
-                            <t t-esc="o.supplier_partner_id.vat[9:10]" />
+                            <t t-esc="o.partner_id.vat[9:10]" />
                         </p>
                         <p class="box-vat vat_tab">
-                            <t t-esc="o.supplier_partner_id.vat[10:11]" />
+                            <t t-esc="o.partner_id.vat[10:11]" />
                         </p>
                         <p class="box-vat">
-                            <t t-esc="o.supplier_partner_id.vat[11:12]" />
+                            <t t-esc="o.partner_id.vat[11:12]" />
                         </p>
                         <p class="box-vat vat_tab">
-                            <t t-esc="o.supplier_partner_id.vat[12:13]" />
+                            <t t-esc="o.partner_id.vat[12:13]" />
                         </p>
                     </div>
                 </t>
             </div>
             <div class="supplier_name">
                 <p>
-                    <span t-field="o.supplier_partner_id.name" />
+                    <span t-field="o.partner_id.name" />
                 </p>
             </div>
             <div class="supplier_address">
-                <t t-if="o.supplier_partner_id.street">
-                    <span t-field="o.supplier_partner_id.street" />
+                <t t-if="o.partner_id.street">
+                    <span t-field="o.partner_id.street" />
                 </t>
-                <t t-if="o.supplier_partner_id.street2">
+                <t t-if="o.partner_id.street2">
                     <span>,</span>
-                    <span t-field="o.supplier_partner_id.street2" />
+                    <span t-field="o.partner_id.street2" />
                 </t>
-                <t t-if="o.supplier_partner_id.city">
+                <t t-if="o.partner_id.city">
                     <span>,</span>
-                    <span t-field="o.supplier_partner_id.city" />
+                    <span t-field="o.partner_id.city" />
                 </t>
-                <t t-if="o.supplier_partner_id.state_id">
+                <t t-if="o.partner_id.state_id">
                     <span>,</span>
-                    <span t-field="o.supplier_partner_id.state_id" />
+                    <span t-field="o.partner_id.state_id" />
                 </t>
-                <t t-if="o.supplier_partner_id.zip">
-                    <span t-field="o.supplier_partner_id.zip" />
+                <t t-if="o.partner_id.zip">
+                    <span t-field="o.partner_id.zip" />
                 </t>
-                <t t-if="o.supplier_partner_id.country_id">
+                <t t-if="o.partner_id.country_id">
                     <span>,</span>
-                    <span t-field="o.supplier_partner_id.country_id" />
+                    <span t-field="o.partner_id.country_id" />
                 </t>
             </div>
             <t t-if="o.income_tax_form == 'pnd1'">

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="report_tax_report_filters"
+        inherit_id="l10n_th_account_tax_report.report_tax_report_filters"
+        priority="100"
+    >
+        <xpath expr="//div/div[1]/div[5]" position="after">
+            <div class="act_as_cell">Operating Unit</div>
+        </xpath>
+        <xpath expr="//div/div[2]/div[5]" position="after">
+            <div class="act_as_cell">
+                <t
+                    t-set="ou"
+                    t-value="o.operating_unit_ids and ', '.join(o.operating_unit_ids.mapped('display_name')) or 'All'"
+                />
+                <span t-esc="ou" />
+            </div>
+        </xpath>
+    </template>
+    <template
+        id="report_tax_report_lines_header"
+        inherit_id="l10n_th_account_tax_report.report_tax_report_lines_header"
+        priority="100"
+    >
+        <xpath expr="//div/div/div[9]" position="after">
+            <div class="act_as_cell" t-if="o.show_operating_unit">Operating Unit</div>
+        </xpath>
+    </template>
+    <template
+        id="report_tax_report_lines"
+        inherit_id="l10n_th_account_tax_report.report_tax_report_lines"
+        priority="100"
+    >
+        <xpath expr="//div/div[9]" position="after">
+            <div class="act_as_cell left" t-if="o.show_operating_unit">
+                <t t-esc="line.operating_unit_id.display_name" />
+            </div>
+        </xpath>
+    </template>
+    <template
+        id="report_tax_report_total_lines"
+        inherit_id="l10n_th_account_tax_report.report_tax_report_total_lines"
+        priority="100"
+    >
+        <xpath expr="//div/div[9]" position="after">
+            <div class="act_as_cell" t-if="o.show_operating_unit" />
+        </xpath>
+    </template>
+</odoo>

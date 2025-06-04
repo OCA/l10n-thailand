@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="report_withholding_tax">
+        <t t-set="title">Withholding Tax Report</t>
+        <div class="page">
+            <div>
+                <h4
+                    class="mt0"
+                    t-esc="title or 'Odoo Report'"
+                    style="text-align: center;"
+                />
+            </div>
+            <!-- Display filters -->
+            <t t-call="l10n_th_account_tax_report.header_report_withholding_tax" />
+            <div class="page_break" />
+            <!-- Display withholding tax report table -->
+            <div class="act_as_table data_table mt8">
+                <!-- Display header lines -->
+                <t
+                    t-call="l10n_th_account_tax_report.report_withholding_tax_report_lines_header"
+                />
+                <!-- Display each lines -->
+                <t t-set="n" t-value="1" />
+                <t t-set="total_base" t-value="0.00" />
+                <t t-set="total_amount" t-value="0.00" />
+                <t t-foreach="o.results" t-as="line">
+                    <t t-set="cancel" t-value="line.cert_id.state == 'cancel'" />
+                    <t t-set="supplier" t-value="line.cert_id.partner_id" />
+                    <t
+                        t-call="l10n_th_account_tax_report.report_withholding_tax_report_lines"
+                    />
+                    <t t-set="n" t-value="n+1" />
+                    <t t-set="total_base" t-value="total_base+line.base" />
+                    <t t-set="total_amount" t-value="total_amount+line.amount" />
+                </t>
+                <!-- Display total lines -->
+                <t
+                    t-call="l10n_th_account_tax_report.report_withholding_tax_report_total_lines"
+                />
+            </div>
+        </div>
+    </template>
+    <template id="header_report_withholding_tax">
+        <div class="act_as_table data_table">
+            <div class="act_as_row labels">
+                <div class="act_as_cell">Date From</div>
+                <div class="act_as_cell">Date To</div>
+                <div class="act_as_cell">Income Tax Form</div>
+                <div class="act_as_cell">Tax ID</div>
+                <div class="act_as_cell">Branch ID</div>
+            </div>
+            <div class="act_as_row">
+                <div class="act_as_cell">
+                    <span t-esc="o.date_from.strftime('%d/%m/%Y')" />
+                </div>
+                <div class="act_as_cell">
+                    <span t-esc="o.date_to.strftime('%d/%m/%Y')" />
+                </div>
+                <div class="act_as_cell">
+                    <span t-field="o.income_tax_form" />
+                </div>
+                <div class="act_as_cell">
+                    <span t-field="o.company_id.partner_id.vat" />
+                </div>
+                <div class="act_as_cell">
+                    <span t-field="o.company_id.partner_id.branch" />
+                </div>
+            </div>
+        </div>
+    </template>
+    <template
+        id="l10n_th_account_tax_report.report_withholding_tax_report_lines_header"
+    >
+        <div class="act_as_thead">
+            <div class="act_as_row labels">
+                <div class="act_as_cell">No.</div>
+                <div class="act_as_cell">Tax Invoice</div>
+                <div class="act_as_cell">Cus./Sup.</div>
+                <div class="act_as_cell">Address</div>
+                <div class="act_as_cell">Date</div>
+                <div class="act_as_cell">Tax Description</div>
+                <div class="act_as_cell">Tax</div>
+                <div class="act_as_cell">Base Amount</div>
+                <div class="act_as_cell">Tax Amount</div>
+                <div class="act_as_cell">Tax Payer</div>
+                <div class="act_as_cell">Ref Doc.</div>
+            </div>
+        </div>
+    </template>
+     <template id="l10n_th_account_tax_report.report_withholding_tax_report_lines">
+        <div class="act_as_row lines">
+            <div class="act_as_cell">
+                <span t-esc="n" />
+            </div>
+            <div class="act_as_cell">
+                <span t-field="supplier.vat" />
+            </div>
+            <div class="act_as_cell left">
+                <span t-esc="not cancel and supplier.display_name or 'Cancelled'" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-if="not cancel">
+                    <t t-if="supplier.street">
+                        <span t-field="supplier.street" />
+                    </t>
+                    <t t-if="supplier.street2">
+                        <span>,</span>
+                        <span t-field="supplier.street2" />
+                    </t>
+                    <t t-if="supplier.city">
+                        <span>,</span>
+                        <span t-field="supplier.city" />
+                    </t>
+                    <t t-if="supplier.state_id">
+                        <span>,</span>
+                        <span t-field="supplier.state_id" />
+                    </t>
+                    <t t-if="supplier.zip">
+                        <span t-field="supplier.zip" />
+                    </t>
+                    <t t-if="supplier.country_id">
+                        <span>,</span>
+                        <span t-field="supplier.country_id" />
+                    </t>
+                </t>
+            </div>
+            <div class="act_as_cell">
+                <span t-esc="line.cert_id.date.strftime('%d/%m/%Y')" />
+            </div>
+            <div class="act_as_cell left">
+                <span t-field="line.wht_cert_income_desc" />
+            </div>
+            <div class="act_as_cell right">
+                <span t-field="line.wht_percent" />
+                <span>%</span>
+            </div>
+            <div class="act_as_cell amount">
+                <span
+                    t-esc="not cancel and line.base or 0.0"
+                    t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
+                />
+            </div>
+            <div class="act_as_cell amount">
+                <span
+                    t-esc="not cancel and line.amount or 0.0"
+                    t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
+                />
+            </div>
+            <div class="act_as_cell">
+                <span t-field="line.cert_id.tax_payer" />
+            </div>
+            <div class="act_as_cell left">
+                <span t-field="line.cert_id.name" />
+            </div>
+        </div>
+    </template>
+    <template id="l10n_th_account_tax_report.report_withholding_tax_report_total_lines">
+        <div class="act_as_row totals_table">
+            <div class="act_as_cell" />
+            <div class="act_as_cell" />
+            <div class="act_as_cell" />
+            <div class="act_as_cell" />
+            <div class="act_as_cell" />
+            <div class="act_as_cell" />
+            <div class="act_as_cell" />
+            <div class="act_as_cell right">
+                <span
+                    t-esc="total_base"
+                    t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
+                />
+            </div>
+            <div class="act_as_cell right">
+                <span
+                    t-esc="total_amount"
+                    t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
+                />
+            </div>
+            <div class="act_as_cell" />
+            <div class="act_as_cell" />
+        </div>
+    </template>
+    <template id="report_withholding_tax_html">
+        <div class="o_withholding_tax_report_page">
+            <t t-call="l10n_th_account_tax_report.report_buttons" />
+            <t t-call="l10n_th_account_tax_report.report_withholding_tax" />
+        </div>
+    </template>
+    <template id="report_withholding_tax_qweb">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="l10n_th_account_tax_report.internal_layout">
+                    <t t-call="l10n_th_account_tax_report.report_withholding_tax" />
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
