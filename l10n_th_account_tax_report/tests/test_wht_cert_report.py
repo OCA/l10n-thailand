@@ -27,22 +27,46 @@ class TestWithholdingTaxReport(TestWithholdingTax):
         # Create date range
         cls.date_range_type = cls.range_type_obj.create({"name": "TestQuarter"})
         cls.year = datetime.datetime.now().year
-        cls._create_date_range_year(cls)
+        cls._create_date_range_year()
         cls.date_range = cls.date_range_obj.search([], limit=1)
         cls.last_date_range = cls.date_range_obj.search(
             [], limit=1, order="date_start desc"
         )
         cls.report = cls.report_obj._get_report_from_name("withholding.tax.report.xlsx")
+
+        # Create Bank Partner
+        cls.bank_partner = cls.env["res.partner.bank"].create(
+            {
+                "acc_number": "123456789",
+                "partner_id": cls.partner_1.id,
+            }
+        )
+
         # Create demo for test
-        cls.cert_pnd1 = cls._create_withholding_tax(cls, "pnd1")
+        cls.cert_pnd1 = cls._create_withholding_tax("pnd1")
         cls.cert_pnd1.tax_payer = "paid_one_time"
-        cls.cert_pnd3 = cls._create_withholding_tax(cls, "pnd3")
-        cls.cert_pnd53 = cls._create_withholding_tax(cls, "pnd53")
+        cls.cert_pnd1.wht_line.write(
+            {
+                "wht_cert_income_code": cls.env.ref(
+                    "l10n_th_account_tax.withholding_tax_pnd1_401n"
+                ).id
+            }
+        )
+        cls.cert_pnd3 = cls._create_withholding_tax("pnd3")
+        cls.cert_pnd53 = cls._create_withholding_tax("pnd53")
         cls.cert_pnd53.tax_payer = "paid_continue"
         # Create withholding tax wizard
         cls.wht_report_pnd1_wizard = cls.wht_wizard_obj.create(
             {
                 "income_tax_form": "pnd1",
+                "date_from": cls.date_range.date_start,
+                "date_to": cls.date_range.date_end,
+                "show_cancel": False,
+            }
+        )
+        cls.wht_report_pnd2_wizard = cls.wht_wizard_obj.create(
+            {
+                "income_tax_form": "pnd2",
                 "date_from": cls.date_range.date_start,
                 "date_to": cls.date_range.date_end,
                 "show_cancel": False,
@@ -65,6 +89,7 @@ class TestWithholdingTaxReport(TestWithholdingTax):
             }
         )
 
+    @classmethod
     def _create_date_range_year(self):
         Generator = self.env["date.range.generator"]
         generator = Generator.create(
@@ -79,6 +104,7 @@ class TestWithholdingTaxReport(TestWithholdingTax):
         )
         generator.action_apply()
 
+    @classmethod
     def _create_withholding_tax(self, income_tax_form):
         invoice = self._create_invoice(
             self,
@@ -96,8 +122,9 @@ class TestWithholdingTaxReport(TestWithholdingTax):
             "active_ids": invoice.line_ids.ids,
             "active_model": "account.move.line",
         }
-        with Form(self.wiz_payment_register_obj.with_context(**ctx)) as f:
-            register_payment = f.save()
+        register_payment = Form(
+            self.env["account.payment.register"].with_context(**ctx),
+        ).save()
         action_payment = register_payment.action_create_payments()
         payment = self.env[action_payment["res_model"]].browse(action_payment["res_id"])
         payment.wht_move_ids.write({"wht_cert_income_type": "1"})
@@ -109,9 +136,6 @@ class TestWithholdingTaxReport(TestWithholdingTax):
         return cert
 
     def test_01_wht_button_export_html(self):
-        # Check data query, it should have data
-        self.env.invalidate_all()
-        self.assertTrue(self.wht_report_pnd3_wizard.results)
         # Test onchange date range
         self.assertEqual(
             self.wht_report_pnd3_wizard.date_from, self.date_range.date_start
@@ -136,113 +160,193 @@ class TestWithholdingTaxReport(TestWithholdingTax):
         self.assertEqual(report["name"], "Withholding Tax Report")
         self.assertEqual(report["report_type"], "qweb-html")
         self.assertEqual(
-            report["report_name"], "l10n_th_account_tax_report.report_withholding_tax"
+            report["report_name"],
+            f"l10n_th_account_tax_report.report_withholding_tax/{self.wht_report_pnd3_wizard.id}",
         )
-
-        # Check function _convert_result_to_dict(), it should convert object to dict
-        wht_cert_line = self.env["withholding.tax.cert.line"].search([])
-        result_dict = self.wht_report_pnd3_wizard._convert_result_to_dict(wht_cert_line)
-        self.assertTrue(result_dict[wht_cert_line[0].id])
-        self.assertEqual(type(result_dict), type({}))
-
-        # Test with pnd1
-        wht_cert_line_pnd1 = wht_cert_line.filtered(
-            lambda cert_line: cert_line.cert_id.tax_payer == "paid_one_time"
-            and cert_line.cert_id.income_tax_form == "pnd1"
-        )
-        result_dict = self.wht_report_pnd1_wizard._convert_result_to_dict(wht_cert_line)
-        self.assertEqual(result_dict[wht_cert_line_pnd1[0].id]["tax_payer"], 3)
-
-        # Test with pnd53
-        wht_cert_line_pnd53 = wht_cert_line.filtered(
-            lambda cert_line: cert_line.cert_id.tax_payer == "paid_continue"
-            and cert_line.cert_id.income_tax_form == "pnd53"
-        )
-        result_dict = self.wht_report_pnd53_wizard._convert_result_to_dict(
-            wht_cert_line
-        )
-        self.assertEqual(result_dict[wht_cert_line_pnd53[0].id]["tax_payer"], 3)
 
         # Check file download should name tax + date
         report_name = self.wht_report_pnd3_wizard._get_report_base_filename()
-        format_date = self.wht_report_pnd3_wizard.format_date_ym_wht()
+        format_date = self.env["thai.utils"].format_thai_date(
+            self.wht_report_pnd3_wizard.date_from,
+            month_format="numeric",
+            format_date="{year}{month}",
+        )
         self.assertEqual(report_name, f"WHT-P03-{format_date}")
 
-    def test_02_wht_button_export_pdf(self):
+    def test_02_wht_button_export_pdf_std(self):
         report = self.wht_report_pnd3_wizard.button_export_pdf()
+
+        res_data = self.env[
+            "report.l10n_th_account_tax_report.report_withholding_tax"
+        ]._get_report_values(self.wht_report_pnd3_wizard.ids, report["data"])
+
+        # Get data query tax is 1
+        self.assertEqual(len(res_data["wht_report_data"]), 1)
+        self.assertFalse(res_data["wht_groupby_partner"])
+        self.assertEqual(res_data["wht_report_format"], "std")
         self.assertEqual(report["name"], "Withholding Tax Report")
         self.assertEqual(report["report_type"], "qweb-pdf")
         self.assertEqual(
-            report["report_name"], "l10n_th_account_tax_report.report_withholding_tax"
+            report["report_name"],
+            f"l10n_th_account_tax_report.report_withholding_tax/{self.wht_report_pnd3_wizard.id}",
         )
 
+    def test_03_wht_button_export_pdf_rd(self):
         # Check change config standard to rd
         self.env.user.company_id.wht_report_format = "rd"
         report = self.wht_report_pnd3_wizard.button_export_pdf()
+
+        res_data = self.env[
+            "report.l10n_th_account_tax_report.report_rd_withholding_tax"
+        ]._get_report_values(self.wht_report_pnd3_wizard.ids, report["data"])
+
+        # Get data query tax is 1
+        self.assertEqual(len(res_data["wht_report_data"]), 1)
+        self.assertFalse(res_data["wht_groupby_partner"])
+        self.assertEqual(res_data["wht_report_format"], "rd")
         self.assertEqual(report["name"], "Withholding Tax Report (RD)")
         self.assertEqual(report["report_type"], "qweb-pdf")
         self.assertEqual(
             report["report_name"],
-            "l10n_th_account_tax_report.report_rd_withholding_tax",
+            f"l10n_th_account_tax_report.report_rd_withholding_tax/{self.wht_report_pnd3_wizard.id}",
         )
 
-        # Test print on html with withholding tax RD, it should change to RD
-        wht_report = self.env.ref(
-            "l10n_th_account_tax_report.action_print_report_wht_qweb"
+        # Allow group by partner by filter PND1A or send context need_group_by_partner=1
+        res_data = (
+            self.env["report.l10n_th_account_tax_report.report_rd_withholding_tax"]
+            .with_context(need_group_by_partner=1)
+            ._get_report_values(self.wht_report_pnd3_wizard.ids, report["data"])
         )
-        pdf, ttype = wht_report._render_qweb_pdf(wht_report.report_name)
-        self.assertEqual(ttype, "html")
+        self.assertEqual(len(res_data["wht_groupby_partner"]), 1)
 
-    def test_03_wht_button_export_xlsx(self):
+    def test_04_wht_button_export_xlsx(self):
         report = self.wht_report_pnd3_wizard.button_export_xlsx()
+
         self.assertEqual(report["name"], "Withholding Tax Report XLSX")
         self.assertEqual(report["report_type"], "xlsx")
         self.assertEqual(
             report["report_name"],
-            "l10n_th_account_tax_report.report_withholding_tax_xlsx",
+            f"l10n_th_account_tax_report.report_withholding_tax_xlsx/{self.wht_report_pnd3_wizard.id}",
         )
 
-        # Test export excel by code
-        action = self.env.ref("l10n_th_account_tax_report.action_print_report_wht_xlsx")
-        report_xlsx = action._render_xlsx(
-            action.report_name,
-            report["context"]["active_ids"],
-            {
-                "data": "['/report/xlsx/{}/{}','xlsx']".format(
-                    report["report_name"], str(report["context"]["active_ids"][0])
-                ),
-                "token": "dummy-because-api-expects-one",
-            },
+        # Check report XLS action and generate report
+        report_model = "report.l10n_th_account_tax_report.report_withholding_tax_xlsx"
+        model = self.env[report_model].with_context(
+            active_model=self.wht_report_pnd3_wizard._name, **report["context"]
         )
-        self.assertEqual(report_xlsx[1], "xlsx")
+        model.create_xlsx_report(self.wht_report_pnd3_wizard.ids, data=report["data"])
 
-    def test_04_wht_button_export_text_file(self):
+    def test_05_wht_button_export_text_file_pnd3(self):
         report = self.wht_report_pnd3_wizard.button_export_txt()
+
+        res_data = self.env[
+            "report.l10n_th_account_tax_report.report_withholding_tax_text"
+        ]._get_report_values(self.wht_report_pnd3_wizard.ids, report["data"])
+
+        # Check text file value is not empty
+        self.assertTrue(res_data["text_file_value"])
         self.assertEqual(report["name"], "Withholding Tax Report Text")
         self.assertEqual(report["report_type"], "qweb-text")
         self.assertEqual(
             report["report_name"],
-            "l10n_th_account_tax_report.report_withholding_tax_text",
+            f"l10n_th_account_tax_report.report_withholding_tax_text/{self.wht_report_pnd3_wizard.id}",
         )
+        tax_payer = res_data["text_file_value"].split("|")[-1].strip()
+        self.assertEqual(tax_payer, "1")
 
-        # test render text file pnd1 with code
-        text_pnd1 = self.wht_report_pnd1_wizard._create_text(
-            self.wht_report_pnd1_wizard
-        )
-        self.assertEqual(text_pnd1[0], "1")
+    def test_06_wht_button_export_text_file_pnd53(self):
+        report = self.wht_report_pnd53_wizard.button_export_txt()
 
-        # test render text file pnd3 with code
-        text_pnd3 = self.wht_report_pnd3_wizard._create_text(
-            self.wht_report_pnd3_wizard
-        )
-        self.assertEqual(text_pnd3[0], "1")
-        # pnd1 no address data to output
-        self.assertTrue(len(text_pnd1) < len(text_pnd3))
+        res_data = self.env[
+            "report.l10n_th_account_tax_report.report_withholding_tax_text"
+        ]._get_report_values(self.wht_report_pnd53_wizard.ids, report["data"])
 
-        # test render text file pnd53 with code
-        text_pnd53 = self.wht_report_pnd53_wizard._create_text(
-            self.wht_report_pnd53_wizard
+        # Check text file value is not empty
+        self.assertTrue(res_data["text_file_value"])
+        self.assertEqual(report["name"], "Withholding Tax Report Text")
+        self.assertEqual(report["report_type"], "qweb-text")
+        self.assertEqual(
+            report["report_name"],
+            f"l10n_th_account_tax_report.report_withholding_tax_text/{self.wht_report_pnd53_wizard.id}",
         )
-        self.assertEqual(text_pnd53[0], "1")
-        # pnd1 no address data to output
-        self.assertTrue(len(text_pnd1) < len(text_pnd53))
+        tax_payer = res_data["text_file_value"].split("|")[-1].strip()
+        self.assertEqual(tax_payer, "2")
+
+    def test_07_wht_button_export_text_file_pnd53_multi_line(self):
+        # Add multi line to PND53
+        self.env["withholding.tax.cert.line"].create(
+            {
+                "cert_id": self.cert_pnd53.id,
+                "wht_cert_income_type": "6",
+                "wht_cert_income_desc": "อื่น ๆ",
+                "amount": 3.0,
+                "base": 100.0,
+            }
+        )
+        # Copy neew PND53 with 1 line
+        cert53_copy = self.cert_pnd53.copy({"date": self.cert_pnd53.date})
+        self.env["withholding.tax.cert.line"].create(
+            {
+                "cert_id": cert53_copy.id,
+                "wht_cert_income_type": "4A",
+                "wht_cert_income_desc": "4. ดอกเบี้ย ฯลฯ 40(4)ก",
+                "wht_cert_bank_account": self.bank_partner.id,
+                "amount": 3.0,
+                "base": 100.0,
+            }
+        )
+        cert53_copy.income_tax_form = "pnd53"
+        cert53_copy.action_done()
+
+        report = self.wht_report_pnd53_wizard.button_export_txt()
+
+        res_data = self.env[
+            "report.l10n_th_account_tax_report.report_withholding_tax_text"
+        ]._get_report_values(self.wht_report_pnd53_wizard.ids, report["data"])
+
+        # Check text file value is not empty
+        self.assertTrue(res_data["text_file_value"])
+        self.assertEqual(report["name"], "Withholding Tax Report Text")
+        self.assertEqual(report["report_type"], "qweb-text")
+        self.assertEqual(
+            report["report_name"],
+            f"l10n_th_account_tax_report.report_withholding_tax_text/{self.wht_report_pnd53_wizard.id}",
+        )
+        # 2 Cert in 1 Text File
+        cert_text_data = res_data["text_file_value"].split("\n")
+        self.assertEqual(len(cert_text_data), 3)  # 2 Data + 1 Empty
+
+        # 1 Line Text file included 1 Header + multi line (Max 3 lines)
+        # and it should equal max lines
+        self.assertEqual(len(cert_text_data[0].split("|")), 23)
+        self.assertEqual(len(cert_text_data[1].split("|")), 23)
+
+    def test_08_wht_button_export_text_file_pnd1(self):
+        report = self.wht_report_pnd1_wizard.button_export_txt()
+
+        res_data = self.env[
+            "report.l10n_th_account_tax_report.report_withholding_tax_text"
+        ]._get_report_values(self.wht_report_pnd1_wizard.ids, report["data"])
+
+        # Check text file value is not empty
+        self.assertTrue(res_data["text_file_value"])
+        self.assertEqual(report["name"], "Withholding Tax Report Text")
+        self.assertEqual(report["report_type"], "qweb-text")
+        self.assertEqual(
+            report["report_name"],
+            f"l10n_th_account_tax_report.report_withholding_tax_text/{self.wht_report_pnd1_wizard.id}",
+        )
+        text_file_value = res_data["text_file_value"].split("|")
+        income_code = text_file_value[0].strip()
+        tax_payer = text_file_value[-1].strip()
+        self.assertEqual(income_code, "401N")
+        self.assertEqual(tax_payer, "3")
+
+    def test_09_wht_button_export_text_file_no_implement(self):
+        """Test export text file no implement"""
+        report = self.wht_report_pnd2_wizard.button_export_txt()
+
+        with self.assertRaisesRegex(UserError, "Not implement"):
+            self.env[
+                "report.l10n_th_account_tax_report.report_withholding_tax_text"
+            ]._get_report_values(self.wht_report_pnd2_wizard.ids, report["data"])

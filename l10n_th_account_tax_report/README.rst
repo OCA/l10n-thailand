@@ -28,22 +28,99 @@ Thai Localization - VAT and Withholding Tax Reports
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-TAX Report is the report that display transactions of the selected Tax
-type in a specific date range (period).
+TAX Report is a report that displays transactions based on the selected
+tax type within a specific date range (period). It helps businesses
+track VAT and Withholding Tax more accurately, and supports both
+standard and Revenue Department (RD) formats for compliance purposes.
+The module also allows customization of report formats and text files
+for official tax submissions.
 
 **Table of contents**
 
 .. contents::
    :local:
 
+Configuration
+=============
+
+This module allows you to configure the format of tax reports and
+Withholding Tax (WHT) text files for submission to the Revenue
+Department of Thailand. Below are the configuration steps for each
+feature.
+
+Tax/WHT Report Format
+---------------------
+
+By default, the system uses the **Standard** format. You can customize
+this or use the official **RD (Revenue Department)** report format as
+required.
+
+To configure the tax report format:
+
+1. Go to **Invoicing > Configurations > Thai Localization > Tax Report
+   Format**
+2. Select the desired report format to use when generating tax reports
+
+Withholding Tax Text File for RD Submission
+-------------------------------------------
+
+The system provides default settings and supports text file generation
+for **PND 1, 3, and 53** forms. The text file format can be customized —
+for example, you can change the field positions or layout.
+
+To configure the WHT text file format:
+
+1. Go to **Settings > Users & Companies > Companies > WHT Text File
+   Format**
+2. Select the WHT type you want to edit
+3. Adjust the field order or customize the format as needed
+4. Click **Save** to apply your changes
+
 Usage
 =====
 
-To use this module, you need to:
+This module provides two types of tax reports:
 
-1. Go to Invoicing > Reporting > Thai TAX Report.
-2. Select Tax, Period.
-3. Choose View or Export PDF or Export XLSX or Cancel.
+-  **Thai Tax Report** – for Value Added Tax (VAT)
+-  **WHT Income Tax Report** – for Withholding Tax (WHT)
+
+Thai Tax Report
+---------------
+
+To generate the VAT report:
+
+1. Go to **Invoicing > Reporting > Thai Accounting Report > Thai Tax
+   Report**
+2. Select the **Tax Type** and the **Date Range (Period)**
+3. Choose one of the following actions:
+
+   -  **View** – preview the report on screen
+   -  **Export PDF** – download as a PDF file
+   -  **Export XLSX** – download as an Excel file
+
+WHT Income Tax Report
+---------------------
+
+To generate the WHT report:
+
+1. Go to **Invoicing > Reporting > Thai Accounting Report > WHT Income
+   Tax Report**
+2. Select the **Income Tax Form** and the **Date Range (Period)**
+3. Choose one of the following actions:
+
+   -  **View** – preview the report on screen
+   -  **Export PDF** – download as a PDF file
+   -  **Export XLSX** – download as an Excel file
+   -  **Export TXT** – download a text file for RD (Revenue Department)
+      submission
+
+The WHT report supports 5 types of Income Tax forms:
+
+-  **PND1**
+-  **PND1A**
+-  **PND2**
+-  **PND3**
+-  **PND53**
 
 Bug Tracker
 ===========
@@ -66,9 +143,9 @@ Authors
 Contributors
 ------------
 
-- Pimolnat Suntian <pimolnats@ecosoft.co.th>
-- Saran Lim. <saranl@ecosoft.co.th>
-- Rattapong Chokmasermkul <rattapongc@ecosoft.co.th>
+-  Pimolnat Suntian <pimolnats@ecosoft.co.th>
+-  Saran Lim. <saranl@ecosoft.co.th>
+-  Rattapong Chokmasermkul <rattapongc@ecosoft.co.th>
 
 Maintainers
 -----------
@@ -86,10 +163,13 @@ promote its widespread use.
 .. |maintainer-kittiu| image:: https://github.com/kittiu.png?size=40px
     :target: https://github.com/kittiu
     :alt: kittiu
+.. |maintainer-Saran440| image:: https://github.com/Saran440.png?size=40px
+    :target: https://github.com/Saran440
+    :alt: Saran440
 
-Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
+Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-kittiu| 
+|maintainer-kittiu| |maintainer-Saran440| 
 
 This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_account_tax_report>`_ project on GitHub.
 

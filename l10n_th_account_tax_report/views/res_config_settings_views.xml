@@ -27,7 +27,7 @@
                         </div>
                         <div class="row">
                             <label
-                                string="WHT Report"
+                                string="WHT Text File"
                                 for="wht_report_format"
                                 class="col-lg-4 o_light_label"
                             />
