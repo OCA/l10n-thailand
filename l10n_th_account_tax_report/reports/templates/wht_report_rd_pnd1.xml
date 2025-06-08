@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- RD PND1 -->
+    <template id="report_rd_withholding_tax_pnd1">
+        <t t-set="number" t-value="0" />
+        <t t-set="num_page" t-value="ceil(len(wht_report_data)/8)" />
+        <t t-foreach="range(num_page)" t-as="num">
+            <!-- Header -->
+            <div
+                class="article o_report_rd_withholding_tax_report_pnd1"
+                t-attf-style="background-image:url('/l10n_th_account_tax_report/static/src/img/{{ num + 1 == num_page and 'pnd1_lastpage.png' or 'pnd1.png' }}'); background-size:340mm 242mm; width:340mm; height:242mm;"
+            >
+                <t
+                    t-call="l10n_th_account_tax_report.report_rd_base_company_withholding_tax"
+                />
+                <t t-set="total_base_page" t-value="0.0" />
+                <t t-set="total_wht_page" t-value="0.0" />
+                <!-- Lines -->
+                <div class="wht_line">
+                    <t
+                        t-foreach="range(num * 8, min((num + 1) * 8, len(wht_report_data)))"
+                        t-as="i"
+                    >
+                        <t t-set="line" t-value="wht_report_data[i]" />
+                        <div class="row" style="width: 100%;">
+                            <div class="col" style="width: 6%;">
+                                <div class="row">
+                                    <div class="wht_line_number">
+                                        <span t-out="line['row_number']" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 50%;">
+                                <div class="row">
+                                    <div class="wht_line_vat">
+                                        <t t-if="line['partner_vat']">
+                                            <t
+                                                t-call="l10n_th_account_tax_report.report_rd_base_partner_vat_withholding_tax"
+                                            />
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="wht_line_firstname">
+                                        <span t-out="line['partner_firstname']" />
+                                    </div>
+                                    <div class="wht_line_lastname">
+                                        <span t-out="line['partner_lastname']" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 13%;">
+                                <div class="row">
+                                    <div class="wht_line_date">
+                                        <span t-out="line['cert_date_str']" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 26%;">
+                                <div class="row">
+                                    <div class="wht_line_base">
+                                        <t
+                                            t-set="total_base_page"
+                                            t-value="total_base_page + line['base']"
+                                        />
+                                        <t t-out="'{0:,.2f}'.format(line['base'])" />
+                                    </div>
+                                    <div class="wht_line_amount">
+                                        <t
+                                            t-set="total_wht_page"
+                                            t-value="total_wht_page + line['amount']"
+                                        />
+                                        <t t-out="'{0:,.2f}'.format(line['amount'])" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 5%;">
+                                <div class="row">
+                                    <div class="wht_line_tax_payer">
+                                        <span t-out="line['cert_tax_payer_code']" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+                <!-- Total -->
+                <t
+                    t-call="l10n_th_account_tax_report.report_rd_base_total_withholding_tax"
+                />
+            </div>
+        </t>
+        <div style="page-break-before: always;" />
+    </template>
+</odoo>

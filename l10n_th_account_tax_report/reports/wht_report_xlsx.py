@@ -14,60 +14,50 @@ class ReportWHTXlsx(models.AbstractModel):
     _inherit = "report.report_xlsx.abstract"
     _description = "Report Withholding Tax xlsx"
 
-    def _define_formats(self, workbook):
-        res = super()._define_formats(workbook)
-        date_format = "DD/MM/YYYY"
-        FORMATS["format_date_dmy_right"] = workbook.add_format(
-            {"align": "right", "num_format": date_format}
-        )
-        return res
-
-    def _get_ws_params(self, wb, data, obj):
-        withholding_tax_template = {
-            "01_sequence": {
+    def _get_wht_template(self):
+        return {
+            "01_index": {
                 "header": {"value": "No."},
                 "data": {
-                    "value": self._render("sequence"),
+                    "value": self._render("index"),
                     "format": FORMATS["format_tcell_center"],
                 },
                 "width": 3,
             },
-            "02_vat": {
+            "02_partner_vat": {
                 "header": {"value": "Tax Invoice"},
                 "data": {
-                    "value": self._render("vat"),
+                    "value": self._render("partner_vat"),
                     "format": FORMATS["format_tcell_center"],
                 },
                 "width": 16,
             },
-            "03_display_name": {
+            "03_partner_name": {
                 "header": {"value": "Cus./Sup."},
-                "data": {"value": self._render("display_name")},
+                "data": {"value": self._render("partner_name")},
                 "width": 18,
             },
-            "04_street": {
+            "04_partner_address": {
                 "header": {"value": "Address"},
-                "data": {"value": self._render("street")},
+                "data": {"value": self._render("partner_address")},
                 "width": 20,
             },
-            "05_date": {
+            "05_cert_date_str": {
                 "header": {"value": "Date"},
                 "data": {
-                    "value": self._render("date"),
-                    "type": "datetime",
-                    "format": FORMATS["format_date_dmy_right"],
+                    "value": self._render("cert_date_str"),
                 },
                 "width": 10,
             },
-            "06_income_desc": {
+            "06_wht_cert_income_desc": {
                 "header": {"value": "Income Description"},
-                "data": {"value": self._render("income_desc")},
+                "data": {"value": self._render("wht_cert_income_desc")},
                 "width": 18,
             },
-            "07_tax": {
+            "07_wht_percent": {
                 "header": {"value": "Tax"},
                 "data": {
-                    "value": self._render("tax"),
+                    "value": self._render("wht_percent"),
                     "type": "number",
                     "format": FORMATS["format_tcell_percent_conditional_right"],
                 },
@@ -91,21 +81,23 @@ class ReportWHTXlsx(models.AbstractModel):
                 },
                 "width": 13,
             },
-            "10_tax_payer": {
+            "10_cert_tax_payer_display": {
                 "header": {"value": "Tax Payer"},
                 "data": {
-                    "value": self._render("tax_payer"),
+                    "value": self._render("cert_tax_payer_display"),
                     "format": FORMATS["format_tcell_center"],
                 },
                 "width": 12,
             },
-            "11_payment_id": {
+            "11_cert_name": {
                 "header": {"value": "Doc Ref."},
-                "data": {"value": self._render("payment_id")},
+                "data": {"value": self._render("cert_name")},
                 "width": 19,
             },
         }
 
+    def _get_ws_params(self, wb, data, obj):
+        withholding_tax_template = self._get_wht_template()
         ws_params = {
             "ws_name": "Withholding Tax Report",
             "generate_ws_method": "_withholding_tax_report",
@@ -116,6 +108,21 @@ class ReportWHTXlsx(models.AbstractModel):
 
         return [ws_params]
 
+    def _get_render_space(self, line):
+        return {
+            "index": line["row_number"],
+            "partner_vat": line["partner_vat"] or "",
+            "partner_name": line["partner_name"],
+            "partner_address": line["partner_address"],
+            "cert_date_str": line["cert_date_str"],
+            "wht_cert_income_desc": line["wht_cert_income_desc"] or "",
+            "wht_percent": line["wht_percent"] / 100 or 0.00,
+            "base_amount": line["base"],
+            "tax_amount": line["amount"],
+            "cert_tax_payer_display": line["cert_tax_payer_display"],
+            "cert_name": line["cert_name"],
+        }
+
     def _write_ws_header(self, row_pos, ws, data_list):
         for data in data_list:
             ws.merge_range(row_pos, 0, row_pos, 1, "")
@@ -125,7 +132,7 @@ class ReportWHTXlsx(models.AbstractModel):
             row_pos += 1
         return row_pos + 1
 
-    def _write_ws_lines(self, row_pos, ws, ws_params, obj):
+    def _write_ws_lines(self, row_pos, ws, ws_params, wht_report_data):
         row_pos = self._write_line(
             ws,
             row_pos,
@@ -134,36 +141,18 @@ class ReportWHTXlsx(models.AbstractModel):
             default_format=FORMATS["format_theader_blue_center"],
         )
         ws.freeze_panes(row_pos, 0)
-        index = 1
-        for line in obj.results:
-            cancel = line.cert_id.state == "cancel"
+        for line in wht_report_data:
             row_pos = self._write_line(
                 ws,
                 row_pos,
                 ws_params,
                 col_specs_section="data",
-                render_space={
-                    "sequence": index,
-                    "vat": line.cert_id.partner_id.vat or "",
-                    "display_name": not cancel
-                    and line.cert_id.partner_id.display_name
-                    or "Cancelled",
-                    "street": not cancel and line.cert_id.partner_id.street or "",
-                    "date": line.cert_id.date,
-                    "income_desc": line.wht_cert_income_desc or "",
-                    "tax": line.wht_percent / 100 or 0.00,
-                    "base_amount": not cancel and line.base or 0.00,
-                    "tax_amount": not cancel and line.amount or 0.00,
-                    "tax_payer": line.cert_id.tax_payer,
-                    "payment_id": line.cert_id.name,
-                },
+                render_space=self._get_render_space(line),
                 default_format=FORMATS["format_tcell_left"],
             )
-            index += 1
         return row_pos
 
-    def _write_ws_footer(self, row_pos, ws, obj):
-        results = obj.results.filtered(lambda result: result.cert_id.state == "done")
+    def _write_ws_footer(self, row_pos, ws, res_data):
         ws.merge_range(row_pos, 0, row_pos, 6, "")
         ws.merge_range(row_pos, 9, row_pos, 10, "")
         ws.write_row(
@@ -172,10 +161,28 @@ class ReportWHTXlsx(models.AbstractModel):
         ws.write_row(
             row_pos,
             7,
-            [sum(results.mapped("base")), sum(results.mapped("amount")), ""],
+            [res_data["total_base"], res_data["total_wht"], ""],
             FORMATS["format_theader_blue_amount_right"],
         )
         return row_pos
+
+    def _get_header_data_list(self, res_data, obj):
+        return [
+            (
+                "Date range filter",
+                res_data["date_from"].strftime("%d/%m/%Y")
+                + " - "
+                + res_data["date_to"].strftime("%d/%m/%Y"),
+            ),
+            (
+                "Income Tax Form",
+                dict(obj._fields["income_tax_form"].selection).get(
+                    res_data["income_tax_form"]
+                ),
+            ),
+            ("Tax ID", res_data["company_vat"] or "-"),
+            ("Branch ID", res_data["company_branch"] or "-"),
+        ]
 
     def _withholding_tax_report(self, workbook, ws, ws_params, data, obj):
         ws.set_portrait()
@@ -183,24 +190,16 @@ class ReportWHTXlsx(models.AbstractModel):
         ws.set_header(XLS_HEADERS["xls_headers"]["standard"])
         ws.set_footer(XLS_HEADERS["xls_footers"]["standard"])
         self._set_column_width(ws, ws_params)
+
+        res_data = self.env[
+            "report.l10n_th_account_tax_report.report_withholding_tax"
+        ]._get_report_values(obj.ids, data)
         row_pos = 0
-        header_data_list = [
-            (
-                "Date range filter",
-                obj.date_from.strftime("%d/%m/%Y")
-                + " - "
-                + obj.date_to.strftime("%d/%m/%Y"),
-            ),
-            (
-                "Income Tax Form",
-                dict(obj._fields["income_tax_form"].selection).get(obj.income_tax_form),
-            ),
-            ("Currency", obj.company_id.currency_id.name),
-            ("Tax ID", obj.company_id.partner_id.vat or "-"),
-            ("Branch ID", obj.company_id.partner_id.branch or "-"),
-        ]
+        header_data_list = self._get_header_data_list(res_data, obj)
         row_pos = self._write_ws_title(ws, row_pos, ws_params, merge_range=True)
         row_pos = self._write_ws_header(row_pos, ws, header_data_list)
-        row_pos = self._write_ws_lines(row_pos, ws, ws_params, obj)
-        row_pos = self._write_ws_footer(row_pos, ws, obj)
+        row_pos = self._write_ws_lines(
+            row_pos, ws, ws_params, res_data["wht_report_data"]
+        )
+        row_pos = self._write_ws_footer(row_pos, ws, res_data)
         return row_pos
