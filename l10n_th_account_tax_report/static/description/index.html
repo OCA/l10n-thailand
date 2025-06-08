@@ -370,32 +370,117 @@ ul.auto-toc {
 !! source digest: sha256:9e1b3adff31b1b57588e3ab37a0469dc967d0f905c072f5c7133774e94af6e18
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_account_tax_report"><img alt="OCA/l10n-thailand" src="https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-thailand-18-0/l10n-thailand-18-0-l10n_th_account_tax_report"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&amp;target_branch=18.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>TAX Report is the report that display transactions of the selected Tax
-type in a specific date range (period).</p>
+<p>TAX Report is a report that displays transactions based on the selected
+tax type within a specific date range (period). It helps businesses
+track VAT and Withholding Tax more accurately, and supports both
+standard and Revenue Department (RD) formats for compliance purposes.
+The module also allows customization of report formats and text files
+for official tax submissions.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#usage" id="toc-entry-1">Usage</a></li>
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-2">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-3">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-4">Authors</a></li>
-<li><a class="reference internal" href="#contributors" id="toc-entry-5">Contributors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-6">Maintainers</a></li>
+<li><a class="reference internal" href="#configuration" id="toc-entry-1">Configuration</a><ul>
+<li><a class="reference internal" href="#tax-wht-report-format" id="toc-entry-2">Tax/WHT Report Format</a></li>
+<li><a class="reference internal" href="#withholding-tax-text-file-for-rd-submission" id="toc-entry-3">Withholding Tax Text File for RD Submission</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#usage" id="toc-entry-4">Usage</a><ul>
+<li><a class="reference internal" href="#thai-tax-report" id="toc-entry-5">Thai Tax Report</a></li>
+<li><a class="reference internal" href="#wht-income-tax-report" id="toc-entry-6">WHT Income Tax Report</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-7">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-8">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-9">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="toc-entry-10">Contributors</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-11">Maintainers</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="section" id="usage">
-<h1><a class="toc-backref" href="#toc-entry-1">Usage</a></h1>
-<p>To use this module, you need to:</p>
+<div class="section" id="configuration">
+<h1><a class="toc-backref" href="#toc-entry-1">Configuration</a></h1>
+<p>This module allows you to configure the format of tax reports and
+Withholding Tax (WHT) text files for submission to the Revenue
+Department of Thailand. Below are the configuration steps for each
+feature.</p>
+<div class="section" id="tax-wht-report-format">
+<h2><a class="toc-backref" href="#toc-entry-2">Tax/WHT Report Format</a></h2>
+<p>By default, the system uses the <strong>Standard</strong> format. You can customize
+this or use the official <strong>RD (Revenue Department)</strong> report format as
+required.</p>
+<p>To configure the tax report format:</p>
 <ol class="arabic simple">
-<li>Go to Invoicing &gt; Reporting &gt; Thai TAX Report.</li>
-<li>Select Tax, Period.</li>
-<li>Choose View or Export PDF or Export XLSX or Cancel.</li>
+<li>Go to <strong>Invoicing &gt; Configurations &gt; Thai Localization &gt; Tax Report
+Format</strong></li>
+<li>Select the desired report format to use when generating tax reports</li>
 </ol>
 </div>
+<div class="section" id="withholding-tax-text-file-for-rd-submission">
+<h2><a class="toc-backref" href="#toc-entry-3">Withholding Tax Text File for RD Submission</a></h2>
+<p>The system provides default settings and supports text file generation
+for <strong>PND 1, 3, and 53</strong> forms. The text file format can be customized —
+for example, you can change the field positions or layout.</p>
+<p>To configure the WHT text file format:</p>
+<ol class="arabic simple">
+<li>Go to <strong>Settings &gt; Users &amp; Companies &gt; Companies &gt; WHT Text File
+Format</strong></li>
+<li>Select the WHT type you want to edit</li>
+<li>Adjust the field order or customize the format as needed</li>
+<li>Click <strong>Save</strong> to apply your changes</li>
+</ol>
+</div>
+</div>
+<div class="section" id="usage">
+<h1><a class="toc-backref" href="#toc-entry-4">Usage</a></h1>
+<p>This module provides two types of tax reports:</p>
+<ul class="simple">
+<li><strong>Thai Tax Report</strong> – for Value Added Tax (VAT)</li>
+<li><strong>WHT Income Tax Report</strong> – for Withholding Tax (WHT)</li>
+</ul>
+<div class="section" id="thai-tax-report">
+<h2><a class="toc-backref" href="#toc-entry-5">Thai Tax Report</a></h2>
+<p>To generate the VAT report:</p>
+<ol class="arabic simple">
+<li>Go to <strong>Invoicing &gt; Reporting &gt; Thai Accounting Report &gt; Thai Tax
+Report</strong></li>
+<li>Select the <strong>Tax Type</strong> and the <strong>Date Range (Period)</strong></li>
+<li>Choose one of the following actions:<ul>
+<li><strong>View</strong> – preview the report on screen</li>
+<li><strong>Export PDF</strong> – download as a PDF file</li>
+<li><strong>Export XLSX</strong> – download as an Excel file</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="wht-income-tax-report">
+<h2><a class="toc-backref" href="#toc-entry-6">WHT Income Tax Report</a></h2>
+<p>To generate the WHT report:</p>
+<ol class="arabic simple">
+<li>Go to <strong>Invoicing &gt; Reporting &gt; Thai Accounting Report &gt; WHT Income
+Tax Report</strong></li>
+<li>Select the <strong>Income Tax Form</strong> and the <strong>Date Range (Period)</strong></li>
+<li>Choose one of the following actions:<ul>
+<li><strong>View</strong> – preview the report on screen</li>
+<li><strong>Export PDF</strong> – download as a PDF file</li>
+<li><strong>Export XLSX</strong> – download as an Excel file</li>
+<li><strong>Export TXT</strong> – download a text file for RD (Revenue Department)
+submission</li>
+</ul>
+</li>
+</ol>
+<p>The WHT report supports 5 types of Income Tax forms:</p>
+<ul class="simple">
+<li><strong>PND1</strong></li>
+<li><strong>PND1A</strong></li>
+<li><strong>PND2</strong></li>
+<li><strong>PND3</strong></li>
+<li><strong>PND53</strong></li>
+</ul>
+</div>
+</div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-2">Bug Tracker</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-7">Bug Tracker</a></h1>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-thailand/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
@@ -403,15 +488,15 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-3">Credits</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-8">Credits</a></h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-4">Authors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-9">Authors</a></h2>
 <ul class="simple">
 <li>Ecosoft</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h2><a class="toc-backref" href="#toc-entry-5">Contributors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-10">Contributors</a></h2>
 <ul class="simple">
 <li>Pimolnat Suntian &lt;<a class="reference external" href="mailto:pimolnats&#64;ecosoft.co.th">pimolnats&#64;ecosoft.co.th</a>&gt;</li>
 <li>Saran Lim. &lt;<a class="reference external" href="mailto:saranl&#64;ecosoft.co.th">saranl&#64;ecosoft.co.th</a>&gt;</li>
@@ -419,7 +504,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-6">Maintainers</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-11">Maintainers</a></h2>
 <p>This module is maintained by the OCA.</p>
 <a class="reference external image-reference" href="https://odoo-community.org">
 <img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
@@ -427,8 +512,8 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
-<p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainer</a>:</p>
-<p><a class="reference external image-reference" href="https://github.com/kittiu"><img alt="kittiu" src="https://github.com/kittiu.png?size=40px" /></a></p>
+<p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainers</a>:</p>
+<p><a class="reference external image-reference" href="https://github.com/kittiu"><img alt="kittiu" src="https://github.com/kittiu.png?size=40px" /></a> <a class="reference external image-reference" href="https://github.com/Saran440"><img alt="Saran440" src="https://github.com/Saran440.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_account_tax_report">OCA/l10n-thailand</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
 </div>

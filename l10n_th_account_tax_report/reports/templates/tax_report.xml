@@ -11,7 +11,7 @@
         </t>
     </template>
 
-    <template id="l10n_th_account_tax_report.internal_layout">
+    <template id="internal_layout">
         <div class="article">
             <t t-raw="0" />
         </div>
@@ -52,14 +52,8 @@
                 <!-- Display header line-->
                 <t t-call="l10n_th_account_tax_report.report_tax_report_lines_header" />
                 <!-- Display each lines -->
-                <t t-set="n" t-value="1" />
-                <t t-set="total_base" t-value="0.00" />
-                <t t-set="total_tax" t-value="0.00" />
-                <t t-foreach="o.results" t-as="line">
+                <t t-foreach="tax_report_data" t-as="line">
                     <t t-call="l10n_th_account_tax_report.report_tax_report_lines" />
-                    <t t-set="n" t-value="n+1" />
-                    <t t-set="total_base" t-value="total_base+line.tax_base_amount" />
-                    <t t-set="total_tax" t-value="total_tax+line.tax_amount" />
                 </t>
                 <!-- Display total lines -->
                 <t t-call="l10n_th_account_tax_report.report_tax_report_total_lines" />
@@ -67,36 +61,36 @@
         </div>
     </template>
 
-    <template id="l10n_th_account_tax_report.report_tax_report_filters">
+    <template id="report_tax_report_filters">
         <div class="act_as_table data_table">
             <div class="act_as_row labels">
                 <div class="act_as_cell">Date From</div>
                 <div class="act_as_cell">Date To</div>
                 <div class="act_as_cell">Company</div>
-                <div class="act_as_cell">Tax ID</div>
+                <div class="act_as_cell">Company Tax ID</div>
                 <div class="act_as_cell">Company Tax Branch</div>
             </div>
             <div class="act_as_row">
                 <div class="act_as_cell">
-                    <span t-out="o.date_from.strftime('%d/%m/%Y')" />
+                    <span t-out="date_from.strftime('%d/%m/%Y')" />
                 </div>
                 <div class="act_as_cell">
-                    <span t-out="o.date_to.strftime('%d/%m/%Y')" />
+                    <span t-out="date_to.strftime('%d/%m/%Y')" />
                 </div>
                 <div class="act_as_cell">
-                    <span t-field="o.company_id.display_name" />
+                    <span t-out="company_name" />
                 </div>
                 <div class="act_as_cell">
-                    <span t-field="o.company_id.partner_id.vat" />
+                    <span t-out="company_vat" />
                 </div>
                 <div class="act_as_cell">
-                    <span t-field="o.company_id.partner_id.branch" />
+                    <span t-out="company_branch" />
                 </div>
             </div>
         </div>
     </template>
 
-    <template id="l10n_th_account_tax_report.report_tax_report_lines_header">
+    <template id="report_tax_report_lines_header">
         <div class="act_as_thead">
             <div class="act_as_row labels">
                 <div class="act_as_cell">#</div>
@@ -112,39 +106,39 @@
         </div>
     </template>
 
-    <template id="l10n_th_account_tax_report.report_tax_report_lines">
+    <template id="report_tax_report_lines">
         <div class="act_as_row lines">
-            <div class="act_as_cell left">
-                <t t-out="n" />
+            <div class="act_as_cell">
+                <t t-out="line['row_number']" />
+            </div>
+            <div class="act_as_cell">
+                <t t-out="line['tax_date']" />
             </div>
             <div class="act_as_cell left">
-                <t t-out="line.tax_date and line.tax_date.strftime('%d/%m/%Y')" />
+                <t t-out="line['tax_invoice_number']" />
             </div>
             <div class="act_as_cell left">
-                <t t-out="line.tax_invoice_number" />
+                <t t-out="line['partner_name']" />
             </div>
             <div class="act_as_cell left">
-                <t t-out="line.partner_id.display_name" />
+                <t t-out="line['partner_vat']" />
             </div>
             <div class="act_as_cell left">
-                <t t-out="line.partner_id.vat" />
-            </div>
-            <div class="act_as_cell left">
-                <t t-out="line.partner_id.branch" />
+                <t t-out="line['partner_branch']" />
             </div>
             <div class="act_as_cell amount">
-                <t t-out="'{0:,.2f}'.format(line.tax_base_amount)" />
+                <t t-out="'{0:,.2f}'.format(line['tax_base_amount'])" />
             </div>
             <div class="act_as_cell amount">
-                <t t-out="'{0:,.2f}'.format(line.tax_amount)" />
+                <t t-out="'{0:,.2f}'.format(line['tax_amount'])" />
             </div>
-            <div class="act_as_cell left">
-                <t t-out="line.name" />
+            <div class="act_as_cell">
+                <t t-out="line['name']" />
             </div>
         </div>
     </template>
 
-    <template id="l10n_th_account_tax_report.report_tax_report_total_lines">
+    <template id="report_tax_report_total_lines">
         <div class="act_as_row totals_table">
             <div class="act_as_cell" />
             <div class="act_as_cell" />
