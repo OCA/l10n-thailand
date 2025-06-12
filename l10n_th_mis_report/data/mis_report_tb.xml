@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="mis_report_tb" model="mis.report">
+        <field name="name">Trial Balance</field>
+    </record>
+
+    <!-- SUBKPI -->
+    <record id="mis_report_subkpi_tb_01" model="mis.report.subkpi">
+        <field name="sequence">10</field>
+        <field name="name">end</field>
+        <field name="description">Ending balance</field>
+        <field name="report_id" ref="mis_report_tb" />
+    </record>
+    <record id="mis_report_subkpi_tb_02" model="mis.report.subkpi">
+        <field name="sequence">20</field>
+        <field name="name">int</field>
+        <field name="description">Initial balance</field>
+        <field name="report_id" ref="mis_report_tb" />
+    </record>
+    <record id="mis_report_subkpi_tb_03" model="mis.report.subkpi">
+        <field name="sequence">30</field>
+        <field name="name">period</field>
+        <field name="description">Period balance</field>
+        <field name="report_id" ref="mis_report_tb" />
+    </record>
+    <record id="mis_report_subkpi_tb_04" model="mis.report.subkpi">
+        <field name="sequence">40</field>
+        <field name="name">dr</field>
+        <field name="description">Debit</field>
+        <field name="report_id" ref="mis_report_tb" />
+    </record>
+    <record id="mis_report_subkpi_tb_05" model="mis.report.subkpi">
+        <field name="sequence">50</field>
+        <field name="name">cr</field>
+        <field name="description">Credit</field>
+        <field name="report_id" ref="mis_report_tb" />
+    </record>
+
+    <!-- KPI -->
+    <record id="mis_report_kpi_tb_01" model="mis.report.kpi">
+        <field name="name">acc</field>
+        <field name="description">Account</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="accumulation_method">sum</field>
+        <field name="multi">1</field>
+        <field name="style_id" ref="l10n_th_mis_report.mis_report_style_02" />
+        <field
+            name="auto_expand_accounts_style_id"
+            ref="l10n_th_mis_report.mis_report_style_03"
+        />
+        <field name="auto_expand_accounts">1</field>
+        <field name="report_id" ref="mis_report_tb" />
+    </record>
+
+    <!-- KPI Expression -->
+    <record id="mis_report_kpi_expression_tb_01" model="mis.report.kpi.expression">
+        <field name="subkpi_id" ref="mis_report_subkpi_tb_01" />
+        <field name="name">bale[]</field>
+        <field name="kpi_id" ref="mis_report_kpi_tb_01" />
+    </record>
+    <record id="mis_report_kpi_expression_tb_02" model="mis.report.kpi.expression">
+        <field name="subkpi_id" ref="mis_report_subkpi_tb_02" />
+        <field name="name">bali[]</field>
+        <field name="kpi_id" ref="mis_report_kpi_tb_01" />
+    </record>
+    <record id="mis_report_kpi_expression_tb_03" model="mis.report.kpi.expression">
+        <field name="subkpi_id" ref="mis_report_subkpi_tb_03" />
+        <field name="name">balp[]</field>
+        <field name="kpi_id" ref="mis_report_kpi_tb_01" />
+    </record>
+    <record id="mis_report_kpi_expression_tb_04" model="mis.report.kpi.expression">
+        <field name="subkpi_id" ref="mis_report_subkpi_tb_04" />
+        <field name="name">crdp[]</field>
+        <field name="kpi_id" ref="mis_report_kpi_tb_01" />
+    </record>
+    <record id="mis_report_kpi_expression_tb_05" model="mis.report.kpi.expression">
+        <field name="subkpi_id" ref="mis_report_subkpi_tb_05" />
+        <field name="name">debp[]</field>
+        <field name="kpi_id" ref="mis_report_kpi_tb_01" />
+    </record>
+</odoo>
