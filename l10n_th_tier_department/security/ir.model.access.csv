@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tier_level_user,tier.level user,model_tier_level,base.group_user,1,0,0,0
+access_tier_level,tier.level manage,model_tier_level,l10n_th_tier_department.group_manage_tier_level,1,1,1,1

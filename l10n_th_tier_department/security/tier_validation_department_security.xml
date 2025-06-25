@@ -1,0 +1,18 @@
+<odoo noupdate="1">
+    <record id="group_manage_tier_level" model="res.groups">
+        <field name="name">Manage Approval Levels</field>
+        <field name="category_id" ref="base.module_category_hidden" />
+    </record>
+
+    <record id="group_allow_restart_validation" model="res.groups">
+        <field name="name">Allow Restart Validation</field>
+        <field name="category_id" ref="base.module_category_hidden" />
+    </record>
+
+    <record id="base.group_system" model="res.groups">
+        <field
+            name="implied_ids"
+            eval="[(4, ref('l10n_th_tier_department.group_manage_tier_level')), (4, ref('l10n_th_tier_department.group_allow_restart_validation'))]"
+        />
+    </record>
+</odoo>
