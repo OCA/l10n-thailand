@@ -1,5 +1,4 @@
 <odoo>
-
     <record model="ir.actions.act_window" id="action_open_guarantee_invoices">
         <field name="name">Invoices</field>
         <field name="res_model">account.move</field>

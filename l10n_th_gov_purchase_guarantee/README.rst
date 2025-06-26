@@ -17,20 +17,21 @@ Thai Localization - Government Purchase Guarantee
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-thailand/tree/15.0/l10n_th_gov_purchase_guarantee
+    :target: https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_gov_purchase_guarantee
     :alt: OCA/l10n-thailand
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-thailand-15-0/l10n-thailand-15-0-l10n_th_gov_purchase_guarantee
+    :target: https://translation.odoo-community.org/projects/l10n-thailand-18-0/l10n-thailand-18-0-l10n_th_gov_purchase_guarantee
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&target_branch=15.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Guarantee is a formal promise or assurance that certain conditions will be fulfilled.
-As an assurance, a payment will be made from a vendor the organization who issue out the contract.
-And once that condition is settled, the payment will be returned back to the vendor.
+Guarantee is a formal promise or assurance that certain conditions will
+be fulfilled. As an assurance, a payment will be made from a vendor the
+organization who issue out the contract. And once that condition is
+settled, the payment will be returned back to the vendor.
 
 This module allowed to create Purchase Guarantee form,
 
@@ -38,17 +39,22 @@ This module allowed to create Purchase Guarantee form,
 2. Request for Quotation
 3. Purchase Order
 
-From the document, click on smart button "Guarantee" to view or create a new Guarantee for each document.
+From the document, click on smart button "Guarantee" to view or create a
+new Guarantee for each document.
 
 There are 3 method of guarantee,
 
-1. หลักประกันการเสนอราคา :: this method of guarantee is by default, created out of Purchase Agreement (TE)
-2. เงินประกันสัญญา :: this method of guarantee is by default, created out of Request for Quoation (RFQ)
-3. หลักประกันการจ่ายเงินล่วงหน้า :: this method of guarantee is by default, created out of Purchase Order (PO)
+1. หลักประกันการเสนอราคา :: this method of guarantee is by default,
+   created out of Purchase Agreement (TE)
+2. เงินประกันสัญญา :: this method of guarantee is by default, created out
+   of Request for Quoation (RFQ)
+3. หลักประกันการจ่ายเงินล่วงหน้า :: this method of guarantee is by default,
+   created out of Purchase Order (PO)
 
-For guarantee with type (create invoice = True),
-* Create customer invoice, and choose Guarantee to help create invoice to receive payment from vendor.
-* Create vendor bill, and choose Return Guarantee to help create bill to return payment to vendor.
+For guarantee with type (create invoice = True), \* Create customer
+invoice, and choose Guarantee to help create invoice to receive payment
+from vendor. \* Create vendor bill, and choose Return Guarantee to help
+create bill to return payment to vendor.
 
 **Table of contents**
 
@@ -61,7 +67,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-thailand/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_gov_purchase_guarantee%0Aversion:%2015.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_gov_purchase_guarantee%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -69,17 +75,17 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Ecosoft
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Kitti U. <kittiu@ecosoft.co.th>
+-  Kitti U. <kittiu@ecosoft.co.th>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -91,6 +97,6 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/15.0/l10n_th_gov_purchase_guarantee>`_ project on GitHub.
+This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_gov_purchase_guarantee>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

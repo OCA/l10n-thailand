@@ -133,7 +133,7 @@ class TestPurchaseGuarantee(common.TransactionCase):
         result = pr.action_view_purchase_guarantee()
         self.assertEqual(
             result["context"]["default_reference"],
-            "purchase.requisition,{}".format(pr.id),
+            f"purchase.requisition,{pr.id}",
         )
         # Test create guarantee on purchase.requisition with state draft
         with self.assertRaises(UserError):
@@ -160,7 +160,7 @@ class TestPurchaseGuarantee(common.TransactionCase):
         self.assertEqual(pr_guarantee.analytic_account_id, analytic_camp)
         # Check name search and name get
         self.assertEqual(
-            pr_guarantee.name_get()[0][1], "{} ({})".format(pr_guarantee.name, pr.name)
+            pr_guarantee.name_get()[0][1], f"{pr_guarantee.name} ({pr.name})"
         )
         self.assertEqual(len(pr_guarantee.name_search(pr.name)), 1)
         move = self.move_model.create(
@@ -197,7 +197,7 @@ class TestPurchaseGuarantee(common.TransactionCase):
         result = purchase.action_view_purchase_guarantee()
         self.assertEqual(
             result["context"]["default_reference"],
-            "purchase.order,{}".format(purchase.id),
+            f"purchase.order,{purchase.id}",
         )
         # Create guarantee on purchase.order state draft
         with Form(self.guarantee_model.with_context(**result["context"])) as f:
