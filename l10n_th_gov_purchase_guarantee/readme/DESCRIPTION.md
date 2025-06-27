@@ -3,7 +3,7 @@ be fulfilled. As an assurance, a payment will be made from a vendor the
 organization who issue out the contract. And once that condition is
 settled, the payment will be returned back to the vendor.
 
-This module allowed to create Purchase Guarantee form,
+This module allowed to create Purchase Guarantee with
 
 1.  Purchase Agreement
 2.  Request for Quotation

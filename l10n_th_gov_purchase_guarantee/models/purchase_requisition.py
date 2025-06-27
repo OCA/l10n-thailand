@@ -24,12 +24,20 @@ class PurchaseRequisition(models.Model):
 
     def action_view_purchase_guarantee(self):
         self.ensure_one()
-        action = self.env.ref(
+        result = self.env["ir.actions.act_window"]._for_xml_id(
             "l10n_th_gov_purchase_guarantee.purchase_guarantee_action"
         )
-        result = action.sudo().read()[0]
         result["domain"] = [("requisition_id", "=", self.id)]
         result["context"] = {
-            "default_reference": "purchase.requisition,%s" % (str(self.id),),
+            "default_reference": f"purchase.requisition,{self.id}",
         }
         return result
+
+
+class PurchaseRequisitionLine(models.Model):
+    _inherit = "purchase.requisition.line"
+
+    analytic_tag_ids = fields.Many2many(
+        comodel_name="account.analytic.tag",
+        string="Analytic Tags",
+    )

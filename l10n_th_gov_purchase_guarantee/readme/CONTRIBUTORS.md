@@ -1,1 +1,3 @@
-- Kitti U. \<<kittiu@ecosoft.co.th>\>
+- [Ecosoft](https://www.ecosoft.co.th):
+    - Kitti U. <kittiu@ecosoft.co.th>
+    - Saran Lim. <saranl@ecosoft.co.th>

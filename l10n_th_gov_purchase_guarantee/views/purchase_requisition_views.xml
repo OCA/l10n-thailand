@@ -21,6 +21,17 @@
                     />
                 </button>
             </div>
+            <xpath
+                expr="//page[@name='products']//list/field[@name='analytic_distribution']"
+                position="after"
+            >
+                <field
+                    name="analytic_tag_ids"
+                    widget="many2many_tags"
+                    optional="show"
+                    groups="account_analytic_tag.group_analytic_tags"
+                />
+            </xpath>
         </field>
     </record>
 </odoo>

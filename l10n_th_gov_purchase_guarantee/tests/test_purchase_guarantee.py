@@ -1,7 +1,7 @@
 # Copyright 2022 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.exceptions import UserError
 from odoo.tests import Form, common
 
@@ -18,15 +18,13 @@ class TestPurchaseGuarantee(common.TransactionCase):
         cls.account_model = cls.env["account.account"]
         cls.guarantee_model = cls.env["purchase.guarantee"]
         cls.guarantee_type_cash = cls.env.ref("l10n_th_gov_purchase_guarantee.cash")
-        cls.main_company = cls.env.ref("base.main_company")
-        cls.account_type_income = cls.env.ref("account.data_account_type_other_income")
+
         # add account in method type
         cls.account_guarantee = cls.account_model.create(
             {
                 "code": "411100",
                 "name": "Guarantee",
-                "user_type_id": cls.account_type_income.id,
-                "company_id": cls.main_company.id,
+                "account_type": "income",
             }
         )
         cls.guarantee_bid_guarantee = cls.env.ref(
@@ -52,22 +50,19 @@ class TestPurchaseGuarantee(common.TransactionCase):
         cls.partner2 = cls.env.ref("base.res_partner_2")
         cls.product1 = cls.env.ref("product.product_product_7")
 
-    def _create_pr(self, qty, unit_price, analytic_account=False):
+    def _create_pr(self, qty, unit_price, analytic_distribution=False):
         pr = self.pr_model.create(
             {
-                "user_id": self.env.ref("base.user_root").id,
-                "type_id": self.env.ref("purchase_requisition.type_multi").id,
+                "vendor_id": self.partner1.id,
+                "requisition_type": "blanket_order",
                 "line_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "product_id": self.product1.id,
                             "product_qty": qty,
                             "product_uom_id": self.product1.uom_po_id.id,
                             "price_unit": unit_price,
-                            "account_analytic_id": analytic_account
-                            and analytic_account.id,
+                            "analytic_distribution": analytic_distribution or {},
                         },
                     )
                 ],
@@ -91,25 +86,25 @@ class TestPurchaseGuarantee(common.TransactionCase):
             "partner_id": self.partner1.id,
             "invoice_date": fields.Date.today(),
             "invoice_line_ids": [
-                (
-                    0,
-                    0,
+                Command.create(
                     {
                         "name": guarantee.guarantee_method_id.name,
                         "account_id": guarantee.guarantee_method_id.account_id.id,
                         "quantity": 1,
                         "price_unit": guarantee.amount,
-                        "analytic_account_id": guarantee.analytic_account_id.id,
-                        "analytic_tag_ids": [(6, 0, guarantee.analytic_tag_ids.ids)],
+                        "analytic_distribution": guarantee.analytic_distribution,
+                        "analytic_tag_ids": [
+                            Command.set(guarantee.analytic_tag_ids.ids)
+                        ],
                     },
                 )
             ],
         }
         if type_guarantee == "receive":
-            data_create["guarantee_ids"] = [(4, guarantee.id)]
+            data_create["guarantee_ids"] = [Command.link(guarantee.id)]
             data_create["move_type"] = "out_invoice"
         elif type_guarantee == "return":
-            data_create["return_guarantee_ids"] = [(4, guarantee.id)]
+            data_create["return_guarantee_ids"] = [Command.link(guarantee.id)]
             data_create["move_type"] = "in_invoice"
         move = self.move_model.create(data_create)
         move.action_post()
@@ -127,7 +122,8 @@ class TestPurchaseGuarantee(common.TransactionCase):
     def test_01_pr_guarantee(self):
         """Test process guarantee with purchase requisition"""
         analytic_camp = self.env.ref("analytic.analytic_partners_camp_to_camp")
-        pr = self._create_pr(1, 100.0, analytic_account=analytic_camp)
+        analytic_distribution = {str(analytic_camp.id): 100}
+        pr = self._create_pr(1, 100.0, analytic_distribution=analytic_distribution)
         self.assertEqual(pr.purchase_guarantee_count, 0)
         self.assertEqual(pr.state, "draft")
         result = pr.action_view_purchase_guarantee()
@@ -136,11 +132,13 @@ class TestPurchaseGuarantee(common.TransactionCase):
             f"purchase.requisition,{pr.id}",
         )
         # Test create guarantee on purchase.requisition with state draft
-        with self.assertRaises(UserError):
-            with Form(self.guarantee_model.with_context(**result["context"])) as f:
-                f.name = "Test Guarantee"
-        pr.action_in_progress()
-        self.assertEqual(pr.state, "in_progress")
+        with self.assertRaisesRegex(
+            UserError, "Purchase Agreement must be in status: Confirmed"
+        ):
+            Form(self.guarantee_model.with_context(**result["context"]))
+
+        pr.action_confirm()
+        self.assertEqual(pr.state, "confirmed")
         # Create guarantee on purchase.requisition
         with Form(self.guarantee_model.with_context(**result["context"])) as f:
             f.partner_id = self.partner1
@@ -157,32 +155,39 @@ class TestPurchaseGuarantee(common.TransactionCase):
         self.assertEqual(
             pr_guarantee.guarantee_method_id.account_id, self.account_guarantee
         )
-        self.assertEqual(pr_guarantee.analytic_account_id, analytic_camp)
-        # Check name search and name get
-        self.assertEqual(
-            pr_guarantee.name_get()[0][1], f"{pr_guarantee.name} ({pr.name})"
-        )
-        self.assertEqual(len(pr_guarantee.name_search(pr.name)), 1)
-        move = self.move_model.create(
-            {"partner_id": self.partner1.id, "guarantee_ids": [(4, pr_guarantee.id)]}
-        )
-        # function 'new' can't use in unit test. So, create line directly.
-        move._onchange_guarantee_ids()
-        prepare_line = move._prepare_guarantee_move_line(pr_guarantee)
-        self.move_line_model.create(prepare_line)
-        # Test change partner after select guarantee, it should clear all line
+        self.assertEqual(pr_guarantee.analytic_distribution, analytic_distribution)
+        # Check name search and display_name
+        self.assertEqual(pr_guarantee.display_name, f"{pr_guarantee.name} ({pr.name})")
+
+        # Create invoice guarantee
+        with Form(self.move_model.with_context(default_move_type="out_invoice")) as m:
+            m.partner_id = self.partner1
+            m.guarantee_ids = pr_guarantee
+        move = m.save()
         self.assertEqual(len(move.invoice_line_ids), 1)
-        with self.assertRaises(UserError):
-            with Form(move) as inv:
-                inv.partner_id = self.partner2
-            self.assertEqual(len(move.invoice_line_ids), 0)
-            self.assertFalse(move.guarantee_ids)
+
+        # Test change partner after select guarantee, it should clear all line
+        with Form(move) as m:
+            m.partner_id = self.partner2
+        m.save()
+        self.assertEqual(len(move.invoice_line_ids), 0)
+        self.assertFalse(move.guarantee_ids)
+        with self.assertRaisesRegex(
+            UserError, "You need to add a line before posting."
+        ):
             move.action_post()
 
         # Create new move for received guarantee
         self._create_move_payment_received_guarantee(pr_guarantee)
         self.assertEqual(pr_guarantee.amount_received, 100.0)
         self.assertTrue(pr_guarantee.invoice_ids)
+
+        # Create bill for return guarantee, it should auto generate new line
+        with Form(self.move_model.with_context(default_move_type="in_invoice")) as m:
+            m.partner_id = self.partner1
+            m.return_guarantee_ids = pr_guarantee
+        bill = m.save()
+        self.assertEqual(len(bill.invoice_line_ids), 1)
 
         # Create new move for return guarantee
         self._create_move_payment_received_guarantee(pr_guarantee, "return")
@@ -191,7 +196,7 @@ class TestPurchaseGuarantee(common.TransactionCase):
     def test_02_po_guarantee(self):
         """Test process guarantee with purchase order"""
         pr = self._create_pr(1, 100.0)
-        pr.action_in_progress()
+        pr.action_confirm()
         purchase = self._create_purchase(pr)
         self.assertEqual(purchase.purchase_guarantee_count, 0)
         result = purchase.action_view_purchase_guarantee()
@@ -249,3 +254,8 @@ class TestPurchaseGuarantee(common.TransactionCase):
         # Create new move for return guarantee
         self._create_move_payment_received_guarantee(po_guarantee2, "return")
         self.assertEqual(po_guarantee2.amount_returned, 200.0)
+
+    def test_03_create_guarantee_direct(self):
+        guarantee = self.guarantee_model.create({"name": "TEST Direct"})
+        self.assertEqual(guarantee.display_name, guarantee.name)
+        self.assertFalse(guarantee.analytic_tag_ids)

@@ -10,11 +10,7 @@ class AccountPaymentRegister(models.TransientModel):
     def _create_payments(self):
         payments = super()._create_payments()
         # Guarantee return date = vendor payment date
-        active_model = self._context.get("active_model")
-        active_ids = self._context.get("active_ids")  # must use active_ids
-        if active_model == "account.move" and active_ids:
-            moves = self.env[active_model].browse(active_ids).sudo()
-            move_return_guarantee_ids = moves.filtered(lambda l: l.return_guarantee_ids)
-            for move in move_return_guarantee_ids:
-                move.return_guarantee_ids.date_return = self.payment_date
+        purchase_return_guarantee_ids = self.line_ids.move_id.return_guarantee_ids
+        if purchase_return_guarantee_ids:
+            purchase_return_guarantee_ids.write({"date_return": self.payment_date})
         return payments

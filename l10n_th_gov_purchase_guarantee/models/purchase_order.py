@@ -24,11 +24,11 @@ class PurchaseOrder(models.Model):
 
     def action_view_purchase_guarantee(self):
         self.ensure_one()
-        action = self.env["ir.actions.act_window"]._for_xml_id(
+        result = self.env["ir.actions.act_window"]._for_xml_id(
             "l10n_th_gov_purchase_guarantee.purchase_guarantee_action"
         )
-        action["domain"] = [("purchase_id", "=", self.id)]
-        action["context"] = {
-            "default_reference": "purchase.order,%s" % (str(self.id),),
+        result["domain"] = [("purchase_id", "=", self.id)]
+        result["context"] = {
+            "default_reference": f"purchase.order,{self.id}",
         }
-        return action
+        return result

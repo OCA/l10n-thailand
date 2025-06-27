@@ -1,13 +1,13 @@
 # Copyright 2021 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
 class PurchaseGuarantee(models.Model):
     _name = "purchase.guarantee"
     _description = "Purchase Guarantee"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ["mail.thread", "mail.activity.mixin", "analytic.mixin"]
     _order = "name desc"
 
     name = fields.Char(
@@ -42,7 +42,6 @@ class PurchaseGuarantee(models.Model):
     )
     guarantee_method_id = fields.Many2one(
         comodel_name="purchase.guarantee.method",
-        string="Guarantee Method",
         index=True,
         ondelete="restrict",
         compute="_compute_guarantee_method_id",
@@ -51,7 +50,6 @@ class PurchaseGuarantee(models.Model):
     )
     partner_id = fields.Many2one(
         comodel_name="res.partner",
-        string="Partner",
         index=True,
         ondelete="restrict",
         compute="_compute_partner_id",
@@ -60,13 +58,11 @@ class PurchaseGuarantee(models.Model):
     )
     guarantee_type_id = fields.Many2one(
         comodel_name="purchase.guarantee.type",
-        string="Guarantee Type",
         index=True,
         ondelete="restrict",
     )
     company_id = fields.Many2one(
         comodel_name="res.company",
-        string="Company",
         required=True,
         default=lambda self: self.env.company,
     )
@@ -81,18 +77,8 @@ class PurchaseGuarantee(models.Model):
     date_guarantee_receive = fields.Date(
         string="Guarantee Receive Date",
     )
-    analytic_account_id = fields.Many2one(
-        comodel_name="account.analytic.account",
+    analytic_distribution = fields.Json(
         compute="_compute_analytic",
-        store=True,
-        readonly=False,
-        compute_sudo=True,
-    )
-    domain_analytic_account_ids = fields.Many2many(
-        comodel_name="account.analytic.account",
-        compute="_compute_analytic",
-        string="Domain Analytic Account",
-        compute_sudo=True,
     )
     analytic_tag_ids = fields.Many2many(
         comodel_name="account.analytic.tag",
@@ -100,7 +86,6 @@ class PurchaseGuarantee(models.Model):
         compute="_compute_analytic",
         store=True,
         readonly=False,
-        compute_sudo=True,
     )
     invoice_ids = fields.Many2many(
         comodel_name="account.move",
@@ -158,36 +143,28 @@ class PurchaseGuarantee(models.Model):
             elif rec.reference._name == "purchase.order":
                 rec.purchase_id = rec.reference
                 if rec.reference.state in ["draft", "sent"]:
-                    rec.reference_model = "{}.{}".format(rec.reference._name, "rfq")
+                    rec.reference_model = f"{rec.reference._name}.rfq"
                 elif rec.reference.state in ["purchase"]:
-                    rec.reference_model = "{}.{}".format(rec.reference._name, "po")
+                    rec.reference_model = f"{rec.reference._name}.po"
             rec._check_reference_status()
 
     def _check_reference_status(self):
         self.ensure_one()
-        if self.reference:
-            states = []
-            if self.reference._name == "purchase.requisition":
-                states.extend(["in_progress", "open"])
-            elif self.reference._name == "purchase.order":
-                states.extend(["draft", "sent", "purchase"])
-            if states and self.reference.state not in states:
-                raise UserError(
-                    _("%(ref)s must be in status: %(state)s")
-                    % {
-                        "ref": dict(self._fields["reference"].selection).get(
-                            self.reference._name
-                        ),
-                        "state": ", ".join(
-                            [
-                                dict(self.reference._fields["state"].selection).get(
-                                    state
-                                )
-                                for state in states
-                            ]
-                        ),
-                    }
-                )
+        states = []
+        if self.reference._name == "purchase.requisition":
+            states.append("confirmed")
+        elif self.reference._name == "purchase.order":
+            states.extend(["draft", "sent", "purchase"])
+
+        if states and self.reference.state not in states:
+            ref = dict(self._fields["reference"].selection).get(self.reference._name)
+            state = ", ".join(
+                [
+                    dict(self.reference._fields["state"].selection).get(state)
+                    for state in states
+                ]
+            )
+            raise UserError(self.env._(f"{ref} must be in status: {state}"))
 
     @api.depends("reference")
     def _compute_guarantee_method_id(self):
@@ -229,11 +206,10 @@ class PurchaseGuarantee(models.Model):
                     origin = rec.reference.line_ids
                 elif rec.reference._name == "purchase.order":
                     origin = rec.reference.order_line
-            analytics = origin and origin.mapped("account_analytic_id") or False
-            rec.domain_analytic_account_ids = analytics
-            rec.analytic_tag_ids = origin and origin.mapped("analytic_tag_ids") or False
-            if analytics and len(analytics) == 1:
-                rec.analytic_account_id = analytics
+            analytics = origin and origin.analytic_distribution or False
+            rec.analytic_tag_ids = origin and origin.mapped("analytic_tag_ids") or []
+            if analytics:
+                rec.analytic_distribution = analytics
 
     @api.depends("invoice_ids")
     def _compute_amount_received(self):
@@ -249,32 +225,19 @@ class PurchaseGuarantee(models.Model):
                 rec.bill_ids.mapped("amount_residual")
             )
 
-    @api.model
-    def create(self, vals):
-        if vals.get("name", "/") == "/":
-            vals["name"] = self.env["ir.sequence"].next_by_code("purchase.guarantee")
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("name", "/") == "/":
+                vals["name"] = self.env["ir.sequence"].next_by_code(
+                    "purchase.guarantee"
+                )
         return super().create(vals)
 
-    def name_get(self):
-        result = []
+    @api.depends("reference", "name")
+    def _compute_display_name(self):
+        res = super()._compute_display_name()
         for rec in self:
-            name = rec.name
             if rec.reference:
-                name += " (%s)" % rec.reference.name
-            result.append((rec.id, name))
-        return result
-
-    @api.model
-    def name_search(self, name, args=None, operator="ilike", limit=100):
-        args = args or []
-        domain = []
-        if name:
-            domain = [
-                "|",
-                ("purchase_id.name", operator, name),
-                "|",
-                ("requisition_id.name", operator, name),
-                ("name", operator, name),
-            ]
-        guarantees = self.search(domain + args, limit=limit)
-        return guarantees.name_get()
+                rec.display_name = f"{rec.name} ({rec.reference.name})"
+        return res
