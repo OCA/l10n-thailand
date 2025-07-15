@@ -23,6 +23,9 @@ class BankPaymentTemplate(models.Model):
         required=True,
         default=lambda self: self.env.company,
     )
+    journal_ids = fields.Many2many(
+        comodel_name="account.journal",
+    )
 
 
 class BankPaymentConfig(models.Model):
@@ -37,4 +40,5 @@ class BankPaymentConfig(models.Model):
         domain=[("model", "=", "bank.payment.export")],
         ondelete="cascade",
     )
+    field_type = fields.Selection(related="field_id.ttype")
     value = fields.Char(required=True)
