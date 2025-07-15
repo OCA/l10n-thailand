@@ -9,6 +9,7 @@
             <tree>
                 <field name="name" />
                 <field name="bank" />
+                 <field name="journal_ids" widget="many2many_tags" />
                 <field name="company_id" groups="base.group_multi_company" />
             </tree>
         </field>
@@ -35,6 +36,7 @@
                                 name="company_id"
                                 groups="base.group_multi_company"
                             />
+                            <field name="journal_ids" widget="many2many_tags" />
                         </group>
                     </group>
                     <notebook>
@@ -42,9 +44,39 @@
                             <field name="template_config_line">
                                 <tree editable="bottom">
                                     <field name="field_id" />
+                                    <field name="field_type" />
                                     <field name="value" />
                                 </tree>
                             </field>
+                        </page>
+                        <page string="Help">
+                            <group>
+                                <div>
+                                    <p>
+                                        The bank payment export template allows for easy automatic configuration.
+                                        Users can select their preferred template and modify the values as needed.
+                                    </p>
+                                    <p>
+                                        For fields of the <code
+                                        >many2one, many2many</code> types,<br />
+                                        you can enter values using either the <b
+                                        >ID</b> or the <b>Name</b> format.
+                                    </p>
+                                    <p>
+                                        For <code
+                                        >selection</code> fields, use the values displayed on the screen.
+                                        To find the correct value, look for the text before the hyphen (-)
+                                        <br />
+                                        For example,
+                                        if <b
+                                        >Product Code</b> is a selection field with many options and you want to make a Direct Credit payment,<br
+                                        />
+                                        the system will display <b
+                                        >DCP - Direct Credit</b> In this case, you should enter the value as <b
+                                        >DCP</b>
+                                    </p>
+                                </div>
+                            </group>
                         </page>
                     </notebook>
                 </sheet>

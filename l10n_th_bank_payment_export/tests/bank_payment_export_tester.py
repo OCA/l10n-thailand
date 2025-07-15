@@ -20,3 +20,12 @@ class BankPaymentTemplateTester(models.Model):
         selection_add=[("TEST", "Test Bank")],
         ondelete={"TEST": "cascade"},
     )
+
+
+class BankExportFormatTester(models.Model):
+    _inherit = "bank.export.format"
+
+    bank = fields.Selection(
+        selection_add=[("TEST", "Test Bank")],
+        ondelete={"TEST": "cascade"},
+    )

@@ -90,20 +90,6 @@ class BankPaymentExportXslx(models.AbstractModel):
                 },
                 "width": 10,
             },
-            "11_email": {
-                "header": {"value": "Email"},
-                "data": {
-                    "value": self._render("email"),
-                },
-                "width": 20,
-            },
-            "12_phone": {
-                "header": {"value": "Phone"},
-                "data": {
-                    "value": self._render("phone"),
-                },
-                "width": 15,
-            },
         }
 
     def _get_ws_params(self, wb, data, obj):
@@ -124,23 +110,19 @@ class BankPaymentExportXslx(models.AbstractModel):
         recipient_bank = pe_line.payment_partner_bank_id
         acc_number = recipient_bank.acc_number or False
         received_bank = recipient_bank.bank_id
-        partner_id = pe_line.payment_partner_id
-        payment_net_amount = pe_line._get_payment_net_amount()
         return {
             "sequence": idx + 1,
             "reference": pe_line.payment_id.name,
             "payment_date": pe_line.payment_date.strftime("%d/%m/%Y"),
-            "partner": partner_id.display_name or "",
+            "partner": pe_line.payment_partner_id.display_name or "",
             "acc_number": acc_number and acc_number.zfill(11) or "",
             "bank_name": received_bank.name or "",
             "acc_holder_name": recipient_bank.acc_holder_name
             or recipient_bank.partner_id.display_name
             or "",
-            "amount": payment_net_amount,
+            "amount": pe_line.payment_amount,
             "bank_code": received_bank.bank_code or "",
             "bank_branch_code": received_bank.bank_branch_code or "",
-            "email": partner_id.email or "",
-            "phone": partner_id.phone or "",
         }
 
     def _get_header_data_list(self, obj):
@@ -177,12 +159,16 @@ class BankPaymentExportXslx(models.AbstractModel):
             )
         return row_pos
 
-    def _write_ws_footer(self, row_pos, ws, obj, payment_export_line):
+    def _set_range_footer(self, row_pos, ws, obj):
+        """Hooks this function to set range footer"""
         ws.merge_range(row_pos, 0, row_pos, 6, "")
-        ws.merge_range(row_pos, 8, row_pos, 11, "")
+        ws.merge_range(row_pos, 8, row_pos, 9, "")
         ws.write_row(
             row_pos, 0, ["Total Balance"], FORMATS["format_theader_blue_right"]
         )
+
+    def _write_ws_footer(self, row_pos, ws, obj, payment_export_line):
+        self._set_range_footer(row_pos, ws, obj)
         # TODO: Not support Multi Currency yet.
         total_balance_payment = sum(
             pe_line.currency_id._convert(
