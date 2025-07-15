@@ -14,6 +14,151 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<b>Alignment</b>\n"
+"                                                : Aligning values to the left or right."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<b>Blank Space</b>\n"
+"                                                : Defining remaining space when the displayed value does not reach the specified length."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<b>End Line</b>\n"
+"                                                : If the line is the last line, it will use <code>/r/t</code> after put value."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid "<b>Formatting</b>"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<b>Group</b>\n"
+"                                            : Used to group for looping within the same group."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<b>Lenght</b>\n"
+"                                                : The length of the displayed value. if <b>Value Type</b> is Fixed, <b>Value</b> will be throw error if it exceeds the specified length."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<b>Loop</b>\n"
+"                                            : For looping to display according to the lines of bank.payment.export.line."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<b>Skipping Display</b>\n"
+"                                        You can skip the display of a line if it doesn't meet the conditions set in the <b>Condition Line</b>."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<b>Sub Loop</b>\n"
+"                                            : For cases where you want to nest loops, such as retrieving all invoices of that line."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<b>Sub Value Loop</b>\n"
+"                                            : The field needed for the sub loop (must be filled in when selecting Sub Loop)."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<b>Value Type</b>\n"
+"                                                : Fixed is used when the value is fixed, and Python is used when the value is dynamic."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<code>idx</code>\n"
+"                                            : The index of that line."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<code>idx_line</code>\n"
+"                                            : The index of that Loop (used when Loop is selected)."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<code>idx_sub_line</code>\n"
+"                                            : The index of that Sub Loop (used when Sub Loop is selected)."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<code>invoices</code>\n"
+"                                            : Invoices from the payment."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<code>line</code>\n"
+"                                            :"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<code>rec</code>\n"
+"                                            : record on which the action is triggered (bank.payment.export)"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<code>sub_line</code>\n"
+"                                            : object of the sub loop. it will have data if <b>Sub Loop</b> is selected."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<code>today</code>\n"
+"                                            : Current date (Format: Date)."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<code>today_datetime</code>\n"
+"                                            : Current date and time (Format: Datetime)."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"<code>wht_cert</code>\n"
+"                                            : Withholding Tax from payment. It will have a value when the module <code>l10n_th_account_tax</code> is installed; if not, it will be set to False."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_account_payment_form
 msgid "=&gt;"
 msgstr ""
@@ -56,6 +201,26 @@ msgid "Activity Type Icon"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid "Add a line"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid "Add a note"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid "Add a section"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__value_alignment
+msgid "Alignment"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
 #, python-format
 msgid "All payments must have the same bank payment template."
@@ -77,6 +242,8 @@ msgid "Attachment Count"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format__bank
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__bank_id
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__bank
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__payment_bank_id
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__bank
@@ -88,6 +255,20 @@ msgstr ""
 #. module: l10n_th_bank_payment_export
 #: model:ir.model,name:l10n_th_bank_payment_export.model_res_partner_bank
 msgid "Bank Accounts"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.actions.act_window,name:l10n_th_bank_payment_export.action_bank_export_format_template
+#: model:ir.model,name:l10n_th_bank_payment_export.model_bank_export_format
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__bank_export_format_id
+#: model:ir.ui.menu,name:l10n_th_bank_payment_export.menu_bank_export_format
+#: model:ir.ui.menu,name:l10n_th_bank_payment_export.menu_bank_export_format_template
+msgid "Bank Export Format"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model,name:l10n_th_bank_payment_export.model_bank_export_format_line
+msgid "Bank Export Format Line"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
@@ -137,6 +318,22 @@ msgid "Bank Payment Templates"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: code:addons/l10n_th_bank_payment_export/models/bank_payment_export.py:0
+#, python-format
+msgid "Bank format not found."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__value_blank_space
+msgid "Blank Space"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_bank_export_format_line__value_blank_space
+msgid "Blank space for fill in value"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
 msgid "Cancel"
 msgstr ""
@@ -148,12 +345,22 @@ msgid "Cancelled"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model_terms:ir.actions.act_window,help:l10n_th_bank_payment_export.action_bank_export_format_template
+msgid "Click to create a Format Bank Export."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__company_id
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__company_id
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__company_id
 #: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
 #: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_template_view_search
 msgid "Company"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__condition_line
+msgid "Condition Line"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
@@ -183,6 +390,8 @@ msgid "Create Bank Payment Export"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format__create_uid
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__create_uid
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__create_uid
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__create_uid
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__create_uid
@@ -191,6 +400,8 @@ msgid "Created by"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format__create_date
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__create_date
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__create_date
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__create_date
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__create_date
@@ -206,6 +417,16 @@ msgid "Currency"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"Data that supports Python expressions, including:\n"
+"                                        <code>\n"
+"                                            {rec, line, sub_line, today, today_datetime, idx, idx_line, idx_sub_line, wht_cert, invoices}\n"
+"                                        </code>\n"
+"                                        ."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__payment_date
 msgid "Date"
 msgstr ""
@@ -217,11 +438,23 @@ msgid "Default bank payment template on each partner."
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__name
+msgid "Description"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format__display_name
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__display_name
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__display_name
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__display_name
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__display_name
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__display_name
 msgid "Display Name"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__display_type
+msgid "Display Type"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
@@ -242,6 +475,11 @@ msgid "Duplicate payment in transaction not allowed!"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_export_format_line__value_type__dynamic
+msgid "Dynamic"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__effective_date
 #: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_search
 msgid "Effective Date"
@@ -254,6 +492,11 @@ msgid "Effective Date must be more than or equal {}"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__end_line
+msgid "End Line"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
 msgid "Export Excel"
 msgstr ""
@@ -261,6 +504,12 @@ msgstr ""
 #. module: l10n_th_bank_payment_export
 #: model:ir.actions.report,name:l10n_th_bank_payment_export.action_export_payment_xlsx
 msgid "Export Excel Payment"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format__export_format_ids
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid "Export Format"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
@@ -295,8 +544,8 @@ msgid "Export Text File"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
-#: model:ir.actions.report,name:l10n_th_bank_payment_export.action_payment_demo_txt
-msgid "Export Text Payment Demo"
+#: model:ir.actions.report,name:l10n_th_bank_payment_export.action_payment_txt
+msgid "Export Text Payment"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
@@ -308,6 +557,16 @@ msgstr ""
 #. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__field_id
 msgid "Field"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__field_type
+msgid "Field Type"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_export_format_line__value_type__fixed
+msgid "Fixed"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
@@ -326,6 +585,29 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_template_view_form
+msgid ""
+"For <code>selection</code> fields, use the values displayed on the screen.\n"
+"                                        To find the correct value, look for the text before the hyphen (-)\n"
+"                                        <br/>\n"
+"                                        For example,\n"
+"                                        if <b>Product Code</b> is a selection field with many options and you want to make a Direct Credit payment,<br/>\n"
+"                                        the system will display <b>DCP - Direct Credit</b> In this case, you should enter the value as <b>DCP</b>"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_template_view_form
+msgid ""
+"For fields of the <code>many2one, many2many</code> types,<br/>\n"
+"                                        you can enter values using either the <b>ID</b> or the <b>Name</b> format."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__lenght_from
+msgid "From"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
 msgid "Get All Payments"
 msgstr ""
@@ -333,6 +615,11 @@ msgstr ""
 #. module: l10n_th_bank_payment_export
 #: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
 msgid "Get a list of all payments that haven't been exported yet."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid "Group"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
@@ -347,6 +634,14 @@ msgid "Has Message"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_template_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid "Help"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format__id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__id
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__id
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__id
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__id
@@ -362,6 +657,20 @@ msgstr ""
 #. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,help:l10n_th_bank_payment_export.field_bank_payment_export__activity_exception_icon
 msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"If <b>Loop</b> is not selected, it will retrieve data from "
+"<b>rec.export_line_ids</b> (bank.payment.export.line)."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"If <b>Loop</b> is selected, it will retrieve data from that specific line "
+"(bank.payment.export.line)."
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
@@ -392,10 +701,13 @@ msgstr ""
 
 #. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__payment_journal_id
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__journal_ids
 msgid "Journal"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format____last_update
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line____last_update
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config____last_update
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export____last_update
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line____last_update
@@ -404,6 +716,8 @@ msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format__write_uid
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__write_uid
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__write_uid
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__write_uid
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__write_uid
@@ -412,6 +726,8 @@ msgid "Last Updated by"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format__write_date
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__write_date
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__write_date
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__write_date
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export_line__write_date
@@ -420,13 +736,40 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_export_format_line__value_alignment__ljust
+msgid "Left Justify"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__lenght
+msgid "Lenght"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,help:l10n_th_bank_payment_export.field_account_payment__payment_export_id
 msgid "Link to Bank Payment Export"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid "Loop"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"Looping is used to display data from <b>rec.export_line_ids</b> "
+"(bank.payment.export.line)."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__message_main_attachment_id
 msgid "Main Attachment"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__match_group
+msgid "Match Group"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
@@ -445,9 +788,15 @@ msgid "My Activity Deadline"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format__name
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__name
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_template__name
 msgid "Name"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__need_loop
+msgid "Need Loop"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
@@ -463,6 +812,11 @@ msgstr ""
 #. module: l10n_th_bank_payment_export
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_export__activity_type_id
 msgid "Next Activity Type"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_export_format_line__display_type__line_note
+msgid "Note"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
@@ -545,6 +899,21 @@ msgid "Responsible User"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_export_format_line__value_alignment__rjust
+msgid "Right Justify"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_export_format_line__display_type__line_section
+msgid "Section"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
 msgid "Set to Draft"
 msgstr ""
@@ -566,8 +935,23 @@ msgid ""
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__sub_loop
+msgid "Sub Loop"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__sub_value_loop
+msgid "Sub Value Loop"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
 msgid "System Configuration"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,help:l10n_th_bank_payment_export.field_bank_export_format_line__display_type
+msgid "Technical field for UX purpose."
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
@@ -587,14 +971,34 @@ msgid "Template of Bank Payment Configuration"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_export_format__bank__test
 #: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_payment_export__bank__test
 #: model:ir.model.fields.selection,name:l10n_th_bank_payment_export.selection__bank_payment_template__bank__test
 msgid "Test Bank"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_template_view_form
+msgid ""
+"The bank payment export template allows for easy automatic configuration.\n"
+"                                        Users can select their preferred template and modify the values as needed."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.view_bank_export_format_form
+msgid ""
+"There are <b>Condition Line, Sub Value Loop and Value</b> can be any valid "
+"python expressions."
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
 #: model_terms:ir.ui.view,arch_db:l10n_th_bank_payment_export.bank_payment_export_view_form
 msgid "This operation cannot be undone. Are you sure to continue?"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__lenght_to
+msgid "To"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
@@ -628,8 +1032,20 @@ msgid "Unread Messages Counter"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__value
 #: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_payment_config__value
 msgid "Value"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: code:addons/l10n_th_bank_payment_export/models/bank_export_format.py:0
+#, python-format
+msgid "Value %(value)s is longer than lenght %(lenght)s"
+msgstr ""
+
+#. module: l10n_th_bank_payment_export
+#: model:ir.model.fields,field_description:l10n_th_bank_payment_export.field_bank_export_format_line__value_type
+msgid "Value Type"
 msgstr ""
 
 #. module: l10n_th_bank_payment_export
@@ -695,6 +1111,6 @@ msgstr ""
 
 #. module: l10n_th_bank_payment_export
 #: model:ir.actions.report,print_report_name:l10n_th_bank_payment_export.action_export_payment_xlsx
-#: model:ir.actions.report,print_report_name:l10n_th_bank_payment_export.action_payment_demo_txt
+#: model:ir.actions.report,print_report_name:l10n_th_bank_payment_export.action_payment_txt
 msgid "object._get_report_base_filename()"
 msgstr ""
