@@ -47,10 +47,9 @@ class AccountConfigSettings(models.TransientModel):
         related="company_id.provision_pl_analytic_account_id",
         readonly=False,
     )
-    default_currency_reval_journal_id = fields.Many2one(
+    currency_reval_journal_id = fields.Many2one(
         comodel_name="account.journal",
         related="company_id.currency_reval_journal_id",
-        default_model="res.company",
         readonly=False,
     )
     auto_post_entries = fields.Boolean(
