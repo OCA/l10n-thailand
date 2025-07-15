@@ -10,29 +10,33 @@ from odoo.tests.common import Form
 from odoo.addons.l10n_th_bank_payment_export.tests.common import CommonBankPaymentExport
 
 
-class TestBankPaymentExportKTB(CommonBankPaymentExport):
+class TestBankPaymentExportTTB(CommonBankPaymentExport):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         # setup config
-        ktb_company_id = cls.field_model.search([("name", "=", "ktb_company_id")])
-        ktb_sender_name = cls.field_model.search([("name", "=", "ktb_sender_name")])
+        ttb_transaction_code = cls.field_model.search(
+            [("name", "=", "ttb_transaction_code")]
+        )
+        ttb_transaction_type = cls.field_model.search(
+            [("name", "=", "ttb_transaction_type")]
+        )
         field_bank_export_format_id = cls.field_model.search(
             [("name", "=", "bank_export_format_id")]
         )
 
         bank_export_format = cls.bank_export_format_model.search(
-            [("bank", "=", "KRTHTHBK")], limit=1
+            [("bank", "=", "TMBKTHBK")], limit=1
         )
 
         data_dict = [
             {
-                "field_id": ktb_company_id.id,
-                "value": "COMPANY01",
+                "field_id": ttb_transaction_code.id,
+                "value": "59",
             },
             {
-                "field_id": ktb_sender_name.id,
-                "value": "SENDER_NAME01",
+                "field_id": ttb_transaction_type.id,
+                "value": "DCB",
             },
             {
                 "field_id": field_bank_export_format_id.id,
@@ -41,7 +45,7 @@ class TestBankPaymentExportKTB(CommonBankPaymentExport):
         ]
         cls.template1 = cls.create_bank_payment_template(
             cls,
-            "KRTHTHBK",
+            "TMBKTHBK",
             data_dict,
         )
         cls.journal_new_bank = cls.env["account.journal"].create(
@@ -62,22 +66,22 @@ class TestBankPaymentExportKTB(CommonBankPaymentExport):
         bank_payment = self.bank_payment_export_model.create(
             {
                 "name": "/",
-                "bank": "KRTHTHBK",
+                "bank": "TMBKTHBK",
                 "template_id": self.template1.id,
             }
         )
-        self.assertFalse(bank_payment.ktb_company_id)
-        self.assertFalse(bank_payment.ktb_sender_name)
+        self.assertFalse(bank_payment.ttb_transaction_code)
+        self.assertFalse(bank_payment.ttb_transaction_type)
         # Add template in bank payment export, it should default
         bank_payment._onchange_template_id()
-        self.assertEqual(bank_payment.ktb_company_id, "COMPANY01")
-        self.assertEqual(bank_payment.ktb_sender_name, "SENDER_NAME01")
+        self.assertEqual(bank_payment.ttb_transaction_code, "59")
+        self.assertEqual(bank_payment.ttb_transaction_type, "DCB")
 
-    def test_02_ktb_export(self):
+    def test_02_ttb_export(self):
         bank_payment = self.bank_payment_export_model.create(
             {
                 "name": "/",
-                "bank": "KRTHTHBK",
+                "bank": "TMBKTHBK",
                 "template_id": self.template1.id,
             }
         )
@@ -92,7 +96,7 @@ class TestBankPaymentExportKTB(CommonBankPaymentExport):
                 self.assertTrue(line.payment_partner_bank_id)
             else:
                 line.payment_partner_bank_id = self.partner1_bank_bnp.id
-        # Criteria bank KTB is not selected
+        # Criteria bank TTB is not selected
         with self.assertRaises(UserError):
             bank_payment.action_confirm()
         # Test onchange and effective date < today
@@ -138,11 +142,11 @@ class TestBankPaymentExportKTB(CommonBankPaymentExport):
         )
         self.assertEqual(bank_payment.state, "done")
 
-    def test_03_create_bank_payment_export_ktb_from_payment(self):
+    def test_03_create_bank_payment_export_ttb_from_payment(self):
         """Create bank payment export from vendor payment"""
-        # change bic test to KTB
+        # change bic test to TTB
         self.journal_bank.bank_id = self.env.ref("base.bank_ing").id
-        self.env.ref("base.bank_ing").bic = "KRTHTHBK"
+        self.env.ref("base.bank_ing").bic = "TMBKTHBK"
         # create new journal bank
         self.payment7_out_journal_new = self.create_invoice_payment(
             amount=100,

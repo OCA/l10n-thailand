@@ -3,8 +3,6 @@
 
 from odoo import models
 
-from odoo.addons.report_xlsx_helper.report.report_xlsx_format import FORMATS
-
 
 class BankPaymentExportXslx(models.AbstractModel):
     _inherit = "report.bank.payment.export.xlsx"
