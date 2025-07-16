@@ -1,7 +1,7 @@
 # Copyright 2021 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -9,6 +9,7 @@ class BankPaymentExport(models.Model):
     _name = "bank.payment.export"
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Bank Payment Export File"
+    _order = "name desc"
     _check_company_auto = True
 
     name = fields.Char(
@@ -21,21 +22,18 @@ class BankPaymentExport(models.Model):
     bank = fields.Selection(
         selection=[],
         readonly=True,
-        states={"draft": [("readonly", False)]},
         tracking=True,
     )
     template_id = fields.Many2one(
         comodel_name="bank.payment.template",
         string="Template",
         readonly=True,
-        states={"draft": [("readonly", False)]},
         tracking=True,
         check_company=True,
     )
     effective_date = fields.Date(
         copy=False,
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
     is_required_effective_date = fields.Boolean(
         compute="_compute_required_effective_date",
@@ -45,8 +43,6 @@ class BankPaymentExport(models.Model):
     export_line_ids = fields.One2many(
         comodel_name="bank.payment.export.line",
         inverse_name="payment_export_id",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
     )
     company_id = fields.Many2one(
         comodel_name="res.company",
@@ -64,18 +60,18 @@ class BankPaymentExport(models.Model):
         readonly=True,
     )
     state = fields.Selection(
-        [
+        selection=[
             ("draft", "Draft"),
             ("confirm", "Confirmed"),
             ("done", "Exported"),
             ("cancel", "Cancelled"),
             ("reject", "Rejected"),
         ],
+        default="draft",
         string="Status",
         readonly=True,
         copy=False,
         index=True,
-        default="draft",
         tracking=True,
     )
 
@@ -97,37 +93,39 @@ class BankPaymentExport(models.Model):
         for rec in self:
             # Amount total without line rejected
             rec.total_amount = sum(
-                rec.export_line_ids.filtered(lambda l: l.state != "reject").mapped(
-                    "payment_amount"
-                )
+                rec.export_line_ids.filtered(
+                    lambda line: line.state != "reject"
+                ).mapped("payment_amount")
             )
 
-    @api.model
-    def create(self, vals):
-        if vals.get("name", "/") == "/":
-            vals["name"] = (
-                self.env["ir.sequence"].next_by_code("bank.payment.export") or "/"
-            )
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        sequence = self.env["ir.sequence"]
+        for vals in vals_list:
+            if vals.get("name", "/") == "/":
+                vals["name"] = sequence.next_by_code("bank.payment.export") or "/"
+        return super().create(vals_list)
 
     def unlink(self):
         """Check state draft can delete only."""
         if any(rec.state != "draft" for rec in self):
-            raise UserError(_("You are trying to delete a record state is not 'draft'"))
+            raise UserError(
+                self.env._("You are trying to delete a record state is not 'draft'")
+            )
         return super().unlink()
 
     def _domain_payment_id(self):
         """Condition search all payment
         1. Currency same as company currency
         2. Company same as company_id
-        3. Payment not exported and state 'posted' only
+        3. Payment not exported and state 'paid' only
         4. Payment method must be 'Manual' on Vendor Payment
         5. Journal payment must be type 'Bank' only
         """
         method_manual_out = self.env.ref("account.account_payment_method_manual_out")
         domain = [
             ("export_status", "=", "draft"),
-            ("state", "=", "posted"),
+            ("state", "=", "paid"),
             ("payment_method_id", "=", method_manual_out.id),
             ("journal_id.type", "=", "bank"),
             ("company_id", "=", self.company_id.id),
@@ -189,7 +187,7 @@ class BankPaymentExport(models.Model):
         # Add condition on this function
         for rec in self:
             if not rec.export_line_ids:
-                raise UserError(_("You need to add a line before confirm."))
+                raise UserError(self.env._("You need to add a line before confirm."))
             rec._check_constraint_line()
 
     def action_draft(self):
@@ -226,7 +224,9 @@ class BankPaymentExport(models.Model):
 
     def _get_context_create_bank_payment_export(self, payments):
         ctx = self.env.context.copy()
-        export_lines = [(0, 0, {"payment_id": payment}) for payment in payments.ids]
+        export_lines = [
+            Command.create({"payment_id": payment}) for payment in payments.ids
+        ]
         payment_bic_bank = list(set(payments.mapped("journal_id.bank_id.bic")))
         payment_bank = len(payment_bic_bank) == 1 and payment_bic_bank[0] or []
         ctx.update(
@@ -248,9 +248,10 @@ class BankPaymentExport(models.Model):
         today = fields.Date.context_today(self)
         for rec in self:
             if rec.effective_date and rec.effective_date < today:
+                today_format = today.strftime("%d/%m/%Y")
                 raise UserError(
-                    _("Effective Date must be more than or equal {}").format(
-                        today.strftime("%d/%m/%Y")
+                    self.env._(
+                        f"Effective Date must be more than or equal {today_format}"
                     )
                 )
 
@@ -262,8 +263,9 @@ class BankPaymentExport(models.Model):
             )
             if rec.bank and any(rec.bank != bank for bank in payment_bic_bank):
                 raise UserError(
-                    _(
-                        "You can not selected bank difference with bank journal on payment."
+                    self.env._(
+                        "You can not selected bank difference with "
+                        "bank journal on payment."
                     )
                 )
 
@@ -273,14 +275,18 @@ class BankPaymentExport(models.Model):
         for payment in payments:
             if payment.bank_payment_template_id != comment_template:
                 raise UserError(
-                    _("All payments must have the same bank payment template.")
+                    self.env._("All payments must have the same bank payment template.")
                 )
             if payment.export_status != "draft":
-                raise UserError(_("Payments have been already exported."))
-            if payment.state != "posted":
-                raise UserError(_("You can export bank payments state 'posted' only"))
+                raise UserError(self.env._("Payments have been already exported."))
+            if payment.state != "paid":
+                raise UserError(
+                    self.env._("You can export bank payments state 'paid' only")
+                )
             if previous_currency and payment.currency_id != previous_currency:
-                raise UserError(_("You can export bank payments with 1 currency only."))
+                raise UserError(
+                    self.env._("You can export bank payments with 1 currency only.")
+                )
             previous_currency = payment.currency_id
 
     @api.model
@@ -295,7 +301,7 @@ class BankPaymentExport(models.Model):
         self._check_constraint_create_bank_payment_export(payments)
         ctx = self._get_context_create_bank_payment_export(payments)
         return {
-            "name": _("Bank Payment Export"),
+            "name": self.env._("Bank Payment Export"),
             "type": "ir.actions.act_window",
             "view_mode": "form",
             "res_model": "bank.payment.export",

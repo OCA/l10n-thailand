@@ -1,9 +1,9 @@
 # Copyright 2021 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.exceptions import UserError
-from odoo.tests.common import Form
+from odoo.tests import Form
 
 from .common import CommonBankPaymentExport
 
@@ -21,9 +21,7 @@ class TestBankPaymentExport(CommonBankPaymentExport):
                 "name": "Template Bank Test",
                 "bank": "TEST",
                 "template_config_line": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "field_id": field_effective_date.id,
                             "value": "9999-01-01",
@@ -119,7 +117,7 @@ class TestBankPaymentExport(CommonBankPaymentExport):
             ).action_create_bank_payment_export()
             self.payment1_out_journal_bank.export_status = "draft"
 
-        # Payments state != posted can't export bank
+        # Payments state != paid can't export bank
         with self.assertRaises(UserError):
             self.payment1_out_journal_bank.action_draft()
             self.assertEqual(self.payment1_out_journal_bank.state, "draft")
@@ -127,7 +125,7 @@ class TestBankPaymentExport(CommonBankPaymentExport):
                 **ctx
             ).action_create_bank_payment_export()
             self.payment1_out_journal_bank.action_post()
-            self.assertEqual(self.payment1_out_journal_bank.state, "posted")
+            self.assertEqual(self.payment1_out_journal_bank.state, "paid")
         action = self.bank_payment_export_model.with_context(
             **ctx
         ).action_create_bank_payment_export()

@@ -2,15 +2,15 @@
 <!-- Copyright 2021 Ecosoft Co., Ltd (http://ecosoft.co.th/)
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html) -->
 <odoo>
-    <record id="bank_payment_template_view_tree" model="ir.ui.view">
-        <field name="name">bank.payment.template.view.tree</field>
+    <record id="bank_payment_template_view_list" model="ir.ui.view">
+        <field name="name">bank.payment.template.view.list</field>
         <field name="model">bank.payment.template</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="bank" />
                 <field name="company_id" groups="base.group_multi_company" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="bank_payment_template_view_form" model="ir.ui.view">
@@ -40,10 +40,13 @@
                     <notebook>
                         <page name="bank_payment_config" string="Config">
                             <field name="template_config_line">
-                                <tree editable="bottom">
-                                    <field name="field_id" />
+                                <list editable="bottom">
+                                    <field
+                                        name="field_id"
+                                        domain="[('model', '=', 'bank.payment.export')]"
+                                    />
                                     <field name="value" />
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -76,7 +79,7 @@
     <record id="action_bank_payment_template" model="ir.actions.act_window">
         <field name="name">Bank Payment Templates</field>
         <field name="res_model">bank.payment.template</field>
-        <field name="view_id" ref="bank_payment_template_view_tree" />
+        <field name="view_id" ref="bank_payment_template_view_list" />
     </record>
     <menuitem
         id="menu_bank_payment_template"

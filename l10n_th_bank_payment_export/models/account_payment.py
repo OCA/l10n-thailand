@@ -15,13 +15,11 @@ class AccountPayment(models.Model):
         ],
         default="draft",
         copy=False,
-        readonly=True,
         tracking=True,
         help="it means status the money has already been sent to the bank.",
     )
     payment_export_id = fields.Many2one(
         comodel_name="bank.payment.export",
-        string="Payment Export",
         index=True,
         copy=False,
         readonly=True,
