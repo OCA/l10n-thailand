@@ -151,7 +151,7 @@ class BankPaymentExport(models.Model):
 
     def _get_report_base_filename(self):
         self.ensure_one()
-        return "{}".format(self.name)
+        return f"{self.name}"
 
     def _get_view_report_text(self):
         return "l10n_th_bank_payment_export.action_payment_demo_txt"

@@ -67,9 +67,7 @@ class BankPaymentExportXslx(models.AbstractModel):
                 "width": 30,
             },
             "08_amount": {
-                "header": {
-                    "value": "Amount ({})".format(self.env.company.currency_id.name)
-                },
+                "header": {"value": f"Amount ({self.env.company.currency_id.name})"},
                 "data": {
                     "value": self._render("amount"),
                     "format": FORMATS["format_tcell_amount_right"],

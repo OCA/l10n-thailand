@@ -17,30 +17,30 @@ Thai Localization - Base Bank Payment Export
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-thailand/tree/15.0/l10n_th_bank_payment_export
+    :target: https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_bank_payment_export
     :alt: OCA/l10n-thailand
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-thailand-15-0/l10n-thailand-15-0-l10n_th_bank_payment_export
+    :target: https://translation.odoo-community.org/projects/l10n-thailand-18-0/l10n-thailand-18-0-l10n_th_bank_payment_export
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&target_branch=15.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
 This module is base export payment file to bank.
 
-Text file payment bank is a common need across different banks.
-With this module you will be able to export payment text file each your bank.
+Text file payment bank is a common need across different banks. With
+this module you will be able to export payment text file each your bank.
 
-This module does not provide a functionality by itself but an wizard model
-to implement a export format each bank on other models (e.g.
-KTB, BBL, SCB, KBANK...).
+This module does not provide a functionality by itself but an wizard
+model to implement a export format each bank on other models (e.g. KTB,
+BBL, SCB, KBANK...).
 
-**Note:** To be able to use this module in a new model you will need some
-development.
+**Note:** To be able to use this module in a new model you will need
+some development.
 
-See `l10n_th_bank_payment_export_ktb` as an example of implementation.
+See l10n_th_bank_payment_export_ktb as an example of implementation.
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -55,37 +55,55 @@ See `l10n_th_bank_payment_export_ktb` as an example of implementation.
 Configuration
 =============
 
-The template for bank payment export is used for automatic default configuration. Users can simply select the desired template, and they can also modify the values later.
+The template for bank payment export is used for automatic default
+configuration. Users can simply select the desired template, and they
+can also modify the values later.
 
 1. Go to 'Invoicing > Configuration > Payments > Bank Payment Templates'
-2. Create the desired template, and in each line, you can select the fields you want to have values. The values must be valid data in the system (in the case of selections).
-3. After creating the template, when registering a payment, you will see the "Bank Payment Export Template" field. Users can select it, and when it comes time to perform the bank payment export, the system will automatically populate the values based on the selected template.
+2. Create the desired template, and in each line, you can select the
+   fields you want to have values. The values must be valid data in the
+   system (in the case of selections).
+3. After creating the template, when registering a payment, you will see
+   the "Bank Payment Export Template" field. Users can select it, and
+   when it comes time to perform the bank payment export, the system
+   will automatically populate the values based on the selected
+   template.
 
 Usage
 =====
 
 To use this module, you can create 2 ways:
 
-* Create bank payment export from Payment
-    #. Go to menu *Invoicing > Vendors > Payments*.
-    #. Select payment > Action > Create Bank Payment Export
+-  Create bank payment export from Payment
 
-* Create bank payment export direct
-    #. Go to menu *Invoicing > Accounting > Bank Payment Export*.
-    #. Create > select payment or Click 'Get All Payments' when you need all payment to export
+   1. Go to menu *Invoicing > Vendors > Payments*.
+   2. Select payment > Action > Create Bank Payment Export
 
-After that, click 'Confirm' and save your payment as a text or excel file.
+-  Create bank payment export direct
 
-When you select 'Export Text File' the state changes to 'Done' and the text file is downloaded to your computer.
+   1. Go to menu *Invoicing > Accounting > Bank Payment Export*.
+   2. Create > select payment or Click 'Get All Payments' when you need
+      all payment to export
 
-If a payment fails (after sending a text file to the bank), you can reject each line and generate a new document by clicking 'reject' on each line.
+After that, click 'Confirm' and save your payment as a text or excel
+file.
+
+When you select 'Export Text File' the state changes to 'Done' and the
+text file is downloaded to your computer.
+
+If a payment fails (after sending a text file to the bank), you can
+reject each line and generate a new document by clicking 'reject' on
+each line.
 
 Note:
 
-* Export Excel: To review information (.xlsx)
-* Export Text File: To create a text file and send it to the bank (.txt)
-* You will need the "Show Full Accounting Features" to see Bank Payment Export menu and Account Manager can confirm document
-* You can 'cancel' a text file before sending it to the bank (difference with reject by bank)
+-  Export Excel: To review information (.xlsx)
+-  Export Text File: To create a text file and send it to the bank
+   (.txt)
+-  You will need the "Show Full Accounting Features" to see Bank Payment
+   Export menu and Account Manager can confirm document
+-  You can 'cancel' a text file before sending it to the bank
+   (difference with reject by bank)
 
 Bug Tracker
 ===========
@@ -93,7 +111,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-thailand/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_bank_payment_export%0Aversion:%2015.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_bank_payment_export%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -101,19 +119,19 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Ecosoft
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `Ecosoft <http://ecosoft.co.th>`__:
+-  `Ecosoft <http://ecosoft.co.th>`__:
 
-  * Saran Lim. <saranl@ecosoft.co.th>
+   -  Saran Lim. <saranl@ecosoft.co.th>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -133,6 +151,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-Saran440| 
 
-This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/15.0/l10n_th_bank_payment_export>`_ project on GitHub.
+This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_bank_payment_export>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
