@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ============================================
 Thai Localization - Base Bank Payment Export
 ============================================
@@ -17,33 +13,41 @@ Thai Localization - Base Bank Payment Export
 .. |badge1| image:: https://img.shields.io/badge/maturity-Alpha-red.png
     :target: https://odoo-community.org/page/development-status
     :alt: Alpha
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-thailand/tree/15.0/l10n_th_bank_payment_export
+    :target: https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_bank_payment_export
     :alt: OCA/l10n-thailand
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-thailand-15-0/l10n-thailand-15-0-l10n_th_bank_payment_export
+    :target: https://translation.odoo-community.org/projects/l10n-thailand-18-0/l10n-thailand-18-0-l10n_th_bank_payment_export
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&target_branch=15.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-The ``l10n_th_bank_payment_export`` module provides a **base wizard model** to support exporting payment files in **text format**, which is commonly required by Thai banks.
+The ``l10n_th_bank_payment_export`` module provides a **base wizard
+model** to support exporting payment files in **text format**, which is
+commonly required by Thai banks.
 
-This module itself does **not generate a payment file directly**, but serves as a foundation that other modules can extend to support bank-specific formats (e.g. KTB, BBL, SCB, etc.)
+This module itself does **not generate a payment file directly**, but
+serves as a foundation that other modules can extend to support
+bank-specific formats (e.g. KTB, BBL, SCB, etc.)
 
 **Key Features:**
 
-- Supports exporting payments to a bank-specific text format.
-- Includes a flexible **template system** to define default values.
-- Export structure can be configured dynamically using conditions and expressions.
+-  Supports exporting payments to a bank-specific text format.
+-  Includes a flexible **template system** to define default values.
+-  Export structure can be configured dynamically using conditions and
+   expressions.
 
-.. note::
-   This module requires further development to be functional with a specific bank. See module ``l10n_th_bank_payment_export_ktb`` as a reference implementation.
+Note
+
+This module requires further development to be functional with a
+specific bank. See module ``l10n_th_bank_payment_export_ktb`` as a
+reference implementation.
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -59,63 +63,76 @@ Configuration
 =============
 
 Bank Payment Template
-======================
+---------------------
 
-Used to **group default values** for easier user selection and error reduction during data entry.
+Used to **group default values** for easier user selection and error
+reduction during data entry.
 
 Steps:
 
-#. Go to *Invoicing > Configuration > Payments > Bank Payment Templates*
-#. Create a new template and:
+1. Go to *Invoicing > Configuration > Payments > Bank Payment Templates*
+2. Create a new template and:
 
-   - Select the **bank**.
-   - In the template lines, define **field names** and **default values**.
-#. When a user selects this template during payment export, the system will **auto-fill** the corresponding values.
+   -  Select the **bank**.
+   -  In the template lines, define **field names** and **default
+      values**.
 
-.. note::
-   Values must be valid (existing in the system). Invalid or incorrect entries will result in an error.
+3. When a user selects this template during payment export, the system
+   will **auto-fill** the corresponding values.
+
+Note
+
+Values must be valid (existing in the system). Invalid or incorrect
+entries will result in an error.
 
 Bank Export Format
-===================
+------------------
 
-Defines the structure of the output **text file** according to the specific bank's requirements.
+Defines the structure of the output **text file** according to the
+specific bank's requirements.
 
 Menu: *Settings > Technical > Bank Export Format*
 
 Format Fields:
 
-- **Description**: Explanation of the line.
-- **Condition Line**: Logic to determine whether this line should be included.
-- **Group**: Used to group lines for looping purposes.
-- **Loop**: Repeats the line for each ``bank.payment.export.line``.
-- **Sub Loop**: Nested loop (e.g. all invoices related to a payment line).
-- **Sub Value Loop**: Field needed to drive the sub loop.
-- **End Line**: Adds ``/r/t`` at the end of the line (if checked).
-- **Length**: Max length of the value (required for Fixed values).
-- **From/To**: Character position range (start-end).
-- **Alignment**: Align value to **left** or **right**.
-- **Blank Space**: Filler if the value doesn’t reach the defined length.
-- **Value Type**: ``Fixed`` for hardcoded value, ``Python`` for dynamic value.
-- **Value**:
+-  **Description**: Explanation of the line.
+-  **Condition Line**: Logic to determine whether this line should be
+   included.
+-  **Group**: Used to group lines for looping purposes.
+-  **Loop**: Repeats the line for each ``bank.payment.export.line``.
+-  **Sub Loop**: Nested loop (e.g. all invoices related to a payment
+   line).
+-  **Sub Value Loop**: Field needed to drive the sub loop.
+-  **End Line**: Adds ``/r/t`` at the end of the line (if checked).
+-  **Length**: Max length of the value (required for Fixed values).
+-  **From/To**: Character position range (start-end).
+-  **Alignment**: Align value to **left** or **right**.
+-  **Blank Space**: Filler if the value doesn’t reach the defined
+   length.
+-  **Value Type**: ``Fixed`` for hardcoded value, ``Python`` for dynamic
+   value.
+-  **Value**:
 
-  - If ``Fixed``: static value to be printed.
-  - If ``Python``: expression evaluated dynamically.
+   -  If ``Fixed``: static value to be printed.
+   -  If ``Python``: expression evaluated dynamically.
 
 Python Dynamic Fields:
 
-- ``rec``: The export document (``bank.payment.export``)
-- ``line``:
+-  ``rec``: The export document (``bank.payment.export``)
+-  ``line``:
 
-  - If **no Loop**, refers to ``rec.export_line_ids``
-  - If **Loop**, refers to the current line
-- ``sub_line``: Object in the **Sub Loop**
-- ``today``: Current date
-- ``today_datetime``: Current date and time
-- ``idx``: Index of the current line
-- ``idx_line``: Index within the loop
-- ``idx_sub_line``: Index within the sub loop
-- ``wht_cert``: Withholding tax certificate (requires ``l10n_th_account_tax``)
-- ``invoices``: Invoices related to the payment
+   -  If **no Loop**, refers to ``rec.export_line_ids``
+   -  If **Loop**, refers to the current line
+
+-  ``sub_line``: Object in the **Sub Loop**
+-  ``today``: Current date
+-  ``today_datetime``: Current date and time
+-  ``idx``: Index of the current line
+-  ``idx_line``: Index within the loop
+-  ``idx_sub_line``: Index within the sub loop
+-  ``wht_cert``: Withholding tax certificate (requires
+   ``l10n_th_account_tax``)
+-  ``invoices``: Invoices related to the payment
 
 Usage
 =====
@@ -123,31 +140,32 @@ Usage
 There are **two ways** to use this module:
 
 1. From a Payment
-==================
+-----------------
 
-#. Go to *Invoicing > Vendors > Payments*
-#. Select a payment
-#. Click *Action > Create Bank Payment Export*
+1. Go to *Invoicing > Vendors > Payments*
+2. Select a payment
+3. Click *Action > Create Bank Payment Export*
 
 2. Directly Create Export
-==========================
+-------------------------
 
-#. Go to *Invoicing > Accounting > Bank Payment Export*
-#. Click *Create*
-#. Select the payment(s), or click *Get All Payments*
-#. Click *Confirm*
+1. Go to *Invoicing > Accounting > Bank Payment Export*
+2. Click *Create*
+3. Select the payment(s), or click *Get All Payments*
+4. Click *Confirm*
 
 You can now **Export** the file:
 
-- *Export Text File*: Generates a ``.txt`` file, status changes to ``Done``.
-- *Export Excel*: Previews data in ``.xlsx`` format.
+-  *Export Text File*: Generates a ``.txt`` file, status changes to
+   ``Done``.
+-  *Export Excel*: Previews data in ``.xlsx`` format.
 
 Additional Notes:
 
-- Rejected lines can be re-generated using the *Reject* action.
-- *Cancel* stops export before sending to the bank.
-- Enable *Show Full Accounting Features* to access the menu.
-- Only *Account Managers* can confirm and export files.
+-  Rejected lines can be re-generated using the *Reject* action.
+-  *Cancel* stops export before sending to the bank.
+-  Enable *Show Full Accounting Features* to access the menu.
+-  Only *Account Managers* can confirm and export files.
 
 Bug Tracker
 ===========
@@ -155,7 +173,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-thailand/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_bank_payment_export%0Aversion:%2015.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_bank_payment_export%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -163,19 +181,19 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Ecosoft
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `Ecosoft <http://ecosoft.co.th>`__:
+-  `Ecosoft <http://ecosoft.co.th>`__:
 
-  * Saran Lim. <saranl@ecosoft.co.th>
+   -  Saran Lim. <saranl@ecosoft.co.th>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -195,6 +213,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-Saran440| 
 
-This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/15.0/l10n_th_bank_payment_export>`_ project on GitHub.
+This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_bank_payment_export>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

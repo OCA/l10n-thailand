@@ -88,7 +88,7 @@
                                 <div>
                                     <p>
                                         There are <b
-                                        >Condition Line, Sub Value Loop and Value</b> can be any valid python expressions.
+                                    >Condition Line, Sub Value Loop and Value</b> can be any valid python expressions.
                                     </p>
                                     <p>
                                         Data that supports Python expressions, including:
@@ -106,17 +106,17 @@
                                             <code>line</code>
                                             :
                                             <ul>
-                                                <li>If <b
-                                                    >Loop</b> is not selected, it will retrieve data from <b
-                                                    >rec.export_line_ids</b> (bank.payment.export.line).</li>
-                                                <li>If <b
-                                                    >Loop</b> is selected, it will retrieve data from that specific line (bank.payment.export.line).</li>
-                                            </ul>
+                                            <li>If <b
+                                            >Loop</b> is not selected, it will retrieve data from <b
+                                            >rec.export_line_ids</b> (bank.payment.export.line).</li>
+                                            <li>If <b
+                                            >Loop</b> is selected, it will retrieve data from that specific line (bank.payment.export.line).</li>
+                                        </ul>
                                         </li>
                                         <li>
                                             <code>sub_line</code>
                                             : object of the sub loop. it will have data if <b
-                                            >Sub Loop</b> is selected.
+                                        >Sub Loop</b> is selected.
                                         </li>
                                         <li>
                                             <code>today</code>
@@ -141,7 +141,7 @@
                                         <li>
                                             <code>wht_cert</code>
                                             : Withholding Tax from payment. It will have a value when the module <code
-                                            >l10n_th_account_tax</code> is installed; if not, it will be set to False.
+                                        >l10n_th_account_tax</code> is installed; if not, it will be set to False.
                                         </li>
                                         <li>
                                             <code>invoices</code>
@@ -150,7 +150,7 @@
                                     </ul>
                                     <p>
                                         Looping is used to display data from <b
-                                        >rec.export_line_ids</b> (bank.payment.export.line).
+                                    >rec.export_line_ids</b> (bank.payment.export.line).
                                     </p>
                                     <ul>
                                         <li>
@@ -173,7 +173,7 @@
                                     <p>
                                         <b>Skipping Display</b>
                                         You can skip the display of a line if it doesn't meet the conditions set in the <b
-                                        >Condition Line</b>.
+                                    >Condition Line</b>.
                                     </p>
                                     <p>
                                         <b>Formatting</b>
@@ -181,13 +181,13 @@
                                             <li>
                                                 <b>End Line</b>
                                                 : If the line is the last line, it will use <code
-                                                >/r/t</code> after put value.
+                                            >/r/t</code> after put value.
                                             </li>
                                             <li>
                                                 <b>Lenght</b>
                                                 : The length of the displayed value. if <b
-                                                >Value Type</b> is Fixed, <b
-                                                >Value</b> will be throw error if it exceeds the specified length.
+                                            >Value Type</b> is Fixed, <b
+                                            >Value</b> will be throw error if it exceeds the specified length.
                                             </li>
                                             <li>
                                                 <b>Alignment</b>
