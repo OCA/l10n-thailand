@@ -3,11 +3,14 @@
 
 from odoo_test_helper import FakeModelLoader
 
-from odoo import Command, fields
-from odoo.tests.common import TransactionCase
+from odoo import Command
+from odoo.tests import tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class CommonBankPaymentExport(TransactionCase):
+@tagged("post_install", "-at_install")
+class CommonBankPaymentExport(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -23,35 +26,22 @@ class CommonBankPaymentExport(TransactionCase):
             (BankPaymentExportTester, BankPaymentTemplateTester, BankExportFormatTester)
         )
 
-        cls.move_model = cls.env["account.move"]
-        cls.journal_model = cls.env["account.journal"]
-        cls.bank_payment_template_model = cls.env["bank.payment.template"]
-        cls.bank_payment_export_model = cls.env["bank.payment.export"]
-        cls.field_model = cls.env["ir.model.fields"]
+        cls.other_currency = cls.setup_other_currency("EUR")
+
         cls.bank_export_format_model = cls.env["bank.export.format"]
+        cls.bank_payment_export_model = cls.env["bank.payment.export"]
+        cls.bank_payment_template_model = cls.env["bank.payment.template"]
+        cls.field_model = cls.env["ir.model.fields"]
+        cls.partner_bank_model = cls.env["res.partner.bank"]
         cls.register_payments_model = cls.env["account.payment.register"]
-        cls.main_company_id = cls.env.ref("base.main_company").id
-        cls.main_currency_id = cls.env.ref("base.USD").id
-        # Active multi-currency
-        currency_EUR = cls.env.ref("base.EUR")
-        currency_EUR.active = True
-        cls.currency_id = currency_EUR.id
-        cls.env.cr.execute(
-            """UPDATE res_company SET currency_id = %s
-            WHERE id = %s""",
-            (cls.main_currency_id, cls.main_company_id),
-        )
-        cls.product_1 = cls.env.ref("product.product_product_4")
-        cls.journal_bank = cls.journal_model.search([("type", "=", "bank")], limit=1)
-        cls.journal_cash = cls.journal_model.search([("type", "=", "cash")], limit=1)
-        # Create Recipient Bank and default partner
+
         cls.partner_1 = cls.env.ref("base.res_partner_2")
         cls.partner_2 = cls.env.ref("base.res_partner_3")
-        cls.partner_bank_model = cls.env["res.partner.bank"]
         cls.bank_bnp = cls.env.ref("base.bank_bnp")
         cls.bank_ing = cls.env.ref("base.bank_ing")
+
         cls.partner_company = cls.create_partner_bank(
-            cls, "A000Test", cls.env.company.partner_id, cls.bank_ing
+            cls, "A000-Test", cls.env.company.partner_id, cls.bank_ing
         )
         cls.partner1_bank_bnp = cls.create_partner_bank(
             cls, "A001Test", cls.partner_1, cls.bank_bnp
@@ -63,92 +53,36 @@ class CommonBankPaymentExport(TransactionCase):
             cls, "A003Test", cls.partner_2, cls.bank_ing
         )
 
-        cls.payment_method_manual_in = cls.env.ref(
-            "account.account_payment_method_manual_in"
-        )
-        cls.payment_method_manual_out = cls.env.ref(
-            "account.account_payment_method_manual_out"
-        )
-        cls.payment_method_check = cls.env.ref(
-            "account_check_printing.account_payment_method_check"
-        )
-
-        cls.journal_bank_manual_out = (
-            cls.journal_bank.outbound_payment_method_line_ids.filtered(
-                lambda line: line.payment_method_id == cls.payment_method_manual_out
-            )
-        )
-        cls.journal_bank_manual_out_check = (
-            cls.journal_bank.outbound_payment_method_line_ids.filtered(
-                lambda line: line.payment_method_id == cls.payment_method_check
-            )
-        )
-        cls.journal_bank_manual_in = (
-            cls.journal_bank.inbound_payment_method_line_ids.filtered(
-                lambda line: line.payment_method_id == cls.payment_method_manual_in
-            )
-        )
-        cls.journal_cash_manual_out = (
-            cls.journal_cash.outbound_payment_method_line_ids.filtered(
-                lambda line: line.payment_method_id == cls.payment_method_manual_out
-            )
-        )
-
-        # create invoice to payment
-        cls.payment1_out_journal_bank = cls.create_invoice_payment(
-            cls,
-            amount=100,
-            currency_id=cls.main_currency_id,
-            payment_method=cls.journal_bank_manual_out,
+        cls.bill_partner1_1 = cls.init_invoice(
+            "in_invoice",
             partner=cls.partner_1,
-            journal=cls.journal_bank,
-            init=True,
+            amounts=[100.0],
+            post=True,
         )
-        cls.payment2_out_journal_cash = cls.create_invoice_payment(
-            cls,
-            amount=100,
-            currency_id=cls.main_currency_id,
-            payment_method=cls.journal_cash_manual_out,
+        cls.bill_partner1_2 = cls.init_invoice(
+            "in_invoice",
             partner=cls.partner_1,
-            journal=cls.journal_cash,
-            init=True,
+            amounts=[200.0],
+            post=True,
         )
-        cls.payment3_out_method_check = cls.create_invoice_payment(
-            cls,
-            amount=200,
-            currency_id=cls.main_currency_id,
-            payment_method=cls.journal_bank_manual_out_check,
+        cls.bill_partner1_currency = cls.init_invoice(
+            "in_invoice",
             partner=cls.partner_1,
-            journal=cls.journal_bank,
-            init=True,
+            amounts=[100.0],
+            post=True,
+            currency=cls.other_currency,
         )
-        cls.payment4_out_currency = cls.create_invoice_payment(
-            cls,
-            amount=300,
-            currency_id=cls.currency_id,
-            payment_method=cls.journal_bank_manual_out,
-            partner=cls.partner_1,
-            journal=cls.journal_bank,
-            init=True,
-        )
-        cls.payment5_in = cls.create_invoice_payment(
-            cls,
-            amount=400,
-            inv_type="out_invoice",
-            currency_id=cls.main_currency_id,
-            payment_method=cls.journal_bank_manual_in,
-            partner=cls.partner_1,
-            journal=cls.journal_bank,
-            init=True,
-        )
-        cls.payment6_out_partner = cls.create_invoice_payment(
-            cls,
-            amount=600,
-            currency_id=cls.main_currency_id,
-            payment_method=cls.journal_bank_manual_out,
+        cls.bill_partner2 = cls.init_invoice(
+            "in_invoice",
             partner=cls.partner_2,
-            journal=cls.journal_bank,
-            init=True,
+            amounts=[100.0],
+            post=True,
+        )
+        cls.inv_partner1 = cls.init_invoice(
+            "out_invoice",
+            partner=cls.partner_1,
+            amounts=[100.0],
+            post=True,
         )
 
     def create_partner_bank(self, acc_number, partner, bank):
@@ -156,132 +90,21 @@ class CommonBankPaymentExport(TransactionCase):
             {"acc_number": acc_number, "partner_id": partner.id, "bank_id": bank.id}
         )
 
-    def create_invoice(
-        self, amount=100, inv_type="in_invoice", currency_id=None, partner=False
-    ):
-        """Returns an open invoice"""
-        invoice = self.move_model.create(
-            {
-                "company_id": self.main_company_id,
-                "move_type": inv_type,
-                "partner_id": partner.id,
-                "partner_bank_id": len(partner.bank_ids.ids) == 1
-                and partner.bank_ids.id
-                or False,
-                "currency_id": currency_id,
-                "invoice_date": fields.Date.today(),
-                "invoice_line_ids": [
-                    (
-                        0,
-                        0,
-                        {
-                            "product_id": self.product_1.id,
-                            "quantity": 1,
-                            "price_unit": amount,
-                        },
-                    )
-                ],
-            }
-        )
-        invoice.action_post()
-        return invoice
-
-    def _get_payment_list(
-        self,
-        invoices,
-        amount=100,
-        payment_method=False,
-        partner=False,
-        journal=False,
-        is_export=False,
-        bank_payment_template_id=False,
-        group_payment=True,
-    ):
-        ctx = {"active_model": "account.move", "active_ids": invoices.ids}
-        # Support scb module
-        if hasattr(self.register_payments_model, "check_payee"):
-            ctx["default_check_payee"] = partner.name
-        register_payments = self.register_payments_model.with_context(**ctx).create(
-            {
-                "journal_id": journal.id,
-                "payment_method_line_id": payment_method.id,
-                "amount": amount,
-                "partner_bank_id": invoices.mapped("partner_bank_id").id,
-                "payment_date": fields.Date.today(),
-                "is_export": is_export,
-                "bank_payment_template_id": bank_payment_template_id,
-                "group_payment": group_payment,
-            }
-        )
-        payment_list = register_payments.action_create_payments()
-        return payment_list
-
-    def create_invoice_payment(
-        self,
-        amount=100,
-        inv_type="in_invoice",
-        currency_id=None,
-        payment_method=False,
-        partner=False,
-        journal=False,
-        is_export=False,
-        bank_payment_template_id=False,
-        multi=False,
-        init=False,
-    ):
-        loop = 2 if multi else 1
-        invoices = self.move_model
-        for _i in range(loop):
-            # For init class
-            if init:
-                invoice = self.create_invoice(
-                    self, amount, inv_type, currency_id, partner
-                )
-            else:
-                invoice = self.create_invoice(amount, inv_type, currency_id, partner)
-            invoices += invoice
-        if init:
-            payment_list = self._get_payment_list(
-                self,
-                invoices,
-                amount,
-                payment_method,
-                partner,
-                journal,
-                is_export,
-                bank_payment_template_id,
-            )
-        else:
-            payment_list = self._get_payment_list(
-                invoices,
-                amount,
-                payment_method,
-                partner,
-                journal,
-                is_export,
-                bank_payment_template_id,
-            )
-        domain = ("id", "=", payment_list.get("res_id", False))
-        if not payment_list.get("res_id", False):
-            domain = ("id", "in", payment_list["domain"][0][2])
-        # convert payment list to payment obj
-        payment = self.env[payment_list["res_model"]].search([domain])
-        return payment
-
     def action_bank_export_excel(self, bank_payment):
         excel_list = bank_payment.action_export_excel_file()
         self.assertEqual(excel_list["report_type"], "xlsx")
-        action = self.env.ref("l10n_th_bank_payment_export.action_export_payment_xlsx")
-        return action._render_xlsx(
-            excel_list["context"]["active_ids"],
-            {
-                "data": "['/report/xlsx/{}/{}','xlsx']".format(
-                    excel_list["report_name"],
-                    str(excel_list["context"]["active_ids"][0]),
-                ),
-                "token": "dummy-because-api-expects-one",
-            },
-        )
+        # action = \
+        #     self.env.ref("l10n_th_bank_payment_export.action_export_payment_xlsx")
+        # return action._render_xlsx(
+        #     excel_list["context"]["active_ids"],
+        #     {
+        #         "data": "['/report/xlsx/{}/{}','xlsx']".format(
+        #             excel_list["report_name"],
+        #             str(excel_list["context"]["active_ids"][0]),
+        #         ),
+        #         "token": "dummy-because-api-expects-one",
+        #     },
+        # )
 
     def create_bank_payment_template(self, bank, data_dict):
         """This function is common create template, Format of data_dict is
@@ -298,10 +121,7 @@ class CommonBankPaymentExport(TransactionCase):
         """
         template = self.bank_payment_template_model.create(
             {
-                "name": "Test Template %(bank)s"
-                % {
-                    "bank": bank,
-                },
+                "name": f"Test Template {bank}",
                 "bank": bank,
                 "template_config_line": [
                     Command.create(
@@ -315,3 +135,15 @@ class CommonBankPaymentExport(TransactionCase):
             }
         )
         return template
+
+    def create_payment_from_invoice(self, invoices, post=False):
+        register_payment = self.register_payments_model.with_context(
+            active_model="account.move", active_ids=invoices.ids
+        ).create(
+            {
+                "payment_date": invoices[0].date,
+            }
+        )
+        if post:
+            register_payment = register_payment._create_payments()
+        return register_payment

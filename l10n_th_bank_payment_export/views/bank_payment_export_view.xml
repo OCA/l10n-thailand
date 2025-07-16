@@ -2,11 +2,11 @@
 <!-- Copyright 2021 Ecosoft Co., Ltd (http://ecosoft.co.th/)
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html) -->
 <odoo>
-    <record id="bank_payment_export_view_tree" model="ir.ui.view">
-        <field name="name">bank.payment.export.view.tree</field>
+    <record id="bank_payment_export_view_list" model="ir.ui.view">
+        <field name="name">bank.payment.export.view.list</field>
         <field name="model">bank.payment.export</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="bank" />
                 <field name="effective_date" />
@@ -25,7 +25,7 @@
                     decoration-danger="state == 'reject'"
                     optional="show"
                 />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="bank_payment_export_view_form" model="ir.ui.view">
@@ -39,40 +39,40 @@
                         string="Confirm"
                         class="btn-primary"
                         type="object"
-                        states="draft"
+                        invisible="state != 'draft'"
                     />
                     <button
                         name="action_export_excel_file"
                         string="Export Excel"
                         class="btn-primary"
                         type="object"
-                        states="confirm"
+                        invisible="state != 'confirm'"
                     />
                     <button
                         name="action_export_text_file"
                         string="Export Text File"
                         class="btn-primary"
                         type="object"
-                        states="confirm"
+                        invisible="state != 'confirm'"
                         confirm="This operation cannot be undone. Are you sure to continue?"
                     />
                     <button
                         name="action_draft"
                         string="Set to Draft"
                         type="object"
-                        states="confirm"
+                        invisible="state != 'confirm'"
                     />
                     <button
                         name="action_cancel"
                         string="Cancel"
                         type="object"
-                        states="draft,confirm"
+                        invisible="state not in ['draft', 'confirm']"
                     />
                     <button
                         name="action_reject"
                         string="Reject"
                         type="object"
-                        states="done"
+                        invisible="state != 'done'"
                     />
                     <field
                         name="state"
@@ -89,14 +89,18 @@
                     </div>
                     <group>
                         <group name="left_header">
-                            <field name="template_id" />
-                            <field name="bank" />
+                            <field name="template_id" readonly="state != 'draft'" />
+                            <field name="bank" readonly="state != 'draft'" />
                             <field
                                 name="bank_export_format_id"
-                                attrs="{'required': [('bank', '!=', False)]}"
+                                readonly="state != 'draft'"
+                                required="bank"
+                                domain="[('bank', '=', bank)]"
                             />
                         </group>
                         <group name="right_header">
+                            <field name="company_id" invisible="1" />
+                            <field name="currency_id" invisible="1" />
                             <field
                                 name="company_id"
                                 groups="base.group_multi_company"
@@ -116,10 +120,10 @@
                                     string="Get All Payments"
                                     icon="fa-refresh"
                                     title="Get a list of all payments that haven't been exported yet."
-                                    attrs="{'invisible': [('state', '!=', 'draft')]}"
+                                    invisible="state != 'draft'"
                                 />
                             </div>
-                            <field name="export_line_ids" />
+                            <field name="export_line_ids" readonly="state != 'draft'" />
                             <group class="oe_subtotal_footer oe_right">
                                 <field
                                     name="total_amount"
@@ -137,7 +141,8 @@
                                     />
                                     <field
                                         name="effective_date"
-                                        attrs="{'required': [('is_required_effective_date', '!=', False)]}"
+                                        readonly="state != 'draft'"
+                                        required="is_required_effective_date"
                                     />
                                 </group>
                             </group>
@@ -145,11 +150,7 @@
                         </page>
                     </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers" />
-                    <field name="activity_ids" widget="mail_activity" />
-                    <field name="message_ids" widget="mail_thread" />
-                </div>
+                <chatter />
             </form>
         </field>
     </record>
@@ -220,24 +221,25 @@
     </record>
 
     <!-- Bank Payment Export Line -->
-    <record id="bank_payment_export_line_view_tree" model="ir.ui.view">
-        <field name="name">bank.payment.export.line.view.tree</field>
+    <record id="bank_payment_export_line_view_list" model="ir.ui.view">
+        <field name="name">bank.payment.export.line.view.list</field>
         <field name="model">bank.payment.export.line</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <list editable="bottom">
                 <field name="payment_id" options="{'no_create': True}" />
                 <field name="payment_date" optional="show" />
                 <field name="payment_journal_id" optional="show" />
                 <field name="payment_partner_id" />
                 <field
                     name="payment_partner_bank_id"
+                    readonly="state != 'draft'"
                     domain="[('partner_id', '=', payment_partner_id)]"
                     optional="show"
                 />
                 <field name="payment_bank_id" optional="show" />
                 <field name="payment_amount" />
-                <field name="company_id" invisible="1" />
-                <field name="currency_id" invisible="1" />
+                <field name="company_id" column_invisible="1" />
+                <field name="currency_id" column_invisible="1" />
                 <field
                     name="state"
                     widget="badge"
@@ -252,9 +254,9 @@
                     type="object"
                     icon="fa-times"
                     confirm="Are you sure to reject this line ?"
-                    attrs="{'invisible': [('state', '!=', 'done')]}"
+                    invisible="state != 'done'"
                 />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="bank_payment_export_line_view_form" model="ir.ui.view">
@@ -288,12 +290,12 @@
     <record id="action_bank_payment_export" model="ir.actions.act_window">
         <field name="name">Bank Payment Export</field>
         <field name="res_model">bank.payment.export</field>
-        <field name="view_id" ref="bank_payment_export_view_tree" />
+        <field name="view_id" ref="bank_payment_export_view_list" />
     </record>
     <menuitem
         id="menu_bank_payment_export"
         action="action_bank_payment_export"
-        parent="account.menu_finance_entries_actions"
+        parent="account.menu_finance_entries"
         groups="account.group_account_user"
         sequence="60"
     />

@@ -5,7 +5,8 @@
         <field name="model">res.partner.bank</field>
         <field name="inherit_id" ref="base.view_partner_bank_form" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='acc_holder_name']" position="after">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="acc_holder_name" />
                 <field name="acc_holder_name_en" />
             </xpath>
         </field>
@@ -16,11 +17,8 @@
         <field name="model">res.partner.bank</field>
         <field name="inherit_id" ref="base.view_partner_bank_tree" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='acc_holder_name']" position="attributes">
-                <attribute name="invisible" eval="0" />
-                <attribute name="optional">hide</attribute>
-            </xpath>
-            <xpath expr="//field[@name='acc_holder_name']" position="after">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="acc_holder_name" optional="hide" />
                 <field name="acc_holder_name_en" optional="hide" />
             </xpath>
         </field>

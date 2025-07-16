@@ -37,7 +37,6 @@ class BankPaymentConfig(models.Model):
         comodel_name="ir.model.fields",
         required=True,
         index=True,
-        domain=[("model", "=", "bank.payment.export")],
         ondelete="cascade",
     )
     field_type = fields.Selection(related="field_id.ttype")

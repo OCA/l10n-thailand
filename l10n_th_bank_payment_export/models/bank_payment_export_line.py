@@ -3,11 +3,10 @@
 
 from odoo import api, fields, models
 
-from odoo.addons.base.models.res_bank import sanitize_account_number
-
 
 class BankPaymentExportLine(models.Model):
     _name = "bank.payment.export.line"
+    _inherit = "bank.payment.export.common"
     _description = "Bank Payment Export File"
 
     payment_export_id = fields.Many2one(
@@ -37,7 +36,6 @@ class BankPaymentExportLine(models.Model):
         string="Recipient Bank",
         store=True,
         index=True,
-        states={"draft": [("readonly", False)]},
     )
     payment_bank_id = fields.Many2one(
         comodel_name="res.bank",
@@ -81,19 +79,18 @@ class BankPaymentExportLine(models.Model):
         """Condition search all payment
         1. Currency same as company currency
         2. Company same as company_id
-        3. Payment not exported and state 'posted' only
+        3. Payment not exported and state 'paid' only
         4. Payment method must be 'Manual' on Vendor Payment
         5. Journal payment must be type 'Bank' only
         """
         method_manual_out = self.env.ref("account.account_payment_method_manual_out")
         domain = (
-            "[('export_status', '=', 'draft'), \
-            ('state', '=', 'posted'), \
-            ('payment_method_id', '=', %s), \
-            ('journal_id.type', '=', 'bank'), \
-            ('company_id', '=', company_id), \
-            ('currency_id', '=', currency_id)]"
-            % (method_manual_out.id)
+            f"[('export_status', '=', 'draft'), "
+            f"('state', '=', 'paid'), "
+            f"('payment_method_id', '=', {method_manual_out.id}), "
+            f"('journal_id.type', '=', 'bank'), "
+            f"('company_id', '=', company_id), "
+            f"('currency_id', '=', currency_id)]"
         )
         return domain
 
@@ -112,87 +109,28 @@ class BankPaymentExportLine(models.Model):
         self.clear_payment_exported()
         self.write({"state": "reject"})
         lines_not_reject = self.payment_export_id.export_line_ids.filtered(
-            lambda l: l.state != "reject"
+            lambda line: line.state != "reject"
         )
         # all line rejected, it should auto reject header too.
         if not lines_not_reject:
             self._action_reject_bank_payment()
         return True
 
-    @api.model
-    def create(self, vals):
-        """link payment and bank payment export"""
-        export_line = super().create(vals)
-        export_line.payment_id.write(
+    @api.model_create_multi
+    def create(self, vals_list):
+        # Update export_status and payment_export_id in payment
+        export_lines = super().create(vals_list)
+        # NOTE: vals_list must same as value of payment_export_id only
+        payment_export_id = vals_list[0]["payment_export_id"] if vals_list else False
+        export_lines.mapped("payment_id").write(
             {
                 "export_status": "to_export",
-                "payment_export_id": vals["payment_export_id"],
+                "payment_export_id": payment_export_id,
             }
         )
-        return export_line
+        return export_lines
 
     def unlink(self):
         """Check state draft can delete only."""
         self.clear_payment_exported()
         return super().unlink()
-
-    # ====================== Function Common Text File ======================
-
-    def sanitize_account_number(self, acc_number):
-        if not acc_number:
-            return ""
-        return sanitize_account_number(acc_number)
-
-    def _get_acc_number_digit(self, partner_bank_id):
-        acc_number = partner_bank_id.acc_number
-        if not acc_number:
-            return "**receiver account number is null**"
-        sanitize_acc_number = sanitize_account_number(acc_number)
-        if len(sanitize_acc_number) <= 11:
-            return sanitize_acc_number.zfill(11)
-        # BAAC: ธ. เพื่อการเกษตรและสหกรณ์การเกษตร
-        # HSBC: ธ. ฮ่องกงและเซี่ยงไฮ้แบงกิ้งคอร์ปอเรชั่น จำกัด
-        if partner_bank_id.bank_id.bic in ("BAABTHBK", "HSBCTHBK"):
-            return (
-                len(sanitize_acc_number) == 12
-                and sanitize_acc_number[1:]
-                or "**Digit account number is not correct**"
-            )
-        # TISCO: ธ. ทิสโก้ จำกัด (มหาชน)
-        # KKP: ธ. เกียรตินาคิน จำกัด (มหาชน)
-        if partner_bank_id.bank_id.bic in ("TFPCTHB1", "KKPBTHBK"):
-            return (
-                len(sanitize_acc_number) == 14
-                and sanitize_acc_number[4:].zfill(11)
-                or "**Digit account number is not correct**"
-            )
-        # IBANK: ธ. อิสลามแห่งประเทศไทย (For 12 digits)
-        if partner_bank_id.bank_id.bic == "TIBTTHBK":
-            return (
-                len(sanitize_acc_number) == 12
-                and sanitize_acc_number[2:].zfill(11)
-                or "**Digit account number is not correct**"
-            )
-        # GSB: ธ. ออมสิน
-        # GHB: ธ. อาคารสงเคราะห์
-        if partner_bank_id.bank_id.bic in ("GSBATHBK", "GOHUTHB1"):
-            if len(sanitize_acc_number) == 12:
-                sanitize_acc_number = "".join(["999", sanitize_acc_number])
-            return (
-                len(sanitize_acc_number) == 15
-                and sanitize_acc_number[4:]
-                or "**Digit account number is not correct**"
-            )
-        return sanitize_acc_number
-
-    def _get_receiver_branch_code_gsb(self):
-        """For GSBATHBK (ธ.ออมสิน)"""
-        receiver_branch_code = ""
-        sanitize_acc_number = sanitize_account_number(
-            self.payment_partner_bank_id.acc_number
-        )
-        if len(sanitize_acc_number) == 12:
-            receiver_branch_code = "".join(["999", sanitize_acc_number[:1]])
-        if len(sanitize_acc_number) == 15:
-            receiver_branch_code = sanitize_acc_number[:4]
-        return receiver_branch_code

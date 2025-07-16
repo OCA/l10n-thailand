@@ -25,24 +25,27 @@
         <field name="arch" type="xml">
             <xpath expr="//group[@name='group2']" position="inside">
                 <label for="export_status" />
-                <div class="oe_inline">
+                <div>
                     <field
                         name="export_status"
                         widget="badge"
                         decoration-info="export_status == 'draft'"
                         decoration-warning="export_status == 'to_export'"
                         decoration-success="export_status == 'exported'"
+                        readonly="1"
                         groups="account.group_account_user"
+                        class="oe_inline"
                     />
-                    <span attrs="{'invisible': [('payment_export_id', '=', False)]}">
+                    <span invisible="not payment_export_id" class="oe_inline">
                         =>
-                        <field name="payment_export_id" options="{'no_create': True}" />
+                        <field
+                        name="payment_export_id"
+                        options="{'no_create': True}"
+                        class="oe_inline"
+                    />
                     </span>
                 </div>
-                <field
-                    name="bank_payment_template_id"
-                    attrs="{'readonly': [('state', '!=', 'draft')]}"
-                />
+                <field name="bank_payment_template_id" readonly="state != 'draft'" />
             </xpath>
         </field>
     </record>

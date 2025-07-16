@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="view_bank_export_format_tree" model="ir.ui.view">
-        <field name="name">bank.export.format.tree</field>
+    <record id="view_bank_export_format_list" model="ir.ui.view">
+        <field name="name">bank.export.format.list</field>
         <field name="model">bank.export.format</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="bank" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="view_bank_export_format_form" model="ir.ui.view">
@@ -30,7 +30,7 @@
                                 name="export_format_ids"
                                 widget="section_and_note_one2many"
                             >
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <control>
                                         <create
                                             name="add_line_control"
@@ -51,7 +51,7 @@
                                     <field
                                         name="display_type"
                                         force_save="1"
-                                        invisible="1"
+                                        column_invisible="1"
                                     />
                                     <field name="sequence" widget="handle" />
                                     <field name="name" style="white-space: normal;" />
@@ -70,7 +70,7 @@
                                     <field
                                         name="sub_value_loop"
                                         optional="show"
-                                        attrs="{'required': [('sub_loop', '=', True)]}"
+                                        required="sub_loop"
                                     />
                                     <field name="end_line" optional="show" />
                                     <field name="lenght" />
@@ -80,7 +80,7 @@
                                     <field name="value_blank_space" optional="show" />
                                     <field name="value_type" />
                                     <field name="value" style="white-space: normal;" />
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Help">
@@ -215,7 +215,7 @@
         <field name="name">Bank Export Format</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">bank.export.format</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
                 Click to create a Format Bank Export.

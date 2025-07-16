@@ -26,14 +26,12 @@ class AccountPaymentRegister(models.TransientModel):
                 wizard.partner_id.property_bank_payment_template_id.id
             )
 
-    def _create_payment_vals_from_wizard(self):
-        payment_vals = super()._create_payment_vals_from_wizard()
-        payment_vals["export_status"] = self.is_export and "exported" or "draft"
-        payment_vals["bank_payment_template_id"] = self.bank_payment_template_id.id
-        return payment_vals
-
-    def _create_payment_vals_from_batch(self, batch_result):
-        payment_vals = super()._create_payment_vals_from_batch(batch_result)
-        payment_vals["export_status"] = self.is_export and "exported" or "draft"
-        payment_vals["bank_payment_template_id"] = self.bank_payment_template_id.id
-        return payment_vals
+    def _init_payments(self, to_process, edit_mode=False):
+        for process in to_process:
+            process["create_vals"]["export_status"] = (
+                self.is_export and "exported" or "draft"
+            )
+            process["create_vals"]["bank_payment_template_id"] = (
+                self.bank_payment_template_id.id
+            )
+        return super()._init_payments(to_process, edit_mode)
