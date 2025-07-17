@@ -265,7 +265,7 @@ msgstr ""
 
 #. module: l10n_th_multicurrency_revaluation
 #: model:ir.model.fields,field_description:l10n_th_multicurrency_revaluation.field_res_company__currency_reval_journal_id
-#: model:ir.model.fields,field_description:l10n_th_multicurrency_revaluation.field_res_config_settings__default_currency_reval_journal_id
+#: model:ir.model.fields,field_description:l10n_th_multicurrency_revaluation.field_res_config_settings__currency_reval_journal_id
 msgid "Currency gain & loss Default Journal"
 msgstr ""
 
