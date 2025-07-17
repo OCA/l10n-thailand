@@ -72,7 +72,10 @@ class ResCompany(models.Model):
     currency_reval_journal_id = fields.Many2one(
         comodel_name="account.journal",
         string="Currency gain & loss Default Journal",
-        domain=[("type", "=", "general")],
+        domain=lambda self: [
+            ("type", "=", "general"),
+            ("company_id", "=", self.env.company.id),
+        ],
     )
     auto_post_entries = fields.Boolean(
         string="Auto Post Created Entries",
