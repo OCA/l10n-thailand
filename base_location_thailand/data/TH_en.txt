@@ -214,9 +214,9 @@ TH	10290	Ban Khlong Suan, Phra Samut Chedi	Samut Prakan	11
 TH	10290	Laem Fa Pha, Phra Samut Chedi	Samut Prakan	11
 TH	10290	Pak Khlong Bang Pla Kot, Phra Samut Chedi	Samut Prakan	11
 TH	10290	Nai Khlong Bang Pla Kot, Phra Samut Chedi	Samut Prakan	11
-TH	10540	Bang Sao Thong, Bang Sao Thong	Samut Prakan	11
-TH	10540	Sisa Chorakhe Noi, Bang Sao Thong	Samut Prakan	11
-TH	10540	Sisa Chorakhe Yai, Bang Sao Thong	Samut Prakan	11
+TH	10570	Bang Sao Thong, Bang Sao Thong	Samut Prakan	11
+TH	10570	Sisa Chorakhe Noi, Bang Sao Thong	Samut Prakan	11
+TH	10570	Sisa Chorakhe Yai, Bang Sao Thong	Samut Prakan	11
 TH	11000	Suan Yai, Mueang Nonthaburi	Nonthaburi	12
 TH	11000	Talat Khwan, Mueang Nonthaburi	Nonthaburi	12
 TH	11000	Bang Khen, Mueang Nonthaburi	Nonthaburi	12
