@@ -441,22 +441,20 @@ class AccountMove(models.Model):
 
         res = super()._post(soft=soft)
 
-        # Sales Taxes (exclude reconcile manual)
-        if not self.env.context.get("net_invoice_refund"):
-            for move in self:
-                for tax_invoice in move.tax_invoice_ids.filtered(
-                    lambda l: l.tax_line_id.type_tax_use == "sale"
-                    or l.move_id.journal_id.type == "sale"
-                ):
-                    tinv_number, tinv_date = self._get_tax_invoice_number(
-                        move, tax_invoice, tax_invoice.tax_line_id
-                    )
-                    tax_invoice.write(
-                        {
-                            "tax_invoice_number": tinv_number,
-                            "tax_invoice_date": tinv_date,
-                        }
-                    )
+        for move in self:
+            for tax_invoice in move.tax_invoice_ids.filtered(
+                lambda l: l.tax_line_id.type_tax_use == "sale"
+                or l.move_id.journal_id.type == "sale"
+            ):
+                tinv_number, tinv_date = self._get_tax_invoice_number(
+                    move, tax_invoice, tax_invoice.tax_line_id
+                )
+                tax_invoice.write(
+                    {
+                        "tax_invoice_number": tinv_number,
+                        "tax_invoice_date": tinv_date,
+                    }
+                )
 
         # Check amount tax invoice with move line
         # kittiu: There are case that we don't want to check
