@@ -330,6 +330,7 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
             self.supplier_invoice_undue_vat.tax_cash_basis_created_move_ids
         )
         self.assertEqual(len(bill_tax_cash_basis), 1)
+        self.assertFalse(bill_tax_cash_basis.name)
         self.assertEqual(bill_tax_cash_basis.state, "draft")
         self.assertEqual(bill_tax_cash_basis.date, tax_date)
 
@@ -345,6 +346,7 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
             self.supplier_invoice_undue_vat.tax_cash_basis_created_move_ids
         )
         self.assertEqual(len(bill_tax_cash_basis), 2)
+        self.assertNotIn("/", bill_tax_cash_basis.mapped("name"))
         self.assertEqual(list(set(bill_tax_cash_basis.mapped("state"))), ["posted"])
         self.assertFalse(
             any(list(set(bill_tax_cash_basis.line_ids.mapped("reconciled"))))
@@ -364,6 +366,8 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
             self.supplier_invoice_undue_vat.tax_cash_basis_created_move_ids
         )
         self.assertEqual(len(bill_tax_cash_basis), 3)
+        new_caba = bill_tax_cash_basis.filtered(lambda tax: tax.state == "draft")
+        self.assertFalse(new_caba.name)
         self.assertEqual(
             len(list(set(bill_tax_cash_basis.mapped("state")))), 2
         )  # state draft and posted
@@ -390,6 +394,7 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
             self.supplier_invoice_undue_vat.tax_cash_basis_created_move_ids
         )
         self.assertEqual(len(bill_tax_cash_basis), 3)
+        self.assertNotIn(False, bill_tax_cash_basis.mapped("name"))
         self.assertEqual(list(set(bill_tax_cash_basis.mapped("state"))), ["posted"])
         # Tax cash basis will change accounting date from clear tax
         date_object = fields.Date.from_string("2025-01-01")
@@ -423,6 +428,7 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
             self.supplier_invoice_undue_vat_reconcile.tax_cash_basis_created_move_ids
         )
         self.assertEqual(len(bill_tax_cash_basis), 1)
+        self.assertFalse(bill_tax_cash_basis.name)
         self.assertEqual(bill_tax_cash_basis.state, "draft")
         # Test reset payment, tax cash basis in vendor bill must create 1 reversal
         # and reconciled
@@ -433,6 +439,7 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
             self.supplier_invoice_undue_vat_reconcile.tax_cash_basis_created_move_ids
         )
         self.assertEqual(len(bill_tax_cash_basis), 2)
+        self.assertNotIn(False, bill_tax_cash_basis.mapped("name"))
         self.assertEqual(list(set(bill_tax_cash_basis.mapped("state"))), ["posted"])
         self.assertTrue(
             any(list(set(bill_tax_cash_basis.line_ids.mapped("reconciled"))))
@@ -453,6 +460,8 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
             self.supplier_invoice_undue_vat_reconcile.tax_cash_basis_created_move_ids
         )
         self.assertEqual(len(bill_tax_cash_basis), 3)
+        new_caba = bill_tax_cash_basis.filtered(lambda tax: tax.state == "draft")
+        self.assertFalse(new_caba.name)
         self.assertEqual(
             len(list(set(bill_tax_cash_basis.mapped("state")))), 2
         )  # state draft and posted
@@ -481,6 +490,7 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
             self.supplier_invoice_undue_vat_reconcile.tax_cash_basis_created_move_ids
         )
         self.assertEqual(len(bill_tax_cash_basis), 3)
+        self.assertNotIn(False, bill_tax_cash_basis.mapped("name"))
         self.assertEqual(list(set(bill_tax_cash_basis.mapped("state"))), ["posted"])
         # Check the move_line_ids, from both Bank and Cash Basis journal
         self.assertTrue(payment.move_id)
@@ -570,6 +580,7 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
 
         caba = invoice.tax_cash_basis_created_move_ids
         self.assertEqual(len(caba), 1)
+        self.assertNotEqual(caba.name, False)
         self.assertEqual(caba.state, "posted")
 
         # Test unreconcile invoice and journal entry
@@ -579,6 +590,7 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
         invoice.js_remove_outstanding_partial(partial_reconcile.id)
 
         self.assertEqual(len(invoice.tax_cash_basis_created_move_ids), 2)
+        self.assertNotIn(False, invoice.tax_cash_basis_created_move_ids.mapped("name"))
 
     def test_06_supplier_invoice_refund_reconcile(self):
         """Case on undue vat, to net refund with vendor bill.

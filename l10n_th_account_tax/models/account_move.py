@@ -250,37 +250,6 @@ class AccountMoveLine(models.Model):
                 deductions.append(deduct)
         return (deductions, amount_deduct)
 
-    def _reconcile_post_hook(self, data):
-        """
-        Case: Vendor Bills only.
-        Reset tax cash basis to draft. until clear tax or reset payment
-        - Bill --> Payment
-            create cash basis (1) is draft
-        - Payment (Posted) --> Payment (Draft)
-            create cash basis (2) and reconcile with (1) state change to posted
-        - Bill manual reconcile payment
-            create cash basis (3) is draft
-        """
-        res = super()._reconcile_post_hook(data)
-        payment_id = self.env.context.get("payment_id")
-        if payment_id:
-            payment = self.env["account.payment"].browse(payment_id)
-            # Bills only
-            moves = payment.reconciled_bill_ids
-            all_tax_move = moves.mapped("tax_cash_basis_created_move_ids")
-            reversed_tax_ids = all_tax_move.filtered(
-                lambda tax_inv: tax_inv.reversed_entry_id
-            ).ids
-            linked_reversed_tax_ids = all_tax_move.mapped("reversed_entry_id").ids
-            tax_move = all_tax_move.filtered(
-                lambda tax_inv: tax_inv.id not in reversed_tax_ids
-                and tax_inv.id not in linked_reversed_tax_ids
-            )
-            if tax_move:
-                tax_move.mapped("line_ids").remove_move_reconcile()
-                tax_move.write({"name": "/", "state": "draft", "is_move_sent": False})
-        return res
-
 
 class AccountMove(models.Model):
     _inherit = "account.move"
@@ -665,3 +634,14 @@ class AccountMove(models.Model):
                 cert_vals.update({"income_tax_form": income_tax_form[0]})
             cert_list.append(cert_vals)
         return cert_list
+
+    @api.depends(
+        "posted_before", "state", "journal_id", "date", "move_type", "origin_payment_id"
+    )
+    def _compute_name(self):
+        if self.env.context.get("payment_id"):
+            for move in self:
+                if move.tax_cash_basis_origin_move_id:
+                    move.name = False
+            return
+        return super()._compute_name()
