@@ -87,6 +87,18 @@ class ResCurrencyRateProviderBOT(models.Model):
             "PKR",
         ]
 
+    def _get_currency_unit(self, bot_currency_name):
+        """
+        Returns the currency unit used to normalize the exchange rate to 1 unit.
+
+        For example, if the exchange rate is provided as 100 JPY, this method returns 100.0,
+        so that the rate can be converted to a per-1 JPY basis.
+        """
+        unit = 1.0
+        if bot_currency_name == "JPY":
+            unit = 100.0
+        return unit
+
     def _update_content_currency_update(
         self, bot_currency, content, result, date_from, date_to
     ):
@@ -96,6 +108,7 @@ class ResCurrencyRateProviderBOT(models.Model):
         if date_from > date_last_update and date_to > date_last_update:
             raise UserError(_("BOT Last Updated: {}").format(last_updated))
         data_details = data["data_detail"]
+        unit = self._get_currency_unit(bot_currency.bot_currency_name)
         for data_detail in data_details:
             period = (
                 fields.Date.from_string(data_detail["period"]).strftime(
@@ -106,12 +119,12 @@ class ResCurrencyRateProviderBOT(models.Model):
             )
             if period:
                 if period in content.keys():
-                    content[period][bot_currency.name] = 1.0 / float(
+                    content[period][bot_currency.name] = unit / float(
                         data_detail[bot_currency.bot_currency_rate_type]
                     )
                 else:
                     content[period] = {
-                        bot_currency.name: 1.0
+                        bot_currency.name: unit
                         / float(data_detail[bot_currency.bot_currency_rate_type])
                     }
 
