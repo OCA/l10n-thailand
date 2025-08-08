@@ -224,6 +224,7 @@ class TestWithholdingTax(AccountTestInvoicingCommon):
         res = payment.button_wht_certs()
         cert = self.wht_cert_obj.search(res["domain"])
         self.assertEqual(cert.state, "draft")
+        self.assertEqual(cert.number, "/")
         self.assertEqual(cert.name, payment.name)
         self.assertEqual(cert.date, payment.date)
         self.assertRecordValues(cert.wht_line, [{"amount": 3.0}])
@@ -247,11 +248,13 @@ class TestWithholdingTax(AccountTestInvoicingCommon):
 
         cert.action_done()
         self.assertEqual(cert.state, "done")
+        self.assertNotEqual(cert.number, "/")
         # WHT Cert created and done, wht cert status should change to done
         self.assertEqual(payment.wht_cert_status, "done")
         # After done, can draft withholding tax
         cert.action_draft()
         self.assertEqual(cert.state, "draft")
+        self.assertNotEqual(cert.number, "/")
         # WHT Cert cancel, wht cert status should change to cancel
         cert.action_cancel()
         self.assertEqual(cert.state, "cancel")
@@ -428,11 +431,19 @@ class TestWithholdingTax(AccountTestInvoicingCommon):
         res = invoice.button_wht_certs()
         cert = self.wht_cert_obj.search(res["domain"])
         self.assertEqual(cert.partner_id, self.partner_1)
+        self.assertEqual(cert.number, "/")
         # Check wht cert status in invoice
         cert.action_cancel()
         self.assertEqual(invoice.wht_cert_status, "cancel")
+        self.assertEqual(cert.number, "/")
         cert.action_done()
         self.assertEqual(invoice.wht_cert_status, "done")
+        self.assertNotEqual(cert.number, "/")
+
+        # Number should be generate 1 time only
+        cert.action_draft()
+        cert.action_done()
+        self.assertNotEqual(cert.number, "/")
 
         # Test Create new WHT for related old WHT
         invoice2 = self._create_invoice(

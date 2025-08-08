@@ -83,6 +83,13 @@ class WithholdingTaxCert(models.Model):
         store=True,
         tracking=True,
     )
+    number = fields.Char(
+        string="WHT Number",
+        required=True,
+        default="/",
+        readonly=True,
+        copy=False,
+    )
     date = fields.Date(
         required=True,
         compute="_compute_wht_cert_data",
@@ -175,7 +182,12 @@ class WithholdingTaxCert(models.Model):
         return self.write({"state": "draft"})
 
     def action_done(self):
+        sequence_model = self.env["ir.sequence"]
         for rec in self:
+            # Update sequence WHT
+            if rec.number in [False, "/"]:
+                rec.number = sequence_model.next_by_code("withholding.tax.cert")
+
             if rec.ref_wht_cert_id:
                 rec.ref_wht_cert_id.write({"state": "cancel"})
                 rec.ref_wht_cert_id.message_post(
