@@ -11,6 +11,7 @@
     "depends": ["account"],
     "data": [
         "data/pit_rate_data.xml",
+        "data/withholding_tax_cert_data.xml",
         "data/withholding_tax_type_income_data.xml",
         "security/account_security.xml",
         "security/ir.model.access.csv",
