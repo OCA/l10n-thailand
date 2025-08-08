@@ -441,10 +441,9 @@ class AccountMove(models.Model):
 
         res = super()._post(soft=soft)
 
-        # Sales Taxes (exclude reconcile manual)
-        if not self.env.context.get("net_invoice_refund"):
-            for move in self:
-                handle_sales_taxes(move)
+        # Sales Taxes
+        for move in self:
+            handle_sales_taxes(move)
 
         # Withholding Tax:
         # - Create account.withholding.move, for every withholding tax line
@@ -639,9 +638,17 @@ class AccountMove(models.Model):
         "posted_before", "state", "journal_id", "date", "move_type", "origin_payment_id"
     )
     def _compute_name(self):
-        if self.env.context.get("payment_id"):
-            for move in self:
-                if move.tax_cash_basis_origin_move_id:
-                    move.name = False
-            return
+        """Skip sequence for cash basis entries from vendor bills."""
+
+        payment_context = self.env.context.get("payment_id")
+        if payment_context:
+            cash_basis_moves = self.filtered(
+                lambda m: m.tax_cash_basis_origin_move_id
+                and m.tax_cash_basis_origin_move_id.move_type == "in_invoice"
+            )
+            for move in cash_basis_moves:
+                move.name = False
+
+            self = self - cash_basis_moves
+
         return super()._compute_name()
