@@ -21,7 +21,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[l10n_th_account_tax](l10n_th_account_tax/) | 18.0.1.1.0 | <a href='https://github.com/kittiu'><img src='https://github.com/kittiu.png' width='32' height='32' style='border-radius:50%;' alt='kittiu'/></a> | Thai Localization - VAT and Withholding Tax
+[l10n_th_account_tax](l10n_th_account_tax/) | 18.0.1.1.1 | <a href='https://github.com/kittiu'><img src='https://github.com/kittiu.png' width='32' height='32' style='border-radius:50%;' alt='kittiu'/></a> | Thai Localization - VAT and Withholding Tax
 [l10n_th_amount_to_text](l10n_th_amount_to_text/) | 18.0.1.0.0 | <a href='https://github.com/Saran440'><img src='https://github.com/Saran440.png' width='32' height='32' style='border-radius:50%;' alt='Saran440'/></a> | Convert Amount Text to Thai
 [l10n_th_base_sequence](l10n_th_base_sequence/) | 18.0.1.0.0 | <a href='https://github.com/sansirit'><img src='https://github.com/sansirit.png' width='32' height='32' style='border-radius:50%;' alt='sansirit'/></a> <a href='https://github.com/Saran440'><img src='https://github.com/Saran440.png' width='32' height='32' style='border-radius:50%;' alt='Saran440'/></a> | Thai Localization - Base Sequence
 [l10n_th_fonts](l10n_th_fonts/) | 18.0.1.0.0 | <a href='https://github.com/Saran440'><img src='https://github.com/Saran440.png' width='32' height='32' style='border-radius:50%;' alt='Saran440'/></a> | Collection of all Thai fonts
