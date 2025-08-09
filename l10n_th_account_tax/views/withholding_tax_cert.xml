@@ -33,12 +33,16 @@
                     />
                 </header>
                 <sheet>
-                    <h1>
-                        <field name="move_id" readonly="state != 'draft'" />
-                    </h1>
+                    <div class="oe_title">
+                        <label for="number" />
+                        <h1>
+                            <field name="number" />
+                        </h1>
+                    </div>
                     <group>
                         <group>
                             <field name="name" invisible="1" />
+                            <field name="move_id" readonly="state != 'draft'" />
                             <field name="company_partner_id" readonly="1" />
                             <field name="company_vat" string="Tax ID" />
                         </group>
@@ -65,8 +69,8 @@
                     </group>
                     <field name="wht_line" readonly="state != 'draft'">
                         <list editable="bottom">
-                            <field name="wht_income_tax_form" invisible="1" />
-                            <field name="company_id" invisible="1" />
+                            <field name="wht_income_tax_form" column_invisible="1" />
+                            <field name="company_id" column_invisible="1" />
                             <field name="wht_cert_income_type" />
                             <field
                                 name="wht_cert_income_code"
@@ -99,6 +103,7 @@
         <field name="model">withholding.tax.cert</field>
         <field name="arch" type="xml">
             <list create="1" edit="1" delete="1">
+                <field name="number" />
                 <field name="name" />
                 <field name="partner_id" />
                 <field name="income_tax_form" />
@@ -109,7 +114,12 @@
                     groups="base.group_multi_company"
                     optional="show"
                 />
-                <field name="state" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-info="state == 'draft'"
+                    decoration-success="state == 'done'"
+                />
             </list>
         </field>
     </record>
@@ -118,7 +128,11 @@
         <field name="model">withholding.tax.cert</field>
         <field name="arch" type="xml">
             <search string="WHT Cert.">
-                <field name="name" string="WHT Cert." />
+                <field
+                    name="name"
+                    string="WHT Cert."
+                    filter_domain="['|', ('name', 'ilike', self), ('number', 'ilike', self)]"
+                />
                 <field name="partner_id" />
                 <filter
                     string="Payment"
