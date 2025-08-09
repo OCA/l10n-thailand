@@ -12,6 +12,7 @@
     "depends": ["base"],
     "data": [],
     "installable": True,
+    "pre_init_hook": "pre_init_hook",
     "development_status": "Beta",
     "maintainers": ["Saran440"],
 }

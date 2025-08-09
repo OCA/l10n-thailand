@@ -35,10 +35,11 @@ results for Thai.
 
 **Example:**
 
-- Amount: 45.75 Baht
+-  Amount: 45.75 Baht
 
-  - User Language: **Thai** → สี่สิบห้า Baht และ เจ็ดสิบห้า Satang
-  - User Language: **English** → Forty-Five Baht and Seventy-Five Satang
+   -  User Language: **Thai** → สี่สิบห้า Baht และ เจ็ดสิบห้า Satang
+   -  User Language: **English** → Forty-Five Baht and Seventy-Five
+      Satang
 
 These results are inaccurate for Thai language formatting. This module
 provides a base for accurately converting numbers to Thai text.
@@ -71,14 +72,14 @@ Example Usage:
 
 **Results Based on Context:**
 
-- When ``lang=th_TH`` context is sent:
+-  When ``lang=th_TH`` context is sent:
 
-  - Currency: **THB** → ``สี่สิบห้าบาทเจ็ดสิบห้าสตางค์``
-  - Currency: **EUR** → ``สี่สิบห้ายูโรเจ็ดสิบห้าเซนต์``
-  - Currency: **USD** → ``สี่สิบห้าดอลลาร์เจ็ดสิบห้าเซนต์``
+   -  Currency: **THB** → ``สี่สิบห้าบาทเจ็ดสิบห้าสตางค์``
+   -  Currency: **EUR** → ``สี่สิบห้ายูโรเจ็ดสิบห้าเซนต์``
+   -  Currency: **USD** → ``สี่สิบห้าดอลลาร์เจ็ดสิบห้าเซนต์``
 
-- When no context is sent: Odoo's default logic will handle the
-  conversion.
+-  When no context is sent: Odoo's default logic will handle the
+   conversion.
 
 **Important Notes:**
 
@@ -110,10 +111,10 @@ Authors
 Contributors
 ------------
 
-- `Ecosoft <http://ecosoft.co.th>`__:
+-  `Ecosoft <http://ecosoft.co.th>`__:
 
-  - Saran Lim. <saranl@ecosoft.co.th>
-  - Pimolnat Suntian <pimolnats@ecosoft.co.th>
+   -  Saran Lim. <saranl@ecosoft.co.th>
+   -  Pimolnat Suntian <pimolnats@ecosoft.co.th>
 
 Maintainers
 -----------
