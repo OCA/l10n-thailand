@@ -1356,6 +1356,11 @@ msgid "Vendor Tax ID"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__verify_by
+msgid "Verify By"
+msgstr ""
+
+#. module: l10n_th_account_tax
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_partner_property_form
 msgid "View Yearly Summary"
 msgstr ""
