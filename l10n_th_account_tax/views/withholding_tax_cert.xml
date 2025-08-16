@@ -64,6 +64,7 @@
                             <field name="company_id" invisible="1" readonly="1" />
                             <field name="currency_id" invisible="1" />
                             <field name="ref_wht_cert_id" readonly="state != 'draft'" />
+                            <field name="verify_by" readonly="1" />
                             <field name="date" readonly="state != 'draft'" />
                         </group>
                     </group>
