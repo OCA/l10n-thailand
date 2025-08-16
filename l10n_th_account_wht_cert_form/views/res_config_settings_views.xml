@@ -12,7 +12,15 @@
         <field name="arch" type="xml">
             <xpath expr="//block[@id='l10n_th_account_settings']" position="inside">
                 <setting
-                    id="manage_customer_tax_payment_setting"
+                    id="wht_print_sign_setting"
+                    company_dependent="1"
+                    string="WHT Cert - Print Signature"
+                    help="Add signature on withholding tax cert form"
+                >
+                    <field name="wht_form_print_signature" />
+                </setting>
+                <setting
+                    id="wht_preprint_setting"
                     company_dependent="1"
                     string="Preprint - Withholding Tax Cert Form"
                     help="Thai withholding tax layout with pre-print (No background). You must customize template 'withholding_layout_preprint_report'"
