@@ -391,6 +391,22 @@
             <t t-if="o.tax_payer == 'paid_one_time'">
                 <p class="choice_paid_one_time">X</p>
             </t>
+            <!-- Sign when state done and config print signature -->
+            <t t-if="o.company_id.wht_form_print_signature and o.state == 'done'">
+                <t t-set="period_be" t-value="o._get_period_be(o.date, o.date)" />
+                <p class="sign_wht">
+                    <span t-field="o.verify_by" />
+                </p>
+                <p class="sign_date_d">
+                    <span t-out="o.date.day" />
+                </p>
+                <p class="sign_date_m">
+                    <span t-out="period_be[0]" />
+                </p>
+                <p class="sign_date_y">
+                    <span t-out="period_be[1]" />
+                </p>
+            </t>
         </div>
     </template>
 

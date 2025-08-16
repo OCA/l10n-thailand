@@ -415,4 +415,28 @@
     .vat_tab {
         margin-left: 11px;
     }
+    .sign_wht {
+        position: fixed;
+        box-sizing: content-box;
+        width: 255px;
+        height: 30px;
+        top: 1410px;
+        right: 215px;
+        text-align: center;
+    }
+    .sign_date_d {
+        position: fixed;
+        top: 1435px;
+        right: 455px;
+    }
+    .sign_date_m {
+        position: fixed;
+        top: 1435px;
+        right: 340px;
+    }
+    .sign_date_y {
+        position: fixed;
+        top: 1435px;
+        right: 255px;
+    }
 }

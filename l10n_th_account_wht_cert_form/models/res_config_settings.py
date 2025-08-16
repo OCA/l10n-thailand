@@ -9,3 +9,6 @@ class ResConfigSettings(models.TransientModel):
     wht_form_preprint = fields.Boolean(
         related="company_id.wht_form_preprint", readonly=False
     )
+    wht_form_print_signature = fields.Boolean(
+        related="company_id.wht_form_print_signature", readonly=False
+    )
