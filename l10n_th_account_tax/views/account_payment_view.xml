@@ -145,4 +145,19 @@
             </group>
         </field>
     </record>
+    <record id="view_account_payment_search" model="ir.ui.view">
+        <field name="name">account.payment.search</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='date']" position="before">
+                <filter
+                    name="wht_not_created"
+                    string="WHT Not yet created"
+                    domain="[('wht_cert_ids', '=', False), ('wht_move_ids', '!=', False)]"
+                />
+                <separator />
+            </xpath>
+        </field>
+    </record>
 </odoo>
