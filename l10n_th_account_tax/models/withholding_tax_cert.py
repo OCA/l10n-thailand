@@ -196,7 +196,7 @@ class WithholdingTaxCert(models.Model):
         for rec in self:
             # Update sequence WHT
             if rec.number == "/":
-                rec.number = sequence_model.next_by_code("withholding.tax.cert")
+                rec.number = sequence_model.next_by_code("withholding.tax.cert") or "/"
 
             if rec.ref_wht_cert_id:
                 rec.ref_wht_cert_id.write({"state": "cancel"})
