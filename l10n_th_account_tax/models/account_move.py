@@ -287,11 +287,11 @@ class AccountMove(models.Model):
 
     def _compute_has_wht(self):
         """Has WHT when
-        1. Has wht_tax_id
+        1. Has wht_move_ids
         2. Is not invoice (move_type == 'entry' and not sale type)
         """
         for rec in self:
-            wht_tax = bool(rec.line_ids.mapped("wht_tax_id"))
+            wht_tax = bool(rec.wht_move_ids)
             not_inv = (
                 rec.move_type == "entry"
                 and not rec.origin_payment_id.payment_type == "inbound"
