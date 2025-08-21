@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Common Template -->
+    <template id="report_rd_base_company_withholding_tax">
+        <div class="company_vat">
+            <t t-if="company_vat">
+                <div class="row">
+                    <p class="box-vat">
+                        <t t-out="company_vat[:1]" />
+                    </p>
+                    <p class="box-vat vat_tab">
+                        <t t-out="company_vat[1:2]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="company_vat[2:3]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="company_vat[3:4]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="company_vat[4:5]" />
+                    </p>
+                    <p class="box-vat vat_tab">
+                        <t t-out="company_vat[5:6]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="company_vat[6:7]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="company_vat[7:8]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="company_vat[8:9]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="company_vat[9:10]" />
+                    </p>
+                    <p class="box-vat vat_tab">
+                        <t t-out="company_vat[10:11]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="company_vat[11:12]" />
+                    </p>
+                    <p class="box-vat vat_tab">
+                        <t t-out="company_vat[12:13]" />
+                    </p>
+                </div>
+            </t>
+        </div>
+        <div class="company_branch">
+            <t t-if="company_branch">
+                <div class="row">
+                    <p class="box-vat">
+                        <t t-out="company_branch[:1]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="company_branch[1:2]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="company_branch[2:3]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="company_branch[3:4]" />
+                    </p>
+                    <p class="box-vat">
+                        <t t-out="company_branch[4:5]" />
+                    </p>
+                </div>
+            </t>
+        </div>
+        <span class="num_page_from" t-out="num + 1" />
+        <span class="num_page_to" t-out="num_page" />
+    </template>
+
+    <template id="report_rd_base_partner_vat_withholding_tax">
+        <div class="row">
+            <p class="box-vat">
+                <t t-out="line['partner_vat'][:1]" />
+            </p>
+            <p class="box-vat vat_tab">
+                <t t-out="line['partner_vat'][1:2]" />
+            </p>
+            <p class="box-vat">
+                <t t-out="line['partner_vat'][2:3]" />
+            </p>
+            <p class="box-vat">
+                <t t-out="line['partner_vat'][3:4]" />
+            </p>
+            <p class="box-vat">
+                <t t-out="line['partner_vat'][4:5]" />
+            </p>
+            <p class="box-vat vat_tab">
+                <t t-out="line['partner_vat'][5:6]" />
+            </p>
+            <p class="box-vat">
+                <t t-out="line['partner_vat'][6:7]" />
+            </p>
+            <p class="box-vat">
+                <t t-out="line['partner_vat'][7:8]" />
+            </p>
+            <p class="box-vat">
+                <t t-out="line['partner_vat'][8:9]" />
+            </p>
+            <p class="box-vat">
+                <t t-out="line['partner_vat'][9:10]" />
+            </p>
+            <p class="box-vat vat_tab">
+                <t t-out="line['partner_vat'][10:11]" />
+            </p>
+            <p class="box-vat">
+                <t t-out="line['partner_vat'][11:12]" />
+            </p>
+            <p class="box-vat vat_tab">
+                <t t-out="line['partner_vat'][12:13]" />
+            </p>
+        </div>
+    </template>
+
+    <template id="report_rd_base_total_withholding_tax">
+        <div class="total_base">
+            <t t-out="'{0:,.2f}'.format(total_base_page)" />
+        </div>
+        <div class="total_amount">
+            <t t-out="'{0:,.2f}'.format(total_wht_page)" />
+        </div>
+        <t t-if="num + 1 == num_page">
+            <div class="sum_total_base">
+                <t t-out="'{0:,.2f}'.format(total_base)" />
+            </div>
+            <div class="sum_total_amount">
+                <t t-out="'{0:,.2f}'.format(total_wht)" />
+            </div>
+        </t>
+    </template>
+
+    <!-- Template Withholding Tax (RD) Report -->
+    <template id="report_rd_withholding_tax">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t
+                    t-if="income_tax_form == 'pnd1'"
+                    t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd1"
+                />
+                <t
+                    t-if="income_tax_form == 'pnd1a'"
+                    t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd1a"
+                />
+                <t
+                    t-if="income_tax_form == 'pnd2'"
+                    t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd2"
+                />
+                <t
+                    t-if="income_tax_form == 'pnd3'"
+                    t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd3"
+                />
+                <t
+                    t-if="income_tax_form == 'pnd53'"
+                    t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd53"
+                />
+            </t>
+        </t>
+    </template>
+</odoo>

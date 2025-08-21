@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Template Withholding Tax Report -->
+    <template id="report_withholding_tax">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="l10n_th_account_tax_report.internal_layout">
+                    <t t-call="l10n_th_account_tax_report.report_wht" />
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Header -->
+    <template id="header_report_withholding_tax">
+        <div class="act_as_table data_table">
+            <div id="header_wht_filter" class="act_as_row labels">
+                <div class="act_as_cell">Date From</div>
+                <div class="act_as_cell">Date To</div>
+                <div class="act_as_cell">Income Tax Form</div>
+                <div class="act_as_cell">Tax ID</div>
+                <div class="act_as_cell">Company Tax Branch</div>
+            </div>
+            <div id="header_wht_filter_value" class="act_as_row">
+                <div class="act_as_cell">
+                    <span t-out="date_from" />
+                </div>
+                <div class="act_as_cell">
+                    <span t-out="date_to" />
+                </div>
+                <div class="act_as_cell">
+                    <span t-field="o.income_tax_form" />
+                </div>
+                <div class="act_as_cell">
+                    <span t-out="company_vat" />
+                </div>
+                <div class="act_as_cell">
+                    <span t-out="company_branch" />
+                </div>
+            </div>
+        </div>
+    </template>
+    <!-- Header Lines -->
+    <template id="header_line_report_withholding_tax">
+        <div class="act_as_thead">
+            <div id="header_wht_lines" class="act_as_row labels">
+                <div class="act_as_cell">No.</div>
+                <div class="act_as_cell">Tax Invoice</div>
+                <div class="act_as_cell">Cus./Sup.</div>
+                <div class="act_as_cell">Address</div>
+                <div class="act_as_cell">Date</div>
+                <div class="act_as_cell">Tax Description</div>
+                <div class="act_as_cell">Tax</div>
+                <div class="act_as_cell">Base Amount</div>
+                <div class="act_as_cell">Tax Amount</div>
+                <div class="act_as_cell">Tax Payer</div>
+                <div class="act_as_cell">Ref Doc.</div>
+            </div>
+        </div>
+    </template>
+    <template id="line_report_withholding_tax">
+        <div class="act_as_row lines">
+            <div class="act_as_cell">
+                <span t-out="line['row_number']" />
+            </div>
+            <div class="act_as_cell">
+                <span t-out="line['partner_vat']" />
+            </div>
+            <div class="act_as_cell left">
+                <span t-out="line['partner_name']" />
+            </div>
+            <div class="act_as_cell left">
+                <span t-out="line['partner_address']" />
+            </div>
+            <div class="act_as_cell">
+                <span t-out="line['cert_date_str']" />
+            </div>
+            <div class="act_as_cell left">
+                <span t-out="line['wht_cert_income_desc']" />
+            </div>
+            <div class="act_as_cell right">
+                <span t-out="line['wht_percent']" />
+                <span>%</span>
+            </div>
+            <div class="act_as_cell amount">
+                <span
+                    t-out="'{0:,.2f}'.format(not line['cert_cancel'] and line['base'] or 0.0)"
+                />
+            </div>
+            <div class="act_as_cell amount">
+                <span
+                    t-out="'{0:,.2f}'.format(not line['cert_cancel'] and line['amount'] or 0.0)"
+                />
+            </div>
+            <div class="act_as_cell">
+                <span t-out="line['cert_tax_payer']" />
+            </div>
+            <div class="act_as_cell left">
+                <span t-out="line['cert_name']" />
+            </div>
+        </div>
+    </template>
+    <template id="total_line_report_withholding_tax">
+        <div class="act_as_row totals_table">
+            <div class="act_as_cell" />
+            <div class="act_as_cell" />
+            <div class="act_as_cell" />
+            <div class="act_as_cell" />
+            <div class="act_as_cell" />
+            <div class="act_as_cell" />
+            <div class="act_as_cell" />
+            <div class="act_as_cell amount">
+                <t t-out="'{0:,.2f}'.format(total_base)" />
+            </div>
+            <div class="act_as_cell amount">
+                <t t-out="'{0:,.2f}'.format(total_wht)" />
+            </div>
+            <div class="act_as_cell" />
+            <div class="act_as_cell" />
+        </div>
+    </template>
+    <template id="report_wht">
+        <t t-set="title">Withholding Tax Report</t>
+        <div class="page">
+            <div>
+                <h4 class="mt0 text-center" t-out="title or 'Odoo Report'" />
+            </div>
+            <!-- Display filters -->
+            <t t-call="l10n_th_account_tax_report.header_report_withholding_tax" />
+            <div class="page_break" />
+            <div class="act_as_table data_table mt8">
+                <!-- Display table header for lines -->
+                <t
+                    t-call="l10n_th_account_tax_report.header_line_report_withholding_tax"
+                />
+                <!-- Display each lines -->
+                <t t-foreach="wht_report_data" t-as="line">
+                    <t
+                        t-call="l10n_th_account_tax_report.line_report_withholding_tax"
+                    />
+                </t>
+                <!-- Display total lines -->
+                <t
+                    t-call="l10n_th_account_tax_report.total_line_report_withholding_tax"
+                />
+            </div>
+        </div>
+    </template>
+</odoo>
