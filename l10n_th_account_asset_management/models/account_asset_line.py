@@ -10,12 +10,12 @@ class AccountAssetLine(models.Model):
     def create_move(self):
         created_move_ids = super().create_move()
         assets = self.mapped("asset_id")
-        for asset in assets:
-            if (
-                asset.company_currency_id.compare_amounts(
-                    asset.value_residual, asset.salvage_value
-                )
-                == 0
-            ):
-                asset.state = "close"
+        to_close = assets.filtered(
+            lambda a: a.company_currency_id.compare_amounts(
+                a.value_residual, a.salvage_value
+            )
+            == 0
+        )
+        if to_close:
+            to_close.write({"state": "close"})
         return created_move_ids
