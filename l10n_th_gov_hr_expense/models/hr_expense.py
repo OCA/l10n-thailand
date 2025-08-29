@@ -105,6 +105,8 @@ class HrExpenseSheet(models.Model):
         """
         for sheet in self:
             sheet.clearing_date_due = False
+            if not sheet.advance:
+                continue
             if sheet.clearing_term == "thirty_days_after_return" and sheet.date_return:
                 sheet.clearing_date_due = sheet.date_return + relativedelta(days=29)
             elif (
