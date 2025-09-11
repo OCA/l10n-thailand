@@ -22,7 +22,14 @@ class AccountAssetRemove(models.TransientModel):
                 if res["res_model"] == "account.move":
                     moves = self.env["account.move"].search(res["domain"])
         for move in moves:
-            move.write({"ref": ", ".join(move.line_ids.mapped("asset_id.number"))})
+            # Filter out asset is not number
+            asset_numbers = {
+                num for num in move.line_ids.mapped("asset_id.number") if num
+            }
+            if not asset_numbers:
+                continue
+
+            move.write({"ref": ", ".join(asset_numbers)})
         return res
 
     def remove_multi_assets(self):
@@ -30,7 +37,7 @@ class AccountAssetRemove(models.TransientModel):
         assets = self.env["account.asset"].browse(asset_ids)
         ctx = dict(self.env.context)
         for asset in assets:
-            if (
+            if asset.state != "close" and (
                 asset.method in ["linear-limit", "degr-limit"]
                 and asset.value_residual != asset.salvage_value
                 or asset.value_residual
