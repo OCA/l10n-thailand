@@ -33,7 +33,7 @@ scb_debit_bnt_format_07,l10n_th_bank_payment_export_scb.scb_domestic,40,Debit Br
 scb_debit_bnt_format_08,l10n_th_bank_payment_export_scb.scb_domestic,41,Debit Currency,,3,line1,TRUE,,,,"rec.scb_product_code == ""BNT""",dynamic,ljust,,rec.currency_id.name
 scb_debit_bnt_format_09,l10n_th_bank_payment_export_scb.scb_domestic,42,Debit Amount,,16,line1,TRUE,,,,"rec.scb_product_code == ""BNT""",dynamic,rjust,0,"str(int(round(line.payment_amount * 1000, 2)))"
 scb_debit_bnt_format_10,l10n_th_bank_payment_export_scb.scb_domestic,43,Internal Reference,,8,line1,TRUE,,,,"rec.scb_product_code == ""BNT""",dynamic,rjust,0,str(idx_line+1)
-scb_debit_bnt_format_11,l10n_th_bank_payment_export_scb.scb_domestic,44,No. of Credits,,6,line1,TRUE,,,,"rec.scb_product_code == ""BNT""",dynamic,rjust,0,str(len(rec.export_line_ids))
+scb_debit_bnt_format_11,l10n_th_bank_payment_export_scb.scb_domestic,44,No. of Credits,,6,line1,TRUE,,,,"rec.scb_product_code == ""BNT""",dynamic,rjust,0,str(1)
 scb_debit_bnt_format_12,l10n_th_bank_payment_export_scb.scb_domestic,45,Fee Debit Account,,15,line1,TRUE,,,,"rec.scb_product_code == ""BNT""",dynamic,ljust,,line.sanitize_account_number(line[:1].payment_journal_id.bank_account_id.acc_number)
 scb_debit_bnt_format_13,l10n_th_bank_payment_export_scb.scb_domestic,46,Filler,,9,line1,TRUE,,,,"rec.scb_product_code == ""BNT""",fixed,ljust,,
 scb_debit_bnt_format_14,l10n_th_bank_payment_export_scb.scb_domestic,47,Media Clearing Cycle (Filler),,1,line1,TRUE,,,,"rec.scb_product_code == ""BNT""",dynamic,ljust,,"""2"" if rec.scb_product_code == ""MCL"" and rec.scb_bank_type == ""2"" else """""
