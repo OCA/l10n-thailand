@@ -93,8 +93,8 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__4b11
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__4b11
 msgid ""
-"4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.1) "
-"กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ 30 ของกำไรสุทธิ"
+"4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.1) กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ 30 "
+"ของกำไรสุทธิ"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -103,8 +103,8 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__4b12
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__4b12
 msgid ""
-"4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.2) "
-"กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ 25 ของกำไรสุทธิ"
+"4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.2) กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ 25 "
+"ของกำไรสุทธิ"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -113,8 +113,8 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__4b13
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__4b13
 msgid ""
-"4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.3) "
-"กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ 20 ของกำไรสุทธิ"
+"4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.3) กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ 20 "
+"ของกำไรสุทธิ"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -123,8 +123,8 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__4b14
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__4b14
 msgid ""
-"4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.4) "
-"กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ อื่นๆ (ระบุ) ของกำไรสุทธิ"
+"4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.4) กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ "
+"อื่นๆ (ระบุ) ของกำไรสุทธิ"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -143,8 +143,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__4b22
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__4b22
 msgid ""
-"4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.2) "
-"ได้รับยกเว้นไม่ต้องนำมารวมคำนวณเป็นรายได้"
+"4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.2) ได้รับยกเว้นไม่ต้องนำมารวมคำนวณเป็นรายได้"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -153,8 +152,8 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__4b23
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__4b23
 msgid ""
-"4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.3) "
-"กำไรสุทธิส่วนที่หักผลขาดทุนสุทธิยกมาไม่เกิน 5 ปี"
+"4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.3) กำไรสุทธิส่วนที่หักผลขาดทุนสุทธิยกมาไม่เกิน 5 "
+"ปี"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -162,9 +161,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__account_withholding_tax__wht_cert_income_type__4b24
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_cert_line__wht_cert_income_type__4b24
 #: model:ir.model.fields.selection,name:l10n_th_account_tax.selection__withholding_tax_code_income__wht_cert_income_type__4b24
-msgid ""
-"4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.4) "
-"กำไรที่รับรู้ทางบัญชีโดยวิธีส่วนได้เสีย"
+msgid "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.4) กำไรที่รับรู้ทางบัญชีโดยวิธีส่วนได้เสีย"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -204,8 +201,10 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_account_payment_form
 msgid ""
-"<span attrs=\"{'invisible': [('wht_certs_count','&gt;', 1)]}\">WHT Cert</span>\n"
-"                    <span attrs=\"{'invisible': [('wht_certs_count','&lt;=', 1)]}\">WHT Certs</span>"
+"<span attrs=\"{'invisible': [('wht_certs_count','&gt;', 1)]}\">WHT Cert</"
+"span>\n"
+"                    <span attrs=\"{'invisible': [('wht_certs_count','&lt;=', "
+"1)]}\">WHT Certs</span>"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -216,8 +215,10 @@ msgstr ""
 #. module: l10n_th_account_tax
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_personal_income_tax_form
 msgid ""
-"<span style=\"color: red;\" attrs=\"{'invisible': [('effective_date', '!=', False)]}\">\n"
-"                        *Effective Date is required. Please provide a valid calendar year as an integer.\n"
+"<span style=\"color: red;\" attrs=\"{'invisible': [('effective_date', '!=', "
+"False)]}\">\n"
+"                        *Effective Date is required. Please provide a valid "
+"calendar year as an integer.\n"
 "                    </span>"
 msgstr ""
 
@@ -1395,6 +1396,11 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_th_account_tax.action_account_withholding_tax_income_code_menu
 #: model:ir.ui.menu,name:l10n_th_account_tax.menu_withholding_tax_income_code
 msgid "WHT Income Code"
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_account_payment_search
+msgid "WHT Not yet created"
 msgstr ""
 
 #. module: l10n_th_account_tax
