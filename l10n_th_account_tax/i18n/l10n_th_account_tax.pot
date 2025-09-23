@@ -1397,6 +1397,11 @@ msgid "WHT Income Code"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_account_payment_search
+msgid "WHT Not yet created"
+msgstr ""
+
+#. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__website_message_ids
 msgid "Website Messages"
 msgstr ""
