@@ -7,10 +7,11 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import fields
 from odoo.exceptions import UserError
-from odoo.tests import common
+from odoo.tests.common import TransactionCase
+from odoo.tools import mute_logger
 
 
-class TestResCurrencyRateProviderBOT(common.TransactionCase):
+class TestResCurrencyRateProviderBOT(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -49,6 +50,7 @@ class TestResCurrencyRateProviderBOT(common.TransactionCase):
         supported_currencies = self.bot_provider._get_supported_currencies()
         self.assertEqual(len(supported_currencies), 48)
 
+    @mute_logger("odoo.addons.currency_rate_update.models.res_currency_rate_provider")
     def test_02_base_curency_not_THB(self):
         self.company1 = self.Company.create(
             {"name": "Test Company EUR", "currency_id": self.eur_currency.id}
@@ -66,13 +68,14 @@ class TestResCurrencyRateProviderBOT(common.TransactionCase):
         self.assertIn(self.eur_currency, self.bot_provider1.available_currency_ids)
         self.none_provider._update(date, date)
 
+    @mute_logger("odoo.addons.currency_rate_update.models.res_currency_rate_provider")
     def test_03_update_no_clien_id(self):
-        self.my_company.bot_client_id = False
+        self.my_company.bot_token = False
         date = self.today - relativedelta(days=1)
         self.bot_provider._update(date, date)
 
     def test_04_update_clien_id_fail(self):
-        self.my_company.bot_client_id = "Test"
+        self.my_company.bot_token = "Test"
         date = self.today - relativedelta(days=1)
         self.bot_provider._update(date, date)
 
