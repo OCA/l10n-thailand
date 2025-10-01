@@ -1,16 +1,17 @@
-# -*- coding: utf-8 -*-
 # © 2017 Ecosoft (ecosoft.co.th).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-from odoo import api, SUPERUSER_ID
+from odoo import SUPERUSER_ID, api
 
 
 def post_init_hook(cr, registry):
     env = api.Environment(cr, SUPERUSER_ID, {})
-    thailand = env.ref('base.th')
-    thailand.sudo().write({
-        'address_format': "%(street)s\n%(street2)s\n%(district_name)s "
-        "%(township_name)s\n%(province_name)s %(zip)s"
-    })
+    thailand = env.ref("base.th")
+    thailand.sudo().write(
+        {
+            "address_format": "%(street)s\n%(street2)s\n%(district_name)s "
+            "%(township_name)s\n%(province_name)s %(zip)s"
+        }
+    )
     cr.execute("""
         update ir_model_data
         set noupdate = true
