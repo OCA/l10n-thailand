@@ -74,11 +74,11 @@ class TestL10nThPartner(TransactionCase):
                 "firstname": "Firstname",
                 "lastname": "Lastname",
                 "vat": "0123456789012",
-                "branch": "00000",
+                "company_registry": "00000",
                 "company_id": self.main_company.id,
             }
         )
         partner2 = partner1.copy()
         with self.assertRaises(ValidationError):
             with Form(partner2) as p2:
-                p2.branch = "00000"
+                p2.company_registry = "00000"
