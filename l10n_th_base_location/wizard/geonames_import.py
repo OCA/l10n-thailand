@@ -100,7 +100,7 @@ class CityZipGeonamesImport(models.TransientModel):
                 file_path = os.path.join(path[:-6], th_location_file)
             else:
                 file_path = os.path.join(path[:-6], en_location_file)
-            data_file = open(file_path, "r", encoding="utf-8")
+            data_file = open(file_path, encoding="utf-8")
             data_file.seek(0)
             reader = csv.reader(data_file, delimiter="	")
             parsed_csv = [row for i, row in enumerate(reader)]
