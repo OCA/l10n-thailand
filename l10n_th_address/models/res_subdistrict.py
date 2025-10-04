@@ -10,4 +10,6 @@ class SubDistrict(models.Model):
     _rec_names_search = ["name", "city_id"]
 
     name = fields.Char(required=True, translate=True)
+    code = fields.Char()
     city_id = fields.Many2one(comodel_name="res.city", required=True)
+    zipcode = fields.Char(string="Zip")

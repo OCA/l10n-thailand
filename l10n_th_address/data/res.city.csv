@@ -1,0 +1,929 @@
+id,name,code,zipcode,country_id/id,state_id/id
+base.city_1001,Phra Nakhon,1001,,base.th,base.state_th_001
+base.city_1002,Dusit,1002,,base.th,base.state_th_001
+base.city_1003,Nong Chok,1003,,base.th,base.state_th_001
+base.city_1004,Bang Rak,1004,,base.th,base.state_th_001
+base.city_1005,Bang Khen,1005,,base.th,base.state_th_001
+base.city_1006,Bang Kapi,1006,,base.th,base.state_th_001
+base.city_1007,Pathum Wan,1007,,base.th,base.state_th_001
+base.city_1008,Pom Prap Sattru Phai,1008,,base.th,base.state_th_001
+base.city_1009,Phra Khanong,1009,,base.th,base.state_th_001
+base.city_1010,Min Buri,1010,,base.th,base.state_th_001
+base.city_1011,Lat Krabang,1011,,base.th,base.state_th_001
+base.city_1012,Yan Nawa,1012,,base.th,base.state_th_001
+base.city_1013,Samphanthawong,1013,,base.th,base.state_th_001
+base.city_1014,Phaya Thai,1014,,base.th,base.state_th_001
+base.city_1015,Thon Buri,1015,,base.th,base.state_th_001
+base.city_1016,Bangkok Yai,1016,,base.th,base.state_th_001
+base.city_1017,Huai Khwang,1017,,base.th,base.state_th_001
+base.city_1018,Khlong San,1018,,base.th,base.state_th_001
+base.city_1019,Taling Chan,1019,,base.th,base.state_th_001
+base.city_1020,Bangkok Noi,1020,,base.th,base.state_th_001
+base.city_1021,Bang Khun Thian,1021,,base.th,base.state_th_001
+base.city_1022,Phasi Charoen,1022,,base.th,base.state_th_001
+base.city_1023,Nong Khaem,1023,,base.th,base.state_th_001
+base.city_1024,Rat Burana,1024,,base.th,base.state_th_001
+base.city_1025,Bang Phlat,1025,,base.th,base.state_th_001
+base.city_1026,Din Daeng,1026,,base.th,base.state_th_001
+base.city_1027,Bueng Kum,1027,,base.th,base.state_th_001
+base.city_1028,Sathon,1028,,base.th,base.state_th_001
+base.city_1029,Bang Sue,1029,,base.th,base.state_th_001
+base.city_1030,Chatuchak,1030,,base.th,base.state_th_001
+base.city_1031,Bang Kho Laem,1031,,base.th,base.state_th_001
+base.city_1032,Prawet,1032,,base.th,base.state_th_001
+base.city_1033,Khlong Toei,1033,,base.th,base.state_th_001
+base.city_1034,Suan Luang,1034,,base.th,base.state_th_001
+base.city_1035,Chom Thong,1035,,base.th,base.state_th_001
+base.city_1036,Don Mueang,1036,,base.th,base.state_th_001
+base.city_1037,Ratchathewi,1037,,base.th,base.state_th_001
+base.city_1038,Lat Phrao,1038,,base.th,base.state_th_001
+base.city_1039,Vadhana,1039,,base.th,base.state_th_001
+base.city_1040,Bang Khae,1040,,base.th,base.state_th_001
+base.city_1041,Lak Si,1041,,base.th,base.state_th_001
+base.city_1042,Sai Mai,1042,,base.th,base.state_th_001
+base.city_1043,Khan Na Yao,1043,,base.th,base.state_th_001
+base.city_1044,Saphan Sung,1044,,base.th,base.state_th_001
+base.city_1045,Wang Thonglang,1045,,base.th,base.state_th_001
+base.city_1046,Khlong Sam Wa,1046,,base.th,base.state_th_001
+base.city_1047,Bang Na,1047,,base.th,base.state_th_001
+base.city_1048,Thawi Watthana,1048,,base.th,base.state_th_001
+base.city_1049,Thung Khru,1049,,base.th,base.state_th_001
+base.city_1050,Bang Bon,1050,,base.th,base.state_th_001
+base.city_1101,Mueang Samut Prakan,1101,,base.th,base.state_th_057
+base.city_1102,Bang Bo,1102,,base.th,base.state_th_057
+base.city_1103,Bang Phli,1103,,base.th,base.state_th_057
+base.city_1104,Phra Pradaeng,1104,,base.th,base.state_th_057
+base.city_1105,Phra Samut Chedi,1105,,base.th,base.state_th_057
+base.city_1106,Bang Sao Thong,1106,,base.th,base.state_th_057
+base.city_1201,Mueang Nonthaburi,1201,,base.th,base.state_th_036
+base.city_1202,Bang Kruai,1202,,base.th,base.state_th_036
+base.city_1203,Bang Yai,1203,,base.th,base.state_th_036
+base.city_1204,Bang Bua Thong,1204,,base.th,base.state_th_036
+base.city_1205,Sai Noi,1205,,base.th,base.state_th_036
+base.city_1206,Pak Kret,1206,,base.th,base.state_th_036
+base.city_1301,Mueang Pathum Thani,1301,,base.th,base.state_th_037
+base.city_1302,Khlong Luang,1302,,base.th,base.state_th_037
+base.city_1303,Thanyaburi,1303,,base.th,base.state_th_037
+base.city_1304,Nong Suea,1304,,base.th,base.state_th_037
+base.city_1305,Lat Lum Kaeo,1305,,base.th,base.state_th_037
+base.city_1306,Lam Luk Ka,1306,,base.th,base.state_th_037
+base.city_1307,Sam Khok,1307,,base.th,base.state_th_037
+base.city_1401,Phra Nakhon Si Ayutthaya,1401,,base.th,base.state_th_046
+base.city_1402,Tha Ruea,1402,,base.th,base.state_th_046
+base.city_1403,Nakhon Luang,1403,,base.th,base.state_th_046
+base.city_1404,Bang Sai,1404,,base.th,base.state_th_046
+base.city_1405,Bang Ban,1405,,base.th,base.state_th_046
+base.city_1406,Bang Pa-in,1406,,base.th,base.state_th_046
+base.city_1407,Bang Pahan,1407,,base.th,base.state_th_046
+base.city_1408,Phak Hai,1408,,base.th,base.state_th_046
+base.city_1409,Phachi,1409,,base.th,base.state_th_046
+base.city_1410,Lat Bua Luang,1410,,base.th,base.state_th_046
+base.city_1411,Wang Noi,1411,,base.th,base.state_th_046
+base.city_1412,Sena,1412,,base.th,base.state_th_046
+base.city_1413,Bang Saai,1413,,base.th,base.state_th_046
+base.city_1414,Uthai,1414,,base.th,base.state_th_046
+base.city_1415,Maha Rat,1415,,base.th,base.state_th_046
+base.city_1416,Ban Phraek,1416,,base.th,base.state_th_046
+base.city_1501,Mueang Ang Thong,1501,,base.th,base.state_th_003
+base.city_1502,Chaiyo,1502,,base.th,base.state_th_003
+base.city_1503,Pa Mok,1503,,base.th,base.state_th_003
+base.city_1504,Pho Thong,1504,,base.th,base.state_th_003
+base.city_1505,Sawaeng Ha,1505,,base.th,base.state_th_003
+base.city_1506,Wiset Chai Chan,1506,,base.th,base.state_th_003
+base.city_1507,Samko,1507,,base.th,base.state_th_003
+base.city_1601,Mueang Lop Buri,1601,,base.th,base.state_th_022
+base.city_1602,Phatthana Nikhom,1602,,base.th,base.state_th_022
+base.city_1603,Khok Samrong,1603,,base.th,base.state_th_022
+base.city_1604,Chai Badan,1604,,base.th,base.state_th_022
+base.city_1605,Tha Wung,1605,,base.th,base.state_th_022
+base.city_1606,Ban Mi,1606,,base.th,base.state_th_022
+base.city_1607,Tha Luang,1607,,base.th,base.state_th_022
+base.city_1608,Sa Bot,1608,,base.th,base.state_th_022
+base.city_1609,Khok Charoen,1609,,base.th,base.state_th_022
+base.city_1610,Lam Sonthi,1610,,base.th,base.state_th_022
+base.city_1611,Nong Muang,1611,,base.th,base.state_th_022
+base.city_1701,Mueang Sing Buri,1701,,base.th,base.state_th_062
+base.city_1702,Bang Rachan,1702,,base.th,base.state_th_062
+base.city_1703,Khai Bang Rachan,1703,,base.th,base.state_th_062
+base.city_1704,Phrom Buri,1704,,base.th,base.state_th_062
+base.city_1705,Tha Chang,1705,,base.th,base.state_th_062
+base.city_1706,In Buri,1706,,base.th,base.state_th_062
+base.city_1801,Mueang Chai Nat,1801,,base.th,base.state_th_007
+base.city_1802,Manorom,1802,,base.th,base.state_th_007
+base.city_1803,Wat Sing,1803,,base.th,base.state_th_007
+base.city_1804,Sapphaya,1804,,base.th,base.state_th_007
+base.city_1805,Sankhaburi,1805,,base.th,base.state_th_007
+base.city_1806,Hankha,1806,,base.th,base.state_th_007
+base.city_1807,Nong Mamong,1807,,base.th,base.state_th_007
+base.city_1808,Noen Kham,1808,,base.th,base.state_th_007
+base.city_1901,Mueang Saraburi,1901,,base.th,base.state_th_060
+base.city_1902,Kaeng Khoi,1902,,base.th,base.state_th_060
+base.city_1903,Nong Khae,1903,,base.th,base.state_th_060
+base.city_1904,Wihan Daeng,1904,,base.th,base.state_th_060
+base.city_1905,Nong Saeng,1905,,base.th,base.state_th_060
+base.city_1906,Ban Mo,1906,,base.th,base.state_th_060
+base.city_1907,Don Phut,1907,,base.th,base.state_th_060
+base.city_1908,Nong Don,1908,,base.th,base.state_th_060
+base.city_1909,Phra Phutthabat,1909,,base.th,base.state_th_060
+base.city_1910,Sao Hai,1910,,base.th,base.state_th_060
+base.city_1911,Muak Lek,1911,,base.th,base.state_th_060
+base.city_1912,Wang Muang,1912,,base.th,base.state_th_060
+base.city_1913,Chaloem Phra Kiat,1913,,base.th,base.state_th_060
+base.city_2001,Mueang Chon Buri,2001,,base.th,base.state_th_012
+base.city_2002,Ban Bueng,2002,,base.th,base.state_th_012
+base.city_2003,Nong Yai,2003,,base.th,base.state_th_012
+base.city_2004,Bang Lamung,2004,,base.th,base.state_th_012
+base.city_2005,Phan Thong,2005,,base.th,base.state_th_012
+base.city_2006,Phanat Nikhom,2006,,base.th,base.state_th_012
+base.city_2007,Si Racha,2007,,base.th,base.state_th_012
+base.city_2008,Ko Sichang,2008,,base.th,base.state_th_012
+base.city_2009,Sattahip,2009,,base.th,base.state_th_012
+base.city_2010,Bo Thong,2010,,base.th,base.state_th_012
+base.city_2011,Ko Chan,2011,,base.th,base.state_th_012
+base.city_2101,Mueang Rayong,2101,,base.th,base.state_th_053
+base.city_2102,Ban Chang,2102,,base.th,base.state_th_053
+base.city_2103,Klaeng,2103,,base.th,base.state_th_053
+base.city_2104,Wang Chan,2104,,base.th,base.state_th_053
+base.city_2105,Ban Khai,2105,,base.th,base.state_th_053
+base.city_2106,Pluak Daeng,2106,,base.th,base.state_th_053
+base.city_2107,Khao Chamao,2107,,base.th,base.state_th_053
+base.city_2108,Nikhom Phatthana,2108,,base.th,base.state_th_053
+base.city_2201,Mueang Chanthaburi,2201,,base.th,base.state_th_009
+base.city_2202,Khlung,2202,,base.th,base.state_th_009
+base.city_2203,Tha Mai,2203,,base.th,base.state_th_009
+base.city_2204,Pong Nam Ron,2204,,base.th,base.state_th_009
+base.city_2205,Makham,2205,,base.th,base.state_th_009
+base.city_2206,Laem Sing,2206,,base.th,base.state_th_009
+base.city_2207,Soi Dao,2207,,base.th,base.state_th_009
+base.city_2208,Kaeng Hang Maeo,2208,,base.th,base.state_th_009
+base.city_2209,Na Yai Am,2209,,base.th,base.state_th_009
+base.city_2210,Khao Khitchakut,2210,,base.th,base.state_th_009
+base.city_2301,Mueang Trat,2301,,base.th,base.state_th_071
+base.city_2302,Khlong Yai,2302,,base.th,base.state_th_071
+base.city_2303,Khao Saming,2303,,base.th,base.state_th_071
+base.city_2304,Bo Rai,2304,,base.th,base.state_th_071
+base.city_2305,Laem Ngop,2305,,base.th,base.state_th_071
+base.city_2306,Ko Kut,2306,,base.th,base.state_th_071
+base.city_2307,Ko Chang,2307,,base.th,base.state_th_071
+base.city_2401,Mueang Chachoengsao,2401,,base.th,base.state_th_006
+base.city_2402,Bang Khla,2402,,base.th,base.state_th_006
+base.city_2403,Bang Nam Priao,2403,,base.th,base.state_th_006
+base.city_2404,Bang Pakong,2404,,base.th,base.state_th_006
+base.city_2405,Ban Pho,2405,,base.th,base.state_th_006
+base.city_2406,Phanom Sarakham,2406,,base.th,base.state_th_006
+base.city_2407,Ratchasan,2407,,base.th,base.state_th_006
+base.city_2408,Sanam Chai Khet,2408,,base.th,base.state_th_006
+base.city_2409,Plaeng Yao,2409,,base.th,base.state_th_006
+base.city_2410,Tha Takiap,2410,,base.th,base.state_th_006
+base.city_2411,Khlong Khuean,2411,,base.th,base.state_th_006
+base.city_2501,Mueang Prachin Buri,2501,,base.th,base.state_th_049
+base.city_2502,Kabin Buri,2502,,base.th,base.state_th_049
+base.city_2503,Na Di,2503,,base.th,base.state_th_049
+base.city_2506,Ban Sang,2506,,base.th,base.state_th_049
+base.city_2507,Prachantakham,2507,,base.th,base.state_th_049
+base.city_2508,Si Maha Phot,2508,,base.th,base.state_th_049
+base.city_2509,Si Mahosot,2509,,base.th,base.state_th_049
+base.city_2601,Mueang Nakhon Nayok,2601,,base.th,base.state_th_026
+base.city_2602,Pak Phli,2602,,base.th,base.state_th_026
+base.city_2603,Ban Na,2603,,base.th,base.state_th_026
+base.city_2604,Ongkharak,2604,,base.th,base.state_th_026
+base.city_2701,Mueang Sa Kaeo,2701,,base.th,base.state_th_027
+base.city_2702,Khlong Hat,2702,,base.th,base.state_th_027
+base.city_2703,Ta Phraya,2703,,base.th,base.state_th_055
+base.city_2704,Wang Nam Yen,2704,,base.th,base.state_th_055
+base.city_2705,Watthana Nakhon,2705,,base.th,base.state_th_055
+base.city_2706,Aranyaprathet,2706,,base.th,base.state_th_055
+base.city_2707,Khao Chakan,2707,,base.th,base.state_th_055
+base.city_2708,Khok Sung,2708,,base.th,base.state_th_055
+base.city_2709,Wang Sombun,2709,,base.th,base.state_th_055
+base.city_3001,Mueang Nakhon Ratchasima,3001,,base.th,base.state_th_029
+base.city_3002,Khon Buri,3002,,base.th,base.state_th_029
+base.city_3003,Soeng Sang,3003,,base.th,base.state_th_029
+base.city_3004,Khong,3004,,base.th,base.state_th_029
+base.city_3005,Ban Lueam,3005,,base.th,base.state_th_029
+base.city_3006,Chakkarat,3006,,base.th,base.state_th_029
+base.city_3007,Chok Chai,3007,,base.th,base.state_th_029
+base.city_3008,Dan Khun Thot,3008,,base.th,base.state_th_029
+base.city_3009,Non Thai,3009,,base.th,base.state_th_029
+base.city_3010,Non Sung,3010,,base.th,base.state_th_029
+base.city_3011,Kham Sakaesaeng,3011,,base.th,base.state_th_029
+base.city_3012,Bua Yai,3012,,base.th,base.state_th_029
+base.city_3013,Prathai,3013,,base.th,base.state_th_029
+base.city_3014,Pak Thong Chai,3014,,base.th,base.state_th_029
+base.city_3015,Phimai,3015,,base.th,base.state_th_029
+base.city_3016,Huai Thalaeng,3016,,base.th,base.state_th_029
+base.city_3017,Chum Phuang,3017,,base.th,base.state_th_029
+base.city_3018,Sung Noen,3018,,base.th,base.state_th_029
+base.city_3019,Kham Thale So,3019,,base.th,base.state_th_029
+base.city_3020,Sikhio,3020,,base.th,base.state_th_029
+base.city_3021,Pak Chong,3021,,base.th,base.state_th_029
+base.city_3022,Nong Bun Mak,3022,,base.th,base.state_th_029
+base.city_3023,Kaeng Sanam Nang,3023,,base.th,base.state_th_029
+base.city_3024,Non Daeng,3024,,base.th,base.state_th_029
+base.city_3025,Wang Nam Khiao,3025,,base.th,base.state_th_029
+base.city_3026,Thepharak,3026,,base.th,base.state_th_029
+base.city_3027,Mueang Yang,3027,,base.th,base.state_th_029
+base.city_3028,Phra Thong Kham,3028,,base.th,base.state_th_029
+base.city_3029,Lam Thamenchai,3029,,base.th,base.state_th_029
+base.city_3030,Bua Lai,3030,,base.th,base.state_th_029
+base.city_3031,Sida,3031,,base.th,base.state_th_029
+base.city_3032,Chaloem Phra Kiat,3032,,base.th,base.state_th_029
+base.city_3101,Mueang Buri Ram,3101,,base.th,base.state_th_005
+base.city_3102,Khu Mueang,3102,,base.th,base.state_th_005
+base.city_3103,Krasang,3103,,base.th,base.state_th_005
+base.city_3104,Nang Rong,3104,,base.th,base.state_th_005
+base.city_3105,Nong Ki,3105,,base.th,base.state_th_005
+base.city_3106,Lahan Sai,3106,,base.th,base.state_th_005
+base.city_3107,Prakhon Chai,3107,,base.th,base.state_th_005
+base.city_3108,Ban Kruat,3108,,base.th,base.state_th_005
+base.city_3109,Phutthaisong,3109,,base.th,base.state_th_005
+base.city_3110,Lam Plai Mat,3110,,base.th,base.state_th_005
+base.city_3111,Satuek,3111,,base.th,base.state_th_005
+base.city_3112,Pakham,3112,,base.th,base.state_th_005
+base.city_3113,Na Pho,3113,,base.th,base.state_th_005
+base.city_3114,Nong Hong,3114,,base.th,base.state_th_005
+base.city_3115,Phlapphla Chai,3115,,base.th,base.state_th_005
+base.city_3116,Huai Rat,3116,,base.th,base.state_th_005
+base.city_3117,Non Suwan,3117,,base.th,base.state_th_005
+base.city_3118,Chamni,3118,,base.th,base.state_th_005
+base.city_3119,Ban Mai Chaiyaphot,3119,,base.th,base.state_th_005
+base.city_3120,Non Din Daeng,3120,,base.th,base.state_th_005
+base.city_3121,Ban Dan,3121,,base.th,base.state_th_005
+base.city_3122,Khaen Dong,3122,,base.th,base.state_th_005
+base.city_3123,Chaloem Phra Kiat,3123,,base.th,base.state_th_005
+base.city_3201,Mueang Surin,3201,,base.th,base.state_th_068
+base.city_3202,Chumphon Buri,3202,,base.th,base.state_th_068
+base.city_3203,Tha Tum,3203,,base.th,base.state_th_068
+base.city_3204,Chom Phra,3204,,base.th,base.state_th_068
+base.city_3205,Prasat,3205,,base.th,base.state_th_068
+base.city_3206,Kap Choeng,3206,,base.th,base.state_th_068
+base.city_3207,Rattanaburi,3207,,base.th,base.state_th_068
+base.city_3208,Sanom,3208,,base.th,base.state_th_068
+base.city_3209,Sikhoraphum,3209,,base.th,base.state_th_068
+base.city_3210,Sangkha,3210,,base.th,base.state_th_068
+base.city_3211,Lamduan,3211,,base.th,base.state_th_068
+base.city_3212,Samrong Thap,3212,,base.th,base.state_th_068
+base.city_3213,Buachet,3213,,base.th,base.state_th_068
+base.city_3214,Phanom Dong Rak,3214,,base.th,base.state_th_068
+base.city_3215,Si Narong,3215,,base.th,base.state_th_068
+base.city_3216,Khwao Sinarin,3216,,base.th,base.state_th_068
+base.city_3217,Non Narai,3217,,base.th,base.state_th_068
+base.city_3301,Mueang Si Sa Ket,3301,,base.th,base.state_th_063
+base.city_3302,Yang Chum Noi,3302,,base.th,base.state_th_063
+base.city_3303,Kanthararom,3303,,base.th,base.state_th_063
+base.city_3304,Kantharalak,3304,,base.th,base.state_th_063
+base.city_3305,KhuKhan,3305,,base.th,base.state_th_063
+base.city_3306,Phrai Bueng,3306,,base.th,base.state_th_063
+base.city_3307,Prang Ku,3307,,base.th,base.state_th_063
+base.city_3308,Khun Han,3308,,base.th,base.state_th_063
+base.city_3309,Rasi Salai,3309,,base.th,base.state_th_063
+base.city_3310,Uthumphon Phisai,3310,,base.th,base.state_th_063
+base.city_3311,Bueng Bun,3311,,base.th,base.state_th_063
+base.city_3312,Huai Thap Than,3312,,base.th,base.state_th_063
+base.city_3313,Non Khun,3313,,base.th,base.state_th_063
+base.city_3314,Si Rattana,3314,,base.th,base.state_th_063
+base.city_3315,Nam Kliang,3315,,base.th,base.state_th_063
+base.city_3316,Wang Hin,3316,,base.th,base.state_th_063
+base.city_3317,Phu Sing,3317,,base.th,base.state_th_063
+base.city_3318,Mueang Chan,3318,,base.th,base.state_th_063
+base.city_3319,Benchalak,3319,,base.th,base.state_th_063
+base.city_3320,Phayu,3320,,base.th,base.state_th_063
+base.city_3321,Pho Si Suwan,3321,,base.th,base.state_th_063
+base.city_3322,Sila Lat,3322,,base.th,base.state_th_063
+base.city_3401,Mueang Ubon Ratchathani,3401,,base.th,base.state_th_072
+base.city_3402,Si Mueang Mai,3402,,base.th,base.state_th_072
+base.city_3403,Khong Chiam,3403,,base.th,base.state_th_072
+base.city_3404,Khueang Nai,3404,,base.th,base.state_th_072
+base.city_3405,Khemarat,3405,,base.th,base.state_th_072
+base.city_3407,Det Udom,3407,,base.th,base.state_th_072
+base.city_3408,Na Chaluai,3408,,base.th,base.state_th_072
+base.city_3409,Nam Yuen,3409,,base.th,base.state_th_072
+base.city_3410,Buntharik,3410,,base.th,base.state_th_072
+base.city_3411,Trakan Phuet Phon,3411,,base.th,base.state_th_072
+base.city_3412,Kut Khaopun,3412,,base.th,base.state_th_072
+base.city_3414,Muang Sam Sip,3414,,base.th,base.state_th_072
+base.city_3415,Warin Chamrap,3415,,base.th,base.state_th_072
+base.city_3419,Phibun Mangsahan,3419,,base.th,base.state_th_072
+base.city_3420,Tan Sum,3420,,base.th,base.state_th_072
+base.city_3421,Pho Sai,3421,,base.th,base.state_th_072
+base.city_3422,Samrong,3422,,base.th,base.state_th_072
+base.city_3424,Don Mot Daeng,3424,,base.th,base.state_th_072
+base.city_3425,Sirindhorn,3425,,base.th,base.state_th_072
+base.city_3426,Thung Si Udom,3426,,base.th,base.state_th_072
+base.city_3429,Na Yia,3429,,base.th,base.state_th_072
+base.city_3430,Na Tan,3430,,base.th,base.state_th_072
+base.city_3431,Lao Suea Kok,3431,,base.th,base.state_th_072
+base.city_3432,Sawang Wirawong,3432,,base.th,base.state_th_072
+base.city_3433,Nam Khun,3433,,base.th,base.state_th_072
+base.city_3501,Mueang Yasothon,3501,,base.th,base.state_th_077
+base.city_3502,Sai Mun,3502,,base.th,base.state_th_077
+base.city_3503,Kut Chum,3503,,base.th,base.state_th_077
+base.city_3504,Kham Khuean Kaeo,3504,,base.th,base.state_th_077
+base.city_3505,Pa Tio,3505,,base.th,base.state_th_077
+base.city_3506,Maha Chana Chai,3506,,base.th,base.state_th_077
+base.city_3507,Kho Wang,3507,,base.th,base.state_th_077
+base.city_3508,Loeng Nok Tha,3508,,base.th,base.state_th_077
+base.city_3509,Thai Charoen,3509,,base.th,base.state_th_077
+base.city_3601,Mueang Chaiyaphum,3601,,base.th,base.state_th_008
+base.city_3602,Ban Khwao,3602,,base.th,base.state_th_008
+base.city_3603,Khon Sawan,3603,,base.th,base.state_th_008
+base.city_3604,Kaset Sombun,3604,,base.th,base.state_th_008
+base.city_3605,Nong Bua Daeng,3605,,base.th,base.state_th_008
+base.city_3606,Chatturat,3606,,base.th,base.state_th_008
+base.city_3607,Bamnet Narong,3607,,base.th,base.state_th_008
+base.city_3608,Nong Bua Rawe,3608,,base.th,base.state_th_008
+base.city_3609,Thep Sathit,3609,,base.th,base.state_th_008
+base.city_3610,Phu Khiao,3610,,base.th,base.state_th_008
+base.city_3611,Ban Thaen,3611,,base.th,base.state_th_008
+base.city_3612,Kaeng Khro,3612,,base.th,base.state_th_008
+base.city_3613,Khon San,3613,,base.th,base.state_th_008
+base.city_3614,Phakdi Chumphon,3614,,base.th,base.state_th_008
+base.city_3615,Noen Sa-nga,3615,,base.th,base.state_th_008
+base.city_3616,Sap Yai,3616,,base.th,base.state_th_008
+base.city_3701,Mueang Amnat Charoen,3701,,base.th,base.state_th_002
+base.city_3702,Chanuman,3702,,base.th,base.state_th_002
+base.city_3703,Pathum Ratchawongsa,3703,,base.th,base.state_th_002
+base.city_3704,Phana,3704,,base.th,base.state_th_002
+base.city_3705,Senangkhanikhom,3705,,base.th,base.state_th_002
+base.city_3706,Hua Taphan,3706,,base.th,base.state_th_002
+base.city_3707,Lue Amnat,3707,,base.th,base.state_th_002
+base.city_3801,Mueang Bueng Kan,3801,,base.th,base.state_th_004
+base.city_3802,Phon Charoen,3802,,base.th,base.state_th_004
+base.city_3803,So Phisai,3803,,base.th,base.state_th_004
+base.city_3804,Seka,3804,,base.th,base.state_th_004
+base.city_3805,Pak Khat,3805,,base.th,base.state_th_004
+base.city_3806,Bueng Khong Long,3806,,base.th,base.state_th_004
+base.city_3807,Si Wilai,3807,,base.th,base.state_th_004
+base.city_3808,Bung Khla,3808,,base.th,base.state_th_004
+base.city_3901,Mueang Nong Bua Lam Phu,3901,,base.th,base.state_th_034
+base.city_3902,Na Klang,3902,,base.th,base.state_th_034
+base.city_3903,Non Sang,3903,,base.th,base.state_th_034
+base.city_3904,Si Bun Rueang,3904,,base.th,base.state_th_034
+base.city_3905,Suwannakhuha,3905,,base.th,base.state_th_034
+base.city_3906,Na Wang,3906,,base.th,base.state_th_034
+base.city_4001,Mueang Khon Kaen,4001,,base.th,base.state_th_017
+base.city_4002,Ban Fang,4002,,base.th,base.state_th_017
+base.city_4003,Phra Yuen,4003,,base.th,base.state_th_017
+base.city_4004,Nong Ruea,4004,,base.th,base.state_th_017
+base.city_4005,Chum Phae,4005,,base.th,base.state_th_017
+base.city_4006,Si Chomphu,4006,,base.th,base.state_th_017
+base.city_4007,Nam Phong,4007,,base.th,base.state_th_017
+base.city_4008,Ubolratana,4008,,base.th,base.state_th_017
+base.city_4009,Kranuan,4009,,base.th,base.state_th_017
+base.city_4010,Ban Phai,4010,,base.th,base.state_th_017
+base.city_4011,Pueai Noi,4011,,base.th,base.state_th_017
+base.city_4012,Phon,4012,,base.th,base.state_th_017
+base.city_4013,Waeng Yai,4013,,base.th,base.state_th_017
+base.city_4014,Waeng Noi,4014,,base.th,base.state_th_017
+base.city_4015,Nong Song Hong,4015,,base.th,base.state_th_017
+base.city_4016,Phu Wiang,4016,,base.th,base.state_th_017
+base.city_4017,Mancha Khiri,4017,,base.th,base.state_th_017
+base.city_4018,Chonnabot,4018,,base.th,base.state_th_017
+base.city_4019,Khao Suan Kwang,4019,,base.th,base.state_th_017
+base.city_4020,Phu Pha Man,4020,,base.th,base.state_th_017
+base.city_4021,Sam Sung,4021,,base.th,base.state_th_017
+base.city_4022,Khok Pho Chai,4022,,base.th,base.state_th_017
+base.city_4023,Nong Na Kham,4023,,base.th,base.state_th_017
+base.city_4024,Ban Haet,4024,,base.th,base.state_th_017
+base.city_4025,Non Sila,4025,,base.th,base.state_th_017
+base.city_4029,Wiang Kao,4029,,base.th,base.state_th_017
+base.city_4101,Mueang Udon Thani,4101,,base.th,base.state_th_073
+base.city_4102,Kut Chap,4102,,base.th,base.state_th_073
+base.city_4103,Nong Wua So,4103,,base.th,base.state_th_073
+base.city_4104,Kumphawapi,4104,,base.th,base.state_th_073
+base.city_4105,Non Sa-at,4105,,base.th,base.state_th_073
+base.city_4106,Nong Han,4106,,base.th,base.state_th_073
+base.city_4107,Thung Fon,4107,,base.th,base.state_th_073
+base.city_4108,Chai Wan,4108,,base.th,base.state_th_073
+base.city_4109,Si That,4109,,base.th,base.state_th_073
+base.city_4110,Wang Sam Mo,4110,,base.th,base.state_th_073
+base.city_4111,Ban Dung,4111,,base.th,base.state_th_073
+base.city_4117,Ban Phue,4117,,base.th,base.state_th_073
+base.city_4118,Nam Som,4118,,base.th,base.state_th_073
+base.city_4119,Phen,4119,,base.th,base.state_th_073
+base.city_4120,Sang Khom,4120,,base.th,base.state_th_073
+base.city_4121,Nong Saeng,4121,,base.th,base.state_th_073
+base.city_4122,Na Yung,4122,,base.th,base.state_th_073
+base.city_4123,Phibun Rak,4123,,base.th,base.state_th_073
+base.city_4124,Ku Kaeo,4124,,base.th,base.state_th_073
+base.city_4125,Prachaksinlapakhom,4125,,base.th,base.state_th_073
+base.city_4201,Mueang Loei,4201,,base.th,base.state_th_021
+base.city_4202,Na Duang,4202,,base.th,base.state_th_021
+base.city_4203,Chiang Khan,4203,,base.th,base.state_th_021
+base.city_4204,Pak Chom,4204,,base.th,base.state_th_021
+base.city_4205,Dan Sai,4205,,base.th,base.state_th_021
+base.city_4206,Na Haeo,4206,,base.th,base.state_th_021
+base.city_4207,Phu Ruea,4207,,base.th,base.state_th_021
+base.city_4208,Tha Li,4208,,base.th,base.state_th_021
+base.city_4209,Wang Saphung,4209,,base.th,base.state_th_021
+base.city_4210,Phu Kradueng,4210,,base.th,base.state_th_021
+base.city_4211,Phu Luang,4211,,base.th,base.state_th_021
+base.city_4212,Pha Khao,4212,,base.th,base.state_th_021
+base.city_4213,Erawan,4213,,base.th,base.state_th_021
+base.city_4214,Nong Hin,4214,,base.th,base.state_th_021
+base.city_4301,Mueang Nong Khai,4301,,base.th,base.state_th_035
+base.city_4302,Tha Bo,4302,,base.th,base.state_th_035
+base.city_4305,Phon Phisai,4305,,base.th,base.state_th_035
+base.city_4307,Si Chiang Mai,4307,,base.th,base.state_th_035
+base.city_4308,Sangkhom,4308,,base.th,base.state_th_035
+base.city_4314,Sakhrai,4314,,base.th,base.state_th_035
+base.city_4315,Fao Rai,4315,,base.th,base.state_th_035
+base.city_4316,Rattanawapi,4316,,base.th,base.state_th_035
+base.city_4317,Pho Tak,4317,,base.th,base.state_th_035
+base.city_4401,Mueang Maha Sarakham,4401,,base.th,base.state_th_024
+base.city_4402,Kae Dam,4402,,base.th,base.state_th_024
+base.city_4403,Kosum Phisai,4403,,base.th,base.state_th_024
+base.city_4404,Kantharawichai,4404,,base.th,base.state_th_024
+base.city_4405,Chiang Yuen,4405,,base.th,base.state_th_024
+base.city_4406,Borabue,4406,,base.th,base.state_th_024
+base.city_4407,Na Chueak,4407,,base.th,base.state_th_024
+base.city_4408,Phayakkhaphum Phisai,4408,,base.th,base.state_th_024
+base.city_4409,Wapi Pathum,4409,,base.th,base.state_th_024
+base.city_4410,Na Dun,4410,,base.th,base.state_th_024
+base.city_4411,Yang Si Surat,4411,,base.th,base.state_th_024
+base.city_4412,Kut Rang,4412,,base.th,base.state_th_024
+base.city_4413,Chuen Chom,4413,,base.th,base.state_th_024
+base.city_4501,Mueang Roi Et,4501,,base.th,base.state_th_054
+base.city_4502,Kaset Wisai,4502,,base.th,base.state_th_054
+base.city_4503,Pathum Rat,4503,,base.th,base.state_th_054
+base.city_4504,Chaturaphak Phiman,4504,,base.th,base.state_th_054
+base.city_4505,Thawat Buri,4505,,base.th,base.state_th_054
+base.city_4506,Phanom Phrai,4506,,base.th,base.state_th_054
+base.city_4507,Phon Thong,4507,,base.th,base.state_th_054
+base.city_4508,Pho Chai,4508,,base.th,base.state_th_054
+base.city_4509,Nong Phok,4509,,base.th,base.state_th_054
+base.city_4510,Selaphum,4510,,base.th,base.state_th_054
+base.city_4511,Suwannaphum,4511,,base.th,base.state_th_054
+base.city_4512,Mueang Suang,4512,,base.th,base.state_th_054
+base.city_4513,Phon Sai,4513,,base.th,base.state_th_054
+base.city_4514,At Samat,4514,,base.th,base.state_th_054
+base.city_4515,Moei Wadi,4515,,base.th,base.state_th_054
+base.city_4516,Si Somdet,4516,,base.th,base.state_th_054
+base.city_4517,Changhan,4517,,base.th,base.state_th_054
+base.city_4518,Chiang Khwan,4518,,base.th,base.state_th_054
+base.city_4519,Nong Hi,4519,,base.th,base.state_th_054
+base.city_4520,Thung Khao Luang,4520,,base.th,base.state_th_054
+base.city_4601,Mueang Kalasin,4601,,base.th,base.state_th_014
+base.city_4602,Na Mon,4602,,base.th,base.state_th_014
+base.city_4603,Kamalasai,4603,,base.th,base.state_th_014
+base.city_4604,Rong Kham,4604,,base.th,base.state_th_014
+base.city_4605,Kuchinarai,4605,,base.th,base.state_th_014
+base.city_4606,Khao Wong,4606,,base.th,base.state_th_014
+base.city_4607,Yang Talat,4607,,base.th,base.state_th_014
+base.city_4608,Huai Mek,4608,,base.th,base.state_th_014
+base.city_4609,Sahatsakhan,4609,,base.th,base.state_th_014
+base.city_4610,Kham Muang,4610,,base.th,base.state_th_014
+base.city_4611,Tha Khantho,4611,,base.th,base.state_th_014
+base.city_4612,Nong Kung Si,4612,,base.th,base.state_th_014
+base.city_4613,Somdet,4613,,base.th,base.state_th_014
+base.city_4614,Huai Phueng,4614,,base.th,base.state_th_014
+base.city_4615,Sam Chai,4615,,base.th,base.state_th_014
+base.city_4616,Na Khu,4616,,base.th,base.state_th_014
+base.city_4617,Don Chan,4617,,base.th,base.state_th_014
+base.city_4618,Khong Chai,4618,,base.th,base.state_th_014
+base.city_4701,Mueang Sakon Nakhon,4701,,base.th,base.state_th_056
+base.city_4702,Kusuman,4702,,base.th,base.state_th_056
+base.city_4703,Kut Bak,4703,,base.th,base.state_th_056
+base.city_4704,Phanna Nikhom,4704,,base.th,base.state_th_056
+base.city_4705,Phang Khon,4705,,base.th,base.state_th_056
+base.city_4706,Waritchaphum,4706,,base.th,base.state_th_056
+base.city_4707,Nikhom Nam Un,4707,,base.th,base.state_th_056
+base.city_4708,Wanon Niwat,4708,,base.th,base.state_th_056
+base.city_4709,Kham Ta Kla,4709,,base.th,base.state_th_056
+base.city_4710,Ban Muang,4710,,base.th,base.state_th_056
+base.city_4711,Akat Amnuai,4711,,base.th,base.state_th_056
+base.city_4712,Sawang Daen Din,4712,,base.th,base.state_th_056
+base.city_4713,Song Dao,4713,,base.th,base.state_th_056
+base.city_4714,Tao Ngoi,4714,,base.th,base.state_th_056
+base.city_4715,Khok Si Suphan,4715,,base.th,base.state_th_056
+base.city_4716,Charoen Sin,4716,,base.th,base.state_th_056
+base.city_4717,Phon Na Kaeo,4717,,base.th,base.state_th_056
+base.city_4718,Phu Phan,4718,,base.th,base.state_th_056
+base.city_4801,Mueang Nakhon Phanom,4801,,base.th,base.state_th_028
+base.city_4802,Pla Pak,4802,,base.th,base.state_th_028
+base.city_4803,Tha Uthen,4803,,base.th,base.state_th_028
+base.city_4804,Ban Phaeng,4804,,base.th,base.state_th_028
+base.city_4805,That Phanom,4805,,base.th,base.state_th_028
+base.city_4806,Renu NaKhon,4806,,base.th,base.state_th_028
+base.city_4807,Na Kae,4807,,base.th,base.state_th_028
+base.city_4808,Si Songkhram,4808,,base.th,base.state_th_028
+base.city_4809,Na Wa,4809,,base.th,base.state_th_028
+base.city_4810,Phon Sawan,4810,,base.th,base.state_th_028
+base.city_4811,Na Thom,4811,,base.th,base.state_th_028
+base.city_4812,Wang Yang,4812,,base.th,base.state_th_028
+base.city_4901,Mueang Mukdahan,4901,,base.th,base.state_th_025
+base.city_4902,Nikhom Kham Soi,4902,,base.th,base.state_th_025
+base.city_4903,Don Tan,4903,,base.th,base.state_th_025
+base.city_4904,Dong Luang,4904,,base.th,base.state_th_025
+base.city_4905,Khamcha-I,4905,,base.th,base.state_th_025
+base.city_4906,Wan Yai,4906,,base.th,base.state_th_025
+base.city_4907,Nong Sung,4907,,base.th,base.state_th_025
+base.city_5001,Mueang Chiang Mai,5001,,base.th,base.state_th_010
+base.city_5002,Chom Thong,5002,,base.th,base.state_th_010
+base.city_5003,Mae Chaem,5003,,base.th,base.state_th_010
+base.city_5004,Chiang Dao,5004,,base.th,base.state_th_010
+base.city_5005,Doi SaKet,5005,,base.th,base.state_th_010
+base.city_5006,Mae Taeng,5006,,base.th,base.state_th_010
+base.city_5007,Mae Rim,5007,,base.th,base.state_th_010
+base.city_5008,Samoeng,5008,,base.th,base.state_th_010
+base.city_5009,Fang,5009,,base.th,base.state_th_010
+base.city_5010,Mae Ai,5010,,base.th,base.state_th_010
+base.city_5011,Phrao,5011,,base.th,base.state_th_010
+base.city_5012,San Pa Tong,5012,,base.th,base.state_th_010
+base.city_5013,San Kamphaeng,5013,,base.th,base.state_th_010
+base.city_5014,San Sai,5014,,base.th,base.state_th_010
+base.city_5015,Hang Dong,5015,,base.th,base.state_th_010
+base.city_5016,Hot,5016,,base.th,base.state_th_010
+base.city_5017,Doi Tao,5017,,base.th,base.state_th_010
+base.city_5018,Omkoi,5018,,base.th,base.state_th_010
+base.city_5019,Saraphi,5019,,base.th,base.state_th_010
+base.city_5020,Wiang Haeng,5020,,base.th,base.state_th_010
+base.city_5021,Chai Prakan,5021,,base.th,base.state_th_010
+base.city_5022,Mae Wang,5022,,base.th,base.state_th_010
+base.city_5023,Mae On,5023,,base.th,base.state_th_010
+base.city_5024,Doi Lo,5024,,base.th,base.state_th_010
+base.city_5025,Galyani Vadhana,5025,,base.th,base.state_th_010
+base.city_5101,Mueang Lamphun,5101,,base.th,base.state_th_020
+base.city_5102,Mae Tha,5102,,base.th,base.state_th_020
+base.city_5103,Ban Hong,5103,,base.th,base.state_th_020
+base.city_5104,Li,5104,,base.th,base.state_th_020
+base.city_5105,Thung Hua Chang,5105,,base.th,base.state_th_020
+base.city_5106,Pa Sang,5106,,base.th,base.state_th_020
+base.city_5107,Ban Thi,5107,,base.th,base.state_th_020
+base.city_5108,Wiang Nong Long,5108,,base.th,base.state_th_020
+base.city_5201,Mueang Lampang,5201,,base.th,base.state_th_019
+base.city_5202,Mae Mo,5202,,base.th,base.state_th_019
+base.city_5203,Ko Kha,5203,,base.th,base.state_th_019
+base.city_5204,Soem Ngam,5204,,base.th,base.state_th_019
+base.city_5205,Ngao,5205,,base.th,base.state_th_019
+base.city_5206,Chae Hom,5206,,base.th,base.state_th_019
+base.city_5207,Wang Nuea,5207,,base.th,base.state_th_019
+base.city_5208,Thoen,5208,,base.th,base.state_th_019
+base.city_5209,Mae Phrik,5209,,base.th,base.state_th_019
+base.city_5210,Mae Tha,5210,,base.th,base.state_th_019
+base.city_5211,Sop Prap,5211,,base.th,base.state_th_019
+base.city_5212,Hang Chat,5212,,base.th,base.state_th_019
+base.city_5213,Mueang Pan,5213,,base.th,base.state_th_019
+base.city_5301,Mueang Uttaradit,5301,,base.th,base.state_th_075
+base.city_5302,Tron,5302,,base.th,base.state_th_075
+base.city_5303,Tha Pla,5303,,base.th,base.state_th_075
+base.city_5304,Nam Pat,5304,,base.th,base.state_th_075
+base.city_5305,Fak Tha,5305,,base.th,base.state_th_075
+base.city_5306,Ban Khok,5306,,base.th,base.state_th_075
+base.city_5307,Phichai,5307,,base.th,base.state_th_075
+base.city_5308,Laplae,5308,,base.th,base.state_th_075
+base.city_5309,Thong Saen Khan,5309,,base.th,base.state_th_075
+base.city_5401,Mueang Phrae,5401,,base.th,base.state_th_047
+base.city_5402,Rong Kwang,5402,,base.th,base.state_th_047
+base.city_5403,Long,5403,,base.th,base.state_th_047
+base.city_5404,Sung Men,5404,,base.th,base.state_th_047
+base.city_5405,Den Chai,5405,,base.th,base.state_th_047
+base.city_5406,Song,5406,,base.th,base.state_th_047
+base.city_5407,Wang Chin,5407,,base.th,base.state_th_047
+base.city_5408,Nong Muang Khai,5408,,base.th,base.state_th_047
+base.city_5501,Mueang Nan,5501,,base.th,base.state_th_032
+base.city_5502,Mae Charim,5502,,base.th,base.state_th_032
+base.city_5503,Ban Luang,5503,,base.th,base.state_th_032
+base.city_5504,Na Noi,5504,,base.th,base.state_th_032
+base.city_5505,Pua,5505,,base.th,base.state_th_032
+base.city_5506,Tha Wang Pha,5506,,base.th,base.state_th_032
+base.city_5507,Wiang Sa,5507,,base.th,base.state_th_032
+base.city_5508,Thung Chang,5508,,base.th,base.state_th_032
+base.city_5509,Chiang Klang,5509,,base.th,base.state_th_032
+base.city_5510,Na Muen,5510,,base.th,base.state_th_032
+base.city_5511,Santi Suk,5511,,base.th,base.state_th_032
+base.city_5512,Bo Kluea,5512,,base.th,base.state_th_032
+base.city_5513,Song Khwae,5513,,base.th,base.state_th_032
+base.city_5514,Phu Phiang,5514,,base.th,base.state_th_032
+base.city_5515,Chaloem Phra Kiat,5515,,base.th,base.state_th_032
+base.city_5601,Mueang Phayao,5601,,base.th,base.state_th_041
+base.city_5602,Chun,5602,,base.th,base.state_th_041
+base.city_5603,Chiang Kham,5603,,base.th,base.state_th_041
+base.city_5604,Chiang Muan,5604,,base.th,base.state_th_041
+base.city_5605,Dok Khamtai,5605,,base.th,base.state_th_041
+base.city_5606,Pong,5606,,base.th,base.state_th_041
+base.city_5607,Mae Chai,5607,,base.th,base.state_th_041
+base.city_5608,Phu Sang,5608,,base.th,base.state_th_041
+base.city_5609,Phu Kamyao,5609,,base.th,base.state_th_041
+base.city_5701,Mueang Chiang Rai,5701,,base.th,base.state_th_011
+base.city_5702,Wiang Chai,5702,,base.th,base.state_th_011
+base.city_5703,Chiang Khong,5703,,base.th,base.state_th_011
+base.city_5704,Thoeng,5704,,base.th,base.state_th_011
+base.city_5705,Phan,5705,,base.th,base.state_th_011
+base.city_5706,Pa Daet,5706,,base.th,base.state_th_011
+base.city_5707,Mae Chan,5707,,base.th,base.state_th_011
+base.city_5708,Chiang Saen,5708,,base.th,base.state_th_011
+base.city_5709,Mae Sai,5709,,base.th,base.state_th_011
+base.city_5710,Mae Suai,5710,,base.th,base.state_th_011
+base.city_5711,Wiang Pa Pao,5711,,base.th,base.state_th_011
+base.city_5712,Phaya Mengrai,5712,,base.th,base.state_th_011
+base.city_5713,Wiang Kaen,5713,,base.th,base.state_th_011
+base.city_5714,Khun Tan,5714,,base.th,base.state_th_011
+base.city_5715,Mae Fa Luang,5715,,base.th,base.state_th_011
+base.city_5716,Mae Lao,5716,,base.th,base.state_th_011
+base.city_5717,Wiang Chiang Rung,5717,,base.th,base.state_th_011
+base.city_5718,Doi Luang,5718,,base.th,base.state_th_011
+base.city_5801,Mueang Mae Hong Son,5801,,base.th,base.state_th_023
+base.city_5802,Khun Yuam,5802,,base.th,base.state_th_023
+base.city_5803,Pai,5803,,base.th,base.state_th_023
+base.city_5804,Mae Sariang,5804,,base.th,base.state_th_023
+base.city_5805,Mae La Noi,5805,,base.th,base.state_th_023
+base.city_5806,Sop Moei,5806,,base.th,base.state_th_023
+base.city_5807,Pang Mapha,5807,,base.th,base.state_th_023
+base.city_6001,Mueang Nakhon Sawan,6001,,base.th,base.state_th_030
+base.city_6002,Krok Phra,6002,,base.th,base.state_th_030
+base.city_6003,Chum Saeng,6003,,base.th,base.state_th_030
+base.city_6004,Nong Bua,6004,,base.th,base.state_th_030
+base.city_6005,Banphot Phisai,6005,,base.th,base.state_th_030
+base.city_6006,Kao Liao,6006,,base.th,base.state_th_030
+base.city_6007,Takhli,6007,,base.th,base.state_th_030
+base.city_6008,Tha Tako,6008,,base.th,base.state_th_030
+base.city_6009,Phaisali,6009,,base.th,base.state_th_030
+base.city_6010,Phayuha Khiri,6010,,base.th,base.state_th_030
+base.city_6011,Lat Yao,6011,,base.th,base.state_th_030
+base.city_6012,Tak Fa,6012,,base.th,base.state_th_030
+base.city_6013,Mae Wong,6013,,base.th,base.state_th_030
+base.city_6014,Mae Poen,6014,,base.th,base.state_th_030
+base.city_6015,Chum Ta Bong,6015,,base.th,base.state_th_030
+base.city_6101,Mueang Uthai Thani,6101,,base.th,base.state_th_074
+base.city_6102,Thap Than,6102,,base.th,base.state_th_074
+base.city_6103,Sawang Arom,6103,,base.th,base.state_th_074
+base.city_6104,Nong Chang,6104,,base.th,base.state_th_074
+base.city_6105,Nong Khayang,6105,,base.th,base.state_th_074
+base.city_6106,Ban Rai,6106,,base.th,base.state_th_074
+base.city_6107,Lan Sak,6107,,base.th,base.state_th_074
+base.city_6108,Huai Khot,6108,,base.th,base.state_th_074
+base.city_6201,Mueang Kamphaeng Phet,6201,,base.th,base.state_th_015
+base.city_6202,Sai Ngam,6202,,base.th,base.state_th_015
+base.city_6203,Khlong Lan,6203,,base.th,base.state_th_015
+base.city_6204,Khanu Woralaksaburi,6204,,base.th,base.state_th_015
+base.city_6205,Khlong Khlung,6205,,base.th,base.state_th_015
+base.city_6206,Phran Kratai,6206,,base.th,base.state_th_015
+base.city_6207,Lan Krabue,6207,,base.th,base.state_th_015
+base.city_6208,Sai Thong Watthana,6208,,base.th,base.state_th_015
+base.city_6209,Pang SiLa Thong,6209,,base.th,base.state_th_015
+base.city_6210,Bueng Samakkhi,6210,,base.th,base.state_th_015
+base.city_6211,Kosamphi Nakhon,6211,,base.th,base.state_th_015
+base.city_6301,Mueang Tak,6301,,base.th,base.state_th_069
+base.city_6302,Ban Tak,6302,,base.th,base.state_th_069
+base.city_6303,Sam Ngao,6303,,base.th,base.state_th_069
+base.city_6304,Mae Ramat,6304,,base.th,base.state_th_069
+base.city_6305,Tha Song Yang,6305,,base.th,base.state_th_069
+base.city_6306,Mae Sot,6306,,base.th,base.state_th_069
+base.city_6307,Phop Phra,6307,,base.th,base.state_th_069
+base.city_6308,Umphang,6308,,base.th,base.state_th_069
+base.city_6309,Wang Chao,6309,,base.th,base.state_th_069
+base.city_6401,Mueang Sukhothai,6401,,base.th,base.state_th_065
+base.city_6402,Ban Dan Lan Hoi,6402,,base.th,base.state_th_065
+base.city_6403,Khiri Mat,6403,,base.th,base.state_th_065
+base.city_6404,Kong Krailat,6404,,base.th,base.state_th_065
+base.city_6405,Si Satchanalai,6405,,base.th,base.state_th_065
+base.city_6406,Si Samrong,6406,,base.th,base.state_th_065
+base.city_6407,Sawankhalok,6407,,base.th,base.state_th_065
+base.city_6408,Si Nakhon,6408,,base.th,base.state_th_065
+base.city_6409,Thung Saliam,6409,,base.th,base.state_th_065
+base.city_6501,Mueang Phitsanulok,6501,,base.th,base.state_th_045
+base.city_6502,Nakhon Thai,6502,,base.th,base.state_th_045
+base.city_6503,Chat Trakan,6503,,base.th,base.state_th_045
+base.city_6504,Bang Rakam,6504,,base.th,base.state_th_045
+base.city_6505,Bang Krathum,6505,,base.th,base.state_th_045
+base.city_6506,Phrom Phiram,6506,,base.th,base.state_th_045
+base.city_6507,Wat Bot,6507,,base.th,base.state_th_045
+base.city_6508,Wang Thong,6508,,base.th,base.state_th_045
+base.city_6509,Noen Maprang,6509,,base.th,base.state_th_045
+base.city_6601,Mueang Phichit,6601,,base.th,base.state_th_044
+base.city_6602,Wang Sai Phun,6602,,base.th,base.state_th_044
+base.city_6603,Pho Prathap Chang,6603,,base.th,base.state_th_044
+base.city_6604,Taphan Hin,6604,,base.th,base.state_th_044
+base.city_6605,Bang Mun Nak,6605,,base.th,base.state_th_044
+base.city_6606,Pho Thale,6606,,base.th,base.state_th_044
+base.city_6607,Sam Ngam,6607,,base.th,base.state_th_044
+base.city_6608,Thap Khlo,6608,,base.th,base.state_th_044
+base.city_6609,Sak Lek,6609,,base.th,base.state_th_044
+base.city_6610,Bueng Na Rang,6610,,base.th,base.state_th_044
+base.city_6611,Dong Charoen,6611,,base.th,base.state_th_044
+base.city_6612,Vajira Barami,6612,,base.th,base.state_th_044
+base.city_6701,Mueang Phetchabun,6701,,base.th,base.state_th_042
+base.city_6702,Chon Daen,6702,,base.th,base.state_th_042
+base.city_6703,Lom Sak,6703,,base.th,base.state_th_042
+base.city_6704,Lom Kao,6704,,base.th,base.state_th_042
+base.city_6705,Wichian Buri,6705,,base.th,base.state_th_042
+base.city_6706,Si Thep,6706,,base.th,base.state_th_042
+base.city_6707,Nong Phai,6707,,base.th,base.state_th_042
+base.city_6708,Bueng Sam Phan,6708,,base.th,base.state_th_042
+base.city_6709,Nam Nao,6709,,base.th,base.state_th_042
+base.city_6710,Wang Pong,6710,,base.th,base.state_th_042
+base.city_6711,Khao Kho,6711,,base.th,base.state_th_042
+base.city_7001,Mueang Ratchaburi,7001,,base.th,base.state_th_052
+base.city_7002,Chom Bueng,7002,,base.th,base.state_th_052
+base.city_7003,Suan Phueng,7003,,base.th,base.state_th_052
+base.city_7004,Damnoen Saduak,7004,,base.th,base.state_th_052
+base.city_7005,Ban Pong,7005,,base.th,base.state_th_052
+base.city_7006,Bang Phae,7006,,base.th,base.state_th_052
+base.city_7007,Photharam,7007,,base.th,base.state_th_052
+base.city_7008,Pak Tho,7008,,base.th,base.state_th_052
+base.city_7009,Wat Phleng,7009,,base.th,base.state_th_052
+base.city_7010,Ban Kha,7010,,base.th,base.state_th_052
+base.city_7101,Mueang Kanchanaburi,7101,,base.th,base.state_th_016
+base.city_7102,Sai Yok,7102,,base.th,base.state_th_016
+base.city_7103,Bo Phloi,7103,,base.th,base.state_th_016
+base.city_7104,Si Sawat,7104,,base.th,base.state_th_016
+base.city_7105,Tha Maka,7105,,base.th,base.state_th_016
+base.city_7106,Tha Muang,7106,,base.th,base.state_th_016
+base.city_7107,Thong Pha Phum,7107,,base.th,base.state_th_016
+base.city_7108,Sangkhla Buri,7108,,base.th,base.state_th_016
+base.city_7109,Phanom Thuan,7109,,base.th,base.state_th_016
+base.city_7110,Lao Khwan,7110,,base.th,base.state_th_016
+base.city_7111,Dan Makham Tia,7111,,base.th,base.state_th_016
+base.city_7112,Nong Prue,7112,,base.th,base.state_th_016
+base.city_7113,Huai Krachao,7113,,base.th,base.state_th_016
+base.city_7201,Mueang Suphan Buri,7201,,base.th,base.state_th_066
+base.city_7202,Doem Bang Nang Buat,7202,,base.th,base.state_th_066
+base.city_7203,Dan Chang,7203,,base.th,base.state_th_066
+base.city_7204,Bang Pla Ma,7204,,base.th,base.state_th_066
+base.city_7205,Si Prachan,7205,,base.th,base.state_th_066
+base.city_7206,Don Chedi,7206,,base.th,base.state_th_066
+base.city_7207,Song Phi Nong,7207,,base.th,base.state_th_066
+base.city_7208,Sam Chuk,7208,,base.th,base.state_th_066
+base.city_7209,U Thong,7209,,base.th,base.state_th_066
+base.city_7210,Nong Ya Sai,7210,,base.th,base.state_th_066
+base.city_7301,Mueang Nakhon Pathom,7301,,base.th,base.state_th_027
+base.city_7302,Kamphaeng Saen,7302,,base.th,base.state_th_027
+base.city_7303,Nakhon Chai Si,7303,,base.th,base.state_th_027
+base.city_7304,Don Tum,7304,,base.th,base.state_th_027
+base.city_7305,Bang Len,7305,,base.th,base.state_th_027
+base.city_7306,Sam Phran,7306,,base.th,base.state_th_027
+base.city_7307,Phutthamonthon,7307,,base.th,base.state_th_027
+base.city_7401,Mueang Samut Sakhon,7401,,base.th,base.state_th_058
+base.city_7402,Krathum Baen,7402,,base.th,base.state_th_058
+base.city_7403,Ban Phaeo,7403,,base.th,base.state_th_058
+base.city_7501,Mueang Samut Songkhram,7501,,base.th,base.state_th_059
+base.city_7502,Bang Khonthi,7502,,base.th,base.state_th_059
+base.city_7503,Amphawa,7503,,base.th,base.state_th_059
+base.city_7601,Mueang Phetchaburi,7601,,base.th,base.state_th_043
+base.city_7602,Khao Yoi,7602,,base.th,base.state_th_043
+base.city_7603,Nong Ya Plong,7603,,base.th,base.state_th_043
+base.city_7604,Cha-am,7604,,base.th,base.state_th_043
+base.city_7605,Tha Yang,7605,,base.th,base.state_th_043
+base.city_7606,Ban Lat,7606,,base.th,base.state_th_043
+base.city_7607,Ban Laem,7607,,base.th,base.state_th_043
+base.city_7608,Kaeng Krachan,7608,,base.th,base.state_th_043
+base.city_7701,Mueang Prachuap Khiri Khan,7701,,base.th,base.state_th_050
+base.city_7702,Kui Buri,7702,,base.th,base.state_th_050
+base.city_7703,Thap Sakae,7703,,base.th,base.state_th_050
+base.city_7704,Bang Saphan,7704,,base.th,base.state_th_050
+base.city_7705,Bang Saphan Noi,7705,,base.th,base.state_th_050
+base.city_7706,Pran Buri,7706,,base.th,base.state_th_050
+base.city_7707,Hua Hin,7707,,base.th,base.state_th_050
+base.city_7708,Sam Roi Yot,7708,,base.th,base.state_th_050
+base.city_8001,Mueang Nakhon Si Thammarat,8001,,base.th,base.state_th_031
+base.city_8002,Phrom Khiri,8002,,base.th,base.state_th_031
+base.city_8003,Lan SaKa,8003,,base.th,base.state_th_031
+base.city_8004,Chawang,8004,,base.th,base.state_th_031
+base.city_8005,Phipun,8005,,base.th,base.state_th_031
+base.city_8006,Chian Yai,8006,,base.th,base.state_th_031
+base.city_8007,Cha-uat,8007,,base.th,base.state_th_031
+base.city_8008,Tha Sala,8008,,base.th,base.state_th_031
+base.city_8009,Thung Song,8009,,base.th,base.state_th_031
+base.city_8010,Na Bon,8010,,base.th,base.state_th_031
+base.city_8011,Thung Yai,8011,,base.th,base.state_th_031
+base.city_8012,Pak Phanang,8012,,base.th,base.state_th_031
+base.city_8013,Ron Phibun,8013,,base.th,base.state_th_031
+base.city_8014,Sichon,8014,,base.th,base.state_th_031
+base.city_8015,Khanom,8015,,base.th,base.state_th_031
+base.city_8016,Hua Sai,8016,,base.th,base.state_th_031
+base.city_8017,Bang Khan,8017,,base.th,base.state_th_031
+base.city_8018,Tham Phannara,8018,,base.th,base.state_th_031
+base.city_8019,Chulabhorn,8019,,base.th,base.state_th_031
+base.city_8020,Phra Phrom,8020,,base.th,base.state_th_031
+base.city_8021,Nopphitam,8021,,base.th,base.state_th_031
+base.city_8022,Chang Klang,8022,,base.th,base.state_th_031
+base.city_8023,Chaloem Phra Kiat,8023,,base.th,base.state_th_031
+base.city_8101,Mueang Krabi,8101,,base.th,base.state_th_018
+base.city_8102,Khao Phanom,8102,,base.th,base.state_th_018
+base.city_8103,Ko Lanta,8103,,base.th,base.state_th_018
+base.city_8104,Khlong Thom,8104,,base.th,base.state_th_018
+base.city_8105,Ao Luek,8105,,base.th,base.state_th_018
+base.city_8106,Plai Phraya,8106,,base.th,base.state_th_018
+base.city_8107,Lam Thap,8107,,base.th,base.state_th_018
+base.city_8108,Nuea Khlong,8108,,base.th,base.state_th_018
+base.city_8201,Mueang Phang-nga,8201,,base.th,base.state_th_039
+base.city_8202,Ko Yao,8202,,base.th,base.state_th_039
+base.city_8203,Kapong,8203,,base.th,base.state_th_039
+base.city_8204,Takua Thung,8204,,base.th,base.state_th_039
+base.city_8205,Takua Pa,8205,,base.th,base.state_th_039
+base.city_8206,Khura Buri,8206,,base.th,base.state_th_039
+base.city_8207,Thap Put,8207,,base.th,base.state_th_039
+base.city_8208,Thai Mueang,8208,,base.th,base.state_th_039
+base.city_8301,Mueang Phuket,8301,,base.th,base.state_th_048
+base.city_8302,Kathu,8302,,base.th,base.state_th_048
+base.city_8303,Thalang,8303,,base.th,base.state_th_048
+base.city_8401,Mueang Surat Thani,8401,,base.th,base.state_th_067
+base.city_8402,Kanchanadit,8402,,base.th,base.state_th_067
+base.city_8403,Don Sak,8403,,base.th,base.state_th_067
+base.city_8404,Ko Samui,8404,,base.th,base.state_th_067
+base.city_8405,Ko Pha-ngan,8405,,base.th,base.state_th_067
+base.city_8406,Chaiya,8406,,base.th,base.state_th_067
+base.city_8407,Tha Chana,8407,,base.th,base.state_th_067
+base.city_8408,Khiri Rat Nikhom,8408,,base.th,base.state_th_067
+base.city_8409,Ban Ta Khun,8409,,base.th,base.state_th_067
+base.city_8410,Phanom,8410,,base.th,base.state_th_067
+base.city_8411,Tha Chang,8411,,base.th,base.state_th_067
+base.city_8412,Ban Na San,8412,,base.th,base.state_th_067
+base.city_8413,Ban Na Doem,8413,,base.th,base.state_th_067
+base.city_8414,Khian Sa,8414,,base.th,base.state_th_067
+base.city_8415,Wiang Sa,8415,,base.th,base.state_th_067
+base.city_8416,Phrasaeng,8416,,base.th,base.state_th_067
+base.city_8417,Phunphin,8417,,base.th,base.state_th_067
+base.city_8418,Chai Buri,8418,,base.th,base.state_th_067
+base.city_8419,Vibhavadi,8419,,base.th,base.state_th_067
+base.city_8501,Mueang Ranong,8501,,base.th,base.state_th_051
+base.city_8502,La-un,8502,,base.th,base.state_th_051
+base.city_8503,Kapoe,8503,,base.th,base.state_th_051
+base.city_8504,Kra Buri,8504,,base.th,base.state_th_051
+base.city_8505,Suk Samran,8505,,base.th,base.state_th_051
+base.city_8601,Mueang Chumphon,8601,,base.th,base.state_th_013
+base.city_8602,Tha Sae,8602,,base.th,base.state_th_013
+base.city_8603,Pathio,8603,,base.th,base.state_th_013
+base.city_8604,Lang Suan,8604,,base.th,base.state_th_013
+base.city_8605,Lamae,8605,,base.th,base.state_th_013
+base.city_8606,Phato,8606,,base.th,base.state_th_013
+base.city_8607,Sawi,8607,,base.th,base.state_th_013
+base.city_8608,Thung Tako,8608,,base.th,base.state_th_013
+base.city_9001,Mueang Songkhla,9001,,base.th,base.state_th_064
+base.city_9002,Sathing Phra,9002,,base.th,base.state_th_064
+base.city_9003,Chana,9003,,base.th,base.state_th_064
+base.city_9004,Na Thawi,9004,,base.th,base.state_th_064
+base.city_9005,Thepha,9005,,base.th,base.state_th_064
+base.city_9006,Saba Yoi,9006,,base.th,base.state_th_064
+base.city_9007,Ranot,9007,,base.th,base.state_th_064
+base.city_9008,Krasae Sin,9008,,base.th,base.state_th_064
+base.city_9009,Rattaphum,9009,,base.th,base.state_th_064
+base.city_9010,Sadao,9010,,base.th,base.state_th_064
+base.city_9011,Hat Yai,9011,,base.th,base.state_th_064
+base.city_9012,Na Mom,9012,,base.th,base.state_th_064
+base.city_9013,Khuan Niang,9013,,base.th,base.state_th_064
+base.city_9014,Bang Klam,9014,,base.th,base.state_th_064
+base.city_9015,Singhanakhon,9015,,base.th,base.state_th_064
+base.city_9016,Khlong Hoi Khong,9016,,base.th,base.state_th_064
+base.city_9101,Mueang Satun,9101,,base.th,base.state_th_061
+base.city_9102,Khuan Don,9102,,base.th,base.state_th_061
+base.city_9103,Khuan Kalong,9103,,base.th,base.state_th_061
+base.city_9104,Tha Phae,9104,,base.th,base.state_th_061
+base.city_9105,La-ngu,9105,,base.th,base.state_th_061
+base.city_9106,Thung Wa,9106,,base.th,base.state_th_061
+base.city_9107,Manang,9107,,base.th,base.state_th_061
+base.city_9201,Mueang Trang,9201,,base.th,base.state_th_070
+base.city_9202,Kantang,9202,,base.th,base.state_th_070
+base.city_9203,Yan Ta Khao,9203,,base.th,base.state_th_070
+base.city_9204,Palian,9204,,base.th,base.state_th_070
+base.city_9205,Sikao,9205,,base.th,base.state_th_070
+base.city_9206,Huai Yot,9206,,base.th,base.state_th_070
+base.city_9207,Wang Wiset,9207,,base.th,base.state_th_070
+base.city_9208,Na Yong,9208,,base.th,base.state_th_070
+base.city_9209,Ratsada,9209,,base.th,base.state_th_070
+base.city_9210,Hat Samran,9210,,base.th,base.state_th_070
+base.city_9301,Mueang Phatthalung,9301,,base.th,base.state_th_040
+base.city_9302,Kong Ra,9302,,base.th,base.state_th_040
+base.city_9303,Khao Chaison,9303,,base.th,base.state_th_040
+base.city_9304,Tamot,9304,,base.th,base.state_th_040
+base.city_9305,Khuan Khanun,9305,,base.th,base.state_th_040
+base.city_9306,Pak Phayun,9306,,base.th,base.state_th_040
+base.city_9307,Si Banphot,9307,,base.th,base.state_th_040
+base.city_9308,Pa Bon,9308,,base.th,base.state_th_040
+base.city_9309,Bang Kaeo,9309,,base.th,base.state_th_040
+base.city_9310,Pa Phayom,9310,,base.th,base.state_th_040
+base.city_9311,Srinagarindra,9311,,base.th,base.state_th_040
+base.city_9401,Mueang Pattani,9401,,base.th,base.state_th_038
+base.city_9402,Khok Pho,9402,,base.th,base.state_th_038
+base.city_9403,Nong Chik,9403,,base.th,base.state_th_038
+base.city_9404,Panare,9404,,base.th,base.state_th_038
+base.city_9405,Mayo,9405,,base.th,base.state_th_038
+base.city_9406,Thung Yang Daeng,9406,,base.th,base.state_th_038
+base.city_9407,Sai Buri,9407,,base.th,base.state_th_038
+base.city_9408,Mai Kaen,9408,,base.th,base.state_th_038
+base.city_9409,Yaring,9409,,base.th,base.state_th_038
+base.city_9410,Yarang,9410,,base.th,base.state_th_038
+base.city_9411,Kapho,9411,,base.th,base.state_th_038
+base.city_9412,Mae Lan,9412,,base.th,base.state_th_038
+base.city_9501,Mueang Yala,9501,,base.th,base.state_th_076
+base.city_9502,Betong,9502,,base.th,base.state_th_076
+base.city_9503,Bannang Sata,9503,,base.th,base.state_th_076
+base.city_9504,Than To,9504,,base.th,base.state_th_076
+base.city_9505,Yaha,9505,,base.th,base.state_th_076
+base.city_9506,Raman,9506,,base.th,base.state_th_076
+base.city_9507,Kabang,9507,,base.th,base.state_th_076
+base.city_9508,Krong Pinang,9508,,base.th,base.state_th_076
+base.city_9601,Mueang Narathiwat,9601,,base.th,base.state_th_033
+base.city_9602,Tak Bai,9602,,base.th,base.state_th_033
+base.city_9603,Bacho,9603,,base.th,base.state_th_033
+base.city_9604,Yi-ngo,9604,,base.th,base.state_th_033
+base.city_9605,Ra-ngae,9605,,base.th,base.state_th_033
+base.city_9606,Rueso,9606,,base.th,base.state_th_033
+base.city_9607,Si Sakhon,9607,,base.th,base.state_th_033
+base.city_9608,Waeng,9608,,base.th,base.state_th_033
+base.city_9609,Sukhirin,9609,,base.th,base.state_th_033
+base.city_9610,Su-ngai Kolok,9610,,base.th,base.state_th_033
+base.city_9611,Su-ngai Padi,9611,,base.th,base.state_th_033
+base.city_9612,Chanae,9612,,base.th,base.state_th_033
+base.city_9613,Cho-airong,9613,,base.th,base.state_th_033

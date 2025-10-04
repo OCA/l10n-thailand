@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_city_tree" model="ir.ui.view">
+        <field name="name">res.city.list</field>
+        <field name="model">res.city</field>
+        <field name="inherit_id" ref="base_address_extended.view_city_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="code" />
+            </xpath>
+        </field>
+    </record>
+    <record id="view_city_filter" model="ir.ui.view">
+        <field name="model">res.city</field>
+        <field name="inherit_id" ref="base_address_extended.view_city_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute
+                    name="filter_domain"
+                >['|', ('code', 'ilike', self), ('name', 'ilike', self),]</attribute>
+            </xpath>
+            <xpath expr="//search" position="inside">
+                <group>
+                    <filter
+                        name="group_state"
+                        string="State"
+                        context="{'group_by': 'state_id'}"
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

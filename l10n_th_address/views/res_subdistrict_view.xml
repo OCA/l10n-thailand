@@ -6,7 +6,9 @@
         <field name="arch" type="xml">
             <list string="Sub-District" editable="top">
                 <field name="name" />
+                <field name="code" />
                 <field name="city_id" />
+                <field name="zipcode" />
             </list>
         </field>
     </record>
@@ -24,7 +26,17 @@
         <field name="model">res.subdistrict</field>
         <field name="arch" type="xml">
             <search string="Search Subdistrict">
-                <field name="name" />
+                <field
+                    name="name"
+                    filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"
+                />
+                <group>
+                    <filter
+                        name="group_city"
+                        string="City"
+                        context="{'group_by': 'city_id'}"
+                    />
+                </group>
             </search>
         </field>
     </record>
