@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_subdistrict_list" model="ir.ui.view">
+        <field name="name">res.subdistrict.list</field>
+        <field name="model">res.subdistrict</field>
+        <field name="arch" type="xml">
+            <list string="Sub-District" editable="top">
+                <field name="name" />
+                <field name="code" />
+                <field name="city_id" />
+                <field name="zipcode" />
+            </list>
+        </field>
+    </record>
+    <record id="action_res_subdistrict_list" model="ir.actions.act_window">
+        <field name="name">Sub-District</field>
+        <field name="res_model">res.subdistrict</field>
+        <field name="view_mode">list</field>
+        <field name="help">
+            Display and manage the list of all subdistrict that can be assigned to
+            your partner records. Note that an option can be set on each country separately
+            to enforce any address of it to have a subdistrict in this list.
+        </field>
+    </record>
+    <record id="view_subdistrict_filter" model="ir.ui.view">
+        <field name="model">res.subdistrict</field>
+        <field name="arch" type="xml">
+            <search string="Search Subdistrict">
+                <field
+                    name="name"
+                    filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"
+                />
+                <group>
+                    <filter
+                        name="group_city"
+                        string="City"
+                        context="{'group_by': 'city_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <menuitem
+        id="menu_res_subdistrict"
+        action="action_res_subdistrict_list"
+        parent="contacts.menu_localisation"
+        sequence="3"
+    />
+</odoo>
