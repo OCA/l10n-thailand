@@ -13,7 +13,7 @@
                 <field
                     name="location_thailand_language"
                     widget="radio"
-                    attrs="{'invisible': [('is_thailand', '!=', True)]}"
+                    invisible="not is_thailand"
                 />
             </xpath>
         </field>
