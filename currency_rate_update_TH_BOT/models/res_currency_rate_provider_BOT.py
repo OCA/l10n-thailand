@@ -139,25 +139,29 @@ class ResCurrencyRateProviderBOT(models.Model):
                     )
                 )
             ICP = self.env["ir.config_parameter"].sudo()
-            bot_client_id = self.company_id.bot_client_id
-            if not bot_client_id:
+            bot_token = self.company_id.bot_token
+            if not bot_token:
                 raise UserError(_("No bot.or.th credentials specified!"))
             hostname = ICP.get_param("hostname_TH_BOT")
             route_BOT = ICP.get_param("route_TH_BOT_exchange_daily")
-            url = "{}{}/?start_period={}&end_period={}".format(
+            default_url = "{}{}/?start_period={}&end_period={}".format(
                 hostname,
                 route_BOT,
                 date_from.strftime("%Y-%m-%d"),
                 date_to.strftime("%Y-%m-%d"),
             )
-            headers = {"X-IBM-Client-Id": bot_client_id, "accept": "application/json"}
+            headers = {
+                "Authorization": bot_token,
+                "accept": "application/json",
+                "Content-Type": "application/json",
+            }
             bot_currencies = self.env["res.currency"].search(
                 [("name", "in", currencies)]
             )
             content = dict()
             for bot_currency in bot_currencies:
                 currency = bot_currency.bot_currency_name
-                url = "{}&currency={}".format(url, currency)
+                url = "{}&currency={}".format(default_url, currency)
                 response = requests.get(url, headers=headers)
                 data_dict = response.json()
                 result = data_dict.get("result", False)

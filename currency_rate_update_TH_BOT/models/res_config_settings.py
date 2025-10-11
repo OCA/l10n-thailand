@@ -7,8 +7,8 @@ from odoo import fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
-    bot_client_id = fields.Char(
-        string="Client ID",
-        related="company_id.bot_client_id",
+    bot_token = fields.Char(
+        string="BOT Token",
+        related="company_id.bot_token",
         readonly=False,
     )

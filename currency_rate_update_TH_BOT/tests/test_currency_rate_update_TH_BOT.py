@@ -67,12 +67,12 @@ class TestResCurrencyRateProviderBOT(common.TransactionCase):
         self.none_provider._update(date, date)
 
     def test_03_update_no_clien_id(self):
-        self.my_company.bot_client_id = False
+        self.my_company.bot_token = False
         date = self.today - relativedelta(days=1)
         self.bot_provider._update(date, date)
 
     def test_04_update_clien_id_fail(self):
-        self.my_company.bot_client_id = "Test"
+        self.my_company.bot_token = "Test"
         date = self.today - relativedelta(days=1)
         self.bot_provider._update(date, date)
 

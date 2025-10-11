@@ -25,11 +25,8 @@
                         </div>
                         <div class="content-group">
                             <div class="row mt16">
-                                <label
-                                    for="bot_client_id"
-                                    class="col-lg-3 o_light_label"
-                                />
-                                <field name="bot_client_id" />
+                                <label for="bot_token" class="col-lg-3 o_light_label" />
+                                <field name="bot_token" />
                             </div>
                         </div>
                     </div>
