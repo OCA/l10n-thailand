@@ -91,6 +91,7 @@ class WorkAcceptanceCommittee(models.Model):
                 and not work_acceptance.validated
                 and not work_acceptance.rejected
                 and not self._check_allow_write_under_validation(vals)
+                and not self.env.context.get("skip_validation_check")
             ):
                 raise ValidationError(_("The work acceptance is under validation."))
         return super().create(vals)
@@ -103,6 +104,7 @@ class WorkAcceptanceCommittee(models.Model):
                 and not rec.wa_id.validated
                 and not rec.wa_id.rejected
                 and not rec._check_allow_write_under_validation(vals)
+                and not self.env.context.get("skip_validation_check")
             ):
                 raise ValidationError(_("The work acceptance is under validation."))
         return super().write(vals)
