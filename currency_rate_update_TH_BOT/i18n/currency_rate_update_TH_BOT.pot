@@ -28,11 +28,6 @@ msgid ""
 msgstr ""
 
 #. module: currency_rate_update_TH_BOT
-#: model:ir.model.fields,field_description:currency_rate_update_TH_BOT.field_res_company__bot_client_id
-msgid "BOT Client ID"
-msgstr ""
-
-#. module: currency_rate_update_TH_BOT
 #: model:ir.model.fields,field_description:currency_rate_update_TH_BOT.field_res_currency__bot_currency_name
 msgid "BOT Currency"
 msgstr ""
@@ -47,6 +42,12 @@ msgstr ""
 #: code:addons/currency_rate_update_TH_BOT/models/res_currency_rate_provider_BOT.py:0
 #, python-format
 msgid "BOT Last Updated: {}"
+msgstr ""
+
+#. module: currency_rate_update_TH_BOT
+#: model:ir.model.fields,field_description:currency_rate_update_TH_BOT.field_res_company__bot_token
+#: model:ir.model.fields,field_description:currency_rate_update_TH_BOT.field_res_config_settings__bot_token
+msgid "BOT Token"
 msgstr ""
 
 #. module: currency_rate_update_TH_BOT
@@ -69,11 +70,6 @@ msgstr ""
 #. module: currency_rate_update_TH_BOT
 #: model:ir.model.fields.selection,name:currency_rate_update_TH_BOT.selection__res_currency__bot_currency_rate_type__buying_transfer
 msgid "Buying Transfer Rate"
-msgstr ""
-
-#. module: currency_rate_update_TH_BOT
-#: model:ir.model.fields,field_description:currency_rate_update_TH_BOT.field_res_config_settings__bot_client_id
-msgid "Client ID"
 msgstr ""
 
 #. module: currency_rate_update_TH_BOT
