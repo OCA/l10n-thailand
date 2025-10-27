@@ -1,0 +1,10 @@
+<odoo noupdate="1">
+    <record id="account_tax_filing_rule" model="ir.rule">
+        <field name="name">Tax Filig multi-company</field>
+        <field name="model_id" ref="model_account_tax_filing" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('company_id','=',False),('company_id','in',company_ids)]
+        </field>
+    </record>
+</odoo>
