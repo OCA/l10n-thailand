@@ -21,13 +21,13 @@ Thai Localization - Convert Amount Text to Thai
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_amount_to_text
+    :target: https://github.com/OCA/l10n-thailand/tree/19.0/l10n_th_amount_to_text
     :alt: OCA/l10n-thailand
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-thailand-18-0/l10n-thailand-18-0-l10n_th_amount_to_text
+    :target: https://translation.odoo-community.org/projects/l10n-thailand-19-0/l10n-thailand-19-0-l10n_th_amount_to_text
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&target_branch=18.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&target_branch=19.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -39,10 +39,11 @@ results for Thai.
 
 **Example:**
 
-- Amount: 45.75 Baht
+-  Amount: 45.75 Baht
 
-  - User Language: **Thai** → สี่สิบห้า Baht และ เจ็ดสิบห้า Satang
-  - User Language: **English** → Forty-Five Baht and Seventy-Five Satang
+   -  User Language: **Thai** → สี่สิบห้า Baht และ เจ็ดสิบห้า Satang
+   -  User Language: **English** → Forty-Five Baht and Seventy-Five
+      Satang
 
 These results are inaccurate for Thai language formatting. This module
 provides a base for accurately converting numbers to Thai text.
@@ -75,14 +76,14 @@ Example Usage:
 
 **Results Based on Context:**
 
-- When ``lang=th_TH`` context is sent:
+-  When ``lang=th_TH`` context is sent:
 
-  - Currency: **THB** → ``สี่สิบห้าบาทเจ็ดสิบห้าสตางค์``
-  - Currency: **EUR** → ``สี่สิบห้ายูโรเจ็ดสิบห้าเซนต์``
-  - Currency: **USD** → ``สี่สิบห้าดอลลาร์เจ็ดสิบห้าเซนต์``
+   -  Currency: **THB** → ``สี่สิบห้าบาทเจ็ดสิบห้าสตางค์``
+   -  Currency: **EUR** → ``สี่สิบห้ายูโรเจ็ดสิบห้าเซนต์``
+   -  Currency: **USD** → ``สี่สิบห้าดอลลาร์เจ็ดสิบห้าเซนต์``
 
-- When no context is sent: Odoo's default logic will handle the
-  conversion.
+-  When no context is sent: Odoo's default logic will handle the
+   conversion.
 
 **Important Notes:**
 
@@ -99,7 +100,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-thailand/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_amount_to_text%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_amount_to_text%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -114,10 +115,10 @@ Authors
 Contributors
 ------------
 
-- `Ecosoft <http://ecosoft.co.th>`__:
+-  `Ecosoft <http://ecosoft.co.th>`__:
 
-  - Saran Lim. <saranl@ecosoft.co.th>
-  - Pimolnat Suntian <pimolnats@ecosoft.co.th>
+   -  Saran Lim. <saranl@ecosoft.co.th>
+   -  Pimolnat Suntian <pimolnats@ecosoft.co.th>
 
 Maintainers
 -----------
@@ -140,6 +141,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-Saran440| 
 
-This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_amount_to_text>`_ project on GitHub.
+This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/19.0/l10n_th_amount_to_text>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

@@ -3,7 +3,7 @@
 
 {
     "name": "Thai Localization - Convert Amount Text to Thai",
-    "version": "18.0.2.0.0",
+    "version": "19.0.1.0.0",
     "author": "Ecosoft, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-thailand",
     "license": "AGPL-3",
