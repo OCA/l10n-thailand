@@ -3,3 +3,5 @@
 - [Ecosoft](http://ecosoft.co.th):
   - Saran Lim. \<saranl@ecosoft.co.th\>
 - Baptiste P \<swano@ik.me\>
+- [Newlogic](https://newlogic.com/odoo):
+  - Baptiste \<baptiste@newlogic.com\>

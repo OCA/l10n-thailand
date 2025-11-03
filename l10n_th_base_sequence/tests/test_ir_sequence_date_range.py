@@ -23,9 +23,8 @@ class TestIrSequenceDateRangePreviewStandard(TransactionCase):
             return_value=42,
         ) as mock_predict:
             record_pseudo._get_number_next_actual()
-            expected_seq_id = "%03d_%03d" % (
-                sequence_standard._origin.id,
-                record_pseudo._origin.id,
+            expected_seq_id = (
+                f"{sequence_standard._origin.id:03d}_{record_pseudo._origin.id:03d}"
             )
             mock_predict.assert_called_once_with(record_pseudo, expected_seq_id)
             self.assertEqual(record_pseudo.number_next_actual, 42)
