@@ -3,7 +3,7 @@
 
 from num2words import num2words
 
-from odoo import _, models
+from odoo import models
 
 
 class Currency(models.Model):
@@ -40,7 +40,7 @@ class Currency(models.Model):
             return num2words(amount, to="currency", lang=lang.iso_code)
         # Thai Text with Foreign currency
         currency_unit_label = self._convert_currency_name_hook(self.currency_unit_label)
-        amount_words = _(
+        amount_words = self.env._(
             "%(integral_amount)s%(currency_unit)s",
             integral_amount=_num2words(integer_value, lang=lang.iso_code),
             currency_unit=currency_unit_label,
@@ -49,7 +49,7 @@ class Currency(models.Model):
             currency_subunit_label = self._convert_currency_name_hook(
                 self.currency_subunit_label
             )
-            amount_words += _(
+            amount_words += self.env._(
                 "%(fractional_amount)s%(currency_subunit)s",
                 fractional_amount=_num2words(int(fractional or 0), lang=lang.iso_code),
                 currency_subunit=currency_subunit_label,
