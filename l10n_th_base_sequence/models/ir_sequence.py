@@ -2,9 +2,7 @@
 
 from datetime import datetime
 
-import pytz
-
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -37,16 +35,14 @@ class IrSequence(models.Model):
         """
         This private method enables other module to add more legends.
         """
-        now = range_date = effective_date = datetime.now(
-            pytz.timezone(self._context.get("tz") or "UTC")
-        )
-        if date or self._context.get("ir_sequence_date"):
+        now = range_date = effective_date = datetime.now(self.env.tz)
+        if date or self.env.context.get("ir_sequence_date"):
             effective_date = fields.Datetime.from_string(
-                date or self._context.get("ir_sequence_date")
+                date or self.env.context.get("ir_sequence_date")
             )
-        if date_range or self._context.get("ir_sequence_date_range"):
+        if date_range or self.env.context.get("ir_sequence_date_range"):
             range_date = fields.Datetime.from_string(
-                date_range or self._context.get("ir_sequence_date_range")
+                date_range or self.env.context.get("ir_sequence_date_range")
             )
 
         sequences = {
@@ -65,7 +61,7 @@ class IrSequence(models.Model):
 
         res = {}
         range_end_date = fields.Datetime.from_string(
-            self._context.get("ir_sequence_date_range_end")
+            self.env.context.get("ir_sequence_date_range_end")
         )
         for key, fmt in sequences.items():
             res[key] = effective_date.strftime(fmt)
@@ -117,6 +113,6 @@ class IrSequence(models.Model):
             interpolated_suffix = (self.suffix % d) if self.suffix else ""
         except KeyError as e:
             raise UserError(
-                _("Invalid prefix or suffix for sequence '%s'") % (self.name)
+                self.env._("Invalid prefix or suffix for sequence '%s'", self.name)
             ) from e
         return interpolated_prefix, interpolated_suffix

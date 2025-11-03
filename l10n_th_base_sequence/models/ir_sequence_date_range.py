@@ -38,5 +38,5 @@ class IrSequenceDateRange(models.Model):
             if seq.sequence_id.implementation != "standard":
                 seq.number_next_actual = seq.number_next
             else:
-                seq_id = "%03d_%03d" % (seq.sequence_id._origin.id, seq._origin.id)
+                seq_id = f"{seq.sequence_id._origin.id:03d}_{seq._origin.id:03d}"
                 seq.number_next_actual = _predict_nextval(self, seq_id)
