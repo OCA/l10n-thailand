@@ -3,8 +3,10 @@
 
 
 def post_init_hook(env):
-    # Thailand can city duplicate, But subdistrict is not allow duplicate
-    # env.cr.execute("""
-    #     ALTER TABLE res_city DROP CONSTRAINT IF EXISTS name_state_country_uniq;
-    # """)
-    pass
+    """Set enforce_subdistrict and enforce_city to True for Thailand"""
+    env.ref("base.th").write(
+        {
+            "enforce_subdistrict": True,
+            "enforce_cities": True,
+        }
+    )
