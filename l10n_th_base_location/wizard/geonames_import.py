@@ -174,7 +174,7 @@ class CityZipGeonamesImport(models.TransientModel):
                     data["zip_code"],
                     data["district"][lang],
                     data["district"]["province"][lang],
-                    f"TH-{str(data["id"])[:2]}",
+                    f"TH-{str(data['id'])[:2]}",
                     data[lang],
                     data["id"],
                     data["district"]["id"],

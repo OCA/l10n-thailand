@@ -76,19 +76,19 @@ Authors
 Contributors
 ------------
 
--  `Ecosoft <http://ecosoft.co.th>`__:
+- `Ecosoft <http://ecosoft.co.th>`__:
 
-   -  Pimolnat Suntian <pimolnats@ecosoft.co.th>
-   -  Saran Lim. <saranl@ecosoft.co.th>
-   -  Kranokporn Th. <kranokpornt@ecosoft.co.th>
-   -  Nantikan Chaidech <nantikanc@ecosoft.co.th>
+  - Pimolnat Suntian <pimolnats@ecosoft.co.th>
+  - Saran Lim. <saranl@ecosoft.co.th>
+  - Kranokporn Th. <kranokpornt@ecosoft.co.th>
+  - Nantikan Chaidech <nantikanc@ecosoft.co.th>
 
 Other credits
 -------------
 
--  `Tanabutr <https://www.tanabutr.co.th>`__:
+- `Tanabutr <https://www.tanabutr.co.th>`__:
 
-   -  Poonlap Veerathanabutr <poonlap@tanabutr.co.th>
+  - Poonlap Veerathanabutr <poonlap@tanabutr.co.th>
 
 Maintainers
 -----------
