@@ -32,15 +32,15 @@ class ResPartner(models.Model):
             "<vat:Service>"
             "<vat:username>anonymous</vat:username>"
             "<vat:password>anonymous</vat:password>"
-            "<vat:TIN>{}</vat:TIN>"
+            f"<vat:TIN>{tax_id}</vat:TIN>"
             "<vat:Name></vat:Name>"
             "<vat:ProvinceCode>0</vat:ProvinceCode>"
-            "<vat:BranchNumber>{}</vat:BranchNumber>"
+            f"<vat:BranchNumber>{branch}</vat:BranchNumber>"
             "<vat:AmphurCode>0</vat:AmphurCode>"
             "</vat:Service>"
             "</soap:Body>"
             "</soap:Envelope>"
-        ).format(tax_id, branch)
+        )
 
         # Setup session with SSL verification disabled
         session = requests.Session()
