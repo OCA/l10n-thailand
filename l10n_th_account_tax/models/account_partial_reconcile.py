@@ -28,9 +28,10 @@ class AccountPartialReconcile(models.Model):
         if len(payment) == 1:
             self = self.with_context(payment_id=payment.id)
 
-        if (
-            self.debit_move_id.move_type == "in_refund"
-            and self.credit_move_id.move_type == "in_invoice"
+        if all(
+            move.debit_move_id.move_type == "in_refund"
+            and move.credit_move_id.move_type == "in_invoice"
+            for move in self
         ):
             self = self.with_context(net_invoice_refund=1)
 
