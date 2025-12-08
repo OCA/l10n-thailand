@@ -7,6 +7,11 @@ from odoo import api, fields, models
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
+    subdistrict = fields.Char(
+        compute="_compute_subdistrict",
+        store=True,
+        readonly=False,
+    )
     subdistrict_id = fields.Many2one(
         comodel_name="res.subdistrict",
         compute="_compute_subdistrict_id",
@@ -21,12 +26,17 @@ class ResPartner(models.Model):
 
     @api.model
     def _address_fields(self):
-        return super()._address_fields() + ["subdistrict_id"]
+        return super()._address_fields() + ["subdistrict_id", "subdistrict"]
+
+    @api.depends("subdistrict_id")
+    def _compute_subdistrict(self):
+        for rec in self:
+            rec.subdistrict = rec.subdistrict_id.name
 
     @api.depends("zip_id")
     def _compute_subdistrict_id(self):
-        for record in self:
-            if record.zip_id:
-                record.subdistrict_id = record.zip_id.subdistrict_id
-            elif not record.country_enforce_subdistrict:
-                record.subdistrict_id = False
+        for rec in self:
+            if rec.zip_id:
+                rec.subdistrict_id = rec.zip_id.subdistrict_id
+            elif not rec.country_enforce_subdistrict:
+                rec.subdistrict_id = False

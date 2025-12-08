@@ -34,9 +34,6 @@
         <field name="model">res.city</field>
         <field name="inherit_id" ref="base_location.view_city_form" />
         <field name="arch" type="xml">
-            <xpath expr="//group" position="inside">
-                <field name="code" />
-            </xpath>
             <xpath expr="//notebook" position="inside">
                 <page name="subdistrict" string="Sub-District">
                     <field name="subdistrict_ids" />

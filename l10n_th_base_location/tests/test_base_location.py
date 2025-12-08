@@ -29,7 +29,6 @@ class TestTHBaseLocation(TestBaseLocationGeonamesImport):
         import_wizard = self.geonames_import_wizard.with_context(max_import=10).create(
             {
                 "country_ids": [Command.set([country.id])],
-                "location_thailand_language": lang,
             }
         )
         import_wizard.run_import()
@@ -39,12 +38,11 @@ class TestTHBaseLocation(TestBaseLocationGeonamesImport):
         """Test Import Thailand Location"""
         country = self.country_state.search([("code", "=", "TH-10")], limit=1)
         country.unlink()
-        import_wizard = self.create_geonames_import(self.country_th, "th")
-        self.assertTrue(import_wizard.is_thailand)
+        self.create_geonames_import(self.country_th, "th")
 
         # If thai language, it will show 'กรุงเทพมหานคร'
         state_id = self.country_state.search([("code", "=", "TH-10")], limit=1)
-        record = self.partner_model.create(
+        partner = self.partner_model.create(
             {
                 "name": "ทำเนียบรัฐบาล",
                 "street": "1 ถนนนครปฐม",
@@ -53,8 +51,7 @@ class TestTHBaseLocation(TestBaseLocationGeonamesImport):
                 "state_id": state_id.id,
             }
         )
-        name = record.state_id.name_get()
-        self.assertEqual(name[0][1], "กรุงเทพมหานคร")
+        self.assertEqual(partner.state_id.display_name, "กรุงเทพมหานคร")
 
         city_zip = self.zip_id.search(
             [("city_id.country_id", "=", self.country_th.id)], limit=1
