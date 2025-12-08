@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_company_form" model="ir.ui.view">
+        <field name="name">company.form.address.extended.subdistrict_id</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_th_base_location.view_company_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_address_format')]" position="after">
+                <span
+                    class="o_form_label o_td_label o_address_type"
+                    name="address_name"
+                >
+                    <span>Address2</span>
+                </span>
+                <div class="o_address_format">
+                    <field name="subdistrict2_id" placeholder="SubDistrict2" />
+                    <field
+                        name="city2_id"
+                        placeholder="City2"
+                        class="o_address_city"
+                        domain="[('country_id', '=', country_id)]"
+                        context="{'default_country_id': country_id, 'default_state_id': state_id, 'default_zipcode': zip}"
+                    />
+                    <field
+                        name="state2_id"
+                        class="o_address_state"
+                        placeholder="State2"
+                        options="{'no_open': True, 'no_quick_create': True}"
+                        context="{'default_country_id': country_id}"
+                    />
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
