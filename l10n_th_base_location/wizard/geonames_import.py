@@ -6,7 +6,7 @@ from collections import defaultdict
 
 import requests
 
-from odoo import api, fields, models
+from odoo import api, models
 from odoo.exceptions import UserError
 
 logger = logging.getLogger(__name__)
@@ -14,21 +14,6 @@ logger = logging.getLogger(__name__)
 
 class CityZipGeonamesImport(models.TransientModel):
     _inherit = "city.zip.geonames.import"
-
-    is_thailand = fields.Boolean(
-        compute="_compute_is_thailand",
-        help="For Thailand only, data is from TH_th.txt and TH_en.txt stored "
-        "in the module's data folder. To get data from Geonames.org, "
-        "please uninstall l10n_th_base_location.",
-    )
-    location_thailand_language = fields.Selection(
-        [("th", "Thai"), ("en", "English")], string="Language of Thailand", default="th"
-    )
-
-    @api.depends("country_ids")
-    def _compute_is_thailand(self):
-        self.ensure_one()
-        self.is_thailand = "TH" in self.country_ids.mapped("code")
 
     @api.model
     def prepare_zip(self, row, city_id):
@@ -49,6 +34,17 @@ class CityZipGeonamesImport(models.TransientModel):
             "code": row[7],
         }
         return vals
+
+    def _action_remove_old_records(self, model_name, old_records, country):
+        """Case: import again, it must remove subdistrict first"""
+        ctx = {}
+        if model_name == "res.city" and not self.env.context.get("rm_subdistrict"):
+            cities = self.env["res.city"].browse(list(old_records))
+            cities.mapped("subdistrict_ids").unlink()
+            ctx = {"rm_subdistrict": 1}
+        return super(
+            CityZipGeonamesImport, self.with_context(**ctx)
+        )._action_remove_old_records(model_name, old_records, country)
 
     def _create_subdistrict_th(self, subdistrict_list):
         created_subdistricts = self.env["res.subdistrict"].create(subdistrict_list)
@@ -167,19 +163,21 @@ class CityZipGeonamesImport(models.TransientModel):
             # - (6) Sub-district
             # - (7) Sub-district Code
             # - (8) District Code (City Code)
-            lang = "name_th" if self.location_thailand_language == "th" else "name_en"
-            parsed_csv = [
-                [
-                    "TH",
-                    data["zip_code"],
-                    data["district"][lang],
-                    data["district"]["province"][lang],
-                    f"TH-{str(data['id'])[:2]}",
-                    data[lang],
-                    data["id"],
-                    data["district"]["id"],
+            name_import = {"TH": "name_th", "EN": "name_en"}
+            parsed_csv = []
+            for key, lang in name_import.items():
+                parsed_csv += [
+                    [
+                        "TH",
+                        data["zip_code"],
+                        data["district"][lang],
+                        data["district"]["province"][lang],
+                        f"{key}-{str(data['id'])[:2]}",
+                        data[lang],
+                        data["id"],
+                        data["district"]["id"],
+                    ]
+                    for data in json_data
                 ]
-                for data in json_data
-            ]
             return parsed_csv
         return super().get_and_parse_csv(country)

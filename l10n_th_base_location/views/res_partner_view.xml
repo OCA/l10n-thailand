@@ -8,6 +8,7 @@
             <xpath expr="//field[@name='country_enforce_cities']" position="before">
                 <field name="country_enforce_subdistrict" invisible="1" />
                 <field name="zip_id" position="move" />
+                <field name="subdistrict" invisible="1" />
                 <field
                     name="subdistrict_id"
                     placeholder="SubDistrict"
@@ -16,7 +17,6 @@
                     readonly="type == 'contact' and parent_id"
                 />
             </xpath>
-
             <xpath
                 expr="//field[@name='child_ids']//form//field[@name='country_enforce_cities']"
                 position="before"
