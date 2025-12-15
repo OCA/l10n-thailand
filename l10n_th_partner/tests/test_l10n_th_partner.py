@@ -30,7 +30,6 @@ class TestL10nThPartner(TransactionCase):
         """Test that you change title"""
         self.assertEqual(self.user.name, "Firstname Lastname")
         self.user.title = self.title
-        self.user._compute_name()
         self.assertEqual(self.user.name, "Miss Firstname Lastname")
 
     def test_res_partner(self):

@@ -205,7 +205,7 @@ class TestWithholdingTax(AccountTestInvoicingCommon):
         self.assertEqual(register_payment.writeoff_label, "Withholding Tax 3%")
         action_payment = register_payment.action_create_payments()
         payment = self.env[action_payment["res_model"]].browse(action_payment["res_id"])
-        self.assertEqual(payment.state, "paid")
+        self.assertEqual(payment.state, "in_process")
         self.assertEqual(payment.amount, price_unit * 0.97)
         self.assertFalse(payment.wht_certs_count)
         # Allow create WHT Cert, but not yet
@@ -301,7 +301,7 @@ class TestWithholdingTax(AccountTestInvoicingCommon):
         payment_id = self.env[action_payment["res_model"]].browse(
             action_payment["res_id"]
         )
-        self.assertEqual(payment_id.state, "paid")
+        self.assertEqual(payment_id.state, "in_process")
         self.assertEqual(payment_id.amount, price_unit * 0.97)
 
     def test_03_withholding_tax_customer_invoice(self):
@@ -404,7 +404,7 @@ class TestWithholdingTax(AccountTestInvoicingCommon):
         self.assertEqual(register_payment.writeoff_label, "Withholding Tax 3%")
         action_payment = register_payment.action_create_payments()
         payment = self.env[action_payment["res_model"]].browse(action_payment["res_id"])
-        self.assertEqual(payment.state, "paid")
+        self.assertEqual(payment.state, "in_process")
         self.assertEqual(payment.amount, 2 * price_unit * 0.97)
 
     def test_05_create_wht_cert_journal(self):
