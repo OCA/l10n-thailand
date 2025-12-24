@@ -190,6 +190,11 @@ class WithholdingTaxCert(models.Model):
         copy=False,
         tracking=True,
     )
+    verify_by = fields.Many2one(
+        comodel_name="res.users",
+        copy=False,
+        tracking=True,
+    )
 
     @api.depends("payment_id", "move_id")
     def _compute_wht_cert_data(self):
@@ -198,8 +203,12 @@ class WithholdingTaxCert(models.Model):
             rec.date = rec.payment_id.date or rec.move_id.date or rec.date
 
     def action_draft(self):
-        self.write({"state": "draft"})
-        return True
+        return self.write(
+            {
+                "verify_by": False,
+                "state": "draft",
+            }
+        )
 
     def action_done(self):
         for rec in self:
@@ -208,11 +217,16 @@ class WithholdingTaxCert(models.Model):
                 rec.ref_wht_cert_id.message_post(
                     body=_("This document was substituted by %s.") % rec.name
                 )
-        self.write({"state": "done"})
+        self.write({"verify_by": self.env.user.id, "state": "done"})
         return True
 
     def action_cancel(self):
-        self.write({"state": "cancel"})
+        self.write(
+            {
+                "verify_by": False,
+                "state": "cancel",
+            }
+        )
         return True
 
     @api.onchange("income_tax_form")
