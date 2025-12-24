@@ -10,3 +10,4 @@ class ResCompany(models.Model):
         string="Preprint - Withholding Tax Cert Form",
         help="If checked, wht cert form will show layout pre-print",
     )
+    wht_form_print_signature = fields.Boolean(string="WHT Cert - Print Signature")
