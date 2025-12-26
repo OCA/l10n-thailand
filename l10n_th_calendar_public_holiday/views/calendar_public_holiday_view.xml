@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_calendar_public_holiday_form_inherit_bot" model="ir.ui.view">
+        <field name="name"> calendar.public.holiday.form.inherit.bot</field>
+        <field name="model">calendar.public.holiday</field>
+        <field
+            name="inherit_id"
+            ref="calendar_public_holiday.view_calendar_public_holiday_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <header>
+                    <button
+                        name="action_sync_bot_holidays"
+                        type="object"
+                        string="Sync BOT Holidays"
+                        class="btn-primary"
+                        icon="fa-refresh"
+                    />
+                </header>
+                <xpath expr="//group[@name='group_main_right']" position="move" />
+                <xpath expr="//separator[@name='group_detail']" position="move" />
+                <xpath expr="//field[@name='line_ids']" position="move" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
