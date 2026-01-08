@@ -62,10 +62,7 @@ class AccountPartialReconcile(models.Model):
             and not line.reconciled
         )
         if del_move_lines:
-            self.env.cr.execute(
-                "DELETE FROM account_move_line WHERE id in %s",
-                (tuple(del_move_lines.ids),),
-            )
+            del_move_lines.with_context(force_delete=1, dynamic_unlink=1).unlink()
 
         # Case: Vendor Bills only.
         # Reset tax cash basis to draft. until clear tax or reset payment
