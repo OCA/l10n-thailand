@@ -12,7 +12,6 @@
     "data": [
         "security/ir.model.access.csv",
         "data/ir_config_parameter.xml",
-        "data/res.country.state.csv",
         "views/res_partner_view.xml",
         "views/res_company_view.xml",
         "views/res_city_view.xml",

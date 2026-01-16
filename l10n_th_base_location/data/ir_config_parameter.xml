@@ -5,6 +5,6 @@
         <!-- keep key creation with False to avoid test conflicts -->
         <field
             name="value"
-        >https://raw.githubusercontent.com/kongvut/thai-province-data/refs/heads/master/api/latest/sub_district_with_district_and_province.json</field>
+        >https://raw.githubusercontent.com/ecosoft-odoo/thai-province-data/refs/heads/add-add_prefix_distric_and_sub/api/latest/sub_district_with_district_and_province.json</field>
     </record>
 </odoo>

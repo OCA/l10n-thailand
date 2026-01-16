@@ -93,6 +93,8 @@ class CityZipGeonamesImport(models.TransientModel):
                     "name": row[5],
                     "code": row[6],
                     "zipcode": row[1],
+                    "prefix": row[8],
+                    "short_prefix": row[11] if len(row) > 11 else "",
                 }
             if not city:
                 city_vals = self.prepare_city_th(row, country, state)
@@ -163,21 +165,91 @@ class CityZipGeonamesImport(models.TransientModel):
             # - (6) Sub-district
             # - (7) Sub-district Code
             # - (8) District Code (City Code)
-            name_import = {"TH": "name_th", "EN": "name_en"}
+            # - (9) Subdistrict prefix
+            # - (10) District prefix
+            # - (11) Province prefix
+            # - (12) Subdistrict short_prefix
+            # - (13) District short_prefix
+            # - (14) Province short_prefix
+            # Note: core Odoo stores TH state names in Thai with TH-xx codes
+            # (ref: odoo/odoo#244165). The TH pass reuses those TH-xx states;
+            # the EN pass uses EN-xx
+            # short_prefix is Thai only (row[11-13] empty for EN pass).
+            # row[14] carries the lang key ("TH"/"EN") for _process_csv to
+            # distinguish which pass should update short_prefix.
+            name_import = {"TH": "th", "EN": "en"}
             parsed_csv = []
             for key, lang in name_import.items():
                 parsed_csv += [
                     [
-                        "TH",
-                        data["zip_code"],
-                        data["district"][lang],
-                        data["district"]["province"][lang],
-                        f"{key}-{str(data['id'])[:2]}",
-                        data[lang],
-                        data["id"],
-                        data["district"]["id"],
+                        "TH",  # Country code
+                        data.get("zip_code"),  # Zip
+                        data["district"]["name"][lang],  # City (District)
+                        data["district"]["province"]["name"][lang],  # State (Province)
+                        f"{key}-{str(data['id'])[:2]}",  # State code
+                        data["name"][lang],  # Subdistrict
+                        data["id"],  # Subdistrict code
+                        data["district"]["id"],  # District code
+                        data["prefix"][lang],  # Subdistrict prefix
+                        data["district"]["prefix"][lang],  # District prefix
+                        data["district"]["province"]["prefix"][lang],  # Province prefix
+                        data.get("short_prefix", "")
+                        if key == "TH"
+                        else "",  # Subdistrict short_prefix (TH only)
+                        data["district"].get("short_prefix", "")
+                        if key == "TH"
+                        else "",  # District short_prefix (TH only)
+                        data["district"]["province"].get("short_prefix", "")
+                        if key == "TH"
+                        else "",  # Province short_prefix (TH only)
+                        key,  # Lang key for _process_csv
                     ]
                     for data in json_data
                 ]
             return parsed_csv
         return super().get_and_parse_csv(country)
+
+    def _process_csv(self, parsed_csv, country):
+        res = super()._process_csv(parsed_csv, country)
+        if country.code != "TH":
+            return res
+        for row in parsed_csv:
+            if len(row) < 11:
+                continue
+            is_th_pass = len(row) > 14 and row[14] == "TH"
+            state = self.env["res.country.state"].search(
+                [
+                    ("code", "=", row[country.geonames_state_code_column or 4]),
+                    ("country_id", "=", country.id),
+                ],
+                limit=1,
+            )
+            if not state:
+                continue
+            if row[10]:
+                state.prefix = row[10]
+            if is_th_pass and len(row) > 13 and row[13]:
+                state.short_prefix = row[13]
+            city = self.env["res.city"].search(
+                [
+                    ("name", "=", self.transform_city_name(row[2], country)),
+                    ("state_id", "=", state.id),
+                ],
+                limit=1,
+            )
+            if city and row[9]:
+                city.prefix = row[9]
+            if is_th_pass and city and len(row) > 12 and row[12]:
+                city.short_prefix = row[12]
+            if city and row[8]:
+                zip_rec = self.env["res.city.zip"].search(
+                    [
+                        ("name", "=", row[1]),
+                        ("city_id", "=", city.id),
+                    ]
+                )
+                if zip_rec:
+                    zip_rec.prefix = row[8]
+                    if is_th_pass and len(row) > 11 and row[11]:
+                        zip_rec.short_prefix = row[11]
+        return res

@@ -23,3 +23,5 @@ class City(models.Model):
         inverse_name="city_id",
         string="Sub-District",
     )
+    prefix = fields.Char()
+    short_prefix = fields.Char()

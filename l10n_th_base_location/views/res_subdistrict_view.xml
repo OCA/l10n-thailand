@@ -5,6 +5,8 @@
         <field name="model">res.subdistrict</field>
         <field name="arch" type="xml">
             <list string="Sub-District" editable="top">
+                <field name="prefix" />
+                <field name="short_prefix" />
                 <field name="name" />
                 <field name="code" />
                 <field name="city_id" />
