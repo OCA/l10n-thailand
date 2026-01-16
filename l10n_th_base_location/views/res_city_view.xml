@@ -8,6 +8,8 @@
             <xpath expr="//field[@name='name']" position="after">
                 <field name="code" />
                 <field name="subdistrict_ids" widget="many2many_tags" />
+                <field name="prefix" />
+                <field name="short_prefix" />
             </xpath>
         </field>
     </record>
@@ -34,6 +36,10 @@
         <field name="model">res.city</field>
         <field name="inherit_id" ref="base_location.view_city_form" />
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="prefix" />
+                <field name="short_prefix" />
+            </xpath>
             <xpath expr="//notebook" position="inside">
                 <page name="subdistrict" string="Sub-District">
                     <field name="subdistrict_ids" />

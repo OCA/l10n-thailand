@@ -23,3 +23,5 @@ class SubDistrict(models.Model):
     code = fields.Char(index=True)
     city_id = fields.Many2one(comodel_name="res.city", required=True, index=True)
     zipcode = fields.Char(string="Zip")
+    prefix = fields.Char()
+    short_prefix = fields.Char()

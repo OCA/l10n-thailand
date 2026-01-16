@@ -73,6 +73,12 @@ class TestTHBaseLocation(TestBaseLocationGeonamesImport):
         company = company_form.save()
         self.assertEqual(company.subdistrict_id.name, sub_district)
         self.assertEqual(company.city, district)
+        # short_prefix: Bangkok province has no short_prefix,
+        # districts use "เขต" and subdistricts use "แขวง"
+        self.assertFalse(state_id.short_prefix)
+        self.assertEqual(city_zip.city_id.short_prefix, "เขต")
+        self.assertEqual(city_zip.subdistrict_id.short_prefix, "แขวง")
+        self.assertEqual(city_zip.short_prefix, "แขวง")
         # # Test import Thai location with EN language
         # import_wizard = self.create_geonames_import(self.country_th, "en")
         # # If thai language, it will show 'Bangkok'

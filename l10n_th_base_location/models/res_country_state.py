@@ -1,11 +1,14 @@
 # Copyright 2021 Sansiri Tanachutiwat
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import api, models
+from odoo import api, fields, models
 
 
 class CountryState(models.Model):
     _inherit = "res.country.state"
+
+    prefix = fields.Char()
+    short_prefix = fields.Char()
 
     @api.depends("name", "country_id")
     def _compute_display_name(self):

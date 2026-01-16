@@ -1,13 +1,12 @@
 # Copyright 2020 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
+import csv
 import logging
 from collections import defaultdict
 
-import requests
-
 from odoo import api, models
-from odoo.exceptions import UserError
+from odoo.tools import file_open
 
 logger = logging.getLogger(__name__)
 
@@ -93,6 +92,8 @@ class CityZipGeonamesImport(models.TransientModel):
                     "name": row[5],
                     "code": row[6],
                     "zipcode": row[1],
+                    "prefix": row[8],
+                    "short_prefix": row[11] if len(row) > 11 else "",
                 }
             if not city:
                 city_vals = self.prepare_city_th(row, country, state)
@@ -136,48 +137,76 @@ class CityZipGeonamesImport(models.TransientModel):
 
     @api.model
     def get_and_parse_csv(self, country):
-        if country.code == "TH":
-            url = self.env["ir.config_parameter"].get_param("geonames.th.url")
-            if not url:
-                return super().get_and_parse_csv(country)
-
-            res_request = requests.get(url, timeout=15)
-            if res_request.status_code != requests.codes.ok:
-                # pylint: disable=translation-positional-used - Don't want to re-translate
-                raise UserError(
-                    self.env._(
-                        "Got an error %d when trying to download the file %s.",
-                        res_request.status_code,
-                        url,
-                    )
-                )
-
-            json_data = res_request.json()
-            # Standard Format is
-            # - (1) Code Country
-            # - (2) Zip Code
-            # - (3) District (City)
-            # - (4) State (Province)
-            # - (5) State Code (Province Code)
-            # For Thailand, we add subdistrict at row6
-            # - (6) Sub-district
-            # - (7) Sub-district Code
-            # - (8) District Code (City Code)
-            name_import = {"TH": "name_th", "EN": "name_en"}
-            parsed_csv = []
-            for key, lang in name_import.items():
-                parsed_csv += [
-                    [
-                        "TH",
-                        data["zip_code"],
-                        data["district"][lang],
-                        data["district"]["province"][lang],
-                        f"{key}-{str(data['id'])[:2]}",
-                        data[lang],
-                        data["id"],
-                        data["district"]["id"],
-                    ]
-                    for data in json_data
+        if country.code != "TH":
+            return super().get_and_parse_csv(country)
+        with file_open("l10n_th_base_location/data/th_subdistrict.csv") as f:
+            data = list(csv.DictReader(f))
+        parsed_csv = []
+        for key, lang in (("TH", "th"), ("EN", "en")):
+            is_th = key == "TH"
+            parsed_csv += [
+                [
+                    "TH",
+                    row["zip"],
+                    row[f"district_{lang}"],
+                    row[f"province_{lang}"],
+                    f"{key}-{row['subdistrict_code'][:2]}",
+                    row[f"subdistrict_{lang}"],
+                    row["subdistrict_code"],
+                    row["district_code"],
+                    row[f"subdistrict_prefix_{lang}"],
+                    row[f"district_prefix_{lang}"],
+                    row[f"province_prefix_{lang}"],
+                    row["subdistrict_short_prefix"] if is_th else "",
+                    row["district_short_prefix"] if is_th else "",
+                    row["province_short_prefix"] if is_th else "",
+                    key,
                 ]
-            return parsed_csv
-        return super().get_and_parse_csv(country)
+                for row in data
+            ]
+        return parsed_csv
+
+    def _process_csv(self, parsed_csv, country):
+        res = super()._process_csv(parsed_csv, country)
+        if country.code != "TH":
+            return res
+        for row in parsed_csv:
+            if len(row) < 11:
+                continue
+            is_th_pass = len(row) > 14 and row[14] == "TH"
+            state = self.env["res.country.state"].search(
+                [
+                    ("code", "=", row[country.geonames_state_code_column or 4]),
+                    ("country_id", "=", country.id),
+                ],
+                limit=1,
+            )
+            if not state:
+                continue
+            if row[10]:
+                state.prefix = row[10]
+            if is_th_pass and len(row) > 13 and row[13]:
+                state.short_prefix = row[13]
+            city = self.env["res.city"].search(
+                [
+                    ("name", "=", self.transform_city_name(row[2], country)),
+                    ("state_id", "=", state.id),
+                ],
+                limit=1,
+            )
+            if city and row[9]:
+                city.prefix = row[9]
+            if is_th_pass and city and len(row) > 12 and row[12]:
+                city.short_prefix = row[12]
+            if city and row[8]:
+                zip_rec = self.env["res.city.zip"].search(
+                    [
+                        ("name", "=", row[1]),
+                        ("city_id", "=", city.id),
+                    ]
+                )
+                if zip_rec:
+                    zip_rec.prefix = row[8]
+                    if is_th_pass and len(row) > 11 and row[11]:
+                        zip_rec.short_prefix = row[11]
+        return res

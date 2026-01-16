@@ -24,6 +24,8 @@ class ResCityZip(models.Model):
         ondelete="cascade",
         index=True,
     )
+    prefix = fields.Char()
+    short_prefix = fields.Char()
 
     @api.depends(
         "name",

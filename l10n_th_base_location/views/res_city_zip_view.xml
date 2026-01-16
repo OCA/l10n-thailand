@@ -5,6 +5,8 @@
         <field name="inherit_id" ref="base_location.city_zip_tree" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='city_id']" position="before">
+                <field name="prefix" />
+                <field name="short_prefix" />
                 <field name="subdistrict_id" />
             </xpath>
         </field>

@@ -9,4 +9,15 @@
             </xpath>
         </field>
     </record>
+
+    <record id="view_country_state_tree_prefix" model="ir.ui.view">
+        <field name="model">res.country.state</field>
+        <field name="inherit_id" ref="base.view_country_state_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="prefix" />
+                <field name="short_prefix" />
+            </xpath>
+        </field>
+    </record>
 </odoo>
