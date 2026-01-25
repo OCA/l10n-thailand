@@ -9,5 +9,5 @@ class ResCompany(models.Model):
 
     api_client_id = fields.Char()
     route_path = fields.Char(
-        default="https://apigw1.bot.or.th/bot/public/financial-institutions-holidays/",
+        default="https://gateway.api.bot.or.th/financial-institutions-holidays/",
     )

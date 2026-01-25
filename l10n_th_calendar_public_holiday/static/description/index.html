@@ -431,7 +431,7 @@ steps:</p>
 <div class="section" id="example-configuration">
 <h2><a class="toc-backref" href="#toc-entry-2">Example Configuration</a></h2>
 <pre class="literal-block">
-Route Path: https://api.example.com/v1/public-holidays/
+Route Path: https://gateway.api.bot.or.th/financial-institutions-holidays/
 API Client ID: your-api-key-here
 </pre>
 </div>
@@ -443,21 +443,27 @@ API Client ID: your-api-key-here
 <li><strong>Parameters</strong>: <tt class="docutils literal">year</tt> (required, format: YYYY)</li>
 <li><strong>Headers</strong>:<ul>
 <li><tt class="docutils literal">Accept: application/json</tt></li>
-<li><tt class="docutils literal"><span class="pre">X-IBM-Client-Id:</span> <span class="pre">[your-api-client-id]</span></tt></li>
+<li><tt class="docutils literal">Authorization: <span class="pre">[your-api-client-id]</span></tt></li>
 </ul>
 </li>
 <li><strong>Response Format</strong>:</li>
 </ul>
 <pre class="code json literal-block">
 <span class="p">{</span><span class="w">
-    </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-                </span><span class="nt">&quot;Date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-01&quot;</span><span class="p">,</span><span class="w">
-                </span><span class="nt">&quot;HolidayDescriptionThai&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;วันขึ้นปีใหม่&quot;</span><span class="w">
-            </span><span class="p">}</span><span class="w">
-        </span><span class="p">]</span><span class="w">
-    </span><span class="p">}</span><span class="w">
+  </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;api&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;API_V2.FIHolidays&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-01-25 20:29:16&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">&quot;HolidayWeekDay&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Thursday&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;HolidayWeekDayThai&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;วันพฤหัสบดี&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;Date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-01-01&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;DateThai&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;01/01/2569&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;HolidayDescription&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;New Year’s Day&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;HolidayDescriptionThai&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;วันขึ้นปีใหม่&quot;</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span>
 </pre>
 </div>
@@ -553,7 +559,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <div class="section" id="contributors">
 <h2><a class="toc-backref" href="#toc-entry-19">Contributors</a></h2>
 <ul class="simple">
-<li>NakrobS <a class="reference external" href="mailto:nakrobS&#64;ecosoft.co.th">nakrobS&#64;ecosoft.co.th</a></li>
+<li>NakrobS <a class="reference external" href="mailto:nakrobs&#64;ecosoft.co.th">nakrobs&#64;ecosoft.co.th</a></li>
 </ul>
 </div>
 <div class="section" id="maintainers">

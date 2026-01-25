@@ -12,7 +12,7 @@ To use the automatic BOT API synchronization feature, follow these steps:
 ## Example Configuration
 
 ```
-Route Path: https://api.example.com/v1/public-holidays/
+Route Path: https://gateway.api.bot.or.th/financial-institutions-holidays/
 API Client ID: your-api-key-here
 ```
 
@@ -24,17 +24,23 @@ The BOT API endpoint must support the following:
 - **Parameters**: `year` (required, format: YYYY)
 - **Headers**:
   - `Accept: application/json`
-  - `X-IBM-Client-Id: [your-api-client-id]`
+  - `Authorization: [your-api-client-id]`
 - **Response Format**:
 ```json
 {
-    "result": {
-        "data": [
-            {
-                "Date": "2024-01-01",
-                "HolidayDescriptionThai": "วันขึ้นปีใหม่"
-            }
-        ]
-    }
+  "result": {
+    "api": "API_V2.FIHolidays",
+    "timestamp": "2026-01-25 20:29:16",
+    "data": [
+      {
+        "HolidayWeekDay": "Thursday",
+        "HolidayWeekDayThai": "วันพฤหัสบดี",
+        "Date": "2026-01-01",
+        "DateThai": "01/01/2569",
+        "HolidayDescription": "New Year’s Day",
+        "HolidayDescriptionThai": "วันขึ้นปีใหม่"
+      }
+    ]
+  }
 }
 ```

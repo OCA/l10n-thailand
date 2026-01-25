@@ -41,13 +41,22 @@ class ResourceCalendarPublicHoliday(models.Model):
             "year": str(self.year),
         }
 
-    def _call_api_public_holiday(self, api_data):
-        params = {"year": api_data["year"]}
-        headers = {
-            "Accept": "application/json",
-            "X-IBM-Client-Id": api_data["client_id"],
+    def _get_public_holiday_params(self, api_data):
+        """Prepare request params"""
+        return {
+            "year": api_data["year"],
         }
 
+    def _get_public_holiday_headers(self, api_data):
+        """Prepare request headers"""
+        return {
+            "Accept": "application/json",
+            "Authorization": api_data["client_id"],
+        }
+
+    def _call_api_public_holiday(self, api_data):
+        params = self._get_public_holiday_params(api_data)
+        headers = self._get_public_holiday_headers(api_data)
         try:
             res = requests.get(
                 api_data["route_path"], params=params, headers=headers, timeout=30
@@ -59,7 +68,6 @@ class ResourceCalendarPublicHoliday(models.Model):
             raise ValidationError(self.env._("Connection error: %s") % e) from e
         except requests.HTTPError as e:
             raise ValidationError(self.env._("HTTP error: %s") % e) from e
-
         return res
 
     def _parse_bot_response(self, response):
@@ -70,7 +78,6 @@ class ResourceCalendarPublicHoliday(models.Model):
             raise ValidationError(
                 self.env._("Invalid JSON response from API: %s") % e
             ) from e
-
         return self._normalize_bot_response(json_res)
 
     def _normalize_bot_response(self, json_res):
@@ -82,7 +89,6 @@ class ResourceCalendarPublicHoliday(models.Model):
             result = {"result": {"data": json_res}}
         else:
             result = {"result": {"data": [json_res]}}
-
         return self._prepare_bot_holiday_lines(result)
 
     def _prepare_bot_holiday_lines(self, result):
@@ -92,28 +98,23 @@ class ResourceCalendarPublicHoliday(models.Model):
         """
         if not isinstance(result, dict):
             return []
-
         result_data = result.get("result", {})
         holidays = result_data.get("data", [])
 
         if not isinstance(holidays, list):
             return []
-
         normalized = []
         for item in holidays:
             date = item.get("Date")
             name = item.get("HolidayDescriptionThai")
-
             if not date or not name:
                 continue
-
             normalized.append(
                 {
                     "Date": date,
                     "HolidayDescriptionThai": name,
                 }
             )
-
         return normalized
 
     def _sync_bot_holiday_lines(self, holidays):
@@ -121,19 +122,15 @@ class ResourceCalendarPublicHoliday(models.Model):
         HolidayLine = self.env["calendar.public.holiday.line"]
         created = 0
         updated = 0
-
         for item in holidays:
             date_str = item.get("Date")
             name = item.get("HolidayDescriptionThai")
-
             if not date_str or not name:
                 continue
-
             date = fields.Date.from_string(date_str)
 
             if date.year != self.year:
                 continue
-
             existing_line = HolidayLine.search(
                 [
                     ("date", "=", date),
@@ -156,5 +153,4 @@ class ResourceCalendarPublicHoliday(models.Model):
                     }
                 )
                 created += 1
-
         return {"created": created, "updated": updated}

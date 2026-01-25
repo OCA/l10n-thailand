@@ -17,9 +17,9 @@
                         <field name="route_path" />
                     </setting>
                     <setting
-                        string="X-IBM-Client-Id"
-                        help="apiKey located in header"
-                        id="x_ibm_client_id_setting"
+                        string="Authorization"
+                        help="Authorization token for The Bank of Thailand API in header"
+                        id="authorization_setting"
                     >
                         <field name="api_client_id" />
                     </setting>
