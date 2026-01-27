@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ===================================
 Thai Localization - Base Utils Thai
 ===================================
@@ -17,7 +13,7 @@ Thai Localization - Base Utils Thai
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github
@@ -43,22 +39,20 @@ It includes features such as:
 
 - Thai font support:
 
-  - Font ``THSrisakdi``
-  - Font ``THSarabunNew``
-  - Font ``THSarabun``
-  - Font ``THNiramitAS``
-  - Font ``THMaliGrade6``
-  - Font ``THKrub``
-  - Font ``THKoHo``
-  - Font ``THKodchasal``
-  - Font ``THK2DJuly8``
-  - Font ``THFahkwang``
-  - Font ``THCharmonman``
-  - Font ``THCharmofAU``
-  - Font ``THChakraPetch``
   - Font ``THBaijam``
-  - Font ``AngsanaNew``
-  - Font ``Webdings``
+  - Font ``THChakraPetch``
+  - Font ``THCharmofAU``
+  - Font ``THCharmonman``
+  - Font ``THFahKwang``
+  - Font ``THK2DJuly8``
+  - Font ``THKodchasal``
+  - Font ``THKoHo``
+  - Font ``THKrub``
+  - Font ``THMaliGrade6``
+  - Font ``THNiramitAS``
+  - Font ``THSarabun``
+  - Font ``THSarabunNew``
+  - Font ``THSrisakdi``
 
 **Table of contents**
 
