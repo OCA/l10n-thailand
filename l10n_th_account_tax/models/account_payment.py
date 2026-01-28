@@ -50,6 +50,10 @@ class AccountPayment(models.Model):
         string="# Withholding Tax Certs",
         compute="_compute_wht_certs_count",
     )
+    # NOTE: Add this field for keep original invoices only, Used in V15
+    original_move_ids = fields.Many2many(
+        comodel_name="account.move",
+    )
 
     @api.depends("wht_cert_ids")
     def _compute_wht_certs_count(self):

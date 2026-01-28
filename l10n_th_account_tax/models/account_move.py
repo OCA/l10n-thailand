@@ -465,6 +465,7 @@ class AccountMove(models.Model):
         # - Create account.withholding.move, for every withholding tax line
         # - For case PIT, it is possible that there is no withholidng amount
         #   but still need to keep track the withholding.move base amount
+        AccountMove = self.env["account.move"]
         for move in self:
             # Normal case, create withholding.move only when withholding
             wht_moves = move.line_ids.filtered("account_id.wht_account")
@@ -475,18 +476,21 @@ class AccountMove(models.Model):
             move.write({"wht_move_ids": [(5, 0, 0)] + withholding_moves})
             # On payment JE, keep track of move when PIT not withheld, use data from vendor bill
             if move.payment_id and not move.payment_id.wht_move_ids.mapped("is_pit"):
+                bills = AccountMove
                 if self.env.context.get("active_model") == "account.move":
-                    bills = self.env["account.move"].browse(
-                        self.env.context.get("active_ids", [])
-                    )
-                    bill_wht_lines = bills.mapped("line_ids").filtered(
-                        "wht_tax_id.is_pit"
-                    )
-                    bill_wht_moves = [
-                        (0, 0, self._prepare_withholding_move(bill_wht_move))
-                        for bill_wht_move in bill_wht_lines
-                    ]
-                    move.write({"wht_move_ids": bill_wht_moves})
+                    bills = AccountMove.browse(self.env.context.get("active_ids", []))
+                elif move.payment_id.original_move_ids:
+                    bills = move.payment_id.original_move_ids
+                if not bills:
+                    continue
+
+                bill_wht_lines = bills.mapped("line_ids").filtered("wht_tax_id.is_pit")
+                bill_wht_moves = [
+                    (0, 0, self._prepare_withholding_move(bill_wht_move))
+                    for bill_wht_move in bill_wht_lines
+                ]
+                move.write({"wht_move_ids": bill_wht_moves})
+
         # When post, do remove the existing certs
         self.mapped("wht_cert_ids").unlink()
         return res
