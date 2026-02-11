@@ -40,7 +40,7 @@ class ResPartner(models.Model):
     @api.model
     def _get_computed_name(self, lastname, firstname):
         name = super()._get_computed_name(lastname, firstname)
-        title = self.title.name
+        title = self.title_id.name
         if name and title:
             # disable space on title and name
             if self.env.company.no_space_title_name:
@@ -49,7 +49,7 @@ class ResPartner(models.Model):
         return name
 
     @api.depends(
-        "title", "firstname", "lastname", "name_company", "partner_company_type_id"
+        "title_id", "firstname", "lastname", "name_company", "partner_company_type_id"
     )
     def _compute_name(self):
         """Compute name with company only"""
@@ -69,7 +69,7 @@ class ResPartner(models.Model):
     @api.onchange("company_type")
     def _onchange_company_type(self):
         if self.company_type == "company":
-            self.title = False
+            self.title_id = False
         else:
             self.partner_company_type_id = False
 

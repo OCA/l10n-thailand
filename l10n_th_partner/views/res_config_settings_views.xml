@@ -11,7 +11,7 @@
         />
         <field name="arch" type="xml">
             <xpath
-                expr="//block[@name='partner_names_order_setting_container']"
+                expr="//block[@name='partner_names_setting_container']"
                 position="inside"
             >
                 <setting
