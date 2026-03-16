@@ -566,3 +566,114 @@ class TestWithholdingTax(AccountTestInvoicingCommon):
         )
         # For entry move type, wht_tax_id should be False (else branch)
         self.assertFalse(move.line_ids.mapped("wht_tax_id"))
+
+    def test_09_supplier_company_wht_tax(self):
+        """Test _compute_wht_tax_id with company-type partner (supplier)"""
+        company_partner = self.env["res.partner"].create(
+            {"name": "Company Partner", "company_type": "company"}
+        )
+        product = self._config_product_withholding_tax(
+            self.product_1, self.wht_3.id, vendor=True
+        )
+        invoice = self._create_invoice(
+            company_partner.id,
+            self.purchase_journal.id,
+            "in_invoice",
+            self.expense_account.id,
+            100.0,
+            product.id,
+        )
+        # Company partner should get supplier_company_wht_tax_id
+        wht_tax = invoice.invoice_line_ids.wht_tax_id
+        self.assertTrue(wht_tax)
+
+    def test_10_get_wht_amount_no_wht_lines(self):
+        """Test _get_wht_amount returns (0, 0) when no WHT lines"""
+        move = self.move_obj.create(
+            {
+                "move_type": "entry",
+                "journal_id": self.misc_journal.id,
+                "line_ids": [
+                    Command.create(
+                        {
+                            "account_id": self.expense_account.id,
+                            "name": "Test",
+                            "debit": 100,
+                        },
+                    ),
+                    Command.create(
+                        {
+                            "account_id": self.liquidity_account.id,
+                            "name": "Test",
+                            "credit": 100,
+                        },
+                    ),
+                ],
+            }
+        )
+        currency = self.env.company.currency_id
+        result = move.line_ids._get_wht_amount(currency, fields.Date.today())
+        self.assertEqual(result, (0.0, 0.0))
+
+    def test_11_multi_wht_tax_payment_no_deduction(self):
+        """Test payment with multiple WHT taxes (unsupported in base module)"""
+        price_unit = 100.0
+        # Create invoice with 2 lines having different WHT taxes
+        invoice = self._create_invoice(
+            self.partner_1.id,
+            self.purchase_journal.id,
+            "in_invoice",
+            self.expense_account.id,
+            price_unit,
+        )
+        # Add another invoice line
+        invoice.write(
+            {
+                "invoice_line_ids": [
+                    Command.create(
+                        {
+                            "account_id": self.expense_account.id,
+                            "name": "Line 2",
+                            "price_unit": 50.0,
+                            "tax_ids": False,
+                        },
+                    )
+                ]
+            }
+        )
+        # Assign different WHT taxes to each line
+        lines = invoice.invoice_line_ids.sorted("id")
+        lines[0].wht_tax_id = self.wht_1.id
+        lines[1].wht_tax_id = self.wht_3.id
+        invoice.action_post()
+        # Payment - multiple WHT taxes means deduction_list > 1
+        # so amount_base=0 and _update_payment_register returns False
+        ctx = {
+            "active_ids": invoice.line_ids.ids,
+            "active_model": "account.move.line",
+        }
+        register_payment = Form(
+            self.wiz_payment_register_obj.with_context(**ctx),
+        ).save()
+        # With multi WHT, no automatic deduction is applied
+        self.assertFalse(register_payment.wht_tax_id)
+
+    def test_12_refund_payment_reverse_tax_invoice(self):
+        """Test payment on vendor refund sets reverse_tax_invoice context"""
+        price_unit = 100.0
+        refund = self._create_invoice(
+            self.partner_1.id,
+            self.purchase_journal.id,
+            "in_refund",
+            self.expense_account.id,
+            price_unit,
+        )
+        refund.action_post()
+        ctx = {
+            "active_ids": refund.line_ids.ids,
+            "active_model": "account.move.line",
+        }
+        register_payment = Form(
+            self.wiz_payment_register_obj.with_context(**ctx),
+        ).save()
+        register_payment.with_context(**ctx).action_create_payments()
