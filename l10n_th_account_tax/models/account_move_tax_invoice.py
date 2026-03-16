@@ -146,7 +146,8 @@ class AccountMoveTaxInvoice(models.Model):
                 report_late = str(difference.months)
             self.report_late_mo = report_late
 
-    def unlink(self):
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_last_tax_invoice(self):
         """Do not allow remove the last tax_invoice of move_line"""
         line_taxinv = {}
         for move_line in self.mapped("move_line_id"):
@@ -157,4 +158,3 @@ class AccountMoveTaxInvoice(models.Model):
             ):
                 raise UserError(self.env._("Cannot delete this last tax invoice line"))
             line_taxinv[rec.move_line_id.id].remove(rec.id)
-        return super().unlink()

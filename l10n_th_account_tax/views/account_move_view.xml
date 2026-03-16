@@ -168,7 +168,7 @@
                 <field name="partner_id" />
                 <field name="account_id" />
                 <field name="tax_line_id" />
-                <group string="Group By">
+                <group>
                     <filter
                         string="Date"
                         name="date"

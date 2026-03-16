@@ -72,7 +72,7 @@
                 <field name="payment_id" />
                 <field name="calendar_year" string="Calendar Year" />
                 <field name="partner_id" string="Vendor" />
-                <group expand="1" string="Group By">
+                <group>
                     <separator orientation="vertical_groupby" />
                     <filter
                         name="group_by_calendar_year"

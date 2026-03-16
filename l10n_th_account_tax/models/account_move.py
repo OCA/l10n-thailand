@@ -88,8 +88,10 @@ class AccountMoveLine(models.Model):
             effective_pit = pit_tax.with_context(pit_date=wht_date).pit_id
             if not effective_pit:
                 raise UserError(
-                    self.env._("No effective PIT rate for date %s")
-                    % format_date(self.env, wht_date)
+                    self.env._(
+                        "No effective PIT rate for date %(date)s",
+                        date=format_date(self.env, wht_date),
+                    )
                 )
 
             # Calculate WHT amount
@@ -558,6 +560,9 @@ class AccountMove(models.Model):
         return res
 
     def button_draft(self):
+        # In Odoo 19, button_draft no longer calls remove_move_reconcile,
+        # so we must do it here to properly reverse CABA entries on draft.
+        self.mapped("line_ids").remove_move_reconcile()
         res = super().button_draft()
         self.mapped("wht_cert_ids").action_cancel()
         return res
@@ -579,23 +584,15 @@ class AccountMove(models.Model):
         """Create withholding tax certs, 1 cert per partner"""
         self.ensure_one()
         AccountWithholdingTax = self.env["account.withholding.tax"]
-        wht_move_groups = self.env["account.withholding.move"].read_group(
+        wht_move_groups = self.env["account.withholding.move"]._read_group(
             domain=[("move_id", "=", self.id)],
-            fields=[
-                "partner_id",
-                "wht_cert_income_type",
-                "wht_cert_income_desc",
-                "wht_tax_id",
-                "amount_income",
-                "amount_wht",
-            ],
             groupby=[
                 "partner_id",
                 "wht_cert_income_type",
                 "wht_tax_id",
                 "wht_cert_income_desc",
             ],
-            lazy=False,
+            aggregates=["amount_income:sum", "amount_wht:sum"],
         )
         # Create 1 cert for 1 vendor
         partners = self.wht_move_ids.mapped("partner_id")
@@ -603,22 +600,21 @@ class AccountMove(models.Model):
         for partner in partners:
             cert_line_vals = []
             wht_tax_set = set()
-            wht_moves = list(
-                filter(lambda wht: wht["partner_id"][0] == partner.id, wht_move_groups)
-            )
-            for wht_move in wht_moves:
+            wht_moves = [g for g in wht_move_groups if g[0].id == partner.id]
+            for grp in wht_moves:
+                _partner, income_type, wht_tax, income_desc, amt_income, amt_wht = grp
                 cert_line_vals.append(
                     Command.create(
                         {
-                            "wht_cert_income_type": wht_move["wht_cert_income_type"],
-                            "wht_cert_income_desc": wht_move["wht_cert_income_desc"],
-                            "base": wht_move["amount_income"],
-                            "amount": wht_move["amount_wht"],
-                            "wht_tax_id": wht_move["wht_tax_id"][0],
+                            "wht_cert_income_type": income_type,
+                            "wht_cert_income_desc": income_desc,
+                            "base": amt_income,
+                            "amount": amt_wht,
+                            "wht_tax_id": wht_tax.id,
                         }
                     )
                 )
-                wht_tax_set.add(wht_move["wht_tax_id"][0])
+                wht_tax_set.add(wht_tax.id)
             cert_vals = {
                 "move_id": self.id,
                 "payment_id": self.origin_payment_id.id,

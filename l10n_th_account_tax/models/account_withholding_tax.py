@@ -47,9 +47,10 @@ class AccountWithholdingTax(models.Model):
         default=lambda self: self.env.company,
     )
 
-    _sql_constraints = [
-        ("name_unique", "UNIQUE(name,company_id)", "Name must be unique!"),
-    ]
+    _name_unique = models.Constraint(
+        "UNIQUE(name,company_id)",
+        "Name must be unique!",
+    )
 
     @api.constrains("is_pit")
     def _check_is_pit(self):
