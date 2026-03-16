@@ -29,21 +29,21 @@ class TestL10nThPartner(TransactionCase):
     def test_res_users(self):
         """Test that you change title"""
         self.assertEqual(self.user.name, "Firstname Lastname")
-        self.user.title = self.title
+        self.user.title_id = self.title
         self.assertEqual(self.user.name, "Miss Firstname Lastname")
 
     def test_res_partner(self):
         """Test all of partner individual"""
         partner = self.user.partner_id
         partner.email = "test"
-        partner.title = self.title
+        partner.title_id = self.title
         # change individual -> company
-        self.assertEqual(partner.title, self.title)
+        self.assertEqual(partner.title_id, self.title)
         self.assertFalse(partner.name_company)
         with Form(partner) as p:
             p.company_type = "company"
             p.name_company = ("Test Company",)
-        self.assertNotEqual(partner.title, self.title)
+        self.assertNotEqual(partner.title_id, self.title)
         self.assertTrue(partner.name_company)
 
     def test_res_partner_company(self):
@@ -61,7 +61,7 @@ class TestL10nThPartner(TransactionCase):
 
     def test_res_users_config_no_space(self):
         """Test that you change title and config title no space"""
-        self.user.title = self.title
+        self.user.title_id = self.title
         self.assertEqual(self.user.partner_id.name, "Miss Firstname Lastname")
         self.assertEqual(self.user.name, "Miss Firstname Lastname")
         self.main_company.no_space_title_name = True

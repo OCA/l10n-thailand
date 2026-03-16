@@ -20,7 +20,7 @@ class ResCompany(models.Model):
         if "no_space_title_name" in vals:
             personal_partners = (
                 self.env["res.partner"]
-                .search([("title", "!=", False)])
+                .search([("title_id", "!=", False)])
                 .with_context(skip_inverse_name=True)
             )
             for partner in personal_partners:

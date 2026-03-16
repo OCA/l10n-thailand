@@ -7,7 +7,7 @@
     "version": "19.0.1.0.0",
     "license": "AGPL-3",
     "author": "ACSONE SA/NV,Odoo Community Association (OCA)",
-    "website": "https://github.com/OCA/partner-contact",
+    "website": "https://github.com/OCA/l10n-thailand",
     "depends": ["base", "contacts"],
     "data": [
         "security/res_partner_company_type.xml",
