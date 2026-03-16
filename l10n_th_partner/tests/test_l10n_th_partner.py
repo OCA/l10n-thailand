@@ -15,9 +15,13 @@ class TestL10nThPartner(TransactionCase):
         self.company_type = self.env.ref("l10n_th_partner.company_type_3")
 
     def create_title(self):
-        self.title = self.env["res.partner.title"].create(
-            {"name": "Miss", "shortcut": "Miss"}
+        self.title = self.env["res.partner.title"].search(
+            [("name", "=", "Miss")], limit=1
         )
+        if not self.title:
+            self.title = self.env["res.partner.title"].create(
+                {"name": "Miss", "shortcut": "Miss"}
+            )
 
     def create_original(self, firstname, lastname):
         with Form(self.env["res.users"], view="base.view_users_form") as f:
