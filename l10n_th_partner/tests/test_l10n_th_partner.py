@@ -15,13 +15,9 @@ class TestL10nThPartner(TransactionCase):
         self.company_type = self.env.ref("l10n_th_partner.company_type_3")
 
     def create_title(self):
-        self.title = self.env["res.partner.title"].search(
-            [("name", "=", "Miss")], limit=1
+        self.title = self.env["res.partner.title"].create(
+            {"name": "TestTitle", "shortcut": "TT"}
         )
-        if not self.title:
-            self.title = self.env["res.partner.title"].create(
-                {"name": "Miss", "shortcut": "Miss"}
-            )
 
     def create_original(self, firstname, lastname):
         with Form(self.env["res.users"], view="base.view_users_form") as f:
@@ -34,7 +30,7 @@ class TestL10nThPartner(TransactionCase):
         """Test that you change title"""
         self.assertEqual(self.user.name, "Firstname Lastname")
         self.user.title_id = self.title
-        self.assertEqual(self.user.name, "Miss Firstname Lastname")
+        self.assertEqual(self.user.name, "TestTitle Firstname Lastname")
 
     def test_res_partner(self):
         """Test all of partner individual"""
@@ -66,11 +62,11 @@ class TestL10nThPartner(TransactionCase):
     def test_res_users_config_no_space(self):
         """Test that you change title and config title no space"""
         self.user.title_id = self.title
-        self.assertEqual(self.user.partner_id.name, "Miss Firstname Lastname")
-        self.assertEqual(self.user.name, "Miss Firstname Lastname")
+        self.assertEqual(self.user.partner_id.name, "TestTitle Firstname Lastname")
+        self.assertEqual(self.user.name, "TestTitle Firstname Lastname")
         self.main_company.no_space_title_name = True
-        self.assertEqual(self.user.partner_id.name, "MissFirstname Lastname")
-        self.assertEqual(self.user.name, "MissFirstname Lastname")
+        self.assertEqual(self.user.partner_id.name, "TestTitleFirstname Lastname")
+        self.assertEqual(self.user.name, "TestTitleFirstname Lastname")
 
     def test_duplicate_partner_vat_branch(self):
         partner1 = self.env["res.partner"].create(
@@ -86,3 +82,19 @@ class TestL10nThPartner(TransactionCase):
         with self.assertRaises(ValidationError):
             with Form(partner2) as p2:
                 p2.branch = "00000"
+
+    def test_duplicate_partner_vat_branch_no_company(self):
+        """Test VAT/branch constraint without company_id"""
+        partner1 = self.env["res.partner"].create(
+            {
+                "firstname": "First",
+                "lastname": "Last",
+                "vat": "9999999999999",
+                "branch": "00001",
+                "company_id": False,
+            }
+        )
+        partner2 = partner1.copy()
+        with self.assertRaises(ValidationError):
+            with Form(partner2) as p2:
+                p2.branch = "00001"
