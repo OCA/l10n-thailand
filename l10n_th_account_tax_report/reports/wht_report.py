@@ -112,7 +112,7 @@ class WithholdingTaxReport(models.AbstractModel):
                     "partner_name": not cert_cancel
                     and partner.display_name
                     or "Cancelled",
-                    "partner_title": partner.title.name,
+                    "partner_title": partner.title_id.name,
                     "partner_firstname": firstname,
                     "partner_lastname": lastname,
                     "partner_address": not cert_cancel and partner_address or False,
