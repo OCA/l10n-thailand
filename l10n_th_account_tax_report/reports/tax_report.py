@@ -49,7 +49,7 @@ class ThaiTaxReport(models.AbstractModel):
 
     def _get_tax_data(self, tax_id, date_from, date_to, show_cancel, company_id):
         domain = self._domain_where_clause_tax(show_cancel)
-        self._cr.execute(
+        self.env.cr.execute(
             f"""
             SELECT {self._query_select_tax()}
             FROM (
@@ -94,7 +94,7 @@ class ThaiTaxReport(models.AbstractModel):
                 company_id,
             ),
         )
-        tax_report_data = self._cr.dictfetchall()
+        tax_report_data = self.env.cr.dictfetchall()
         return tax_report_data
 
     def _add_data_line(self, tax_report_data):
