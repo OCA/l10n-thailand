@@ -22,7 +22,9 @@ class TierTierValidationDepartment(CommonTierValidation):
         )
 
         # Create tier definitions:
-        reviewer_expression = "rec.user_id.department_id.find_reviewer_level(level=1)"
+        reviewer_expression = (
+            "rec.user_id.employee_id.department_id.find_reviewer_level(level=1)"
+        )
         self.tier_def = self.tier_def_obj.create(
             {
                 "model_id": self.tester_model.id,
