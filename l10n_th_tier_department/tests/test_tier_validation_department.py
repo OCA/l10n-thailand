@@ -12,6 +12,14 @@ class TierTierValidationDepartment(CommonTierValidation):
         super().setUp()
         self.dep_admin = self.env.ref("hr.dep_administration")
         self.tier_level = self.env["tier.level"]
+        # Create employees for test users (department_id is a related field
+        # via employee_id in Odoo 19)
+        self.env["hr.employee"].create(
+            {"name": self.test_user_1.name, "user_id": self.test_user_1.id}
+        )
+        self.env["hr.employee"].create(
+            {"name": self.test_user_2.name, "user_id": self.test_user_2.id}
+        )
 
         # Create tier definitions:
         reviewer_expression = "rec.user_id.department_id.find_reviewer_level(level=1)"
@@ -26,7 +34,7 @@ class TierTierValidationDepartment(CommonTierValidation):
 
     def test_01_tier_level(self):
         # Add tier level in department
-        self.test_user_2.department_id = self.dep_admin.id
+        self.test_user_2.employee_id.department_id = self.dep_admin.id
         self.tier_level.create(
             {
                 "department_id": self.dep_admin.id,
@@ -48,7 +56,7 @@ class TierTierValidationDepartment(CommonTierValidation):
         self.assertEqual(review.reviewer_ids, self.test_user_1)
 
     def test_02_tier_no_level(self):
-        self.test_user_2.department_id = self.dep_admin.id
+        self.test_user_2.employee_id.department_id = self.dep_admin.id
         self.assertEqual(len(self.dep_admin.tier_level_ids), 0)
         # Create new test record
         test_record = self.test_model.create(
