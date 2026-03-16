@@ -9,12 +9,11 @@ class TestWHTCertForm(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.partner_1 = cls.env.ref("base.res_partner_12")
+        cls.partner_1 = cls.env["res.partner"].create({"name": "Test Partner"})
         cls.wht_cert = cls.env["withholding.tax.cert"]
         cls.withholdin_tax_cert_form = cls.env.ref(
             "l10n_th_account_wht_cert_form.withholding_tax_pdf_report"
         )
-        cls.th_lang = cls.env.ref("base.lang_th")
 
     def _create_direct_wht_cert(self):
         wht_cert = self.wht_cert.create(
