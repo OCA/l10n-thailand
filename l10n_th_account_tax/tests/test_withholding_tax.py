@@ -21,15 +21,15 @@ class TestWithholdingTax(AccountTestInvoicingCommon):
         cls.account_wht_obj = cls.env["account.withholding.tax"]
         cls.wht_cert_obj = cls.env["withholding.tax.cert"]
 
-        cls.partner_1 = cls.env.ref("base.res_partner_12")
-        cls.partner_2 = cls.env.ref("base.res_partner_2")
-        cls.product_1 = cls.env.ref("product.product_product_4")
+        cls.partner_1 = cls.env["res.partner"].create({"name": "Test Partner 1"})
+        cls.partner_2 = cls.env["res.partner"].create({"name": "Test Partner 2"})
+        cls.product_1 = cls.env["product.product"].create({"name": "Test Product WHT"})
 
         # Main currency is USD, EUR is multi-currency
-        cls.currency_usd = cls.env.ref("base.USD")
+        cls.currency_usd = cls.env.company.currency_id
         cls.other_currency = cls.setup_other_currency("EUR")
 
-        cls.main_company = cls.env.ref("base.main_company")
+        cls.main_company = cls.env.company
         cls.wht_income_code_402I = cls.env.ref(
             "l10n_th_account_tax.withholding_tax_pnd1_402I"
         )

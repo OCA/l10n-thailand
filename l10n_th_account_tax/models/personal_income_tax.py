@@ -28,13 +28,10 @@ class PersonalIncomeTax(models.Model):
     )
     active = fields.Boolean(default=True)
 
-    _sql_constraints = [
-        (
-            "effective_date_unique",
-            "UNIQUE(effective_date)",
-            "Effective Date must be unique!",
-        ),
-    ]
+    _effective_date_unique = models.Constraint(
+        "UNIQUE(effective_date)",
+        "Effective Date must be unique!",
+    )
 
     @api.depends("calendar_year")
     def _compute_effective_date(self):
@@ -51,7 +48,8 @@ class PersonalIncomeTax(models.Model):
     def copy(self, default=None):
         self.ensure_one()
         default = dict(
-            default or {}, calendar_year=self.env._("%s (copy)") % self.calendar_year
+            default or {},
+            calendar_year=self.env._("%(year)s (copy)", year=self.calendar_year),
         )
         return super().copy(default)
 

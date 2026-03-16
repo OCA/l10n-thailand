@@ -51,7 +51,7 @@
         <field name="model">account.withholding.tax</field>
         <field name="arch" type="xml">
             <search>
-                <group expand="0" string="Group By">
+                <group>
                     <filter
                         string="Company"
                         name="company_id"

@@ -1,7 +1,7 @@
 # Copyright 2020 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -158,7 +158,7 @@ class AccountPaymentRegister(models.TransientModel):
             wht_tax_line = move_ids.line_ids.filtered("wht_tax_id")
             if len(partner_ids) > 1 and wht_tax_line:
                 raise UserError(
-                    _(
+                    self.env._(
                         "You can't register a payment for invoices "
                         "(with withholding tax) belong to multiple partners."
                     )
@@ -178,7 +178,7 @@ class AccountPaymentRegister(models.TransientModel):
         self.ensure_one()
         if self.wht_tax_id and not self.group_payment:
             raise UserError(
-                _(
+                self.env._(
                     "Please check Group Payments when dealing "
                     "with multiple invoices that has withholding tax."
                 )

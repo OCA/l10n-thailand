@@ -37,24 +37,14 @@ class AccountPartialReconcile(models.Model):
 
         moves = super()._create_tax_cash_basis_moves()
         # EXPERIMENT: remove income / expense account move lines
-        ml_groups = self.env["account.move.line"].read_group(
+        ml_groups = self.env["account.move.line"]._read_group(
             domain=[("move_id", "in", moves.ids)],
-            fields=[
-                "move_id",
-                "account_id",
-                "debit",
-                "credit",
-            ],
-            groupby=[
-                "move_id",
-                "account_id",
-            ],
-            lazy=False,
+            groupby=["move_id", "account_id"],
+            aggregates=["debit:sum", "credit:sum"],
         )
-        del_ml_groups = list(
-            filter(lambda line: line["debit"] == line["credit"], ml_groups)
-        )
-        account_ids = [g.get("account_id")[0] for g in del_ml_groups]
+        account_ids = [
+            account.id for _move, account, debit, credit in ml_groups if debit == credit
+        ]
         # Not include taxes (0%) and not reconciled
         del_move_lines = moves.mapped("line_ids").filtered(
             lambda line: line.account_id.id in account_ids

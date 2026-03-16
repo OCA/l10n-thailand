@@ -145,7 +145,7 @@
                     name="journal"
                     domain="[('move_id','!=',False)]"
                 />
-                <group expand="0" string="Group By">
+                <group>
                     <filter
                         name="income_tax_form"
                         string="Tax Form"

@@ -13,6 +13,34 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 @tagged("post_install", "-at_install")
 class TestTaxInvoice(AccountTestInvoicingCommon):
     @classmethod
+    def _create_invoice(cls, move_type, partner, date, amounts, taxes, post=True):
+        """Create an invoice/bill with the given parameters."""
+        invoice_lines = []
+        for amount in amounts:
+            invoice_lines.append(
+                Command.create(
+                    {
+                        "name": "Test line",
+                        "quantity": 1,
+                        "price_unit": amount,
+                        "tax_ids": [Command.set(taxes.ids)],
+                    }
+                )
+            )
+        move = cls.env["account.move"].create(
+            {
+                "move_type": move_type,
+                "partner_id": partner.id,
+                "invoice_date": date,
+                "date": date,
+                "invoice_line_ids": invoice_lines,
+            }
+        )
+        if post:
+            move.action_post()
+        return move
+
+    @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.journal_obj = cls.env["account.journal"]
@@ -24,7 +52,7 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
 
         today = fields.Date.today()
 
-        cls.partner = cls.env.ref("base.res_partner_12")
+        cls.partner = cls.env["res.partner"].create({"name": "Test Partner"})
 
         cls.journal_bank = cls.company_data["default_journal_bank"]
 
@@ -43,7 +71,12 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
             {"name": "O7", "code": "O7", "account_type": "liability_current"}
         )
         cls.undue_output_vat_acct = cls.account_account_obj.create(
-            {"name": "DO7", "code": "DO7", "account_type": "asset_current"}
+            {
+                "name": "DO7",
+                "code": "DO7",
+                "account_type": "asset_current",
+                "reconcile": True,
+            }
         )
         cls.input_vat_acct = cls.account_account_obj.create(
             {"name": "V7", "code": "V7", "account_type": "liability_current"}
@@ -52,7 +85,12 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
             {"name": "V0", "code": "V0", "account_type": "liability_current"}
         )
         cls.undue_input_vat_acct = cls.account_account_obj.create(
-            {"name": "DV7", "code": "DV7", "account_type": "asset_current"}
+            {
+                "name": "DV7",
+                "code": "DV7",
+                "account_type": "asset_current",
+                "reconcile": True,
+            }
         )
         cls.undue_recon_input_vat_acct = cls.account_account_obj.create(
             {
@@ -206,7 +244,7 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
         )
 
         # Prepare Supplier Invoices
-        cls.supplier_invoice_vat = cls.init_invoice(
+        cls.supplier_invoice_vat = cls._create_invoice(
             "in_invoice",
             cls.partner,
             today,
@@ -214,7 +252,7 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
             taxes=cls.input_vat,
             post=False,
         )
-        cls.supplier_invoice_undue_vat = cls.init_invoice(
+        cls.supplier_invoice_undue_vat = cls._create_invoice(
             "in_invoice",
             cls.partner,
             today,
@@ -225,7 +263,7 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
         cls.supplier_invoice_undue_vat_partial = cls.supplier_invoice_undue_vat.copy(
             {"invoice_date": today}
         )
-        cls.supplier_invoice_undue_vat_reconcile = cls.init_invoice(
+        cls.supplier_invoice_undue_vat_reconcile = cls._create_invoice(
             "in_invoice",
             cls.partner,
             today,
@@ -233,7 +271,7 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
             taxes=cls.undue_input_reconcile_vat,
             post=False,
         )
-        cls.supplier_invoice_zero_vat = cls.init_invoice(
+        cls.supplier_invoice_zero_vat = cls._create_invoice(
             "in_invoice",
             cls.partner,
             today,
@@ -241,7 +279,7 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
             taxes=cls.input_zero_vat,
             post=False,
         )
-        cls.supplier_refund_undue_vat = cls.init_invoice(
+        cls.supplier_refund_undue_vat = cls._create_invoice(
             "in_refund",
             cls.partner,
             today,
@@ -251,7 +289,7 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
         )
 
         # Prepare Customer Invoices
-        cls.customer_invoice_vat = cls.init_invoice(
+        cls.customer_invoice_vat = cls._create_invoice(
             "out_invoice",
             cls.partner,
             today,
@@ -260,7 +298,7 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
             post=False,
         )
         cls.customer_invoice_vat_seq = cls.customer_invoice_vat.copy()
-        cls.customer_invoice_undue_vat = cls.init_invoice(
+        cls.customer_invoice_undue_vat = cls._create_invoice(
             "out_invoice",
             cls.partner,
             today,
@@ -334,8 +372,8 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
         self.assertEqual(bill_tax_cash_basis.state, "draft")
         self.assertEqual(bill_tax_cash_basis.date, tax_date)
 
-        # Test reset payment, tax cash basis in vendor bill must create 1 reversal
-        # and document will change to state posted
+        # Test reset payment, tax cash basis in vendor bill will be cleaned up.
+        # In Odoo 19, draft CABA entries are deleted (not reversed).
         payment.action_draft()
         self.assertEqual(payment.state, "draft")
         # Check button Journal Entry must have only move_id
@@ -345,12 +383,7 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
         bill_tax_cash_basis = (
             self.supplier_invoice_undue_vat.tax_cash_basis_created_move_ids
         )
-        self.assertEqual(len(bill_tax_cash_basis), 2)
-        self.assertNotIn("/", bill_tax_cash_basis.mapped("name"))
-        self.assertEqual(list(set(bill_tax_cash_basis.mapped("state"))), ["posted"])
-        self.assertFalse(
-            any(list(set(bill_tax_cash_basis.line_ids.mapped("reconciled"))))
-        )
+        self.assertFalse(bill_tax_cash_basis)
 
         # Manual matching, it will create 1 tax cash basis and state is draft
         payment.action_post()
@@ -365,12 +398,9 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
         bill_tax_cash_basis = (
             self.supplier_invoice_undue_vat.tax_cash_basis_created_move_ids
         )
-        self.assertEqual(len(bill_tax_cash_basis), 3)
+        self.assertEqual(len(bill_tax_cash_basis), 1)
         new_caba = bill_tax_cash_basis.filtered(lambda tax: tax.state == "draft")
         self.assertFalse(new_caba.name)
-        self.assertEqual(
-            len(list(set(bill_tax_cash_basis.mapped("state")))), 2
-        )  # state draft and posted
 
         # Clear tax cash basis
         with self.assertRaises(UserError) as e:
@@ -393,7 +423,7 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
         bill_tax_cash_basis = (
             self.supplier_invoice_undue_vat.tax_cash_basis_created_move_ids
         )
-        self.assertEqual(len(bill_tax_cash_basis), 3)
+        self.assertEqual(len(bill_tax_cash_basis), 1)
         self.assertNotIn(False, bill_tax_cash_basis.mapped("name"))
         self.assertEqual(list(set(bill_tax_cash_basis.mapped("state"))), ["posted"])
         # Tax cash basis will change accounting date from clear tax
@@ -430,20 +460,15 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
         self.assertEqual(len(bill_tax_cash_basis), 1)
         self.assertFalse(bill_tax_cash_basis.name)
         self.assertEqual(bill_tax_cash_basis.state, "draft")
-        # Test reset payment, tax cash basis in vendor bill must create 1 reversal
-        # and reconciled
+        # Test reset payment, draft CABA entries are deleted in Odoo 19
         payment.action_draft()
         self.assertEqual(payment.state, "draft")
 
         bill_tax_cash_basis = (
             self.supplier_invoice_undue_vat_reconcile.tax_cash_basis_created_move_ids
         )
-        self.assertEqual(len(bill_tax_cash_basis), 2)
-        self.assertNotIn(False, bill_tax_cash_basis.mapped("name"))
-        self.assertEqual(list(set(bill_tax_cash_basis.mapped("state"))), ["posted"])
-        self.assertTrue(
-            any(list(set(bill_tax_cash_basis.line_ids.mapped("reconciled"))))
-        )
+        self.assertFalse(bill_tax_cash_basis)
+
         # Manual matching, it will create 1 tax cash basis and state is draft
         payment.action_post()
         self.assertEqual(payment.state, "in_process")
@@ -459,12 +484,9 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
         bill_tax_cash_basis = (
             self.supplier_invoice_undue_vat_reconcile.tax_cash_basis_created_move_ids
         )
-        self.assertEqual(len(bill_tax_cash_basis), 3)
+        self.assertEqual(len(bill_tax_cash_basis), 1)
         new_caba = bill_tax_cash_basis.filtered(lambda tax: tax.state == "draft")
         self.assertFalse(new_caba.name)
-        self.assertEqual(
-            len(list(set(bill_tax_cash_basis.mapped("state")))), 2
-        )  # state draft and posted
 
         # Clear tax cash basis
         with self.assertRaises(UserError) as e:
@@ -489,7 +511,7 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
         bill_tax_cash_basis = (
             self.supplier_invoice_undue_vat_reconcile.tax_cash_basis_created_move_ids
         )
-        self.assertEqual(len(bill_tax_cash_basis), 3)
+        self.assertEqual(len(bill_tax_cash_basis), 1)
         self.assertNotIn(False, bill_tax_cash_basis.mapped("name"))
         self.assertEqual(list(set(bill_tax_cash_basis.mapped("state"))), ["posted"])
         # Check the move_line_ids, from both Bank and Cash Basis journal

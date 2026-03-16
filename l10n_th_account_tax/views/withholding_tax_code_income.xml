@@ -28,7 +28,7 @@
                     string="PND53"
                     domain="[('income_tax_form', '=', 'pnd53')]"
                 />
-                <group name="group_by" string="Group By">
+                <group>
                     <filter
                         name="groupby_income_tax_form"
                         string="Income Tax Form"

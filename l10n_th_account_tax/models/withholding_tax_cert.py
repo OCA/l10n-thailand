@@ -46,8 +46,7 @@ WHT_CERT_INCOME_TYPE = [
     ),
     (
         "4B22",
-        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.2) "
-        "ได้รับยกเว้นไม่ต้องนำมารวมคำนวณเป็นรายได้",
+        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.2) ได้รับยกเว้นไม่ต้องนำมารวมคำนวณเป็นรายได้",
     ),
     (
         "4B23",
@@ -56,7 +55,7 @@ WHT_CERT_INCOME_TYPE = [
     ),
     (
         "4B24",
-        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.4) " "กำไรที่รับรู้ทางบัญชีโดยวิธีส่วนได้เสีย",
+        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.4) กำไรที่รับรู้ทางบัญชีโดยวิธีส่วนได้เสีย",
     ),
     ("4B25", "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.5) อื่นๆ (ระบุ)"),
     ("5", "5. ค่าจ้างทำของ ค่าบริการ ค่าเช่า ค่าขนส่ง ฯลฯ 3 เตรส"),
@@ -201,7 +200,7 @@ class WithholdingTaxCert(models.Model):
             if rec.ref_wht_cert_id:
                 rec.ref_wht_cert_id.write({"state": "cancel"})
                 rec.ref_wht_cert_id.message_post(
-                    body=self.env._("This document was substituted by %s.") % rec.name
+                    body=self.env._("This document was substituted by %s.", rec.name)
                 )
         self.write({"verify_by": self.env.user.id, "state": "done"})
         return True
@@ -337,10 +336,8 @@ class WithholdingTaxCodeIncome(models.Model):
             raise UserError(
                 self.env._(
                     "You can not default field '%(income)s - %(wht_income_type)s' "
-                    "more than 1."
+                    "more than 1.",
+                    income=dict_income_tax_form[self.income_tax_form],
+                    wht_income_type=dict_wht_income_type[self.wht_cert_income_type],
                 )
-                % {
-                    "income": dict_income_tax_form[self.income_tax_form],
-                    "wht_income_type": dict_wht_income_type[self.wht_cert_income_type],
-                }
             )
