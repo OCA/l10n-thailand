@@ -514,3 +514,55 @@ class TestWithholdingTax(AccountTestInvoicingCommon):
         self.assertEqual(
             register_payment.amount, (price_unit - (price_unit * 0.01)) * 2
         )
+
+    def test_07_button_cancel_with_wht(self):
+        """Test button_cancel on posted journal entry with WHT moves"""
+        price_unit = 100
+        wht_amount = 3
+        invoice = self._create_invoice(
+            self.partner_1.id,
+            self.misc_journal.id,
+            "entry",
+            self.wht_account.id,
+            price_unit,
+            wht_amount=wht_amount,
+            wht_tax_id=self.wht_3.id,
+        )
+        invoice.action_post()
+        self.assertTrue(invoice.wht_move_ids)
+        # Create WHT cert first
+        invoice.wht_move_ids.write({"wht_cert_income_type": "1"})
+        invoice.create_wht_cert()
+        self.assertTrue(invoice.wht_cert_ids)
+        # Cancel the move - should create mirror wht moves and cancel certs
+        invoice.button_cancel()
+        cancelled_moves = invoice.wht_move_ids.filtered("cancelled")
+        self.assertTrue(cancelled_moves)
+        self.assertEqual(invoice.wht_cert_ids.mapped("state"), ["cancel"])
+
+    def test_08_wht_compute_entry_move_type(self):
+        """Test _compute_wht_tax_id else branch for entry move type"""
+        move = self.move_obj.create(
+            {
+                "move_type": "entry",
+                "journal_id": self.misc_journal.id,
+                "line_ids": [
+                    Command.create(
+                        {
+                            "account_id": self.expense_account.id,
+                            "name": "Test",
+                            "debit": 100,
+                        },
+                    ),
+                    Command.create(
+                        {
+                            "account_id": self.liquidity_account.id,
+                            "name": "Test",
+                            "credit": 100,
+                        },
+                    ),
+                ],
+            }
+        )
+        # For entry move type, wht_tax_id should be False (else branch)
+        self.assertFalse(move.line_ids.mapped("wht_tax_id"))
