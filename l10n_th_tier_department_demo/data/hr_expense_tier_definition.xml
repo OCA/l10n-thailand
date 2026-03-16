@@ -3,7 +3,7 @@
     <!-- Expense -->
     <record id="expense_gov_tier_definition_1" model="tier.definition">
         <field name="name">Approval EX Level 1</field>
-        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="model_id" ref="hr_expense.model_hr_expense" />
         <field name="definition_type">domain</field>
         <field name="definition_domain">[('advance', '=', False)]</field>
         <field name="review_type">expression</field>
@@ -16,7 +16,7 @@
     </record>
     <record id="expense_gov_tier_definition_2" model="tier.definition">
         <field name="name">Approval EX Level 2</field>
-        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="model_id" ref="hr_expense.model_hr_expense" />
         <field name="definition_type">domain</field>
         <field
             name="definition_domain"
@@ -31,7 +31,7 @@
     </record>
     <record id="expense_gov_tier_definition_3" model="tier.definition">
         <field name="name">Approval EX Level 3</field>
-        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="model_id" ref="hr_expense.model_hr_expense" />
         <field name="definition_type">domain</field>
         <field
             name="definition_domain"
@@ -46,7 +46,7 @@
     </record>
     <record id="expense_gov_tier_definition_4" model="tier.definition">
         <field name="name">Approval EX Level 4</field>
-        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="model_id" ref="hr_expense.model_hr_expense" />
         <field name="definition_type">domain</field>
         <field
             name="definition_domain"
@@ -61,7 +61,7 @@
     </record>
     <record id="expense_gov_tier_definition_5" model="tier.definition">
         <field name="name">Approval EX Level 5</field>
-        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="model_id" ref="hr_expense.model_hr_expense" />
         <field name="definition_type">domain</field>
         <field
             name="definition_domain"
@@ -78,7 +78,7 @@
     <!-- Advance -->
     <record id="advance_gov_tier_definition_1" model="tier.definition">
         <field name="name">Approval AV Level 1</field>
-        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="model_id" ref="hr_expense.model_hr_expense" />
         <field name="definition_type">domain</field>
         <field name="definition_domain">[('advance', '=', True)]</field>
         <field name="review_type">expression</field>
@@ -91,7 +91,7 @@
     </record>
     <record id="advance_gov_tier_definition_2" model="tier.definition">
         <field name="name">Approval AV Level 2</field>
-        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="model_id" ref="hr_expense.model_hr_expense" />
         <field name="definition_type">domain</field>
         <field
             name="definition_domain"
@@ -106,7 +106,7 @@
     </record>
     <record id="advance_gov_tier_definition_3" model="tier.definition">
         <field name="name">Approval AV Level 3</field>
-        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="model_id" ref="hr_expense.model_hr_expense" />
         <field name="definition_type">domain</field>
         <field
             name="definition_domain"
@@ -121,7 +121,7 @@
     </record>
     <record id="advance_gov_tier_definition_4" model="tier.definition">
         <field name="name">Approval AV Level 4</field>
-        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="model_id" ref="hr_expense.model_hr_expense" />
         <field name="definition_type">domain</field>
         <field
             name="definition_domain"
@@ -136,7 +136,7 @@
     </record>
     <record id="advance_gov_tier_definition_5" model="tier.definition">
         <field name="name">Approval AV Level 5</field>
-        <field name="model_id" ref="hr_expense.model_hr_expense_sheet" />
+        <field name="model_id" ref="hr_expense.model_hr_expense" />
         <field name="definition_type">domain</field>
         <field
             name="definition_domain"
