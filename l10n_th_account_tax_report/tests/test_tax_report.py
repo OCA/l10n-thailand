@@ -31,9 +31,9 @@ class TestTaxReport(AccountTestInvoicingCommon):
         # Create vendor bills
         cls.bill = cls.init_invoice(
             move_type="in_invoice",
-            partner=cls.env.ref("base.res_partner_1"),
+            partner=cls.partner_a,
             invoice_date=cls.date_range.date_end,
-            products=cls.env.ref("product.product_product_7"),
+            products=cls.product_a,
             amounts=[100.0],
             taxes=cls.tax_purchase_a,
         )
@@ -56,9 +56,9 @@ class TestTaxReport(AccountTestInvoicingCommon):
         # Create customer invoices
         cls.invoice = cls.init_invoice(
             move_type="out_invoice",
-            partner=cls.env.ref("base.res_partner_1"),
+            partner=cls.partner_a,
             invoice_date=cls.date_range.date_end,
-            products=cls.env.ref("product.product_product_7"),
+            products=cls.product_a,
             post=True,
             amounts=[100.0],
             taxes=cls.tax_sale_a,
