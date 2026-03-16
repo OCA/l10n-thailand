@@ -175,7 +175,10 @@ class WithholdingTaxReportText(models.AbstractModel):
             ]
         except Exception as e:
             raise UserError(
-                f"Not implement {report_values['income_tax_form']} yet"
+                self.env._(
+                    "Not implement %(form)s yet",
+                    form=report_values["income_tax_form"],
+                )
             ) from e
 
         text_file_value = self._create_text_wht(report_values, wht_textfile_format)
