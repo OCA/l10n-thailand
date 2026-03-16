@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2025 Ecosoft
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.thai.account</field>
+        <field name="model">res.config.settings</field>
+        <field
+            name="inherit_id"
+            ref="l10n_th_account_tax.res_config_settings_view_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='l10n_th_account_settings']" position="inside">
+                <div class="col-xs-12 col-md-6 o_setting_box">
+                    <div class="o_setting_left_pane" />
+                    <div class="o_setting_right_pane">
+                        <span class="o_form_label">Tax Filing</span>
+                        <div class="text-muted">
+                            Set the default accounts for recording tax filings to tax authority.
+                        </div>
+                        <div class="content-group">
+                            <div class="row mt8">
+                                <label
+                                    string="Sales Tax Account"
+                                    for="account_from_id"
+                                    class="col-lg-5 o_light_label"
+                                />
+                                <field name="account_from_id" />
+                            </div>
+                            <div class="row">
+                                <label
+                                    string="Purchase Tax Account"
+                                    for="account_to_id"
+                                    class="col-lg-5 o_light_label"
+                                />
+                                <field name="account_to_id" />
+                            </div>
+                            <div class="row">
+                                <label
+                                    string="Adjust Tax Account"
+                                    for="account_adjust_id"
+                                    class="col-lg-5 o_light_label"
+                                />
+                                <field name="account_adjust_id" />
+                            </div>
+                            <div class="row">
+                                <label
+                                    string="Tax Authority"
+                                    for="tax_authority_id"
+                                    class="col-lg-5 o_light_label"
+                                />
+                                <field name="tax_authority_id" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
