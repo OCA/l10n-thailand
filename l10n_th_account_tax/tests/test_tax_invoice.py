@@ -1005,3 +1005,15 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
         self.assertEqual(move.tax_invoice_ids.report_late_mo, "0")
         line_tax.manual_tax_invoice = False
         self.assertFalse(move.tax_invoice_ids)
+
+    def test_16_create_invoice_with_post(self):
+        """Test _create_invoice helper with post=True (default)"""
+        today = fields.Date.today()
+        move = self._create_invoice(
+            "out_invoice",
+            self.partner,
+            today,
+            amounts=[100],
+            taxes=self.output_vat,
+        )
+        self.assertEqual(move.state, "posted")
