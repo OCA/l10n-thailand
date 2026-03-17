@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_th_base_utils
-#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__angsananew
-msgid "AngsanaNew"
-msgstr ""
-
-#. module: l10n_th_base_utils
 #: model:ir.model,name:l10n_th_base_utils.model_res_company
 msgid "Companies"
 msgstr ""
@@ -34,8 +29,38 @@ msgid "THBaijam"
 msgstr ""
 
 #. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thbaijam-bold
+msgid "THBaijam Bold"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thbaijam-bold-italic
+msgid "THBaijam Bold Italic"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thbaijam-italic
+msgid "THBaijam Italic"
+msgstr ""
+
+#. module: l10n_th_base_utils
 #: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thchakrapetch
 msgid "THChakraPetch"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thchakrapetch-bold
+msgid "THChakraPetch Bold"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thchakrapetch-bold-italic
+msgid "THChakraPetch Bold Italic"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thchakrapetch-italic
+msgid "THChakraPetch Italic"
 msgstr ""
 
 #. module: l10n_th_base_utils
@@ -49,8 +74,28 @@ msgid "THCharmonman"
 msgstr ""
 
 #. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thcharmonman-bold
+msgid "THCharmonman Bold"
+msgstr ""
+
+#. module: l10n_th_base_utils
 #: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thfahkwang
-msgid "THFahkwang"
+msgid "THFahKwang"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thfahkwang-bold
+msgid "THFahKwang Bold"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thfahkwang-bold-italic
+msgid "THFahKwang Bold Italic"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thfahkwang-italic
+msgid "THFahKwang Italic"
 msgstr ""
 
 #. module: l10n_th_base_utils
@@ -59,8 +104,38 @@ msgid "THK2DJuly8"
 msgstr ""
 
 #. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thk2djuly8-bold
+msgid "THK2DJuly8 Bold"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thk2djuly8-bold-italic
+msgid "THK2DJuly8 Bold Italic"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thk2djuly8-italic
+msgid "THK2DJuly8 Italic"
+msgstr ""
+
+#. module: l10n_th_base_utils
 #: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thkoho
 msgid "THKoHo"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thkoho-bold
+msgid "THKoHo Bold"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thkoho-bold-italic
+msgid "THKoHo Bold Italic"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thkoho-italic
+msgid "THKoHo Italic"
 msgstr ""
 
 #. module: l10n_th_base_utils
@@ -69,8 +144,38 @@ msgid "THKodchasal"
 msgstr ""
 
 #. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thkodchasal-bold
+msgid "THKodchasal Bold"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thkodchasal-bold-italic
+msgid "THKodchasal Bold Italic"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thkodchasal-italic
+msgid "THKodchasal Italic"
+msgstr ""
+
+#. module: l10n_th_base_utils
 #: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thkrub
 msgid "THKrub"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thkrub-bold
+msgid "THKrub Bold"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thkrub-bold-italic
+msgid "THKrub Bold Italic"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thkrub-italic
+msgid "THKrub Italic"
 msgstr ""
 
 #. module: l10n_th_base_utils
@@ -79,8 +184,38 @@ msgid "THMaliGrade6"
 msgstr ""
 
 #. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thmaligrade6-bold
+msgid "THMaliGrade6 Bold"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thmaligrade6-bold-italic
+msgid "THMaliGrade6 Bold Italic"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thmaligrade6-italic
+msgid "THMaliGrade6 Italic"
+msgstr ""
+
+#. module: l10n_th_base_utils
 #: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thniramitas
 msgid "THNiramitAS"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thniramitas-bold
+msgid "THNiramitAS Bold"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thniramitas-bold-italic
+msgid "THNiramitAS Bold Italic"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thniramitas-italic
+msgid "THNiramitAS Italic"
 msgstr ""
 
 #. module: l10n_th_base_utils
@@ -89,8 +224,38 @@ msgid "THSarabun"
 msgstr ""
 
 #. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thsarabun-bold
+msgid "THSarabun Bold"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thsarabun-bold-italic
+msgid "THSarabun Bold Italic"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thsarabun-italic
+msgid "THSarabun Italic"
+msgstr ""
+
+#. module: l10n_th_base_utils
 #: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thsarabunnew
 msgid "THSarabunNew"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thsarabunnew-bold
+msgid "THSarabunNew Bold"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thsarabunnew-bold-italic
+msgid "THSarabunNew Bold Italic"
+msgstr ""
+
+#. module: l10n_th_base_utils
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thsarabunnew-italic
+msgid "THSarabunNew Italic"
 msgstr ""
 
 #. module: l10n_th_base_utils
@@ -99,11 +264,11 @@ msgid "THSrisakdi"
 msgstr ""
 
 #. module: l10n_th_base_utils
-#: model:ir.model,name:l10n_th_base_utils.model_thai_utils
-msgid "Thai Localization Utilities"
+#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__thsrisakdi-bold
+msgid "THSrisakdi Bold"
 msgstr ""
 
 #. module: l10n_th_base_utils
-#: model:ir.model.fields.selection,name:l10n_th_base_utils.selection__res_company__font__webdings
-msgid "Webdings"
+#: model:ir.model,name:l10n_th_base_utils.model_thai_utils
+msgid "Thai Localization Utilities"
 msgstr ""
