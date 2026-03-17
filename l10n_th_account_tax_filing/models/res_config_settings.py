@@ -25,5 +25,6 @@ class ResConfigSettings(models.TransientModel):
     tax_authority_id = fields.Many2one(
         related="company_id.tax_authority_id",
         readonly=False,
-        help="The partner record representing the tax authority (e.g., Revenue Department).",
+        help="The partner record representing the tax authority"
+        " (e.g., Revenue Department).",
     )

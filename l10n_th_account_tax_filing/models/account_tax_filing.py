@@ -3,7 +3,7 @@
 
 from collections import defaultdict
 
-from odoo import Command, _, api, fields, models
+from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -23,51 +23,45 @@ class AccountTaxFiling(models.Model):
     )
     date_range_id = fields.Many2one(
         comodel_name="date.range",
-        string="Date range",
-        copy=False,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
     )
     date_from = fields.Date(
         string="Start Date",
-        copy=False,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
     )
     date_to = fields.Date(
         string="End Date",
-        copy=False,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
     )
     account_from_id = fields.Many2one(
         comodel_name="account.account",
+        string="Sales Tax Account",
         required=True,
         check_company=True,
         copy=False,
+        tracking=True,
         default=lambda self: self.env.company.account_from_id,
     )
     account_to_id = fields.Many2one(
         comodel_name="account.account",
+        string="Purchase Tax Account",
         required=True,
-        copy=False,
         check_company=True,
+        copy=False,
+        tracking=True,
         default=lambda self: self.env.company.account_to_id,
     )
     account_adjust_id = fields.Many2one(
         comodel_name="account.account",
+        string="Adjust Tax Account",
         check_company=True,
+        tracking=True,
         default=lambda self: self.env.company.account_adjust_id,
     )
     move_id = fields.Many2one(
         comodel_name="account.move",
         string="Journal Entries",
-        readonly=True,
         copy=False,
     )
     move_type = fields.Selection(
         related="move_id.move_type",
-        readonly=True,
         store=True,
     )
     state = fields.Selection(
@@ -78,7 +72,6 @@ class AccountTaxFiling(models.Model):
             ("cancel", "Cancelled"),
         ],
         required=True,
-        readonly=True,
         copy=False,
         tracking=True,
         default="draft",
@@ -90,50 +83,34 @@ class AccountTaxFiling(models.Model):
         copy=False,
         default=lambda self: self.env.company,
     )
-    company_currency_id = fields.Many2one(
-        comodel_name="res.currency", related="company_id.currency_id"
-    )
     currency_id = fields.Many2one(
-        "res.currency",
-        readonly=True,
-        required=True,
-        states={"draft": [("readonly", False)]},
-        string="Currency",
-        default=lambda self: self.env.company.currency_id,
+        comodel_name="res.currency", related="company_id.currency_id"
     )
     partner_id = fields.Many2one(
         comodel_name="res.partner",
-        readonly=True,
         required=True,
         default=lambda self: self.env.company.tax_authority_id,
-        states={"draft": [("readonly", False)]},
-        copy=False,
         check_company=True,
     )
     amount_from = fields.Monetary(
-        currency_field="company_currency_id",
         compute="_compute_total_amount",
         store=True,
     )
     amount_to = fields.Monetary(
-        currency_field="company_currency_id",
         compute="_compute_total_amount",
         store=True,
     )
     amount_adjust = fields.Monetary(
         string="Total Adjust",
-        currency_field="company_currency_id",
         compute="_compute_total_amount",
         store=True,
     )
     diff_amount = fields.Monetary(
         string="Difference amount",
-        currency_field="company_currency_id",
         compute="_compute_total_amount",
         store=True,
     )
     total_amount = fields.Monetary(
-        currency_field="company_currency_id",
         compute="_compute_total_amount",
         store=True,
     )
@@ -141,18 +118,18 @@ class AccountTaxFiling(models.Model):
         comodel_name="account.tax.filing.line",
         inverse_name="filing_id",
         copy=False,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
-    @api.model
-    def create(self, vals):
-        # Set name based on sequence
-        if vals.get("name", "Draft") == "Draft":
-            vals["name"] = (
-                self.env["ir.sequence"].next_by_code("account.tax.filing") or "Draft"
-            )
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            # Set name based on sequence
+            if vals.get("name", "Draft") == "Draft":
+                vals["name"] = (
+                    self.env["ir.sequence"].next_by_code("account.tax.filing")
+                    or "Draft"
+                )
+        return super().create(vals_list)
 
     @api.onchange("date_range_id")
     def _onchange_date_range(self):
@@ -169,8 +146,10 @@ class AccountTaxFiling(models.Model):
     @api.depends("tax_filing_line_ids")
     def _compute_total_amount(self):
         for rec in self:
-            balances = defaultdict(float)  # ใช้ float เพื่อสะสมค่า balance
-            for line in rec.tax_filing_line_ids.filtered(lambda l: not l.display_type):
+            balances = defaultdict(float)
+            for line in rec.tax_filing_line_ids.filtered(
+                lambda line: not line.display_type
+            ):
                 balances[line.account_id] += line.balance
             amount_from = abs(balances.get(rec.account_from_id, 0))
             amount_to = abs(balances.get(rec.account_to_id, 0))
@@ -191,7 +170,7 @@ class AccountTaxFiling(models.Model):
         # Check date form can't be after date to
         for rec in self:
             if rec.date_from and rec.date_to and rec.date_from > rec.date_to:
-                raise UserError(_("Start Date must not be after End Date"))
+                raise UserError(self.env._("Start Date must not be after End Date"))
 
     def _get_account(self):
         accounts = self.account_from_id + self.account_to_id + self.account_adjust_id
@@ -386,7 +365,7 @@ class AccountTaxFiling(models.Model):
 
     def action_view_entries(self):
         return {
-            "name": _("Journal Entries"),
+            "name": self.env._("Journal Entries"),
             "view_mode": "form",
             "res_model": "account.move",
             "res_id": self.move_id.id,
@@ -395,15 +374,19 @@ class AccountTaxFiling(models.Model):
 
     def action_submit(self):
         for record in self:
-            if not record.tax_filing_line_ids.filtered(lambda l: not l.display_type):
-                raise UserError(_("You need to add a line before submit."))
+            if not record.tax_filing_line_ids.filtered(
+                lambda line: not line.display_type
+            ):
+                raise UserError(self.env._("You need to add a line before submit."))
         record.write({"state": "submit"})
         return True
 
     def action_create_invoice(self):
         for record in self:
             if record.state not in ["submit", "done"]:
-                raise UserError(_("Can not create invoice in state %s", record.state))
+                raise UserError(
+                    self.env._(f"Can not create invoice in state {record.state}")
+                )
             diff = record.total_amount
             move_type = "entry"
             if diff < 0:
