@@ -4,9 +4,9 @@
         <field name="model">res.company</field>
         <field name="inherit_id" ref="base.view_company_form" />
         <field name="arch" type="xml">
-            <field name="vat" position="after">
-                <field name="branch" placeholder="Branch, e.g., 00000" />
-            </field>
+            <xpath expr="//field[@name='company_registry']" position="attributes">
+                <attribute name="placeholder">Branch, e.g., 00000</attribute>
+            </xpath>
         </field>
     </record>
 </odoo>

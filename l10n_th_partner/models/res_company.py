@@ -6,9 +6,7 @@ from odoo import fields, models
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    branch = fields.Char(
-        related="partner_id.branch", string="Tax Branch", readonly=False
-    )
+    company_registry = fields.Char(string="Branch", copy=False)
     no_space_title_name = fields.Boolean(
         string="No Space Title and Name",
         help="If checked, title and name will no space",

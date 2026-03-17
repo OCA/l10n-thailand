@@ -8,28 +8,22 @@ from odoo.exceptions import ValidationError
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    branch = fields.Char(
-        string="Tax Branch",
-        copy=False,
-        help="Branch ID, e.g., 0000, 0001, ...",
-    )
-    name_company = fields.Char(
-        index=True,
-    )
+    name_company = fields.Char(index=True)
+    company_registry = fields.Char(string="Branch", copy=False)
 
-    @api.constrains("company_id", "vat", "branch")
+    @api.constrains("company_id", "vat", "company_registry")
     def _check_company_id_vat_branch(self):
         Partner = self.env["res.partner"]
         for rec in self.sudo():
-            if rec.vat and rec.branch:
+            if rec.vat and rec.company_registry:
                 domain = [
                     ("vat", "=", rec.vat),
-                    ("branch", "=", rec.branch),
+                    ("company_registry", "=", rec.company_registry),
                 ]
                 if rec.company_id:
                     domain += [("company_id", "=", rec.company_id.id)]
-                partners = Partner.search(domain)
-                if len(partners) > 1:
+                partners = Partner.search_count(domain)
+                if partners > 1:
                     raise ValidationError(
                         self.env._(
                             "Each contact's Tax ID and Tax Branch "

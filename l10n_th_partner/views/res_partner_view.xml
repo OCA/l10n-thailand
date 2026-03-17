@@ -25,8 +25,11 @@
             >
                 <field name="lastname" position="move" />
             </xpath>
+            <xpath expr="//field[@name='company_registry']" position="attributes">
+                <attribute name="placeholder">Branch, e.g., 00000</attribute>
+            </xpath>
             <xpath expr="//field[@name='vat']" position="after">
-                <field name="branch" placeholder="Branch, e.g., 00000" />
+                <field name="company_registry" position="move" />
             </xpath>
             <xpath expr="//field[@name='name']" position="attributes">
                 <attribute name="readonly">1</attribute>
