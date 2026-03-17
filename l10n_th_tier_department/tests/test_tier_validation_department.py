@@ -8,17 +8,16 @@ from odoo.addons.base_tier_validation.tests.common import CommonTierValidation
 
 @tagged("post_install", "-at_install")
 class TierTierValidationDepartment(CommonTierValidation):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.dep_admin = cls.env.ref("hr.dep_administration")
-        cls.tier_level = cls.env["tier.level"]
+    def setUp(self):
+        super().setUp()
+        self.dep_admin = self.env.ref("hr.dep_administration")
+        self.tier_level = self.env["tier.level"]
 
         # Create tier definitions:
         reviewer_expression = "rec.user_id.department_id.find_reviewer_level(level=1)"
-        cls.tier_def = cls.tier_def_obj.create(
+        self.tier_def = self.tier_def_obj.create(
             {
-                "model_id": cls.tester_model.id,
+                "model_id": self.tester_model.id,
                 "review_type": "expression",
                 "reviewer_expression": reviewer_expression,
                 "definition_domain": "[('test_field', '>', 1.0)]",
