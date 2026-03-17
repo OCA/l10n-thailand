@@ -15,15 +15,10 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: l10n_th_partner
-#: model:ir.model,name:l10n_th_partner.model_hr_employee_base
-msgid "Basic Employee"
-msgstr ""
-
-#. module: l10n_th_partner
-#: model:ir.model.fields,help:l10n_th_partner.field_res_company__branch
-#: model:ir.model.fields,help:l10n_th_partner.field_res_partner__branch
-#: model:ir.model.fields,help:l10n_th_partner.field_res_users__branch
-msgid "Branch ID, e.g., 0000, 0001, ..."
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_company__company_registry
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__company_registry
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__company_registry
+msgid "Branch"
 msgstr ""
 
 #. module: l10n_th_partner
@@ -55,32 +50,14 @@ msgstr ""
 #. module: l10n_th_partner
 #: model_terms:ir.ui.view,arch_db:l10n_th_partner.res_config_settings_view_form
 msgid ""
-"Disable space between title and name. example:<br/>\n"
-"                            Miss Firstname Lastname -&gt; MissFirstname "
-"Lastname"
-msgstr ""
-
-#. module: l10n_th_partner
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__display_name
-msgid "Display Name"
+"Disable space between title and name. example: Miss Firstname Lastname -> "
+"MissFirstname Lastname"
 msgstr ""
 
 #. module: l10n_th_partner
 #. odoo-python
 #: code:addons/l10n_th_partner/models/res_partner.py:0
-#, python-format
 msgid "Each contact's Tax ID and Tax Branch should not be the same."
-msgstr ""
-
-#. module: l10n_th_partner
-#: model:ir.model.fields,field_description:l10n_th_partner.field_hr_employee__name
-msgid "Employee Name"
-msgstr ""
-
-#. module: l10n_th_partner
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__firstname
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__firstname
-msgid "First name"
 msgstr ""
 
 #. module: l10n_th_partner
@@ -90,23 +67,8 @@ msgid "If checked, title and name will no space"
 msgstr ""
 
 #. module: l10n_th_partner
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__lastname
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__lastname
-msgid "Last name"
-msgstr ""
-
-#. module: l10n_th_partner
 #: model_terms:ir.ui.view,arch_db:l10n_th_partner.view_res_partner_filter
 msgid "Legal Form"
-msgstr ""
-
-#. module: l10n_th_partner
-#: model:ir.model.fields,field_description:l10n_th_partner.field_hr_employee_base__name
-#: model:ir.model.fields,field_description:l10n_th_partner.field_hr_employee_public__name
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__name
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__name
-#: model:ir.model.fields,field_description:l10n_th_partner.field_resource_resource__name
-msgid "Name"
 msgstr ""
 
 #. module: l10n_th_partner
@@ -132,11 +94,6 @@ msgid "Prefix"
 msgstr ""
 
 #. module: l10n_th_partner
-#: model:ir.model,name:l10n_th_partner.model_resource_resource
-msgid "Resources"
-msgstr ""
-
-#. module: l10n_th_partner
 #: model:ir.model.fields,help:l10n_th_partner.field_res_partner_company_type__use_prefix_suffix
 msgid "Select this field for compute partner name with prefix or suffix."
 msgstr ""
@@ -147,10 +104,12 @@ msgid "Suffix"
 msgstr ""
 
 #. module: l10n_th_partner
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_company__branch
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__branch
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__branch
-msgid "Tax Branch"
+#: model:ir.model.fields,help:l10n_th_partner.field_res_company__company_registry
+#: model:ir.model.fields,help:l10n_th_partner.field_res_partner__company_registry
+#: model:ir.model.fields,help:l10n_th_partner.field_res_users__company_registry
+msgid ""
+"The registry number of the company. Use it if it is different from the Tax "
+"ID. It must be unique across all partners of a same country"
 msgstr ""
 
 #. module: l10n_th_partner
@@ -196,17 +155,6 @@ msgstr ""
 #: model:res.partner.title,shortcut:l10n_th_partner.title_031
 #: model:res.partner.title,shortcut:l10n_th_partner.title_046
 msgid "จ.อ."
-msgstr ""
-
-#. module: l10n_th_partner
-#: model:res.partner.company.type,suffix:l10n_th_partner.company_type_3
-#: model:res.partner.company.type,suffix:l10n_th_partner.company_type_6
-msgid "จำกัด"
-msgstr ""
-
-#. module: l10n_th_partner
-#: model:res.partner.company.type,suffix:l10n_th_partner.company_type_4
-msgid "จำกัด (มหาชน)"
 msgstr ""
 
 #. module: l10n_th_partner
@@ -365,12 +313,6 @@ msgstr ""
 #. module: l10n_th_partner
 #: model:res.partner.company.type,shortcut:l10n_th_partner.company_type_4
 msgid "บมจ."
-msgstr ""
-
-#. module: l10n_th_partner
-#: model:res.partner.company.type,prefix:l10n_th_partner.company_type_3
-#: model:res.partner.company.type,prefix:l10n_th_partner.company_type_4
-msgid "บริษัท"
 msgstr ""
 
 #. module: l10n_th_partner
@@ -656,7 +598,6 @@ msgstr ""
 
 #. module: l10n_th_partner
 #: model:res.partner.company.type,name:l10n_th_partner.company_type_7
-#: model:res.partner.company.type,prefix:l10n_th_partner.company_type_7
 #: model:res.partner.company.type,shortcut:l10n_th_partner.company_type_7
 msgid "มูลนิธิ"
 msgstr ""
@@ -771,8 +712,6 @@ msgstr ""
 
 #. module: l10n_th_partner
 #: model:res.partner.company.type,name:l10n_th_partner.company_type_5
-#: model:res.partner.company.type,prefix:l10n_th_partner.company_type_5
-#: model:res.partner.company.type,prefix:l10n_th_partner.company_type_6
 #: model:res.partner.company.type,shortcut:l10n_th_partner.company_type_5
 msgid "สหกรณ์"
 msgstr ""
@@ -846,13 +785,11 @@ msgstr ""
 
 #. module: l10n_th_partner
 #: model:res.partner.company.type,name:l10n_th_partner.company_type_2
-#: model:res.partner.company.type,prefix:l10n_th_partner.company_type_2
 msgid "ห้างหุ้นส่วนจำกัด"
 msgstr ""
 
 #. module: l10n_th_partner
 #: model:res.partner.company.type,name:l10n_th_partner.company_type_1
-#: model:res.partner.company.type,prefix:l10n_th_partner.company_type_1
 msgid "ห้างหุ้นส่วนสามัญนิติบุคคล"
 msgstr ""
 
