@@ -14,10 +14,10 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_th_partner
-#: model:ir.model.fields,help:l10n_th_partner.field_res_company__branch
-#: model:ir.model.fields,help:l10n_th_partner.field_res_partner__branch
-#: model:ir.model.fields,help:l10n_th_partner.field_res_users__branch
-msgid "Branch ID, e.g., 0000, 0001, ..."
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_company__company_registry
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__company_registry
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__company_registry
+msgid "Branch"
 msgstr ""
 
 #. module: l10n_th_partner
@@ -103,10 +103,12 @@ msgid "Suffix"
 msgstr ""
 
 #. module: l10n_th_partner
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_company__branch
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__branch
-#: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__branch
-msgid "Tax Branch"
+#: model:ir.model.fields,help:l10n_th_partner.field_res_company__company_registry
+#: model:ir.model.fields,help:l10n_th_partner.field_res_partner__company_registry
+#: model:ir.model.fields,help:l10n_th_partner.field_res_users__company_registry
+msgid ""
+"The registry number of the company. Use it if it is different from the Tax "
+"ID. It must be unique across all partners of a same country"
 msgstr ""
 
 #. module: l10n_th_partner
