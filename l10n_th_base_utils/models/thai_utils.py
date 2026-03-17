@@ -1,6 +1,8 @@
 # Copyright 2025 Ecosoft Co., Ltd (https://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
+from datetime import datetime
+
 from odoo import api, models
 
 
@@ -59,10 +61,16 @@ class ThaiUtils(models.AbstractModel):
 
     @api.model
     def format_thai_date(
-        self, date_obj, month_format="full", buddhist_year=True, format_date=None
+        self,
+        date_obj,
+        month_format="full",
+        buddhist_year=True,
+        format_date="{day} {month} {year}",
+        include_time=False,
+        time_format="%H:%M",
     ):
         """
-        Format a date object to Thai date string.
+        Format a date or datetime object to Thai date string.
 
         Args:
             date_obj: date object
@@ -70,8 +78,9 @@ class ThaiUtils(models.AbstractModel):
                 "full"    → มกราคม
                 "short"   → ม.ค.
                 "numeric" → 01, 02, 03
-            buddhist_year (bool): use พ.ศ. or ค.ศ.
+            buddhist_year (bool): True = พ.ศ., False = ค.ศ.
             format_date (str): format custom
+            include_time: append time part if datetime
         """
         day = date_obj.day
 
@@ -86,7 +95,13 @@ class ThaiUtils(models.AbstractModel):
         # Year Format
         year = date_obj.year + 543 if buddhist_year else date_obj.year
 
-        # Format Date
-        if format_date is None:
-            format_date = "{day} {month} {year}"
-        return format_date.format(day=day, month=month, year=year)
+        result = format_date.format(
+            day=day,
+            month=month,
+            year=year,
+        )
+
+        # Time
+        if include_time and isinstance(date_obj, datetime):
+            result = f"{result} {date_obj.strftime(time_format)}"
+        return result
