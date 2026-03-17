@@ -110,12 +110,12 @@ class TestAccountTaxFiling(TransactionCase):
         year = datetime.datetime.now().year
         generator = Generator.create(
             {
-                "name_prefix": "{}-".format(year),
+                "name_prefix": f"{year}-",
                 "duration_count": 1,
                 "unit_of_time": str(MONTHLY),
                 "count": 12,
                 "type_id": range_type.id,
-                "date_start": "{}-01-01".format(year),
+                "date_start": f"{year}-01-01",
             }
         )
         generator.action_apply()

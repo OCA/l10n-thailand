@@ -152,7 +152,7 @@ class AccountTaxFiling(models.Model):
             vals["name"] = (
                 self.env["ir.sequence"].next_by_code("account.tax.filing") or "Draft"
             )
-        return super(AccountTaxFiling, self).create(vals)
+        return super().create(vals)
 
     @api.onchange("date_range_id")
     def _onchange_date_range(self):
