@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 17.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -21,11 +21,6 @@ msgid ""
 msgstr ""
 
 #. module: currency_rate_update_TH_BOT
-#: model:ir.model.fields,field_description:currency_rate_update_TH_BOT.field_res_company__bot_client_id
-msgid "BOT Client ID"
-msgstr ""
-
-#. module: currency_rate_update_TH_BOT
 #: model:ir.model.fields,field_description:currency_rate_update_TH_BOT.field_res_currency__bot_currency_name
 msgid "BOT Currency"
 msgstr ""
@@ -37,15 +32,13 @@ msgid "BOT Currency Rate Type"
 msgstr ""
 
 #. module: currency_rate_update_TH_BOT
-#. odoo-python
-#: code:addons/currency_rate_update_TH_BOT/models/res_currency_rate_provider_BOT.py:0
-#, python-format
-msgid "BOT Last Updated: {}"
+#: model_terms:ir.ui.view,arch_db:currency_rate_update_TH_BOT.res_config_settings_view_form
+msgid "BOT Provider"
 msgstr ""
 
 #. module: currency_rate_update_TH_BOT
-#: model_terms:ir.ui.view,arch_db:currency_rate_update_TH_BOT.res_config_settings_view_form
-msgid "BOT Provider"
+#: model:ir.model.fields,field_description:currency_rate_update_TH_BOT.field_res_company__bot_token
+msgid "BOT Token"
 msgstr ""
 
 #. module: currency_rate_update_TH_BOT
@@ -54,11 +47,8 @@ msgid "Bank of Thailand"
 msgstr ""
 
 #. module: currency_rate_update_TH_BOT
-#. odoo-python
-#: code:addons/currency_rate_update_TH_BOT/models/res_currency_rate_provider_BOT.py:0
-#, python-format
-msgid ""
-"Bank of Thailand is suitable only for companies with THB as base currency!"
+#: model:ir.model.fields,field_description:currency_rate_update_TH_BOT.field_res_config_settings__bot_token
+msgid "Bot Token"
 msgstr ""
 
 #. module: currency_rate_update_TH_BOT
@@ -69,11 +59,6 @@ msgstr ""
 #. module: currency_rate_update_TH_BOT
 #: model:ir.model.fields.selection,name:currency_rate_update_TH_BOT.selection__res_currency__bot_currency_rate_type__buying_transfer
 msgid "Buying Transfer Rate"
-msgstr ""
-
-#. module: currency_rate_update_TH_BOT
-#: model:ir.model.fields,field_description:currency_rate_update_TH_BOT.field_res_config_settings__bot_client_id
-msgid "Client ID"
 msgstr ""
 
 #. module: currency_rate_update_TH_BOT
@@ -107,13 +92,6 @@ msgid "Mid Rate"
 msgstr ""
 
 #. module: currency_rate_update_TH_BOT
-#. odoo-python
-#: code:addons/currency_rate_update_TH_BOT/models/res_currency_rate_provider_BOT.py:0
-#, python-format
-msgid "No bot.or.th credentials specified!"
-msgstr ""
-
-#. module: currency_rate_update_TH_BOT
 #: model:ir.model.fields,field_description:currency_rate_update_TH_BOT.field_res_currency_rate_provider__service
 msgid "Provider"
 msgstr ""
@@ -131,13 +109,4 @@ msgstr ""
 #. module: currency_rate_update_TH_BOT
 #: model_terms:ir.ui.view,arch_db:currency_rate_update_TH_BOT.res_config_settings_view_form
 msgid "credentials"
-msgstr ""
-
-#. module: currency_rate_update_TH_BOT
-#. odoo-python
-#: code:addons/currency_rate_update_TH_BOT/models/res_currency_rate_provider_BOT.py:0
-#, python-format
-msgid ""
-"httpCode: %(http_code)s\n"
-"moreInformation: %(more_info)s"
 msgstr ""
