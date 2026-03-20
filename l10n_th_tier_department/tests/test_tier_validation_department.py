@@ -112,3 +112,16 @@ class TierTierValidationDepartment(CommonTierValidation):
         # Level 1 returns user_1, level 2 returns user_2
         self.assertEqual(self.dep_admin.find_reviewer_level(level=1), self.test_user_1)
         self.assertEqual(self.dep_admin.find_reviewer_level(level=2), self.test_user_2)
+
+    def test_05_find_reviewer_level_zero(self):
+        """level=0 (default) should return current user regardless of tiers."""
+        self.test_user_2.employee_id.department_id = self.dep_admin.id
+        self.tier_level.create(
+            {
+                "department_id": self.dep_admin.id,
+                "user_id": self.test_user_1.id,
+            }
+        )
+        # level=0 means no specific level requested — return current user
+        reviewer = self.dep_admin.find_reviewer_level(level=0)
+        self.assertEqual(reviewer, self.env.user)
