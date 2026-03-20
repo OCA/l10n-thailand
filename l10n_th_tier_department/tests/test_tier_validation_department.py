@@ -110,9 +110,5 @@ class TierTierValidationDepartment(CommonTierValidation):
         self.assertEqual(level_1.level, 1)
         self.assertEqual(level_2.level, 2)
         # Level 1 returns user_1, level 2 returns user_2
-        self.assertEqual(
-            self.dep_admin.find_reviewer_level(level=1), self.test_user_1
-        )
-        self.assertEqual(
-            self.dep_admin.find_reviewer_level(level=2), self.test_user_2
-        )
+        self.assertEqual(self.dep_admin.find_reviewer_level(level=1), self.test_user_1)
+        self.assertEqual(self.dep_admin.find_reviewer_level(level=2), self.test_user_2)
