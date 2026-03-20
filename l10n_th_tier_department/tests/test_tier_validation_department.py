@@ -72,3 +72,47 @@ class TierTierValidationDepartment(CommonTierValidation):
         self.assertTrue(review)
         # Default itself, if no tier level
         self.assertEqual(review.reviewer_ids, self.test_user_1)
+
+    def test_03_tier_level_overflow(self):
+        """Request level higher than available — should return last approver."""
+        self.test_user_2.employee_id.department_id = self.dep_admin.id
+        # Create only 1 tier level
+        self.tier_level.create(
+            {
+                "department_id": self.dep_admin.id,
+                "user_id": self.test_user_1.id,
+            }
+        )
+        self.assertEqual(len(self.dep_admin.tier_level_ids), 1)
+        # Ask for level 5 — exceeds available levels, should fallback to last
+        reviewer = self.dep_admin.find_reviewer_level(level=5)
+        self.assertEqual(reviewer, self.test_user_1)
+
+    def test_04_tier_level_multi(self):
+        """Multiple tier levels — verify correct level assignment."""
+        self.test_user_2.employee_id.department_id = self.dep_admin.id
+        # Create 2 tier levels with different sequences
+        level_1 = self.tier_level.create(
+            {
+                "department_id": self.dep_admin.id,
+                "user_id": self.test_user_1.id,
+                "sequence": 10,
+            }
+        )
+        level_2 = self.tier_level.create(
+            {
+                "department_id": self.dep_admin.id,
+                "user_id": self.test_user_2.id,
+                "sequence": 20,
+            }
+        )
+        # Verify computed levels
+        self.assertEqual(level_1.level, 1)
+        self.assertEqual(level_2.level, 2)
+        # Level 1 returns user_1, level 2 returns user_2
+        self.assertEqual(
+            self.dep_admin.find_reviewer_level(level=1), self.test_user_1
+        )
+        self.assertEqual(
+            self.dep_admin.find_reviewer_level(level=2), self.test_user_2
+        )
