@@ -81,7 +81,7 @@ class ThaiTaxReport(models.AbstractModel):
                 AND t.reversed_id is null
             ) a
             GROUP BY {self._query_groupby_tax()}
-            ORDER BY tax_date, tax_invoice_number
+            ORDER BY row_number, tax_date, tax_invoice_number
         """,
             (
                 tax_id,
