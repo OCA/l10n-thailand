@@ -1,0 +1,6 @@
+id,name,parent_id,sequence,data_level
+kbank_header_section,KBank - Header,,10,document
+kbank_payment_section,KBank - Payment,,20,payment
+kbank_invoice_section,KBank - Invoice,KBank - Payment,30,invoice
+kbank_wht_section,KBank - WHT,KBank - Payment,40,wht
+kbank_footer_section,KBank - Footer,KBank - Payment,90,payment

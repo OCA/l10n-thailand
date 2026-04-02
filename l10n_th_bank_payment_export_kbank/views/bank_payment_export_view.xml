@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="bank_payment_export_view_form" model="ir.ui.view">
+        <field name="name">bank.payment.export.view.form</field>
+        <field name="model">bank.payment.export</field>
+        <field
+            name="inherit_id"
+            ref="l10n_th_bank_payment_export.bank_payment_export_view_form"
+        />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//page[@name='information']//group[@name='left_information']"
+                position="inside"
+            >
+                <field name="kbank_transfer_type" invisible="bank != 'KASITHBK'" />
+                <field
+                    name="kbank_charge_bearer"
+                    readonly="state != 'draft'"
+                    required="bank == 'KASITHBK'"
+                    invisible="bank != 'KASITHBK'"
+                />
+                <field
+                    name="kbank_product_type"
+                    readonly="state != 'draft'"
+                    invisible="bank != 'KASITHBK' and kbank_transfer_type != 'same_bank'"
+                    required="bank == 'KASITHBK' and kbank_transfer_type == 'same_bank'"
+                />
+                <field
+                    name="kbank_payment_type"
+                    readonly="state != 'draft'"
+                    invisible="bank != 'KASITHBK' and kbank_transfer_type != 'other_bank'"
+                    required="bank == 'KASITHBK' and kbank_transfer_type == 'other_bank'"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
