@@ -4,9 +4,9 @@
 from odoo import fields, models
 
 
-class BankPaymentTemplate(models.Model):
-    _name = "bank.payment.template"
-    _description = "Template of Bank Payment Configuration"
+class BankPaymentProfile(models.Model):
+    _name = "bank.payment.profile"
+    _description = "Profile of Bank Payment"
     _check_company_auto = True
 
     name = fields.Char(required=True)
@@ -14,9 +14,9 @@ class BankPaymentTemplate(models.Model):
         selection=[],
         required=True,
     )
-    template_config_line = fields.One2many(
-        comodel_name="bank.payment.config",
-        inverse_name="template_id",
+    line_ids = fields.One2many(
+        comodel_name="bank.payment.profile.line",
+        inverse_name="profile_id",
     )
     company_id = fields.Many2one(
         comodel_name="res.company",
@@ -28,11 +28,11 @@ class BankPaymentTemplate(models.Model):
     )
 
 
-class BankPaymentConfig(models.Model):
-    _name = "bank.payment.config"
-    _description = "Bank Payment Configuration"
+class BankPaymentProfileLine(models.Model):
+    _name = "bank.payment.profile.line"
+    _description = "Bank Payment Profile Line"
 
-    template_id = fields.Many2one(comodel_name="bank.payment.template", index=True)
+    profile_id = fields.Many2one(comodel_name="bank.payment.profile", index=True)
     field_id = fields.Many2one(
         comodel_name="ir.model.fields",
         required=True,

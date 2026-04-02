@@ -2,9 +2,9 @@
 <!-- Copyright 2021 Ecosoft Co., Ltd (http://ecosoft.co.th/)
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html) -->
 <odoo>
-    <record id="bank_payment_template_view_list" model="ir.ui.view">
-        <field name="name">bank.payment.template.view.list</field>
-        <field name="model">bank.payment.template</field>
+    <record id="bank_payment_profile_view_list" model="ir.ui.view">
+        <field name="name">bank.payment.profile.view.list</field>
+        <field name="model">bank.payment.profile</field>
         <field name="arch" type="xml">
             <list>
                 <field name="name" />
@@ -14,9 +14,9 @@
             </list>
         </field>
     </record>
-    <record id="bank_payment_template_view_form" model="ir.ui.view">
-        <field name="name">bank.payment.template.view.form</field>
-        <field name="model">bank.payment.template</field>
+    <record id="bank_payment_profile_view_form" model="ir.ui.view">
+        <field name="name">bank.payment.profile.view.form</field>
+        <field name="model">bank.payment.profile</field>
         <field name="arch" type="xml">
             <form>
                 <header />
@@ -40,8 +40,8 @@
                         </group>
                     </group>
                     <notebook>
-                        <page name="bank_payment_config" string="Config">
-                            <field name="template_config_line">
+                        <page name="bank_payment_profile_line" string="Profile Line">
+                            <field name="line_ids">
                                 <list editable="bottom">
                                     <field
                                         name="field_id"
@@ -56,27 +56,24 @@
                             <group>
                                 <div>
                                     <p>
-                                        The bank payment export template allows for easy automatic configuration.
-                                        Users can select their preferred template and modify the values as needed.
+                                        The <b
+                                    >Bank Payment Export Profile</b> allows you to easily configure your payment exports.
+                                        You can start with a predefined profile and customize the values to suit your specific needs.
                                     </p>
                                     <p>
-                                        For fields of the <code
-                                    >many2one, many2many</code> types,<br />
-                                        you can enter values using either the <b
-                                    >ID</b> or the <b>Name</b> format.
+                                        When specifying values for relationship fields (e.g., <code
+                                    >many2one</code> or <code>many2many</code>),<br />
+                                        you can use either the record's <b
+                                    >ID</b> or its <b>Name</b>.
                                     </p>
                                     <p>
                                         For <code
-                                    >selection</code> fields, use the values displayed on the screen.
-                                        To find the correct value, look for the text before the hyphen (-)
-                                        <br />
-                                        For example,
-                                        if <b
-                                    >Product Code</b> is a selection field with many options and you want to make a Direct Credit payment,<br
+                                    >selection</code> fields, you must enter the exact technical value. Often, this is the text displayed before a hyphen (-).<br
                                     />
-                                        the system will display <b
-                                    >DCP - Direct Credit</b> In this case, you should enter the value as <b
-                                    >DCP</b>
+                                        For example, if the <b
+                                    >Product Code</b> option appears as <b
+                                    >DCP - Direct Credit</b>,<br />
+                                        you should enter just <b>DCP</b>.
                                     </p>
                                 </div>
                             </group>
@@ -86,11 +83,11 @@
             </form>
         </field>
     </record>
-    <record id="bank_payment_template_view_search" model="ir.ui.view">
-        <field name="name">bank.payment.template.view.search</field>
-        <field name="model">bank.payment.template</field>
+    <record id="bank_payment_profile_view_search" model="ir.ui.view">
+        <field name="name">bank.payment.profile.view.search</field>
+        <field name="model">bank.payment.profile</field>
         <field name="arch" type="xml">
-            <search string="Bank Payment Config">
+            <search string="Bank Payment Profile">
                 <field name="name" />
                 <group expand="1" string="Group By">
                     <filter
@@ -108,14 +105,14 @@
             </search>
         </field>
     </record>
-    <record id="action_bank_payment_template" model="ir.actions.act_window">
-        <field name="name">Bank Payment Templates</field>
-        <field name="res_model">bank.payment.template</field>
-        <field name="view_id" ref="bank_payment_template_view_list" />
+    <record id="action_bank_payment_profile" model="ir.actions.act_window">
+        <field name="name">Bank Payment Profiles</field>
+        <field name="res_model">bank.payment.profile</field>
+        <field name="view_id" ref="bank_payment_profile_view_list" />
     </record>
     <menuitem
-        id="menu_bank_payment_template"
-        action="action_bank_payment_template"
+        id="menu_bank_payment_profile"
+        action="action_bank_payment_profile"
         parent="account.root_payment_menu"
         sequence="60"
     />

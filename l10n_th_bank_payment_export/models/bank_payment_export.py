@@ -10,7 +10,7 @@ from odoo.tools.safe_eval import safe_eval
 
 class BankPaymentExport(models.Model):
     _name = "bank.payment.export"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ["mail.thread", "mail.activity.mixin", "bank.payment.export.common"]
     _description = "Bank Payment Export File"
     _order = "name desc"
     _check_company_auto = True
@@ -26,23 +26,21 @@ class BankPaymentExport(models.Model):
         selection=[],
         tracking=True,
     )
-    template_id = fields.Many2one(
-        comodel_name="bank.payment.template",
-        string="Template",
+    profile_id = fields.Many2one(
+        comodel_name="bank.payment.profile",
+        string="Profile",
         tracking=True,
         check_company=True,
     )
-    bank_export_format_id = fields.Many2one(
-        comodel_name="bank.export.format",
-        string="Bank Export Format",
+    bank_template_id = fields.Many2one(
+        comodel_name="bank.template",
         tracking=True,
     )
-    effective_date = fields.Date(copy=False)
-    is_required_effective_date = fields.Boolean(
-        compute="_compute_required_effective_date",
-        default=False,
-        copy=False,
+    domain_payment_method = fields.Many2one(
+        comodel_name="account.payment.method",
+        default=lambda self: self.env.ref("account.account_payment_method_manual_out"),
     )
+    effective_date = fields.Date(copy=False)
     export_line_ids = fields.One2many(
         comodel_name="bank.payment.export.line",
         inverse_name="payment_export_id",
@@ -77,30 +75,41 @@ class BankPaymentExport(models.Model):
         tracking=True,
     )
 
-    @api.onchange("template_id")
-    def _onchange_template_id(self):
-        """Update field following bank payment template"""
-        template = self.template_id
-        if template:
-            self.bank = template.bank
-            for line in template.template_config_line:
-                field = line.field_id
-                value = line.value
-                if field.ttype in ["many2one", "many2many"]:
-                    # If value is digit, search by id, else search by name
-                    if line.value.isdigit():
-                        value = self.env[field.relation].browse(int(line.value)).id
-                    else:
-                        value = (
-                            self.env[field.relation]
-                            .search([("name", "=", line.value)], limit=1)
-                            .id
-                        )
-                self[field.name] = value
+    @api.onchange("profile_id")
+    def _onchange_profile_id(self):
+        """Update field following bank payment profile"""
+        profile = self.profile_id
+        if not profile:
+            return
 
-    @api.depends("bank")
-    def _compute_required_effective_date(self):
-        self.is_required_effective_date = False
+        self.bank = profile.bank
+        update_vals = {}
+
+        for line in profile.line_ids:
+            field = line.field_id
+            value = line.value
+
+            if field.ttype in ["many2one", "many2many"]:
+                # If value is digit, use directly as id, else search by name
+                if value and value.isdigit():
+                    res_id = int(value)
+                else:
+                    res_id = (
+                        self.env[field.relation]
+                        .search([("name", "=", value)], limit=1)
+                        .id
+                    )
+
+                # many2many field requires a list of commands, not an integer ID
+                if field.ttype == "many2many" and res_id:
+                    value = [Command.set([res_id])]
+                else:
+                    value = res_id
+
+            update_vals[field.name] = value
+
+        if update_vals:
+            self.update(update_vals)
 
     @api.depends("export_line_ids", "export_line_ids.state")
     def _compute_total_amount(self):
@@ -136,11 +145,10 @@ class BankPaymentExport(models.Model):
         4. Payment method must be 'Manual' on Vendor Payment
         5. Journal payment must be type 'Bank' only
         """
-        method_manual_out = self.env.ref("account.account_payment_method_manual_out")
         domain = [
             ("export_status", "=", "draft"),
             ("state", "=", "paid"),
-            ("payment_method_id", "=", method_manual_out.id),
+            ("payment_method_id", "=", self.domain_payment_method.id),
             ("journal_id.type", "=", "bank"),
             ("company_id", "=", self.company_id.id),
             ("currency_id", "=", self.currency_id.id),
@@ -188,11 +196,9 @@ class BankPaymentExport(models.Model):
         )
         globals_dict = {
             "rec": self,
-            "line": self.export_line_ids,
+            "lines": self.export_line_ids,
             "today": today,
             "today_datetime": today_datetime,
-            "wht_cert": False,
-            "invoices": self.env["account.move"],
         }
         return globals_dict
 
@@ -201,153 +207,292 @@ class BankPaymentExport(models.Model):
         globals_dict.update(kwargs)
         return globals_dict
 
+    def _get_payment_wht_certs(self, payment):
+        """Return the payment's WHT certs, or False if the WHT module is missing."""
+        return getattr(payment, "wht_cert_ids", False)
+
+    def _get_data_level_payment(self, active_lines, parent_ctx):
+        # If parent context already contains payment data,
+        # reuse it instead of re-iterating all payment lines.
+        # This prevents duplicate lines when a child section
+        # (e.g. Footer) has the same data_level as its parent.
+        if parent_ctx.get("payment"):
+            return [parent_ctx]
+        return [
+            {
+                "line": line,
+                "idx_payment": idx,
+                "payment": line.payment_id,
+                "invoices": line.payment_id.reconciled_bill_ids,
+                "wht_certs": self._get_payment_wht_certs(line.payment_id),
+            }
+            for idx, line in enumerate(active_lines)
+        ]
+
+    def _get_data_level_invoice(self, active_lines, parent_ctx):
+        items = []
+        if parent_ctx.get("payment"):
+            payment = parent_ctx["payment"]
+            invoices = payment.reconciled_bill_ids or [False]
+            for idx, inv in enumerate(invoices):
+                ctx = dict(parent_ctx)
+                ctx.update(
+                    {
+                        "invoice": inv,
+                        "idx_invoice": idx,
+                    }
+                )
+                items.append(ctx)
+        else:
+            for idx, line in enumerate(active_lines):
+                payment = line.payment_id
+                invoices = payment.reconciled_bill_ids or [False]
+                for idx_inv, inv in enumerate(invoices):
+                    items.append(
+                        {
+                            "line": line,
+                            "idx_payment": idx,
+                            "payment": payment,
+                            "invoices": payment.reconciled_bill_ids,
+                            "invoice": inv,
+                            "idx_invoice": idx_inv,
+                            "wht_certs": self._get_payment_wht_certs(payment),
+                        }
+                    )
+        return items
+
+    def _get_data_level_wht(self, active_lines, parent_ctx):
+        items = []
+        if parent_ctx.get("payment"):
+            payment = parent_ctx["payment"]
+            whts = self._get_payment_wht_certs(payment) or [False]
+            for idx_wht, wht in enumerate(whts):
+                ctx = dict(parent_ctx)
+                ctx.update(
+                    {
+                        "wht_cert": wht,
+                        "idx_wht": idx_wht,
+                    }
+                )
+                items.append(ctx)
+        else:
+            for idx, line in enumerate(active_lines):
+                payment = line.payment_id
+                whts = self._get_payment_wht_certs(payment) or [False]
+                for idx_wht, wht in enumerate(whts):
+                    items.append(
+                        {
+                            "line": line,
+                            "idx_payment": idx,
+                            "payment": payment,
+                            "invoices": payment.reconciled_bill_ids,
+                            "wht_certs": self._get_payment_wht_certs(payment),
+                            "wht_cert": wht,
+                            "idx_wht": idx_wht,
+                        }
+                    )
+        return items
+
+    def _get_data_level_custom(self, active_lines, group):
+        items = []
+        for idx_line, line in enumerate(active_lines):
+            globals_dict = self._set_global_dict()
+            globals_dict = self._update_global_dict(
+                globals_dict,
+                payment_line=line,
+                payment=line.payment_id,
+                idx_payment=idx_line,
+            )
+
+            try:
+                custom_items = safe_eval(
+                    group["custom_iterable"], globals_dict=globals_dict
+                )
+            except Exception:
+                custom_items = []
+
+            if not custom_items:
+                custom_items = [False]
+
+            for idx_sub, sub_item in enumerate(custom_items):
+                ctx = {
+                    "payment_line": line,
+                    "payment": line.payment_id,
+                    "sub_line": sub_item,
+                    "idx_sub_line": idx_sub,
+                }
+                items.append(ctx)
+
+        return items
+
+    def _get_group_data_items(self, group, parent_ctx=None):
+        self.ensure_one()
+
+        data_level = group["data_level"]
+
+        # DOCUMENT
+        if data_level == "document":
+            return [{}]
+
+        active_lines = self.export_line_ids.filtered(
+            lambda line: line.state != "reject"
+        )
+        parent_ctx = parent_ctx or {}
+
+        # PAYMENT
+        if data_level == "payment":
+            return self._get_data_level_payment(active_lines, parent_ctx)
+
+        # INVOICE
+        if data_level == "invoice":
+            return self._get_data_level_invoice(active_lines, parent_ctx)
+
+        # WHT
+        if data_level == "wht":
+            return self._get_data_level_wht(active_lines, parent_ctx)
+
+        # CUSTOM
+        # NOTE: Not yet tested
+        if data_level == "custom":
+            return self._get_data_level_custom(active_lines, group)
+
+        return []
+
+    def _render_lines(self, lines, line_ending, parent_ctx=None):
+        ctx = parent_ctx or {}
+
+        globals_dict = self._set_global_dict()
+        parts = []
+        has_visible = False
+
+        for line in lines:
+            if line.section_id:
+                globals_dict = self._update_global_dict(globals_dict, **ctx)
+
+            if line.condition:
+                try:
+                    if not safe_eval(line.condition, globals_dict=globals_dict):
+                        continue
+                except Exception:
+                    continue
+
+            value = line._get_value(globals_dict)
+            parts.append(value)
+            has_visible = True
+
+        if has_visible or not lines:
+            return ["".join(parts), line_ending]
+
+        return []
+
+    def _execute_section(
+        self, section, section_lines_map, text_parts, line_ending, parent_ctx=None
+    ):
+        dummy_group = {
+            "data_level": section.data_level,
+            "custom_iterable": getattr(section, "custom_iterable", False),
+        }
+        data_items = self._get_group_data_items(dummy_group, parent_ctx)
+
+        for item_ctx in data_items:
+            # Render lines
+            lines = section_lines_map.get(section.id, [])
+            if lines:
+                rendered = self._render_lines(lines, line_ending, parent_ctx=item_ctx)
+                text_parts.extend(rendered)
+
+            # Execute Children
+            for child in section.child_ids.sorted("sequence"):
+                self._execute_section(
+                    child,
+                    section_lines_map,
+                    text_parts,
+                    line_ending,
+                    parent_ctx=item_ctx,
+                )
+
     def _generate_bank_payment_text(self):
         self.ensure_one()
-        globals_dict = self._set_global_dict()
-        text_parts = []
-        processed_match = set()
 
-        # Get format from bank
-        if not self.bank_export_format_id:
+        if not self.bank_template_id:
             raise UserError(self.env._("Bank format not found."))
 
-        exp_format_lines = self.bank_export_format_id.export_format_ids
+        template = self.bank_template_id
+        line_ending = template._get_line_ending()
+        text_parts = []
 
-        for idx, exp_format in enumerate(exp_format_lines):
-            if exp_format.display_type:
+        # --------------------------------------------------
+        # 1. Get template lines
+        # --------------------------------------------------
+        template_lines = template.template_line_ids.filtered(
+            lambda line: line.display_type not in ("line_section", "line_note")
+        )
+
+        # --------------------------------------------------
+        # 2. Build section -> lines map and collect no-section lines
+        # --------------------------------------------------
+        section_lines_map = {}
+        no_section_lines = []
+        sections = {}
+
+        for line in template_lines:
+            section = line.section_id
+            if not section:
+                no_section_lines.append(line)
                 continue
 
-            # Skip if value has already been processed, and need_loop is True
-            if exp_format.need_loop and exp_format.match_group in processed_match:
-                continue
+            section_lines_map.setdefault(section.id, []).append(line)
+            sections[section.id] = section
 
-            # Add idx to globals_dict
-            globals_dict = self._update_global_dict(globals_dict, idx=idx)
+        # include parent sections (container sections)
+        for sec in list(sections.values()):
+            p = sec.parent_id
+            while p:
+                sections[p.id] = p
+                p = p.parent_id
 
-            # Skip this line if condition is not met
-            if not exp_format.need_loop and exp_format.condition_line:
-                condition = safe_eval(
-                    exp_format.condition_line, globals_dict=globals_dict
+        # --------------------------------------------------
+        # 3. Build render order (mix no-section lines and root sections)
+        # --------------------------------------------------
+        root_sections = [s for s in sections.values() if not s.parent_id]
+
+        # Build ordered render items: ("line", line) or ("section", section)
+        render_items = []
+        for line in no_section_lines:
+            render_items.append(("line", line))
+        for section in root_sections:
+            render_items.append(("section", section))
+
+        # Sort by sequence then id to maintain template order
+        render_items.sort(key=lambda item: (item[1].sequence, item[1].id))
+
+        # --------------------------------------------------
+        # 4. Execute render items
+        # --------------------------------------------------
+        for item_type, item in render_items:
+            if item_type == "line":
+                # No section: render line directly
+                text_parts.extend(self._render_lines([item], line_ending))
+            else:
+                # Section: execute recursively (handles both with/without children)
+                self._execute_section(
+                    item,
+                    section_lines_map,
+                    text_parts,
+                    line_ending,
                 )
-                if not condition:
-                    continue
 
-            # Add value to the set of processed values
-            if exp_format.match_group:
-                processed_match.add(exp_format.match_group)
-
-            if exp_format.need_loop:
-                self._process_loop(
-                    exp_format, exp_format_lines, globals_dict, text_parts
-                )
-                continue
-
-            # Get value from instruction
-            text_line = exp_format._get_value(globals_dict)
-            text_parts.append(text_line)
-
-            if exp_format.end_line:
-                # TODO: Change this to configurable
-                text_parts.append("\r\n")
-
-        text = "".join(text_parts)
-        return text
-
-    def _process_loop(self, exp_format, exp_format_lines, globals_dict, text_parts):
-        # Get all lines that match the current group
-        wht_cert = False
-        for idx_line, line in enumerate(self.export_line_ids):
-            # Change the value of the line in the globals_dict
-            payment = line.payment_id
-            if hasattr(payment, "wht_cert_ids"):
-                wht_cert = payment.wht_cert_ids
-
-            globals_dict_line = self._update_global_dict(
-                globals_dict,
-                line=line,
-                idx_line=idx_line,
-                wht_cert=wht_cert,
-                invoices=payment.reconciled_bill_ids,
-            )
-
-            # search only lines that match the current group and condition
-            # filter in loop because we need to check condition_line
-            exp_format_line_group = exp_format_lines.filtered(
-                lambda line, globals_dict_line=globals_dict_line: line.match_group
-                == exp_format.match_group
-                and (
-                    not line.condition_line
-                    or safe_eval(line.condition_line, globals_dict=globals_dict_line)
-                )
-            )
-
-            processed_subloop = set()
-
-            for exp_format_line in exp_format_line_group:
-                # Sub-loop logic
-                if exp_format_line.sub_loop:
-                    self._process_sub_loop(
-                        exp_format_line,
-                        exp_format_line_group,
-                        globals_dict_line,
-                        text_parts,
-                        processed_subloop,
-                    )
-                    continue
-
-                # Get value from instruction
-                text_line = exp_format_line._get_value(globals_dict_line)
-                text_parts.append(text_line)
-
-                if exp_format_line.end_line:
-                    # TODO: Change this to configurable
-                    text_parts.append("\r\n")
-        return text_parts
-
-    def _process_sub_loop(
-        self,
-        exp_format_line,
-        exp_format_line_group,
-        globals_dict_line,
-        text_parts,
-        processed_subloop,
-    ):
-        if exp_format_line.sub_value_loop not in processed_subloop:
-            processed_subloop.add(exp_format_line.sub_value_loop)
-
-            exp_format_sub_line_group = exp_format_line_group.filtered(
-                lambda line: line.sub_value_loop == exp_format_line.sub_value_loop
-            )
-            sub_lines = safe_eval(
-                exp_format_line.sub_value_loop, globals_dict=globals_dict_line
-            )
-
-            for idx_sub_line, sub_line in enumerate(sub_lines):
-                for exp_format_sub_line in exp_format_sub_line_group:
-                    # Update globals_dict for sub-loop
-                    globals_dict_sub_line = self._update_global_dict(
-                        globals_dict_line, sub_line=sub_line, idx_sub_line=idx_sub_line
-                    )
-
-                    # Get value from sub-instruction
-                    sub_text_line = exp_format_sub_line._get_value(
-                        globals_dict_sub_line
-                    )
-                    text_parts.append(sub_text_line)
-
-                    if exp_format_sub_line.end_line:
-                        # TODO: Change this to configurable
-                        text_parts.append("\r\n")
-        return text_parts
+        return "".join(text_parts)
 
     def _export_bank_payment_text_file(self):
         self.ensure_one()
         if self.bank:
             return self._generate_bank_payment_text()
-        return "Demo Text File. You must config `Bank Export Format` First."
+        return "Demo Text File. You must config `Bank Template` First."
 
     def _check_constraint_line(self):
         # Add condition with line on this function
+        self.ensure_one()
         return
 
     def _check_constraint_confirm(self):
@@ -389,16 +534,30 @@ class BankPaymentExport(models.Model):
         self.ensure_one()
         return self.print_report("xlsx")
 
+    def _get_payment_export_bank(self, payments):
+        """Return the single supported bank key shared by the payments, or raise."""
+        payment_bic_banks = set(payments.mapped("journal_id.bank_id.bic"))
+        supported_banks = self._fields["bank"].get_values(self.env)
+        if len(payment_bic_banks) != 1:
+            raise UserError(
+                self.env._("All selected payments must use the same bank journal.")
+            )
+        payment_bic_bank = payment_bic_banks.pop()
+        if not payment_bic_bank or payment_bic_bank not in supported_banks:
+            raise UserError(
+                self.env._("No payment export format available for this bank.")
+            )
+        return payment_bic_bank
+
     def _get_context_create_bank_payment_export(self, payments):
         ctx = self.env.context.copy()
         export_lines = [
             Command.create({"payment_id": payment}) for payment in payments.ids
         ]
-        payment_bic_bank = list(set(payments.mapped("journal_id.bank_id.bic")))
-        payment_bank = len(payment_bic_bank) == 1 and payment_bic_bank[0] or []
+        payment_bank = self._get_payment_export_bank(payments)
         ctx.update(
             {
-                "default_template_id": payments[0].bank_payment_template_id.id,
+                "default_profile_id": payments[0].bank_payment_profile_id.id,
                 "default_bank": payment_bank,
                 "default_export_line_ids": export_lines,
                 "default_currency_id": payments[0].currency_id.id,
@@ -433,24 +592,58 @@ class BankPaymentExport(models.Model):
                 )
 
     def _check_constraint_create_bank_payment_export(self, payments):
-        comment_template = payments[0].bank_payment_template_id
-        previous_currency = False
+        if not payments:
+            return
+
+        no_bank = []
+        exported = []
+        invalid_state = []
+
+        first_profile = payments[0].bank_payment_profile_id
+        first_currency = payments[0].currency_id
+
         for payment in payments:
-            if payment.bank_payment_template_id != comment_template:
-                raise UserError(
-                    self.env._("All payments must have the same bank payment template.")
-                )
+            if not payment.partner_bank_id:
+                no_bank.append(payment.name)
+
             if payment.export_status != "draft":
-                raise UserError(self.env._("Payments have been already exported."))
+                exported.append(payment.name)
+
             if payment.state != "paid":
+                invalid_state.append(payment.name)
+
+            if payment.bank_payment_profile_id != first_profile:
                 raise UserError(
-                    self.env._("You can export bank payments state 'paid' only")
+                    self.env._("All payments must have the same bank payment profile.")
                 )
-            if previous_currency and payment.currency_id != previous_currency:
+
+            if payment.currency_id != first_currency:
                 raise UserError(
                     self.env._("You can export bank payments with 1 currency only.")
                 )
-            previous_currency = payment.currency_id
+
+        if no_bank:
+            raise UserError(
+                self.env._(
+                    "The following payments do not have a Vendor Bank Account:\n%s"
+                )
+                % "\n".join(no_bank)
+            )
+
+        if exported:
+            raise UserError(
+                self.env._("The following payments have already been exported:\n%s")
+                % "\n".join(exported)
+            )
+
+        if invalid_state:
+            raise UserError(
+                self.env._(
+                    "You can only export bank payments in state 'paid'.\n"
+                    "Invalid payments:\n%s"
+                )
+                % "\n".join(invalid_state)
+            )
 
     @api.model
     def action_create_bank_payment_export(self):
@@ -461,6 +654,7 @@ class BankPaymentExport(models.Model):
         )
         if not payments:
             return
+
         self._check_constraint_create_bank_payment_export(payments)
         ctx = self._get_context_create_bank_payment_export(payments)
         return {
@@ -472,31 +666,3 @@ class BankPaymentExport(models.Model):
             "view_id": view.id,
             "context": ctx,
         }
-
-    # ====================== Function Common Text File ======================
-
-    def _get_receiver_address(self, object_address):
-        receiver_address = " ".join(
-            [
-                object_address.street or "",
-                object_address.street2 or "",
-                object_address.city or "",
-                object_address.zip or "",
-            ]
-        )
-        return receiver_address
-
-    def _get_address(self, object_address, max_length):
-        receiver_address = self._get_receiver_address(object_address)
-        address = receiver_address[:max_length]
-        return address
-
-    def _get_amount_wht_invoice(self, inv, line):
-        """get amount wht from invoice"""
-        amount_wht = 0.0
-        if hasattr(inv.invoice_line_ids, "wht_tax_id"):
-            wht_lines = inv.invoice_line_ids.filtered("wht_tax_id")
-            amount_wht = wht_lines._get_wht_amount(
-                self.env.company.currency_id, line.payment_date
-            )[1]
-        return amount_wht

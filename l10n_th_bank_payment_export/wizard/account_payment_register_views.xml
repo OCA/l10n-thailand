@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//group[@name='group2']" position="inside">
                 <field
-                    name="bank_payment_template_id"
+                    name="bank_payment_profile_id"
                     domain="['|', ('journal_ids', 'in', journal_id), ('journal_ids', '=', False)]"
                 />
                 <label for="is_export" />

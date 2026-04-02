@@ -6,10 +6,10 @@
         <field name="inherit_id" ref="account.view_partner_property_form" />
         <field name="arch" type="xml">
             <xpath
-                expr="//page[@name='accounting']//group[@name='accounting_entries']"
+                expr="//page[@name='accounting']//group[@name='banks']"
                 position="inside"
             >
-                <field name="property_bank_payment_template_id" />
+                <field name="property_bank_payment_profile_id" />
             </xpath>
         </field>
     </record>

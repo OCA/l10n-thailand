@@ -6,7 +6,7 @@ from odoo import api, fields, models
 
 class BankPaymentExportLine(models.Model):
     _name = "bank.payment.export.line"
-    _inherit = "bank.payment.export.common"
+    _inherit = "bank.payment.export.line.common"
     _description = "Bank Payment Export File"
 
     payment_export_id = fields.Many2one(
@@ -16,7 +16,6 @@ class BankPaymentExportLine(models.Model):
     payment_id = fields.Many2one(
         comodel_name="account.payment",
         required=True,
-        domain=lambda self: self._domain_payment_id(),
         ondelete="restrict",
         index=True,
     )
@@ -32,7 +31,7 @@ class BankPaymentExportLine(models.Model):
     )
     payment_partner_bank_id = fields.Many2one(
         comodel_name="res.partner.bank",
-        compute="_compute_payment_default",
+        related="payment_id.partner_bank_id",
         string="Recipient Bank",
         store=True,
         index=True,
@@ -69,30 +68,6 @@ class BankPaymentExportLine(models.Model):
             "Duplicate payment in transaction not allowed!",
         )
     ]
-
-    @api.depends("payment_id")
-    def _compute_payment_default(self):
-        for rec in self:
-            rec.payment_partner_bank_id = rec.payment_id.partner_bank_id or False
-
-    def _domain_payment_id(self):
-        """Condition search all payment
-        1. Currency same as company currency
-        2. Company same as company_id
-        3. Payment not exported and state 'paid' only
-        4. Payment method must be 'Manual' on Vendor Payment
-        5. Journal payment must be type 'Bank' only
-        """
-        method_manual_out = self.env.ref("account.account_payment_method_manual_out")
-        domain = (
-            f"[('export_status', '=', 'draft'), "
-            f"('state', '=', 'paid'), "
-            f"('payment_method_id', '=', {method_manual_out.id}), "
-            f"('journal_id.type', '=', 'bank'), "
-            f"('company_id', '=', company_id), "
-            f"('currency_id', '=', currency_id)]"
-        )
-        return domain
 
     def clear_payment_exported(self):
         return self.mapped("payment_id").write(

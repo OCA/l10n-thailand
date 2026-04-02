@@ -11,19 +11,19 @@ class AccountPaymentRegister(models.TransientModel):
         string="Bank Payment Exported",
         help="if checked, it means the money has already been sent to the bank.",
     )
-    bank_payment_template_id = fields.Many2one(
-        comodel_name="bank.payment.template",
-        compute="_compute_bank_payment_template",
+    bank_payment_profile_id = fields.Many2one(
+        comodel_name="bank.payment.profile",
+        compute="_compute_bank_payment_profile",
         readonly=False,
         check_company=True,
         store=True,
     )
 
     @api.depends("partner_id")
-    def _compute_bank_payment_template(self):
+    def _compute_bank_payment_profile(self):
         for wizard in self:
-            wizard.bank_payment_template_id = (
-                wizard.partner_id.property_bank_payment_template_id.id
+            wizard.bank_payment_profile_id = (
+                wizard.partner_id.property_bank_payment_profile_id.id
             )
 
     def _init_payments(self, to_process, edit_mode=False):
@@ -31,7 +31,7 @@ class AccountPaymentRegister(models.TransientModel):
             process["create_vals"]["export_status"] = (
                 self.is_export and "exported" or "draft"
             )
-            process["create_vals"]["bank_payment_template_id"] = (
-                self.bank_payment_template_id.id
+            process["create_vals"]["bank_payment_profile_id"] = (
+                self.bank_payment_profile_id.id
             )
         return super()._init_payments(to_process, edit_mode)

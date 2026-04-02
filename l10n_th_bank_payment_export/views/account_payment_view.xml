@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="view_account_payment_tree" model="ir.ui.view">
-        <field name="name">account.view.account.payment.tree</field>
+        <field name="name">account.view.account.payment.list</field>
         <field name="model">account.payment</field>
         <field name="inherit_id" ref="account.view_account_payment_tree" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='state']" position="before">
-                <field name="bank_payment_template_id" optional="show" />
+                <field name="bank_payment_profile_id" optional="show" />
                 <field
                     name="export_status"
                     widget="badge"
@@ -45,7 +45,7 @@
                     />
                     </span>
                 </div>
-                <field name="bank_payment_template_id" readonly="state != 'draft'" />
+                <field name="bank_payment_profile_id" readonly="state != 'draft'" />
             </xpath>
         </field>
     </record>
@@ -75,9 +75,9 @@
             </xpath>
             <xpath expr="//filter[@name='groupby_date']" position="before">
                 <filter
-                    name="groupby_bank_payment_template"
-                    string="Bank Payment Template"
-                    context="{'group_by': 'bank_payment_template_id'}"
+                    name="groupby_bank_payment_profile"
+                    string="Bank Payment Profile"
+                    context="{'group_by': 'bank_payment_profile_id'}"
                 />
                 <filter
                     name="groupby_export_status"

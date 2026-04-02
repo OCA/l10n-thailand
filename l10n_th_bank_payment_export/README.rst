@@ -28,26 +28,32 @@ Thai Localization - Base Bank Payment Export
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-The ``l10n_th_bank_payment_export`` module provides a **base wizard
-model** to support exporting payment files in **text format**, which is
+The ``l10n_th_bank_payment_export`` module provides a **base framework**
+for exporting vendor payment data into **bank-specific text files**,
 commonly required by Thai banks.
 
-This module itself does **not generate a payment file directly**, but
-serves as a foundation that other modules can extend to support
-bank-specific formats (e.g. KTB, BBL, SCB, etc.)
+This module itself does **not generate a bank-specific payment file**,
+but serves as a foundation that other modules can extend to support
+specific bank formats (e.g. KTB, BBL, SCB, KBank, etc.)
 
 **Key Features:**
 
--  Supports exporting payments to a bank-specific text format.
--  Includes a flexible **template system** to define default values.
--  Export structure can be configured dynamically using conditions and
-   expressions.
+- **Bank Template** - Define the text file structure using template
+  lines with configurable field lengths, alignment, padding, and value
+  sources (fixed or Python expression).
+- **Bank Template Section** - Organize template lines into a
+  hierarchical section structure (parent/child) with data-level
+  iteration (Document, Payment, Invoice, Withholding Tax, or Custom).
+- **Bank Payment Profile** - Pre-configure default field values per
+  bank, automatically applied when creating a payment export.
+- **Dual Export** - Export as ``.txt`` (text file) or preview as
+  ``.xlsx`` (Excel).
 
-Note
+..
 
-This module requires further development to be functional with a
-specific bank. See module ``l10n_th_bank_payment_export_ktb`` as a
-reference implementation.
+   **Note:** This module requires a bank-specific extension module to be
+   functional. See ``l10n_th_bank_payment_export_ktb`` as a reference
+   implementation.
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -62,110 +68,190 @@ reference implementation.
 Configuration
 =============
 
-Bank Payment Template
+Bank Template Section
 ---------------------
 
-Used to **group default values** for easier user selection and error
-reduction during data entry.
+Defines how the template lines are grouped and iterated during file
+generation. Sections support a **parent/child hierarchy** to build
+complex file structures (e.g. Header -> Detail -> Footer).
+
+Menu: *Settings > Technical > Bank Template > Bank Section*
+
+Section Fields:
+
+- **Name**: Label for the section.
+- **Sequence**: Controls the rendering order.
+- **Parent Section**: Link to a parent section (for nesting).
+- **Data Level**: Determines what data the section iterates over:
+
+  - ``Document`` - Rendered once using the export document.
+  - ``Payment`` - Rendered once per active payment line.
+  - ``Invoice`` - Rendered once per invoice on each payment.
+  - ``Withholding Tax`` - Rendered once per WHT certificate on each
+    payment.
+  - ``Custom Expression`` - Uses a custom Python iterable.
+
+Bank Template
+-------------
+
+Defines the structure of the output **text file** according to the
+bank's specifications. Each template contains an ordered list of
+template lines.
+
+Menu: *Settings > Technical > Bank Template > Bank Template*
+
+Template Fields:
+
+- **Name**: Template name.
+- **Bank**: Bank selection (extended by bank-specific modules).
+- **Line Ending**: End-of-line character (``\r\n``, ``\n``, or none).
+
+Template Line Fields:
+
+- **Description**: Explanation of the field.
+- **Field Length**: Maximum character length of the output value.
+- **From / To**: Auto-computed character position range based on
+  sequence and field lengths. Resets at each section separator.
+- **Condition**: Python expression; if it evaluates to ``False``, the
+  line is skipped.
+- **Section**: Links the line to a ``Bank Template Section`` for
+  grouping and iteration control.
+- **Alignment**: Align value to **Left** or **Right** within the field
+  length.
+- **Padding**: Filler character if the value is shorter than the defined
+  length (default: space).
+- **Source Type**: ``Fixed Value`` for static text,
+  ``Python Expression`` for dynamic value.
+- **Fixed Value**: Static text (only when Source Type = Fixed).
+- **Expression**: Python expression evaluated at runtime (only when
+  Source Type = Expression).
+
+Python Expression Variables
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Global Variables** (always available):
+
+- ``rec``: The export document (``bank.payment.export``)
+- ``lines``: All active export lines (``bank.payment.export.line``)
+- ``today``: Current date
+- ``today_datetime``: Current date and time
+
+**Context Variables** (depend on the Section's **Data Level**):
+
+- **Document Level**: Only global variables are available.
+- **Payment Level**:
+
+  - ``line``: Current export line (``bank.payment.export.line``)
+  - ``idx_payment``: Index of the current payment
+  - ``payment``: Current payment (``account.payment``)
+  - ``invoices``: All reconciled invoices for the payment
+  - ``wht_certs``: All WHT certificates for the payment
+
+- **Invoice Level** (includes Payment variables):
+
+  - ``invoice``: Current invoice (``account.move``)
+  - ``idx_invoice``: Index of the current invoice
+
+- **Withholding Tax Level** (includes Payment variables):
+
+  - ``wht_cert``: Current WHT certificate (``withholding.tax.cert``)
+  - ``idx_wht``: Index of the current WHT certificate
+
+- **Custom Expression Level**:
+
+  - ``payment_line``: Current export line
+  - ``payment``: Current payment
+  - ``sub_line``: Current iterated object from the custom expression
+  - ``idx_sub_line``: Index of the current sub-loop item
+
+Bank Payment Profile
+--------------------
+
+Used to **pre-configure default values** for the Bank Payment Export
+form, reducing manual data entry and errors.
+
+Menu: *Invoicing > Configuration > Payments > Bank Payment Profiles*
 
 Steps:
 
-1. Go to *Invoicing > Configuration > Payments > Bank Payment Templates*
-2. Create a new template and:
+1. Create a new profile and select the **Bank**.
+2. Optionally link **Journals** to restrict the profile.
+3. In the **Profile Lines**, define pairs of:
 
-   -  Select the **bank**.
-   -  In the template lines, define **field names** and **default
-      values**.
+   - **Field**: A field on the ``bank.payment.export`` model.
+   - **Value**: The default value. For ``Many2one`` / ``Many2many``
+     fields, use the record **ID** or **Name**. For ``Selection``
+     fields, use the exact technical value.
 
-3. When a user selects this template during payment export, the system
-   will **auto-fill** the corresponding values.
+4. When a user selects this profile on a payment export, the system will
+   **auto-fill** the corresponding field values.
 
-Note
+..
 
-Values must be valid (existing in the system). Invalid or incorrect
-entries will result in an error.
-
-Bank Export Format
-------------------
-
-Defines the structure of the output **text file** according to the
-specific bank's requirements.
-
-Menu: *Settings > Technical > Bank Export Format*
-
-Format Fields:
-
--  **Description**: Explanation of the line.
--  **Condition Line**: Logic to determine whether this line should be
-   included.
--  **Group**: Used to group lines for looping purposes.
--  **Loop**: Repeats the line for each ``bank.payment.export.line``.
--  **Sub Loop**: Nested loop (e.g. all invoices related to a payment
-   line).
--  **Sub Value Loop**: Field needed to drive the sub loop.
--  **End Line**: Adds ``/r/t`` at the end of the line (if checked).
--  **Length**: Max length of the value (required for Fixed values).
--  **From/To**: Character position range (start-end).
--  **Alignment**: Align value to **left** or **right**.
--  **Blank Space**: Filler if the value doesn’t reach the defined
-   length.
--  **Value Type**: ``Fixed`` for hardcoded value, ``Python`` for dynamic
-   value.
--  **Value**:
-
-   -  If ``Fixed``: static value to be printed.
-   -  If ``Python``: expression evaluated dynamically.
-
-Python Dynamic Fields:
-
--  ``rec``: The export document (``bank.payment.export``)
--  ``line``:
-
-   -  If **no Loop**, refers to ``rec.export_line_ids``
-   -  If **Loop**, refers to the current line
-
--  ``sub_line``: Object in the **Sub Loop**
--  ``today``: Current date
--  ``today_datetime``: Current date and time
--  ``idx``: Index of the current line
--  ``idx_line``: Index within the loop
--  ``idx_sub_line``: Index within the sub loop
--  ``wht_cert``: Withholding tax certificate (requires
-   ``l10n_th_account_tax``)
--  ``invoices``: Invoices related to the payment
+   **Note:** Values must be valid (existing in the system). Invalid or
+   incorrect entries will result in an error.
 
 Usage
 =====
 
-There are **two ways** to use this module:
+There are **two ways** to create a Bank Payment Export:
 
-1. From a Payment
------------------
+1. From Vendor Payments
+-----------------------
 
 1. Go to *Invoicing > Vendors > Payments*
-2. Select a payment
+2. Select one or more payments (must be in **Paid** status with export
+   status **Draft**)
 3. Click *Action > Create Bank Payment Export*
+
+..
+
+   All selected payments must share the same **Bank Payment Profile**
+   and **Currency**. Each payment must have a **Vendor Bank Account**.
 
 2. Directly Create Export
 -------------------------
 
 1. Go to *Invoicing > Accounting > Bank Payment Export*
-2. Click *Create*
-3. Select the payment(s), or click *Get All Payments*
-4. Click *Confirm*
+2. Click *New*
+3. Select a **Profile** to auto-fill default values, then choose a
+   **Bank Template** and set the **Effective Date**
+4. Add payment lines manually, or click *Get All Payments* to load all
+   eligible payments automatically
+5. Click *Confirm*
 
-You can now **Export** the file:
+Exporting
+---------
 
--  *Export Text File*: Generates a ``.txt`` file, status changes to
-   ``Done``.
--  *Export Excel*: Previews data in ``.xlsx`` format.
+Once the export is confirmed, two export options are available:
 
-Additional Notes:
+- **Export Text File** — Generates a ``.txt`` file based on the bank
+  template and changes the status to **Done**.
+- **Export Excel** — Previews the export data in ``.xlsx`` format
+  (status remains **Confirmed**).
 
--  Rejected lines can be re-generated using the *Reject* action.
--  *Cancel* stops export before sending to the bank.
--  Enable *Show Full Accounting Features* to access the menu.
--  Only *Account Managers* can confirm and export files.
+Managing Exports
+----------------
+
+- **Set to Draft** — Returns a confirmed export back to draft for
+  editing.
+- **Cancel** — Cancels the export before it is sent to the bank. Resets
+  all payment export statuses to **Draft**.
+- **Reject** — Rejects an exported document. Resets all payment export
+  statuses to **Draft**.
+- **Reject (line-level)** — Individual payment lines can be rejected
+  after export. If all lines are rejected, the entire export is
+  automatically rejected.
+
+Payment Register
+----------------
+
+When registering a payment from a vendor bill, you can:
+
+- Set the **Bank Payment Profile** (auto-populated from the vendor's
+  default profile).
+- Check **Bank Payment Exported** to mark the payment as already
+  exported (skips the export workflow).
 
 Bug Tracker
 ===========
@@ -188,9 +274,9 @@ Authors
 Contributors
 ------------
 
--  `Ecosoft <http://ecosoft.co.th>`__:
+- `Ecosoft <http://ecosoft.co.th>`__:
 
-   -  Saran Lim. <saranl@ecosoft.co.th>
+  - Saran Lim. <saranl@ecosoft.co.th>
 
 Maintainers
 -----------

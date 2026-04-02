@@ -1,12 +1,14 @@
 # Copyright 2021 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo_test_helper import FakeModelLoader
-
 from odoo import Command
 from odoo.tests import tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+
+#: Bank key used by the test suite to add a temporary "TEST" selection.
+TEST_BANK_KEY = "TEST"
+TEST_BANK_LABEL = "Test Bank"
 
 
 @tagged("post_install", "-at_install")
@@ -14,26 +16,39 @@ class CommonBankPaymentExport(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.loader = FakeModelLoader(cls.env, cls.__module__)
-        cls.loader.backup_registry()
-        from .bank_payment_export_tester import (
-            BankExportFormatTester,
-            BankPaymentExportTester,
-            BankPaymentTemplateTester,
-        )
-
-        cls.loader.update_registry(
-            (BankPaymentExportTester, BankPaymentTemplateTester, BankExportFormatTester)
-        )
 
         cls.other_currency = cls.setup_other_currency("EUR")
 
-        cls.bank_export_format_model = cls.env["bank.export.format"]
         cls.bank_payment_export_model = cls.env["bank.payment.export"]
-        cls.bank_payment_template_model = cls.env["bank.payment.template"]
+        cls.bank_template_model = cls.env["bank.template"]
+        cls.bank_payment_profile_model = cls.env["bank.payment.profile"]
         cls.field_model = cls.env["ir.model.fields"]
         cls.partner_bank_model = cls.env["res.partner.bank"]
         cls.register_payments_model = cls.env["account.payment.register"]
+
+        # Add a "TEST" bank key to the relevant Selection fields so that test
+        # fixtures (profiles, templates, exports) can use it without requiring a
+        # bank-specific extension module. The original selections are restored
+        # in tearDownClass.
+        cls._original_selections = {}
+        for model in (
+            cls.bank_payment_export_model,
+            cls.bank_template_model,
+            cls.bank_payment_profile_model,
+        ):
+            field = model._fields["bank"]
+            cls._original_selections[model._name] = {
+                "selection": list(field.selection),
+                "_selection": (
+                    dict(field._selection) if field._selection is not None else None
+                ),
+            }
+            new_selection = [
+                *(field.selection if isinstance(field.selection, list) else []),
+                (TEST_BANK_KEY, TEST_BANK_LABEL),
+            ]
+            field.selection = new_selection
+            field._selection = {kv[0]: kv[1] for kv in new_selection}
 
         cls.partner_1 = cls.env.ref("base.res_partner_2")
         cls.partner_2 = cls.env.ref("base.res_partner_3")
@@ -43,6 +58,8 @@ class CommonBankPaymentExport(AccountTestInvoicingCommon):
         cls.partner_company = cls.create_partner_bank(
             cls, "A000-Test", cls.env.company.partner_id, cls.bank_ing
         )
+        # Company bank account must be trusted to post out_invoice.
+        cls.partner_company.allow_out_payment = True
         cls.partner1_bank_bnp = cls.create_partner_bank(
             cls, "A001Test", cls.partner_1, cls.bank_bnp
         )
@@ -85,6 +102,15 @@ class CommonBankPaymentExport(AccountTestInvoicingCommon):
             post=True,
         )
 
+    @classmethod
+    def tearDownClass(cls):
+        # Restore the original Selection values.
+        for model_name, original in cls._original_selections.items():
+            field = cls.env[model_name]._fields["bank"]
+            field.selection = original["selection"]
+            field._selection = original["_selection"]
+        super().tearDownClass()
+
     def create_partner_bank(self, acc_number, partner, bank):
         return self.partner_bank_model.create(
             {"acc_number": acc_number, "partner_id": partner.id, "bank_id": bank.id}
@@ -93,21 +119,9 @@ class CommonBankPaymentExport(AccountTestInvoicingCommon):
     def action_bank_export_excel(self, bank_payment):
         excel_list = bank_payment.action_export_excel_file()
         self.assertEqual(excel_list["report_type"], "xlsx")
-        # action = \
-        #     self.env.ref("l10n_th_bank_payment_export.action_export_payment_xlsx")
-        # return action._render_xlsx(
-        #     excel_list["context"]["active_ids"],
-        #     {
-        #         "data": "['/report/xlsx/{}/{}','xlsx']".format(
-        #             excel_list["report_name"],
-        #             str(excel_list["context"]["active_ids"][0]),
-        #         ),
-        #         "token": "dummy-because-api-expects-one",
-        #     },
-        # )
 
-    def create_bank_payment_template(self, bank, data_dict):
-        """This function is common create template, Format of data_dict is
+    def create_bank_payment_profile(self, bank, data_dict):
+        """This function is common create profile, Format of data_dict is
         [
             {
                 'field_id': field_id,
@@ -119,11 +133,11 @@ class CommonBankPaymentExport(AccountTestInvoicingCommon):
             }
         ]
         """
-        template = self.bank_payment_template_model.create(
+        profile = self.bank_payment_profile_model.create(
             {
-                "name": f"Test Template {bank}",
+                "name": f"Test Profile {bank}",
                 "bank": bank,
-                "template_config_line": [
+                "line_ids": [
                     Command.create(
                         {
                             "field_id": data.get("field_id"),
@@ -132,6 +146,22 @@ class CommonBankPaymentExport(AccountTestInvoicingCommon):
                     )
                     for data in data_dict
                 ],
+            }
+        )
+        return profile
+
+    def create_bank_template(self, bank, lines):
+        """Create a bank.template with its template_line_ids.
+
+        Each line is a dict of bank.template.line fields, e.g.
+        {"sequence": 10, "field_length": 10, "name": "...",
+         "source_type": "fixed", "fixed_value": "..."}
+        """
+        template = self.bank_template_model.create(
+            {
+                "name": f"Test Template {bank}",
+                "bank": bank,
+                "template_line_ids": [Command.create(line) for line in lines],
             }
         )
         return template

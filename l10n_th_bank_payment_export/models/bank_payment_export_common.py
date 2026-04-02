@@ -8,12 +8,61 @@ from odoo.addons.base.models.res_bank import sanitize_account_number
 
 class BankPaymentExportCommon(models.AbstractModel):
     _name = "bank.payment.export.common"
-    _description = "Bank Payment Export File"
+    _description = "Common Function for Bank Payment Export File"
+
+    def _get_receiver_address(self, object_address):
+        receiver_address = " ".join(
+            [
+                object_address.street or "",
+                object_address.street2 or "",
+                object_address.city or "",
+                object_address.zip or "",
+            ]
+        )
+        return receiver_address
+
+    def _get_address(self, object_address, max_length):
+        receiver_address = self._get_receiver_address(object_address)
+        address = receiver_address[:max_length]
+        return address
+
+    def _format_amount(self, amount, decimals=2):
+        """Format amount as zero-padded string with configurable decimal places.
+        :param amount: numeric amount to format
+        :param decimals: number of decimal digits (default 2)
+        :return: zero-padded amount string
+        """
+        amount_str = f"{amount:.{decimals}f}"
+        return amount_str
+
+    def _get_amount_wht_invoice(self, inv, line):
+        """get amount wht from invoice"""
+        amount_wht = 0.0
+        if hasattr(inv.invoice_line_ids, "wht_tax_id"):
+            wht_lines = inv.invoice_line_ids.filtered("wht_tax_id")
+            amount_wht = wht_lines._get_wht_amount(
+                self.env.company.currency_id, line.payment_date
+            )[1]
+        return amount_wht
+
+
+class BankPaymentExportLineCommon(models.AbstractModel):
+    _name = "bank.payment.export.line.common"
+    _description = "Common Function for Bank Payment Export Line File"
 
     def sanitize_account_number(self, acc_number):
         if not acc_number:
             return ""
         return sanitize_account_number(acc_number)
+
+    def _format_amount(self, amount, decimals=2):
+        """Format amount as zero-padded string with configurable decimal places.
+        :param amount: numeric amount to format
+        :param decimals: number of decimal digits (default 2)
+        :return: zero-padded amount string
+        """
+        amount_str = f"{amount:.{decimals}f}"
+        return amount_str
 
     def _get_acc_number_digit(self, partner_bank_id):
         acc_number = partner_bank_id.acc_number

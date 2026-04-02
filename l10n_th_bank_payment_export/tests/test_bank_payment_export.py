@@ -12,7 +12,7 @@ class TestBankPaymentExport(CommonBankPaymentExport):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        # Setup Template
+        # Setup Profile (default field values, e.g. effective_date)
         field_effective_date = cls.field_model.search(
             [("name", "=", "effective_date"), ("model", "=", "bank.payment.export")]
         )
@@ -22,104 +22,94 @@ class TestBankPaymentExport(CommonBankPaymentExport):
                 "value": "9999-01-01",
             }
         ]
-        cls.template_test_bank = cls.create_bank_payment_template(
+        cls.profile_test_bank = cls.create_bank_payment_profile(cls, "TEST", data_dict)
+
+        # Setup Bank Template (text file structure)
+        cls.bank_template = cls.create_bank_template(
             cls,
             "TEST",
-            data_dict,
+            [
+                {
+                    "sequence": 10,
+                    "field_length": 10,
+                    "name": "Test Line1",
+                    "source_type": "fixed",
+                    "fixed_value": "9999999999",
+                },
+                {
+                    "sequence": 11,
+                    "field_length": 4,
+                    "name": "Test Line2",
+                    "source_type": "fixed",
+                    "fixed_value": "TEST",
+                },
+            ],
         )
 
-        # Setup Format Demo
-        cls.bank_export_format = cls.bank_export_format_model.create(
+    def test_01_bank_template_line_position(self):
+        """Bank template lines compute their running position from field_length."""
+        template = self.bank_template
+        # Position is computed from the running field_length (1-based).
+        self.assertEqual(template.template_line_ids[0].position_from, 1)
+        self.assertEqual(template.template_line_ids[0].position_to, 10)
+        self.assertEqual(len(template.template_line_ids), 2)
+
+        # Adding a line keeps the running position; each line accumulates the
+        # previous position regardless of its sequence value.
+        template.write(
             {
-                "name": "Test Bank",
-                "bank": "TEST",
-                "export_format_ids": [
-                    Command.create(
-                        {
-                            "sequence": 10,
-                            "lenght": 10,
-                            "name": "Test Line1",
-                            "value_type": "fixed",
-                            "value": "9999999999",
-                        },
-                    ),
+                "template_line_ids": [
                     Command.create(
                         {
                             "sequence": 11,
-                            "lenght": 4,
+                            "field_length": 4,
                             "name": "Test Line2",
-                            "value_type": "fixed",
-                            "value": "TEST",
-                        },
-                    ),
-                ],
-            }
-        )
-
-    def test_01_bank_export_format(self):
-        # Lenght start with 1
-        self.assertEqual(self.bank_export_format.export_format_ids[0].lenght_from, 1)
-        self.assertEqual(self.bank_export_format.export_format_ids[0].lenght_to, 10)
-        self.assertEqual(len(self.bank_export_format.export_format_ids), 2)
-
-        # It should use same as lenght, when create line name and value duplicate
-        self.bank_export_format.write(
-            {
-                "export_format_ids": [
-                    Command.create(
-                        {
-                            "sequence": 12,
-                            "lenght": 4,
-                            "name": "Test Line2",
-                            "value_type": "fixed",
-                            "value": "TEST",
+                            "source_type": "fixed",
+                            "fixed_value": "TEST",
                         },
                     )
                 ]
             }
         )
-        self.assertEqual(len(self.bank_export_format.export_format_ids), 3)
-        self.assertEqual(self.bank_export_format.export_format_ids[1].lenght_from, 11)
-        self.assertEqual(self.bank_export_format.export_format_ids[2].lenght_from, 11)
+        self.assertEqual(len(template.template_line_ids), 3)
+        self.assertEqual(template.template_line_ids[1].position_from, 11)
+        # Line[2] accumulates after line[1] (11..14), so position_from = 15.
+        self.assertEqual(template.template_line_ids[2].position_from, 15)
 
-        # It should start new lenght, when end line
-        self.bank_export_format.write(
+        # A line_section display_type resets the running position to 1.
+        template.write(
             {
-                "export_format_ids": [
+                "template_line_ids": [
                     Command.create(
                         {
-                            "sequence": 13,
-                            "lenght": 4,
-                            "name": "Test End Line",
-                            "value_type": "fixed",
-                            "value": "TEST",
-                            "end_line": True,
+                            "sequence": 12,
+                            "field_length": 4,
+                            "name": "Test Section",
+                            "display_type": "line_section",
                         },
                     ),
                     Command.create(
                         {
-                            "sequence": 14,
-                            "lenght": 4,
-                            "name": "Test After End Line",
-                            "value_type": "fixed",
-                            "value": "TEST",
+                            "sequence": 13,
+                            "field_length": 4,
+                            "name": "Test After Section",
+                            "source_type": "fixed",
+                            "fixed_value": "TEST",
                         },
                     ),
                 ]
             }
         )
-        self.assertEqual(len(self.bank_export_format.export_format_ids), 5)
-        self.assertEqual(self.bank_export_format.export_format_ids[-1].lenght_from, 1)
+        self.assertEqual(len(template.template_line_ids), 5)
+        # The line right after the section resets to position_from = 1.
+        self.assertEqual(template.template_line_ids[-1].position_from, 1)
 
-        # It should error, when value is longer than lenght
+        # It should error, when fixed_value is longer than field_length.
         with self.assertRaises(UserError):
-            self.bank_export_format.export_format_ids.write(
+            template.template_line_ids.write(
                 {
-                    "sequence": 12,
-                    "lenght": 5,
-                    "name": "Test Line3",
-                    "value_type": "fixed",
-                    "value": "123456",
+                    "field_length": 5,
+                    "fixed_value": "123456",
                 }
             )
 
@@ -180,7 +170,7 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         self.assertFalse(action)
 
         # Not allow export if payment is exported.
-        with self.assertRaisesRegex(UserError, "Payments have been already exported."):
+        with self.assertRaisesRegex(UserError, "have already been exported:"):
             self.bank_payment_export_model.with_context(
                 active_model="account.payment",
                 active_ids=payment2_exported.ids,
@@ -191,7 +181,7 @@ class TestBankPaymentExport(CommonBankPaymentExport):
 
         # Not allow export if payment is not paid.
         with self.assertRaisesRegex(
-            UserError, "You can export bank payments state 'paid' only"
+            UserError, "You can only export bank payments in state 'paid'"
         ):
             self.bank_payment_export_model.with_context(
                 active_model="account.payment",
@@ -207,11 +197,36 @@ class TestBankPaymentExport(CommonBankPaymentExport):
                 active_ids=(payment1 + payment3).ids,
             ).action_create_bank_payment_export()
 
+        # The journal bank BIC must be a bank supported by an installed
+        # payment-export module.
+        bank_journal = (payment1 + payment2).mapped("journal_id")
+        bank_journal.bank_id = self.bank_ing.id
+        bank_journal.bank_id.bic = "TEST"
         action = self.bank_payment_export_model.with_context(
             active_model="account.payment",
             active_ids=(payment1 + payment2).ids,
         ).action_create_bank_payment_export()
         self.assertEqual(len(action["context"]["default_export_line_ids"]), 2)
+        self.assertEqual(action["context"]["default_bank"], "TEST")
+
+        # Unsupported BIC must raise an error.
+        bank_journal.bank_id.bic = "UNKNOWNBIC"
+        with self.assertRaisesRegex(UserError, "No payment export format"):
+            self.bank_payment_export_model.with_context(
+                active_model="account.payment",
+                active_ids=(payment1 + payment2).ids,
+            ).action_create_bank_payment_export()
+
+        bank_journal.bank_id.bic = "TEST"
+        action = self.bank_payment_export_model.with_context(
+            active_model="account.payment",
+            active_ids=(payment1 + payment2).ids,
+        ).action_create_bank_payment_export()
+        self.assertEqual(action["context"]["default_bank"], "TEST")
+        defaults = self.bank_payment_export_model.with_context(
+            **action["context"]
+        ).default_get(["bank"])
+        self.assertEqual(defaults["bank"], "TEST")
 
     def test_04_common_function(self):
         """Check other module can call common function and get this result"""
@@ -227,7 +242,6 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         bank_payment.action_get_all_payments()
         # Payment1, 2 and 4
         self.assertEqual(len(bank_payment.export_line_ids.ids), 3)
-        self.assertFalse(bank_payment.is_required_effective_date)
 
         # Test bank difference bank payment
         with self.assertRaisesRegex(
@@ -297,7 +311,7 @@ class TestBankPaymentExport(CommonBankPaymentExport):
                 result = line.sanitize_account_number("1-2345-6789")
                 self.assertEqual(result, "123456789")
 
-        # Test get address with lenght max 99
+        # Test get address with length max 99
         address = bank_payment._get_address(payment1.partner_id, 99)
         self.assertIn(payment1.partner_id.street, address)
 
@@ -316,8 +330,8 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         self.assertEqual(bank_payment.state, "draft")
         self.assertFalse(bank_payment.bank)
         with Form(bank_payment) as pe:
-            pe.template_id = self.template_test_bank
-            pe.bank_export_format_id = self.bank_export_format
+            pe.profile_id = self.profile_test_bank
+            pe.bank_template_id = self.bank_template
         bank_payment = pe.save()
         self.assertEqual(bank_payment.bank, "TEST")
         bank_payment.unlink()
@@ -398,102 +412,65 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         text_word = bank_payment._export_bank_payment_text_file()
         self.assertEqual(
             text_word,
-            "Demo Text File. You must config `Bank Export Format` First.",
+            "Demo Text File. You must config `Bank Template` First.",
         )
 
-        # It should error, when generate text file without export format
-        self.assertFalse(bank_payment.bank_export_format_id)
+        # It should error, when generate text file without bank template
+        self.assertFalse(bank_payment.bank_template_id)
         with self.assertRaisesRegex(UserError, "Bank format not found."):
             bank_payment._generate_bank_payment_text()
 
-        # Add new format
-        self.bank_export_format.write(
+        # Build a template that exercises sections + payment data level looping.
+        # The export has 3 active (non-rejected) lines, so a "payment" data-level
+        # section repeats its lines once per export line.
+        section_model = self.env["bank.template.section"]
+        payment_section = section_model.create(
             {
-                "export_format_ids": [
+                "name": "Per Payment",
+                "sequence": 20,
+                "data_level": "payment",
+            }
+        )
+        loop_template = self.bank_template_model.create(
+            {
+                "name": "Test Loop Template",
+                "bank": "TEST",
+                "line_ending": "crlf",
+                "template_line_ids": [
                     Command.create(
                         {
-                            # Display Type
-                            "sequence": 12,
-                            "lenght": 4,
-                            "display_type": "line_section",
-                            "name": "Test End Line",
+                            "sequence": 10,
+                            "field_length": 10,
+                            "name": "Fixed Header",
+                            "source_type": "fixed",
+                            "fixed_value": "9999999999",
                         },
                     ),
+                    # Line inside the payment section: repeat per export line.
                     Command.create(
                         {
-                            # Match Group
-                            "sequence": 13,
-                            "lenght": 11,
-                            "name": "Test match group",
-                            "match_group": "A01",
-                            "value_type": "fixed",
-                            "value": "match group",
+                            "sequence": 20,
+                            "field_length": 6,
+                            "name": "Per Payment",
+                            "section_id": payment_section.id,
+                            "source_type": "fixed",
+                            "fixed_value": "loop",
                         },
                     ),
-                    Command.create(
-                        {
-                            # Need Loop
-                            "sequence": 14,
-                            "lenght": 9,
-                            "name": "Test loop",
-                            "match_group": "A01",
-                            "value_type": "fixed",
-                            "value": "need loop",
-                            "need_loop": True,
-                        },
-                    ),
-                    Command.create(
-                        {
-                            # Condition Line
-                            "sequence": 15,
-                            "lenght": 9,
-                            "name": "Test Condition",
-                            "value_type": "fixed",
-                            "value": "condition",
-                            "condition_line": "[(1, '=', 1)]",
-                        },
-                    ),
-                    Command.create(
-                        {
-                            # Need Loop, Sub Loop
-                            "sequence": 16,
-                            "lenght": 9,
-                            "name": "Test sub loop",
-                            "value_type": "fixed",
-                            "value": "need loop",
-                            "need_loop": True,
-                            "sub_loop": True,
-                            "sub_value_loop": "line",
-                            "match_group": "A02",
-                        },
-                    ),
-                    Command.create(
-                        {
-                            # End Line
-                            "sequence": 17,
-                            "lenght": 3,
-                            "name": "Test End Line",
-                            "value_type": "fixed",
-                            "value": "end",
-                            "need_loop": True,
-                            "match_group": "A02",
-                            "end_line": True,
-                        },
-                    ),
-                ]
+                ],
             }
         )
 
-        bank_payment.bank_export_format_id = self.bank_export_format.id
+        bank_payment.bank_template_id = loop_template.id
         text = bank_payment._generate_bank_payment_text()
+        # Header line first (sequence 10 < section sequence 20), then the
+        # payment-level section repeats once per active export line (3 times).
+        # "loop" is left-justified to field_length 6 -> "loop  ".
         self.assertEqual(
             text,
-            "9999999999TESTmatch groupconditionneed loopend"
-            "\r\nneed loopend\r\nneed loopend\r\n",
+            "9999999999" + "\r\n" + ("loop  " + "\r\n") * 3,
         )
 
     def test_07_export_excel(self):
         bank_payment = self.bank_payment_export_model.create({"name": "/"})
         self.action_bank_export_excel(bank_payment)
-        # xlsx_data = self.action_bank_export_excel(bank_payment)
-        # self.assertEqual(xlsx_data[1], "xlsx")
