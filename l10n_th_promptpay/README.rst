@@ -17,18 +17,21 @@ Thai Localization - PromptPay
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-thailand/tree/16.0/l10n_th_promptpay
+    :target: https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_promptpay
     :alt: OCA/l10n-thailand
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-thailand-16-0/l10n-thailand-16-0-l10n_th_promptpay
+    :target: https://translation.odoo-community.org/projects/l10n-thailand-18-0/l10n-thailand-18-0-l10n_th_promptpay
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&target_branch=16.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-The PromptPay QR code which is also known as Thai QR payment allows a customer to pay by scanning a QR code with a bank's mobile application. The Thai QR code payment is a kind of wire transfer. This module allows Odoo to show PromptPay QR code along with a wire transfer information.
+The PromptPay QR code which is also known as Thai QR payment allows a
+customer to pay by scanning a QR code with a bank's mobile application.
+The Thai QR code payment is a kind of wire transfer. This module allows
+Odoo to show PromptPay QR code along with a wire transfer information.
 
 **Table of contents**
 
@@ -42,43 +45,47 @@ First, you need to create a eCommerce website.
 
 To configure this module, you need to:
 
-* Go to Website > Configuration > Payment Acquirers > Wire Tranfer
-   .. figure:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_promptpay/static/description/promptpay_configuration.png
-    :alt: PromptPay Configuration
-    :width: 80 %
-    :align: center
-* PromptPay ID is simply a company's registered ID (13 digits) or mobile number (10 digits)
-* Check "Use PromptPay QR code" to display the PromptPay QR code on eCommerce site.
-* This module also provides banks logo, PromptPay logo and Thai QR code payment logo.
-   .. figure:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_promptpay/static/description/website_confirm_order.png
-    :alt: Banks logo
-    :width: 80 %
-    :align: center
-* After checking out, the PromptPay QR code will display along with the wire transfer information.
-   .. figure:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_promptpay/static/description/promptpay_QR_code.png
-    :alt: PromptPay QR code
-    :width: 80 %
-    :align: center
+- | Go to Website > Configuration > Payment Acquirers > Wire Tranfer
+  | |PromptPay Configuration|
+
+- PromptPay ID is simply a company's registered ID (13 digits) or mobile
+  number (10 digits)
+
+- Check "Use PromptPay QR code" to display the PromptPay QR code on
+  eCommerce site.
+
+- | This module also provides banks logo, PromptPay logo and Thai QR
+    code payment logo.
+  | |Banks logo|
+
+- | After checking out, the PromptPay QR code will display along with
+    the wire transfer information.
+  | |PromptPay QR code|
+
+.. |PromptPay Configuration| image:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_promptpay/static/description/promptpay_configuration.png
+.. |Banks logo| image:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_promptpay/static/description/website_confirm_order.png
+.. |PromptPay QR code| image:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_promptpay/static/description/promptpay_QR_code.png
 
 Changelog
 =========
 
 15.0.1.0.0 (2022-08-18)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 - Migrate from 14.0
 
 14.0.1.0.0 (2021-05-24)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 - Migrate from 13.0
 
 13.0.3.0.1 (2020-11-17)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 **Features**
 
-- Display PromptPay QR code along with a wire tranfer information when making a payment.
+- Display PromptPay QR code along with a wire tranfer information when
+  making a payment.
 
 Bug Tracker
 ===========
@@ -86,7 +93,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-thailand/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_promptpay%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_promptpay%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -94,26 +101,27 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Poonlap V.
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Poonlap V. <poonlap@tanabutr.co.th>
-* Kitti U. <kittiu@ecosoft.co.th>
-* Phanupong Janthapoon <panupong.jtp@gmail.com>
+- Poonlap V. <poonlap@tanabutr.co.th>
+- Kitti U. <kittiu@ecosoft.co.th>
+- Phanupong Janthapoon <panupong.jtp@gmail.com>
 
 Other credits
-~~~~~~~~~~~~~
+-------------
 
-* `PromptPay library for Python <https://github.com/jojoee/promptpay>`_
-* `PromtpayQR payment acquirer module for Odoo 10.0 <https://github.com/poommitol-sse2017/payment_promptpayqr>`_
-* `Banks logo <https://github.com/omise/banks-logo>`_
+- `PromptPay library for Python <https://github.com/jojoee/promptpay>`__
+- `PromtpayQR payment acquirer module for Odoo
+  10.0 <https://github.com/poommitol-sse2017/payment_promptpayqr>`__
+- `Banks logo <https://github.com/omise/banks-logo>`__
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -125,6 +133,6 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/16.0/l10n_th_promptpay>`_ project on GitHub.
+This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_promptpay>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

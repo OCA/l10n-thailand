@@ -29,20 +29,18 @@
                                                 >
                                                     PromptPay ID
                                                     <span class="badge text-bg-primary">
-                                                        <t
-                                                            t-out="payment_tx_id.provider_id.promptpay_id"
-                                                        />
-                                                    </span>
+                                                    <t
+                                                        t-out="payment_tx_id.provider_id.promptpay_id"
+                                                    />
+                                                </span>
                                                 </li>
                                                 <li
                                                     class="list-group-item d-flex justify-content-between align-items-center"
                                                 >
                                                     Amount
                                                     <span class="badge text-bg-primary">
-                                                        <t
-                                                            t-out="payment_tx_id.amount"
-                                                        />
-                                                    </span>
+                                                    <t t-out="payment_tx_id.amount" />
+                                                </span>
                                                 </li>
                                             </ul>
                                         </div>
