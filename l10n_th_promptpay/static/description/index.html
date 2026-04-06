@@ -370,20 +370,43 @@ ul.auto-toc {
 !! source digest: sha256:81ec2d7db3ba7461a60b184bf4b04ecce69718a0d0f3dbc34348645d33b415ca
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_promptpay"><img alt="OCA/l10n-thailand" src="https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-thailand-18-0/l10n-thailand-18-0-l10n_th_promptpay"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&amp;target_branch=18.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>The PromptPay QR code which is also known as Thai QR payment allows a
-customer to pay by scanning a QR code with a bank’s mobile application.
-The Thai QR code payment is a kind of wire transfer. This module allows
-Odoo to show PromptPay QR code along with a wire transfer information.</p>
+<p>The PromptPay QR code (Thai QR Payment) allows customers to pay by
+scanning a QR code with any bank’s mobile application.</p>
+<p>This module extends Odoo’s built-in QR code support
+(<tt class="docutils literal">account_qr_code_emv</tt>) to support Thai PromptPay standards for two
+types of payment:</p>
+<p><strong>1. PromptPay (Credit Transfer)</strong></p>
+<p>For standard person-to-person or merchant payments using a PromptPay
+proxy ID:</p>
+<ul class="simple">
+<li><strong>Mobile Number</strong> — 10-digit phone number (e.g. <tt class="docutils literal">0812345678</tt>)</li>
+<li><strong>Merchant Tax ID</strong> — 13-digit juristic person ID (e.g.
+<tt class="docutils literal">1234567890123</tt>)</li>
+<li><strong>Ewallet ID</strong> — e-wallet account identifier</li>
+</ul>
+<p><strong>2. PromptPay Bill Payment</strong></p>
+<p>For biller-initiated collection using a registered Biller ID (15
+digits). Supports <strong>Reference 1</strong> and <strong>Reference 2</strong> fields
+configurable per company, allowing the QR code to carry invoice-specific
+references (e.g. customer code, payment reference).</p>
+<p>The module adds a <strong>PromptPay QR Code</strong> button on vendor/customer
+invoices to generate and display the QR code in a popup dialog.</p>
+<p>The implementation follows the EMVCo QR specification used by the Thai
+PromptPay network.</p>
+<p>Note: that <em>Credit Transfer</em> is also provided by the module <tt class="docutils literal">l10n_th</tt>
+(Thai localization). This module can work independently without
+<tt class="docutils literal">l10n_th</tt>, but if <tt class="docutils literal">l10n_th</tt> is installed, both modules may provide
+similar QR generation capabilities.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#usage" id="toc-entry-1">Usage</a></li>
-<li><a class="reference internal" href="#changelog" id="toc-entry-2">Changelog</a><ul>
-<li><a class="reference internal" href="#section-1" id="toc-entry-3">15.0.1.0.0 (2022-08-18)</a></li>
-<li><a class="reference internal" href="#section-2" id="toc-entry-4">14.0.1.0.0 (2021-05-24)</a></li>
-<li><a class="reference internal" href="#section-3" id="toc-entry-5">13.0.3.0.1 (2020-11-17)</a></li>
+<li><a class="reference internal" href="#configuration" id="toc-entry-1">Configuration</a><ul>
+<li><a class="reference internal" href="#enable-qr-code-on-invoices" id="toc-entry-2">Enable QR Code on Invoices</a></li>
+<li><a class="reference internal" href="#configure-bank-account-for-bill-payment-promptpay" id="toc-entry-3">Configure Bank Account for Bill Payment / PromptPay</a></li>
+<li><a class="reference internal" href="#configure-reference-fields-per-company" id="toc-entry-4">Configure Reference Fields (per company)</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#usage" id="toc-entry-5">Usage</a></li>
 <li><a class="reference internal" href="#bug-tracker" id="toc-entry-6">Bug Tracker</a></li>
 <li><a class="reference internal" href="#credits" id="toc-entry-7">Credits</a><ul>
 <li><a class="reference internal" href="#authors" id="toc-entry-8">Authors</a></li>
@@ -394,58 +417,88 @@ Odoo to show PromptPay QR code along with a wire transfer information.</p>
 </li>
 </ul>
 </div>
+<div class="section" id="configuration">
+<h1><a class="toc-backref" href="#toc-entry-1">Configuration</a></h1>
+<div class="section" id="enable-qr-code-on-invoices">
+<h2><a class="toc-backref" href="#toc-entry-2">Enable QR Code on Invoices</a></h2>
+<p>Before generating any PromptPay QR code, the QR code feature must be
+enabled in Odoo’s accounting settings.</p>
+<ol class="arabic simple">
+<li>Go to <strong>Invoicing &gt; Configuration &gt; Settings</strong>.</li>
+<li>Under the <strong>Customer Payments</strong> section, enable <strong>QR Codes</strong>.</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<p>This activates the <tt class="docutils literal">emv_qr</tt> QR method globally and makes the QR Code
+Type field available on bank accounts.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="configure-bank-account-for-bill-payment-promptpay">
+<h2><a class="toc-backref" href="#toc-entry-3">Configure Bank Account for Bill Payment / PromptPay</a></h2>
+<ol class="arabic simple">
+<li>Go to <strong>Bank Accounts</strong>.</li>
+<li>Open (or create) the company’s bank account.</li>
+<li>Set <strong>Proxy Type</strong></li>
+</ol>
+</div>
+<hr class="docutils" />
+<div class="section" id="configure-reference-fields-per-company">
+<h2><a class="toc-backref" href="#toc-entry-4">Configure Reference Fields (per company)</a></h2>
+<p>Reference 1 and Reference 2 are embedded in the Bill Payment QR code and
+are typically used to identify the payer or the invoice on the biller’s
+system.</p>
+<ol class="arabic">
+<li><p class="first">Go to <strong>Invoicing &gt; Configuration &gt; Settings</strong>.</p>
+</li>
+<li><p class="first">Under <strong>Customer Payments</strong>, locate:</p>
+<ul class="simple">
+<li><strong>PromptPay Reference 1 Field</strong> - field path on <tt class="docutils literal">account.move</tt>
+used as Ref1</li>
+<li><strong>PromptPay Reference 2 Field</strong> - field path on <tt class="docutils literal">account.move</tt>
+used as Ref2</li>
+</ul>
+</li>
+<li><p class="first">Enter a dotted field path. Examples:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Value</th>
+<th class="head">Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">partner_id.ref</tt></td>
+<td>Customer’s internal reference code</td>
+</tr>
+<tr><td><tt class="docutils literal">partner_id.name</tt></td>
+<td>Customer name</td>
+</tr>
+<tr><td><tt class="docutils literal">name</tt></td>
+<td>Invoice number (e.g. <tt class="docutils literal">INV/2025/00001</tt>)</td>
+</tr>
+<tr><td><tt class="docutils literal">payment_reference</tt></td>
+<td>Payment reference field on the invoice</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first">Click <strong>Save</strong>.</p>
+</li>
+</ol>
+<!--  -->
+<blockquote>
+<strong>Note:</strong> Reference 1 defaults to <tt class="docutils literal">partner_id.ref</tt> if not set.
+Reference 2 is optional and can be left blank.</blockquote>
+</div>
+</div>
 <div class="section" id="usage">
-<h1><a class="toc-backref" href="#toc-entry-1">Usage</a></h1>
-<p>First, you need to create a eCommerce website.</p>
-<p>To configure this module, you need to:</p>
-<ul>
-<li><div class="first line-block">
-<div class="line">Go to Website &gt; Configuration &gt; Payment Acquirers &gt; Wire Tranfer</div>
-<div class="line"><img alt="PromptPay Configuration" src="https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_promptpay/static/description/promptpay_configuration.png" /></div>
-</div>
-</li>
-<li><p class="first">PromptPay ID is simply a company’s registered ID (13 digits) or mobile
-number (10 digits)</p>
-</li>
-<li><p class="first">Check “Use PromptPay QR code” to display the PromptPay QR code on
-eCommerce site.</p>
-</li>
-<li><div class="first line-block">
-<div class="line">This module also provides banks logo, PromptPay logo and Thai QR
-code payment logo.</div>
-<div class="line"><img alt="Banks logo" src="https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_promptpay/static/description/website_confirm_order.png" /></div>
-</div>
-</li>
-<li><div class="first line-block">
-<div class="line">After checking out, the PromptPay QR code will display along with
-the wire transfer information.</div>
-<div class="line"><img alt="PromptPay QR code" src="https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_promptpay/static/description/promptpay_QR_code.png" /></div>
-</div>
-</li>
-</ul>
-</div>
-<div class="section" id="changelog">
-<h1><a class="toc-backref" href="#toc-entry-2">Changelog</a></h1>
-<div class="section" id="section-1">
-<h2><a class="toc-backref" href="#toc-entry-3">15.0.1.0.0 (2022-08-18)</a></h2>
-<ul class="simple">
-<li>Migrate from 14.0</li>
-</ul>
-</div>
-<div class="section" id="section-2">
-<h2><a class="toc-backref" href="#toc-entry-4">14.0.1.0.0 (2021-05-24)</a></h2>
-<ul class="simple">
-<li>Migrate from 13.0</li>
-</ul>
-</div>
-<div class="section" id="section-3">
-<h2><a class="toc-backref" href="#toc-entry-5">13.0.3.0.1 (2020-11-17)</a></h2>
-<p><strong>Features</strong></p>
-<ul class="simple">
-<li>Display PromptPay QR code along with a wire tranfer information when
-making a payment.</li>
-</ul>
-</div>
+<h1><a class="toc-backref" href="#toc-entry-5">Usage</a></h1>
+<p>Open a posted invoice and click <strong>PromptPay QR Code</strong> in the header. A
+dialog will display the QR code with the payment amount for the customer
+to scan.</p>
+<p>The QR code format depends on the configured PromptPay type.</p>
 </div>
 <div class="section" id="bug-tracker">
 <h1><a class="toc-backref" href="#toc-entry-6">Bug Tracker</a></h1>
@@ -461,6 +514,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <h2><a class="toc-backref" href="#toc-entry-8">Authors</a></h2>
 <ul class="simple">
 <li>Poonlap V.</li>
+<li>Ecosoft</li>
 </ul>
 </div>
 <div class="section" id="contributors">
@@ -469,6 +523,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <li>Poonlap V. &lt;<a class="reference external" href="mailto:poonlap&#64;tanabutr.co.th">poonlap&#64;tanabutr.co.th</a>&gt;</li>
 <li>Kitti U. &lt;<a class="reference external" href="mailto:kittiu&#64;ecosoft.co.th">kittiu&#64;ecosoft.co.th</a>&gt;</li>
 <li>Phanupong Janthapoon &lt;<a class="reference external" href="mailto:panupong.jtp&#64;gmail.com">panupong.jtp&#64;gmail.com</a>&gt;</li>
+<li>Saran Lim. &lt;<a class="reference external" href="mailto:saranl&#64;ecosoft.co.th">saranl&#64;ecosoft.co.th</a>&gt;</li>
 </ul>
 </div>
 <div class="section" id="other-credits">
@@ -477,7 +532,11 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <li><a class="reference external" href="https://github.com/jojoee/promptpay">PromptPay library for Python</a></li>
 <li><a class="reference external" href="https://github.com/poommitol-sse2017/payment_promptpayqr">PromtpayQR payment acquirer module for Odoo
 10.0</a></li>
-<li><a class="reference external" href="https://github.com/omise/banks-logo">Banks logo</a></li>
+<li><a class="reference external" href="https://www.bot.or.th/content/dam/bot/fipcs/documents/FPG/2562/ThaiPDF/25620084.pdf">PDF - Policy Guideline Standardized Thai QR Code for Payment
+Transactions</a></li>
+<li>Some parts of the PromptPay QR generation logic are inspired by or
+adapted from the <tt class="docutils literal">l10n_th</tt> module from Odoo Community Edition,
+developed by Odoo SA.</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
@@ -489,6 +548,8 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
+<p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainer</a>:</p>
+<p><a class="reference external image-reference" href="https://github.com/Saran440"><img alt="Saran440" src="https://github.com/Saran440.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_promptpay">OCA/l10n-thailand</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
 </div>

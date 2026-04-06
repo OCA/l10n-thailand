@@ -28,64 +28,115 @@ Thai Localization - PromptPay
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-The PromptPay QR code which is also known as Thai QR payment allows a
-customer to pay by scanning a QR code with a bank's mobile application.
-The Thai QR code payment is a kind of wire transfer. This module allows
-Odoo to show PromptPay QR code along with a wire transfer information.
+The PromptPay QR code (Thai QR Payment) allows customers to pay by
+scanning a QR code with any bank's mobile application.
+
+This module extends Odoo's built-in QR code support
+(``account_qr_code_emv``) to support Thai PromptPay standards for two
+types of payment:
+
+**1. PromptPay (Credit Transfer)**
+
+For standard person-to-person or merchant payments using a PromptPay
+proxy ID:
+
+- **Mobile Number** — 10-digit phone number (e.g. ``0812345678``)
+- **Merchant Tax ID** — 13-digit juristic person ID (e.g.
+  ``1234567890123``)
+- **Ewallet ID** — e-wallet account identifier
+
+**2. PromptPay Bill Payment**
+
+For biller-initiated collection using a registered Biller ID (15
+digits). Supports **Reference 1** and **Reference 2** fields
+configurable per company, allowing the QR code to carry invoice-specific
+references (e.g. customer code, payment reference).
+
+The module adds a **PromptPay QR Code** button on vendor/customer
+invoices to generate and display the QR code in a popup dialog.
+
+The implementation follows the EMVCo QR specification used by the Thai
+PromptPay network.
+
+Note: that *Credit Transfer* is also provided by the module ``l10n_th``
+(Thai localization). This module can work independently without
+``l10n_th``, but if ``l10n_th`` is installed, both modules may provide
+similar QR generation capabilities.
 
 **Table of contents**
 
 .. contents::
    :local:
 
+Configuration
+=============
+
+Enable QR Code on Invoices
+--------------------------
+
+Before generating any PromptPay QR code, the QR code feature must be
+enabled in Odoo's accounting settings.
+
+1. Go to **Invoicing > Configuration > Settings**.
+2. Under the **Customer Payments** section, enable **QR Codes**.
+3. Click **Save**.
+
+This activates the ``emv_qr`` QR method globally and makes the QR Code
+Type field available on bank accounts.
+
+--------------
+
+Configure Bank Account for Bill Payment / PromptPay
+---------------------------------------------------
+
+1. Go to **Bank Accounts**.
+2. Open (or create) the company's bank account.
+3. Set **Proxy Type**
+
+--------------
+
+Configure Reference Fields (per company)
+----------------------------------------
+
+Reference 1 and Reference 2 are embedded in the Bill Payment QR code and
+are typically used to identify the payer or the invoice on the biller's
+system.
+
+1. Go to **Invoicing > Configuration > Settings**.
+
+2. Under **Customer Payments**, locate:
+
+   - **PromptPay Reference 1 Field** - field path on ``account.move``
+     used as Ref1
+   - **PromptPay Reference 2 Field** - field path on ``account.move``
+     used as Ref2
+
+3. Enter a dotted field path. Examples:
+
+   ===================== ========================================
+   Value                 Result
+   ===================== ========================================
+   ``partner_id.ref``    Customer's internal reference code
+   ``partner_id.name``   Customer name
+   ``name``              Invoice number (e.g. ``INV/2025/00001``)
+   ``payment_reference`` Payment reference field on the invoice
+   ===================== ========================================
+
+4. Click **Save**.
+
+..
+
+   **Note:** Reference 1 defaults to ``partner_id.ref`` if not set.
+   Reference 2 is optional and can be left blank.
+
 Usage
 =====
 
-First, you need to create a eCommerce website.
+Open a posted invoice and click **PromptPay QR Code** in the header. A
+dialog will display the QR code with the payment amount for the customer
+to scan.
 
-To configure this module, you need to:
-
-- | Go to Website > Configuration > Payment Acquirers > Wire Tranfer
-  | |PromptPay Configuration|
-
-- PromptPay ID is simply a company's registered ID (13 digits) or mobile
-  number (10 digits)
-
-- Check "Use PromptPay QR code" to display the PromptPay QR code on
-  eCommerce site.
-
-- | This module also provides banks logo, PromptPay logo and Thai QR
-    code payment logo.
-  | |Banks logo|
-
-- | After checking out, the PromptPay QR code will display along with
-    the wire transfer information.
-  | |PromptPay QR code|
-
-.. |PromptPay Configuration| image:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_promptpay/static/description/promptpay_configuration.png
-.. |Banks logo| image:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_promptpay/static/description/website_confirm_order.png
-.. |PromptPay QR code| image:: https://raw.githubusercontent.com/OCA/l10n-thailand/13.0/l10n_th_promptpay/static/description/promptpay_QR_code.png
-
-Changelog
-=========
-
-15.0.1.0.0 (2022-08-18)
------------------------
-
-- Migrate from 14.0
-
-14.0.1.0.0 (2021-05-24)
------------------------
-
-- Migrate from 13.0
-
-13.0.3.0.1 (2020-11-17)
------------------------
-
-**Features**
-
-- Display PromptPay QR code along with a wire tranfer information when
-  making a payment.
+The QR code format depends on the configured PromptPay type.
 
 Bug Tracker
 ===========
@@ -104,6 +155,7 @@ Authors
 -------
 
 * Poonlap V.
+* Ecosoft
 
 Contributors
 ------------
@@ -111,6 +163,7 @@ Contributors
 - Poonlap V. <poonlap@tanabutr.co.th>
 - Kitti U. <kittiu@ecosoft.co.th>
 - Phanupong Janthapoon <panupong.jtp@gmail.com>
+- Saran Lim. <saranl@ecosoft.co.th>
 
 Other credits
 -------------
@@ -118,7 +171,11 @@ Other credits
 - `PromptPay library for Python <https://github.com/jojoee/promptpay>`__
 - `PromtpayQR payment acquirer module for Odoo
   10.0 <https://github.com/poommitol-sse2017/payment_promptpayqr>`__
-- `Banks logo <https://github.com/omise/banks-logo>`__
+- `PDF - Policy Guideline Standardized Thai QR Code for Payment
+  Transactions <https://www.bot.or.th/content/dam/bot/fipcs/documents/FPG/2562/ThaiPDF/25620084.pdf>`__
+- Some parts of the PromptPay QR generation logic are inspired by or
+  adapted from the ``l10n_th`` module from Odoo Community Edition,
+  developed by Odoo SA.
 
 Maintainers
 -----------
@@ -132,6 +189,14 @@ This module is maintained by the OCA.
 OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
+
+.. |maintainer-Saran440| image:: https://github.com/Saran440.png?size=40px
+    :target: https://github.com/Saran440
+    :alt: Saran440
+
+Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
+
+|maintainer-Saran440| 
 
 This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_promptpay>`_ project on GitHub.
 

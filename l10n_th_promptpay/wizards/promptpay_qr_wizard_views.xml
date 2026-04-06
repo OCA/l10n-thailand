@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_promptpay_qr_wizard_form" model="ir.ui.view">
+        <field name="name">promptpay.qr.wizard.form</field>
+        <field name="model">promptpay.qr.wizard</field>
+        <field name="arch" type="xml">
+            <form string="PromptPay QR Code">
+                <sheet>
+                    <field name="invoice_id" invisible="1" />
+                    <field name="currency_id" invisible="1" />
+                    <div class="d-flex gap-4 align-items-stretch">
+                        <!-- QR Code (left) -->
+                        <div
+                            class="d-flex flex-column align-items-center justify-content-center border rounded p-3 bg-100"
+                        >
+                            <field name="qr_code_display" widget="image" nolabel="1" />
+                        </div>
+                        <!-- Divider -->
+                        <div class="border-start" />
+                        <!-- Information (right) -->
+                        <div
+                            class="flex-grow-1 d-flex flex-column justify-content-center"
+                        >
+                            <h5
+                                class="mb-3 text-muted fw-bold"
+                            >PromptPay Information</h5>
+                            <table class="table table-sm table-borderless mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td
+                                            class="text-muted ps-0"
+                                            style="width: 140px;"
+                                        >Proxy Type</td>
+                                        <td class="fw-bold">
+                                            <field
+                                                name="proxy_type"
+                                                nolabel="1"
+                                                readonly="1"
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            class="text-muted ps-0"
+                                            style="width: 140px;"
+                                        >Proxy Value</td>
+                                        <td class="fw-bold">
+                                            <field
+                                                name="proxy_value"
+                                                nolabel="1"
+                                                readonly="1"
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr invisible="proxy_type != 'bill_payment'">
+                                        <td class="text-muted ps-0">Reference 1</td>
+                                        <td class="fw-bold">
+                                            <field
+                                                name="ref1"
+                                                nolabel="1"
+                                                readonly="1"
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr invisible="proxy_type != 'bill_payment'">
+                                        <td class="text-muted ps-0">Reference 2</td>
+                                        <td class="fw-bold">
+                                            <field
+                                                name="ref2"
+                                                nolabel="1"
+                                                readonly="1"
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr class="border-top">
+                                        <td class="text-muted ps-0 pt-2">Amount</td>
+                                        <td class="fw-bold pt-2 text-primary fs-5">
+                                            <field
+                                                name="amount"
+                                                nolabel="1"
+                                                readonly="1"
+                                            />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </sheet>
+                <footer>
+                    <button string="Close" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_promptpay_qr_wizard" model="ir.actions.act_window">
+        <field name="name">PromptPay QR Code</field>
+        <field name="res_model">promptpay.qr.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_promptpay_qr_wizard_form" />
+        <field name="target">new</field>
+    </record>
+</odoo>
