@@ -16,14 +16,22 @@ class ResPartner(models.Model):
         Partner = self.env["res.partner"]
         for rec in self.sudo():
             if rec.vat and rec.company_registry:
+                # Collect excluded partners (self, parent, and all children)
+                excluded_partners = rec
+                if rec.parent_id:
+                    excluded_partners |= rec.parent_id
+                    excluded_partners |= rec.parent_id.child_ids
+                excluded_partners |= rec.child_ids
+
                 domain = [
                     ("vat", "=", rec.vat),
                     ("company_registry", "=", rec.company_registry),
+                    ("id", "not in", excluded_partners.ids),
                 ]
                 if rec.company_id:
                     domain += [("company_id", "=", rec.company_id.id)]
                 partners = Partner.search_count(domain)
-                if partners > 1:
+                if partners > 0:
                     raise ValidationError(
                         self.env._(
                             "Each contact's Tax ID and Tax Branch "
