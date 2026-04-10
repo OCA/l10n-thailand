@@ -15,7 +15,7 @@ class ResPartner(models.Model):
     def _check_company_id_vat_branch(self):
         Partner = self.env["res.partner"]
         for rec in self.sudo():
-            if rec.vat and rec.company_registry:
+            if rec.vat and rec.company_registry and not rec.parent_id:
                 domain = [
                     ("vat", "=", rec.vat),
                     ("company_registry", "=", rec.company_registry),

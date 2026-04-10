@@ -68,6 +68,31 @@ class TestL10nThPartner(TransactionCase):
         self.assertEqual(self.user.partner_id.name, "MissFirstname Lastname")
         self.assertEqual(self.user.name, "MissFirstname Lastname")
 
+    def test_child_contact_same_vat_branch_allowed(self):
+        """Child contacts (e.g. Delivery/Invoice address) should be allowed
+        to share the same VAT and Branch as their parent contact."""
+        parent = self.env["res.partner"].create(
+            {
+                "name": "Parent Company",
+                "is_company": True,
+                "vat": "9876543210987",
+                "company_registry": "00001",
+                "company_id": self.main_company.id,
+            }
+        )
+        # Creating a child contact with the same vat+branch should NOT raise
+        child = self.env["res.partner"].create(
+            {
+                "name": "Delivery Address",
+                "parent_id": parent.id,
+                "type": "delivery",
+                "vat": "9876543210987",
+                "company_registry": "00001",
+                "company_id": self.main_company.id,
+            }
+        )
+        self.assertEqual(child.parent_id, parent)
+
     def test_duplicate_partner_vat_branch(self):
         partner1 = self.env["res.partner"].create(
             {
