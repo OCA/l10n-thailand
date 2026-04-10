@@ -796,6 +796,11 @@ msgid "ชื่อผู้ซื้อสินค้า/ผู้รับบ
 msgstr ""
 
 #. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_header
+msgid "ปี"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
 #: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_article
 msgid "มูลค่าสินค้าหรือบริการ"
 msgstr ""
