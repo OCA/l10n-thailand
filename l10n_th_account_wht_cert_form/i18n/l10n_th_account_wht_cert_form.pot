@@ -124,6 +124,11 @@ msgid "Withholding Tax Certificate"
 msgstr ""
 
 #. module: l10n_th_account_wht_cert_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_wht_cert_form.withholding_layout_report
+msgid "X"
+msgstr ""
+
+#. module: l10n_th_account_wht_cert_form
 #: model:mail.template,subject:l10n_th_account_wht_cert_form.wht_cert_email_template
 msgid ""
 "{{ object.company_id.name }} Withholding Tax Certificate (Ref {{ object.name"
