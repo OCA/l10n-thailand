@@ -59,6 +59,37 @@ class TestAssetManagementThailand(TransactionCase):
                 "method_period": "month",
             }
         )
+        # Accounts for gain/loss on sale
+        cls.account_sale = cls.account_model.create(
+            {
+                "code": "TEST99999.Sale",
+                "name": "Account - Test Sale Proceeds",
+                "account_type": "income",
+            }
+        )
+        cls.account_plus_value = cls.account_model.create(
+            {
+                "code": "TEST99999.Gain",
+                "name": "Account - Test Gain on Sale",
+                "account_type": "income",
+            }
+        )
+        cls.account_min_value = cls.account_model.create(
+            {
+                "code": "TEST99999.Loss",
+                "name": "Account - Test Loss on Sale",
+                "account_type": "expense",
+            }
+        )
+        # Sales tax for invoice creation
+        cls.tax_sale = cls.env["account.tax"].create(
+            {
+                "name": "Test Sales Tax 7%",
+                "type_tax_use": "sale",
+                "amount_type": "percent",
+                "amount": 7.0,
+            }
+        )
         # Profile Under Construction
         cls.profile_auc = cls.asset_profile_model.create(
             {
@@ -329,7 +360,7 @@ class TestAssetManagementThailand(TransactionCase):
                 "salvage_value": 0,
                 "date_start": "2019-01-01",
                 "method_time": "year",
-                "method": "linear-limit",
+                "method": "linear",
                 "method_number": 5,
                 "method_period": "month",
                 "prorata": False,
@@ -345,3 +376,74 @@ class TestAssetManagementThailand(TransactionCase):
         self.assertAlmostEqual(lines[1].amount, 20.0, places=2)
         # fy_residual_amount = 0 after year 5 -> is_zero break -> last remaining = 0
         self.assertAlmostEqual(lines[-1].remaining_value, 0.0, places=2)
+
+    def test_09_asset_remove_with_taxes(self):
+        asset = self.asset_model.create(
+            {
+                "name": "test asset2",
+                "profile_id": self.car5y.id,
+                "purchase_value": 1828,
+                "salvage_value": 1,
+                "date_start": "2019-07-07",
+                "method_time": "year",
+                "method": "linear-limit",
+                "method_number": 5,
+                "method_period": "month",
+                "prorata": True,
+                "days_calc": True,
+            }
+        )
+        asset.validate()
+        remove_model = self.asset_remove_model.with_context(
+            active_id=asset.id, active_ids=asset.ids
+        )
+        with Form(remove_model) as f:
+            f.posting_regime = "gain_loss_on_sale"
+            f.sale_value = 1000.0
+            f.account_sale_id = self.account_sale
+            f.account_plus_value_id = self.account_plus_value
+            f.account_min_value_id = self.account_min_value
+            f.tax_ids = self.tax_sale
+        wiz = f.save()
+
+        self.assertFalse(asset.sale_invoice_id)
+        wiz.remove()
+        self.assertEqual(asset.state, "removed")
+        self.assertTrue(asset.sale_invoice_id)
+
+        action = asset.action_view_invoice()
+        self.assertEqual(action["res_id"], asset.sale_invoice_id.id)
+
+    def test_10_asset_remove_without_taxes(self):
+        asset = self.asset_model.create(
+            {
+                "name": "test asset2",
+                "profile_id": self.car5y.id,
+                "purchase_value": 1828,
+                "salvage_value": 1,
+                "date_start": "2019-07-07",
+                "method_time": "year",
+                "method": "linear-limit",
+                "method_number": 5,
+                "method_period": "month",
+                "prorata": True,
+                "days_calc": True,
+            }
+        )
+        asset.validate()
+        remove_model = self.asset_remove_model.with_context(
+            active_id=asset.id, active_ids=asset.ids
+        )
+        with Form(remove_model) as f:
+            f.posting_regime = "gain_loss_on_sale"
+            f.sale_value = 1000.0
+            f.account_sale_id = self.account_sale
+            f.account_plus_value_id = self.account_plus_value
+            f.account_min_value_id = self.account_min_value
+        wiz = f.save()
+
+        # No Taxes, No create customer invoice
+        self.assertFalse(asset.sale_invoice_id)
+        wiz.remove()
+        self.assertEqual(asset.state, "removed")
+        self.assertFalse(asset.sale_invoice_id)

@@ -11,6 +11,13 @@
             <xpath expr="//field[@name='company_id']" position="after">
                 <field name="asset_sub_state_id" />
             </xpath>
+            <xpath expr="//field[@name='account_sale_id']" position="after">
+                <field
+                    name="tax_ids"
+                    widget="many2many_tags"
+                    invisible="sale_value == 0.0"
+                />
+            </xpath>
         </field>
     </record>
 </odoo>

@@ -32,6 +32,12 @@ class AccountAsset(models.Model):
         domain=lambda self: self._domain_asset_sub_state(),
         check_company=True,
     )
+    sale_invoice_id = fields.Many2one(
+        comodel_name="account.move",
+        readonly=True,
+        copy=False,
+        check_company=True,
+    )
 
     @api.depends("method_number", "method")
     def _compute_depreciation_rate(self):
@@ -46,6 +52,15 @@ class AccountAsset(models.Model):
         for rec in self:
             asset_sub_state_all = asset_substate_model.search([(rec.state, "=", True)])
             rec.asset_sub_state_all = asset_sub_state_all
+
+    def action_view_invoice(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "account.move",
+            "view_mode": "form",
+            "res_id": self.sale_invoice_id.id,
+        }
 
     def _domain_asset_sub_state(self):
         return (
