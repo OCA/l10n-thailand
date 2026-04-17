@@ -73,6 +73,12 @@ class TestTaxReport(AccountTestInvoicingCommon):
             }
         )
 
+    def _get_purchase_report_lines(self):
+        self.env.flush_all()
+        report = self.env["report.l10n_th_account_tax_report.report_thai_tax"]
+        res_data = report._get_report_values(self.tax_purchase_report_wizard.ids, {})
+        return res_data["tax_report_data"]
+
     @freeze_time("2001-01-01")
     def _create_date_range(self):
         RangeType = self.env["date.range.type"]
@@ -222,3 +228,62 @@ class TestTaxReport(AccountTestInvoicingCommon):
         model.create_xlsx_report(
             self.tax_purchase_report_wizard.ids, data=report["data"]
         )
+
+    @freeze_time("2001-01-01")
+    def test_06_merge_same_tax_invoice_number(self):
+        """Two bills sharing one vendor tax invoice number collapse to a single
+        report line with summed base and tax. This is the group-payment case
+        where one vendor tax invoice covers multiple bills."""
+        bill1 = self.bill
+
+        bill2 = self.init_invoice(
+            move_type="in_invoice",
+            partner=self.env.ref("base.res_partner_1"),
+            invoice_date=self.date_range.date_end,
+            products=self.env.ref("product.product_product_7"),
+            amounts=[100.0],
+            taxes=self.tax_purchase_a,
+        )
+        bill2.tax_invoice_ids.write(
+            {
+                "tax_invoice_number": "TEST",
+                "tax_invoice_date": self.date_range.date_end,
+            }
+        )
+        bill2.action_post()
+
+        lines = [
+            line
+            for line in self._get_purchase_report_lines()
+            if line["tax_invoice_number"] == "TEST"
+        ]
+        self.assertEqual(len(lines), 1)
+        tax_invoices = (bill1 + bill2).tax_invoice_ids
+        self.assertEqual(
+            lines[0]["tax_base_amount"],
+            sum(tax_invoices.mapped("tax_base_amount")),
+        )
+        self.assertEqual(lines[0]["tax_amount"], sum(tax_invoices.mapped("balance")))
+
+    @freeze_time("2001-01-01")
+    def test_07_distinct_tax_invoice_numbers_not_merged(self):
+        """Different vendor tax invoice numbers stay as separate report lines."""
+        bill2 = self.init_invoice(
+            move_type="in_invoice",
+            partner=self.env.ref("base.res_partner_1"),
+            invoice_date=self.date_range.date_end,
+            products=self.env.ref("product.product_product_7"),
+            amounts=[100.0],
+            taxes=self.tax_purchase_a,
+        )
+        bill2.tax_invoice_ids.write(
+            {
+                "tax_invoice_number": "TEST222",
+                "tax_invoice_date": self.date_range.date_end,
+            }
+        )
+        bill2.action_post()
+        numbers = [
+            line["tax_invoice_number"] for line in self._get_purchase_report_lines()
+        ]
+        self.assertEqual(len([n for n in numbers if n in ("TEST", "TEST222")]), 2)
