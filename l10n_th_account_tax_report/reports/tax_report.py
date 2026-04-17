@@ -10,11 +10,17 @@ class ThaiTaxReport(models.AbstractModel):
     _description = "Thai Tax Report"
 
     def _query_select_tax(self):
+        # `name` is aggregated (not grouped) so that several documents sharing
+        # the same tax_invoice_number collapse into a single report line. This
+        # covers cash-basis purchases where one vendor tax invoice is issued for
+        # a group payment of multiple bills. Sales numbers come from a sequence
+        # (unique per line) so they never merge unintentionally.
         return """
             ROW_NUMBER() OVER (ORDER BY tax_date, tax_invoice_number) AS row_number,
             company_id, account_id, partner_id, tax_invoice_number,
             TO_CHAR(tax_date, 'DD/MM/YYYY') AS tax_date,
-            name, sum(tax_base_amount) tax_base_amount,
+            string_agg(DISTINCT name, ', ' ORDER BY name) AS name,
+            sum(tax_base_amount) tax_base_amount,
             sum(tax_amount) tax_amount
         """
 
@@ -41,7 +47,7 @@ class ThaiTaxReport(models.AbstractModel):
         """
 
     def _query_groupby_tax(self):
-        return "company_id, account_id, partner_id, tax_invoice_number, tax_date, name"
+        return "company_id, account_id, partner_id, tax_invoice_number, tax_date"
 
     def _domain_where_clause_tax(self, show_cancel):
         condition = "IN ('posted', 'cancel')" if show_cancel else "= 'posted'"
