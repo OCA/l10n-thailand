@@ -73,11 +73,17 @@ class AccountPaymentRegister(models.TransientModel):
 
     def _create_payment_vals_from_wizard(self):
         payment_vals = super()._create_payment_vals_from_wizard()
+        payment_vals["original_move_ids"] = self.line_ids.mapped("move_id").ids
         # Check case auto and manual withholding tax
         if self.payment_difference_handling == "reconcile" and self.wht_tax_id:
             payment_vals["write_off_line_vals"] = self._prepare_writeoff_move_line(
                 payment_vals.get("write_off_line_vals", False)
             )
+        return payment_vals
+
+    def _create_payment_vals_from_batch(self, batch_result):
+        payment_vals = super()._create_payment_vals_from_batch()
+        payment_vals["original_move_ids"] = self.line_ids.mapped("move_id").ids
         return payment_vals
 
     @api.depends(

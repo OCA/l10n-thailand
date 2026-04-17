@@ -75,6 +75,9 @@
                     />
                 </div>
             </xpath>
+            <xpath expr="//field[@name='partner_bank_id']" position="after">
+                <field name="original_move_ids" widget="many2many_tags" />
+            </xpath>
             <button name="action_post" position="after">
                 <field name="to_clear_tax" invisible="1" />
                 <button
