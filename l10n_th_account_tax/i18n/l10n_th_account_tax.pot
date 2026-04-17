@@ -889,6 +889,11 @@ msgid "Options"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_payment__original_move_ids
+msgid "Original Move"
+msgstr ""
+
+#. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__tax_line_id
 msgid "Originator Tax"
 msgstr ""
