@@ -1,6 +1,7 @@
 # Copyright 2021 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import re
 from datetime import datetime
 
 from odoo import _, api, fields, models
@@ -478,13 +479,27 @@ class BankPaymentExport(models.Model):
     # ====================== Function Common Text File ======================
 
     def _get_receiver_address(self, object_address):
+        def clean_text(text):
+            if not text:
+                return ""
+            # Normalize all whitespace variants to regular space
+            text = re.sub(r"[^\S\n]", " ", text)
+            # Remove zero-width characters
+            text = re.sub(r"[\u200b\u200c\u200d\ufeff]", "", text)
+            # Collapse multiple spaces into one and strip
+            text = re.sub(r" +", " ", text).strip()
+            return text
+
         receiver_address = " ".join(
-            [
-                object_address.street or "",
-                object_address.street2 or "",
-                object_address.city or "",
-                object_address.zip or "",
-            ]
+            filter(
+                None,
+                [
+                    clean_text(object_address.street),
+                    clean_text(object_address.street2),
+                    clean_text(object_address.city),
+                    clean_text(object_address.zip),
+                ],
+            )
         )
         return receiver_address
 
