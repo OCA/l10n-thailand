@@ -1,8 +1,9 @@
 [project]
 name = "odoo-addons-oca-l10n-thailand"
-version = "18.0.20260424.0"
+version = "18.0.20260424.1"
 dependencies = [
     "odoo-addon-currency_rate_update_TH_BOT==18.0.*",
+    "odoo-addon-l10n_th_account_asset_management==18.0.*",
     "odoo-addon-l10n_th_account_tax==18.0.*",
     "odoo-addon-l10n_th_account_tax_expense==18.0.*",
     "odoo-addon-l10n_th_account_tax_report==18.0.*",
