@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import Command, fields
-from odoo.tests import tagged
+from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
@@ -129,6 +129,24 @@ class TestStockTaxInvoice(AccountTestInvoicingCommon):
             (ti.tax_invoice_number, ti.tax_invoice_date): ti.tax_base_amount
             for ti in invoice.tax_invoice_ids
         }
+
+    def _autocomplete_bill(self, po):
+        """Create a vendor bill via the Bills > "Auto Complete" path.
+
+        Selecting the PO in ``purchase_vendor_bill_id`` (the "Auto-Complete"
+        widget) fires ``_onchange_purchase_auto_complete``, which copies the PO
+        lines without ever calling ``purchase.order.action_create_invoice``.
+        """
+        # In ``purchase.bill.union`` a purchase order is exposed with the
+        # negative of its id (vendor bills keep the positive id). This mirrors
+        # Odoo's own purchase tests.
+        bill_union = self.env["purchase.bill.union"].browse(-po.id)
+        move_form = Form(
+            self.env["account.move"].with_context(default_move_type="in_invoice")
+        )
+        move_form.partner_id = self.vendor
+        move_form.purchase_vendor_bill_id = bill_union
+        return move_form.save()
 
     def test_01_single_picking_single_bill(self):
         """1 IN with tax info -> 1 bill, tax_invoice propagated from picking."""
@@ -316,3 +334,67 @@ class TestStockTaxInvoice(AccountTestInvoicingCommon):
                 amounts_before[ti.id],
                 msg=f"tax_base_amount changed after recompute for record {ti.id}",
             )
+
+    def test_07_autocomplete_single_picking(self):
+        """Auto Complete from Bills must carry the picking tax info too."""
+        po = self._make_po(qty=10)
+        picking = po.picking_ids
+        self._set_tax_info(picking, "T001", "2026-04-01")
+        self._validate_picking(picking, qty=10)
+
+        bill = self._autocomplete_bill(po)
+
+        tax_invs = bill.tax_invoice_ids
+        self.assertEqual(len(tax_invs), 1)
+        self.assertEqual(tax_invs.tax_invoice_number, "T001")
+        self.assertEqual(tax_invs.tax_invoice_date, fields.Date.to_date("2026-04-01"))
+        self.assertAlmostEqual(tax_invs.tax_base_amount, 1000.0)
+        self.assertAlmostEqual(tax_invs.balance, 70.0)
+
+    def test_08_autocomplete_two_pickings_split(self):
+        """Auto Complete path also splits across multiple pickings."""
+        po = self._make_po(qty=20)
+
+        picking1 = po.picking_ids
+        self._set_tax_info(picking1, "T001", "2026-04-01")
+        self._validate_picking(picking1, qty=10)
+
+        picking2 = po.picking_ids - picking1
+        self._set_tax_info(picking2, "T002", "2026-04-02")
+        self._validate_picking(picking2, qty=10)
+
+        bill = self._autocomplete_bill(po)
+
+        tax_invs = bill.tax_invoice_ids
+        self.assertEqual(len(tax_invs), 2)
+        inv_map = self._tax_inv_map(bill)
+        self.assertIn(("T001", fields.Date.to_date("2026-04-01")), inv_map)
+        self.assertIn(("T002", fields.Date.to_date("2026-04-02")), inv_map)
+        self.assertAlmostEqual(sum(ti.tax_base_amount for ti in tax_invs), 2000.0)
+        self.assertAlmostEqual(sum(ti.balance for ti in tax_invs), 140.0)
+
+    def test_09_autocomplete_on_existing_draft_write_path(self):
+        """Auto Complete applied to an *already saved* draft bill"""
+        po = self._make_po(qty=10)
+        picking = po.picking_ids
+        self._set_tax_info(picking, "T001", "2026-04-01")
+        self._validate_picking(picking, qty=10)
+
+        # First save: empty draft vendor bill (no lines, no tax invoices yet).
+        bill = self.env["account.move"].create(
+            {"move_type": "in_invoice", "partner_id": self.vendor.id}
+        )
+        self.assertFalse(bill.tax_invoice_ids)
+
+        # Second save: apply Auto Complete on the existing record -> write().
+        with Form(bill) as bill_form:
+            bill_form.purchase_vendor_bill_id = self.env["purchase.bill.union"].browse(
+                -po.id
+            )
+
+        tax_invs = bill.tax_invoice_ids
+        self.assertEqual(len(tax_invs), 1)
+        self.assertEqual(tax_invs.tax_invoice_number, "T001")
+        self.assertEqual(tax_invs.tax_invoice_date, fields.Date.to_date("2026-04-01"))
+        self.assertAlmostEqual(tax_invs.tax_base_amount, 1000.0)
+        self.assertAlmostEqual(tax_invs.balance, 70.0)
