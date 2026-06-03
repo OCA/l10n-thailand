@@ -514,7 +514,6 @@ class AccountMove(models.Model):
         For case reverse move,
         Tax number and date must have value from wizard reversal.
         """
-        self.ensure_one()
         new = super().copy(default)
         tax_number = self.env.context.get("tax_invoice_number")
         tax_date = self.env.context.get("tax_invoice_date")
