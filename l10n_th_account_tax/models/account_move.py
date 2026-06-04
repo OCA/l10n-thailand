@@ -478,9 +478,9 @@ class AccountMove(models.Model):
             if move.payment_id and not move.payment_id.wht_move_ids.mapped("is_pit"):
                 bills = AccountMove
                 if self.env.context.get("active_model") == "account.move":
-                    bills = AccountMove.browse(self.env.context.get("active_ids", []))
-                elif move.payment_id.original_move_ids:
-                    bills = move.payment_id.original_move_ids
+                    bills |= AccountMove.browse(self.env.context.get("active_ids", []))
+                if move.payment_id.original_move_ids:
+                    bills |= move.payment_id.original_move_ids
                 if not bills:
                     continue
 
