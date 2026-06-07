@@ -343,114 +343,122 @@ class AccountMove(models.Model):
             move_lines = self.env[model].browse(active_ids)
         return move_lines
 
+    def _handle_purchase_taxes(self):
+        """Ensure purchase tax invoices have number and date before posting."""
+        self.ensure_one()
+        for tax_invoice in self.tax_invoice_ids.filtered(
+            lambda tax: tax.tax_line_id.type_tax_use == "purchase"
+            or (
+                tax.move_id.move_type == "entry"
+                and not tax.payment_id
+                and tax.move_id.journal_id.type != "sale"
+                and tax.tax_line_id.type_tax_use != "sale"
+            )
+        ):
+            if not tax_invoice.tax_invoice_number or not tax_invoice.tax_invoice_date:
+                if tax_invoice.payment_id:  # Defer posting for payment
+                    tax_invoice.payment_id.write({"to_clear_tax": True})
+                    # Auto post tax cash basis when reset to draft
+                    if tax_invoice.move_id.reversed_entry_id:
+                        moves = (
+                            tax_invoice.move_id + tax_invoice.move_id.reversed_entry_id
+                        )
+                        tax_invoice.move_id.reversed_entry_id.write({"state": "posted"})
+                        tax_account_id = tax_invoice.account_id
+                        line_reconcile = moves.mapped("line_ids").filtered(
+                            lambda line, tax_account_id=tax_account_id: line.account_id
+                            != tax_account_id
+                            and line.reconciled
+                        )
+                        line_reconcile.reconcile()
+                    continue
+                if self.move_type == "entry" and self.reversed_entry_id:
+                    orig_tinv = self.reversed_entry_id.tax_invoice_ids.filtered(
+                        lambda t, ti=tax_invoice: t.tax_line_id == ti.tax_line_id
+                        and t.account_id == ti.account_id
+                    )[:1]
+                    if orig_tinv:
+                        tax_invoice.write(
+                            {
+                                "tax_invoice_number": orig_tinv.tax_invoice_number,
+                                "tax_invoice_date": orig_tinv.tax_invoice_date,
+                            }
+                        )
+                        continue
+                # Skip Error when found refund
+                elif self.env.context.get("net_invoice_refund"):
+                    continue
+                else:
+                    raise UserError(
+                        self.env._("Please fill in tax invoice and tax date")
+                    )
+
+    def _handle_sales_taxes(self):
+        """Set sales tax invoice numbers from Odoo document info."""
+        self.ensure_one()
+        for tax_invoice in self.tax_invoice_ids.filtered(
+            lambda tax: tax.tax_line_id.type_tax_use == "sale"
+            or tax.move_id.journal_id.type == "sale"
+        ):
+            tinv_number, tinv_date = self._get_tax_invoice_number(
+                self, tax_invoice, tax_invoice.tax_line_id
+            )
+            tax_invoice.write(
+                {
+                    "tax_invoice_number": tinv_number,
+                    "tax_invoice_date": tinv_date,
+                }
+            )
+
+    def _handle_withholding_taxes(self):
+        """Create withholding.move records for withholding tax lines."""
+        self.ensure_one()
+        wht_movelines = self.line_ids.filtered(
+            lambda line: line.account_id.wht_account and line.wht_tax_id
+        )
+        withholding_moves = [
+            Command.create(self._prepare_withholding_move(wht_ml))
+            for wht_ml in wht_movelines
+        ]
+        self.write({"wht_move_ids": [Command.clear()] + withholding_moves})
+
+        # On payment JE, keep track of move when PIT not withheld,
+        # use data from vendor bill
+        payment_id = self.origin_payment_id
+        if payment_id and not payment_id.wht_move_ids.mapped("is_pit"):
+            active_ids = self.env.context.get("active_ids", [])
+            model = self.env.context.get("active_model")
+            move_lines = self._get_movelines_from_model(model, active_ids)
+            line_pit = move_lines.filtered("wht_tax_id.is_pit")
+            if not line_pit:
+                return
+
+            line_wht_moves = [
+                Command.create(self._prepare_withholding_move(line, pit_no_wht=True))
+                for line in line_pit
+            ]
+            self.write({"wht_move_ids": line_wht_moves})
+
     def _post(self, soft=True):
         """Additional tax invoice info (tax_invoice_number, tax_invoice_date)
         Case sales tax, use Odoo's info, as document is issued out.
         Case purchase tax, use vendor's info to fill back."""
-
-        def handle_purchase_taxes(move):
-            for tax_invoice in move.tax_invoice_ids.filtered(
-                lambda tax: tax.tax_line_id.type_tax_use == "purchase"
-                or (
-                    tax.move_id.move_type == "entry"
-                    and not tax.payment_id
-                    and tax.move_id.journal_id.type != "sale"
-                    and tax.tax_line_id.type_tax_use != "sale"
-                )
-            ):
-                if (
-                    not tax_invoice.tax_invoice_number
-                    or not tax_invoice.tax_invoice_date
-                ):
-                    if tax_invoice.payment_id:  # Defer posting for payment
-                        tax_invoice.payment_id.write({"to_clear_tax": True})
-                        # Auto post tax cash basis when reset to draft
-                        if tax_invoice.move_id.reversed_entry_id:
-                            moves = (
-                                tax_invoice.move_id
-                                + tax_invoice.move_id.reversed_entry_id
-                            )
-                            tax_invoice.move_id.reversed_entry_id.write(
-                                {"state": "posted"}
-                            )
-                            tax_account_id = tax_invoice.account_id
-                            line_reconcile = moves.mapped("line_ids").filtered(
-                                lambda line,
-                                tax_account_id=tax_account_id: line.account_id
-                                != tax_account_id
-                                and line.reconciled
-                            )
-                            line_reconcile.reconcile()
-                        continue
-                    # Skip Error when found refund
-                    elif self.env.context.get("net_invoice_refund"):
-                        continue
-                    else:
-                        raise UserError(
-                            self.env._("Please fill in tax invoice and tax date")
-                        )
-
-        def handle_sales_taxes(move):
-            for tax_invoice in move.tax_invoice_ids.filtered(
-                lambda tax: tax.tax_line_id.type_tax_use == "sale"
-                or tax.move_id.journal_id.type == "sale"
-            ):
-                tinv_number, tinv_date = self._get_tax_invoice_number(
-                    move, tax_invoice, tax_invoice.tax_line_id
-                )
-                tax_invoice.write(
-                    {
-                        "tax_invoice_number": tinv_number,
-                        "tax_invoice_date": tinv_date,
-                    }
-                )
-
-        def handle_withholding_taxes(move):
-            # Normal case, create withholding.move only when withholding
-            wht_movelines = move.line_ids.filtered(
-                lambda line: line.account_id.wht_account and line.wht_tax_id
-            )
-            withholding_moves = [
-                Command.create(self._prepare_withholding_move(wht_ml))
-                for wht_ml in wht_movelines
-            ]
-            move.write({"wht_move_ids": [Command.clear()] + withholding_moves})
-
-            # On payment JE, keep track of move when PIT not withheld,
-            # use data from vendor bill
-            payment_id = move.origin_payment_id
-            if payment_id and not payment_id.wht_move_ids.mapped("is_pit"):
-                active_ids = self.env.context.get("active_ids", [])
-                model = self.env.context.get("active_model")
-                move_lines = self._get_movelines_from_model(model, active_ids)
-                line_pit = move_lines.filtered("wht_tax_id.is_pit")
-                if not line_pit:
-                    return
-
-                line_wht_moves = [
-                    Command.create(
-                        self._prepare_withholding_move(line, pit_no_wht=True)
-                    )
-                    for line in line_pit
-                ]
-                move.write({"wht_move_ids": line_wht_moves})
-
         # Purchase Taxes
         for move in self:
-            handle_purchase_taxes(move)
+            move._handle_purchase_taxes()
 
         res = super()._post(soft=soft)
 
         # Sales Taxes
         for move in self:
-            handle_sales_taxes(move)
+            move._handle_sales_taxes()
 
         # Withholding Tax:
         # - Create account.withholding.move, for every withholding tax line
         # - For case PIT, it is possible that there is no withholidng amount
-        #   but still need to keep track the withholding.move base amount
+        #   but still need to keep track of the withholding.move base amount
         for move in self:
-            handle_withholding_taxes(move)
+            move._handle_withholding_taxes()
 
         # When post, do remove the existing certs
         self.mapped("wht_cert_ids").unlink()
@@ -524,6 +532,17 @@ class AccountMove(models.Model):
                     "tax_invoice_date": tax_date,
                 }
             )
+        # For reversed journal entries with manual tax invoices,
+        # preserve manual_tax_invoice so tax invoices are recreated.
+        if self.env.context.get("reverse_tax_invoice") and new.move_type == "entry":
+            for orig_line in self.line_ids:
+                if orig_line.manual_tax_invoice:
+                    new_line = new.line_ids.filtered(
+                        lambda line, ol=orig_line: line.account_id == ol.account_id
+                        and abs(line.balance) == abs(ol.balance)
+                    )
+                    if new_line and not new_line.manual_tax_invoice:
+                        new_line.manual_tax_invoice = True
         return new
 
     def _reverse_moves(self, default_values_list=None, cancel=False):

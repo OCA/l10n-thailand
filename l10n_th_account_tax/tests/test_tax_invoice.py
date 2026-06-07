@@ -983,3 +983,78 @@ class TestTaxInvoice(AccountTestInvoicingCommon):
         self.assertEqual(move.tax_invoice_ids.report_late_mo, "0")
         line_tax.manual_tax_invoice = False
         self.assertFalse(move.tax_invoice_ids)
+
+    def test_16_reverse_journal_entry_auto_copy_tax_invoice(self):
+        """Reverse journal entry without tax invoice fields in wizard should
+        auto-copy tax invoice from original entry.
+        """
+        tax_invoice_number = "SINV/REV-001"
+        tax_invoice_date = fields.Date.today()
+
+        # Create a journal entry with manual tax invoice, then post
+        move = self.env["account.move"].create(
+            {
+                "move_type": "entry",
+                "journal_id": self.journal_bank.id,
+                "line_ids": [
+                    Command.create(
+                        {
+                            "name": "debit_line",
+                            "account_id": self.input_vat_acct.id,
+                            "balance": 1000.0,
+                        }
+                    ),
+                    Command.create(
+                        {
+                            "name": "tax_line",
+                            "account_id": self.input_vat_acct.id,
+                            "balance": 200.0,
+                        }
+                    ),
+                    Command.create(
+                        {
+                            "name": "credit_line",
+                            "account_id": self.input_vat_acct.id,
+                            "balance": -1200.0,
+                        }
+                    ),
+                ],
+            }
+        )
+        line_tax = move.line_ids.filtered(lambda line: line.balance == 200.0)
+        line_tax.manual_tax_invoice = True
+        move.tax_invoice_ids.write(
+            {
+                "tax_invoice_number": tax_invoice_number,
+                "tax_invoice_date": tax_invoice_date,
+            }
+        )
+        move.action_post()
+        self.assertEqual(move.state, "posted")
+
+        # Reverse via wizard, journal entry wizard has no tax fields
+        ctx = {
+            "active_ids": move.ids,
+            "active_model": "account.move",
+        }
+        reversal_move = Form(
+            self.env["account.move.reversal"].with_context(**ctx)
+        ).save()
+        # tax invoice number/date are auto-copied from original
+        reversal_move.modify_moves()
+
+        # Verify reversed move has tax invoice copied from original
+        reversed_move = self.env["account.move"].search(
+            [("reversed_entry_id", "=", move.id)]
+        )
+        self.assertTrue(reversed_move)
+        self.assertEqual(
+            reversed_move.tax_invoice_ids.tax_invoice_number,
+            tax_invoice_number,
+        )
+        self.assertEqual(
+            reversed_move.tax_invoice_ids.tax_invoice_date, tax_invoice_date
+        )
+        self.assertEqual(
+            reversed_move.tax_invoice_ids.tax_invoice_date, tax_invoice_date
+        )
