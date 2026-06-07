@@ -111,6 +111,10 @@
                                     icon="fa-files-o"
                                     invisible="not to_clear_tax"
                                 />
+                                <field
+                                    name="company_currency_id"
+                                    column_invisible="1"
+                                />
                             </list>
                         </field>
                     </page>

@@ -135,6 +135,7 @@
                                 icon="fa-files-o"
                                 invisible="move_state != 'draft'"
                             />
+                            <field name="company_currency_id" column_invisible="1" />
                         </list>
                     </field>
                 </page>
@@ -251,6 +252,7 @@
                 <field name="tax_line_id" />
                 <field name="tax_base_amount" />
                 <field name="balance" />
+                <field name="company_currency_id" column_invisible="1" />
             </list>
         </field>
     </record>
