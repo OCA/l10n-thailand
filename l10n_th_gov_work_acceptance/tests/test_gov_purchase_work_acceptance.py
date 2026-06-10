@@ -3,13 +3,15 @@
 
 from odoo import fields
 from odoo.exceptions import ValidationError
-from odoo.tests.common import Form, TransactionCase
+from odoo.tests import Form
+from odoo.tests.common import TransactionCase
 
 
 class TestGovPurchaseWorkAcceptance(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         # Model
         cls.purchase_request_model = cls.env["purchase.request"]
         cls.purchase_order_model = cls.env["purchase.order"]
@@ -79,7 +81,7 @@ class TestGovPurchaseWorkAcceptance(TransactionCase):
         return work_acceptance
 
     def test_01_gov_purchase_request_to_work_acceptance(self):
-        """Process Purchase Request until work acceptance and committee must approve WA"""
+        """Process PR until work acceptance and committee must approve WA"""
         committees = [
             (
                 0,
@@ -145,8 +147,7 @@ class TestGovPurchaseWorkAcceptance(TransactionCase):
         requisition = purchase_request_line.requisition_lines.requisition_id
         requisition_line = requisition.line_ids
         requisition_line.price_unit = 100.0
-        requisition.action_in_progress()
-        requisition.action_open()
+        requisition.action_confirm()
         # Create Purchase from Agreement
         purchase = self.purchase_order_model.create(
             {
@@ -182,7 +183,7 @@ class TestGovPurchaseWorkAcceptance(TransactionCase):
         self.assertIn("evaluation_result_ids", res)
         # Start Tier Validation
         work_acceptance.request_validation()
-        work_acceptance.invalidate_cache()  # Needed to refresh review_ids field
+        work_acceptance.invalidate_recordset()  # Needed to refresh review_ids field
         work_acceptance.review_ids.write({"status": "approved"})
         # Normally, this function will automate from tier server action
         work_acceptance.work_acceptance_committee_ids.write({"status": "accept"})
@@ -193,7 +194,7 @@ class TestGovPurchaseWorkAcceptance(TransactionCase):
         self.assertFalse(work_acceptance.work_acceptance_committee_ids[0].status)
 
         work_acceptance.request_validation()
-        work_acceptance.invalidate_cache()  # Needed to refresh review_ids field
+        work_acceptance.invalidate_recordset()  # Needed to refresh review_ids field
         work_acceptance.review_ids.write({"status": "approved"})
         work_acceptance.work_acceptance_committee_ids.write({"status": "accept"})
         work_acceptance.button_accept()

@@ -10,9 +10,7 @@ class WorkAcceptance(models.Model):
 
     wa_tier_validation = fields.Boolean(
         string="Paperless WA",
-        readonly=True,
         default=True,
-        states={"draft": [("readonly", False)]},
         tracking=True,
         help="If checked, WA created will be approved by committee by tier valiation."
         "Each committee will be notified (by email or inbox) to approve WA.\n"
