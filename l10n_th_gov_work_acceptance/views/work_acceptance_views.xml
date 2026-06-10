@@ -141,7 +141,7 @@
         />
         <field name="arch" type="xml">
             <xpath expr="///form/header/button[last()]" position="after">
-                 <button
+                <button
                     name="request_validation"
                     string="Request Validation"
                     attrs="{'invisible': ['|','|',('need_validation', '!=', True),('rejected','=',True),('state', 'not in', ['draft'])]}"
@@ -174,31 +174,31 @@
                         validated.
                         <field name="can_review" invisible="1" />
                         <button
-                            name="validate_tier"
-                            string="Accept"
-                            attrs="{'invisible': [('can_review', '=', False)]}"
-                            type="object"
-                            class="oe_inline oe_button btn-success"
-                            icon="fa-thumbs-up"
-                        />
+                        name="validate_tier"
+                        string="Accept"
+                        attrs="{'invisible': [('can_review', '=', False)]}"
+                        type="object"
+                        class="oe_inline oe_button btn-success"
+                        icon="fa-thumbs-up"
+                    />
                         <button
-                            name="validate_tier"
-                            string="Not Accept"
-                            attrs="{'invisible': [('can_review', '=', False)]}"
-                            type="object"
-                            class="btn-icon btn-danger"
-                            icon="fa-thumbs-down"
-                            context="{'validate_as_not_accept': True, 'default_comment': 'ไม่รับเพราะ...'}"
-                        />
+                        name="validate_tier"
+                        string="Not Accept"
+                        attrs="{'invisible': [('can_review', '=', False)]}"
+                        type="object"
+                        class="btn-icon btn-danger"
+                        icon="fa-thumbs-down"
+                        context="{'validate_as_not_accept': True, 'default_comment': 'ไม่รับเพราะ...'}"
+                    />
                         <button
-                            name="validate_tier"
-                            string="Other"
-                            attrs="{'invisible': [('can_review', '=', False)]}"
-                            type="object"
-                            class="btn-icon btn-warning"
-                            icon="fa-arrow-circle-right"
-                            context="{'validate_as_other': True, 'default_comment': 'ไม่เข้าร่วมเพราะ...'}"
-                        />
+                        name="validate_tier"
+                        string="Other"
+                        attrs="{'invisible': [('can_review', '=', False)]}"
+                        type="object"
+                        class="btn-icon btn-warning"
+                        icon="fa-arrow-circle-right"
+                        context="{'validate_as_other': True, 'default_comment': 'ไม่เข้าร่วมเพราะ...'}"
+                    />
                     </p>
                 </div>
                 <div
