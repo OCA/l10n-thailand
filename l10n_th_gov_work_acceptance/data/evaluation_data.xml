@@ -23,8 +23,7 @@
             eval="[(6,0,[ref('score_quality_pass'),
                             ref('score_quality_need_improve'),
                             ref('score_quality_not_pass')])]"
-        >
-        </field>
+        />
     </record>
 
     <!-- Delivery -->
@@ -50,8 +49,7 @@
             eval="[(6,0,[ref('score_delivery_pass'),
                             ref('score_delivery_need_improve'),
                             ref('score_delivery_not_pass')])]"
-        >
-        </field>
+        />
     </record>
 
     <!-- Qualification -->
@@ -85,7 +83,6 @@
                             ref('score_qualification_fair'),
                             ref('score_qualification_good'),
                             ref('score_qualification_excellent')])]"
-        >
-        </field>
+        />
     </record>
 </odoo>
