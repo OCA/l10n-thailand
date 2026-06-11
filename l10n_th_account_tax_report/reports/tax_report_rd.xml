@@ -116,12 +116,7 @@
             <div class="row" style="margin-top: 10px;">
                 <div class="col-12">
                     <t t-set="n" t-value="0" />
-                    <t t-set="np" t-value="15" />
-                    <t t-foreach="range(ceil(num_results/np))" t-as="i">
-                        <t
-                            t-set="result"
-                            t-value="results[i*np:min((i+1) * np, num_results)]"
-                        />
+                    <t t-foreach="o._get_pages(results)" t-as="result">
                         <table>
                             <thead>
                                 <tr>

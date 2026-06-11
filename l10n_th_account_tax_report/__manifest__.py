@@ -19,6 +19,7 @@
         "security/ir.model.access.csv",
         "data/paper_format.xml",
         "data/report_data.xml",
+        "data/config_parameter.xml",
         "reports/tax_report.xml",
         "reports/tax_report_rd.xml",
         "reports/report_wht_qweb.xml",

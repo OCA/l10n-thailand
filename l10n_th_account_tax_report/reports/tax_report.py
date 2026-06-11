@@ -1,6 +1,8 @@
 # Copyright 2019 Ecosoft Co., Ltd (https://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
+from math import ceil
+
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
@@ -197,3 +199,75 @@ class TaxReport(models.TransientModel):
             "12": "ธันวาคม",
         }
         return month_thai[month]
+
+    @staticmethod
+    def _estimate_display_width(text):
+        """Count Thai chars as 1.5x width for row estimation."""
+        width = 0
+        for ch in text or "":
+            width += 1.5 if "\u0e00" <= ch <= "\u0e7f" else 1
+        return width
+
+    def _get_rows_per_page(self):
+        """Look up paperformat orientation to determine max visual rows per page.
+        Tune these values after testing with actual paperformat."""
+        report = self.env["ir.actions.report"].search(
+            [
+                (
+                    "report_name",
+                    "=",
+                    "l10n_th_account_tax_report.report_rd_tax_report_pdf",
+                ),
+            ],
+            limit=1,
+        )
+        if report and report.paperformat_id:
+            if report.paperformat_id.orientation == "Landscape":
+                return 20
+        return 13
+
+    def _get_pages(self, results):
+        """
+        Group results into pages based on estimated visual row consumption per record.
+
+        Each record's visual height is the maximum of:
+          - ceil(display_width / partner_chars)  for partner name
+          - ceil(ref_width / ref_chars)          for reference text
+        Records whose estimated size would exceed the remaining space start a new page.
+
+        Tuning notes:
+          - If pages have too much whitespace -> increase max_visual_rows or partner_chars
+          - If '\\u0e23\\u0e27\\u0e21\\u0e2b\\u0e19\\u0e49\\u0e32' still overflows
+            -> decrease max_visual_rows or partner_chars
+        """
+        if not results:
+            return []
+        partner_chars = int(
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("l10n_th_account_tax_report.partner_chars", default=38)
+        )
+        ref_chars = int(
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("l10n_th_account_tax_report.ref_chars", default=14)
+        )
+        max_visual_rows = self._get_rows_per_page()
+        pages = []
+        current_page = []
+        current_visual_rows = 0
+        for record in results:
+            p_width = self._estimate_display_width(record.partner_id.display_name)
+            r_width = self._estimate_display_width(record.name)
+            p_rows = ceil(p_width / partner_chars)
+            r_rows = ceil(r_width / ref_chars)
+            visual_rows = max(1, p_rows, r_rows)
+            if current_visual_rows + visual_rows > max_visual_rows and current_page:
+                pages.append(current_page)
+                current_page = []
+                current_visual_rows = 0
+            current_page.append(record)
+            current_visual_rows += visual_rows
+        if current_page:
+            pages.append(current_page)
+        return pages

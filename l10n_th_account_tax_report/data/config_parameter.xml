@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="config_param_partner_chars" model="ir.config_parameter">
+        <field name="key">l10n_th_account_tax_report.partner_chars</field>
+        <field name="value">38</field>
+    </record>
+    <record id="config_param_ref_chars" model="ir.config_parameter">
+        <field name="key">l10n_th_account_tax_report.ref_chars</field>
+        <field name="value">14</field>
+    </record>
+</odoo>
