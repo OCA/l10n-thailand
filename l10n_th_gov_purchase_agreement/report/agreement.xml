@@ -1,5 +1,4 @@
 <odoo>
-
     <template
         id="report_agreement_document"
         inherit_id="agreement_legal.report_agreement_document"
@@ -13,5 +12,4 @@
             </h1>
         </xpath>
     </template>
-
 </odoo>
