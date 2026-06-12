@@ -3,12 +3,13 @@
 
 from odoo import Command
 from odoo.exceptions import UserError
-from odoo.tests import tagged
-from odoo.tests.common import Form, TransactionCase
+from odoo.tests import Form, tagged
+
+from odoo.addons.base.tests.common import BaseCommon
 
 
 @tagged("post_install", "-at_install")
-class TestGovPurchaseAgreement(TransactionCase):
+class TestGovPurchaseAgreement(BaseCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -23,7 +24,6 @@ class TestGovPurchaseAgreement(TransactionCase):
         pr = self.pr_model.create(
             {
                 "user_id": self.env.ref("base.user_root").id,
-                "type_id": self.env.ref("purchase_requisition.type_single").id,
                 "po_type": po_type,
                 "line_ids": [
                     Command.create(
@@ -51,7 +51,7 @@ class TestGovPurchaseAgreement(TransactionCase):
     def test_01_po_agreement(self):
         """Test process agreement with purchase"""
         pr = self._create_pr("agreement", 1, 100.0)
-        pr.action_in_progress()
+        pr.action_confirm()
         purchase = self._create_purchase(pr)
         # No agreement. can't confirm
         self.assertEqual(len(purchase.agreement_ids.ids), 0)

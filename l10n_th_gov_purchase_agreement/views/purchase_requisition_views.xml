@@ -7,7 +7,7 @@
             ref="purchase_requisition.view_purchase_requisition_form"
         />
         <field name="arch" type="xml">
-            <field name="type_id" position="after">
+            <field name="requisition_type" position="after">
                 <field name="po_type" required="1" />
             </field>
         </field>

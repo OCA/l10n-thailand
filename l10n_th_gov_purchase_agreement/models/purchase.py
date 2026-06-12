@@ -11,7 +11,7 @@ class PurchaseOrder(models.Model):
     agreement_ids = fields.One2many(
         comodel_name="agreement",
         inverse_name="purchase_order_id",
-        string="Agreement",
+        string="Legal Agreement",
         copy=False,
     )
     agreement_count = fields.Integer(

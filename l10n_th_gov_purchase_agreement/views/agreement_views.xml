@@ -5,26 +5,20 @@
         <field name="inherit_id" ref="agreement_legal.partner_agreement_form_view" />
         <field name="arch" type="xml">
             <field name="is_template" position="after">
-                <field
-                    name="purchase_order_id"
-                    attrs="{'invisible': [('is_template', '=', True)]}"
-                />
+                <field name="purchase_order_id" invisible="is_template" />
             </field>
             <page name="products" position="after">
-                <page
-                    string="Invoice Plan"
-                    attrs="{'invisible': [('use_invoice_plan', '=', False)]}"
-                >
+                <page string="Invoice Plan" invisible="not use_invoice_plan">
                     <field name="use_invoice_plan" invisible="1" />
                     <field
                         name="invoice_plan_ids"
                         nolabel="1"
                         readonly="1"
                         widget="one2many"
-                        mode="tree"
+                        mode="list"
                         context="{'default_purchase_id': purchase_order_id}"
                     >
-                        <tree editable="bottom">
+                        <list editable="bottom">
                             <field name="installment" />
                             <field name="plan_date" />
                             <field name="invoice_type" />
@@ -37,8 +31,12 @@
                                 optional="hide"
                                 widget="many2many_tags"
                             />
-                            <field name="purchase_id" invisible="1" readonly="0" />
-                        </tree>
+                            <field
+                                name="purchase_id"
+                                column_invisible="1"
+                                readonly="0"
+                            />
+                        </list>
                     </field>
                 </page>
             </page>
