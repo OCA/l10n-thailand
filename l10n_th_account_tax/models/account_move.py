@@ -506,14 +506,20 @@ class AccountMove(models.Model):
         if wht_move.move_id.move_type == "in_refund":
             amount_income = -abs(wht_move.balance)
             amount_wht = 0.0
-        return {
+        vals = {
             "partner_id": wht_move.partner_id.id,
             "amount_income": amount_income,
             "amount_wht": amount_wht,
-            "wht_tax_id": wht_move.wht_tax_id.id,
-            "wht_cert_income_type": wht_move.wht_tax_id.wht_cert_income_type,
             "company_id": wht_move.company_id.id,
         }
+        if wht_move.wht_tax_id:
+            vals.update(
+                {
+                    "wht_tax_id": wht_move.wht_tax_id.id,
+                    "wht_cert_income_type": wht_move.wht_tax_id.wht_cert_income_type,
+                }
+            )
+        return vals
 
     def _get_tax_invoice_number(self, move, tax_invoice, tax):
         """Tax Invoice Numbering for Customer Invioce / Receipt
@@ -627,6 +633,9 @@ class AccountMove(models.Model):
                 filter(lambda l: l["partner_id"][0] == partner.id, wht_move_groups)
             )
             for wht_move in wht_moves:
+                wht_tax_id = (
+                    wht_move["wht_tax_id"] and wht_move["wht_tax_id"][0] or False
+                )
                 cert_line_vals.append(
                     (
                         0,
@@ -636,11 +645,12 @@ class AccountMove(models.Model):
                             "wht_cert_income_desc": wht_move["wht_cert_income_desc"],
                             "base": wht_move["amount_income"],
                             "amount": wht_move["amount_wht"],
-                            "wht_tax_id": wht_move["wht_tax_id"][0],
+                            "wht_tax_id": wht_tax_id,
                         },
                     )
                 )
-                wht_tax_set.add(wht_move["wht_tax_id"][0])
+                if wht_tax_id:
+                    wht_tax_set.add(wht_tax_id)
             cert_vals = {
                 "move_id": self.id,
                 "payment_id": self.payment_id.id,
