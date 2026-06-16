@@ -72,7 +72,7 @@
                             <field name="description" optional="hide" />
                             <field name="reference" optional="hide" />
                             <field name="pr_line_id" invisible="1" />
-                       </tree>
+                        </tree>
                     </field>
                 </page>
             </xpath>
