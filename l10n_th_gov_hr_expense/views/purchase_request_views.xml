@@ -9,7 +9,7 @@
                     type="object"
                     name="action_view_expense_sheet"
                     class="oe_stat_button"
-                    attrs="{'invisible':[('expense_sheet_count', '=', 0)]}"
+                    invisible="expense_sheet_count == 0"
                     icon="fa-pencil-square-o"
                 >
                     <field

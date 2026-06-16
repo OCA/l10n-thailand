@@ -44,8 +44,6 @@ class HrExpenseSheet(models.Model):
     date_return = fields.Date(
         string="Returned Date",
         tracking=True,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
     )
     clearing_term = fields.Selection(
         selection=[
@@ -54,8 +52,6 @@ class HrExpenseSheet(models.Model):
         ],
         default="thirty_days_after_receive",
         tracking=True,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
     )
     clearing_date_due = fields.Date(
         compute="_compute_clearing_date_due",
@@ -71,8 +67,6 @@ class HrExpenseSheet(models.Model):
         ondelete="restrict",
         domain="[('requested_by', '=', employee_user_id), ('state', '=', 'approved'), "
         "('purchase_type_id.to_create', '=', 'expense')]",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
         copy=False,
         index=True,
         help="Select purchase request of this employee, to create expense lines",
@@ -112,25 +106,27 @@ class HrExpenseSheet(models.Model):
             elif (
                 sheet.clearing_term == "thirty_days_after_receive"
                 and sheet.state == "done"
-                and sheet.account_move_id
+                and sheet.account_move_ids
             ):
                 # Find payment date
-                payable_lines = sheet.account_move_id.line_ids.filtered(
-                    lambda l: l.account_id.user_type_id.type == "payable"
+                moves = sheet.account_move_ids
+                payable_lines = moves.line_ids.filtered(
+                    lambda line: line.account_id.account_type == "liability_payable"
                 )
                 payment_lines = payable_lines.mapped(
                     "full_reconcile_id.reconciled_line_ids"
-                ).filtered(lambda l: l.move_id != sheet.account_move_id)
+                ).filtered(lambda line, moves=moves: line.move_id not in moves)
                 payment_date = payment_lines[0].date if payment_lines else False
                 # Assign clearing due date
                 if payment_date:
                     sheet.clearing_date_due = payment_date + relativedelta(days=29)
 
-    def action_sheet_move_create(self):
+    def action_sheet_move_post(self):
         """Remove clearing_date_due when clearing term is 30 Days after receive"""
-        res = super().action_sheet_move_create()
+        res = super().action_sheet_move_post()
         for sheet in self.filtered(
-            lambda l: l.advance and l.clearing_term == "thirty_days_after_receive"
+            lambda sheet: sheet.advance
+            and sheet.clearing_term == "thirty_days_after_receive"
         ):
             sheet.clearing_date_due = False
         return res
@@ -173,8 +169,11 @@ class HrExpenseSheet(models.Model):
 
     @api.model
     def _create_pr_expense(self, sheets, vals):
-        if "purchase_request_id" in vals:
-            sheets.mapped("expense_line_ids").filtered("pr_line_id").unlink()
+        # Only (re)generate expenses when the purchase request itself changes,
+        # otherwise unrelated writes would create duplicated expense lines.
+        if "purchase_request_id" not in vals:
+            return
+        sheets.mapped("expense_line_ids").filtered("pr_line_id").unlink()
         sheets._do_process_from_purchase_request()
         sheets.pr_line_ids.unlink()  # clean after use
 
@@ -194,12 +193,12 @@ class HrExpenseSheet(models.Model):
         """Hook method"""
         # Expense
         sheets = self.filtered(
-            lambda l: l.purchase_request_id and l.pr_for == "expense"
+            lambda sheet: sheet.purchase_request_id and sheet.pr_for == "expense"
         )
         sheets._create_expenses_from_prlines()
         # Advance
         av_sheets = self.filtered(
-            lambda l: l.purchase_request_id and l.pr_for == "advance"
+            lambda sheet: sheet.purchase_request_id and sheet.pr_for == "advance"
         )
         av_sheets.with_context(advance=True)._create_expenses_from_prlines()
 
@@ -227,29 +226,30 @@ class HrExpenseSheet(models.Model):
         # sheet_pr_line gets higher priority
         sheet_pr_line = expense_model._convert_to_write(line._cache)
         pr_line.update(sheet_pr_line)
+        # v18: hr.expense no longer has unit_amount; the amount is held in
+        # total_amount_currency (price_unit/account/name compute from product)
+        pr_line["total_amount_currency"] = line.total_amount
+        pr_line["quantity"] = line.quantity
         # Convert list of int to [(6, 0, list)]
         pr_line = {
             k: isinstance(v, list) and [(6, 0, v)] or v for k, v in pr_line.items()
         }
         # Case Advance
         if self.env.context.get("advance"):
-            # Change to advance, and product to clearing_product_id
-            av_line = expense_model.new({"advance": True})
-            av_line.onchange_advance()
-            av_line._compute_from_product_id_company_id()
-            av_line = av_line._convert_to_write(av_line._cache)
-            # Assign known values
-            pr_line["clearing_product_id"] = pr_line["product_id"]
-            pr_line["product_id"] = av_line["product_id"]
-            pr_line["advance"] = av_line["advance"]
-            pr_line["name"] = av_line["name"]
-            pr_line["account_id"] = av_line["account_id"]
+            # Change to advance, and original product to clearing_product_id
+            av_product = expense_model._get_product_advance()
+            pr_line["clearing_product_id"] = pr_line.get("product_id")
+            pr_line["product_id"] = av_product.id
+            pr_line["advance"] = True
+            # name and account_id are computed from the advance product
+            pr_line.pop("name", None)
+            pr_line.pop("account_id", None)
         return pr_line
 
     def action_submit_sheet(self):
         for rec in self.filtered("purchase_request_id"):
             pr_amount = sum(rec.purchase_request_id.line_ids.mapped("estimated_cost"))
-            ex_amount = sum(rec.expense_line_ids.mapped("untaxed_amount"))
+            ex_amount = sum(rec.expense_line_ids.mapped("untaxed_amount_currency"))
             if not rec.sudo().no_pr_check and ex_amount > pr_amount:
                 raise UserError(
                     _(
@@ -263,7 +263,7 @@ class HrExpenseSheet(models.Model):
         """hooks function for do other process"""
         return purchase_requests.button_done()
 
-    def approve_expense_sheets(self):
+    def action_approve_expense_sheets(self):
         purchase_requests = self.mapped("purchase_request_id")
         skip_check_state = self.env.context.get("skip_pr_check", False)
         for purchase_request in purchase_requests:
@@ -276,7 +276,7 @@ class HrExpenseSheet(models.Model):
                     % purchase_request.name
                 )
         self._get_process_pr(purchase_requests)
-        return super().approve_expense_sheets()
+        return super().action_approve_expense_sheets()
 
 
 class HrExpenseSheetPRLine(models.Model):

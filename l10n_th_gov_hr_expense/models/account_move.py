@@ -19,9 +19,7 @@ class AccountMove(models.Model):
 
     def _compute_expense_sheet_count(self):
         for move in self:
-            move.expense_sheet_ids = move.line_ids.mapped("expense_id").mapped(
-                "sheet_id"
-            )
+            move.expense_sheet_ids = move.expense_sheet_id
             move.expense_sheet_count = len(move.expense_sheet_ids)
 
     def action_view_expense_sheet(self):

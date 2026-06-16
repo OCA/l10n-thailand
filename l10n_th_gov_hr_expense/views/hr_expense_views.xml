@@ -10,12 +10,16 @@
             <xpath expr="//field[@name='advance_sheet_id']" position="after">
                 <field
                     name="date_return"
-                    attrs="{'invisible': [('advance', '=', False)], 'required': [('advance', '=', True)]}"
+                    invisible="not advance"
+                    required="advance"
+                    readonly="state != 'draft'"
                 />
                 <field
                     name="clearing_term"
                     widget="radio"
-                    attrs="{'invisible': [('advance', '=', False)], 'required': [('advance', '=', True)]}"
+                    invisible="not advance"
+                    required="advance"
+                    readonly="state != 'draft'"
                 />
                 <field name="clearing_date_due" position="move" />
             </xpath>
@@ -24,29 +28,21 @@
                 <field name="pr_for" invisible="1" />
                 <field
                     name="purchase_request_id"
-                    attrs="{'invisible': [('advance_sheet_id', '!=', False)]}"
+                    invisible="advance_sheet_id"
+                    readonly="state != 'draft'"
                     options="{'no_create_edit': True}"
                     groups="purchase_request.group_purchase_request_user"
                 />
-                <field
-                    name="no_pr_check"
-                    attrs="{'invisible': [('purchase_request_id', '=', False)]}"
-                />
+                <field name="no_pr_check" invisible="not purchase_request_id" />
             </xpath>
             <xpath
-                expr="//field[@name='expense_line_ids']/tree/field[@name='account_id']"
+                expr="//field[@name='expense_line_ids']/list/field[@name='account_id']"
                 position="after"
             >
                 <field name="purchase_type_id" optional="hide" />
             </xpath>
             <xpath
-                expr="//field[@name='expense_line_ids']/tree/field[@name='tax_ids']"
-                position="attributes"
-            >
-                <attribute name="groups" />
-            </xpath>
-            <xpath
-                expr="//field[@name='expense_line_ids']/tree/field[@name='reference']"
+                expr="//field[@name='expense_line_ids']/list/field[@name='tax_ids']"
                 position="attributes"
             >
                 <attribute name="groups" />
@@ -55,24 +51,24 @@
                 <page
                     name="prlines"
                     string="Expense from PR"
-                    attrs="{'invisible': [('pr_line_ids', '=', [])]}"
+                    invisible="not pr_line_ids"
                     groups="purchase_request.group_purchase_request_user"
                 >
                     <p class="oe_grey">
                         By click "Save", expenses based on purchase request lines, will be created into "Expense" tab.
                     </p>
                     <field name="pr_line_ids">
-                        <tree editable="bottom" create="0" delete="1">
+                        <list editable="bottom" create="0" delete="1">
                             <field name="product_id" />
                             <field name="name" />
                             <field name="quantity" />
                             <field name="unit_amount" />
                             <field name="total_amount" />
-                            <field name="currency_id" invisible="1" />
+                            <field name="currency_id" column_invisible="1" />
                             <field name="description" optional="hide" />
                             <field name="reference" optional="hide" />
-                            <field name="pr_line_id" invisible="1" />
-                        </tree>
+                            <field name="pr_line_id" column_invisible="1" />
+                        </list>
                     </field>
                 </page>
             </xpath>
@@ -101,9 +97,6 @@
             <xpath expr="//field[@name='tax_ids']" position="attributes">
                 <attribute name="groups" />
             </xpath>
-            <xpath expr="//field[@name='reference']" position="attributes">
-                <attribute name="groups" />
-            </xpath>
         </field>
     </record>
 
@@ -113,15 +106,9 @@
         <field name="inherit_id" ref="hr_expense.hr_expense_view_form" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='account_id']" position="after">
-                <field
-                    name="purchase_type_id"
-                    attrs="{'readonly': [('is_editable', '=', False)]}"
-                />
+                <field name="purchase_type_id" readonly="not is_editable" />
             </xpath>
             <xpath expr="//field[@name='tax_ids']" position="attributes">
-                <attribute name="groups" />
-            </xpath>
-            <xpath expr="//field[@name='reference']" position="attributes">
                 <attribute name="groups" />
             </xpath>
         </field>

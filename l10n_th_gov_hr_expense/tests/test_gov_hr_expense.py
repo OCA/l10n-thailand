@@ -5,13 +5,18 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import fields
 from odoo.exceptions import UserError
-from odoo.tests.common import Form, TransactionCase
+from odoo.tests import Form, TransactionCase
 
 
 class TestGovHrExpense(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        # purchase_request_id field is restricted to this group
+        cls.env.user.groups_id += cls.env.ref(
+            "purchase_request.group_purchase_request_user"
+        )
         cls.sheet_model = cls.env["hr.expense.sheet"]
         cls.hr_model = cls.env["hr.expense"]
         cls.pr_model = cls.env["purchase.request"]
@@ -27,10 +32,9 @@ class TestGovHrExpense(TransactionCase):
         cls.purchase_type3 = cls.env.ref(
             "l10n_th_gov_purchase_request.purchase_type_003"
         )
-        cls.expense_product = cls.env.ref("hr_expense.product_product_zero_cost")
         cls.partner1 = cls.env.ref("base.res_partner_12")
         cls.employee1 = cls.env.ref("hr.employee_hne")
-        cls.employee1.address_home_id = cls.partner1.id
+        cls.employee1.work_contact_id = cls.partner1.id
         cls.journal_bank = cls.env["account.journal"].search(
             [("type", "=", "bank")], limit=1
         )
@@ -40,9 +44,7 @@ class TestGovHrExpense(TransactionCase):
             {
                 "code": "154000",
                 "name": "Employee Advance",
-                "user_type_id": cls.env.ref(
-                    "account.data_account_type_current_assets"
-                ).id,
+                "account_type": "asset_current",
                 "reconcile": True,
             }
         )
@@ -98,22 +100,22 @@ class TestGovHrExpense(TransactionCase):
         with self.assertRaises(UserError):
             self.purchase_request.button_rejected()
 
-        # Test change unit amount more than PR
+        # Test change total amount more than PR
         with self.assertRaises(UserError):
-            sheet.expense_line_ids.unit_amount = 150.0
+            sheet.expense_line_ids.total_amount_currency = 150.0
             sheet.action_submit_sheet()
         sheet.action_submit_sheet()
         self.assertEqual(sheet.state, "submit")
         # Test change state PR is not approved. it shouldn't approve EX
         with self.assertRaises(UserError):
             self.purchase_request.state = "draft"
-            sheet.approve_expense_sheets()
-        sheet.approve_expense_sheets()
+            sheet.action_approve_expense_sheets()
+        sheet.action_approve_expense_sheets()
         self.assertEqual(sheet.state, "approve")
-        sheet.action_sheet_move_create()
+        sheet.action_sheet_move_post()
         self.assertEqual(sheet.state, "post")
-        self.assertEqual(sheet.account_move_id.expense_sheet_count, 1)
-        move_view_ex = sheet.account_move_id.action_view_expense_sheet()
+        self.assertEqual(sheet.account_move_ids.expense_sheet_count, 1)
+        move_view_ex = sheet.account_move_ids.action_view_expense_sheet()
         self.assertEqual(move_view_ex["res_id"], sheet.id)
 
     def test_02_create_av_ref_pr(self):
@@ -133,12 +135,12 @@ class TestGovHrExpense(TransactionCase):
         advance.clearing_term = "thirty_days_after_receive"
         self.assertFalse(advance.clearing_date_due)
         advance.action_submit_sheet()
-        advance.approve_expense_sheets()
-        advance.action_sheet_move_create()
+        advance.action_approve_expense_sheets()
+        advance.action_sheet_move_post()
 
         ctx = {
-            "active_ids": [advance.account_move_id.id],
-            "active_id": advance.account_move_id.id,
+            "active_ids": advance.account_move_ids.ids,
+            "active_id": advance.account_move_ids.id,
             "active_model": "account.move",
         }
         payment_date = today + relativedelta(days=10)
