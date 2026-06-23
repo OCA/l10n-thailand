@@ -9,7 +9,6 @@
 
 - Add feature to stamp analytic in all asset move line.
 
-15.0.1.0.0 (2023-01-30)
-~~~~~~~~~~~~~~~~~~~~~~~
+## 15.0.1.0.0 (2023-01-30)
 
 First version.

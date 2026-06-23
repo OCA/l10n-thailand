@@ -48,7 +48,7 @@ class AccountAsset(models.Model):
         for asset in self:
             name = asset.name
             if asset.number:
-                name = "[{}] {}".format(asset.number, name)
+                name = f"[{asset.number}] {name}"
             result.append((asset.id, name))
         return result
 
