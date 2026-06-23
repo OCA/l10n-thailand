@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ================================================
 Thai Localization - Government Assets Management
 ================================================
@@ -17,36 +13,43 @@ Thai Localization - Government Assets Management
 .. |badge1| image:: https://img.shields.io/badge/maturity-Alpha-red.png
     :target: https://odoo-community.org/page/development-status
     :alt: Alpha
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-thailand/tree/15.0/l10n_th_gov_account_asset_management
+    :target: https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_gov_account_asset_management
     :alt: OCA/l10n-thailand
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-thailand-15-0/l10n-thailand-15-0-l10n_th_gov_account_asset_management
+    :target: https://translation.odoo-community.org/projects/l10n-thailand-18-0/l10n-thailand-18-0-l10n_th_gov_account_asset_management
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&target_branch=15.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module adds the following features to asset management, aimed to follow Thai Government regulations.
+This module adds the following features to asset management, aimed to
+follow Thai Government regulations.
 
 1. Asset Start Date from Accepted Date. (if any)
+
 2. Add a feature to remove multi assets at the same time.
+
 3. Add following fields to Asset
-    - Purchase Order
-    - Removed Reason
-    - Employee
-    - Location
-    - Serial Number
-    - Guarantee
-    - Model
-    - Brand
+
+   - Purchase Order
+   - Removed Reason
+   - Employee
+   - Location
+   - Serial Number
+   - Guarantee
+   - Model
+   - Brand
+
 4. Change the display name of the asset.
+
 5. Pass the asset number to the reference of the journal entry.
+
 6. Add asset profile to purchase order line.
 
 .. IMPORTANT::
@@ -74,7 +77,7 @@ Changelog
 - Add feature to stamp analytic in all asset move line.
 
 15.0.1.0.0 (2023-01-30)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 First version.
 
@@ -84,7 +87,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-thailand/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_gov_account_asset_management%0Aversion:%2015.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_gov_account_asset_management%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -92,20 +95,20 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Ecosoft
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `Ecosoft <http://ecosoft.co.th>`__:
+- `Ecosoft <http://ecosoft.co.th>`__:
 
-  * Pimolnat Suntian <pimolnats@ecosoft.co.th>
-  * Saran Lim. <saranl@ecosoft.co.th>
+  - Pimolnat Suntian <pimolnats@ecosoft.co.th>
+  - Saran Lim. <saranl@ecosoft.co.th>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -125,6 +128,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-ps-tubtim| 
 
-This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/15.0/l10n_th_gov_account_asset_management>`_ project on GitHub.
+This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_gov_account_asset_management>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

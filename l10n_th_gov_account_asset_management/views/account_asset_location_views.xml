@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-   <record id="account_asset_location_view_form" model="ir.ui.view">
+    <record id="account_asset_location_view_form" model="ir.ui.view">
         <field name="name">account.asset.location.form</field>
         <field name="model">account.asset.location</field>
         <field name="arch" type="xml">
