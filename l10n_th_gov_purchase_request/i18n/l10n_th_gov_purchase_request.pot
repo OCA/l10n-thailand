@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -162,14 +162,6 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_th_gov_purchase_request
-#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee____last_update
-#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_method____last_update
-#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_type____last_update
-#: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_type____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: l10n_th_gov_purchase_request
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_committee__write_uid
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_method__write_uid
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_procurement_type__write_uid
@@ -198,8 +190,8 @@ msgid "Note"
 msgstr ""
 
 #. module: l10n_th_gov_purchase_request
+#. odoo-python
 #: code:addons/l10n_th_gov_purchase_request/wizards/purchase_request_line_make_purchase_requisition.py:0
-#, python-format
 msgid "Only approved document is allowed to create purchase agreement"
 msgstr ""
 
@@ -213,6 +205,11 @@ msgstr ""
 #. module: l10n_th_gov_purchase_request
 #: model:ir.model.fields,field_description:l10n_th_gov_purchase_request.field_purchase_request__procurement_committee_ids
 msgid "Procurement Committees"
+msgstr ""
+
+#. module: l10n_th_gov_purchase_request
+#: model:ir.ui.menu,name:l10n_th_gov_purchase_request.menu_procurement_government
+msgid "Procurement Government"
 msgstr ""
 
 #. module: l10n_th_gov_purchase_request
@@ -289,8 +286,8 @@ msgid "Purchase Types"
 msgstr ""
 
 #. module: l10n_th_gov_purchase_request
+#. odoo-python
 #: code:addons/l10n_th_gov_purchase_request/models/purchase_type.py:0
-#, python-format
 msgid "Purchase type must have only one default."
 msgstr ""
 
@@ -305,8 +302,8 @@ msgid "Role"
 msgstr ""
 
 #. module: l10n_th_gov_purchase_request
+#. odoo-python
 #: code:addons/l10n_th_gov_purchase_request/wizards/purchase_request_line_make_purchase_requisition.py:0
-#, python-format
 msgid ""
 "Selected document's purchase type is not allowed to create purchase "
 "agreement"
@@ -360,16 +357,6 @@ msgid "Type of purchase"
 msgstr ""
 
 #. module: l10n_th_gov_purchase_request
-#: model:product.product,uom_name:l10n_th_gov_purchase_request.product_type_001
-#: model:product.product,uom_name:l10n_th_gov_purchase_request.product_type_002
-#: model:product.product,uom_name:l10n_th_gov_purchase_request.product_type_003
-#: model:product.template,uom_name:l10n_th_gov_purchase_request.product_type_001_product_template
-#: model:product.template,uom_name:l10n_th_gov_purchase_request.product_type_002_product_template
-#: model:product.template,uom_name:l10n_th_gov_purchase_request.product_type_003_product_template
-msgid "Units"
-msgstr ""
-
-#. module: l10n_th_gov_purchase_request
 #: model:base.substate,name:l10n_th_gov_purchase_request.base_substate_verified
 msgid "Verified"
 msgstr ""
@@ -416,16 +403,16 @@ msgid "Work Phone"
 msgstr ""
 
 #. module: l10n_th_gov_purchase_request
+#. odoo-python
 #: code:addons/l10n_th_gov_purchase_request/models/purchase_request.py:0
-#, python-format
 msgid ""
 "You are not allowed to reject a document that has already been approved.\n"
 "Please contact the Procurement."
 msgstr ""
 
 #. module: l10n_th_gov_purchase_request
+#. odoo-python
 #: code:addons/l10n_th_gov_purchase_request/models/purchase_request.py:0
-#, python-format
 msgid ""
 "You are not allowed to reset a document that has already been approved.\n"
 "Please contact the Procurement."
@@ -447,7 +434,6 @@ msgid "คณะกรรมการมากกว่า 1 คน ต้อง
 msgstr ""
 
 #. module: l10n_th_gov_purchase_request
-#: model:product.product,name:l10n_th_gov_purchase_request.product_type_002
 #: model:product.template,name:l10n_th_gov_purchase_request.product_type_002_product_template
 msgid "จ้างที่ปรึกษา"
 msgstr ""
@@ -463,7 +449,6 @@ msgid "จ้างที่ปรึกษา ต้องมีกรรมก
 msgstr ""
 
 #. module: l10n_th_gov_purchase_request
-#: model:product.product,name:l10n_th_gov_purchase_request.product_type_003
 #: model:product.template,name:l10n_th_gov_purchase_request.product_type_003_product_template
 msgid "จ้างออกแบบและควบคุมงานก่อสร้าง"
 msgstr ""
@@ -480,7 +465,6 @@ msgid "จ้างออกแบบและควบคุมงานก่�
 msgstr ""
 
 #. module: l10n_th_gov_purchase_request
-#: model:product.product,name:l10n_th_gov_purchase_request.product_type_001
 #: model:product.template,name:l10n_th_gov_purchase_request.product_type_001_product_template
 msgid "ซื้อ/จ้าง/เช่า"
 msgstr ""
