@@ -1,15 +1,15 @@
 <odoo>
-    <record id="procurement_type_view_tree" model="ir.ui.view">
-        <field name="name">procurement.type.view.tree</field>
+    <record id="procurement_type_view_list" model="ir.ui.view">
+        <field name="name">procurement.type.view.list</field>
         <field name="model">procurement.type</field>
         <field name="arch" type="xml">
-            <tree decoration-muted="active == False">
+            <list decoration-muted="active == False">
                 <field name="sequence" widget="handle" />
                 <field name="active" invisible="True" />
                 <field name="name" />
                 <field name="description" />
                 <field name="product_id" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -24,7 +24,7 @@
                         name="web_ribbon"
                         title="Archived"
                         bg_color="bg-danger"
-                        attrs="{'invisible': [('active', '=', True)]}"
+                        invisible="active"
                     />
                     <field name="active" invisible="1" />
                     <group>
@@ -45,15 +45,7 @@
         <field name="name">Procurement Types</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">procurement.type</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="procurement_type_view_tree" />
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="procurement_type_view_list" />
     </record>
-
-    <menuitem
-        id="procurement_type_menu"
-        parent="purchase.menu_purchase_config"
-        sequence="51"
-        action="procurement_type_action"
-        groups="purchase.group_purchase_manager"
-    />
 </odoo>

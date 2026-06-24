@@ -1,7 +1,7 @@
 # Copyright 2021 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -35,7 +35,6 @@ class PurchaseType(models.Model):
     visible_on_expense = fields.Boolean(string="Expense")
     is_default = fields.Boolean(
         string="Default",
-        default=False,
         help="Default purchase type on the purchase request",
     )
     procurement_method_ids = fields.Many2many(
@@ -48,6 +47,8 @@ class PurchaseType(models.Model):
 
     @api.constrains("active", "is_default")
     def _check_is_default(self):
-        purchase_types = self.env["purchase.type"].search([("is_default", "=", True)])
-        if len(purchase_types) > 1:
-            raise UserError(_("Purchase type must have only one default."))
+        purchase_types = self.env["purchase.type"].search_count(
+            [("is_default", "=", True)]
+        )
+        if purchase_types > 1:
+            raise UserError(self.env._("Purchase type must have only one default."))

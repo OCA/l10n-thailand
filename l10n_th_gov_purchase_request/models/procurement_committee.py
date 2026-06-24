@@ -64,4 +64,4 @@ class ProcurementCommittee(models.Model):
     @api.depends("employee_id")
     def _compute_default_name(self):
         for rec in self:
-            rec.name = rec.employee_id.display_name if rec.employee_id else ""
+            rec.name = rec.employee_id.display_name or ""

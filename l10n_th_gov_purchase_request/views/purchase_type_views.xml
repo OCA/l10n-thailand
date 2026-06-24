@@ -1,9 +1,9 @@
 <odoo>
-    <record id="purchase_type_view_tree" model="ir.ui.view">
-        <field name="name">purchase.type.view.tree</field>
+    <record id="purchase_type_view_list" model="ir.ui.view">
+        <field name="name">purchase.type.view.list</field>
         <field name="model">purchase.type</field>
         <field name="arch" type="xml">
-            <tree decoration-muted="active == False">
+            <list decoration-muted="active == False">
                 <field name="sequence" widget="handle" />
                 <field name="active" invisible="True" />
                 <field name="name" />
@@ -13,7 +13,7 @@
                 <field name="is_default" />
                 <field name="procurement_method_ids" widget="many2many_tags" />
                 <field name="description" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -28,7 +28,7 @@
                         name="web_ribbon"
                         title="Archived"
                         bg_color="bg-danger"
-                        attrs="{'invisible': [('active', '=', True)]}"
+                        invisible="active"
                     />
                     <field name="active" invisible="1" />
                     <div class="oe_title">
@@ -66,15 +66,7 @@
         <field name="name">Purchase Types</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">purchase.type</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="purchase_type_view_tree" />
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="purchase_type_view_list" />
     </record>
-
-    <menuitem
-        id="purchase_type_menu"
-        parent="purchase.menu_purchase_config"
-        sequence="51"
-        action="purchase_type_action"
-        groups="purchase.group_purchase_manager"
-    />
 </odoo>

@@ -1,7 +1,7 @@
 # Copyright 2021 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -143,9 +143,9 @@ class PurchaseRequest(models.Model):
             "l10n_th_gov_purchase_request.base_substate_verified"
         )
         return self.filtered(
-            lambda l: (
-                l.state in ["approved", "done"]
-                or (l.state == "to_approve" and l.substate_id == substate_verify)
+            lambda pr: (
+                pr.state in ["approved", "in_progress", "done"]
+                or (pr.state == "to_approve" and pr.substate_id == substate_verify)
             )
             and not po_manager
             and not self._context.get("bypass_pr_reject")
@@ -156,9 +156,9 @@ class PurchaseRequest(models.Model):
         procurement approved by procurement only."""
         if self._get_condition_reset_reject():
             raise UserError(
-                _(
-                    "You are not allowed to reject a document that has already been approved.\n"
-                    "Please contact the Procurement."
+                self.env._(
+                    "You are not allowed to reject a document that has "
+                    "already been approved.\nPlease contact the Procurement."
                 )
             )
         return super().button_rejected()
@@ -168,9 +168,9 @@ class PurchaseRequest(models.Model):
         procurement approved by procurement only."""
         if self._get_condition_reset_reject():
             raise UserError(
-                _(
-                    "You are not allowed to reset a document that has already been approved.\n"
-                    "Please contact the Procurement."
+                self.env._(
+                    "You are not allowed to reset a document that has "
+                    "already been approved.\nPlease contact the Procurement."
                 )
             )
         return super().button_draft()

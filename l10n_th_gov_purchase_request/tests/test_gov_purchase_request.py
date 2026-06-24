@@ -1,7 +1,7 @@
 # Copyright 2022 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.exceptions import UserError
 from odoo.tests import Form, common
 
@@ -36,13 +36,11 @@ class TestGovPurchaseRequest(common.TransactionCase):
                 "procurement_type_id": self.procurement_type1.id,
                 "procurement_method_id": self.procurement_method1.id,
                 "line_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "estimated_cost": 100.0,
                             "product_qty": 1,
-                        },
+                        }
                     )
                 ],
             }
@@ -86,7 +84,8 @@ class TestGovPurchaseRequest(common.TransactionCase):
             purchase_request.work_acceptance_committee_ids[0].name,
             self.employee1.display_name,
         )
-        # Test open purchase agreement with purchase request state draft, it should error
+        # Test open purchase agreement with purchase request state draft,
+        # it should error
         with self.assertRaises(UserError):
             self.wiz.with_context(
                 active_model="purchase.request.line",
@@ -120,7 +119,9 @@ class TestGovPurchaseRequest(common.TransactionCase):
                     "name": "New Type",
                     "to_create": "purchase_agreement",
                     "is_default": True,
-                    "procurement_method_ids": [(6, 0, [self.procurement_method1.id])],
+                    "procurement_method_ids": [
+                        Command.set([self.procurement_method1.id])
+                    ],
                 }
             )
         # it should select procurement method following purchase type
@@ -135,9 +136,7 @@ class TestGovPurchaseRequest(common.TransactionCase):
         purchase_request.write(
             {
                 "line_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "estimated_cost": 100.0,
                             "product_qty": 1,
@@ -145,9 +144,7 @@ class TestGovPurchaseRequest(common.TransactionCase):
                     )
                 ],
                 "work_acceptance_committee_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "employee_id": self.employee1.id,
                             "name": self.employee1.display_name,
