@@ -31,16 +31,14 @@ class PurchaseReportWizard(models.TransientModel):
 
     def _get_where_purchase_report(self):
         where_domain = (
-            "WHERE company_id = {} and date_signed >= '{}' "
-            "and date_signed <= '{}'".format(
-                self.company_id.id, self.date_from, self.date_to
-            )
+            f"WHERE company_id = {self.company_id.id} and date_signed >= '{self.date_from}' "
+            f"and date_signed <= '{self.date_to}'"
         )
         return where_domain
 
     def _get_query_purchase_report(self):
         self._cr.execute(
-            """
+            f"""
             SELECT *
             FROM (
                 SELECT
@@ -70,10 +68,8 @@ class PurchaseReportWizard(models.TransientModel):
                 WHERE po.state in ('purchase', 'done')
                 GROUP BY pa.id, po.id, agm.id
                 ORDER BY pa.id, agm.id desc
-            ) report {}
-            """.format(
-                self._get_where_purchase_report()
-            )
+            ) report {self._get_where_purchase_report()}
+            """
         )
         return self.env.cr.dictfetchall()
 

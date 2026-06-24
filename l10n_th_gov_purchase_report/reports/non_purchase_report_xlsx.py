@@ -194,8 +194,8 @@ class ReportNonPurchaseReportXlsx(models.AbstractModel):
         # Subcolumn header details (Row 6)
         ws.merge_range("F5:G5", "เอกสารอ้างอิง", format_theader_blue_center)
         row_pos += 1
-        ws.write_string("F{}".format(row_pos), "เลขที่", format_theader_blue_center)
-        ws.write_string("G{}".format(row_pos), "วันที่", format_theader_blue_center)
+        ws.write_string(f"F{row_pos}", "เลขที่", format_theader_blue_center)
+        ws.write_string(f"G{row_pos}", "วันที่", format_theader_blue_center)
         ws.freeze_panes(row_pos, 0)
         # Column Detail (Row 7+)
         for i, line in enumerate(objects.results):

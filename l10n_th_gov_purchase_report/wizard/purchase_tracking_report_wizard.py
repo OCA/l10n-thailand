@@ -31,27 +31,23 @@ class PurchaseTrackingReportWizard(models.TransientModel):
     def _get_where_purchase_report(self):
         # Users can see report with requested by yourself only
         if not self.env.user.has_group("purchase.group_purchase_user"):
-            filter_user = "AND requested_by = {}".format(self.env.user.id)
+            filter_user = f"AND requested_by = {self.env.user.id}"
         else:  # Procurement can see all users, if not filter user
             if not self.requested_by:
                 filter_user = ""
             elif len(self.requested_by) > 1:
-                filter_user = "AND requested_by in {}".format(
-                    tuple(self.requested_by.ids)
-                )
+                filter_user = f"AND requested_by in {tuple(self.requested_by.ids)}"
             else:
-                filter_user = "AND requested_by = {}".format(self.requested_by.id)
+                filter_user = f"AND requested_by = {self.requested_by.id}"
         where_domain = (
-            "WHERE company_id = {} AND date_start >= '{}' "
-            "AND date_start <= '{}' {}".format(
-                self.company_id.id, self.date_from, self.date_to, filter_user
-            )
+            f"WHERE company_id = {self.company_id.id} AND date_start >= '{self.date_from}' "
+            f"AND date_start <= '{self.date_to}' {filter_user}"
         )
         return where_domain
 
     def _get_query_purchase_tracking(self):
         self._cr.execute(
-            """
+            f"""
             SELECT
                 ROW_NUMBER() OVER(order by pr_table.id, po_table.id, po_table.te_id,
                     po_table.wa_id, po_table.move_id) AS id,
@@ -63,7 +59,7 @@ class PurchaseTrackingReportWizard(models.TransientModel):
                 -- PR
                 SELECT pr.id
                 FROM purchase_request pr
-                {}
+                {self._get_where_purchase_report()}
             ) pr_table
             LEFT JOIN(
                 -- PO
@@ -103,9 +99,7 @@ class PurchaseTrackingReportWizard(models.TransientModel):
                     AND pr_line.request_id IS NOT NULL
             )
             ORDER BY pr_id, po_id, wa_id
-            """.format(
-                self._get_where_purchase_report()
-            )
+            """
         )
         return self.env.cr.dictfetchall()
 

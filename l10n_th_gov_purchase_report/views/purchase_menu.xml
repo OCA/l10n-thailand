@@ -16,5 +16,4 @@
         parent="purchase_request.parent_menu_purchase_request"
         groups="purchase_request.group_purchase_request_user"
     />
-
 </odoo>

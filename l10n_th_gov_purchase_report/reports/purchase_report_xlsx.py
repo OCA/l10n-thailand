@@ -163,7 +163,7 @@ class ReportPurchaseReportXlsx(models.AbstractModel):
         list_price = []
         for po in (line.requisition_id.purchase_ids).sorted("amount_total"):
             list_vendor.append(po.partner_id.name)
-            list_price.append("{:,.2f}".format(po.amount_total))
+            list_price.append(f"{po.amount_total:,.2f}")
         vendor_offer = ", \n".join(list_vendor)
         price_offer = ", \n".join(list_price)
         return {
@@ -267,18 +267,10 @@ class ReportPurchaseReportXlsx(models.AbstractModel):
             format_theader_blue_center,
         )
         row_pos += 1
-        ws.write_string(
-            "F{}".format(row_pos), "ชื่อผู้เสนอราคา", format_theader_blue_center
-        )
-        ws.write_string(
-            "G{}".format(row_pos), "ราคาที่เสนอ (บาท)", format_theader_blue_center
-        )
-        ws.write_string(
-            "H{}".format(row_pos), "ผู้ได้รับคัดเลือก", format_theader_blue_center
-        )
-        ws.write_string(
-            "I{}".format(row_pos), "จำนวนเงิน (บาท)", format_theader_blue_center
-        )
+        ws.write_string(f"F{row_pos}", "ชื่อผู้เสนอราคา", format_theader_blue_center)
+        ws.write_string(f"G{row_pos}", "ราคาที่เสนอ (บาท)", format_theader_blue_center)
+        ws.write_string(f"H{row_pos}", "ผู้ได้รับคัดเลือก", format_theader_blue_center)
+        ws.write_string(f"I{row_pos}", "จำนวนเงิน (บาท)", format_theader_blue_center)
 
         ws.freeze_panes(row_pos, 0)
         # Column Detail
