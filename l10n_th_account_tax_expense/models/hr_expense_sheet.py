@@ -35,24 +35,16 @@ class HrExpenseSheet(models.Model):
     def action_sheet_move_post(self):
         """Update tax invoice from expense"""
         for sheet in self:
-            tax_invoices = sheet.account_move_ids.tax_invoice_ids.filtered(
+            purchase_tax_invoices = sheet.account_move_ids.tax_invoice_ids.filtered(
                 lambda tax: tax.tax_line_id.type_tax_use == "purchase"
             )
-            for tax_invoice in tax_invoices:
+            # Validate that purchase tax invoices have an expense with the
+            # required tax info, then propagate it onto the tax invoices.
+            for tax_invoice in purchase_tax_invoices:
                 expense = tax_invoice.move_line_id.expense_id
-
-                # Check tax_number and tax_date expense don't empty
                 if not (expense.tax_number and expense.tax_date):
                     raise UserError(_("Please fill in tax invoice and tax date"))
-
-                tax_dict = {
-                    "tax_invoice_number": expense.tax_number,
-                    "tax_invoice_date": expense.tax_date,
-                }
-                bill_partner = expense.bill_partner_id
-                if bill_partner:
-                    tax_dict["partner_id"] = bill_partner.id
-                tax_invoice.write(tax_dict)
+            sheet.account_move_ids._sync_expense_tax_invoice()
         return super().action_sheet_move_post()
 
     def action_create_withholding_tax_entry(self):
