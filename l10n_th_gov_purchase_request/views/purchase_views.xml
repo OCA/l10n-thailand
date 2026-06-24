@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem
+        id="menu_procurement_government"
+        name="Procurement Government"
+        parent="purchase.menu_purchase_config"
+        sequence="60"
+    />
+
+    <!-- Submenu Procurement Government -->
+    <menuitem
+        id="procurement_method_menu"
+        parent="menu_procurement_government"
+        sequence="10"
+        action="procurement_method_action"
+        groups="purchase.group_purchase_manager"
+    />
+
+    <menuitem
+        id="procurement_type_menu"
+        parent="menu_procurement_government"
+        sequence="20"
+        action="procurement_type_action"
+        groups="purchase.group_purchase_manager"
+    />
+
+    <menuitem
+        id="purchase_type_menu"
+        parent="menu_procurement_government"
+        sequence="30"
+        action="purchase_type_action"
+        groups="purchase.group_purchase_manager"
+    />
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- to_approve -->
+    <record
+        id="purchase_request_substate.base_substate_to_verify"
+        model="base.substate"
+    >
+        <field name="active" eval="False" />
+    </record>
+    <record id="purchase_request_substate.base_substate_checked" model="base.substate">
+        <field name="active" eval="False" />
+    </record>
+    <record id="purchase_request_substate.base_substate_verified" model="base.substate">
+        <field name="active" eval="False" />
+    </record>
+</odoo>
