@@ -4,8 +4,6 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from odoo.addons.account_asset_management.models.account_asset import READONLY_STATES
-
 
 class AccountAsset(models.Model):
     _inherit = "account.asset"
@@ -13,7 +11,6 @@ class AccountAsset(models.Model):
     purchase_id = fields.Many2one(
         comodel_name="purchase.order",
         string="Purchase Order",
-        states=READONLY_STATES,
         index=True,
     )
     remove_reason = fields.Char(string="Removed Reason")
@@ -43,14 +40,12 @@ class AccountAsset(models.Model):
     )
 
     @api.depends("name", "number")
-    def name_get(self):
-        result = []
+    def _compute_display_name(self):
         for asset in self:
             name = asset.name
             if asset.number:
                 name = f"[{asset.number}] {name}"
-            result.append((asset.id, name))
-        return result
+            asset.display_name = name
 
     def _check_can_remove_multi(self):
         if any(asset.state not in ["open", "close"] for asset in self):
@@ -86,6 +81,7 @@ class AccountAsset(models.Model):
             # Cannot removing mixed assets
             raise UserError(
                 _(
-                    "You cannot remove low value assets and other assets at the same time!"
+                    "You cannot remove low value assets"
+                    " and other assets at the same time!"
                 )
             )

@@ -10,7 +10,7 @@ class AccountMove(models.Model):
     def _prepare_asset_vals(self, aml):
         res = super()._prepare_asset_vals(aml)
         # Update purchase order
-        res.update({"purchase_id": aml.purchase_order_id})
+        res.update({"purchase_id": aml.purchase_order_id.id})
         # Use accepted date as start date
         work_acceptance = aml.move_id.wa_id
         if work_acceptance:

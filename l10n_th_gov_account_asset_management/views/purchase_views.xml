@@ -6,13 +6,13 @@
         <field name="inherit_id" ref="purchase.purchase_order_form" />
         <field name="arch" type="xml">
             <xpath
-                expr="//field[@name='order_line']/tree//field[@name='analytic_tag_ids']"
+                expr="//field[@name='order_line']/list//field[@name='analytic_distribution']"
                 position="after"
             >
                 <field name="asset_profile_id" />
             </xpath>
             <xpath
-                expr="//field[@name='order_line']/form//field[@name='analytic_tag_ids']"
+                expr="//field[@name='order_line']/form//field[@name='analytic_distribution']"
                 position="after"
             >
                 <field name="asset_profile_id" />
