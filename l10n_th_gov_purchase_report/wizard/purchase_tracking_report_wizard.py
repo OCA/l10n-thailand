@@ -39,14 +39,17 @@ class PurchaseTrackingReportWizard(models.TransientModel):
                 filter_user = f"AND requested_by in {tuple(self.requested_by.ids)}"
             else:
                 filter_user = f"AND requested_by = {self.requested_by.id}"
+        company_id = self.company_id.id
+        date_from = self.date_from
+        date_to = self.date_to
         where_domain = (
-            f"WHERE company_id = {self.company_id.id} AND date_start >= '{self.date_from}' "
-            f"AND date_start <= '{self.date_to}' {filter_user}"
+            f"WHERE company_id = {company_id} AND date_start >= '{date_from}' "
+            f"AND date_start <= '{date_to}' {filter_user}"
         )
         return where_domain
 
     def _get_query_purchase_tracking(self):
-        self._cr.execute(
+        self.env.cr.execute(
             f"""
             SELECT
                 ROW_NUMBER() OVER(order by pr_table.id, po_table.id, po_table.te_id,
@@ -82,7 +85,8 @@ class PurchaseTrackingReportWizard(models.TransientModel):
             ) po_table ON pr_table.id = po_table.pr_id
             UNION(
                 -- TE
-                SELECT 1000000000 + te.id as id, pr_line.request_id as pr_id, po.id as po_id,
+                SELECT 1000000000 + te.id as id,
+                    pr_line.request_id as pr_id, po.id as po_id,
                     te.id as te_id, null::integer as agm_id, null::integer as wa_id,
                     null::integer as move_id
                 FROM purchase_requisition te

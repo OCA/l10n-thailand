@@ -125,7 +125,7 @@ class ReportNonPurchaseReportXlsx(models.AbstractModel):
             "partner": line.bill_partner_id.display_name or "",
             "description": line.name or "",
             "total_amount": line.total_amount or 0,
-            "doc_ref_no": line.reference or "",
+            "doc_ref_no": line.pr_line_id.specifications or "",
             "doc_ref_date": self.format_date_dmy(
                 line.date, format_date="{day}/{month}/{year}"
             )

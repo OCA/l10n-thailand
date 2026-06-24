@@ -303,7 +303,7 @@ class ReportPurchaseTrackingReportXlsx(models.AbstractModel):
         rfq_number = po.name if po.state == "draft" else po.rfq_number
         payment_state_dict = dict(PAYMENT_STATE_SELECTION)
         invoice_plan = po.invoice_plan_ids.filtered(
-            lambda l: l.invoice_type == "installment"
+            lambda plan: plan.invoice_type == "installment"
         )
         # Check multi currency
         estimated_cost = pr.estimated_cost

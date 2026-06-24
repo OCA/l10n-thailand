@@ -30,14 +30,17 @@ class PurchaseReportWizard(models.TransientModel):
             self.results += ReportLine.new(line)
 
     def _get_where_purchase_report(self):
+        company_id = self.company_id.id
+        date_from = self.date_from
+        date_to = self.date_to
         where_domain = (
-            f"WHERE company_id = {self.company_id.id} and date_signed >= '{self.date_from}' "
-            f"and date_signed <= '{self.date_to}'"
+            f"WHERE company_id = {company_id} and date_signed >= '{date_from}' "
+            f"and date_signed <= '{date_to}'"
         )
         return where_domain
 
     def _get_query_purchase_report(self):
-        self._cr.execute(
+        self.env.cr.execute(
             f"""
             SELECT *
             FROM (

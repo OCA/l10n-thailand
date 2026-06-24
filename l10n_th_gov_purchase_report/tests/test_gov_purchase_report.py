@@ -5,8 +5,7 @@ import datetime
 
 from dateutil.rrule import MONTHLY
 
-from odoo.tests import tagged
-from odoo.tests.common import Form
+from odoo.tests import Form, tagged
 
 from odoo.addons.l10n_th_gov_purchase_request.tests.test_gov_purchase_request import (
     TestGovPurchaseRequest,
@@ -27,9 +26,12 @@ class TestGovPurchaseReport(TestGovPurchaseRequest):
         cls.common_purchase_report = cls.env["common.purchase.report.xlsx"]
         cls.company = cls.env.company
 
+        cls.env.user.groups_id += cls.env.ref(
+            "purchase_request.group_purchase_request_user"
+        )
         cls.product = cls.env.ref("l10n_th_gov_purchase_request.product_type_001")
         cls.partner1 = cls.env.ref("base.res_partner_12")
-        cls.employee1.address_home_id = cls.partner1.id
+        cls.employee1.work_contact_id = cls.partner1.id
         cls.purchase_type1 = cls.env.ref(
             "l10n_th_gov_purchase_request.purchase_type_001"
         )
@@ -184,6 +186,7 @@ class TestGovPurchaseReport(TestGovPurchaseRequest):
             "l10n_th_gov_purchase_report.action_print_report_purchase_xlsx"
         )
         report_xlsx = action._render_xlsx(
+            action.report_name,
             report["context"]["active_ids"],
             {
                 "data": "['/report/xlsx/{}/{}','xlsx']".format(
@@ -214,8 +217,8 @@ class TestGovPurchaseReport(TestGovPurchaseRequest):
         # Update accounting date on expense is start date
         sheet.accounting_date = self.date_range.date_start
         sheet.action_submit_sheet()
-        sheet.approve_expense_sheets()
-        sheet.action_sheet_move_create()
+        sheet.action_approve_expense_sheets()
+        sheet.action_sheet_move_post()
         # Test change date range
         with Form(self.non_po_report_wiz) as non_po_wiz:
             non_po_wiz.date_range_id = self.date_range
@@ -236,6 +239,7 @@ class TestGovPurchaseReport(TestGovPurchaseRequest):
             "l10n_th_gov_purchase_report.action_print_report_non_purchase_xlsx"
         )
         report_xlsx = action._render_xlsx(
+            action.report_name,
             report["context"]["active_ids"],
             {
                 "data": "['/report/xlsx/{}/{}','xlsx']".format(
@@ -272,6 +276,7 @@ class TestGovPurchaseReport(TestGovPurchaseRequest):
             "l10n_th_gov_purchase_report.action_print_report_po_tracking_xlsx"
         )
         report_xlsx = action._render_xlsx(
+            action.report_name,
             report["context"]["active_ids"],
             {
                 "data": "['/report/xlsx/{}/{}','xlsx']".format(
