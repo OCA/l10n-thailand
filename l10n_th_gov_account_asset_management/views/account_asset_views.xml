@@ -16,7 +16,7 @@
                 <field
                     name="remove_reason"
                     readonly="True"
-                    attrs="{'invisible':['|', ('date_remove', '=', False), ('state', '!=', 'removed')]}"
+                    invisible="not date_remove or state != 'removed'"
                 />
             </xpath>
             <!-- New Tabs -->
@@ -50,11 +50,11 @@
                 </page>
                 <page name="asset_maintenance" string="Maintenance">
                     <field name="maintenance_line_ids">
-                        <tree editable="bottom" default_order="date_maintenance, id">
+                        <list editable="bottom" default_order="date_maintenance, id">
                             <field name="date_maintenance" />
                             <field name="ref" />
                             <field name="description" />
-                        </tree>
+                        </list>
                         <form string="Maintenance Lines">
                             <group>
                                 <group>
