@@ -21,39 +21,39 @@ class ReportThaiTaxXlsx(models.TransientModel):
 
     def _get_tax_template(self):
         return {
-            "1_index": {
+            "01_index": {
                 "header": {"value": "#"},
                 "data": {"value": self._render("index")},
                 "width": 3,
             },
-            "2_tax_date": {
+            "02_tax_date": {
                 "header": {"value": "Date"},
                 "data": {
                     "value": self._render("tax_date"),
                 },
                 "width": 12,
             },
-            "3_tax_invoice": {
+            "03_tax_invoice": {
                 "header": {"value": "Number"},
                 "data": {"value": self._render("tax_invoice_number")},
                 "width": 18,
             },
-            "4_partner_name": {
+            "04_partner_name": {
                 "header": {"value": "Cust./Sup."},
                 "data": {"value": self._render("partner_name")},
                 "width": 30,
             },
-            "5_partner_vat": {
+            "05_partner_vat": {
                 "header": {"value": "Tax ID"},
                 "data": {"value": self._render("partner_vat")},
                 "width": 15,
             },
-            "6_partner_branch": {
+            "06_partner_branch": {
                 "header": {"value": "Branch ID"},
                 "data": {"value": self._render("partner_branch")},
                 "width": 12,
             },
-            "7_tax_base_amount": {
+            "07_tax_base_amount": {
                 "header": {"value": "Base Amount"},
                 "data": {
                     "value": self._render("tax_base_amount"),
@@ -61,7 +61,7 @@ class ReportThaiTaxXlsx(models.TransientModel):
                 },
                 "width": 21,
             },
-            "8_tax_amount": {
+            "08_tax_amount": {
                 "header": {"value": "Tax Amount"},
                 "data": {
                     "value": self._render("tax_amount"),
@@ -69,9 +69,14 @@ class ReportThaiTaxXlsx(models.TransientModel):
                 },
                 "width": 21,
             },
-            "9_doc_ref": {
+            "09_doc_ref": {
                 "header": {"value": "Doc Ref."},
                 "data": {"value": self._render("doc_ref")},
+                "width": 18,
+            },
+            "10_doc_number": {
+                "header": {"value": "Doc Number"},
+                "data": {"value": self._render("doc_number")},
                 "width": 18,
             },
         }
@@ -114,6 +119,7 @@ class ReportThaiTaxXlsx(models.TransientModel):
             "tax_base_amount": line["tax_base_amount"] or 0.00,
             "tax_amount": line["tax_amount"] or 0.00,
             "doc_ref": line["name"] or "",
+            "doc_number": line["move_name"] or "",
         }
 
     def _write_ws_lines(self, row_pos, ws, ws_params, tax_report_data):
@@ -137,7 +143,7 @@ class ReportThaiTaxXlsx(models.TransientModel):
         return row_pos
 
     def _write_ws_footer(self, row_pos, ws, ws_params, res_data):
-        col_end = ws_params["wanted_list"].index("7_tax_base_amount")
+        col_end = ws_params["wanted_list"].index("07_tax_base_amount")
         ws.merge_range(row_pos, 0, row_pos, col_end - 1, "")
         ws.write_row(
             row_pos, 0, ["Total Balance"], FORMATS["format_theader_blue_right"]
@@ -148,6 +154,7 @@ class ReportThaiTaxXlsx(models.TransientModel):
             [
                 res_data["total_base"],
                 res_data["total_tax"],
+                "",
                 "",
             ],
             FORMATS["format_theader_blue_amount_right"],

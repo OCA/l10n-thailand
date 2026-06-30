@@ -242,7 +242,7 @@
                                             <span t-out="line['tax_invoice_number']" />
                                         </td>
                                         <td class="text-center">
-                                            <t t-out="line['name']" />
+                                            <t t-out="line['move_name']" />
                                         </td>
                                         <td>
                                             <span t-out="line['partner_name']" />
