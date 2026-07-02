@@ -9,9 +9,35 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     def _post(self, soft=True):
+        self._sync_expense_tax_invoice()
         res = super()._post(soft)
         self._reconcile_withholding_tax_entry()
         return res
+
+    def _sync_expense_tax_invoice(self):
+        """Fill empty purchase tax invoices from their expense's tax info.
+
+        For each tax invoice linked to a tax line that itself originates from
+        an hr.expense, copy the expense's tax_number/tax_date (and vendor)
+        onto the tax invoice. Idempotent: only fills when the expense holds
+        both values and the tax invoice is still missing its number or date.
+        """
+        tax_invoices = self.tax_invoice_ids.filtered(
+            lambda ti: ti.tax_line_id.type_tax_use == "purchase"
+            and ti.move_line_id.expense_id
+            and (not ti.tax_invoice_number or not ti.tax_invoice_date)
+        )
+        for tax_invoice in tax_invoices:
+            expense = tax_invoice.move_line_id.expense_id
+            if not (expense.tax_number and expense.tax_date):
+                continue
+            values = {
+                "tax_invoice_number": expense.tax_number,
+                "tax_invoice_date": expense.tax_date,
+            }
+            if expense.bill_partner_id:
+                values["partner_id"] = expense.bill_partner_id.id
+            tax_invoice.write(values)
 
     def _reconcile_withholding_tax_entry(self):
         """Re-Reconciliation, for case wht_move that clear advance only"""
