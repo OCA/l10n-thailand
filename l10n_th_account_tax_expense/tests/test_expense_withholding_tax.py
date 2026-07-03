@@ -51,6 +51,18 @@ class TestHrExpenseWithholdingTax(TestExpenseCommon):
 
         cls.emp_advance = cls.env.ref("hr_expense_advance_clearing.product_emp_advance")
         cls.emp_advance.property_account_expense_id = cls.advance_account
+
+        # Configure the journal required to create advance clearing moves and WHT JVs
+        cls.clearing_journal = cls.env["account.journal"].create(
+            {
+                "name": "WHT Clearing",
+                "code": "WHTC",
+                "type": "general",
+                "company_id": cls.company_data["company"].id,
+            }
+        )
+        cls.company_data["company"].clearing_journal_id = cls.clearing_journal
+
         # Create expense 1,000
         cls.expense_sheet = cls.create_expense_report(
             cls,
@@ -165,6 +177,42 @@ class TestHrExpenseWithholdingTax(TestExpenseCommon):
                             "wht_tax_id": cls.wht_1.id,
                             "bill_partner_id": cls.partner1.id,
                             "tax_ids": False,
+                        }
+                    )
+                ],
+            },
+        )
+
+        # Purchase tax whose tax (Tax Paid) account is configured as
+        # reconcilable - this is what used to make the WHT entry pick the
+        # tax line up as an AP candidate, producing an extra 0/0 line.
+        cls.tax_purchase_reconcile = cls.tax_purchase_a.copy(
+            {"name": "test: tax purchase (reconcilable)"}
+        )
+        cls.tax_purchase_reconcile.invoice_repartition_line_ids.filtered(
+            lambda line: line.repartition_type == "tax"
+        ).account_id.reconcile = True
+        # Create clearing expense with tax + WHT (clearing < advance)
+        cls.clearing_less_tax = cls.create_expense_report(
+            cls,
+            {
+                "name": "Buy service 800 (tax + WHT)",
+                "expense_line_ids": [
+                    Command.create(
+                        {
+                            "name": "Clearing 800 (tax + WHT)",
+                            "employee_id": cls.expense_employee.id,
+                            "product_id": cls.product_travel.id,
+                            "quantity": 1,
+                            "payment_mode": "own_account",
+                            "company_id": cls.company_data["company"].id,
+                            "date": "2021-10-11",
+                            "total_amount_currency": 800.00,
+                            "wht_tax_id": cls.wht_1.id,
+                            "bill_partner_id": cls.partner1.id,
+                            "tax_number": "TAXINV-005",
+                            "tax_date": "2021-10-11",
+                            "tax_ids": [Command.set(cls.tax_purchase_reconcile.ids)],
                         }
                     )
                 ],
@@ -335,3 +383,31 @@ class TestHrExpenseWithholdingTax(TestExpenseCommon):
         move = self.clearing_less.account_move_ids
         move.button_cancel()
         self.assertEqual(move.state, "cancel")
+
+    def test_05_clearing_tax_reconcile_wht(self):
+        """WHT entry must not hold an extra 0/0 tax line when the clearing
+        uses a tax whose tax account is reconcilable (regression test)."""
+        # ------------------ Advance --------------------------
+        self.advance.action_submit_sheet()
+        self.advance.action_approve_expense_sheets()
+        self.advance.action_sheet_move_post()
+        payment_wizard = self._register_payment(self.advance.account_move_ids)
+        payment_wizard.action_create_payments()
+        self.assertEqual(self.advance.state, "done")
+        # ------------------ Clearing --------------------------
+        # Clear this with previous advance
+        self.clearing_less_tax.advance_sheet_id = self.advance
+        self.clearing_less_tax.action_submit_sheet()
+        self.clearing_less_tax.action_approve_expense_sheets()
+        self.clearing_less_tax.action_sheet_move_post()
+        # clearing < advance, it will change state to done
+        self.assertEqual(self.clearing_less_tax.state, "done")
+        # Create withholding tax entry
+        self.clearing_less_tax.action_create_withholding_tax_entry()
+        wht_move = self.clearing_less_tax.wht_move_id
+        self.assertTrue(wht_move)
+        # The JV must only hold the WHT Cr. line and the Advance Dr. line
+        self.assertEqual(len(wht_move.line_ids), 2)
+        accounts = wht_move.line_ids.account_id
+        self.assertIn(self.wht_account, accounts)
+        self.assertIn(self.advance_account, accounts)

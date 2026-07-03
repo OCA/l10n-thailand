@@ -1,7 +1,7 @@
 # Copyright 2020 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import _, models
+from odoo import models
 from odoo.exceptions import UserError
 
 
@@ -104,7 +104,7 @@ class AccountMove(models.Model):
         )
         if sheets:
             raise UserError(
-                _(
+                self.env._(
                     "Unable to cancel this journal entry. You must first cancel "
                     "the related withholding tax (Journal Voucher)."
                 )
