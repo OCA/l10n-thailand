@@ -563,6 +563,8 @@ class AccountMove(models.Model):
     def button_cancel(self):
         res = super().button_cancel()
         for rec in self:
+            if rec.state != "cancel":
+                continue
             # Create the mirror only for those posted
             for line in rec.wht_move_ids:
                 line.copy(
