@@ -374,11 +374,9 @@ class AccountTaxFiling(models.Model):
 
     def action_submit(self):
         for record in self:
-            if not record.tax_filing_line_ids.filtered(
-                lambda line: not line.display_type
-            ):
-                raise UserError(self.env._("You need to add a line before submit."))
-        record.write({"state": "submit"})
+            if not record.tax_filing_line_ids.filtered(lambda l: not l.display_type):
+                raise UserError(_("You need to add a line before submit."))
+            record.write({"state": "submit"})
         return True
 
     def action_create_invoice(self):
