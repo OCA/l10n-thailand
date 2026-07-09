@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 {
     "name": "Thai Localization - Tax Filing",
-    "version": "15.0.1.0.0",
+    "version": "15.0.1.0.1",
     "author": "Ecosoft, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-thailand",
