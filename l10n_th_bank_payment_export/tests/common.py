@@ -119,6 +119,7 @@ class CommonBankPaymentExport(AccountTestInvoicingCommon):
     def action_bank_export_excel(self, bank_payment):
         excel_list = bank_payment.action_export_excel_file()
         self.assertEqual(excel_list["report_type"], "xlsx")
+        return excel_list
 
     def create_bank_payment_profile(self, bank, data_dict):
         """This function is common create profile, Format of data_dict is

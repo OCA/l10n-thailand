@@ -1,6 +1,8 @@
 # Copyright 2021 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
+from unittest.mock import MagicMock, Mock
+
 from odoo import Command
 from odoo.exceptions import UserError
 from odoo.tests import Form
@@ -472,5 +474,204 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         )
 
     def test_07_export_excel(self):
+        """Test xlsx report generation and structure"""
+        # Create bank payment with export lines
+        self.create_payment_from_invoice(self.bill_partner1_1, post=True)
+        self.create_payment_from_invoice(self.bill_partner2, post=True)
+
         bank_payment = self.bank_payment_export_model.create({"name": "/"})
-        self.action_bank_export_excel(bank_payment)
+        bank_payment.action_get_all_payments()
+        self.assertEqual(len(bank_payment.export_line_ids), 2)
+
+        # Test action_export_excel_file returns correct structure
+        xlsx_data = self.action_bank_export_excel(bank_payment)
+        self.assertEqual(xlsx_data["report_type"], "xlsx")
+        self.assertEqual(xlsx_data["report_name"], "bank.payment.export.xlsx")
+
+        # Test xlsx report model methods
+        xlsx_report = self.env["report.bank.payment.export.xlsx"]
+
+        # Test _get_export_payment_vals returns correct columns
+        export_vals = xlsx_report._get_export_payment_vals(bank_payment)
+        self.assertIn("01_sequence", export_vals)
+        self.assertIn("02_reference", export_vals)
+        self.assertIn("03_payment_date", export_vals)
+        self.assertIn("04_partner", export_vals)
+        self.assertIn("05_recipient_bank", export_vals)
+        self.assertIn("06_recipient_bank_name", export_vals)
+        self.assertIn("07_recipient_bank_holder_name", export_vals)
+        self.assertIn("08_amount", export_vals)
+        self.assertIn("09_recipient_bank_code", export_vals)
+        self.assertIn("10_recipient_bank_branch_code", export_vals)
+
+        # Test column headers
+        self.assertEqual(export_vals["01_sequence"]["header"]["value"], "No.")
+        self.assertEqual(export_vals["02_reference"]["header"]["value"], "Reference")
+        self.assertEqual(
+            export_vals["03_payment_date"]["header"]["value"], "Payment Date"
+        )
+        self.assertEqual(export_vals["04_partner"]["header"]["value"], "Vendor")
+        self.assertEqual(
+            export_vals["05_recipient_bank"]["header"]["value"], "Account Number"
+        )
+        self.assertEqual(
+            export_vals["06_recipient_bank_name"]["header"]["value"], "Bank Name"
+        )
+        self.assertEqual(
+            export_vals["07_recipient_bank_holder_name"]["header"]["value"],
+            "Account Holder Name",
+        )
+        self.assertIn("Amount", export_vals["08_amount"]["header"]["value"])
+        self.assertEqual(
+            export_vals["09_recipient_bank_code"]["header"]["value"], "Bank Code"
+        )
+        self.assertEqual(
+            export_vals["10_recipient_bank_branch_code"]["header"]["value"],
+            "Bank Branch Code",
+        )
+
+        # Test _get_header_data_list returns bank info
+        header_data_list = xlsx_report._get_header_data_list(bank_payment)
+        self.assertEqual(len(header_data_list), 1)
+        self.assertEqual(header_data_list[0][0], "Bank")
+
+        # Test _get_render_space for each export line
+        for idx, pe_line in enumerate(bank_payment.export_line_ids):
+            render_space = xlsx_report._get_render_space(idx, pe_line, bank_payment)
+            self.assertIn("sequence", render_space)
+            self.assertIn("reference", render_space)
+            self.assertIn("payment_date", render_space)
+            self.assertIn("partner", render_space)
+            self.assertIn("acc_number", render_space)
+            self.assertIn("bank_name", render_space)
+            self.assertIn("acc_holder_name", render_space)
+            self.assertIn("amount", render_space)
+            self.assertIn("bank_code", render_space)
+            self.assertIn("bank_branch_code", render_space)
+            # Verify sequence is 1-based
+            self.assertEqual(render_space["sequence"], idx + 1)
+            # Verify amount matches payment amount
+            self.assertEqual(render_space["amount"], pe_line.payment_amount)
+
+        # Test _get_ws_params returns correct structure
+        ws_params_list = xlsx_report._get_ws_params(None, None, bank_payment)
+        self.assertEqual(len(ws_params_list), 1)
+        ws_params = ws_params_list[0]
+        self.assertEqual(ws_params["ws_name"], "Export Payment Excel Report")
+        self.assertEqual(ws_params["generate_ws_method"], "_export_payment_report")
+        self.assertIn("wanted_list", ws_params)
+        self.assertIn("col_specs", ws_params)
+        # Verify all 10 columns are in wanted_list
+        self.assertEqual(len(ws_params["wanted_list"]), 10)
+
+        mock_wb = Mock()
+        mock_ws = MagicMock()
+
+        row_pos = xlsx_report._export_payment_report(
+            mock_wb, mock_ws, ws_params, None, bank_payment
+        )
+        self.assertGreater(row_pos, 0)
+
+    def test_08_receiver_branch_code_gsb(self):
+        """Test _get_receiver_branch_code_gsb for 12 and 15 digit account numbers"""
+        # Create GSB bank and a partner bank, then attach it to a real payment so
+        # that the required payment_id constraint on bank.payment.export.line is
+        # met. payment_partner_bank_id is a related field of payment_id, hence it
+        # is set on the payment rather than directly on the export line.
+        bank_gsb = self.env["res.bank"].create(
+            {
+                "name": "GSB",
+                "bic": "GSBATHBK",
+                "bank_code": "030",
+            }
+        )
+        partner_bank = self.create_partner_bank(
+            "123456789012", self.partner_1, bank_gsb
+        )
+        payment = self.create_payment_from_invoice(self.bill_partner1_1, post=True)
+        payment.partner_bank_id = partner_bank.id
+        bank_payment = self.bank_payment_export_model.create({"name": "/"})
+        export_line = self.env["bank.payment.export.line"].create(
+            {
+                "payment_export_id": bank_payment.id,
+                "payment_id": payment.id,
+            }
+        )
+
+        # 12 digits: branch code = "999" + first digit
+        partner_bank.acc_number = "123456789012"
+        self.assertEqual(export_line._get_receiver_branch_code_gsb(), "9991")
+
+        # 15 digits: branch code = first 4 digits
+        partner_bank.acc_number = "123456789012345"
+        self.assertEqual(export_line._get_receiver_branch_code_gsb(), "1234")
+
+    def test_09_onchange_profile_id(self):
+        """Test _onchange_profile_id updates fields from profile"""
+        # Create profile with effective_date field
+        field_effective_date = self.field_model.search(
+            [("name", "=", "effective_date"), ("model", "=", "bank.payment.export")]
+        )
+        field_bank = self.field_model.search(
+            [("name", "=", "bank"), ("model", "=", "bank.payment.export")]
+        )
+        profile = self.create_bank_payment_profile(
+            "TEST",
+            [
+                {"field_id": field_bank.id, "value": "TEST"},
+                {"field_id": field_effective_date.id, "value": "2099-12-31"},
+            ],
+        )
+        # Create bank payment without profile
+        bank_payment = self.bank_payment_export_model.create({"name": "/"})
+        self.assertFalse(bank_payment.profile_id)
+        self.assertFalse(bank_payment.effective_date)
+
+        # Set profile and trigger onchange
+        bank_payment.profile_id = profile
+        bank_payment._onchange_profile_id()
+
+        # Verify fields updated from profile
+        self.assertEqual(bank_payment.bank, "TEST")
+        self.assertEqual(str(bank_payment.effective_date), "2099-12-31")
+
+    def test_10_data_level_functions(self):
+        """Test data level functions: payment, invoice, wht, custom"""
+        # Create payments
+        self.create_payment_from_invoice(self.bill_partner1_1, post=True)
+        self.create_payment_from_invoice(self.bill_partner2, post=True)
+
+        bank_payment = self.bank_payment_export_model.create({"name": "/"})
+        bank_payment.action_get_all_payments()
+        active_lines = bank_payment.export_line_ids
+        self.assertEqual(len(active_lines), 2)
+
+        # Test _get_data_level_payment
+        payment_items = bank_payment._get_data_level_payment(active_lines, {})
+        self.assertEqual(len(payment_items), 2)
+        self.assertIn("line", payment_items[0])
+        self.assertIn("payment", payment_items[0])
+        self.assertIn("invoices", payment_items[0])
+
+        # Test _get_data_level_invoice
+        invoice_items = bank_payment._get_data_level_invoice(active_lines, {})
+        self.assertGreater(len(invoice_items), 0)
+        self.assertIn("invoice", invoice_items[0])
+        self.assertIn("idx_invoice", invoice_items[0])
+
+        # Test _get_data_level_wht
+        wht_items = bank_payment._get_data_level_wht(active_lines, {})
+        self.assertGreater(len(wht_items), 0)
+        self.assertIn("wht_cert", wht_items[0])
+        self.assertIn("idx_wht", wht_items[0])
+
+        # Test _get_data_level_custom with simple iterable
+        group = {
+            "data_level": "custom",
+            "custom_iterable": "[1, 2, 3]",
+        }
+        custom_items = bank_payment._get_data_level_custom(active_lines, group)
+        # 2 lines × 3 items = 6 items
+        self.assertEqual(len(custom_items), 6)
+        self.assertIn("sub_line", custom_items[0])
+        self.assertIn("idx_sub_line", custom_items[0])
