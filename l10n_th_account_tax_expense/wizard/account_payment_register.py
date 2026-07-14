@@ -18,7 +18,13 @@ class AccountPaymentRegister(models.TransientModel):
         If cannot get a single partner, user must select it.
         """
         active_ids = self.env.context.get("active_ids", [])
-        move_lines = self.env["account.move.line"].browse(active_ids)
+        active_model = self.env.context.get("active_model")
+        if active_model == "account.move":
+            move_lines = self.env["account.move"].browse(active_ids).line_ids
+        elif active_model == "account.move.line":
+            move_lines = self.env["account.move.line"].browse(active_ids)
+        else:
+            return False
         expense_partners = move_lines.mapped("expense_id.bill_partner_id")
         partner = expense_partners.id if len(expense_partners) == 1 else False
         if not partner:
