@@ -3,6 +3,7 @@
 
 
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class AccountTax(models.Model):
@@ -14,6 +15,37 @@ class AccountTax(models.Model):
         help="Optional sequence as Tax Invoice number",
         copy=False,
     )
+    reverse_tax_id = fields.Many2one(
+        comodel_name="account.tax",
+        string="Reverse Tax (Credit Note)",
+        domain="[('type_tax_use', '=', type_tax_use), "
+        "('tax_exigibility', '=', 'on_invoice'), "
+        "('company_id', '=', company_id)]",
+        check_company=True,
+        help="Replacement tax for credit notes when the original invoice is paid.",
+    )
+
+    @api.constrains("reverse_tax_id")
+    def _check_reverse_tax_id(self):
+        for tax in self:
+            reverse_tax = tax.reverse_tax_id
+            if not reverse_tax:
+                continue
+            if tax.tax_exigibility != "on_payment":
+                raise ValidationError(
+                    self.env._(
+                        "Reverse Tax can only be set on a cash basis (undue) tax."
+                    )
+                )
+            if reverse_tax.tax_exigibility != "on_invoice":
+                raise ValidationError(
+                    self.env._("Reverse Tax must be a due ('on invoice') tax.")
+                )
+            if reverse_tax.type_tax_use != tax.type_tax_use:
+                raise ValidationError(
+                    self.env._("Reverse Tax must have the same Tax Scope.")
+                )
+
     sequence_number_next = fields.Integer(
         string="Next Number",
         help="The next sequence number will be used for the next tax invoice.",
