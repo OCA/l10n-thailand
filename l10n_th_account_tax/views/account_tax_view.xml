@@ -16,6 +16,15 @@
                     invisible="type_tax_use != 'sale' or not taxinv_sequence_id"
                 />
             </xpath>
+            <xpath
+                expr="//field[@name='cash_basis_transition_account_id']"
+                position="after"
+            >
+                <field
+                    name="reverse_tax_id"
+                    invisible="tax_exigibility != 'on_payment'"
+                />
+            </xpath>
         </field>
     </record>
 </odoo>
