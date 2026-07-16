@@ -11,6 +11,8 @@
                     invisible="move_type != 'in_invoice'"
                 />
                 <field name="tax_invoice_date" invisible="move_type != 'in_invoice'" />
+                <field name="show_reverse_taxes" invisible="1" />
+                <field name="use_reverse_taxes" invisible="not show_reverse_taxes" />
             </xpath>
         </field>
     </record>
