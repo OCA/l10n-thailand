@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="config_param_contract_queue_job_as_job" model="ir.config_parameter">
+        <field name="key">geonames.th.url</field>
+        <!-- keep key creation with False to avoid test conflicts -->
+        <field
+            name="value"
+        >https://raw.githubusercontent.com/ecosoft-odoo/thai-province-data/refs/heads/add-add_prefix_distric_and_sub/api/latest/sub_district_with_district_and_province.json</field>
+    </record>
+</odoo>

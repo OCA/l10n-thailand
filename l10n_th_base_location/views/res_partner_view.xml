@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">partner.form.address.extended.subdistrict_id</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base_location.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='country_enforce_cities']" position="before">
+                <field name="country_enforce_subdistrict" invisible="1" />
+                <field name="zip_id" position="move" />
+                <field name="subdistrict" invisible="1" />
+                <field
+                    name="subdistrict_id"
+                    placeholder="SubDistrict"
+                    domain="[('city_id', '=', city_id)]"
+                    invisible="not country_enforce_subdistrict"
+                    readonly="type == 'contact' and parent_id"
+                />
+            </xpath>
+            <xpath
+                expr="//field[@name='child_ids']//form//field[@name='country_enforce_cities']"
+                position="before"
+            >
+                <field name="country_enforce_subdistrict" invisible="1" />
+                <field
+                    name="subdistrict_id"
+                    placeholder="SubDistrict"
+                    domain="[('city_id', '=', city_id)]"
+                    invisible="not country_enforce_subdistrict"
+                    readonly="type == 'contact' and parent_id"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
