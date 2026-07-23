@@ -148,6 +148,13 @@ class BankPaymentExportLine(models.Model):
         if not acc_number:
             return "**receiver account number is null**"
         sanitize_acc_number = sanitize_account_number(acc_number)
+        # BOT: ธนาคารแห่งประเทศไทย (must be 10 digits)
+        if partner_bank_id.bank_id.bic == "BOTHTHBK":
+            return (
+                len(sanitize_acc_number) <= 10
+                and sanitize_acc_number.zfill(10)
+                or "**Digit account number is not correct**"
+            )
         if len(sanitize_acc_number) <= 11:
             return sanitize_acc_number.zfill(11)
         # BAAC: ธ. เพื่อการเกษตรและสหกรณ์การเกษตร

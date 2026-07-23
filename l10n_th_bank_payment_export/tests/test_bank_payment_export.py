@@ -289,6 +289,15 @@ class TestBankPaymentExport(CommonBankPaymentExport):
                 result = line._get_acc_number_digit(line.payment_partner_bank_id)
                 self.assertEqual(len(result), 11)
 
+                # BOTHTHBK must be 10 digits
+                line.payment_partner_bank_id.bank_id.bic = "BOTHTHBK"
+                line.payment_partner_bank_id.acc_number = "123456789"
+                result = line._get_acc_number_digit(line.payment_partner_bank_id)
+                self.assertEqual(result, "0123456789")
+                line.payment_partner_bank_id.acc_number = "12345678901"
+                result = line._get_acc_number_digit(line.payment_partner_bank_id)
+                self.assertEqual(result, "**Digit account number is not correct**")
+
                 # GSBATHBK 12 digits -> 11 digits (2 - 12)
                 line.payment_partner_bank_id.bank_id.bic = "GSBATHBK"
                 line.payment_partner_bank_id.acc_number = "123456789012"
