@@ -1,0 +1,38 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_tax_address
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_th_tax_address
+#: model:ir.model,name:l10n_th_tax_address.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_th_tax_address
+#: model_terms:ir.ui.view,arch_db:l10n_th_tax_address.view_partner_form
+msgid "Get Address"
+msgstr ""
+
+#. module: l10n_th_tax_address
+#. odoo-python
+#: code:addons/l10n_th_tax_address/models/res_partner.py:0
+#, python-format
+msgid "Please provide Tax ID and Branch"
+msgstr ""
+
+#. module: l10n_th_tax_address
+#. odoo-python
+#: code:addons/l10n_th_tax_address/models/res_partner.py:0
+#, python-format
+msgid "Request failed: %s"
+msgstr ""
