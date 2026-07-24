@@ -1,0 +1,559 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
+<title>Thai Localization - PromptPay</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
+
+See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: gray; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic, pre.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="thai-localization-promptpay">
+<h1 class="title">Thai Localization - PromptPay</h1>
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! This file is generated by oca-gen-addon-readme !!
+!! changes will be overwritten.                   !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! source digest: sha256:81ec2d7db3ba7461a60b184bf4b04ecce69718a0d0f3dbc34348645d33b415ca
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_promptpay"><img alt="OCA/l10n-thailand" src="https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-thailand-18-0/l10n-thailand-18-0-l10n_th_promptpay"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&amp;target_branch=18.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p>The PromptPay QR code (Thai QR Payment) allows customers to pay by
+scanning a QR code with any bank’s mobile application.</p>
+<p>This module extends Odoo’s built-in QR code support
+(<tt class="docutils literal">account_qr_code_emv</tt>) to support Thai PromptPay standards for two
+types of payment:</p>
+<p><strong>1. PromptPay (Credit Transfer)</strong></p>
+<p>For standard person-to-person or merchant payments using a PromptPay
+proxy ID:</p>
+<ul class="simple">
+<li><strong>Mobile Number</strong> — 10-digit phone number (e.g. <tt class="docutils literal">0812345678</tt>)</li>
+<li><strong>Merchant Tax ID</strong> — 13-digit juristic person ID (e.g.
+<tt class="docutils literal">1234567890123</tt>)</li>
+<li><strong>Ewallet ID</strong> — e-wallet account identifier</li>
+</ul>
+<p><strong>2. PromptPay Bill Payment</strong></p>
+<p>For biller-initiated collection using a registered Biller ID (15
+digits). Supports <strong>Reference 1</strong> and <strong>Reference 2</strong> fields
+configurable per company, allowing the QR code to carry invoice-specific
+references (e.g. customer code, payment reference).</p>
+<p>The module adds a <strong>PromptPay QR Code</strong> button on vendor/customer
+invoices to generate and display the QR code in a popup dialog.</p>
+<p>The implementation follows the EMVCo QR specification used by the Thai
+PromptPay network.</p>
+<p>Note: that <em>Credit Transfer</em> is also provided by the module <tt class="docutils literal">l10n_th</tt>
+(Thai localization). This module can work independently without
+<tt class="docutils literal">l10n_th</tt>, but if <tt class="docutils literal">l10n_th</tt> is installed, both modules may provide
+similar QR generation capabilities.</p>
+<p><strong>Table of contents</strong></p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#configuration" id="toc-entry-1">Configuration</a><ul>
+<li><a class="reference internal" href="#enable-qr-code-on-invoices" id="toc-entry-2">Enable QR Code on Invoices</a></li>
+<li><a class="reference internal" href="#configure-bank-account-for-bill-payment-promptpay" id="toc-entry-3">Configure Bank Account for Bill Payment / PromptPay</a></li>
+<li><a class="reference internal" href="#configure-reference-fields-per-company" id="toc-entry-4">Configure Reference Fields (per company)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#usage" id="toc-entry-5">Usage</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-6">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-7">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-8">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="toc-entry-9">Contributors</a></li>
+<li><a class="reference internal" href="#other-credits" id="toc-entry-10">Other credits</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-11">Maintainers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="configuration">
+<h1><a class="toc-backref" href="#toc-entry-1">Configuration</a></h1>
+<div class="section" id="enable-qr-code-on-invoices">
+<h2><a class="toc-backref" href="#toc-entry-2">Enable QR Code on Invoices</a></h2>
+<p>Before generating any PromptPay QR code, the QR code feature must be
+enabled in Odoo’s accounting settings.</p>
+<ol class="arabic simple">
+<li>Go to <strong>Invoicing &gt; Configuration &gt; Settings</strong>.</li>
+<li>Under the <strong>Customer Payments</strong> section, enable <strong>QR Codes</strong>.</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<p>This activates the <tt class="docutils literal">emv_qr</tt> QR method globally and makes the QR Code
+Type field available on bank accounts.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="configure-bank-account-for-bill-payment-promptpay">
+<h2><a class="toc-backref" href="#toc-entry-3">Configure Bank Account for Bill Payment / PromptPay</a></h2>
+<ol class="arabic simple">
+<li>Go to <strong>Bank Accounts</strong>.</li>
+<li>Open (or create) the company’s bank account.</li>
+<li>Set <strong>Proxy Type</strong></li>
+</ol>
+</div>
+<hr class="docutils" />
+<div class="section" id="configure-reference-fields-per-company">
+<h2><a class="toc-backref" href="#toc-entry-4">Configure Reference Fields (per company)</a></h2>
+<p>Reference 1 and Reference 2 are embedded in the Bill Payment QR code and
+are typically used to identify the payer or the invoice on the biller’s
+system.</p>
+<ol class="arabic">
+<li><p class="first">Go to <strong>Invoicing &gt; Configuration &gt; Settings</strong>.</p>
+</li>
+<li><p class="first">Under <strong>Customer Payments</strong>, locate:</p>
+<ul class="simple">
+<li><strong>PromptPay Reference 1 Field</strong> - field path on <tt class="docutils literal">account.move</tt>
+used as Ref1</li>
+<li><strong>PromptPay Reference 2 Field</strong> - field path on <tt class="docutils literal">account.move</tt>
+used as Ref2</li>
+</ul>
+</li>
+<li><p class="first">Enter a dotted field path. Examples:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Value</th>
+<th class="head">Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">partner_id.ref</tt></td>
+<td>Customer’s internal reference code</td>
+</tr>
+<tr><td><tt class="docutils literal">partner_id.name</tt></td>
+<td>Customer name</td>
+</tr>
+<tr><td><tt class="docutils literal">name</tt></td>
+<td>Invoice number (e.g. <tt class="docutils literal">INV/2025/00001</tt>)</td>
+</tr>
+<tr><td><tt class="docutils literal">payment_reference</tt></td>
+<td>Payment reference field on the invoice</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first">Click <strong>Save</strong>.</p>
+</li>
+</ol>
+<!--  -->
+<blockquote>
+<strong>Note:</strong> Reference 1 defaults to <tt class="docutils literal">partner_id.ref</tt> if not set.
+Reference 2 is optional and can be left blank.</blockquote>
+</div>
+</div>
+<div class="section" id="usage">
+<h1><a class="toc-backref" href="#toc-entry-5">Usage</a></h1>
+<p>Open a posted invoice and click <strong>PromptPay QR Code</strong> in the header. A
+dialog will display the QR code with the payment amount for the customer
+to scan.</p>
+<p>The QR code format depends on the configured PromptPay type.</p>
+</div>
+<div class="section" id="bug-tracker">
+<h1><a class="toc-backref" href="#toc-entry-6">Bug Tracker</a></h1>
+<p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-thailand/issues">GitHub Issues</a>.
+In case of trouble, please check there if your issue has already been reported.
+If you spotted it first, help us to smash it by providing a detailed and welcomed
+<a class="reference external" href="https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_promptpay%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<p>Do not contact contributors directly about support or help with technical issues.</p>
+</div>
+<div class="section" id="credits">
+<h1><a class="toc-backref" href="#toc-entry-7">Credits</a></h1>
+<div class="section" id="authors">
+<h2><a class="toc-backref" href="#toc-entry-8">Authors</a></h2>
+<ul class="simple">
+<li>Poonlap V.</li>
+<li>Ecosoft</li>
+</ul>
+</div>
+<div class="section" id="contributors">
+<h2><a class="toc-backref" href="#toc-entry-9">Contributors</a></h2>
+<ul class="simple">
+<li>Poonlap V. &lt;<a class="reference external" href="mailto:poonlap&#64;tanabutr.co.th">poonlap&#64;tanabutr.co.th</a>&gt;</li>
+<li>Kitti U. &lt;<a class="reference external" href="mailto:kittiu&#64;ecosoft.co.th">kittiu&#64;ecosoft.co.th</a>&gt;</li>
+<li>Phanupong Janthapoon &lt;<a class="reference external" href="mailto:panupong.jtp&#64;gmail.com">panupong.jtp&#64;gmail.com</a>&gt;</li>
+<li>Saran Lim. &lt;<a class="reference external" href="mailto:saranl&#64;ecosoft.co.th">saranl&#64;ecosoft.co.th</a>&gt;</li>
+</ul>
+</div>
+<div class="section" id="other-credits">
+<h2><a class="toc-backref" href="#toc-entry-10">Other credits</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/jojoee/promptpay">PromptPay library for Python</a></li>
+<li><a class="reference external" href="https://github.com/poommitol-sse2017/payment_promptpayqr">PromtpayQR payment acquirer module for Odoo
+10.0</a></li>
+<li><a class="reference external" href="https://www.bot.or.th/content/dam/bot/fipcs/documents/FPG/2562/ThaiPDF/25620084.pdf">PDF - Policy Guideline Standardized Thai QR Code for Payment
+Transactions</a></li>
+<li>Some parts of the PromptPay QR generation logic are inspired by or
+adapted from the <tt class="docutils literal">l10n_th</tt> module from Odoo Community Edition,
+developed by Odoo SA.</li>
+</ul>
+</div>
+<div class="section" id="maintainers">
+<h2><a class="toc-backref" href="#toc-entry-11">Maintainers</a></h2>
+<p>This module is maintained by the OCA.</p>
+<a class="reference external image-reference" href="https://odoo-community.org">
+<img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
+</a>
+<p>OCA, or the Odoo Community Association, is a nonprofit organization whose
+mission is to support the collaborative development of Odoo features and
+promote its widespread use.</p>
+<p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainer</a>:</p>
+<p><a class="reference external image-reference" href="https://github.com/Saran440"><img alt="Saran440" src="https://github.com/Saran440.png?size=40px" /></a></p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-thailand/tree/18.0/l10n_th_promptpay">OCA/l10n-thailand</a> project on GitHub.</p>
+<p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
+</div>
+</div>
+</div>
+</body>
+</html>

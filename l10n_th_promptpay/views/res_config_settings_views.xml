@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.promptpay</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <setting id="qr_code_invoices" position="after">
+                <setting
+                    string="PromptPay Reference 1 Field"
+                    help="Field path from Invoice for Reference 1. Supports dotted path e.g. 'name', 'partner_id.name', 'partner_id.ref'."
+                    company_dependent="1"
+                >
+                    <field
+                        name="promptpay_ref1_field"
+                        placeholder="e.g. name, partner_id.name"
+                    />
+                </setting>
+                <setting
+                    string="PromptPay Reference 2 Field"
+                    help="Field path from Invoice for Reference 2. Supports dotted path e.g. 'payment_reference'."
+                    company_dependent="1"
+                >
+                    <field
+                        name="promptpay_ref2_field"
+                        placeholder="e.g. payment_reference"
+                    />
+                </setting>
+            </setting>
+        </field>
+    </record>
+</odoo>
