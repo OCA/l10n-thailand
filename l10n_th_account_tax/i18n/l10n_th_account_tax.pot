@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -26,7 +26,7 @@ msgstr ""
 #. module: l10n_th_account_tax
 #. odoo-python
 #: code:addons/l10n_th_account_tax/models/personal_income_tax.py:0
-msgid "%s (copy)"
+msgid "%(year)s (copy)"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -520,12 +520,24 @@ msgid ""
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_account__display_name
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_reversal__display_name
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__display_name
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_partial_reconcile__display_name
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_payment__display_name
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_payment_register__display_name
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_tax__display_name
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_move__display_name
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_tax__display_name
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_clear_tax__display_name
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax__display_name
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax_rate__display_name
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_product_template__display_name
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_res_partner__display_name
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__display_name
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert_line__display_name
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_code_income__display_name
@@ -588,15 +600,6 @@ msgid "For filtering cancelled payment"
 msgstr ""
 
 #. module: l10n_th_account_tax
-#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_account_withholding_tax_income_code_search
-#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_account_withholding_tax_search
-#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_tax_invoice_search
-#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_wht_move_search
-#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax.view_withholding_tax_cert_search
-msgid "Group By"
-msgstr ""
-
-#. module: l10n_th_account_tax
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__has_message
 msgid "Has Message"
 msgstr ""
@@ -609,12 +612,24 @@ msgid "Has Wht"
 msgstr ""
 
 #. module: l10n_th_account_tax
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_account__id
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_reversal__id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_move_tax_invoice__id
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_partial_reconcile__id
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_payment__id
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_payment_register__id
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_tax__id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_move__id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_account_withholding_tax__id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_clear_tax__id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax__id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_personal_income_tax_rate__id
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_product_template__id
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_res_config_settings__id
+#: model:ir.model.fields,field_description:l10n_th_account_tax.field_res_partner__id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert__id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_cert_line__id
 #: model:ir.model.fields,field_description:l10n_th_account_tax.field_withholding_tax_code_income__id
@@ -854,7 +869,7 @@ msgstr ""
 #. module: l10n_th_account_tax
 #. odoo-python
 #: code:addons/l10n_th_account_tax/models/account_move.py:0
-msgid "No effective PIT rate for date %s"
+msgid "No effective PIT rate for date %(date)s"
 msgstr ""
 
 #. module: l10n_th_account_tax
@@ -1259,15 +1274,6 @@ msgid "Thai Localization"
 msgstr ""
 
 #. module: l10n_th_account_tax
-#: model:ir.model.fields,help:l10n_th_account_tax.field_withholding_tax_cert__company_vat
-#: model:ir.model.fields,help:l10n_th_account_tax.field_withholding_tax_cert__partner_vat
-msgid ""
-"The Tax Identification Number. Values here will be validated based on the "
-"country format. You can use '/' to indicate that the partner is not subject "
-"to tax."
-msgstr ""
-
-#. module: l10n_th_account_tax
 #: model:ir.model.fields,help:l10n_th_account_tax.field_account_move_tax_invoice__reversing_id
 msgid "The move that reverse this move"
 msgstr ""
@@ -1550,6 +1556,12 @@ msgstr ""
 #: code:addons/l10n_th_account_tax/models/withholding_tax_cert.py:0
 msgid ""
 "You can not default field '%(income)s - %(wht_income_type)s' more than 1."
+msgstr ""
+
+#. module: l10n_th_account_tax
+#: model:ir.model.fields,help:l10n_th_account_tax.field_withholding_tax_cert__company_vat
+#: model:ir.model.fields,help:l10n_th_account_tax.field_withholding_tax_cert__partner_vat
+msgid "You can use '/' to indicate that the customer has no Tax ID."
 msgstr ""
 
 #. module: l10n_th_account_tax
