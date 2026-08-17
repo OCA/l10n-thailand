@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="seq_wht_option_1" model="ir.sequence">
+        <field name="name">Withholding tax cert sequence</field>
+        <field name="code">withholding.tax.cert</field>
+        <field name="padding" eval="4" />
+        <field name="prefix">WHT/%(year)s/</field>
+        <field name="company_id" eval="False" />
+    </record>
+</odoo>
