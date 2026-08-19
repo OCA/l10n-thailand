@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem
+        id="menu_tax_report"
+        action="action_tax_report"
+        name="Thai Tax Report"
+        parent="l10n_th_account_tax.account_reports_l10n_th_menu"
+        sequence="20"
+    />
+    <menuitem
+        id="menu_withholding_tax_report"
+        action="action_withholding_tax_report_wizard"
+        name="WHT Income Tax Report"
+        parent="l10n_th_account_tax.account_reports_l10n_th_menu"
+        sequence="30"
+    />
+</odoo>

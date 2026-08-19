@@ -1,0 +1,893 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_account_tax_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_th_account_tax_report
+#: model:ir.actions.report,print_report_name:l10n_th_account_tax_report.action_print_report_rd_thai_tax_qweb
+msgid ""
+"(object.date_range_id and '%s - [%s]' % (object.tax_id.display_name, "
+"object.date_range_id.display_name) or '%s' % object.tax_id.display_name)"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>amount</code> - Amount"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>base</code> - Base"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>cert_cancel</code> - Cancelled"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>cert_date</code> - Date"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>cert_date_str</code> - Date (string)"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>cert_name</code> - Name"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>cert_tax_payer</code> - Tax Payer"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>cert_tax_payer_code</code> - Tax Payer Code"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>cert_tax_payer_display</code> - Tax Payer Display"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>income_code</code> - Income Code"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>partner_address</code> - Partner Address"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>partner_bank_account</code> - Partner Bank Account"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>partner_branch</code> - Partner Branch"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>partner_city</code> - Partner City"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>partner_country</code> - Partner Country"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>partner_firstname</code> - Partner Firstname"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>partner_id</code> - Partner ID"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>partner_lastname</code> - Partner Lastname"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>partner_name</code> - Partner Name"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>partner_state</code> - Partner State"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>partner_street2</code> - Partner Street2"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>partner_street</code> - Partner Street"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>partner_title</code> - Partner Title"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>partner_vat</code> - Partner VAT"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>partner_zip</code> - Partner Zip"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<code>row_number</code> - Index"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.internal_layout
+msgid ""
+"<span class=\"page\"/>\n"
+"                    /\n"
+"                    <span class=\"topage\"/>"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.line_report_withholding_tax
+msgid "<span>%</span>"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid ""
+"<strong>Display format for exporting text file</strong><br/>\n"
+"                                You can use <em>Python-style string patterns</em> with the following fields.\n"
+"                                For example: <code>partner_vat</code> will display the partner VAT number."
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<strong>General:</strong>"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<strong>Income &amp; Tax:</strong>"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<strong>Note:</strong> <b>loop_</b> is not support PND1 Format."
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<strong>Partner:</strong>"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "<strong>Tax Payer:</strong>"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_header
+msgid "<strong>ชื่อผู้ประกอบการ</strong>"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_header
+msgid "<strong>ชื่อสถานประกอบการ</strong>"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_header
+msgid "<strong>ที่อยู่</strong>"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_header
+msgid "<strong>เลขประจำตัวผู้เสียภาษีอากร</strong>"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model,name:l10n_th_account_tax_report.model_account_tax_report_abstract_wizard
+msgid "Abstract Wizard"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.header_line_report_withholding_tax
+msgid "Address"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid ""
+"And for line-level variables, you can prefix with <b>loop_</b>,\n"
+"                                e.g. <code>loop_amount</code> to show values per line."
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.header_line_report_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_tax_report_lines_header
+msgid "Base Amount"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_tax_report_lines_header
+msgid "Branch ID"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.tax_report_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.view_withholding_tax_report_wizard
+msgid "Cancel"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model,name:l10n_th_account_tax_report.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_account_tax_report_abstract_wizard__company_id
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_tax_report_wizard__company_id
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_withholding_tax_report_wizard__company_id
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_tax_report_filters
+msgid "Company"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.header_report_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_tax_report_filters
+msgid "Company Tax Branch"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_tax_report_filters
+msgid "Company Tax ID"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model,name:l10n_th_account_tax_report.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_report_l10n_th_account_tax_report_report_thai_tax_xlsx__create_uid
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_tax_report_wizard__create_uid
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_withholding_tax_report_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_report_l10n_th_account_tax_report_report_thai_tax_xlsx__create_date
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_tax_report_wizard__create_date
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_withholding_tax_report_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.header_line_report_withholding_tax
+msgid "Cus./Sup."
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_tax_report_lines_header
+msgid "Cust./Sup."
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.header_line_report_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_tax_report_lines_header
+msgid "Date"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_account_tax_report_abstract_wizard__date_from
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_tax_report_wizard__date_from
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_withholding_tax_report_wizard__date_from
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.header_report_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_tax_report_filters
+msgid "Date From"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#. odoo-python
+#: code:addons/l10n_th_account_tax_report/wizard/abstract_wizard.py:0
+msgid "Date From must not be after Date To"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_account_tax_report_abstract_wizard__date_range_id
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_tax_report_wizard__date_range_id
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_withholding_tax_report_wizard__date_range_id
+msgid "Date Range"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_account_tax_report_abstract_wizard__date_to
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_tax_report_wizard__date_to
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_withholding_tax_report_wizard__date_to
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.header_report_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_tax_report_filters
+msgid "Date To"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_config_settings_view_form
+msgid "Default format tax report applied to standard or revenue department."
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_report_l10n_th_account_tax_report_report_thai_tax_xlsx__display_name
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_tax_report_wizard__display_name
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_withholding_tax_report_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,help:l10n_th_account_tax_report.field_res_company__wht_text_file_pnd1_format
+msgid ""
+"Display format to use for text file PND1.\n"
+"\n"
+"You can use python-style string pattern with all the fields of the withholding tax (for example, use '%(partner_vat)s' to display the field 'partner_vat') plus\n"
+"%(row_number)s: Index\n"
+"%(cert_cancel)s: Cancelled\n"
+"%(cert_date)s: Date\n"
+"%(cert_date_str)s: Date (string)\n"
+"%(cert_name)s: Name\n"
+"%(cert_tax_payer)s: Tax Payer\n"
+"%(cert_tax_payer_display)s: Tax Payer Display\n"
+"%(cert_tax_payer_code)s: Tax Payer Code\n"
+"%(partner_id)s: Partner ID\n"
+"%(partner_name)s: Partner Name\n"
+"%(partner_title)s: Partner Title\n"
+"%(partner_firstname)s: Partner Firstname\n"
+"%(partner_lastname)s: Partner Lastname\n"
+"%(partner_address)s: Partner Address\n"
+"%(partner_street)s: Partner Street\n"
+"%(partner_street2)s: Partner Street2\n"
+"%(partner_city)s: Partner City\n"
+"%(partner_state)s: Partner State\n"
+"%(partner_zip)s: Partner Zip\n"
+"%(partner_country)s: Partner Country\n"
+"%(partner_vat)s: Partner VAT\n"
+"%(partner_branch)s: Partner Branch\n"
+"%(partner_bank_account)s: Partner Bank Account\n"
+"%(income_code)s: Income Code\n"
+"%(base)s: Base\n"
+"%(amount)s: Amount"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,help:l10n_th_account_tax_report.field_res_company__wht_text_file_pnd3_format
+msgid ""
+"Display format to use for text file PND3.\n"
+"\n"
+"You can use python-style string pattern with all the fields of the withholding tax (for example, use '%(partner_vat)s' to display the field 'partner_vat') plus\n"
+"%(row_number)s: Index\n"
+"%(cert_cancel)s: Cancelled\n"
+"%(cert_date)s: Date\n"
+"%(cert_date_str)s: Date (string)\n"
+"%(cert_name)s: Name\n"
+"%(cert_tax_payer)s: Tax Payer\n"
+"%(cert_tax_payer_display)s: Tax Payer Display\n"
+"%(cert_tax_payer_code)s: Tax Payer Code\n"
+"%(partner_id)s: Partner ID\n"
+"%(partner_name)s: Partner Name\n"
+"%(partner_title)s: Partner Title\n"
+"%(partner_firstname)s: Partner Firstname\n"
+"%(partner_lastname)s: Partner Lastname\n"
+"%(partner_address)s: Partner Address\n"
+"%(partner_street)s: Partner Street\n"
+"%(partner_street2)s: Partner Street2\n"
+"%(partner_city)s: Partner City\n"
+"%(partner_state)s: Partner State\n"
+"%(partner_zip)s: Partner Zip\n"
+"%(partner_country)s: Partner Country\n"
+"%(partner_vat)s: Partner VAT\n"
+"%(partner_branch)s: Partner Branch\n"
+"%(partner_bank_account)s: Partner Bank Account\n"
+"%(income_code)s: Income Code\n"
+"%(base)s: Base\n"
+"%(amount)s: Amount"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,help:l10n_th_account_tax_report.field_res_company__wht_text_file_pnd53_format
+msgid ""
+"Display format to use for text file PND53.\n"
+"\n"
+"You can use python-style string pattern with all the fields of the withholding tax (for example, use '%(partner_vat)s' to display the field 'partner_vat') plus\n"
+"%(row_number)s: Index\n"
+"%(cert_cancel)s: Cancelled\n"
+"%(cert_date)s: Date\n"
+"%(cert_date_str)s: Date (string)\n"
+"%(cert_name)s: Name\n"
+"%(cert_tax_payer)s: Tax Payer\n"
+"%(cert_tax_payer_display)s: Tax Payer Display\n"
+"%(cert_tax_payer_code)s: Tax Payer Code\n"
+"%(partner_id)s: Partner ID\n"
+"%(partner_name)s: Partner Name\n"
+"%(partner_title)s: Partner Title\n"
+"%(partner_firstname)s: Partner Firstname\n"
+"%(partner_lastname)s: Partner Lastname\n"
+"%(partner_address)s: Partner Address\n"
+"%(partner_street)s: Partner Street\n"
+"%(partner_street2)s: Partner Street2\n"
+"%(partner_city)s: Partner City\n"
+"%(partner_state)s: Partner State\n"
+"%(partner_zip)s: Partner Zip\n"
+"%(partner_country)s: Partner Country\n"
+"%(partner_vat)s: Partner VAT\n"
+"%(partner_branch)s: Partner Branch\n"
+"%(partner_bank_account)s: Partner Bank Account\n"
+"%(income_code)s: Income Code\n"
+"%(base)s: Base\n"
+"%(amount)s: Amount"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_tax_report_lines_header
+msgid "Doc Ref."
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.tax_report_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.view_withholding_tax_report_wizard
+msgid "Export PDF"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.view_withholding_tax_report_wizard
+msgid "Export TXT"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.tax_report_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.view_withholding_tax_report_wizard
+msgid "Export XLSX"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "Help"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_report_l10n_th_account_tax_report_report_thai_tax_xlsx__id
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_tax_report_wizard__id
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_withholding_tax_report_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_withholding_tax_report_wizard__income_tax_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.header_report_withholding_tax
+msgid "Income Tax Form"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_report_l10n_th_account_tax_report_report_thai_tax_xlsx__write_uid
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_tax_report_wizard__write_uid
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_withholding_tax_report_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_report_l10n_th_account_tax_report_report_thai_tax_xlsx__write_date
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_tax_report_wizard__write_date
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_withholding_tax_report_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_res_company__wht_text_file_pnd1_format
+msgid "Layout in Text File PND1"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_res_company__wht_text_file_pnd3_format
+msgid "Layout in Text File PND3"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_res_company__wht_text_file_pnd53_format
+msgid "Layout in Text File PND53"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.header_line_report_withholding_tax
+msgid "No."
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_tax_report_lines_header
+msgid "Number"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields.selection,name:l10n_th_account_tax_report.selection__withholding_tax_report_wizard__income_tax_form__pnd1
+msgid "PND1"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields.selection,name:l10n_th_account_tax_report.selection__withholding_tax_report_wizard__income_tax_form__pnd1a
+msgid "PND1A"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields.selection,name:l10n_th_account_tax_report.selection__withholding_tax_report_wizard__income_tax_form__pnd2
+msgid "PND2"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields.selection,name:l10n_th_account_tax_report.selection__withholding_tax_report_wizard__income_tax_form__pnd3
+msgid "PND3"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields.selection,name:l10n_th_account_tax_report.selection__withholding_tax_report_wizard__income_tax_form__pnd53
+msgid "PND53"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_tax_report_base
+msgid "Purchase VAT Report"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.header_line_report_withholding_tax
+msgid "Ref Doc."
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model,name:l10n_th_account_tax_report.model_report_l10n_th_account_tax_report_report_withholding_tax_xlsx
+msgid "Report Withholding Tax xlsx"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields.selection,name:l10n_th_account_tax_report.selection__res_company__tax_report_format__rd
+#: model:ir.model.fields.selection,name:l10n_th_account_tax_report.selection__res_company__wht_report_format__rd
+msgid "Revenue Department"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_tax_report_base
+msgid "Sale VAT Report"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_account_tax_report_abstract_wizard__show_cancel
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_tax_report_wizard__show_cancel
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_withholding_tax_report_wizard__show_cancel
+msgid "Show Cancelled"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields.selection,name:l10n_th_account_tax_report.selection__res_company__tax_report_format__std
+#: model:ir.model.fields.selection,name:l10n_th_account_tax_report.selection__res_company__wht_report_format__std
+msgid "Standard"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_tax_report_wizard__tax_id
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.header_line_report_withholding_tax
+msgid "Tax"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.header_line_report_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_tax_report_lines_header
+msgid "Tax Amount"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.header_line_report_withholding_tax
+msgid "Tax Description"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.header_report_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_tax_report_lines_header
+msgid "Tax ID"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.header_line_report_withholding_tax
+msgid "Tax Invoice"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.header_line_report_withholding_tax
+msgid "Tax Payer"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_config_settings_view_form
+msgid "Tax Report"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model,name:l10n_th_account_tax_report.model_report_l10n_th_account_tax_report_report_thai_tax_xlsx
+msgid "Tax Report Excel"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_res_company__tax_report_format
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_res_config_settings__tax_report_format
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_config_settings_view_form
+msgid "Tax Report Format"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.actions.report,name:l10n_th_account_tax_report.action_print_report_thai_tax_html
+#: model:ir.actions.report,name:l10n_th_account_tax_report.action_print_report_thai_tax_qweb
+msgid "Thai TAX Report"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.actions.report,name:l10n_th_account_tax_report.action_print_report_rd_thai_tax_html
+#: model:ir.actions.report,name:l10n_th_account_tax_report.action_print_report_rd_thai_tax_qweb
+msgid "Thai TAX Report (RD)"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.actions.report,name:l10n_th_account_tax_report.action_print_report_thai_tax_xlsx
+msgid "Thai TAX Report XLSX"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model,name:l10n_th_account_tax_report.model_report_l10n_th_account_tax_report_report_thai_tax
+#: model:ir.ui.menu,name:l10n_th_account_tax_report.menu_tax_report
+msgid "Thai Tax Report"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model,name:l10n_th_account_tax_report.model_report_l10n_th_account_tax_report_report_rd_thai_tax
+msgid "Thai Tax Report RD"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.actions.act_window,name:l10n_th_account_tax_report.action_tax_report
+msgid "Thai Tax Reports"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model,name:l10n_th_account_tax_report.model_report_l10n_th_account_tax_report_report_withholding_tax
+msgid "Thai Withholding Tax Report"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model,name:l10n_th_account_tax_report.model_report_l10n_th_account_tax_report_report_rd_withholding_tax
+msgid "Thai Withholding Tax Report RD"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model,name:l10n_th_account_tax_report.model_report_l10n_th_account_tax_report_report_withholding_tax_text
+msgid "Thai Withholding Tax Report Text"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_tax_report_base
+msgid "VAT Report"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.tax_report_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.view_withholding_tax_report_wizard
+msgid "View"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.actions.act_window,name:l10n_th_account_tax_report.action_withholding_tax_report_wizard
+#: model:ir.ui.menu,name:l10n_th_account_tax_report.menu_withholding_tax_report
+msgid "WHT Income Tax Report"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_config_settings_view_form
+msgid "WHT Text File"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.res_company_view_form
+msgid "WHT Text File Format"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_res_company__wht_report_format
+#: model:ir.model.fields,field_description:l10n_th_account_tax_report.field_res_config_settings__wht_report_format
+msgid "Wht Report Format"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.actions.report,name:l10n_th_account_tax_report.action_print_report_wht_html
+#: model:ir.actions.report,name:l10n_th_account_tax_report.action_print_report_wht_qweb
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_wht
+msgid "Withholding Tax Report"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.actions.report,name:l10n_th_account_tax_report.action_print_report_rd_wht_qweb
+msgid "Withholding Tax Report (RD)"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.view_withholding_tax_report_wizard
+msgid "Withholding Tax Report Options"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.actions.report,name:l10n_th_account_tax_report.action_print_report_wht_txt
+msgid "Withholding Tax Report Text"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model,name:l10n_th_account_tax_report.model_withholding_tax_report_wizard
+msgid "Withholding Tax Report Wizard"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.actions.report,name:l10n_th_account_tax_report.action_print_report_wht_xlsx
+msgid "Withholding Tax Report XLSX"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.model,name:l10n_th_account_tax_report.model_tax_report_wizard
+msgid "Wizard for Tax Report"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model:ir.actions.report,print_report_name:l10n_th_account_tax_report.action_print_report_rd_wht_qweb
+#: model:ir.actions.report,print_report_name:l10n_th_account_tax_report.action_print_report_thai_tax_qweb
+#: model:ir.actions.report,print_report_name:l10n_th_account_tax_report.action_print_report_thai_tax_xlsx
+#: model:ir.actions.report,print_report_name:l10n_th_account_tax_report.action_print_report_wht_qweb
+#: model:ir.actions.report,print_report_name:l10n_th_account_tax_report.action_print_report_wht_txt
+#: model:ir.actions.report,print_report_name:l10n_th_account_tax_report.action_print_report_wht_xlsx
+msgid "object._get_report_base_filename()"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_article
+msgid "คู่ค้า"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_article
+msgid "จำนวนเงินภาษีมูลค่าเพิ่ม"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_article
+msgid "ชื่อผู้ขายสินค้า/ผู้ให้บริการ"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_article
+msgid "ชื่อผู้ซื้อสินค้า/ผู้รับบริการ"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_article
+msgid "มูลค่าสินค้าหรือบริการ"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_article
+msgid "รวมทั้งสิ้น"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_article
+msgid "รวมหน้า"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_header
+msgid "รายงานภาษีขาย"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_header
+msgid "รายงานภาษีซื้อ"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_header
+msgid "รายงานภาษีมูลค่าเพิ่ม"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_article
+msgid "ลำดับ"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_article
+msgid "วันที่"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_article
+msgid "สถานประกอบการ"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_company_tax_branch
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_article
+msgid "สาขาที่"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_company_tax_branch
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_article
+msgid "สำนักงานใหญ่"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_header
+msgid "หน้าที่ <span class=\"page\"/> / <span class=\"topage\"/>"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_header
+msgid "เดือนภาษี"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_article
+msgid "เลขที่"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_article
+msgid "เลขที่เอกสาร"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_article
+msgid "เลขประจำตัวผู้เสียภาษีอากรของคู่ค้า"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_article
+msgid "เลขประจำตัวผู้เสียภาษีอากรของชื่อผู้ขายสินค้า/ผู้ให้บริการ"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_article
+msgid "เลขประจำตัวผู้เสียภาษีอากรของชื่อผู้ซื้อสินค้า/ผู้รับบริการ"
+msgstr ""
+
+#. module: l10n_th_account_tax_report
+#: model_terms:ir.ui.view,arch_db:l10n_th_account_tax_report.report_rd_tax_report_article
+msgid "ใบกำกับภาษี"
+msgstr ""
