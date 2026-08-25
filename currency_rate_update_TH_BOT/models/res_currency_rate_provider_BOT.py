@@ -106,7 +106,7 @@ class ResCurrencyRateProviderBOT(models.Model):
         last_updated = data["data_header"]["last_updated"]
         date_last_update = datetime.datetime.strptime(last_updated, "%Y-%m-%d").date()
         if date_from > date_last_update and date_to > date_last_update:
-            raise UserError(self.env._(f"BOT Last Updated: {last_updated}"))
+            raise UserError(self.env._("BOT Last Updated: %(date)s", date=last_updated))
         data_details = data["data_detail"]
         unit = self._get_currency_unit(bot_currency.bot_currency_name)
         for data_detail in data_details:
@@ -170,8 +170,10 @@ class ResCurrencyRateProviderBOT(models.Model):
                     more_information = data_dict.get("moreInformation", False)
                     raise UserError(
                         self.env._(
-                            f"httpCode: {http_code}\n"
-                            f"moreInformation: {more_information}"
+                            "httpCode: %(http_code)s\n"
+                            "moreInformation: %(more_information)s",
+                            http_code=http_code,
+                            more_information=more_information,
                         )
                     )
                 self._update_content_currency_update(
