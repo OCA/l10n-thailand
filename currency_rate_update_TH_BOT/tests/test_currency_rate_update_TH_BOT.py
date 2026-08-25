@@ -2,16 +2,19 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import datetime
+from unittest import mock
 
+import requests
 from dateutil.relativedelta import relativedelta
 
 from odoo import fields
 from odoo.exceptions import UserError
-from odoo.tests.common import TransactionCase
 from odoo.tools import mute_logger
 
+from odoo.addons.base.tests.common import BaseCommon
 
-class TestResCurrencyRateProviderBOT(TransactionCase):
+
+class TestResCurrencyRateProviderBOT(BaseCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -145,3 +148,49 @@ class TestResCurrencyRateProviderBOT(TransactionCase):
             self.bot_provider._update_content_currency_update(
                 self.eur_currency, {}, result_demo, date, date
             )
+
+    def test_06_obtain_rates(self):
+        """After call api to BOT, rate is normalized to 1 unit of currency"""
+        self.my_company.bot_token = "Test"
+        jpy_currency = self.env.ref("base.JPY")
+        jpy_currency.active = True
+        result_demo = {
+            "result": {
+                "data": {
+                    "data_header": {"last_updated": "2023-09-19"},
+                    "data_detail": [
+                        {
+                            "period": "2023-09-19",
+                            "currency_id": "JPY",
+                            "mid_rate": "24.2000000",
+                        },
+                        # Data without period is skipped
+                        {
+                            "period": "",
+                            "currency_id": "JPY",
+                            "mid_rate": "0.0000000",
+                        },
+                    ],
+                }
+            }
+        }
+        response = mock.Mock()
+        response.json.return_value = result_demo
+        date = datetime.datetime.strptime("2023-09-19", "%Y-%m-%d").date()
+        with mock.patch.object(requests, "get", return_value=response):
+            content = self.bot_provider._obtain_rates("THB", ["JPY"], date, date)
+        # BOT quotes JPY per 100 units
+        self.assertEqual(content, {"2023-09-19": {"JPY": 100.0 / 24.2}})
+        # Check error returned by BOT is raised to the user.
+        response.json.return_value = {
+            "httpCode": "401",
+            "moreInformation": "Missing Credentials",
+        }
+        with mock.patch.object(requests, "get", return_value=response):
+            with self.assertRaises(UserError):
+                self.bot_provider._obtain_rates("THB", ["JPY"], date, date)
+
+    def test_07_bot_currency_name(self):
+        """BOT currency name follows the currency name by default"""
+        self.eur_currency.name = "EUX"
+        self.assertEqual(self.eur_currency.bot_currency_name, "EUX")

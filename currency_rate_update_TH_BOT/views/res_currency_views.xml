@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//filter[@name='inactive']" position="after">
                 <separator />
-                <group expand="0" name="group_by" string="Group By">
+                <group name="group_by">
                     <filter
                         name="group_bot_currency_rate_type"
                         string="BOT Currency Rate Type"
