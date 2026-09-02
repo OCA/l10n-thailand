@@ -20,7 +20,7 @@ class AccountPaymentRegister(models.TransientModel):
         elif model == "account.move.line":
             move_lines = self.env[model].browse(active_ids)
         else:
-            raise UserError(self.env._("Unsupported model %s") % model)
+            raise UserError(self.env._("Unsupported model %(model)s", model=model))
 
         wht_move_lines = move_lines.filtered("wht_tax_id")
         for wizard in self:
@@ -41,7 +41,7 @@ class AccountPaymentRegister(models.TransientModel):
         elif model == "account.move.line":
             move_lines = self.env[model].browse(active_ids)
         else:
-            raise UserError(self.env._("Unsupported model %s") % model)
+            raise UserError(self.env._("Unsupported model %(model)s", model=model))
 
         move_lines = move_lines.filtered("wht_tax_id")
         if move_lines:
@@ -116,10 +116,12 @@ class AccountPaymentDeduction(models.TransientModel):
         """Onchange set for personal income tax"""
         if not self.wht_tax_id.pit_id:
             raise UserError(
-                self.env._("No effective PIT rate for date %s")
-                % format_date(self.env, self.payment_id.payment_date)
+                self.env._(
+                    "No effective PIT rate for date %(date)s",
+                    date=format_date(self.env, self.register_payment_id.payment_date),
+                )
             )
-        payment = self.payment_id
+        payment = self.register_payment_id
         company = payment.company_id
         amount_base_company = payment.currency_id._convert(
             self.wht_amount_base,

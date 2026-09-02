@@ -231,4 +231,70 @@ class TestAccountTaxMulti(TestWithholdingTax):
         self.assertEqual(invoice.payment_state, "paid")
         self.assertTrue(payment.move_id.mapped("line_ids").mapped("full_reconcile_id"))
 
-    # TODO: test for PIT cases
+    def _multi_wht_invoice(self):
+        """A posted vendor bill carrying two different withholding taxes"""
+        invoice = self._create_invoice(
+            self.partner_1.id,
+            self.purchase_journal.id,
+            "in_invoice",
+            self.expense_account.id,
+            100.0,
+            multi=True,
+        )
+        invoice.invoice_line_ids[0].wht_tax_id = self.wht_3
+        invoice.invoice_line_ids[1].wht_tax_id = self.wht_1
+        invoice.action_post()
+        return invoice
+
+    def test_05_deduction_source_model(self):
+        """Deductions are built from moves or move lines, and nothing else"""
+        invoice = self._multi_wht_invoice()
+        wizard = (
+            self.env["account.payment.register"]
+            .with_context(active_model="account.move", active_ids=invoice.ids)
+            .new({})
+        )
+        wizard._compute_payment_difference_handling()
+        self.assertEqual(wizard.payment_difference_handling, "reconcile_multi_deduct")
+        wizard._onchange_payment_difference_handling()
+        self.assertEqual(wizard.deduction_ids.wht_tax_id, self.wht_3 | self.wht_1)
+        bad = wizard.with_context(
+            active_model="res.partner", active_ids=self.partner_1.ids
+        )
+        with self.assertRaisesRegex(UserError, "Unsupported model res.partner"):
+            bad._compute_payment_difference_handling()
+        # Pin the handling so the onchange reaches its own guard rather than
+        # tripping the one in the compute above.
+        bad.payment_difference_handling = "reconcile_multi_deduct"
+        with self.assertRaisesRegex(UserError, "Unsupported model res.partner"):
+            bad._onchange_payment_difference_handling()
+
+    def test_06_deduction_pit(self):
+        """PIT deductions follow the progressive table, when one is effective"""
+        wht_pit = self.account_wht_obj.create(
+            {
+                "name": "PIT",
+                "account_id": self.wht_3.account_id.id,
+                "is_pit": True,
+            }
+        )
+        invoice = self._multi_wht_invoice()
+        with Form.from_action(self.env, invoice.action_register_payment()) as wiz_form:
+            wizard = wiz_form.save()
+        deduct = self.env["account.payment.deduction"].new(
+            {"register_payment_id": wizard.id, "wht_amount_base": 500000.0}
+        )
+        deduct.wht_tax_id = wht_pit
+        deduct._compute_wht_amount()
+        # Progressive brackets: 0-150k at 0%, 150k-300k at 5% (7,500) and
+        # 300k-500k at 10% (20,000). A PIT tax carries no flat rate of its
+        # own, so this can only come from the table, not from _onchange_wht().
+        self.assertFalse(wht_pit.amount)
+        self.assertEqual(deduct.amount, 27500.0)
+        self.assertEqual(deduct.account_id, wht_pit.account_id)
+        self.assertEqual(deduct.name, wht_pit.display_name)
+        # Retiring every PIT table leaves nothing effective for the date
+        self.env["personal.income.tax"].search([]).write({"active": False})
+        wht_pit.invalidate_recordset(["pit_id"])
+        with self.assertRaisesRegex(UserError, "No effective PIT rate"):
+            deduct._compute_wht_amount()
