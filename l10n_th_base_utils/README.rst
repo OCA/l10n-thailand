@@ -43,22 +43,20 @@ It includes features such as:
 
 - Thai font support:
 
-  - Font ``THSrisakdi``
-  - Font ``THSarabunNew``
-  - Font ``THSarabun``
-  - Font ``THNiramitAS``
-  - Font ``THMaliGrade6``
-  - Font ``THKrub``
-  - Font ``THKoHo``
-  - Font ``THKodchasal``
-  - Font ``THK2DJuly8``
-  - Font ``THFahkwang``
-  - Font ``THCharmonman``
-  - Font ``THCharmofAU``
-  - Font ``THChakraPetch``
   - Font ``THBaijam``
-  - Font ``AngsanaNew``
-  - Font ``Webdings``
+  - Font ``THChakraPetch``
+  - Font ``THCharmofAU``
+  - Font ``THCharmonman``
+  - Font ``THFahKwang``
+  - Font ``THK2DJuly8``
+  - Font ``THKodchasal``
+  - Font ``THKoHo``
+  - Font ``THKrub``
+  - Font ``THMaliGrade6``
+  - Font ``THNiramitAS``
+  - Font ``THSarabun``
+  - Font ``THSarabunNew``
+  - Font ``THSrisakdi``
 
 **Table of contents**
 
