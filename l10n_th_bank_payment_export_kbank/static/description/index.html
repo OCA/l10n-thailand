@@ -398,7 +398,30 @@ Only for development or testing purpose, do not use in production.
 </div>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-2">Usage</a></h1>
-<p># TODO</p>
+<p>Choose a KBank template, the transfer product, the effective date and
+the charge bearer, then add payments and export the text file.</p>
+<p>The standard format follows <tt class="docutils literal">KBank_Excel Template_V2.6.2.xlsm</tt>:</p>
+<ul class="simple">
+<li>Same-bank products: FTR, FTL, DCT and PCT.</li>
+<li>Other-bank products: MCL, MCS, BNL, PCL and IPP.</li>
+<li>Both supplied templates set File Encoding to Windows-874 (Thai ANSI).
+File Encoding and Line Ending are configured on the bank template in
+the base bank payment export module. The downloaded file uses CRLF and
+preserves literal characters such as <tt class="docutils literal">&amp;</tt> instead of HTML entities.</li>
+<li>SMS is optional. Set the SMS language when providing a number. Payroll
+products PCT/PCL include SMS only when WHT information is present.</li>
+<li>Standard WHT exports one T record per certificate line, up to three
+per payment, with sequential tax numbers starting at 1. Cancelled
+certificates are excluded. FTR does not export WHT. This format does
+not implement e-WHT or the bank’s Single Payment Format.</li>
+<li>MCL/MCS/PCL accounts are padded with leading zeroes to 20 characters;
+BNL/IPP accounts are padded with trailing spaces. Branch codes follow
+the workbook rules, including GSB’s <tt class="docutils literal">9990</tt> and IPP’s default
+<tt class="docutils literal">9999</tt>.</li>
+</ul>
+<p>Upgrade this module after deploying the changes so the existing template
+records are refreshed from the CSV data. Review any locally customized
+standard template records before upgrading.</p>
 </div>
 <div class="section" id="bug-tracker">
 <h1><a class="toc-backref" href="#toc-entry-3">Bug Tracker</a></h1>

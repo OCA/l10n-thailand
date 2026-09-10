@@ -22,13 +22,13 @@
                 <field
                     name="kbank_product_type"
                     readonly="state != 'draft'"
-                    invisible="bank != 'KASITHBK' and kbank_transfer_type != 'same_bank'"
+                    invisible="bank != 'KASITHBK' or kbank_transfer_type != 'same_bank'"
                     required="bank == 'KASITHBK' and kbank_transfer_type == 'same_bank'"
                 />
                 <field
                     name="kbank_payment_type"
                     readonly="state != 'draft'"
-                    invisible="bank != 'KASITHBK' and kbank_transfer_type != 'other_bank'"
+                    invisible="bank != 'KASITHBK' or kbank_transfer_type != 'other_bank'"
                     required="bank == 'KASITHBK' and kbank_transfer_type == 'other_bank'"
                 />
             </xpath>

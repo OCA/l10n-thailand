@@ -7,7 +7,7 @@ kbank_same_bank_05,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,14
 kbank_same_bank_06,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,15,Filler,,14,KBank - Header,,ljust,,fixed,,
 kbank_same_bank_07,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,16,Debit A/C No.,,10,KBank - Header,,ljust,,expression,,lines.sanitize_account_number(lines[:1].payment_journal_id.bank_account_id.acc_number)
 kbank_same_bank_08,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,17,Filler,,1,KBank - Header,,ljust,,fixed,,
-kbank_same_bank_09,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,18,Amount,,15,KBank - Header,,rjust,0,expression,,"str(int(round(rec.total_amount * 100, 2)))"
+kbank_same_bank_09,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,18,Amount,,15,KBank - Header,,rjust,0,expression,,"rec._kbank_satang(sum(lines.mapped(""payment_amount"")))"
 kbank_same_bank_10,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,19,Filler,,1,KBank - Header,,ljust,,fixed,,
 kbank_same_bank_11,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,20,Trans-Date,,6,KBank - Header,,ljust,,expression,,"today_datetime.strftime(""%y%m%d"")"
 kbank_same_bank_12,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,21,Filler,,25,KBank - Header,,ljust,,fixed,,
@@ -22,41 +22,42 @@ kbank_same_bank_20,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,29
 kbank_same_bank_21,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,30,Filler,,14,KBank - Payment,,ljust,,fixed,,
 kbank_same_bank_22,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,31,Payee A/C No.,,10,KBank - Payment,,ljust,,expression,,line.sanitize_account_number(payment.partner_bank_id.acc_number)
 kbank_same_bank_23,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,32,Filler,,1,KBank - Payment,,ljust,,fixed,,
-kbank_same_bank_24,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,33,Amount,,15,KBank - Payment,,rjust,0,expression,,"str(int(round(payment.amount * 100, 2)))"
+kbank_same_bank_24,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,33,Amount,,15,KBank - Payment,,rjust,0,expression,,rec._kbank_satang(payment.amount)
 kbank_same_bank_25,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,34,Filler,,1,KBank - Payment,,ljust,,fixed,,
 kbank_same_bank_26,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,35,Trans-Date,,6,KBank - Payment,,ljust,,expression,,"today_datetime.strftime(""%y%m%d"")"
 kbank_same_bank_27,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,36,Filler,,25,KBank - Payment,,ljust,,fixed,,
-kbank_same_bank_28,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,37,Name ,,50,KBank - Payment,,ljust,,expression,,payment.partner_id.name
+kbank_same_bank_28,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,37,Name ,,50,KBank - Payment,,ljust,,expression,,payment.partner_bank_id.acc_holder_name or payment.partner_id.name
 kbank_same_bank_29,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,38,Effective-Date,,6,KBank - Payment,,ljust,,expression,,"rec.effective_date.strftime(""%y%m%d"")"
-kbank_same_bank_30,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,39,Tax Info Count,,3,KBank - Payment,,rjust,0,fixed,,
-kbank_same_bank_31,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,40,Bene. Ref #,,16,KBank - Payment,,ljust,,expression,,payment.partner_id.ref
+kbank_same_bank_30,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,39,Tax Info Count,,3,KBank - Payment,,rjust,0,expression,,len(kbank_wht_lines)
+kbank_same_bank_31,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,40,Bene. Ref #,,16,KBank - Payment,,ljust,,expression,,payment.name
 kbank_same_bank_32,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,41,Attachment Sub-file,,50,KBank - Payment,,ljust,,fixed,,
 kbank_same_bank_33,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,42,Advice Mode,,1,KBank - Payment,,ljust,,expression,,payment.partner_id.kbank_advice_mode
 kbank_same_bank_34,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,43,Fax No.,,50,KBank - Payment,,ljust,,expression,,"payment.partner_id.kbank_advice_mode == ""F"" and payment.partner_id.kbank_fax"
 kbank_same_bank_35,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,44,Email ID,,50,KBank - Payment,,ljust,,expression,,"payment.partner_id.kbank_advice_mode == ""E"" and payment.partner_id.kbank_email"
-kbank_same_bank_36,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,45,Total Inv Amt bef VAT,,13,KBank - Payment,,rjust,0,expression,,"line._format_amount(sum(invoices.mapped(""amount_untaxed"")))"
-kbank_same_bank_37,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,46,Total Tax deducted Amt,,13,KBank - Payment,,rjust,0,expression,,"line._format_amount(sum(wht_certs.wht_line.mapped(""amount"")))"
-kbank_same_bank_38,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,47,Total Inv Amt after VAT,,13,KBank - Payment,,rjust,0,expression,,"line._format_amount(sum(invoices.mapped(""amount_total"")))"
+kbank_same_bank_36,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,45,Total Inv Amt bef VAT,,13,KBank - Payment,,rjust,0,expression,,"rec._format_amount(kbank_totals[""base""])"
+kbank_same_bank_37,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,46,Total Tax deducted Amt,,13,KBank - Payment,,rjust,0,expression,,"rec._format_amount(kbank_totals[""tax""])"
+kbank_same_bank_38,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,47,Total Inv Amt after VAT,,13,KBank - Payment,,rjust,0,expression,,"rec._format_amount(kbank_totals[""after_vat""])"
 kbank_same_bank_39,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,48,Filler,,10,KBank - Payment,,ljust,,fixed,,
 kbank_same_bank_40,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,49,Tax ID/Personal ID,,13,KBank - Payment,,ljust,,expression,,payment.partner_id.vat
-kbank_same_bank_41,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,50,Payee Address 1,,30,KBank - Payment,,ljust,,fixed,,
-kbank_same_bank_42,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,51,Payee Address 2,,30,KBank - Payment,,ljust,,fixed,,
-kbank_same_bank_43,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,52,Payee Address 3,,30,KBank - Payment,,ljust,,fixed,,
-kbank_same_bank_44,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,53,Payee Address 4,,30,KBank - Payment,,ljust,,fixed,,
-kbank_same_bank_45,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,54,TAX INFORMATION (For FTL and DCT),line_section,,,,,,,,
-kbank_same_bank_46,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,55,Part Identifier,,1,KBank - WHT,"wht_cert and rec.kbank_product_type in (""FTL"", ""DCT"")",ljust,,fixed,T,
-kbank_same_bank_47,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,56,Tax Form,,2,KBank - WHT,"wht_cert and rec.kbank_product_type in (""FTL"", ""DCT"")",ljust,,fixed,,
-kbank_same_bank_48,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,57,Tax Seq.#,,10,KBank - WHT,"wht_cert and rec.kbank_product_type in (""FTL"", ""DCT"")",rjust,0,fixed,,
-kbank_same_bank_49,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,58,Tax rate,,6,KBank - WHT,"wht_cert and rec.kbank_product_type in (""FTL"", ""DCT"")",rjust,0,fixed,,
-kbank_same_bank_50,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,59,Type of tax deducted,,40,KBank - WHT,"wht_cert and rec.kbank_product_type in (""FTL"", ""DCT"")",ljust,,fixed,,
-kbank_same_bank_51,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,60,Inv Amt bef VAT,,13,KBank - WHT,"wht_cert and rec.kbank_product_type in (""FTL"", ""DCT"")",rjust,0,fixed,,
-kbank_same_bank_52,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,61,Tax deducted Amt,,13,KBank - WHT,"wht_cert and rec.kbank_product_type in (""FTL"", ""DCT"")",rjust,0,fixed,,
-kbank_same_bank_53,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,62,Inv Amt after VAT,,13,KBank - WHT,"wht_cert and rec.kbank_product_type in (""FTL"", ""DCT"")",rjust,0,fixed,,
-kbank_same_bank_54,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,63,Tax Condition,,1,KBank - WHT,"wht_cert and rec.kbank_product_type in (""FTL"", ""DCT"")",ljust,,fixed,,
-kbank_same_bank_55,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,64,MESSAGE INFORMATION (For FTL and DCT) ,line_section,,,,,,,,
-kbank_same_bank_56,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,65,Part Identifier,,1,KBank - Footer,"rec.kbank_product_type in (""FTL"", ""DCT"")",ljust,,fixed,M,
-kbank_same_bank_57,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,66,SMS Numbers,,54,KBank - Footer,"rec.kbank_product_type in (""FTL"", ""DCT"")",ljust,,expression,,payment.partner_id.kbank_sms
-kbank_same_bank_58,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,67,SMS LANG,,2,KBank - Footer,"rec.kbank_product_type in (""FTL"", ""DCT"")",ljust,,expression,,payment.partner_id.kbank_sms_lang
+kbank_same_bank_41,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,50,Payee Address 1,,30,KBank - Payment,,ljust,,expression,,payment.partner_id.street
+kbank_same_bank_42,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,51,Payee Address 2,,30,KBank - Payment,,ljust,,expression,,payment.partner_id.street2
+kbank_same_bank_43,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,52,Payee Address 3,,30,KBank - Payment,,ljust,,expression,,payment.partner_id.city
+kbank_same_bank_44,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,53,Payee Address 4,,30,KBank - Payment,,ljust,,expression,,payment.partner_id.state_id.name
+kbank_same_bank_59,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,54,Details,,255,KBank - Payment,,ljust,,expression,,payment.memo
+kbank_same_bank_45,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,55,TAX INFORMATION (For FTL and DCT),line_section,,,,,,,,
+kbank_same_bank_46,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,56,Part Identifier,,1,KBank - WHT,kbank_wht_line,ljust,,fixed,T,
+kbank_same_bank_47,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,57,Tax Form,,2,KBank - WHT,kbank_wht_line,ljust,,expression,,"{""pnd1"": ""01"", ""pnd2"": ""03"", ""pnd3"": ""05"", ""pnd3a"": ""06"", ""pnd53"": ""07""}[wht_cert.income_tax_form]"
+kbank_same_bank_48,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,58,Tax Seq.#,,10,KBank - WHT,kbank_wht_line,ljust,,expression,,str(idx_wht + 1)
+kbank_same_bank_49,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,59,Tax rate,,6,KBank - WHT,kbank_wht_line,rjust,0,expression,,line._format_amount(kbank_wht_line.wht_percent)
+kbank_same_bank_50,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,60,Type of tax deducted,,40,KBank - WHT,kbank_wht_line,ljust,,expression,,kbank_wht_line.wht_cert_income_desc
+kbank_same_bank_51,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,61,Inv Amt bef VAT,,13,KBank - WHT,kbank_wht_line,rjust,0,expression,,line._format_amount(kbank_wht_line.base)
+kbank_same_bank_52,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,62,Tax deducted Amt,,13,KBank - WHT,kbank_wht_line,rjust,0,expression,,line._format_amount(kbank_wht_line.amount)
+kbank_same_bank_53,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,63,Inv Amt after VAT,,13,KBank - WHT,kbank_wht_line,ljust,,fixed,,
+kbank_same_bank_54,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,64,Tax Condition,,1,KBank - WHT,kbank_wht_line,ljust,,expression,,"{""withholding"": ""1"", ""paid_one_time"": ""2"", ""paid_continue"": ""3""}[wht_cert.tax_payer]"
+kbank_same_bank_55,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,65,MESSAGE INFORMATION (For FTL and DCT) ,line_section,,,,,,,,
+kbank_same_bank_56,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,66,Part Identifier,,1,KBank - Footer,"rec._kbank_has_sms(payment, kbank_wht_lines)",ljust,,fixed,M,
+kbank_same_bank_57,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,67,SMS Numbers,,54,KBank - Footer,"rec._kbank_has_sms(payment, kbank_wht_lines)",ljust,,expression,,payment.partner_id.kbank_sms
+kbank_same_bank_58,l10n_th_bank_payment_export_kbank.kbank_transfer_same_bank,68,SMS LANG,,2,KBank - Footer,"rec._kbank_has_sms(payment, kbank_wht_lines)",ljust,,expression,,payment.partner_id.kbank_sms_lang
 kbank_other_bank_01,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,10,Header,line_section,,,,,,,,
 kbank_other_bank_02,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,11,Part Identifier,,1,KBank - Header,,ljust,,fixed,H,
 kbank_other_bank_03,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,12,Payment Type,,3,KBank - Header,,ljust,,expression,,rec.kbank_payment_type
@@ -65,21 +66,21 @@ kbank_other_bank_05,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,
 kbank_other_bank_06,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,15,Effective Date,,10,KBank - Header,,ljust,,expression,,"rec.effective_date.strftime(""%d-%m-%Y"")"
 kbank_other_bank_07,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,16,Customer Branch #,,5,KBank - Header,,ljust,,fixed,,
 kbank_other_bank_08,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,17,Total Credit Items,,18,KBank - Header,,rjust,0,expression,,str(len(lines))
-kbank_other_bank_09,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,18,Total Debit Amount,,18,KBank - Header,,rjust,0,expression,,rec._format_amount(rec.total_amount)
+kbank_other_bank_09,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,18,Total Debit Amount,,18,KBank - Header,,rjust,0,expression,,"rec._format_amount(sum(lines.mapped(""payment_amount"")))"
 kbank_other_bank_10,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,19,Charges for A/C Of.,,1,KBank - Header,,ljust,,expression,,rec.kbank_charge_bearer
 kbank_other_bank_11,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,20,Details,line_section,,,,,,,,
 kbank_other_bank_12,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,21,Part Identifier,,1,KBank - Payment,,ljust,,fixed,D,
-kbank_other_bank_13,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,22,Txn. Reference no.,,10,KBank - Payment,,ljust,,expression,,payment.name
+kbank_other_bank_13,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,22,Txn. Reference no.,,10,KBank - Payment,,ljust,,expression,,str(idx_payment + 1).zfill(6)
 kbank_other_bank_14,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,23,Amount,,13,KBank - Payment,,rjust,0,expression,,line._format_amount(payment.amount)
-kbank_other_bank_15,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,24,Payee,,80,KBank - Payment,,ljust,,expression,,payment.partner_bank_id.acc_holder_name
+kbank_other_bank_15,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,24,Payee,,80,KBank - Payment,,ljust,,expression,,"payment.partner_bank_id.acc_holder_name_en if rec.kbank_payment_type == ""BNL"" else (payment.partner_bank_id.acc_holder_name or payment.partner_id.name)"
 kbank_other_bank_16,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,25,Payee Address 1,,30,KBank - Payment,,ljust,,expression,,payment.partner_id.street
 kbank_other_bank_17,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,26,Payee Address 2,,30,KBank - Payment,,ljust,,expression,,payment.partner_id.street2
 kbank_other_bank_18,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,27,Payee Address 3,,30,KBank - Payment,,ljust,,expression,,payment.partner_id.city
 kbank_other_bank_19,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,28,Payee Address 4,,30,KBank - Payment,,ljust,,expression,,payment.partner_id.state_id.name
-kbank_other_bank_20,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,29,Payee A/C No.,,20,KBank - Payment,,ljust,,expression,,payment.partner_bank_id.acc_number
+kbank_other_bank_20,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,29,Payee A/C No.,,20,KBank - Payment,,ljust,,expression,,rec._kbank_payee_account(payment)
 kbank_other_bank_21,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,30,Bene. Ref #,,16,KBank - Payment,,ljust,,expression,,payment.name
 kbank_other_bank_22,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,31,Tax ID/Personal ID,,13,KBank - Payment,,ljust,,expression,,payment.partner_id.vat
-kbank_other_bank_23,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,32,Branch Code,,4,KBank - Payment,,ljust,,expression,,payment.partner_bank_id.bank_id.bank_branch_code
+kbank_other_bank_23,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,32,Branch Code,,4,KBank - Payment,,ljust,,expression,,rec._kbank_branch(payment)
 kbank_other_bank_24,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,33,Bank No,,3,KBank - Payment,,rjust,0,expression,,payment.partner_bank_id.bank_id.bank_code
 kbank_other_bank_25,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,34,Details,,255,KBank - Payment,,ljust,,expression,,payment.memo
 kbank_other_bank_26,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,35,Filler,,10,KBank - Payment,,ljust,,fixed,,
@@ -87,21 +88,21 @@ kbank_other_bank_27,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,
 kbank_other_bank_28,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,37,Advice Mode,,1,KBank - Payment,,ljust,,expression,,payment.partner_id.kbank_advice_mode
 kbank_other_bank_29,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,38,Fax No.,,50,KBank - Payment,,ljust,,expression,,"payment.partner_id.kbank_advice_mode == ""F"" and payment.partner_id.kbank_fax"
 kbank_other_bank_30,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,39,Email ID,,50,KBank - Payment,,ljust,,expression,,"payment.partner_id.kbank_advice_mode == ""E"" and payment.partner_id.kbank_email"
-kbank_other_bank_31,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,40,Total Inv Amt bef VAT,,13,KBank - Payment,,rjust,0,expression,,"line._format_amount(sum(invoices.mapped(""amount_untaxed"")))"
-kbank_other_bank_32,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,41,Total Tax deducted Amt,,13,KBank - Payment,,rjust,0,expression,,"line._format_amount(sum(wht_certs.wht_line.mapped(""amount"")))"
-kbank_other_bank_33,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,42,Total Inv Amt after VAT,,13,KBank - Payment,,rjust,0,expression,,"line._format_amount(sum(invoices.mapped(""amount_total"")))"
-kbank_other_bank_34,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,43,Tax Info Count,,13,KBank - Payment,,rjust,0,expression,,len(wht_certs)
+kbank_other_bank_31,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,40,Total Inv Amt bef VAT,,13,KBank - Payment,,rjust,0,expression,,"rec._format_amount(kbank_totals[""base""])"
+kbank_other_bank_32,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,41,Total Tax deducted Amt,,13,KBank - Payment,,rjust,0,expression,,"rec._format_amount(kbank_totals[""tax""])"
+kbank_other_bank_33,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,42,Total Inv Amt after VAT,,13,KBank - Payment,,rjust,0,expression,,"rec._format_amount(kbank_totals[""after_vat""])"
+kbank_other_bank_34,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,43,Tax Info Count,,3,KBank - Payment,,rjust,0,expression,,len(kbank_wht_lines)
 kbank_other_bank_35,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,44,"TAX INFORMATION (For MCL, MCS and BNL)",line_section,,,,,,,,
-kbank_other_bank_36,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,45,Part Identifier,,1,KBank - WHT,"wht_cert and rec.kbank_payment_type in (""MCL"",""MCS"",""BNL"")",ljust,,fixed,T,
-kbank_other_bank_37,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,46,Tax Form,,2,KBank - WHT,"wht_cert and rec.kbank_payment_type in (""MCL"",""MCS"",""BNL"")",rjust,0,expression,,"wht_cert.income_tax_form == ""pnd1"" and ""1"" or (wht_cert.income_tax_form == ""pnd2"" and ""3"") or (wht_cert.income_tax_form == ""pnd3"" and ""5"") or (wht_cert.income_tax_form == ""pnd3a"" and ""6"") or (wht_cert.income_tax_form == ""pnd53"" and ""7"")"
-kbank_other_bank_38,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,47,Tax Seq.#,,10,KBank - WHT,"wht_cert and rec.kbank_payment_type in (""MCL"",""MCS"",""BNL"")",rjust,0,expression,,idx_wht
-kbank_other_bank_39,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,48,Tax rate,,6,KBank - WHT,"wht_cert and rec.kbank_payment_type in (""MCL"",""MCS"",""BNL"")",rjust,0,expression,,line._format_amount(wht_cert.wht_line.wht_percent)
-kbank_other_bank_40,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,49,Type of tax deducted,,40,KBank - WHT,"wht_cert and rec.kbank_payment_type in (""MCL"",""MCS"",""BNL"")",ljust,,expression,,wht_cert.wht_line.wht_cert_income_desc
-kbank_other_bank_41,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,50,Inv Amt bef VAT,,13,KBank - WHT,"wht_cert and rec.kbank_payment_type in (""MCL"",""MCS"",""BNL"")",ljust,,fixed,,
-kbank_other_bank_42,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,51,Tax deducted Amt,,13,KBank - WHT,"wht_cert and rec.kbank_payment_type in (""MCL"",""MCS"",""BNL"")",ljust,,fixed,,
-kbank_other_bank_43,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,52,Inv Amt after VAT,,13,KBank - WHT,"wht_cert and rec.kbank_payment_type in (""MCL"",""MCS"",""BNL"")",ljust,,fixed,,
-kbank_other_bank_44,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,53,Tax Condition,,1,KBank - WHT,"wht_cert and rec.kbank_payment_type in (""MCL"",""MCS"",""BNL"")",ljust,,expression,,"wht_cert.tax_payer == ""withholding"" and ""1"" or (wht_cert.tax_payer == ""paid_one_time"" and ""2"") or (wht_cert.tax_payer == ""paid_continue"" and ""3"")"
+kbank_other_bank_36,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,45,Part Identifier,,1,KBank - WHT,kbank_wht_line,ljust,,fixed,T,
+kbank_other_bank_37,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,46,Tax Form,,2,KBank - WHT,kbank_wht_line,ljust,,expression,,"{""pnd1"": ""01"", ""pnd2"": ""03"", ""pnd3"": ""05"", ""pnd3a"": ""06"", ""pnd53"": ""07""}[wht_cert.income_tax_form]"
+kbank_other_bank_38,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,47,Tax Seq.#,,10,KBank - WHT,kbank_wht_line,ljust,,expression,,str(idx_wht + 1)
+kbank_other_bank_39,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,48,Tax rate,,6,KBank - WHT,kbank_wht_line,rjust,0,expression,,line._format_amount(kbank_wht_line.wht_percent)
+kbank_other_bank_40,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,49,Type of tax deducted,,40,KBank - WHT,kbank_wht_line,ljust,,expression,,kbank_wht_line.wht_cert_income_desc
+kbank_other_bank_41,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,50,Inv Amt bef VAT,,13,KBank - WHT,kbank_wht_line,rjust,0,expression,,line._format_amount(kbank_wht_line.base)
+kbank_other_bank_42,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,51,Tax deducted Amt,,13,KBank - WHT,kbank_wht_line,rjust,0,expression,,line._format_amount(kbank_wht_line.amount)
+kbank_other_bank_43,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,52,Inv Amt after VAT,,13,KBank - WHT,kbank_wht_line,ljust,,fixed,,
+kbank_other_bank_44,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,53,Tax Condition,,1,KBank - WHT,kbank_wht_line,ljust,,expression,,"{""withholding"": ""1"", ""paid_one_time"": ""2"", ""paid_continue"": ""3""}[wht_cert.tax_payer]"
 kbank_other_bank_45,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,54,"MESSAGE INFORMATION (For MCL, MCS, BNL and IPP)",line_section,,,,,,,,
-kbank_other_bank_46,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,55,Part Identifier,,1,KBank - Footer,"rec.kbank_product_type in (""MCL"",""MCS"",""BNL"",""IPP"")",ljust,,fixed,M,
-kbank_other_bank_47,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,56,SMS Numbers,,54,KBank - Footer,"rec.kbank_product_type in (""MCL"",""MCS"",""BNL"",""IPP"")",ljust,,expression,,payment.partner_id.kbank_sms
-kbank_other_bank_48,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,57,SMS LANG,,2,KBank - Footer,"rec.kbank_product_type in (""MCL"",""MCS"",""BNL"",""IPP"")",ljust,,expression,,payment.partner_id.kbank_sms_lang
+kbank_other_bank_46,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,55,Part Identifier,,1,KBank - Footer,"rec._kbank_has_sms(payment, kbank_wht_lines)",ljust,,fixed,M,
+kbank_other_bank_47,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,56,SMS Numbers,,54,KBank - Footer,"rec._kbank_has_sms(payment, kbank_wht_lines)",ljust,,expression,,payment.partner_id.kbank_sms
+kbank_other_bank_48,l10n_th_bank_payment_export_kbank.kbank_transfer_other_bank,57,SMS LANG,,2,KBank - Footer,"rec._kbank_has_sms(payment, kbank_wht_lines)",ljust,,expression,,payment.partner_id.kbank_sms_lang
