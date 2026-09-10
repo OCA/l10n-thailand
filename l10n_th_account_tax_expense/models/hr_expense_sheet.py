@@ -1,7 +1,7 @@
 # Copyright 2021 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
-from odoo import Command, _, fields, models
+from odoo import Command, fields, models
 from odoo.exceptions import UserError
 
 
@@ -43,7 +43,9 @@ class HrExpenseSheet(models.Model):
             for tax_invoice in purchase_tax_invoices:
                 expense = tax_invoice.move_line_id.expense_id
                 if not (expense.tax_number and expense.tax_date):
-                    raise UserError(_("Please fill in tax invoice and tax date"))
+                    raise UserError(
+                        self.env._("Please fill in tax invoice and tax date")
+                    )
             sheet.account_move_ids._sync_expense_tax_invoice()
         return super().action_sheet_move_post()
 
@@ -54,9 +56,11 @@ class HrExpenseSheet(models.Model):
         sheet.ensure_one()
         # Validation
         if sheet.state not in ("done", "post"):
-            raise UserError(_("Only posted or paid expense report can create JV"))
+            raise UserError(
+                self.env._("Only posted or paid expense report can create JV")
+            )
         if sheet.wht_move_id and sheet.wht_move_id.state != "cancel":
-            raise UserError(_("Already created withholding tax JV"))
+            raise UserError(self.env._("Already created withholding tax JV"))
         # Window action
         xmlid = "account.action_move_journal_line"
         action = self.env["ir.actions.act_window"]._for_xml_id(xmlid)
@@ -100,7 +104,11 @@ class HrExpenseSheet(models.Model):
         # Dr. Reconcilable Account (i.e., AP, Advance)
         # amount goes to AP first, then the rest go to Advance
         av_account = self.advance_sheet_id.expense_line_ids.mapped("account_id")
-        ap_accounts = move_lines.mapped("account_id").filtered(
+        # Exclude tax lines from AP candidates (e.g., reconcilable Tax Paid).
+        ap_move_lines = move_lines.filtered(
+            lambda line: not line.tax_line_id and not line.tax_repartition_line_id
+        )
+        ap_accounts = ap_move_lines.mapped("account_id").filtered(
             lambda account, av_account=av_account: account.reconcile
             and account != av_account
         )
@@ -128,6 +136,7 @@ class HrExpenseSheet(models.Model):
         # Create JV
         move_vals = {
             "move_type": "entry",
+            "journal_id": self.clearing_journal_id.id,
             "ref": self.account_move_ids.display_name,
             "line_ids": [Command.create(line_vals) for line_vals in line_vals_list],
         }
