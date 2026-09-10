@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_bank_template_list" model="ir.ui.view">
+        <field name="name">bank.template.list</field>
+        <field name="model">bank.template</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="bank" />
+            </list>
+        </field>
+    </record>
+    <record id="view_bank_template_form" model="ir.ui.view">
+        <field name="name">bank.template.form</field>
+        <field name="model">bank.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="bank" />
+                        </group>
+                        <group>
+                            <field name="file_encoding" />
+                            <field name="line_ending" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Template Format">
+                            <field
+                                name="template_line_ids"
+                                widget="section_and_note_one2many"
+                            >
+                                <list>
+                                    <control>
+                                        <create
+                                            name="add_line_control"
+                                            string="Add a line"
+                                        />
+                                        <create
+                                            name="add_section_control"
+                                            string="Add a section"
+                                            context="{'default_display_type': 'line_section'}"
+                                        />
+                                        <create
+                                            name="add_note_control"
+                                            string="Add a note"
+                                            context="{'default_display_type': 'line_note'}"
+                                        />
+                                    </control>
+                                    <field name="display_type" column_invisible="1" />
+                                    <field name="sequence" widget="handle" />
+                                    <field name="name" />
+                                    <field name="field_length" />
+                                    <field name="position_from" optional="hide" />
+                                    <field name="position_to" optional="hide" />
+                                    <field name="condition" widget="code" />
+                                    <field name="section_id" />
+                                    <field name="align" />
+                                    <field name="padding" />
+                                    <field name="source_type" />
+                                    <field name="fixed_value" />
+                                    <field name="expression" widget="code" />
+                                </list>
+                                <form>
+                                    <group>
+                                        <group
+                                            name="field_definition"
+                                            string="Field Definition"
+                                        >
+                                            <field name="display_type" invisible="1" />
+                                            <field name="name" required="1" />
+                                            <field
+                                                name="field_length"
+                                                required="not display_type"
+                                                invisible="display_type"
+                                            />
+                                            <field
+                                                name="position_from"
+                                                invisible="display_type"
+                                            />
+                                            <field
+                                                name="position_to"
+                                                invisible="display_type"
+                                            />
+                                        </group>
+                                        <group
+                                            name="format"
+                                            string="Format"
+                                            invisible="display_type"
+                                        >
+                                            <field
+                                                name="align"
+                                                required="not display_type"
+                                            />
+                                            <field name="padding" />
+                                            <field name="section_id" />
+                                        </group>
+                                    </group>
+                                    <group
+                                        name="condition"
+                                        string="Condition"
+                                        invisible="display_type"
+                                    >
+                                        <field
+                                            name="condition"
+                                            nolabel="1"
+                                            widget="code"
+                                            options="{'mode': 'python'}"
+                                            placeholder="Enter Python code here. Help about Python expression is available in the help tab of this document."
+                                        />
+                                    </group>
+                                    <group
+                                        name="value_source"
+                                        string="Value Source"
+                                        invisible="display_type"
+                                    >
+                                        <field
+                                            name="source_type"
+                                            required="not display_type"
+                                        />
+                                        <field
+                                            name="fixed_value"
+                                            invisible="source_type != 'fixed'"
+                                            required="not display_type and source_type == 'fixed'"
+                                        />
+                                        <field
+                                            name="expression"
+                                            invisible="source_type != 'expression'"
+                                            required="not display_type and source_type == 'expression'"
+                                            widget="code"
+                                            options="{'mode': 'python'}"
+                                        />
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Help">
+                            <group>
+                                <div>
+                                    <div>
+                                        <h3>Expressions Help</h3>
+                                        <p>
+                                            <b>Condition</b> and <b
+                                        >Expression</b> fields can execute valid Python expressions.
+                                        </p>
+                                        <p>
+                                            <b>Global Variables</b> (always available):
+                                        </p>
+                                        <ul>
+                                            <li><code
+                                            >rec</code>: The current Export Document (bank.payment.export).</li>
+                                            <li><code
+                                            >lines</code>: All active Export Lines (bank.payment.export.line).</li>
+                                            <li><code>today</code>: Current date.</li>
+                                            <li><code
+                                            >today_datetime</code>: Current date and time.</li>
+                                        </ul>
+                                        <p>
+                                            <b
+                                        >Context Variables</b> (depend on the Section's <b
+                                        >Data Level</b>):
+                                        </p>
+                                        <ul>
+                                            <li>
+                                                <b>Document Level:</b>
+                                                Only Global Variables are available.
+                                            </li>
+                                            <li>
+                                                <b>Payment Level:</b>
+                                                <ul>
+                                                    <li><code
+                                                    >line</code>: Current Export Line (bank.payment.export.line).</li>
+                                                    <li><code
+                                                    >idx_payment</code>: Index of the current Payment.</li>
+                                                    <li><code
+                                                    >payment</code>: Current Payment (account.payment).</li>
+                                                    <li><code
+                                                    >invoices</code>: All reconciled Invoices for the Payment.</li>
+                                                    <li><code
+                                                    >wht_certs</code>: All Withholding Tax Certificates for the Payment.</li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <b
+                                            >Invoice Level</b> (includes Payment variables):
+                                                <ul>
+                                                <li><code
+                                                >invoice</code>: Current Invoice (account.move).</li>
+                                                <li><code
+                                                >idx_invoice</code>: Index of the current Invoice.</li>
+                                            </ul>
+                                            </li>
+                                            <li>
+                                                <b
+                                            >Withholding Tax Level</b> (includes Payment variables):
+                                                <ul>
+                                                <li><code
+                                                >wht_cert</code>: Current WHT Certificate (withholding.tax.cert).</li>
+                                                <li><code
+                                                >idx_wht</code>: Index of the current WHT Certificate.</li>
+                                            </ul>
+                                            </li>
+                                            <li>
+                                                <b>Custom Expression Level:</b>
+                                                <ul>
+                                                    <li><code
+                                                    >payment_line</code>: Current Export Line.</li>
+                                                    <li><code
+                                                    >payment</code>: Current Payment.</li>
+                                                    <li><code
+                                                    >sub_line</code>: The current iterated object from the Custom Expression.</li>
+                                                    <li><code
+                                                    >idx_sub_line</code>: Index of the current Custom sub-loop.</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_bank_template" model="ir.actions.act_window">
+        <field name="name">Bank Template</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bank.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a Template Bank.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem
+        id="menu_bank_template"
+        name="Bank Template"
+        parent="base.menu_custom"
+        sequence="90"
+    />
+    <menuitem
+        id="menu_bank_template_template"
+        parent="menu_bank_template"
+        action="action_bank_template"
+        sequence="10"
+    />
+</odoo>
