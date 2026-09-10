@@ -102,6 +102,7 @@
                 <div class="act_as_cell">Base Amount</div>
                 <div class="act_as_cell">Tax Amount</div>
                 <div class="act_as_cell">Doc Ref.</div>
+                <div class="act_as_cell">Doc Number</div>
             </div>
         </div>
     </template>
@@ -135,6 +136,9 @@
             <div class="act_as_cell">
                 <t t-out="line['name']" />
             </div>
+            <div class="act_as_cell">
+                <t t-out="line['move_name']" />
+            </div>
         </div>
     </template>
 
@@ -152,6 +156,7 @@
             <div class="act_as_cell amount">
                 <t t-out="'{0:,.2f}'.format(total_tax)" />
             </div>
+            <div class="act_as_cell" />
             <div class="act_as_cell" />
         </div>
     </template>
