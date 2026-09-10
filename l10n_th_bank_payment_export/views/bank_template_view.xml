@@ -26,6 +26,7 @@
                             <field name="bank" />
                         </group>
                         <group>
+                            <field name="file_encoding" />
                             <field name="line_ending" />
                         </group>
                     </group>

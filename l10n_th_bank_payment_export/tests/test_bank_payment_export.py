@@ -4,7 +4,7 @@
 from unittest.mock import MagicMock, Mock
 
 from odoo import Command
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tests import Form
 
 from .common import CommonBankPaymentExport
@@ -47,6 +47,35 @@ class TestBankPaymentExport(CommonBankPaymentExport):
                 },
             ],
         )
+        # Separate text fixture for encoding tests; the position tests above
+        # depend on the original bank_template lengths and values.
+        cls.template = cls.create_bank_template(
+            cls,
+            "TEST",
+            [
+                {"name": "Text", "field_length": 7, "fixed_value": "ก & <x>"},
+                {
+                    "name": "Trailer",
+                    "sequence": 20,
+                    "field_length": 1,
+                    "fixed_value": "Z",
+                },
+            ],
+        )
+        cls.export = cls.bank_payment_export_model.create(
+            {
+                "bank": "TEST",
+                "bank_template_id": cls.template.id,
+            }
+        )
+
+    def _download(self, exports=None):
+        content, kind = self.env["ir.actions.report"]._render_qweb_text(
+            "l10n_th_bank_payment_export.action_payment_txt",
+            (exports if exports is not None else self.export).ids,
+        )
+        self.assertEqual(kind, "text")
+        return content
 
     def test_01_bank_template_line_position(self):
         """Bank template lines compute their running position from field_length."""
@@ -675,3 +704,85 @@ class TestBankPaymentExport(CommonBankPaymentExport):
         self.assertEqual(len(custom_items), 6)
         self.assertIn("sub_line", custom_items[0])
         self.assertIn("idx_sub_line", custom_items[0])
+
+    def test_11_encodings_and_line_endings(self):
+        self.assertEqual(self.template.file_encoding, "utf-8")
+        for encoding, prefix, thai in [
+            ("utf-8", b"", b"\xe0\xb8\x81"),
+            ("utf-8-sig", b"\xef\xbb\xbf", b"\xe0\xb8\x81"),
+            ("cp874", b"", b"\xa1"),
+            ("tis-620", b"", b"\xa1"),
+        ]:
+            for ending, separator in [("crlf", b"\r\n"), ("lf", b"\n"), ("none", b"")]:
+                with self.subTest(encoding=encoding, ending=ending):
+                    self.template.write(
+                        {"file_encoding": encoding, "line_ending": ending}
+                    )
+                    self.assertEqual(
+                        self._download(),
+                        prefix + thai + b" & <x>" + separator + b"Z" + separator,
+                    )
+
+    def test_12_unrepresentable_character_preserves_status(self):
+        payment = self.create_payment_from_invoice(self.bill_partner1_1, post=True)
+        self.export.export_line_ids.create(
+            {
+                "payment_export_id": self.export.id,
+                "payment_id": payment.id,
+            }
+        )
+        self.template.template_line_ids[0].fixed_value = "😀"
+        self.export.action_confirm()
+        for encoding in ("cp874", "tis-620"):
+            with self.subTest(encoding=encoding):
+                self.template.file_encoding = encoding
+                with self.assertRaisesRegex(ValidationError, "not supported"):
+                    self.export.action_export_text_file()
+                self.assertEqual(self.export.state, "confirm")
+                self.assertEqual(payment.export_status, "to_export")
+                with self.assertRaisesRegex(ValidationError, "not supported"):
+                    self._download()
+        self.template.file_encoding = "utf-8"
+        self.export.action_export_text_file()
+        self.assertEqual(self.export.state, "done")
+        self.assertEqual(payment.export_status, "exported")
+        self.assertTrue(self._download().startswith(b"\xf0\x9f\x98\x80"))
+
+    def test_13_windows874_and_tis620_are_distinct(self):
+        self.template.template_line_ids[0].fixed_value = "€"
+        self.template.file_encoding = "cp874"
+        self.assertTrue(self._download().startswith(b"\x80"))
+        self.template.file_encoding = "tis-620"
+        with self.assertRaisesRegex(ValidationError, "tis-620"):
+            self._download()
+
+    def test_14_multiple_documents_are_not_concatenated(self):
+        other = self.bank_payment_export_model.create(
+            {
+                "bank": "TEST",
+                "bank_template_id": self.template.id,
+            }
+        )
+        with self.assertRaisesRegex(UserError, "one bank payment document"):
+            self._download(self.export | other)
+
+    def test_15_unrelated_text_report_keeps_qweb_rendering(self):
+        self.env["ir.ui.view"].create(
+            {
+                "name": "Encoding test report",
+                "type": "qweb",
+                "key": "test_bank_encoding.other_report",
+                "arch_db": '<t t-name="test_bank_encoding.other_report">'
+                "<t t-out=\"'A &amp; B'\"/></t>",
+            }
+        )
+        report = self.env["ir.actions.report"].create(
+            {
+                "name": "Unrelated text report",
+                "model": "res.partner",
+                "report_type": "qweb-text",
+                "report_name": "test_bank_encoding.other_report",
+            }
+        )
+        content, kind = report._render_qweb_text(report.id, self.partner_1.ids)
+        self.assertEqual((content, kind), (b"A &amp; B", "text"))

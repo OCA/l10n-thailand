@@ -463,8 +463,18 @@ template lines.</p>
 <ul class="simple">
 <li><strong>Name</strong>: Template name.</li>
 <li><strong>Bank</strong>: Bank selection (extended by bank-specific modules).</li>
+<li><strong>File Encoding</strong>: UTF-8 (default), UTF-8 with BOM, Windows-874 (Thai
+ANSI), or TIS-620. Select the encoding specified by the bank.
+Unsupported characters raise an error before payments are marked as
+exported; they are never silently replaced or removed. UTF-8 with BOM
+adds one BOM at the start of the file.</li>
 <li><strong>Line Ending</strong>: End-of-line character (<tt class="docutils literal">\r\n</tt>, <tt class="docutils literal">\n</tt>, or none).</li>
 </ul>
+<p>Encoding and line endings are independent settings. Text downloads
+preserve literal characters such as <tt class="docutils literal">&amp;</tt> and <tt class="docutils literal">&lt;</tt> without HTML
+escaping. Field lengths and positions count characters; with UTF-8, Thai
+characters occupy multiple bytes. Use the encoding specified by the bank
+for its fixed-width format.</p>
 <p>Template Line Fields:</p>
 <ul class="simple">
 <li><strong>Description</strong>: Explanation of the field.</li>

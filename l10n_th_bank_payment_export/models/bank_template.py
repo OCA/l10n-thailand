@@ -17,6 +17,18 @@ class BankTemplate(models.Model):
     bank = fields.Selection(
         selection=[],
     )
+    file_encoding = fields.Selection(
+        selection=[
+            ("utf-8", "UTF-8"),
+            ("utf-8-sig", "UTF-8 with BOM"),
+            ("cp874", "Windows-874 (Thai ANSI)"),
+            ("tis-620", "TIS-620"),
+        ],
+        default="utf-8",
+        required=True,
+        help="Character encoding required by the receiving bank. Characters "
+        "that cannot be encoded will prevent the export.",
+    )
     line_ending = fields.Selection(
         selection=[
             ("crlf", "\\r\\n (Windows)"),

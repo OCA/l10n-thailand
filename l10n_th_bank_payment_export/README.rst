@@ -104,7 +104,18 @@ Template Fields:
 
 - **Name**: Template name.
 - **Bank**: Bank selection (extended by bank-specific modules).
+- **File Encoding**: UTF-8 (default), UTF-8 with BOM, Windows-874 (Thai
+  ANSI), or TIS-620. Select the encoding specified by the bank.
+  Unsupported characters raise an error before payments are marked as
+  exported; they are never silently replaced or removed. UTF-8 with BOM
+  adds one BOM at the start of the file.
 - **Line Ending**: End-of-line character (``\r\n``, ``\n``, or none).
+
+Encoding and line endings are independent settings. Text downloads
+preserve literal characters such as ``&`` and ``<`` without HTML
+escaping. Field lengths and positions count characters; with UTF-8, Thai
+characters occupy multiple bytes. Use the encoding specified by the bank
+for its fixed-width format.
 
 Template Line Fields:
 

@@ -4,7 +4,7 @@
 from datetime import datetime
 
 from odoo import Command, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tools.safe_eval import safe_eval
 
 
@@ -490,6 +490,25 @@ class BankPaymentExport(models.Model):
             return self._generate_bank_payment_text()
         return "Demo Text File. You must config `Bank Template` First."
 
+    def _export_bank_payment_text_bytes(self):
+        """Encode the complete file once, preserving literal text and one BOM."""
+        self.ensure_one()
+        encoding = self.bank_template_id.file_encoding or "utf-8"
+        text = self._export_bank_payment_text_file()
+        try:
+            return text.encode(encoding)
+        except UnicodeEncodeError as error:
+            raise ValidationError(
+                self.env._(
+                    "Cannot export %(document)s using %(encoding)s: "
+                    "character %(character)r is not supported. "
+                    "Correct the text or choose the encoding required by the bank.",
+                    document=self.display_name,
+                    encoding=encoding,
+                    character=text[error.start : error.end],
+                )
+            ) from error
+
     def _check_constraint_line(self):
         # Add condition with line on this function
         self.ensure_one()
@@ -526,6 +545,8 @@ class BankPaymentExport(models.Model):
 
     def action_export_text_file(self):
         self.ensure_one()
+        # Fail before changing payment/export status if the file cannot be encoded.
+        self._export_bank_payment_text_bytes()
         report = self.print_report("qweb-text")
         self.action_done()
         return report
