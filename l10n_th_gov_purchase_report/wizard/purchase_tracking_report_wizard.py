@@ -107,7 +107,24 @@ class PurchaseTrackingReportWizard(models.TransientModel):
                 self._get_where_purchase_report()
             )
         )
-        return self.env.cr.dictfetchall()
+        results = self.env.cr.dictfetchall()
+        results += self._get_query_purchase_tracking_extra_lines()
+        results.sort(
+            key=lambda r: (
+                r.get("pr_id") or 0,
+                r.get("po_id") or 0,
+                r.get("wa_id") or 0,
+            )
+        )
+        return results
+
+    def _get_query_purchase_tracking_extra_lines(self):
+        """Hook for extension modules to append extra report rows.
+
+        Each dict must include 'id' and 'pr_id'. It may also include
+        po_id, te_id, agm_id, wa_id, move_id, or other custom report fields.
+        """
+        return []
 
     def _get_report_name(self):
         return "l10n_th_gov_purchase_report.report_po_tracking_xlsx"
