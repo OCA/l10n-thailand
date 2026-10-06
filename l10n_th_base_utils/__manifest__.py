@@ -3,7 +3,7 @@
 
 {
     "name": "Thai Localization - Base Utils Thai",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "author": "Ecosoft, Odoo Community Association (OCA)",
     "summary": "Collection of all Thai fonts, Convert month/year/number to thai",
     "license": "AGPL-3",

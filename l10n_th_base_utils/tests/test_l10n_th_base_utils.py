@@ -47,7 +47,7 @@ class TestThaiBaseUtils(TransactionCase):
 
     def test_03_format_thai_datetime(self):
         # Datetime 2025-07-02 14:30:00
-        dt = datetime.datetime(2025, 7, 2, 14, 30, 0)
+        dt = datetime.datetime(2025, 7, 2, 14, 30, 0, tzinfo=datetime.timezone.utc)
 
         result_date = self.thai_util_model.format_thai_date(dt)
         self.assertEqual(result_date, "2 กรกฎาคม 2568")
