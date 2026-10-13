@@ -130,15 +130,13 @@ class TestWithholdingTaxPIT(AccountTestInvoicingCommon):
         self.assertEqual(self.pit_rate.calendar_year, "2001")
         self.assertEqual(self.pit_rate.effective_date, datetime.date(2001, 1, 1))
         # First rate must be zero
-        with self.assertRaises(UserError):
-            with Form(self.pit_rate) as pit_rate:
-                with pit_rate.rate_ids.edit(0) as rate:
-                    rate.income_from = 1
+        with self.assertRaises(UserError), Form(self.pit_rate) as pit_rate:
+            with pit_rate.rate_ids.edit(0) as rate:
+                rate.income_from = 1
         # income_to must equal previous income_from
-        with self.assertRaises(UserError):
-            with Form(self.pit_rate) as pit_rate:
-                with pit_rate.rate_ids.edit(1) as rate:
-                    rate.income_from = 1001
+        with self.assertRaises(UserError), Form(self.pit_rate) as pit_rate:
+            with pit_rate.rate_ids.edit(1) as rate:
+                rate.income_from = 1001
         # Copy PIT, it will add copy after calendar year
         # User MUST change to to calendar year
         pit_rate_copy = self.pit_rate.copy()

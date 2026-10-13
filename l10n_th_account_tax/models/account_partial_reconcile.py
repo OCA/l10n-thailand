@@ -47,9 +47,11 @@ class AccountPartialReconcile(models.Model):
         ]
         # Not include taxes (0%) and not reconciled
         del_move_lines = moves.mapped("line_ids").filtered(
-            lambda line: line.account_id.id in account_ids
-            and not line.tax_line_id
-            and not line.reconciled
+            lambda line: (
+                line.account_id.id in account_ids
+                and not line.tax_line_id
+                and not line.reconciled
+            )
         )
         if del_move_lines:
             del_move_lines.with_context(force_delete=1, dynamic_unlink=1).unlink()

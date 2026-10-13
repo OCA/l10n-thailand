@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="view_account_payment_form" model="ir.ui.view">
         <field name="name">account.view.account.payment.form</field>
@@ -48,10 +48,10 @@
                     Withholding tax certs. created but still draft.
                     <button
                     id="link_wht_certs"
+                    class="oe_link"
                     name="button_wht_certs"
                     string="⇒ Show withholding tax certs"
                     type="object"
-                    class="oe_link"
                     invisible="state != 'paid'"
                 />
                 </div>

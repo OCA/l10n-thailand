@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo noupdate="1">
     <record id="withholding_tax_pnd1_401n" model="withholding.tax.code.income">
         <field name="name">เงินได้มาตรา 40(1) เงินเดือน ค่าจ้าง กรณีทั่วไป</field>

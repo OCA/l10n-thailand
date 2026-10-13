@@ -65,8 +65,8 @@
     </record>
 
     <menuitem
-        name="PIT Rate"
         id="menu_personal_income_tax"
+        name="PIT Rate"
         action="action_personal_income_tax"
         parent="account.account_account_menu"
         sequence="2"

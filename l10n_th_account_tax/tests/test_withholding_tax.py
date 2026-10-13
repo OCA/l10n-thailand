@@ -354,7 +354,7 @@ class TestWithholdingTax(AccountTestInvoicingCommon):
             "invoice2": invoice.copy(),
             "invoice3": invoice.copy(),
         }
-        for k in invoice_dict.keys():
+        for k in invoice_dict:
             invoice_dict[k]["invoice_date"] = fields.Date.today()
         invoice_dict["invoice3"]["partner_id"] = (self.partner_2.id,)
         # Post invoice

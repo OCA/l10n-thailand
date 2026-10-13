@@ -135,8 +135,9 @@ class AccountPayment(models.Model):
                 move.action_post()
                 # Reconcile Case Basis
                 line = move.line_ids.filtered(
-                    lambda ml, payment_tax_ml=payment_tax_ml: ml.id
-                    not in payment_tax_ml
+                    lambda ml, payment_tax_ml=payment_tax_ml: (
+                        ml.id not in payment_tax_ml
+                    )
                 )
                 if line.account_id.reconcile:
                     origin_ml = move.tax_cash_basis_origin_move_id.line_ids

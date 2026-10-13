@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <!-- WHT -->
     <record id="view_wht_move_list" model="ir.ui.view">
@@ -105,8 +105,8 @@
         <field name="view_id" ref="view_wht_move_list" />
     </record>
     <menuitem
-        action="action_withholding_tax_move_view"
         id="menu_action_withholding_tax_move"
+        action="action_withholding_tax_move_view"
         groups="account.group_account_invoice"
         parent="account.menu_finance_entries"
         sequence="120"

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo noupdate="1">
     <record id="seq_wht_option_1" model="ir.sequence">
         <field name="name">Withholding tax cert sequence</field>

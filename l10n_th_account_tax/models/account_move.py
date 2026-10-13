@@ -349,12 +349,14 @@ class AccountMove(models.Model):
         """Ensure purchase tax invoices have number and date before posting."""
         self.ensure_one()
         for tax_invoice in self.tax_invoice_ids.filtered(
-            lambda tax: tax.tax_line_id.type_tax_use == "purchase"
-            or (
-                tax.move_id.move_type == "entry"
-                and not tax.payment_id
-                and tax.move_id.journal_id.type != "sale"
-                and tax.tax_line_id.type_tax_use != "sale"
+            lambda tax: (
+                tax.tax_line_id.type_tax_use == "purchase"
+                or (
+                    tax.move_id.move_type == "entry"
+                    and not tax.payment_id
+                    and tax.move_id.journal_id.type != "sale"
+                    and tax.tax_line_id.type_tax_use != "sale"
+                )
             )
         ):
             if not tax_invoice.tax_invoice_number or not tax_invoice.tax_invoice_date:
@@ -368,16 +370,18 @@ class AccountMove(models.Model):
                         tax_invoice.move_id.reversed_entry_id.write({"state": "posted"})
                         tax_account_id = tax_invoice.account_id
                         line_reconcile = moves.mapped("line_ids").filtered(
-                            lambda line, tax_account_id=tax_account_id: line.account_id
-                            != tax_account_id
-                            and line.reconciled
+                            lambda line, tax_account_id=tax_account_id: (
+                                line.account_id != tax_account_id and line.reconciled
+                            )
                         )
                         line_reconcile.reconcile()
                     continue
                 if self.move_type == "entry" and self.reversed_entry_id:
                     orig_tinv = self.reversed_entry_id.tax_invoice_ids.filtered(
-                        lambda t, ti=tax_invoice: t.tax_line_id == ti.tax_line_id
-                        and t.account_id == ti.account_id
+                        lambda t, ti=tax_invoice: (
+                            t.tax_line_id == ti.tax_line_id
+                            and t.account_id == ti.account_id
+                        )
                     )[:1]
                     if orig_tinv:
                         tax_invoice.write(
@@ -399,8 +403,10 @@ class AccountMove(models.Model):
         """Set sales tax invoice numbers from Odoo document info."""
         self.ensure_one()
         for tax_invoice in self.tax_invoice_ids.filtered(
-            lambda tax: tax.tax_line_id.type_tax_use == "sale"
-            or tax.move_id.journal_id.type == "sale"
+            lambda tax: (
+                tax.tax_line_id.type_tax_use == "sale"
+                or tax.move_id.journal_id.type == "sale"
+            )
         ):
             tinv_number, tinv_date = self._get_tax_invoice_number(
                 self, tax_invoice, tax_invoice.tax_line_id
@@ -540,8 +546,10 @@ class AccountMove(models.Model):
             for orig_line in self.line_ids:
                 if orig_line.manual_tax_invoice:
                     new_line = new.line_ids.filtered(
-                        lambda line, ol=orig_line: line.account_id == ol.account_id
-                        and abs(line.balance) == abs(ol.balance)
+                        lambda line, ol=orig_line: (
+                            line.account_id == ol.account_id
+                            and abs(line.balance) == abs(ol.balance)
+                        )
                     )
                     if new_line and not new_line.manual_tax_invoice:
                         new_line.manual_tax_invoice = True
@@ -657,8 +665,10 @@ class AccountMove(models.Model):
         payment_context = self.env.context.get("payment_id")
         if payment_context:
             cash_basis_moves = self.filtered(
-                lambda m: m.tax_cash_basis_origin_move_id
-                and m.tax_cash_basis_origin_move_id.move_type == "in_invoice"
+                lambda m: (
+                    m.tax_cash_basis_origin_move_id
+                    and m.tax_cash_basis_origin_move_id.move_type == "in_invoice"
+                )
             )
             for move in cash_basis_moves:
                 move.name = False
