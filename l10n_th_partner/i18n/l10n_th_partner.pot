@@ -1,0 +1,821 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_partner
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,help:l10n_th_partner.field_res_company__branch
+#: model:ir.model.fields,help:l10n_th_partner.field_res_partner__branch
+#: model:ir.model.fields,help:l10n_th_partner.field_res_users__branch
+msgid "Branch ID, e.g., 0000, 0001, ..."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model_terms:ir.ui.view,arch_db:l10n_th_partner.view_company_form
+#: model_terms:ir.ui.view,arch_db:l10n_th_partner.view_partner_form
+msgid "Branch, e.g., 00000"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model,name:l10n_th_partner.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model_terms:ir.ui.view,arch_db:l10n_th_partner.view_partner_form
+msgid "Company name"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model,name:l10n_th_partner.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model,name:l10n_th_partner.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model_terms:ir.ui.view,arch_db:l10n_th_partner.res_config_settings_view_form
+msgid ""
+"Disable space between title and name. example: Miss Firstname Lastname -> "
+"MissFirstname Lastname"
+msgstr ""
+
+#. module: l10n_th_partner
+#. odoo-python
+#: code:addons/l10n_th_partner/models/res_partner.py:0
+msgid "Each contact's Tax ID and Tax Branch should not be the same."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,help:l10n_th_partner.field_res_company__no_space_title_name
+#: model:ir.model.fields,help:l10n_th_partner.field_res_config_settings__no_space_title_name
+msgid "If checked, title and name will no space"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model_terms:ir.ui.view,arch_db:l10n_th_partner.view_res_partner_filter
+msgid "Legal Form"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__name_company
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__name_company
+msgid "Name Company"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_company__no_space_title_name
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_config_settings__no_space_title_name
+msgid "No Space Title and Name"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model,name:l10n_th_partner.model_res_partner_company_type
+msgid "Partner Company Type"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner_company_type__prefix
+msgid "Prefix"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,help:l10n_th_partner.field_res_partner_company_type__use_prefix_suffix
+msgid "Select this field for compute partner name with prefix or suffix."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner_company_type__suffix
+msgid "Suffix"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_company__branch
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner__branch
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_users__branch
+msgid "Tax Branch"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:ir.model.fields,field_description:l10n_th_partner.field_res_partner_company_type__use_prefix_suffix
+msgid "Use Prefix Suffix"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_069
+#: model:res.partner.title,shortcut:l10n_th_partner.title_069
+msgid "คุณหญิง"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_033
+#: model:res.partner.title,shortcut:l10n_th_partner.title_048
+msgid "จ.ต."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_032
+#: model:res.partner.title,shortcut:l10n_th_partner.title_047
+msgid "จ.ท."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_015
+#: model:res.partner.title,shortcut:l10n_th_partner.title_060
+msgid "จ.ส.ต."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_014
+msgid "จ.ส.ท."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_013
+msgid "จ.ส.อ."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_031
+#: model:res.partner.title,shortcut:l10n_th_partner.title_046
+msgid "จ.อ."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_033
+msgid "จ่าตรี"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_015
+msgid "จ่าสิบตรี"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_060
+msgid "จ่าสิบตำรวจ"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_013
+msgid "จ่าสิบเอก"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_014
+msgid "จ่าสิบโท"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_048
+msgid "จ่าอากาศตรี"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_046
+msgid "จ่าอากาศเอก"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_047
+msgid "จ่าอากาศโท"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_031
+msgid "จ่าเอก"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_032
+msgid "จ่าโท"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_059
+msgid "ด.ต."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_070
+#: model:res.partner.title,shortcut:l10n_th_partner.title_070
+msgid "ท่านผู้หญิง"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_039
+msgid "น.ต."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_024
+msgid "น.ต.,ร.น."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_038
+msgid "น.ท."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_023
+msgid "น.ท.,ร.น."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_003
+msgid "น.ส."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_037
+msgid "น.อ."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_022
+msgid "น.อ.,ร.น."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_002
+#: model:res.partner.title,shortcut:l10n_th_partner.title_002
+msgid "นาง"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_003
+msgid "นางสาว"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_001
+#: model:res.partner.title,shortcut:l10n_th_partner.title_001
+msgid "นาย"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_059
+msgid "นายดาบตำรวจ"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_024
+msgid "นาวาตรี"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_039
+msgid "นาวาอากาศตรี"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_037
+msgid "นาวาอากาศเอก"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_038
+msgid "นาวาอากาศโท"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_022
+msgid "นาวาเอก"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_023
+msgid "นาวาโท"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.company.type,shortcut:l10n_th_partner.company_type_3
+msgid "บจก."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.company.type,shortcut:l10n_th_partner.company_type_4
+msgid "บมจ."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.company.type,name:l10n_th_partner.company_type_3
+msgid "บริษัทจำกัด"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.company.type,name:l10n_th_partner.company_type_4
+msgid "บริษัทมหาชนจำกัด"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_030
+msgid "พ.จ.ต."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_029
+msgid "พ.จ.ท."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_028
+msgid "พ.จ.อ."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_009
+msgid "พ.ต."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_055
+msgid "พ.ต.ต."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_054
+msgid "พ.ต.ท."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_053
+msgid "พ.ต.อ."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_008
+msgid "พ.ท."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_007
+msgid "พ.อ."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_045
+msgid "พ.อ.ต."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_044
+msgid "พ.อ.ท."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_043
+msgid "พ.อ.อ."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_006
+msgid "พล.ต."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_052
+msgid "พล.ต.ต."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_051
+msgid "พล.ต.ท."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_050
+msgid "พล.ต.อ."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_005
+msgid "พล.ท."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_021
+msgid "พล.ร.ต."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_020
+msgid "พล.ร.ท."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_019
+msgid "พล.ร.อ."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_004
+msgid "พล.อ."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_036
+msgid "พล.อ.ต."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_035
+msgid "พล.อ.ท."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_034
+msgid "พล.อ.อ."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_006
+msgid "พลตรี"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_064
+msgid "พลตำรวจ"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_052
+msgid "พลตำรวจตรี"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_050
+msgid "พลตำรวจเอก"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_051
+msgid "พลตำรวจโท"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_049
+msgid "พลทหาร"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_036
+msgid "พลอากาศตรี"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_034
+msgid "พลอากาศเอก"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_035
+msgid "พลอากาศโท"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_049
+#: model:res.partner.title,shortcut:l10n_th_partner.title_064
+msgid "พลฯ"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_021
+msgid "พลเรือตรี"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_019
+msgid "พลเรือเอก"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_020
+msgid "พลเรือโท"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_004
+msgid "พลเอก"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_005
+msgid "พลโท"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_030
+msgid "พันจ่าตรี"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_045
+msgid "พันจ่าอากาศตรี"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_043
+msgid "พันจ่าอากาศเอก"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_044
+msgid "พันจ่าอากาศโท"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_028
+msgid "พันจ่าเอก"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_029
+msgid "พันจ่าโท"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_009
+msgid "พันตรี"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_055
+msgid "พันตำรวจตรี"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_053
+msgid "พันตำรวจเอก"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_054
+msgid "พันตำรวจโท"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_007
+msgid "พันเอก"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_008
+msgid "พันโท"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_065
+msgid "ม.จ."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_066
+msgid "ม.ร.ว."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_067
+msgid "ม.ล."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.company.type,name:l10n_th_partner.company_type_7
+#: model:res.partner.company.type,shortcut:l10n_th_partner.company_type_7
+msgid "มูลนิธิ"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_012
+#: model:res.partner.title,shortcut:l10n_th_partner.title_042
+msgid "ร.ต."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_027
+msgid "ร.ต.,ร.น."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_058
+msgid "ร.ต.ต."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_057
+msgid "ร.ต.ท."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_056
+msgid "ร.ต.อ."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_011
+#: model:res.partner.title,shortcut:l10n_th_partner.title_041
+msgid "ร.ท."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_026
+msgid "ร.ท.,ร.น."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_010
+#: model:res.partner.title,shortcut:l10n_th_partner.title_040
+msgid "ร.อ."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_025
+msgid "ร.อ.,ร.น."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_012
+msgid "ร้อยตรี"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_058
+msgid "ร้อยตำรวจตรี"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_056
+msgid "ร้อยตำรวจเอก"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_057
+msgid "ร้อยตำรวจโท"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_010
+msgid "ร้อยเอก"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_011
+msgid "ร้อยโท"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_018
+msgid "ส.ต."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_063
+msgid "ส.ต.ต."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_062
+msgid "ส.ต.ท."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_061
+msgid "ส.ต.อ."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_017
+msgid "ส.ท."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,shortcut:l10n_th_partner.title_016
+msgid "ส.อ."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.company.type,name:l10n_th_partner.company_type_5
+#: model:res.partner.company.type,shortcut:l10n_th_partner.company_type_5
+msgid "สหกรณ์"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.company.type,name:l10n_th_partner.company_type_6
+#: model:res.partner.company.type,shortcut:l10n_th_partner.company_type_6
+msgid "สหกรณ์จำกัด"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_018
+msgid "สิบตรี"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_063
+msgid "สิบตำรวจตรี"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_061
+msgid "สิบตำรวจเอก"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_062
+msgid "สิบตำรวจโท"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_016
+msgid "สิบเอก"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_017
+msgid "สิบโท"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.company.type,shortcut:l10n_th_partner.company_type_2
+msgid "หจก."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_068
+#: model:res.partner.title,shortcut:l10n_th_partner.title_068
+msgid "หม่อม"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_066
+msgid "หม่อมราชวงศ์"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_067
+msgid "หม่อมหลวง"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_065
+msgid "หม่อมเจ้า"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.company.type,shortcut:l10n_th_partner.company_type_1
+msgid "หสน."
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.company.type,name:l10n_th_partner.company_type_2
+msgid "ห้างหุ้นส่วนจำกัด"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.company.type,name:l10n_th_partner.company_type_1
+msgid "ห้างหุ้นส่วนสามัญนิติบุคคล"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_027
+msgid "เรือตรี"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_042
+msgid "เรืออากาศตรี"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_040
+msgid "เรืออากาศเอก"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_041
+msgid "เรืออากาศโท"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_025
+msgid "เรือเอก"
+msgstr ""
+
+#. module: l10n_th_partner
+#: model:res.partner.title,name:l10n_th_partner.title_026
+msgid "เรือโท"
+msgstr ""

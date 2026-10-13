@@ -1,0 +1,8 @@
+- [Ecosoft](http://ecosoft.co.th):
+  - Kitti Upariphutthiphong. \<<kittiu@gmail.com>\>
+  - Pimolnat Suntian \<<pimolnats@ecosoft.co.th>\>
+  - Saran Lim. \<<saranl@ecosoft.co.th>\>
+- [Tanabutr](https://www.tanabutr.co.th):
+  - Poonlap Veerathanabutr \<<poonlap@tanabutr.co.th>\>
+- [Newlogic](https://newlogic.com):
+  - Theerayut A. \<<theerayut@newlogic.com>\>
