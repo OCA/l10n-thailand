@@ -1,0 +1,92 @@
+$thai-font-path: "./thai";
+
+// Each font variant is registered as a separate font-family
+// Regular variant uses base name: font-family: "THSarabun";
+// Other variants use suffix: font-family: "THSarabun-Bold";
+@mixin thai-font($family, $suffix: "Regular") {
+    // For Regular, use base name only. For others, add suffix.
+    $namefont: if($suffix == "Regular", $family, "#{$family}-#{$suffix}");
+
+    @font-face {
+        font-family: $namefont;
+        src: url("#{$thai-font-path}/#{$family}/#{$family}-#{$suffix}.ttf")
+            format("truetype");
+    }
+}
+
+// THBaijam
+@include thai-font("THBaijam", "Regular");
+@include thai-font("THBaijam", "Bold");
+@include thai-font("THBaijam", "Italic");
+@include thai-font("THBaijam", "Bold-Italic");
+
+// THChakraPetch
+@include thai-font("THChakraPetch", "Regular");
+@include thai-font("THChakraPetch", "Bold");
+@include thai-font("THChakraPetch", "Italic");
+@include thai-font("THChakraPetch", "Bold-Italic");
+
+// THCharmofAU
+@include thai-font("THCharmofAU", "Regular");
+
+// THCharmonman
+@include thai-font("THCharmonman", "Regular");
+@include thai-font("THCharmonman", "Bold");
+
+// THFahKwang
+@include thai-font("THFahKwang", "Regular");
+@include thai-font("THFahKwang", "Bold");
+@include thai-font("THFahKwang", "Italic");
+@include thai-font("THFahKwang", "Bold-Italic");
+
+// THK2DJuly8
+@include thai-font("THK2DJuly8", "Regular");
+@include thai-font("THK2DJuly8", "Bold");
+@include thai-font("THK2DJuly8", "Italic");
+@include thai-font("THK2DJuly8", "Bold-Italic");
+
+// THKodchasal
+@include thai-font("THKodchasal", "Regular");
+@include thai-font("THKodchasal", "Bold");
+@include thai-font("THKodchasal", "Italic");
+@include thai-font("THKodchasal", "Bold-Italic");
+
+// THKoHo
+@include thai-font("THKoHo", "Regular");
+@include thai-font("THKoHo", "Bold");
+@include thai-font("THKoHo", "Italic");
+@include thai-font("THKoHo", "Bold-Italic");
+
+// THKrub
+@include thai-font("THKrub", "Regular");
+@include thai-font("THKrub", "Bold");
+@include thai-font("THKrub", "Italic");
+@include thai-font("THKrub", "Bold-Italic");
+
+// THMaliGrade6
+@include thai-font("THMaliGrade6", "Regular");
+@include thai-font("THMaliGrade6", "Bold");
+@include thai-font("THMaliGrade6", "Italic");
+@include thai-font("THMaliGrade6", "Bold-Italic");
+
+// THNiramitAS
+@include thai-font("THNiramitAS", "Regular");
+@include thai-font("THNiramitAS", "Bold");
+@include thai-font("THNiramitAS", "Italic");
+@include thai-font("THNiramitAS", "Bold-Italic");
+
+// THSarabun
+@include thai-font("THSarabun", "Regular");
+@include thai-font("THSarabun", "Bold");
+@include thai-font("THSarabun", "Italic");
+@include thai-font("THSarabun", "Bold-Italic");
+
+// THSarabunNew
+@include thai-font("THSarabunNew", "Regular");
+@include thai-font("THSarabunNew", "Bold");
+@include thai-font("THSarabunNew", "Italic");
+@include thai-font("THSarabunNew", "Bold-Italic");
+
+// THSrisakdi
+@include thai-font("THSrisakdi", "Regular");
+@include thai-font("THSrisakdi", "Bold");

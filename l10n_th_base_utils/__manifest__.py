@@ -12,7 +12,7 @@
     "depends": ["web"],
     "assets": {
         "web.report_assets_common": [
-            "l10n_th_base_utils/static/src/scss/fonts_style.scss",
+            "l10n_th_base_utils/static/fonts/fonts.scss",
         ],
     },
     "installable": True,
