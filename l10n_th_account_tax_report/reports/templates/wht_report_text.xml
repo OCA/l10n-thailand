@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- prettier-ignore-start -->
+    <template id="report_withholding_tax_text"><t t-foreach="docs" t-as="o"><t t-out="text_file_value" /></t></template>
+    <!-- prettier-ignore-end -->
+</odoo>

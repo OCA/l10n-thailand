@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- RD PND3 -->
+    <template id="report_rd_withholding_tax_pnd3">
+        <t t-set="num_page" t-value="ceil(len(wht_report_data)/6)" />
+        <t t-foreach="range(num_page)" t-as="num">
+            <!-- Header -->
+            <div
+                class="article o_report_rd_withholding_tax_report_pnd3"
+                t-attf-style="background-image:url('/l10n_th_account_tax_report/static/src/img/{{ num + 1 == num_page and 'pnd3_lastpage.png' or 'pnd3.png' }}'); background-size:340mm 242mm; width:340mm; height:242mm;"
+            >
+                <t
+                    t-call="l10n_th_account_tax_report.report_rd_base_company_withholding_tax"
+                />
+                <t t-set="total_base_page" t-value="0.0" />
+                <t t-set="total_wht_page" t-value="0.0" />
+                <!-- Lines -->
+                <div class="wht_line">
+                    <t
+                        t-foreach="range(num * 6, min((num + 1) * 6, len(wht_report_data)))"
+                        t-as="i"
+                    >
+                        <t t-set="line" t-value="wht_report_data[i]" />
+                        <div class="row" style="width: 100%;">
+                            <div class="col" style="width: 5%;">
+                                <div class="row">
+                                    <div class="wht_line_number">
+                                        <span t-out="line['row_number']" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 41%;">
+                                <div class="row">
+                                    <!-- Vat -->
+                                    <div class="wht_line_vat">
+                                        <div class="row">
+                                            <p class="box-vat">
+                                                <t t-out="line['partner_vat'][:1]" />
+                                            </p>
+                                            <p class="box-vat vat_tab">
+                                                <t t-out="line['partner_vat'][1:2]" />
+                                            </p>
+                                            <p class="box-vat">
+                                                <t t-out="line['partner_vat'][2:3]" />
+                                            </p>
+                                            <p class="box-vat">
+                                                <t t-out="line['partner_vat'][3:4]" />
+                                            </p>
+                                            <p class="box-vat">
+                                                <t t-out="line['partner_vat'][4:5]" />
+                                            </p>
+                                            <p class="box-vat vat_tab">
+                                                <t t-out="line['partner_vat'][5:6]" />
+                                            </p>
+                                            <p class="box-vat">
+                                                <t t-out="line['partner_vat'][6:7]" />
+                                            </p>
+                                            <p class="box-vat">
+                                                <t t-out="line['partner_vat'][7:8]" />
+                                            </p>
+                                            <p class="box-vat">
+                                                <t t-out="line['partner_vat'][8:9]" />
+                                            </p>
+                                            <p class="box-vat">
+                                                <t t-out="line['partner_vat'][9:10]" />
+                                            </p>
+                                            <p class="box-vat vat_tab">
+                                                <t t-out="line['partner_vat'][10:11]" />
+                                            </p>
+                                            <p class="box-vat">
+                                                <t t-out="line['partner_vat'][11:12]" />
+                                            </p>
+                                            <p class="box-vat vat_tab">
+                                                <t t-out="line['partner_vat'][12:13]" />
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <!-- Branch -->
+                                    <div class="wht_line_branch">
+                                        <t t-if="line['partner_branch']">
+                                            <div class="row">
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="line['partner_branch'][:1]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="line['partner_branch'][1:2]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="line['partner_branch'][2:3]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="line['partner_branch'][3:4]"
+                                                    />
+                                                </p>
+                                                <p class="box-vat">
+                                                    <t
+                                                        t-out="line['partner_branch'][4:5]"
+                                                    />
+                                                </p>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="wht_line_firstname">
+                                        <span t-out="line['partner_firstname']" />
+                                    </div>
+                                    <div class="wht_line_lastname">
+                                        <span t-out="line['partner_lastname']" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="wht_line_address">
+                                        <span
+                                            style="line-height:50%;"
+                                            t-out="line['partner_address']"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 10%;">
+                                <div class="row">
+                                    <div class="wht_line_date">
+                                        <span t-out="line['cert_date_str']" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 41%;">
+                                <div class="row">
+                                    <div class="wht_line_desc">
+                                        <span t-out="line['wht_cert_income_desc']" />
+                                    </div>
+                                    <div class="wht_line_percent">
+                                        <t
+                                            t-out="'{0:,.2f}'.format(line['wht_percent'])"
+                                        />
+                                    </div>
+                                    <div class="wht_line_base">
+                                        <t
+                                            t-set="total_base_page"
+                                            t-value="total_base_page + line['base']"
+                                        />
+                                        <t t-out="'{0:,.2f}'.format(line['base'])" />
+                                    </div>
+                                    <div class="wht_line_amount">
+                                        <t
+                                            t-set="total_wht_page"
+                                            t-value="total_wht_page + line['amount']"
+                                        />
+                                        <t t-out="'{0:,.2f}'.format(line['amount'])" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" style="width: 3%;">
+                                <div class="row">
+                                    <div class="wht_line_tax_payer">
+                                        <span t-out="line['cert_tax_payer_code']" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+                <!-- Total -->
+                <t
+                    t-call="l10n_th_account_tax_report.report_rd_base_total_withholding_tax"
+                />
+            </div>
+        </t>
+        <div style="page-break-before: always;" />
+    </template>
+</odoo>
