@@ -14,17 +14,10 @@ class ClearTax(models.TransientModel):
         default=fields.Date.context_today,
     )
     payment_id = fields.Many2one(
-        "account.payment",
-        string="Payment",
+        comodel_name="account.payment",
         required=True,
     )
 
     def action_clear_tax(self):
         self.ensure_one()
-        payment = self.payment_id
-        for tax_invoice in payment.tax_invoice_ids:
-            # Update tax cash basis move date
-            if tax_invoice.move_id.tax_cash_basis_origin_move_id:
-                tax_invoice.move_id.write({"date": self.date})
-        # Clear tax cash basis
-        return payment.clear_tax_cash_basis()
+        return self.payment_id.clear_tax_cash_basis(date=self.date)

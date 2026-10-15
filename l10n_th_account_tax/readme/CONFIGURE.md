@@ -1,65 +1,80 @@
+## Withholding Tax
+
+Withholding taxes are standard taxes, there is no specific master data.
+
+- Go to Accounting \> Configuration \> Accounting \> Taxes and create a
+  tax with `Is Withholding Tax` checked and a negative rate, e.g., -3%
+  for a service
+- Set the withholding tax payable account on its tax repartition
+- Set the standard `Income Tax Type` of the tax, it is the default type
+  of income on the withholding tax certificate
+- Optionally, set a PND tax tag on the repartition lines of the tax,
+  e.g., `PND53` or `Income PND53`, as the standard 50 Tawi report. It
+  is the default PND form of the certificate, otherwise PND53 for
+  companies and PND3 for individuals. Tags for PND3 and PND53 are
+  standard, this module adds PND1, PND2 and PND3a.
+
+Go to Accounting \> Configuration \> Settings and select the
+`Withholding Tax Base` account. It is used by the `WH Base` and
+`Counterpart` lines of the payments with withholding tax.
+
+To print the payer signature on the 50 Tawi, go to Accounting \>
+Configuration \> Settings \> Thai Localization and check
+`50 Tawi - Print Signature`. The name of the user who confirmed the
+certificate is printed above the signature line.
+
+The codes of the income types, used on the certificates, are available
+in Accounting \> Configuration \> Accounting \> WHT Income Code.
+
+## Personal Income Tax (PIT)
+
+- Go to Accounting \> Configuration \> Accounting \> Taxes and create the
+  PIT tax as a withholding tax, then check `Personal Income Tax`. The
+  rate is fixed to 0% (the amount is hidden), the amount to withhold is
+  computed on the payment. There can be only one PIT tax per company.
+- Go to Accounting \> Configuration \> Accounting \> PIT Rate to review
+  the rate tables. There is one table per calendar year, the default
+  rates in effect since 2017 are provided. Create a new table when the
+  rates change.
+
 ## Tax Invoices
 
 **Preparing Undue Tax**
 
 - Use Developer Mode
-- In Chart of Account, add new account for Undue Tax, if not already
-  exists.
-- As admin, add access rights `Show Full Accounting Features`
-- Go to Invoicing \> Configuration \> Settings and select `Cash Basis`,
-  this will open cash basis options in Tax master data
-- Go to Invoicing \> Configuration \> Accounting \> Taxes, create new
-  undue tax for both sales and purchase
+- In Chart of Accounts, add a new account for Undue Tax, if it does not
+  already exist.
+- As admin, add the access right `Show Full Accounting Features`
+- Go to Accounting \> Configuration \> Settings and select `Cash Basis`,
+  this will open the cash basis options in the Tax master data
+- Go to Accounting \> Configuration \> Accounting \> Taxes, create new
+  undue taxes for both sales and purchase
 
-For Sales Taxes (tax scope = Sales), there is option to run Tax Invoice
-number by sequence model. If set properly, Tax Invoice Number will be
-using this sequence instead of customer invoice number / payment number
+**Sales Tax Invoice Number**
 
-- Goto Invoicing \> Configuration \> Accounting \> Taxes
-- For sales tax, choose 'Tax Invoice Sequence' (or create new one)
-- Make sure you also set the same sequence for the same tax on payment
-  too. I.e., Output VAT7% and Undue Output VAT7% must select the same
-  sequence, both of them will result in same Tax Report
+The sales tax invoice is numbered when the entry is posted.
 
-Note: this option is not avaiable for purchase tax, because the Tax
-Invoice Number is from vendor, and are filled manually.
+- For sales taxes (tax scope = Sales), choose the `Tax Invoice Sequence`
+  (or create a new one) to number the tax invoice by sequence. Set the
+  same sequence for the same tax on payment, i.e., Output VAT7% and
+  Undue Output VAT7% must select the same sequence, so that both result
+  in the same tax report.
+- Otherwise, the tax invoice number is the number of the invoice. For
+  undue VAT, go to Accounting \> Configuration \> Settings \> Thai
+  Localization and select the `Customer Tax Invoice Number`, either the
+  payment number or the invoice number.
 
-**Preparing Zero Tax Line**
+Note: these options are not available for purchase taxes, because the tax
+invoice number is from the vendor and filled in manually.
 
-If you want tax lines with zero amount (such as 0% tax) to be shown in journal entries, follow these steps:
+**Keep Zero Line Taxes**
 
-- Go to Invoicing \> Configuration \> Settings and select `Keep Zero Line Taxes`,
+To keep tax lines with zero amount (such as 0% VAT) in journal entries,
+so that they appear in the tax invoices:
+
+- Go to Accounting \> Configuration \> Settings and select
+  `Keep Zero Line Taxes`
 - Create an invoice or bill and select a tax with 0% rate
-- Go to Journal Items, and you will see a tax line created with zero value
+- Go to Journal Items, a tax line with zero value is created
 
-## Withholding Tax and Personal Income Tax (PIT)
-
-Setup account related to withholding tax will help set default tax
-amount when create certificate from payment.
-
-- Go to Invoicing \> Configuration \> Accounting \> Chart of Accounts
-- Search for withholding tax related account \> Setup
-- Check "WHT Account"
-- Go to Invoicing \> Configuration \> Accounting \> Withholding Tax
-- Create withholding Tax (normal and personal income tax)
-
-**Configured Withholding Tax by Product (optional)**
-
-- Go to Invoicing \> Customers or Vendors \> Products
-- Select product that you need withholding tax
-- Add Withholding Tax on General Information Tab (Invoices) / Purchase
-  Tab (Bills)
-
-**Configure Personal Income Tax Rate**
-
-1.  Go to Invoicing \> Configuration \> Accounting \> PIT Rate
-2.  Change range or tax rate (if any)
-
-Configure PIT Withholding Tax as following,
-
-1.  Go to Invoicing \> Configuration \> Accounting \> Withholing Tax
-2.  Create new Withholding Tax for PIT and check Personal Income Tax
-    checkbox
-3.  PIT Rate that will be used to calculate the withholding amount will
-    be shown
-4.  You can set default Withholding Tax on the Product's Purchase Tab
+Zero withholding tax lines are never kept.

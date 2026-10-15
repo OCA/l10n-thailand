@@ -11,3 +11,6 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.customer_tax_invoice_number", readonly=False
     )
     tax_zero_line = fields.Boolean(related="company_id.tax_zero_line", readonly=False)
+    wht_form_print_signature = fields.Boolean(
+        related="company_id.wht_form_print_signature", readonly=False
+    )

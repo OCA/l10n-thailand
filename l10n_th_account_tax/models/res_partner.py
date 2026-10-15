@@ -7,45 +7,48 @@ from odoo import api, fields, models
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    pit_move_ids = fields.One2many(
-        comodel_name="account.withholding.move",
-        inverse_name="partner_id",
-        string="Personal Income Tax",
-        domain=lambda self: self._get_pit_move_ids_domain(),
+    wht_cert_count = fields.Integer(
+        string="# Withholding Tax Certs",
+        compute="_compute_wht_cert_count",
     )
+    show_pit_income = fields.Boolean(compute="_compute_show_pit_income")
 
-    @api.model
-    def _get_pit_move_ids_domain(self):
-        pit_move_ids = (
-            self.sudo()
-            .env["account.withholding.move"]
-            .search([("is_pit", "=", True), ("payment_state", "!=", "draft")])
-            .ids
+    def _compute_wht_cert_count(self):
+        counts = dict(
+            self.env["withholding.tax.cert"]._read_group(
+                [("partner_id", "in", self.ids)],
+                groupby=["partner_id"],
+                aggregates=["__count"],
+            )
         )
-        return [("id", "in", pit_move_ids)]
+        for partner in self:
+            partner.wht_cert_count = counts.get(partner, 0)
 
-    def _get_context_pit_monitoring(self):
-        ctx = self.env.context.copy()
-        ctx.update({"search_default_group_by_calendar_year": 1})
-        return ctx
-
-    def action_view_pit_move_yearly_summary(self):
-        ctx = self._get_context_pit_monitoring()
-        domain = [("is_pit", "=", True), ("partner_id", "=", self.id)]
-        return {
-            "name": self.env._("Personal Income Tax Yearly"),
-            "res_model": "account.withholding.move",
-            "view_mode": "pivot,list,graph",
-            "context": ctx,
-            "domain": domain,
-            "type": "ir.actions.act_window",
-        }
+    @api.depends("commercial_partner_id.is_company")
+    @api.depends_context("company")
+    def _compute_show_pit_income(self):
+        """Personal income tax is for individuals, in Thai companies only"""
+        is_thai = self.env.company.account_fiscal_country_id.code == "TH"
+        for partner in self:
+            partner.show_pit_income = (
+                is_thai and not partner.commercial_partner_id.is_company
+            )
 
     def button_wht_certs(self):
         self.ensure_one()
         action = self.env["ir.actions.act_window"]._for_xml_id(
             "l10n_th_account_tax.action_withholding_tax_cert_menu"
         )
-        certs = self.env["withholding.tax.cert"].search([("partner_id", "=", self.id)])
-        action["domain"] = [("id", "in", certs.ids)]
+        action["domain"] = [("partner_id", "=", self.id)]
+        action["context"] = {"create": False}
+        return action
+
+    def action_view_pit_income(self):
+        """Personal income tax income and withholding of the partner"""
+        self.ensure_one()
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "l10n_th_account_tax.action_pit_report"
+        )
+        action["domain"] = [("partner_id", "=", self.id), ("is_pit", "=", True)]
+        action["context"] = {"pivot_row_groupby": ["calendar_year"]}
         return action

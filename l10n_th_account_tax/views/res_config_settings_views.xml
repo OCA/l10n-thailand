@@ -37,6 +37,13 @@
                             </div>
                         </div>
                     </setting>
+                    <setting
+                        id="wht_form_print_signature_setting"
+                        company_dependent="1"
+                        help="Print the name of the user who confirmed the withholding tax certificate as the payer signature on the 50 Tawi."
+                    >
+                        <field name="wht_form_print_signature" />
+                    </setting>
                 </block>
             </xpath>
         </field>

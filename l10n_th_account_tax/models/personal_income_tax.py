@@ -1,9 +1,12 @@
 # Copyright 2021 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from datetime import date
+
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.float_utils import float_compare
+from odoo.tools.misc import format_date
 
 
 class PersonalIncomeTax(models.Model):
@@ -74,9 +77,9 @@ class PersonalIncomeTax(models.Model):
 
     def calculate_rate_wht(self, total_income, income, pit_date):
         self.ensure_one()
-        pit_date.strftime("%Y")
+        # No tax while the yearly income is not above a range, also negative
         rate_ranges = self.rate_ids.filtered(
-            lambda rate: abs(total_income) > rate.income_from
+            lambda rate: total_income > rate.income_from
         )
         current_amount = 0.0
         income_residual = income
@@ -99,7 +102,7 @@ class PersonalIncomeTax(models.Model):
     def _compute_expected_wht(self, partner, base_amount, pit_date, currency, company):
         """Calc PIT amount of a partner's yearly income"""
         self.ensure_one()
-        pit_amount_year = self._get_pit_amount_yearly(partner, pit_date)
+        pit_amount_year = self._get_pit_amount_yearly(partner, pit_date, company)
         # From currency to company currency
         base_amount = currency._convert(
             base_amount, company.currency_id, company, pit_date
@@ -114,12 +117,47 @@ class PersonalIncomeTax(models.Model):
         return expected_wht
 
     @api.model
-    def _get_pit_amount_yearly(self, partner, pit_date):
-        calendar_year = pit_date.strftime("%Y")
-        pit_year = partner.pit_move_ids.filtered(
-            lambda pit: pit.calendar_year == calendar_year
+    def _get_effective_pit(self, pit_date):
+        """PIT rate table effective on pit_date"""
+        pit = self.search(
+            [("effective_date", "<=", pit_date)], order="effective_date desc", limit=1
         )
-        return sum(pit_year.mapped("amount_income"))
+        if not pit:
+            raise UserError(
+                self.env._(
+                    "No effective PIT rate table for date %(date)s",
+                    date=format_date(self.env, pit_date),
+                )
+            )
+        return pit
+
+    @api.model
+    def _get_pit_income_domain(self, partner, company):
+        """Posted PIT income of the partner: journal items of payments or
+        journal entries carrying a PIT tax as base"""
+        return [
+            ("parent_state", "=", "posted"),
+            ("move_id.move_type", "=", "entry"),
+            ("move_id.tax_cash_basis_origin_move_id", "=", False),
+            ("tax_repartition_line_id", "=", False),
+            ("tax_ids.is_pit", "=", True),
+            ("partner_id", "=", partner.id),
+            ("company_id", "=", company.id),
+        ]
+
+    @api.model
+    def _get_pit_amount_yearly(self, partner, pit_date, company=None):
+        """PIT income of the partner accumulated in the calendar year of pit_date,
+        in company currency"""
+        company = company or self.env.company
+        domain = self._get_pit_income_domain(partner, company) + [
+            ("date", ">=", date(pit_date.year, 1, 1)),
+            ("date", "<=", date(pit_date.year, 12, 31)),
+        ]
+        [(balance,)] = self.env["account.move.line"]._read_group(
+            domain, aggregates=["balance:sum"]
+        )
+        return balance or 0.0
 
 
 class PersonalIncomeTaxRate(models.Model):
