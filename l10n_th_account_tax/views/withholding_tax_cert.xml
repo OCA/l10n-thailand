@@ -7,6 +7,20 @@
             <form string="Withholding Tax Certificate" create="1" edit="1" delete="1">
                 <header>
                     <button
+                        name="action_print_50_tawi"
+                        string="Print 50 Tawi"
+                        type="object"
+                        class="btn-primary"
+                        invisible="state != 'done'"
+                    />
+                    <button
+                        name="action_send_by_email"
+                        string="Send by Email"
+                        type="object"
+                        invisible="state != 'done'"
+                        groups="account.group_account_invoice"
+                    />
+                    <button
                         name="action_draft"
                         string="Set to Draft"
                         type="object"
@@ -72,7 +86,7 @@
                         <list editable="bottom">
                             <field name="wht_income_tax_form" column_invisible="1" />
                             <field name="company_id" column_invisible="1" />
-                            <field name="wht_cert_income_type" />
+                            <field name="wht_cert_income_type" required="1" />
                             <field
                                 name="wht_cert_income_code"
                                 options="{'no_create': True, 'no_create_edit': True}"
@@ -171,4 +185,15 @@
         parent="account.menu_finance_payables"
         sequence="30"
     />
+    <record id="action_download_50_tawi_zip" model="ir.actions.server">
+        <field name="name">Thailand: Print 50 tawi</field>
+        <field name="model_id" ref="model_withholding_tax_cert" />
+        <field name="binding_model_id" ref="model_withholding_tax_cert" />
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records.action_download_50_tawi_bulk()
+        </field>
+    </record>
 </odoo>

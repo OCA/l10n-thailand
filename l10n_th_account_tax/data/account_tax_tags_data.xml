@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- PND tax tags not in l10n_th (PND3 and PND53), to set on the
+    repartition lines of withholding taxes, for the certificates -->
+    <record id="tag_th_pnd1" model="account.account.tag">
+        <field name="name">PND1</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.th" />
+    </record>
+    <record id="tag_th_income_pnd1" model="account.account.tag">
+        <field name="name">Income PND1</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.th" />
+    </record>
+    <record id="tag_th_pnd2" model="account.account.tag">
+        <field name="name">PND2</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.th" />
+    </record>
+    <record id="tag_th_income_pnd2" model="account.account.tag">
+        <field name="name">Income PND2</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.th" />
+    </record>
+    <record id="tag_th_pnd3a" model="account.account.tag">
+        <field name="name">PND3a</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.th" />
+    </record>
+    <record id="tag_th_income_pnd3a" model="account.account.tag">
+        <field name="name">Income PND3a</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.th" />
+    </record>
+</odoo>

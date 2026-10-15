@@ -7,15 +7,15 @@
         <field name="arch" type="xml">
             <div name="button_box" position="inside">
                 <button
-                    class="oe_stat_button"
                     name="button_wht_certs"
-                    string="WHT Certs"
                     type="object"
+                    class="oe_stat_button"
+                    icon="description"
                     groups="account.group_account_invoice"
                     invisible="not wht_cert_ids"
-                    icon="fa-bars"
-                />
-                <field name="wht_cert_ids" invisible="1" />
+                >
+                    <field name="wht_cert_ids" widget="statinfo" string="WHT Certs" />
+                </button>
             </div>
             <xpath expr="//header[last()]" position="after">
                 <field name="wht_cert_status" invisible="1" />
@@ -25,93 +25,64 @@
                     style="margin-bottom:0px;"
                     invisible="wht_cert_status != 'none' or state != 'posted'"
                 >
-                    This entry containg withholding tax, but no withholding tax certs. created yet.
+                    This entry contains withholding tax, but no withholding tax
+                    certificates have been created yet.
                     <button
-                    name="create_wht_cert"
+                    name="action_create_wht_cert"
+                    string="⇒ Create withholding tax cert."
+                    type="object"
+                    class="oe_link"
+                    title="Create withholding tax certificates from the posted entry"
+                />
+                </div>
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    invisible="wht_cert_status != 'draft'"
+                >
+                    Withholding tax certificates have been created but are still draft.
+                    <button
+                    name="button_wht_certs"
+                    string="⇒ Show withholding tax certs"
+                    type="object"
+                    class="oe_link"
+                />
+                </div>
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    invisible="wht_cert_status != 'cancel'"
+                >
+                    All related withholding tax certificates were cancelled.
+                    <button
+                    name="button_wht_certs"
+                    string="⇒ Show withholding tax certs"
+                    type="object"
+                    class="oe_link"
+                />
+                    <button
+                    name="action_create_wht_cert"
                     string="⇒ Create withholding tax cert."
                     type="object"
                     class="oe_link"
                     invisible="state != 'posted'"
-                    title="Create withholding tax certificate objects, based on withholding moves"
+                    title="Create withholding tax certificates from the posted entry"
                 />
                 </div>
-                <div
-                    class="alert alert-warning"
-                    role="alert"
-                    style="margin-bottom:0px;"
-                    invisible="wht_cert_status != 'draft' or move_type != 'entry'"
-                >
-                    Withholding tax certs. created but still draft.
-                    <button
-                    id="link_wht_certs"
-                    class="oe_link"
-                    name="button_wht_certs"
-                    string="⇒ Show withholding tax certs"
-                    type="object"
-                />
-                </div>
-                <div
-                    class="alert alert-warning"
-                    role="alert"
-                    style="margin-bottom:0px;"
-                    invisible="wht_cert_status != 'cancel' or move_type != 'entry'"
-                >
-                    All related withholding tax certs. was cancelled.
-                    <button
-                    name="button_wht_certs"
-                    string="⇒ Show withholding tax certs"
-                    type="object"
-                    class="oe_link"
-                />
-                </div>
-            </xpath>
-            <xpath
-                expr="//page/field[@name='invoice_line_ids']/list/field[@name='tax_ids']"
-                position="after"
-            >
-                <field
-                    name="wht_tax_id"
-                    options="{'no_create': True}"
-                    optional="show"
-                />
-            </xpath>
-            <xpath
-                expr="//page/field[@name='invoice_line_ids']/form//field[@name='tax_ids']"
-                position="after"
-            >
-                <field
-                    name="wht_tax_id"
-                    options="{'no_create': True}"
-                    optional="hide"
-                />
-            </xpath>
-            <xpath
-                expr="//page/field[@name='line_ids']/list/field[@name='tax_ids']"
-                position="after"
-            >
-                <field
-                    name="wht_tax_id"
-                    options="{'no_create': True}"
-                    optional="hide"
-                />
-            </xpath>
-            <xpath
-                expr="//page/field[@name='line_ids']/form//field[@name='tax_ids']"
-                position="after"
-            >
-                <field
-                    name="wht_tax_id"
-                    options="{'no_create': True}"
-                    optional="hide"
-                />
             </xpath>
             <xpath
                 expr="//field[@name='line_ids']//field[@name='tax_tag_ids']"
                 position="after"
             >
-                <field name="manual_tax_invoice" optional="hide" />
+                <field
+                    name="manual_tax_invoice"
+                    optional="hide"
+                    column_invisible="parent.country_code != 'TH'"
+                />
             </xpath>
-            <page id="other_tab" position="before">
+            <xpath expr="//page[@id='other_tab']" position="before">
                 <page
                     id="tax_invoice"
                     string="Tax Invoice"
@@ -132,140 +103,40 @@
                                 name="copy"
                                 string="Split"
                                 type="object"
-                                icon="fa-files-o"
+                                icon="content_copy"
                                 invisible="move_state != 'draft'"
                             />
                             <field name="company_currency_id" column_invisible="1" />
                         </list>
                     </field>
                 </page>
-                <page
-                    id="wht_move"
-                    string="Withholding Moves"
-                    invisible="not wht_move_ids"
-                >
-                    <field name="wht_move_ids" nolabel="1">
-                        <list editable="bottom" create="0" delete="0">
-                            <field name="date" invisible="1" />
-                            <field name="calendar_year" invisible="1" />
-                            <field name="partner_id" readonly="1" />
-                            <field name="wht_cert_income_type" />
-                            <field name="wht_cert_income_desc" optional="show" />
-                            <field name="amount_income" />
-                            <field name="amount_wht" />
-                            <field name="is_pit" />
-                        </list>
-                    </field>
-                </page>
+            </xpath>
+        </field>
+    </record>
+    <!-- No standard Thai tax invoices, see Tax Invoice tab above -->
+    <record id="view_move_form_th" model="ir.ui.view">
+        <field name="name">account.move.form.th</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_th.view_move_form_th_inherit" />
+        <field name="arch" type="xml">
+            <page id="tax_invoice_tab" position="attributes">
+                <attribute name="invisible">1</attribute>
             </page>
         </field>
     </record>
-    <!-- Tax Invoice -->
-    <record id="view_tax_invoice_search" model="ir.ui.view">
-        <field name="model">account.move.tax.invoice</field>
+    <record id="view_account_move_filter" model="ir.ui.view">
+        <field name="name">account.move.search</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_move_filter" />
         <field name="arch" type="xml">
-            <search string="Tax Invoices">
-                <field name="tax_invoice_number" />
-                <field name="partner_id" />
-                <field name="account_id" />
-                <field name="tax_line_id" />
-                <group>
-                    <filter
-                        string="Date"
-                        name="date"
-                        context="{'group_by':'tax_invoice_date'}"
-                    />
-                    <filter
-                        string="Partner"
-                        name="partner"
-                        context="{'group_by':'partner_id'}"
-                    />
-                    <filter
-                        string="Account"
-                        name="account"
-                        context="{'group_by':'account_id'}"
-                    />
-                    <filter
-                        string="Originator Tax"
-                        name="tax_line"
-                        context="{'group_by':'tax_line_id'}"
-                    />
-                </group>
-            </search>
+            <xpath expr="//filter[@name='date']" position="before">
+                <filter
+                    name="wht_not_created"
+                    string="WHT Not yet created"
+                    domain="[('has_wht', '=', True), ('wht_cert_ids', '=', False)]"
+                />
+                <separator />
+            </xpath>
         </field>
     </record>
-    <record id="view_tax_invoice_form" model="ir.ui.view">
-        <field name="model">account.move.tax.invoice</field>
-        <field name="arch" type="xml">
-            <form string="Tax Invoices">
-                <sheet>
-                    <group string="Tax Invoice Detail">
-                        <group>
-                            <field name="tax_invoice_number" />
-                            <field name="tax_invoice_date" />
-                            <label for="report_date" />
-                            <div class="o_row">
-                                <field name="report_late_mo" />
-                                <span>=</span>
-                                <field name="report_date" />
-                            </div>
-                            <field name="partner_id" />
-                            <field name="account_id" readonly="1" />
-                            <field name="tax_line_id" readonly="1" />
-                            <field name="tax_base_amount" />
-                            <field name="balance" />
-                        </group>
-                        <group>
-                            <field
-                                name="company_id"
-                                readonly="1"
-                                groups="base.group_multi_company"
-                            />
-                            <field name="move_id" readonly="1" />
-                            <field name="move_line_id" readonly="1" />
-                            <field name="payment_id" readonly="1" />
-                        </group>
-                    </group>
-                    <group string="Misc." groups="base.group_no_one">
-                        <group>
-                            <field name="reversing_id" readonly="1" />
-                            <field name="reversed_id" readonly="1" />
-                        </group>
-                        <group>
-                            <field name="to_clear_tax" readonly="1" />
-                        </group>
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
-    <record id="view_tax_invoice_list" model="ir.ui.view">
-        <field name="model">account.move.tax.invoice</field>
-        <field name="arch" type="xml">
-            <list>
-                <field name="tax_invoice_number" />
-                <field name="tax_invoice_date" />
-                <field name="report_late_mo" />
-                <field name="report_date" />
-                <field name="partner_id" />
-                <field name="account_id" />
-                <field name="tax_line_id" />
-                <field name="tax_base_amount" />
-                <field name="balance" />
-                <field name="company_currency_id" column_invisible="1" />
-            </list>
-        </field>
-    </record>
-    <record id="action_tax_invoice" model="ir.actions.act_window">
-        <field name="name">Tax Invoices</field>
-        <field name="res_model">account.move.tax.invoice</field>
-        <field name="view_id" ref="view_tax_invoice_list" />
-    </record>
-    <menuitem
-        id="menu_action_tax_invoice"
-        parent="account.menu_finance_entries"
-        action="action_tax_invoice"
-        groups="account.group_account_invoice"
-        sequence="100"
-    />
 </odoo>

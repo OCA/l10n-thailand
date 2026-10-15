@@ -21,11 +21,4 @@
             </form>
         </field>
     </record>
-
-    <record id="action_clear_tax_wizard" model="ir.actions.act_window">
-        <field name="name">Clear Tax</field>
-        <field name="res_model">clear.tax</field>
-        <field name="view_mode">form</field>
-        <field name="target">new</field>
-    </record>
 </odoo>

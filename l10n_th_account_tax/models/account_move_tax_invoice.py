@@ -7,7 +7,7 @@ import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 
 class AccountMoveTaxInvoice(models.Model):
@@ -39,7 +39,6 @@ class AccountMoveTaxInvoice(models.Model):
     )
     partner_id = fields.Many2one(
         comodel_name="res.partner",
-        string="Partner",
         ondelete="restrict",
     )
     move_id = fields.Many2one(comodel_name="account.move", index=True, copy=True)
@@ -50,7 +49,6 @@ class AccountMoveTaxInvoice(models.Model):
         store=True,
         copy=True,
     )
-    to_clear_tax = fields.Boolean(related="payment_id.to_clear_tax")
     company_id = fields.Many2one(
         comodel_name="res.company", related="move_id.company_id", store=True
     )
@@ -92,21 +90,60 @@ class AccountMoveTaxInvoice(models.Model):
 
     @api.depends("move_line_id.balance", "move_line_id.tax_base_amount")
     def _compute_tax_amount(self):
-        """Compute without undue vat"""
-        for rec in self._origin.filtered(lambda tax: not tax.payment_id):
-            sign = -1 if rec.move_line_id.is_refund else 1
-            rec.tax_base_amount = sign * rec.move_line_id.tax_base_amount or 0.0
-            rec.balance = sign * abs(rec.move_line_id.balance) or 0.0
+        """Amounts are positive on the usual side of the tax (debit for purchases,
+        credit for sales) and negative otherwise, i.e. refunds and reversals.
+        Manual tax invoices have no tax, the side comes from the journal."""
+        for rec in self._origin:
+            line = rec.move_line_id
+            base = rec._get_undue_vat_base() if line.tax_line_id else None
+            if base is None:
+                base = line.tax_base_amount
+            # 0% tax lines have no balance, the base lines have the same
+            # direction (tax base amount is not reversed on reversed entries)
+            direction = (
+                line.balance or sum(rec._get_base_lines().mapped("balance")) or base
+            )
+            if not rec._is_purchase_tax_invoice():
+                direction = -direction
+            sign = -1 if direction < 0 else 1
+            rec.tax_base_amount = sign * abs(base)
+            rec.balance = sign * abs(line.balance)
 
-    @api.depends("move_line_id")
+    def _get_undue_vat_base(self):
+        """On undue VAT entries, tax base amount of the tax line is the base of
+        the whole invoice, the paid base is on the base lines of the entry"""
+        if not self.move_id.tax_cash_basis_origin_move_id:
+            return None
+        return sum(self._get_base_lines().mapped("balance"))
+
+    def _get_base_lines(self):
+        """Journal items of the entry having the tax of the tax line"""
+        line = self.move_line_id
+        if not line.tax_line_id:
+            return line.browse()
+        return line.move_id.line_ids.filtered(
+            lambda base_line: (
+                not base_line.tax_line_id and line.tax_line_id in base_line.tax_ids
+            )
+        )
+
+    @api.depends("move_line_id", "move_id.tax_cash_basis_rec_id")
     def _compute_payment_id(self):
         for rec in self:
-            if not rec.payment_id:
-                origin_move = rec.move_id.reversed_entry_id
-                payment = origin_move.tax_invoice_ids.mapped("payment_id")
-                rec.payment_id = (
-                    payment and payment.id or self.env.context.get("payment_id", False)
-                )
+            if rec.payment_id:
+                continue
+            move = rec.move_id
+            partial = move.tax_cash_basis_rec_id
+            if partial:
+                # Undue VAT entry, payment of the document reconciled with the origin
+                counterpart = (
+                    partial.debit_move_id.move_id | partial.credit_move_id.move_id
+                ) - move.tax_cash_basis_origin_move_id
+                payment = counterpart.origin_payment_id
+                rec.payment_id = len(payment) == 1 and payment
+            else:
+                origin_move = move.reversed_entry_id
+                rec.payment_id = origin_move.tax_invoice_ids.payment_id[:1]
 
     @api.depends("report_late_mo", "tax_invoice_date")
     def _compute_report_date(self):
@@ -145,6 +182,41 @@ class AccountMoveTaxInvoice(models.Model):
             else:
                 report_late = str(difference.months)
             self.report_late_mo = report_late
+
+    def _is_purchase_tax_invoice(self):
+        """Tax invoice issued by the vendor, also on manual journal entries
+        which are not on sales"""
+        self.ensure_one()
+        move = self.move_id
+        if move.is_invoice(include_receipts=True):
+            return move.is_purchase_document(include_receipts=True)
+        return self.tax_line_id.type_tax_use == "purchase" or (
+            move.move_type == "entry"
+            and not self.payment_id
+            and move.journal_id.type != "sale"
+            and self.tax_line_id.type_tax_use != "sale"
+        )
+
+    def _is_missing_vendor_info(self):
+        """Purchase tax invoice without the vendor's number or date"""
+        self.ensure_one()
+        return self._is_purchase_tax_invoice() and not (
+            self.tax_invoice_number and self.tax_invoice_date
+        )
+
+    def _raise_missing_vendor_info(self):
+        raise UserError(self.env._("Please fill in tax invoice and tax date"))
+
+    @api.constrains("move_id", "move_line_id")
+    def _check_move_line(self):
+        for rec in self.filtered("move_line_id"):
+            if rec.move_line_id.move_id != rec.move_id:
+                raise ValidationError(
+                    self.env._(
+                        "The journal item of a tax invoice must belong to its "
+                        "journal entry."
+                    )
+                )
 
     @api.ondelete(at_uninstall=False)
     def _unlink_except_last_tax_invoice(self):
