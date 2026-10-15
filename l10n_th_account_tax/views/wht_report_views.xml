@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_wht_report_list" model="ir.ui.view">
+        <field name="name">wht.report.list</field>
+        <field name="model">wht.report</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0">
+                <field name="date" />
+                <field name="calendar_year" optional="hide" />
+                <field name="partner_id" />
+                <field name="move_id" />
+                <field name="payment_id" optional="show" />
+                <field name="journal_id" optional="hide" />
+                <field name="tax_id" optional="show" />
+                <field name="type_tax_use" optional="hide" />
+                <field name="line_type" optional="hide" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="currency_id" column_invisible="1" />
+                <field name="amount_income" sum="Total Income" />
+                <field name="amount_wht" sum="Total Withholding" />
+            </list>
+        </field>
+    </record>
+    <record id="view_wht_report_pivot" model="ir.ui.view">
+        <field name="name">wht.report.pivot</field>
+        <field name="model">wht.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Withholding Tax" sample="1">
+                <field name="partner_id" type="row" />
+                <field name="tax_id" type="col" />
+                <field name="amount_income" type="measure" />
+                <field name="amount_wht" type="measure" />
+            </pivot>
+        </field>
+    </record>
+    <record id="view_wht_report_graph" model="ir.ui.view">
+        <field name="name">wht.report.graph</field>
+        <field name="model">wht.report</field>
+        <field name="arch" type="xml">
+            <graph string="Withholding Tax" sample="1">
+                <field name="date" interval="month" />
+                <field name="amount_wht" type="measure" />
+            </graph>
+        </field>
+    </record>
+    <record id="view_wht_report_search" model="ir.ui.view">
+        <field name="name">wht.report.search</field>
+        <field name="model">wht.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id" />
+                <field name="move_id" />
+                <field name="payment_id" />
+                <field name="tax_id" />
+                <field name="calendar_year" />
+                <filter
+                    name="purchase"
+                    string="Purchases"
+                    domain="[('type_tax_use', '=', 'purchase')]"
+                />
+                <filter
+                    name="sale"
+                    string="Sales"
+                    domain="[('type_tax_use', '=', 'sale')]"
+                />
+                <separator />
+                <filter
+                    name="pit"
+                    string="Personal Income Tax"
+                    domain="[('is_pit', '=', True)]"
+                />
+                <separator />
+                <filter name="date" string="Date" date="date" />
+                <group>
+                    <filter
+                        name="group_by_partner"
+                        string="Partner"
+                        context="{'group_by': 'partner_id'}"
+                    />
+                    <filter
+                        name="group_by_tax"
+                        string="Tax"
+                        context="{'group_by': 'tax_id'}"
+                    />
+                    <filter
+                        name="group_by_type_tax_use"
+                        string="Tax Type"
+                        context="{'group_by': 'type_tax_use'}"
+                    />
+                    <filter
+                        name="group_by_journal"
+                        string="Journal"
+                        context="{'group_by': 'journal_id'}"
+                    />
+                    <filter
+                        name="group_by_date"
+                        string="Date"
+                        context="{'group_by': 'date:month'}"
+                    />
+                    <filter
+                        name="group_by_calendar_year"
+                        string="Calendar Year"
+                        context="{'group_by': 'calendar_year'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_wht_report" model="ir.actions.act_window">
+        <field name="name">Withholding Tax</field>
+        <field name="res_model">wht.report</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="context">{'search_default_purchase': 1}</field>
+    </record>
+    <!-- PIT -->
+    <record id="view_pit_report_pivot" model="ir.ui.view">
+        <field name="name">wht.report.pivot.pit</field>
+        <field name="model">wht.report</field>
+        <field name="priority" eval="20" />
+        <field name="arch" type="xml">
+            <pivot string="Personal Income Tax" sample="1">
+                <field name="partner_id" type="row" />
+                <field name="calendar_year" type="col" />
+                <field name="amount_income" type="measure" />
+                <field name="amount_wht" type="measure" />
+            </pivot>
+        </field>
+    </record>
+    <record id="view_pit_report_graph" model="ir.ui.view">
+        <field name="name">wht.report.graph.pit</field>
+        <field name="model">wht.report</field>
+        <field name="priority" eval="20" />
+        <field name="arch" type="xml">
+            <graph string="Personal Income Tax" sample="1">
+                <field name="calendar_year" />
+                <field name="amount_income" type="measure" />
+            </graph>
+        </field>
+    </record>
+    <record id="action_pit_report" model="ir.actions.act_window">
+        <field name="name">Personal Income Tax</field>
+        <field name="res_model">wht.report</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="domain">[('is_pit', '=', True)]</field>
+        <field
+            name="view_ids"
+            eval="[
+                Command.clear(),
+                Command.create({'view_mode': 'pivot', 'view_id': ref('view_pit_report_pivot')}),
+                Command.create({'view_mode': 'graph', 'view_id': ref('view_pit_report_graph')}),
+                Command.create({'view_mode': 'list', 'view_id': ref('view_wht_report_list')}),
+            ]"
+        />
+    </record>
+    <menuitem
+        id="account_reports_l10n_th_menu"
+        name="Thai Accounting Reports"
+        parent="account.menu_finance_reports"
+        sequence="20"
+    />
+    <menuitem
+        id="wht_report_menu"
+        name="Withholding Tax"
+        parent="account_reports_l10n_th_menu"
+        action="action_wht_report"
+        sequence="5"
+        groups="account.group_account_invoice,account.group_account_readonly"
+    />
+    <menuitem
+        id="pit_report_menu"
+        name="Personal Income Tax"
+        parent="account_reports_l10n_th_menu"
+        action="action_pit_report"
+        sequence="10"
+        groups="account.group_account_invoice,account.group_account_readonly"
+    />
+</odoo>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_partner_property_form" model="ir.ui.view">
+        <field name="name">res.partner.property.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form" />
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button
+                    class="oe_stat_button"
+                    name="button_wht_certs"
+                    type="object"
+                    icon="description"
+                    groups="account.group_account_invoice"
+                    invisible="wht_cert_count == 0"
+                >
+                    <field name="wht_cert_count" widget="statinfo" string="WHT Certs" />
+                </button>
+                <button
+                    class="oe_stat_button"
+                    name="action_view_pit_income"
+                    type="object"
+                    string="PIT Income"
+                    icon="bar_chart"
+                    groups="account.group_account_invoice,account.group_account_readonly"
+                    invisible="not show_pit_income"
+                />
+            </div>
+        </field>
+    </record>
+</odoo>
