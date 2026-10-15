@@ -1,67 +1,21 @@
 # Copyright 2019 Ecosoft Co., Ltd (https://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
+import logging
+
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_round
 
-INCOME_TAX_FORM = [
-    ("pnd1", "PND1"),
-    ("pnd2", "PND2"),
-    ("pnd3", "PND3"),
-    ("pnd3a", "PND3a"),
-    ("pnd53", "PND53"),
-]
+_logger = logging.getLogger(__name__)
 
+try:
+    from num2words import num2words
+except ImportError:
+    _logger.warning("The num2words python library is not installed.")
+    num2words = None
 
-WHT_CERT_INCOME_TYPE = [
-    ("1", "1. เงินเดือน ค่าจ้าง ฯลฯ 40(1)"),
-    ("2", "2. ค่าธรรมเนียม ค่านายหน้า ฯลฯ 40(2)"),
-    ("3", "3. ค่าแห่งลิขสิทธิ์ ฯลฯ 40(3)"),
-    ("4A", "4. ดอกเบี้ย ฯลฯ 40(4)ก"),
-    (
-        "4B11",
-        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.1) "
-        "กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ 30 ของกำไรสุทธิ",
-    ),
-    (
-        "4B12",
-        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.2) "
-        "กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ 25 ของกำไรสุทธิ",
-    ),
-    (
-        "4B13",
-        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.3) "
-        "กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ 20 ของกำไรสุทธิ",
-    ),
-    (
-        "4B14",
-        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (1.4) "
-        "กิจการที่ต้องเสียภาษีเงินได้นิติบุคคลร้อยละ อื่นๆ (ระบุ) ของกำไรสุทธิ",
-    ),
-    (
-        "4B21",
-        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.1) "
-        "กำไรสุทธิกิจการที่ได้รับยกเว้นภาษีเงินได้นิติบุคคล",
-    ),
-    (
-        "4B22",
-        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.2) ได้รับยกเว้นไม่ต้องนำมารวมคำนวณเป็นรายได้",
-    ),
-    (
-        "4B23",
-        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.3) "
-        "กำไรสุทธิส่วนที่หักผลขาดทุนสุทธิยกมาไม่เกิน 5 ปี",
-    ),
-    (
-        "4B24",
-        "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.4) กำไรที่รับรู้ทางบัญชีโดยวิธีส่วนได้เสีย",
-    ),
-    ("4B25", "4. เงินปันผล เงินส่วนแบ่งกำไร ฯลฯ 40(4)ข (2.5) อื่นๆ (ระบุ)"),
-    ("5", "5. ค่าจ้างทำของ ค่าบริการ ค่าเช่า ค่าขนส่ง ฯลฯ 3 เตรส"),
-    ("6", "6. อื่นๆ (ระบุ)"),
-]
-
+from .account_tax import INCOME_TAX_FORM, WHT_CERT_INCOME_TYPE
 
 TAX_PAYER = [
     ("withholding", "Withholding"),
@@ -69,10 +23,41 @@ TAX_PAYER = [
     ("paid_continue", "Paid Continuously"),
 ]
 
+# Tax payer per standard withholding condition of the payment
+L10N_TH_WTH_CONDITION_TAX_PAYER = {
+    "at_source": "withholding",
+    "forever": "paid_continue",
+    "one_time": "paid_one_time",
+}
+
+# Types of income per row of the standard 50 Tawi report
+TAWI_ROW_INCOME_TYPES = [
+    ["1"],
+    ["2"],
+    ["3"],
+    ["4A"],
+    False,  # 4(b) dividends
+    False,  # (1) with tax credit
+    ["4B11"],
+    ["4B12"],
+    ["4B13"],
+    ["4B14"],
+    False,  # (2) without tax credit
+    ["4B21"],
+    ["4B22"],
+    ["4B23"],
+    ["4B24"],
+    ["4B25"],
+    ["5"],
+    ["6"],
+]
+# Types of income to specify on the 50 Tawi report
+TAWI_OTHER_INCOME_TYPES = ("4B14", "4B25", "6")
+
 
 class WithholdingTaxCert(models.Model):
     _name = "withholding.tax.cert"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ["mail.thread", "mail.activity.mixin"]  # noqa: RUF012
     _description = "Withholding Tax Certificate"
     _check_company_auto = True
 
@@ -111,9 +96,9 @@ class WithholdingTaxCert(models.Model):
     )
     payment_id = fields.Many2one(
         comodel_name="account.payment",
-        string="Payment",
         copy=False,
         domain="[('partner_id', '=', partner_id)]",
+        check_company=True,
         ondelete="restrict",
         tracking=True,
     )
@@ -121,6 +106,7 @@ class WithholdingTaxCert(models.Model):
         comodel_name="account.move",
         copy=False,
         domain="[('journal_id.type', '=', 'general'), ('state', '=', 'posted')]",
+        check_company=True,
         ondelete="restrict",
         tracking=True,
     )
@@ -182,6 +168,16 @@ class WithholdingTaxCert(models.Model):
             rec.name = rec.payment_id.name or rec.move_id.name or ""
             rec.date = rec.payment_id.date or rec.move_id.date or rec.date
 
+    @api.model
+    def _get_wht_certs_action(self, domain):
+        """Withholding tax certificates matching domain, without creation"""
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "l10n_th_account_tax.action_withholding_tax_cert_menu"
+        )
+        action["domain"] = domain
+        action["context"] = {"create": False}
+        return action
+
     def action_draft(self):
         return self.write(
             {
@@ -191,6 +187,13 @@ class WithholdingTaxCert(models.Model):
         )
 
     def action_done(self):
+        if any(not line.wht_cert_income_type for line in self.wht_line):
+            raise UserError(
+                self.env._(
+                    "Please select Type of Income on every withholding tax certificate "
+                    "line."
+                )
+            )
         sequence_model = self.env["ir.sequence"]
         for rec in self:
             # Update sequence WHT
@@ -214,9 +217,132 @@ class WithholdingTaxCert(models.Model):
         )
         return True
 
+    @api.constrains("company_id")
+    def _check_thai_company(self):
+        if any(cert.company_id.account_fiscal_country_id.code != "TH" for cert in self):
+            raise ValidationError(
+                self.env._("Withholding tax certificates are for Thai companies only.")
+            )
+
     @api.onchange("income_tax_form")
     def _onchange_income_tax_form(self):
-        self.wht_line.write({"wht_cert_income_code": False})
+        self.wht_line.wht_cert_income_code = False
+
+    def action_print_50_tawi(self):
+        """Triggered by the 'Print 50 Tawi' button, as on standard payments"""
+        return self.env.ref("l10n_th_account_tax.action_report_wht_cert").report_action(
+            self, config=False
+        )
+
+    def action_send_by_email(self):
+        """Send the 50 Tawi of a done certificate by email"""
+        self.ensure_one()
+        if self.state != "done":
+            raise UserError(
+                self.env._("Only a done withholding tax certificate can be sent.")
+            )
+        template = self.env.ref("l10n_th_account_tax.mail_template_wht_cert")
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "mail.compose.message",
+            "views": [(False, "form")],
+            "target": "new",
+            "context": {
+                "default_model": self._name,
+                "default_res_ids": self.ids,
+                "default_template_id": template.id,
+                "default_composition_mode": "comment",
+                "mail_post_autofollow": True,
+            },
+        }
+
+    def action_download_50_tawi_bulk(self):
+        """Triggered by the 'Thailand: Print 50 tawi' bulk action, as on standard
+        payments. Downloads a ZIP of the 50 Tawi of the done certificates."""
+        invalid_certs = self.filtered(lambda cert: cert.state != "done")
+        valid_certs = self - invalid_certs
+        if not valid_certs:
+            raise UserError(
+                self.env._("No done withholding tax certificate to print 50 Tawi.")
+            )
+        report = self.env.ref("l10n_th_account_tax.action_report_wht_cert")
+        attachments = self.env["ir.attachment"]
+        for cert in valid_certs:
+            pdf_content, _report_type = report.sudo()._render_qweb_pdf(
+                report.report_name, res_ids=cert.ids
+            )
+            attachments += self.env["ir.attachment"].create(
+                {
+                    "name": "WHT_{}.pdf".format(cert.number.replace("/", "-")),
+                    "type": "binary",
+                    "raw": pdf_content,
+                    "res_model": cert._name,
+                    "res_id": cert.id,
+                    "mimetype": "application/pdf",
+                }
+            )
+        download_action = {
+            "type": "ir.actions.act_url",
+            "url": "/l10n_th_account_tax/download_tawi_reports/{}".format(
+                ",".join(map(str, attachments.ids))
+            ),
+        }
+        if invalid_certs:
+            return {
+                "type": "ir.actions.client",
+                "tag": "display_notification",
+                "params": {
+                    "title": self.env._("Notification"),
+                    "message": self.env._(
+                        "Certificates not done skipped: %s. The done ones are printed.",
+                        ", ".join(invalid_certs.mapped("display_name")),
+                    ),
+                    "type": "warning",
+                    "sticky": True,
+                    "next": download_action,
+                },
+            }
+        return download_action
+
+    def _get_tawi_income_rows(self, income_rows):
+        """Rows of the standard 50 Tawi report, by type of income of the
+        certificate lines, one line per row"""
+        if len(income_rows) != len(TAWI_ROW_INCOME_TYPES):
+            raise UserError(
+                self.env._(
+                    "The rows of the 50 Tawi report do not match the types of income."
+                )
+            )
+        rows = [
+            dict(row, type=income_types, **{"40_8_col": False})
+            for row, income_types in zip(
+                income_rows, TAWI_ROW_INCOME_TYPES, strict=True
+            )
+        ]
+        # Other incomes (6) on a dotted line, as the signature
+        rows[-1].update(label=rows[-1]["label"].rstrip(": "), others_dots=True)
+        return rows
+
+    def _get_tawi_amount_text(self, amount):
+        """Amount in Thai words, e.g. สามบาทสิบสองสตางค์, สามร้อยบาทถ้วน.
+        Standard amount_to_text separates the words, e.g. สาม บาท และ สิบสอง สตางค์"""
+        self.ensure_one()
+        currency = self.env.ref("base.THB")
+        if num2words is None:
+            return currency.with_context(lang="th_TH").amount_to_text(amount)
+        return num2words(currency.round(amount), to="currency", lang="th")
+
+    def _get_tawi_other_desc(self, income_types):
+        """Description of other types of income on the 50 Tawi report"""
+        self.ensure_one()
+        descs = [
+            line.wht_cert_income_desc
+            for line in self.wht_line
+            if line.wht_cert_income_type in TAWI_OTHER_INCOME_TYPES
+            and line.wht_cert_income_type in (income_types or [])
+            and line.wht_cert_income_desc
+        ]
+        return ", ".join(dict.fromkeys(descs))
 
 
 class WithholdingTaxCertLine(models.Model):
@@ -228,7 +354,7 @@ class WithholdingTaxCertLine(models.Model):
         comodel_name="withholding.tax.cert", string="WHT Cert", index=True
     )
     wht_cert_income_type = fields.Selection(
-        selection=WHT_CERT_INCOME_TYPE, string="Type of Income", required=True
+        selection=WHT_CERT_INCOME_TYPE, string="Type of Income"
     )
     wht_cert_income_code = fields.Many2one(
         comodel_name="withholding.tax.code.income",
@@ -250,7 +376,8 @@ class WithholdingTaxCertLine(models.Model):
     )
     base = fields.Float(string="Base Amount", readonly=False)
     wht_tax_id = fields.Many2one(
-        comodel_name="account.withholding.tax",
+        comodel_name="account.tax",
+        domain=[("is_withholding_tax", "=", True), ("type_tax_use", "=", "purchase")],
         string="Tax",
         check_company=True,
         readonly=False,
@@ -271,14 +398,14 @@ class WithholdingTaxCertLine(models.Model):
     @api.depends("wht_tax_id", "amount", "base")
     def _compute_wht_percent(self):
         for rec in self:
-            rec.wht_percent = (
-                rec.wht_tax_id.amount
-                or rec.base
-                and float_round(
+            # PIT is progressive (0% on the tax), show its effective rate
+            if rec.wht_tax_id.amount_type == "percent" and not rec.wht_tax_id.is_pit:
+                rec.wht_percent = abs(rec.wht_tax_id.amount)
+            else:
+                rec.wht_percent = rec.base and float_round(
                     (rec.amount / rec.base) * 100,
                     precision_rounding=rec.company_id.currency_id.rounding,
                 )
-            )
 
     @api.depends("cert_id", "wht_cert_income_type")
     def _compute_wht_bank_account(self):
@@ -323,7 +450,12 @@ class WithholdingTaxCodeIncome(models.Model):
 
     @api.constrains("is_default")
     def check_is_default(self):
-        field_default_duplicate = self.env["withholding.tax.code.income"].search(
+        for code in self.filtered("is_default"):
+            code._check_single_default()
+
+    def _check_single_default(self):
+        self.ensure_one()
+        field_default_duplicate = self.search(
             [
                 ("income_tax_form", "=", self.income_tax_form),
                 ("wht_cert_income_type", "=", self.wht_cert_income_type),

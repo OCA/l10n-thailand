@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo noupdate="1">
     <record id="thailand_pit" model="personal.income.tax">
+        <!-- Personal income tax rates in effect since 2017 -->
+        <field name="calendar_year">2017</field>
         <field name="active" eval="True" />
     </record>
 

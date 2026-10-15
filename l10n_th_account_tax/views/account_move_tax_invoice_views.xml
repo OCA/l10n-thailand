@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_tax_invoice_search" model="ir.ui.view">
+        <field name="model">account.move.tax.invoice</field>
+        <field name="arch" type="xml">
+            <search string="Tax Invoices">
+                <field name="tax_invoice_number" />
+                <field name="partner_id" />
+                <field name="move_id" />
+                <field name="account_id" />
+                <field name="tax_line_id" />
+                <filter
+                    name="no_number"
+                    string="No Tax Invoice Number"
+                    domain="[('tax_invoice_number', '=', False)]"
+                />
+                <separator />
+                <filter name="tax_invoice_date" date="tax_invoice_date" />
+                <group>
+                    <filter
+                        string="Date"
+                        name="date"
+                        context="{'group_by':'tax_invoice_date'}"
+                    />
+                    <filter
+                        string="Partner"
+                        name="partner"
+                        context="{'group_by':'partner_id'}"
+                    />
+                    <filter
+                        string="Account"
+                        name="account"
+                        context="{'group_by':'account_id'}"
+                    />
+                    <filter
+                        string="Originator Tax"
+                        name="tax_line"
+                        context="{'group_by':'tax_line_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="view_tax_invoice_form" model="ir.ui.view">
+        <field name="model">account.move.tax.invoice</field>
+        <field name="arch" type="xml">
+            <form string="Tax Invoices">
+                <sheet>
+                    <group string="Tax Invoice Detail">
+                        <group>
+                            <field name="tax_invoice_number" />
+                            <field name="tax_invoice_date" />
+                            <label for="report_date" />
+                            <div class="o_row">
+                                <field name="report_late_mo" />
+                                <span>=</span>
+                                <field name="report_date" />
+                            </div>
+                            <field name="partner_id" />
+                            <field name="account_id" readonly="1" />
+                            <field name="tax_line_id" readonly="1" />
+                            <field name="tax_base_amount" />
+                            <field name="balance" />
+                        </group>
+                        <group>
+                            <field
+                                name="company_id"
+                                readonly="1"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="move_id" readonly="1" />
+                            <field name="move_line_id" readonly="1" />
+                            <field name="payment_id" readonly="1" />
+                            <field name="company_currency_id" invisible="1" />
+                        </group>
+                    </group>
+                    <group string="Misc." groups="base.group_no_one">
+                        <group>
+                            <field name="reversing_id" readonly="1" />
+                            <field name="reversed_id" readonly="1" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_tax_invoice_list" model="ir.ui.view">
+        <field name="model">account.move.tax.invoice</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="tax_invoice_number" />
+                <field name="tax_invoice_date" />
+                <field name="report_late_mo" optional="show" />
+                <field name="report_date" optional="show" />
+                <field name="partner_id" />
+                <field name="move_id" optional="show" />
+                <field name="account_id" optional="hide" />
+                <field name="tax_line_id" />
+                <field name="move_state" optional="hide" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="tax_base_amount" sum="Total Tax Base" />
+                <field name="balance" sum="Total Tax Amount" />
+                <field name="company_currency_id" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+    <record id="action_tax_invoice" model="ir.actions.act_window">
+        <field name="name">Tax Invoices</field>
+        <field name="res_model">account.move.tax.invoice</field>
+        <field name="view_id" ref="view_tax_invoice_list" />
+    </record>
+    <menuitem
+        id="menu_action_tax_invoice"
+        parent="account.menu_finance_entries"
+        action="action_tax_invoice"
+        groups="account.group_account_invoice"
+        sequence="100"
+    />
+</odoo>

@@ -1,9 +1,12 @@
 # Copyright 2021 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from datetime import date
+
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tools.float_utils import float_compare
+from odoo.tools.misc import format_date
 
 
 class PersonalIncomeTax(models.Model):
@@ -36,14 +39,12 @@ class PersonalIncomeTax(models.Model):
     @api.depends("calendar_year")
     def _compute_effective_date(self):
         for rec in self:
-            rec.effective_date = False
-            # Check len string (before convert) and digit int (after convert)
-            if (
-                rec.calendar_year.isdigit()
-                and len(rec.calendar_year) == 4
-                and len(str(int(rec.calendar_year))) == 4
-            ):
-                rec.effective_date = f"{rec.calendar_year}-01-01"
+            year = rec.calendar_year or ""
+            rec.effective_date = (
+                f"{year}-01-01"
+                if year.isdigit() and len(year) == 4 and not year.startswith("0")
+                else False
+            )
 
     def copy(self, default=None):
         self.ensure_one()
@@ -59,9 +60,11 @@ class PersonalIncomeTax(models.Model):
             prev_income_to = 0.0
             for i, rate in enumerate(rec.rate_ids):
                 if i == 0 and rate.income_from != 0.0:
-                    raise UserError(self.env._("Income amount must start from 0.0"))
+                    raise ValidationError(
+                        self.env._("Income amount must start from 0.0")
+                    )
                 if i > 0 and float_compare(rate.income_from, prev_income_to, 2) != 0:
-                    raise UserError(
+                    raise ValidationError(
                         self.env._(
                             "Discontinued income range!\n"
                             "Please make sure Income From = Previous Income To"
@@ -74,9 +77,9 @@ class PersonalIncomeTax(models.Model):
 
     def calculate_rate_wht(self, total_income, income, pit_date):
         self.ensure_one()
-        pit_date.strftime("%Y")
+        # No tax while the yearly income is not above a range, also negative
         rate_ranges = self.rate_ids.filtered(
-            lambda rate: abs(total_income) > rate.income_from
+            lambda rate: total_income > rate.income_from
         )
         current_amount = 0.0
         income_residual = income
@@ -96,30 +99,48 @@ class PersonalIncomeTax(models.Model):
                 break
         return current_amount
 
-    def _compute_expected_wht(self, partner, base_amount, pit_date, currency, company):
-        """Calc PIT amount of a partner's yearly income"""
-        self.ensure_one()
-        pit_amount_year = self._get_pit_amount_yearly(partner, pit_date)
-        # From currency to company currency
-        base_amount = currency._convert(
-            base_amount, company.currency_id, company, pit_date
+    @api.model
+    def _get_effective_pit(self, pit_date):
+        """PIT rate table effective on pit_date"""
+        pit = self.search(
+            [("effective_date", "<=", pit_date)], order="effective_date desc", limit=1
         )
-        # Calculate PIT amount from PIT Rate Table
-        total_pit = pit_amount_year + base_amount
-        expected_wht = self.calculate_rate_wht(total_pit, base_amount, pit_date)
-        # From company currency to currency of base_amount
-        expected_wht = company.currency_id._convert(
-            expected_wht, currency, company, pit_date
-        )
-        return expected_wht
+        if not pit:
+            raise UserError(
+                self.env._(
+                    "No effective PIT rate table for date %(date)s",
+                    date=format_date(self.env, pit_date),
+                )
+            )
+        return pit
 
     @api.model
-    def _get_pit_amount_yearly(self, partner, pit_date):
-        calendar_year = pit_date.strftime("%Y")
-        pit_year = partner.pit_move_ids.filtered(
-            lambda pit: pit.calendar_year == calendar_year
+    def _get_pit_income_domain(self, partner, company):
+        """Posted PIT income of the partner: journal items of payments or
+        journal entries carrying a PIT tax as base"""
+        return [
+            ("parent_state", "=", "posted"),
+            ("move_id.move_type", "=", "entry"),
+            ("move_id.tax_cash_basis_origin_move_id", "=", False),
+            ("tax_repartition_line_id", "=", False),
+            ("tax_ids.is_pit", "=", True),
+            ("partner_id", "=", partner.id),
+            ("company_id", "=", company.id),
+        ]
+
+    @api.model
+    def _get_pit_amount_yearly(self, partner, pit_date, company=None):
+        """PIT income of the partner accumulated in the calendar year of pit_date,
+        in company currency"""
+        company = company or self.env.company
+        domain = self._get_pit_income_domain(partner, company) + [
+            ("date", ">=", date(pit_date.year, 1, 1)),
+            ("date", "<=", date(pit_date.year, 12, 31)),
+        ]
+        [(balance,)] = self.env["account.move.line"]._read_group(
+            domain, aggregates=["balance:sum"]
         )
-        return sum(pit_year.mapped("amount_income"))
+        return balance or 0.0
 
 
 class PersonalIncomeTaxRate(models.Model):
@@ -160,7 +181,13 @@ class PersonalIncomeTaxRate(models.Model):
                 rec.tax_rate / 100
             )
 
+    @api.depends("pit_id.rate_ids.sequence", "pit_id.rate_ids.amount_tax_max")
     def _compute_amount_accum(self):
+        """Maximum tax up to this rate, in the order of the rates of the table"""
         for rec in self:
-            prev_rec = self.filtered(lambda pit, rec=rec: pit.sequence <= rec.sequence)
-            rec.amount_tax_accum = sum(prev_rec.mapped("amount_tax_max"))
+            accum = 0.0
+            for rate in rec.pit_id.rate_ids or rec:
+                accum += rate.amount_tax_max
+                if rate == rec:
+                    break
+            rec.amount_tax_accum = accum
