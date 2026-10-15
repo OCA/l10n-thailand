@@ -18,3 +18,8 @@ class ResCompany(models.Model):
         when user not select 'Tax Invoice Sequence' in taxes""",
     )
     tax_zero_line = fields.Boolean(default=True, string="Keep Zero Line Taxes")
+    wht_form_print_signature = fields.Boolean(
+        string="50 Tawi - Print Signature",
+        help="Print the name of the user who confirmed the withholding tax "
+        "certificate as the payer signature on the 50 Tawi",
+    )

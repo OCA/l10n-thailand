@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Standard 50 Tawi report of l10n_th, from the withholding tax certificate
+    instead of the payment -->
+    <template
+        id="report_wht_cert_document"
+        inherit_id="l10n_th.report_50_tawi_document"
+        primary="True"
+    >
+        <!-- Sarabun, see wht_cert_report.scss -->
+        <xpath expr="//div[hasclass('page')]" position="attributes">
+            <attribute name="class" add="o_l10n_th_wht_cert_tawi" separator=" " />
+        </xpath>
+        <!-- Number of the certificate, and number of the payment or journal
+        entry on top right as the legacy form -->
+        <xpath expr="//span[@t-field='o.name']" position="attributes">
+            <attribute name="t-field">o.number</attribute>
+        </xpath>
+        <xpath
+            expr="//td[hasclass('w-25')][hasclass('text-end')]/span[1]"
+            position="attributes"
+        >
+            <attribute name="t-if">not o.name</attribute>
+        </xpath>
+        <xpath
+            expr="//td[hasclass('w-25')][hasclass('text-end')]/span[1]"
+            position="after"
+        >
+            <span t-if="o.name">เล่มที่: <span t-field="o.name" /></span>
+        </xpath>
+        <!-- Address of the commercial partner, if the contact has none -->
+        <xpath
+            expr="//span[@t-field='o.partner_id.l10n_th_address_no_country']"
+            position="attributes"
+        >
+            <attribute name="t-field" />
+            <attribute
+                name="t-out"
+            >o.partner_id.l10n_th_address_no_country or o.partner_id.commercial_partner_id.l10n_th_address_no_country</attribute>
+        </xpath>
+        <!-- Income tax form -->
+        <xpath
+            expr="//t[@is_checked=&quot;pnd == '3'&quot;]/../preceding-sibling::div[3]/t"
+            position="attributes"
+        >
+            <attribute name="is_checked">o.income_tax_form == 'pnd1'</attribute>
+        </xpath>
+        <xpath
+            expr="//t[@is_checked=&quot;pnd == '3'&quot;]/../preceding-sibling::div[1]/t"
+            position="attributes"
+        >
+            <attribute name="is_checked">o.income_tax_form == 'pnd2'</attribute>
+        </xpath>
+        <xpath expr="//t[@is_checked=&quot;pnd == '3'&quot;]" position="attributes">
+            <attribute name="is_checked">o.income_tax_form == 'pnd3'</attribute>
+        </xpath>
+        <xpath
+            expr="//t[@is_checked=&quot;pnd == '53'&quot;]/../preceding-sibling::div[1]/t"
+            position="attributes"
+        >
+            <attribute name="is_checked">o.income_tax_form == 'pnd3a'</attribute>
+        </xpath>
+        <xpath expr="//t[@is_checked=&quot;pnd == '53'&quot;]" position="attributes">
+            <attribute name="is_checked">o.income_tax_form == 'pnd53'</attribute>
+        </xpath>
+        <!-- Amounts per type of income of the certificate lines -->
+        <xpath expr="//t[@t-set='income_rows_data']" position="after">
+            <t
+                t-set="income_rows_data"
+                t-value="o._get_tawi_income_rows(income_rows_data)"
+            />
+        </xpath>
+        <xpath expr="//t[@t-set='val']" position="attributes">
+            <attribute
+                name="t-value"
+            >sum(o.wht_line.filtered(lambda l: l.wht_cert_income_type == tax_type).mapped('base'))</attribute>
+        </xpath>
+        <xpath expr="//t[@t-set='val_w']" position="attributes">
+            <attribute
+                name="t-value"
+            >sum(o.wht_line.filtered(lambda l: l.wht_cert_income_type == tax_type).mapped('amount'))</attribute>
+        </xpath>
+        <xpath expr="//t[@t-set='others_text']" position="attributes">
+            <attribute
+                name="t-value"
+            >o._get_tawi_other_desc(income_tax_types)</attribute>
+        </xpath>
+        <!-- Other incomes (6) on a dotted line, as the signature -->
+        <xpath expr="//span[@t-out='others_text']" position="attributes">
+            <attribute
+                name="t-if"
+            >others_text and not row.get('others_dots')</attribute>
+        </xpath>
+        <xpath expr="//span[@t-out='others_text']" position="after">
+            <span t-if="row.get('others_dots')" class="position-relative ms-1">
+                <span
+                >................................................................................................................................</span>
+                <span
+                    t-if="others_text"
+                    class="position-absolute start-0 end-0 text-center"
+                    style="top: -0.35em;"
+                    t-out="others_text"
+                />
+            </span>
+        </xpath>
+        <!-- Amount in Thai words, with ถ้วน -->
+        <xpath
+            expr="//span[contains(@t-out, 'amount_to_text(total_tax)')]"
+            position="attributes"
+        >
+            <attribute name="t-out">o._get_tawi_amount_text(total_tax)</attribute>
+        </xpath>
+        <xpath expr="//span[@t-if='total_tax.is_integer()']" position="attributes">
+            <attribute name="t-if">False</attribute>
+        </xpath>
+        <!-- Payer signature, name of the user who confirmed the certificate,
+        above the signature line -->
+        <xpath
+            expr="//div[hasclass('flex-grow-1')][hasclass('mt-5')]"
+            position="attributes"
+        >
+            <attribute name="class" add="position-relative" separator=" " />
+        </xpath>
+        <xpath
+            expr="//div[hasclass('flex-grow-1')][hasclass('mt-5')]"
+            position="inside"
+        >
+            <span
+                t-if="o.company_id.wht_form_print_signature and o.state == 'done' and o.verify_by"
+                class="position-absolute start-0 end-0 text-center"
+                style="top: -0.9em;"
+                t-field="o.verify_by"
+            />
+        </xpath>
+        <!-- Tax payer -->
+        <xpath
+            expr="//t[@is_checked=&quot;o.l10n_th_wth_condition == 'at_source'&quot;]"
+            position="attributes"
+        >
+            <attribute name="is_checked">o.tax_payer == 'withholding'</attribute>
+        </xpath>
+        <xpath
+            expr="//t[@is_checked=&quot;o.l10n_th_wth_condition == 'forever'&quot;]"
+            position="attributes"
+        >
+            <attribute name="is_checked">o.tax_payer == 'paid_continue'</attribute>
+        </xpath>
+        <xpath
+            expr="//t[@is_checked=&quot;o.l10n_th_wth_condition == 'one_time'&quot;]"
+            position="attributes"
+        >
+            <attribute name="is_checked">o.tax_payer == 'paid_one_time'</attribute>
+        </xpath>
+    </template>
+
+    <template id="report_wht_cert">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t
+                    t-call="l10n_th_account_tax.report_wht_cert_document"
+                    t-lang="report_lang"
+                />
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_wht_cert" model="ir.actions.report">
+        <field name="name">50 Tawi</field>
+        <field name="model">withholding.tax.cert</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_th_account_tax.report_wht_cert</field>
+        <field name="paperformat_id" ref="l10n_th.paperformat_tawi" />
+        <!-- Printed with the Print 50 Tawi button, as the standard payments -->
+        <field name="binding_model_id" eval="False" />
+        <field
+            name="print_report_name"
+        >'WHT_%s' % (object.number if object.number != '/' else object.name or '').replace('/', '-')</field>
+    </record>
+</odoo>

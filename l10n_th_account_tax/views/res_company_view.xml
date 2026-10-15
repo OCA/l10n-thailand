@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- No standard Thai tax invoices, VAT registration has no effect -->
+    <record id="view_company_form" model="ir.ui.view">
+        <field name="name">res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_th.res_company_form_inherit_l10n_th" />
+        <field name="arch" type="xml">
+            <field name="l10n_th_is_vat_registered" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

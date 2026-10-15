@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
-<title>README.rst</title>
+<title>Thai Localization - VAT and Withholding Tax</title>
 <style type="text/css">
 
 /*
@@ -374,21 +374,35 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:758a24d6fe13b8ddbb67e7cc4b158f8ef65a402f794abb07eaa5b04e22ba4ffe
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-thailand/tree/19.0/l10n_th_account_tax"><img alt="OCA/l10n-thailand" src="https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-thailand-19-0/l10n-thailand-19-0-l10n_th_account_tax"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&amp;target_branch=19.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>This module address 2 main tax requirement in Thailand</p>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-thailand/tree/20.0/l10n_th_account_tax"><img alt="OCA/l10n-thailand" src="https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-thailand-20-0/l10n-thailand-20-0-l10n_th_account_tax"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&amp;target_branch=20.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p>This module addresses the two main tax requirements in Thailand.</p>
 <div class="section" id="tax-invoice-vat">
 <h2>1. Tax Invoice (VAT)</h2>
-<p>Point of tax invoice can occur either on Invoice (VAT) or on Payment
-(Undue VAT on invoice become VAT on payment)</p>
+<p>The point of tax invoice can occur either on the invoice (VAT) or on the
+payment (undue VAT, which becomes VAT on payment).</p>
+<ul class="simple">
+<li>Tax invoices are recorded on journal entries and listed in Accounting
+&gt; Accounting &gt; Tax Invoices, the source of the Thai VAT report.</li>
+<li>The number and date of a purchase tax invoice are filled in from the
+vendor’s tax invoice, sales tax invoices are numbered when posting.</li>
+<li>They replace the sales tax invoices of the standard <tt class="docutils literal">l10n_th</tt>
+module, which are not created, and its <tt class="docutils literal">VAT Registered</tt> option is
+hidden.</li>
+</ul>
 </div>
-<div class="section" id="withholding-tax">
-<h2>2. Withholding Tax</h2>
-<p>This is the tax that is deducted during payment. There are 2 kinds of
-withholding tax calculataion.</p>
+<div class="section" id="withholding-tax-and-personal-income-tax">
+<h2>2. Withholding Tax and Personal Income Tax</h2>
+<p>It is built on the standard <tt class="docutils literal">l10n_th</tt> and
+<tt class="docutils literal">l10n_account_withholding_tax</tt> modules, for Thai companies only. The
+withholding tax is deducted during the payment, with two kinds of
+calculation.</p>
 <ol class="arabic simple">
-<li>Fixed rate of based amount, i.e., service 3%</li>
-<li>Progressive rate of accumulated amount, i.e., personal income tax</li>
+<li>Fixed rate of the base amount, e.g., service 3%</li>
+<li>Progressive rate of the yearly accumulated income, i.e., personal
+income tax (PIT)</li>
 </ol>
+<p>Withholding tax certificates, PND forms and the withholding tax and PIT
+reports are provided on top of it.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -399,151 +413,221 @@ withholding tax calculataion.</p>
 <h3><a class="toc-backref" href="#toc-entry-1">Configuration</a></h3>
 </div>
 </div>
+<div class="section" id="withholding-tax">
+<h2>Withholding Tax</h2>
+<p>Withholding taxes are standard taxes, there is no specific master data.</p>
+<ul class="simple">
+<li>Go to Accounting &gt; Configuration &gt; Accounting &gt; Taxes and create a tax
+with <tt class="docutils literal">Is Withholding Tax</tt> checked and a negative rate, e.g., -3% for
+a service</li>
+<li>Set the withholding tax payable account on its tax repartition</li>
+<li>Set the standard <tt class="docutils literal">Income Tax Type</tt> of the tax, it is the default
+type of income on the withholding tax certificate</li>
+<li>Optionally, set a PND tax tag on the repartition lines of the tax,
+e.g., <tt class="docutils literal">PND53</tt> or <tt class="docutils literal">Income PND53</tt>, as the standard 50 Tawi report.
+It is the default PND form of the certificate, otherwise PND53 for
+companies and PND3 for individuals. Tags for PND3 and PND53 are
+standard, this module adds PND1, PND2 and PND3a.</li>
+</ul>
+<p>Go to Accounting &gt; Configuration &gt; Settings and select the
+<tt class="docutils literal">Withholding Tax Base</tt> account. It is used by the <tt class="docutils literal">WH Base</tt> and
+<tt class="docutils literal">Counterpart</tt> lines of the payments with withholding tax.</p>
+<p>To print the payer signature on the 50 Tawi, go to Accounting &gt;
+Configuration &gt; Settings &gt; Thai Localization and check
+<tt class="docutils literal">50 Tawi - Print Signature</tt>. The name of the user who confirmed the
+certificate is printed above the signature line.</p>
+<p>The codes of the income types, used on the certificates, are available
+in Accounting &gt; Configuration &gt; Accounting &gt; WHT Income Code.</p>
+</div>
+<div class="section" id="personal-income-tax-pit">
+<h2>Personal Income Tax (PIT)</h2>
+<ul class="simple">
+<li>Go to Accounting &gt; Configuration &gt; Accounting &gt; Taxes and create the
+PIT tax as a withholding tax, then check <tt class="docutils literal">Personal Income Tax</tt>. The
+rate is fixed to 0% (the amount is hidden), the amount to withhold is
+computed on the payment. There can be only one PIT tax per company.</li>
+<li>Go to Accounting &gt; Configuration &gt; Accounting &gt; PIT Rate to review the
+rate tables. There is one table per calendar year, the default rates
+in effect since 2017 are provided. Create a new table when the rates
+change.</li>
+</ul>
+</div>
 <div class="section" id="tax-invoices">
 <h2>Tax Invoices</h2>
 <p><strong>Preparing Undue Tax</strong></p>
 <ul class="simple">
 <li>Use Developer Mode</li>
-<li>In Chart of Account, add new account for Undue Tax, if not already
-exists.</li>
-<li>As admin, add access rights <tt class="docutils literal">Show Full Accounting Features</tt></li>
-<li>Go to Invoicing &gt; Configuration &gt; Settings and select <tt class="docutils literal">Cash Basis</tt>,
-this will open cash basis options in Tax master data</li>
-<li>Go to Invoicing &gt; Configuration &gt; Accounting &gt; Taxes, create new undue
-tax for both sales and purchase</li>
+<li>In Chart of Accounts, add a new account for Undue Tax, if it does not
+already exist.</li>
+<li>As admin, add the access right <tt class="docutils literal">Show Full Accounting Features</tt></li>
+<li>Go to Accounting &gt; Configuration &gt; Settings and select <tt class="docutils literal">Cash Basis</tt>,
+this will open the cash basis options in the Tax master data</li>
+<li>Go to Accounting &gt; Configuration &gt; Accounting &gt; Taxes, create new
+undue taxes for both sales and purchase</li>
 </ul>
-<p>For Sales Taxes (tax scope = Sales), there is option to run Tax Invoice
-number by sequence model. If set properly, Tax Invoice Number will be
-using this sequence instead of customer invoice number / payment number</p>
+<p><strong>Sales Tax Invoice Number</strong></p>
+<p>The sales tax invoice is numbered when the entry is posted.</p>
 <ul class="simple">
-<li>Goto Invoicing &gt; Configuration &gt; Accounting &gt; Taxes</li>
-<li>For sales tax, choose ‘Tax Invoice Sequence’ (or create new one)</li>
-<li>Make sure you also set the same sequence for the same tax on payment
-too. I.e., Output VAT7% and Undue Output VAT7% must select the same
-sequence, both of them will result in same Tax Report</li>
+<li>For sales taxes (tax scope = Sales), choose the
+<tt class="docutils literal">Tax Invoice Sequence</tt> (or create a new one) to number the tax
+invoice by sequence. Set the same sequence for the same tax on
+payment, i.e., Output VAT7% and Undue Output VAT7% must select the
+same sequence, so that both result in the same tax report.</li>
+<li>Otherwise, the tax invoice number is the number of the invoice. For
+undue VAT, go to Accounting &gt; Configuration &gt; Settings &gt; Thai
+Localization and select the <tt class="docutils literal">Customer Tax Invoice Number</tt>, either
+the payment number or the invoice number.</li>
 </ul>
-<p>Note: this option is not avaiable for purchase tax, because the Tax
-Invoice Number is from vendor, and are filled manually.</p>
-<p><strong>Preparing Zero Tax Line</strong></p>
-<p>If you want tax lines with zero amount (such as 0% tax) to be shown in
-journal entries, follow these steps:</p>
+<p>Note: these options are not available for purchase taxes, because the
+tax invoice number is from the vendor and filled in manually.</p>
+<p><strong>Keep Zero Line Taxes</strong></p>
+<p>To keep tax lines with zero amount (such as 0% VAT) in journal entries,
+so that they appear in the tax invoices:</p>
 <ul class="simple">
-<li>Go to Invoicing &gt; Configuration &gt; Settings and select
-<tt class="docutils literal">Keep Zero Line Taxes</tt>,</li>
+<li>Go to Accounting &gt; Configuration &gt; Settings and select
+<tt class="docutils literal">Keep Zero Line Taxes</tt></li>
 <li>Create an invoice or bill and select a tax with 0% rate</li>
-<li>Go to Journal Items, and you will see a tax line created with zero
-value</li>
+<li>Go to Journal Items, a tax line with zero value is created</li>
 </ul>
-</div>
-<div class="section" id="withholding-tax-and-personal-income-tax-pit">
-<h2>Withholding Tax and Personal Income Tax (PIT)</h2>
-<p>Setup account related to withholding tax will help set default tax
-amount when create certificate from payment.</p>
-<ul class="simple">
-<li>Go to Invoicing &gt; Configuration &gt; Accounting &gt; Chart of Accounts</li>
-<li>Search for withholding tax related account &gt; Setup</li>
-<li>Check “WHT Account”</li>
-<li>Go to Invoicing &gt; Configuration &gt; Accounting &gt; Withholding Tax</li>
-<li>Create withholding Tax (normal and personal income tax)</li>
-</ul>
-<p><strong>Configured Withholding Tax by Product (optional)</strong></p>
-<ul class="simple">
-<li>Go to Invoicing &gt; Customers or Vendors &gt; Products</li>
-<li>Select product that you need withholding tax</li>
-<li>Add Withholding Tax on General Information Tab (Invoices) / Purchase
-Tab (Bills)</li>
-</ul>
-<p><strong>Configure Personal Income Tax Rate</strong></p>
-<ol class="arabic simple">
-<li>Go to Invoicing &gt; Configuration &gt; Accounting &gt; PIT Rate</li>
-<li>Change range or tax rate (if any)</li>
-</ol>
-<p>Configure PIT Withholding Tax as following,</p>
-<ol class="arabic simple">
-<li>Go to Invoicing &gt; Configuration &gt; Accounting &gt; Withholing Tax</li>
-<li>Create new Withholding Tax for PIT and check Personal Income Tax
-checkbox</li>
-<li>PIT Rate that will be used to calculate the withholding amount will
-be shown</li>
-<li>You can set default Withholding Tax on the Product’s Purchase Tab</li>
-</ol>
+<p>Zero withholding tax lines are never kept.</p>
 <div class="section" id="usage">
 <h3>Usage</h3>
 </div>
 </div>
-<div class="section" id="tax-invoice">
-<h2>Tax Invoice</h2>
-<p>With this, 2 new tax related fields will be introduced in
-account.move.tax.invoice</p>
-<ol class="arabic simple">
-<li>tax_invoice_number : Tax Invoice Number</li>
-<li>tax_invoice_date : Tax Invoice Date</li>
-</ol>
-<p>In customer invoice, both field will be defaulted by Odoo’s document
-number and date. But in supplier invoice, both field must be filled by
-user with tax invoice number and date from vendor.</p>
-<p>Note: The new table account.move.tax.invoice is the main source of Thai
-VAT Report</p>
-<p><strong>Case Customer Invoice and Payment</strong></p>
-<ul class="simple">
-<li>Create new customer invoice and choose to use sales’ VAT or Undue VAT</li>
-<li>Process invoice and payment as per normal, Odoo document number and
-date should be used as Tax Invoice Number/Date</li>
-</ul>
-<p><strong>Case Supplier Invoice/Payment</strong></p>
-<p><strong>1) Case Input VAT</strong></p>
-<ul class="simple">
-<li>Create new vendor bill and choose Input VAT</li>
-<li>At vendor bill’s tax invoice tab, fill in 2 new fields,
-<tt class="docutils literal">Tax Invoice</tt> and <tt class="docutils literal">Tax Date</tt> given by your vendor</li>
-<li>Validate this vendor bill, the given Tax Invoice Number and Tax Date
-are set in account.move.tax.invoice</li>
-</ul>
-<p><strong>2) Case Undue Input VAT</strong></p>
-<ul class="simple">
-<li>Create new vendor bill and choose Undue Input VAT</li>
-<li>Validate vendor bill, journal entry will be created with Undue VAT</li>
-<li>Register payment as per normal, this will create new payment document
-as per normal</li>
-<li>From this process, the journal entry (cash basis) for clear undue is
-created, but it will be in state <strong>Draft</strong></li>
-<li>Go to payment document, in tax invoice tab, fill in Tax Invoice Number
-and Tax Date</li>
-<li>Click on Clear VAT button, the journal entry (cash basis) for clear
-undue will now be <strong>Posted</strong></li>
-</ul>
-</div>
 <div class="section" id="withholding-tax-1">
 <h2>Withholding Tax</h2>
-<p>From bills / invoices that require withheld tax,</p>
+<p><strong>Vendor bills and customer invoices</strong></p>
 <ul class="simple">
-<li>Create invoice and Fill withholding tax in Field WT at Invoice Lines
-tab.</li>
-<li>Post &gt; Register Payment.</li>
-<li>System will auto computed amount include withholding tax.</li>
+<li>Create the bill or invoice and set the withholding tax in <tt class="docutils literal">Taxes</tt> of
+the lines. Only one withholding tax is allowed per line.</li>
+<li>Post it, then click Pay (Register Payment)</li>
+<li>In the payment wizard, select <tt class="docutils literal">Withhold</tt> (pay and withhold, or
+withhold only), the withholding lines are proposed from the taxes of
+the bill. Their base and amount can be edited.</li>
+<li>Create the payment. The amounts withheld are recorded on the payment
+with the <tt class="docutils literal">WH Base</tt> and <tt class="docutils literal">Counterpart</tt> lines.</li>
 </ul>
-<p><strong>Note</strong></p>
-<ul>
-<li><p class="first">if you configured withholding tax on product, it fill withholding tax
-in field WT automatic.</p>
-</li>
-<li><p class="first">for invoices with withholding tax,</p>
-<blockquote>
+<p><strong>Manual journal entries</strong></p>
+<p>Set the withholding tax in <tt class="docutils literal">Taxes</tt> of a journal item. The withholding
+tax line is computed directly on the entry.</p>
+<p><strong>Withholding tax certificates</strong></p>
 <ul class="simple">
-<li>you can’t make payment to multiple invoices belongs to multiple
-partners.</li>
-<li>you can only make payment to multiple invoices belongs to the
-same partner (using Group Payments).</li>
+<li>On a posted payment or journal entry with withholding tax, an alert
+tells that the certificate is not yet created. Click
+<tt class="docutils literal">Create withholding tax cert.</tt></li>
+<li>The certificates are created per partner and PND form. The PND form
+defaults from the PND tax tags of the tax, otherwise from the partner,
+i.e., company: PND53, individual: PND3, and can be edited. The type of
+income defaults from the income tax type of the tax, and the tax payer
+from the withholding condition of the payment. Check the type of
+income and income code, then confirm the certificate.</li>
+<li>Certificates are listed in Accounting &gt; Vendors &gt; WHT Certificates.</li>
+<li>Print a done certificate with <tt class="docutils literal">Print 50 Tawi</tt>, the standard 50 Tawi
+report of <tt class="docutils literal">l10n_th</tt> filled from the certificate. Several
+certificates are downloaded as a ZIP file with Action &gt; Thailand:
+Print 50 tawi. These replace the standard ones of payments, which are
+hidden.</li>
+<li>Send the 50 Tawi of a done certificate to the partner with
+<tt class="docutils literal">Send by Email</tt>.</li>
+<li>Resetting to draft or cancelling the payment or journal entry also
+cancels its certificates.</li>
 </ul>
-</blockquote>
-</li>
+<p><strong>Reports</strong></p>
+<p>Go to Accounting &gt; Reporting &gt; Thai Accounting Reports &gt; Withholding Tax</p>
+</div>
+<div class="section" id="personal-income-tax-pit-1">
+<h2>Personal Income Tax (PIT)</h2>
+<ul class="simple">
+<li>Set the PIT tax in <tt class="docutils literal">Taxes</tt> of the bill lines, e.g., for freelancers.
+It is 0% on the bill.</li>
+<li>Click Pay and select <tt class="docutils literal">Withhold</tt>. The PIT is computed on the payment
+from the yearly income accumulated by the partner, with the PIT rate
+table of the payment year. The yearly income includes the base of the
+posted payments and journal entries of the partner.</li>
+<li>A certificate can be created from the payment as for any other
+withholding tax.</li>
+<li>Go to Accounting &gt; Reporting &gt; Thai Accounting Reports &gt; Personal
+Income Tax to see the yearly income and the PIT withheld.</li>
+</ul>
+</div>
+<div class="section" id="tax-invoice">
+<h2>Tax Invoice</h2>
+<p>The tax invoice is recorded on each journal entry with VAT, in the
+<tt class="docutils literal">Tax Invoice</tt> tab, and listed in Accounting &gt; Accounting &gt; Tax
+Invoices. The fields are the tax invoice number and date, and the number
+of months of late report.</p>
+<p>Note: the table <tt class="docutils literal">account.move.tax.invoice</tt> is the main source of the
+Thai VAT report.</p>
+<p><strong>Customer Invoice and Payment</strong></p>
+<ul class="simple">
+<li>Create a customer invoice and choose the sales VAT or undue VAT</li>
+<li>Post the invoice and register the payment as usual. The tax invoice is
+numbered when posting, by the tax sequence, or by the invoice or
+payment number (see the configuration).</li>
+</ul>
+<p><strong>Vendor Bill with Input VAT</strong></p>
+<ul class="simple">
+<li>Create a vendor bill and choose the Input VAT</li>
+<li>In the <tt class="docutils literal">Tax Invoice</tt> tab, fill in <tt class="docutils literal">Tax Invoice</tt> and <tt class="docutils literal">Tax Date</tt>
+given by your vendor. They are required before posting.</li>
+<li>Post the vendor bill, the tax invoice keeps the number and date.</li>
+</ul>
+<p><strong>Vendor Bill with Undue Input VAT</strong></p>
+<ul class="simple">
+<li>Create a vendor bill and choose the Undue Input VAT, then post it</li>
+<li>Register the payment as usual</li>
+<li>The cash basis entry that clears the undue VAT is created, but it
+stays in <strong>Draft</strong> until the vendor’s tax invoice is filled in</li>
+<li>In the <tt class="docutils literal">Tax Invoice</tt> tab of the payment, fill in the Tax Invoice
+Number and Tax Date, then click <tt class="docutils literal">Clear Tax</tt>. The cash basis entry is
+<strong>Posted</strong> (or post the entry itself).</li>
+</ul>
+<p>Note: when a bill is netted with a refund or a journal entry, Odoo 20
+does not create a cash basis entry.</p>
+<p><strong>Report Late</strong></p>
+<p>A vendor tax invoice dated in an earlier month than the accounting date
+can be reported late, up to 6 months. <tt class="docutils literal">Report Late</tt> is proposed when
+the tax invoice date is filled in, and the report date is then moved to
+the end of the later month.</p>
+<p><strong>Split</strong></p>
+<p>In draft, use the <tt class="docutils literal">Split</tt> button on a line of the <tt class="docutils literal">Tax Invoice</tt> tab
+to copy it, when the vendor issues several tax invoices for the same
+journal item. Adjust the tax base and tax amount of each one.</p>
+<p><strong>Credit Notes and Reversals</strong></p>
+<p>When reversing a vendor bill or entry, the reversal wizard asks for the
+vendor credit note number and date. The tax invoice of the reversal has
+a negative base and amount.</p>
+<p><strong>Manual Tax Invoice</strong></p>
+<p>On journal entries, check <tt class="docutils literal">Manual Tax Invoice</tt> on a journal item
+(e.g., a VAT account line without tax) to create its tax invoice, for
+example, for a purchase VAT recorded manually.</p>
+<div class="section" id="changelog">
+<h3>Changelog</h3>
+</div>
+</div>
+<div class="section" id="section-1">
+<h2>20.0.1.0.0</h2>
+<p><strong>Breaking changes</strong></p>
+<ul class="simple">
+<li>Rebuilt on top of the standard <tt class="docutils literal">l10n_th</tt> and
+<tt class="docutils literal">l10n_account_withholding_tax</tt> modules. The withholding taxes are
+standard taxes (<tt class="docutils literal">Is Withholding Tax</tt>). Tax invoices and withholding
+tax certificates apply to Thai companies only.</li>
+<li>Removed the models <tt class="docutils literal">account.withholding.tax</tt> and
+<tt class="docutils literal">account.withholding.move</tt>, the <tt class="docutils literal">WHT Account</tt> flag on accounts,
+the withholding tax on products and <tt class="docutils literal">wht_tax_id</tt> on journal items.</li>
+<li>The standard Thai tax invoices of <tt class="docutils literal">l10n_th</tt> (<tt class="docutils literal">VAT Registered</tt>) are
+not created, the tax invoices of this module are used instead.</li>
+<li>Removed the <tt class="docutils literal">Default Type of Income</tt> of taxes, the type of income of
+the certificates defaults from the standard <tt class="docutils literal">Income Tax Type</tt>.</li>
+<li>There is no data migration from older versions.</li>
 </ul>
 <div class="section" id="bug-tracker">
 <h3>Bug Tracker</h3>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-thailand/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-<a class="reference external" href="https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_account_tax%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<a class="reference external" href="https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_account_tax%0Aversion:%2020.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
@@ -576,9 +660,9 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
-<p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainer</a>:</p>
-<p><a class="reference external image-reference" href="https://github.com/kittiu"><img alt="kittiu" src="https://github.com/kittiu.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-thailand/tree/19.0/l10n_th_account_tax">OCA/l10n-thailand</a> project on GitHub.</p>
+<p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainers</a>:</p>
+<p><a class="reference external image-reference" href="https://github.com/kittiu"><img alt="kittiu" src="https://github.com/kittiu.png?size=40px" /></a> <a class="reference external image-reference" href="https://github.com/Saran440"><img alt="Saran440" src="https://github.com/Saran440.png?size=40px" /></a></p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-thailand/tree/20.0/l10n_th_account_tax">OCA/l10n-thailand</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
 </div>
 </div>
