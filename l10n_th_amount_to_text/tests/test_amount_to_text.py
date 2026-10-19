@@ -29,7 +29,7 @@ class TestAmountToText(TransactionCase):
         amount = 1050.75
         amount_text_eur = currency.amount_to_text(amount)
         self.assertEqual(
-            amount_text_eur, "One Thousand And Fifty Euros and Seventy-Five Cents"
+            amount_text_eur, "one thousand and fifty euro and seventy-five cents"
         )
         amount_text_eur = currency.with_context(lang="th_TH").amount_to_text(amount)
         self.assertEqual(amount_text_eur, "หนึ่งพันห้าสิบยูโรเจ็ดสิบห้าเซนต์")

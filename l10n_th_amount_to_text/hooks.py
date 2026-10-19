@@ -16,6 +16,6 @@ def pre_init_hook(env):
 
     if th_lang:
         th_lang.write({"active": True})
-        _logger.info(f"Activated Thai language: {th_lang.code}")
+        _logger.info("Activated Thai language: %s", th_lang.code)
     else:
         _logger.info("Thai language (th_TH) not found in res.lang!")
