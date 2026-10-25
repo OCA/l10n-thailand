@@ -4,15 +4,16 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='branch']" position="after">
+            <div id="vat_div" position="inside">
                 <button
-                    string="Get Address"
-                    name="action_get_address"
+                    name="action_l10n_th_rd_get_address"
                     type="object"
-                    colspan="2"
-                    class="oe_highlight"
+                    icon="manage_search"
+                    class="btn-link"
+                    title="Fill the name and address from the Revenue Department"
+                    invisible="not vat or not id"
                 />
-            </xpath>
+            </div>
         </field>
     </record>
 </odoo>

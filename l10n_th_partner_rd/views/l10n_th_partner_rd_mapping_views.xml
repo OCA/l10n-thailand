@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="l10n_th_partner_rd_mapping_view_list" model="ir.ui.view">
+        <field name="model">l10n_th.partner.rd.mapping</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle" />
+                <field name="field_id" />
+                <field name="template" />
+                <field name="active" widget="boolean_toggle" />
+            </list>
+        </field>
+    </record>
+    <record id="l10n_th_partner_rd_mapping_view_form" model="ir.ui.view">
+        <field name="model">l10n_th.partner.rd.mapping</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="field_id" options="{'no_create': True}" />
+                        <field name="template" />
+                        <field name="active" widget="boolean_toggle" />
+                    </group>
+                    <div name="placeholders" class="alert alert-info" role="alert">
+                        <p>
+                            Placeholders formatted like a Thai address, empty
+                            when the Revenue Department has no value:
+                        </p>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Placeholder</th>
+                                    <th>Value</th>
+                                    <th>Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{name}</td>
+                                    <td>vBranchTitleName vBranchName vSurname</td>
+                                    <td>บริษัท อีโคซอฟต์ จำกัด</td>
+                                </tr>
+                                <tr>
+                                    <td>{house_no}</td>
+                                    <td>vHouseNumber</td>
+                                    <td>459/132</td>
+                                </tr>
+                                <tr>
+                                    <td>{building}</td>
+                                    <td>อาคาร vBuildingName</td>
+                                    <td>อาคาร ไอที</td>
+                                </tr>
+                                <tr>
+                                    <td>{room}</td>
+                                    <td>ห้อง vRoomNumber</td>
+                                    <td>ห้อง 301</td>
+                                </tr>
+                                <tr>
+                                    <td>{floor}</td>
+                                    <td>ชั้น vFloorNumber</td>
+                                    <td>ชั้น 3</td>
+                                </tr>
+                                <tr>
+                                    <td>{village}</td>
+                                    <td>หมู่บ้าน vVillageName</td>
+                                    <td>หมู่บ้าน โครงการ นิว ไฮบ์ สุขสวัสดิ์</td>
+                                </tr>
+                                <tr>
+                                    <td>{moo}</td>
+                                    <td>หมู่ที่ vMooNumber</td>
+                                    <td>หมู่ที่ 5</td>
+                                </tr>
+                                <tr>
+                                    <td>{soi}</td>
+                                    <td>ซอย vSoiName</td>
+                                    <td>ซอย 1</td>
+                                </tr>
+                                <tr>
+                                    <td>{yaek}</td>
+                                    <td>แยก vYaek</td>
+                                    <td>แยก 2</td>
+                                </tr>
+                                <tr>
+                                    <td>{road}</td>
+                                    <td>ถนนvStreetName</td>
+                                    <td>ถนนสุขสวัสดิ์</td>
+                                </tr>
+                                <tr>
+                                    <td>{sub_district}</td>
+                                    <td>ต.vThambol, แขวงvThambol in Bangkok</td>
+                                    <td>แขวงราษฎร์บูรณะ</td>
+                                </tr>
+                                <tr>
+                                    <td>{district}</td>
+                                    <td>อ.vAmphur, เขตvAmphur in Bangkok</td>
+                                    <td>เขตราษฎร์บูรณะ</td>
+                                </tr>
+                                <tr>
+                                    <td>{province}</td>
+                                    <td>vProvince</td>
+                                    <td>กรุงเทพมหานคร</td>
+                                </tr>
+                                <tr>
+                                    <td>{zip}</td>
+                                    <td>vPostCode</td>
+                                    <td>10140</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>
+                            Raw keys of the Revenue Department service, used
+                            as {vNID} etc. A "-" sent by the service is
+                            replaced by nothing, as are unknown placeholders:
+                        </p>
+                        <table class="table table-sm mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Key</th>
+                                    <th>Content</th>
+                                    <th>Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>vNID</td>
+                                    <td>Tax ID (13 digits)</td>
+                                    <td>0105554048641</td>
+                                </tr>
+                                <tr>
+                                    <td>vtin</td>
+                                    <td>Former 10-digit Tax ID, usually empty</td>
+                                    <td />
+                                </tr>
+                                <tr>
+                                    <td>vtitleName</td>
+                                    <td>Title of the taxpayer</td>
+                                    <td>บริษัท</td>
+                                </tr>
+                                <tr>
+                                    <td>vName</td>
+                                    <td>Name of the taxpayer</td>
+                                    <td>อีโคซอฟต์ จำกัด</td>
+                                </tr>
+                                <tr>
+                                    <td>vSurname</td>
+                                    <td>Surname, for a person</td>
+                                    <td />
+                                </tr>
+                                <tr>
+                                    <td>vBranchTitleName</td>
+                                    <td>Title of the branch</td>
+                                    <td>บริษัท</td>
+                                </tr>
+                                <tr>
+                                    <td>vBranchName</td>
+                                    <td>Name of the branch</td>
+                                    <td>อีโคซอฟต์ จำกัด</td>
+                                </tr>
+                                <tr>
+                                    <td>vBranchNumber</td>
+                                    <td>Branch number, 0 for the head office</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>vBuildingName</td>
+                                    <td>Building</td>
+                                    <td />
+                                </tr>
+                                <tr>
+                                    <td>vRoomNumber</td>
+                                    <td>Room number</td>
+                                    <td />
+                                </tr>
+                                <tr>
+                                    <td>vFloorNumber</td>
+                                    <td>Floor</td>
+                                    <td />
+                                </tr>
+                                <tr>
+                                    <td>vVillageName</td>
+                                    <td>Village</td>
+                                    <td>โครงการ นิว ไฮบ์ สุขสวัสดิ์</td>
+                                </tr>
+                                <tr>
+                                    <td>vHouseNumber</td>
+                                    <td>House number</td>
+                                    <td>459/132</td>
+                                </tr>
+                                <tr>
+                                    <td>vMooNumber</td>
+                                    <td>Moo</td>
+                                    <td />
+                                </tr>
+                                <tr>
+                                    <td>vSoiName</td>
+                                    <td>Soi</td>
+                                    <td />
+                                </tr>
+                                <tr>
+                                    <td>vYaek</td>
+                                    <td>Yaek</td>
+                                    <td />
+                                </tr>
+                                <tr>
+                                    <td>vStreetName</td>
+                                    <td>Road</td>
+                                    <td>สุขสวัสดิ์</td>
+                                </tr>
+                                <tr>
+                                    <td>vThambol</td>
+                                    <td>Sub-district</td>
+                                    <td>ราษฎร์บูรณะ</td>
+                                </tr>
+                                <tr>
+                                    <td>vAmphur</td>
+                                    <td>District</td>
+                                    <td>ราษฎร์บูรณะ</td>
+                                </tr>
+                                <tr>
+                                    <td>vProvince</td>
+                                    <td>Province</td>
+                                    <td>กรุงเทพมหานคร</td>
+                                </tr>
+                                <tr>
+                                    <td>vPostCode</td>
+                                    <td>Postal code</td>
+                                    <td>10140</td>
+                                </tr>
+                                <tr>
+                                    <td>vBusinessFirstDate</td>
+                                    <td>Business start date, Buddhist Era</td>
+                                    <td>2554-11-07</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="l10n_th_partner_rd_mapping_view_search" model="ir.ui.view">
+        <field name="model">l10n_th.partner.rd.mapping</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="field_id" />
+                <field name="template" />
+                <filter
+                    name="inactive"
+                    string="Archived"
+                    domain="[('active', '=', False)]"
+                />
+            </search>
+        </field>
+    </record>
+    <record id="l10n_th_partner_rd_mapping_action" model="ir.actions.act_window">
+        <field name="name">RD Field Mapping</field>
+        <field name="res_model">l10n_th.partner.rd.mapping</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Map the Revenue Department data to contact fields
+            </p>
+            <p>
+                Each line writes its template, such as
+                "{house_no} {moo} {soi} {road}", to a contact field. The form
+                of a line lists all placeholders.
+            </p>
+        </field>
+    </record>
+    <menuitem
+        id="l10n_th_partner_rd_mapping_menu"
+        action="l10n_th_partner_rd_mapping_action"
+        parent="base.menu_ir_property"
+        sequence="20"
+    />
+</odoo>

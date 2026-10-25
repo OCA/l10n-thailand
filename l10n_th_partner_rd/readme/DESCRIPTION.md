@@ -1,4 +1,7 @@
-This module supported multi withholding tax in invoice. This module is
-used to call the VAT Service of the Revenue Department (RD). By input
-the VAT number and branch, this module retrieves the name and address
-information of the taxpayer.
+This module fills the name and address of a contact from the VAT
+service of the Thai Revenue Department (RD), using its Tax ID and
+Branch Code.
+
+The RD data is written to the contact fields through a configurable
+field mapping, so the layout of the address can be adapted without
+changing the code.

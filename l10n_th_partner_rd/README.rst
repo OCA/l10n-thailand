@@ -2,9 +2,9 @@
    :target: https://odoo-community.org/get-involved?utm_source=readme
    :alt: Odoo Community Association
 
-===============================
-Thai Localization - Tax address
-===============================
+========================================================
+Thai Localization - Partner data from Revenue Department
+========================================================
 
 .. 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21,10 +21,10 @@ Thai Localization - Tax address
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--thailand-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-thailand/tree/20.0/l10n_th_tax_address
+    :target: https://github.com/OCA/l10n-thailand/tree/20.0/l10n_th_partner_rd
     :alt: OCA/l10n-thailand
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-thailand-20-0/l10n-thailand-20-0-l10n_th_tax_address
+    :target: https://translation.odoo-community.org/projects/l10n-thailand-20-0/l10n-thailand-20-0-l10n_th_partner_rd
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
     :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-thailand&target_branch=20.0
@@ -32,10 +32,12 @@ Thai Localization - Tax address
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module supported multi withholding tax in invoice. This module is
-used to call the VAT Service of the Revenue Department (RD). By input
-the VAT number and branch, this module retrieves the name and address
-information of the taxpayer.
+This module fills the name and address of a contact from the VAT service
+of the Thai Revenue Department (RD), using its Tax ID and Branch Code.
+
+The RD data is written to the contact fields through a configurable
+field mapping, so the layout of the address can be adapted without
+changing the code.
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -47,21 +49,111 @@ information of the taxpayer.
 .. contents::
    :local:
 
+Configuration
+=============
+
+Go to *Settings > Technical > Parameters > RD Field Mapping* (debug
+mode) to choose which contact field receives which RD data. Each line
+writes its *Template* to its *Partner Field*, replacing the placeholders
+by the RD data. The form of a line lists the placeholders below.
+
+Placeholders formatted like a Thai address (empty when the RD has no
+value):
+
+- ``{name}``: ``vBranchTitleName vBranchName vSurname``, e.g. บริษัท
+  อีโคซอฟต์ จำกัด
+- ``{house_no}``: ``vHouseNumber``, e.g. 459/132
+- ``{building}``: อาคาร ``vBuildingName``, e.g. อาคาร ไอที
+- ``{room}``: ห้อง ``vRoomNumber``, e.g. ห้อง 301
+- ``{floor}``: ชั้น ``vFloorNumber``, e.g. ชั้น 3
+- ``{village}``: หมู่บ้าน ``vVillageName``, e.g. หมู่บ้าน โครงการ นิว ไฮบ์
+  สุขสวัสดิ์
+- ``{moo}``: หมู่ที่ ``vMooNumber``, e.g. หมู่ที่ 5
+- ``{soi}``: ซอย ``vSoiName``, e.g. ซอย 1
+- ``{yaek}``: แยก ``vYaek``, e.g. แยก 2
+- ``{road}``: ถนน\ ``vStreetName``, e.g. ถนนสุขสวัสดิ์
+- ``{sub_district}``: ต.\ ``vThambol``, แขวง\ ``vThambol`` in Bangkok,
+  e.g. แขวงราษฎร์บูรณะ
+- ``{district}``: อ.\ ``vAmphur``, เขต\ ``vAmphur`` in Bangkok, e.g.
+  เขตราษฎร์บูรณะ
+- ``{province}``: ``vProvince``, e.g. กรุงเทพมหานคร
+- ``{zip}``: ``vPostCode``, e.g. 10140
+
+Raw keys of the RD service, as ``{vNID}`` etc. The RD sends ``-`` for an
+empty value, which is replaced by nothing:
+
+- ``vNID``: Tax ID (13 digits), e.g. 0105554048641
+- ``vtin``: Former 10-digit Tax ID, usually empty
+- ``vtitleName``: Title of the taxpayer, e.g. บริษัท
+- ``vName``: Name of the taxpayer, e.g. อีโคซอฟต์ จำกัด
+- ``vSurname``: Surname, for a person
+- ``vBranchTitleName``: Title of the branch, e.g. บริษัท
+- ``vBranchName``: Name of the branch, e.g. อีโคซอฟต์ จำกัด
+- ``vBranchNumber``: Branch number, 0 for the head office, e.g. 0
+- ``vBuildingName``: Building
+- ``vRoomNumber``: Room number
+- ``vFloorNumber``: Floor
+- ``vVillageName``: Village, e.g. โครงการ นิว ไฮบ์ สุขสวัสดิ์
+- ``vHouseNumber``: House number, e.g. 459/132
+- ``vMooNumber``: Moo
+- ``vSoiName``: Soi
+- ``vYaek``: Yaek
+- ``vStreetName``: Road, e.g. สุขสวัสดิ์
+- ``vThambol``: Sub-district, e.g. ราษฎร์บูรณะ
+- ``vAmphur``: District, e.g. ราษฎร์บูรณะ
+- ``vProvince``: Province, e.g. กรุงเทพมหานคร
+- ``vPostCode``: Postal code, e.g. 10140
+- ``vBusinessFirstDate``: Business start date, Buddhist Era, e.g.
+  2554-11-07
+
+Keys added later by the RD can be used the same way. Unknown
+placeholders are replaced by nothing. For a relational field (e.g.
+State), the result is searched by name among the Thai records. By
+default the sub-district and the district have their own field, the rest
+of the address goes to the street:
+
+- Name: ``{name}``
+- Street:
+  ``{house_no} {building} {room} {floor} {village} {moo} {soi} {yaek} {road}``
+- Street 2: ``{sub_district}``
+- City: ``{district}``
+- State: ``{province}``
+- Zip: ``{zip}``
+
+The address form of the Odoo localization (l10n_th) uses another layout
+instead: Street ``{building} {room} {floor} {village}``, Street 2
+``{house_no} {moo} {soi} {yaek} {road}``, City
+``{sub_district} {district}``.
+
+The URL of the RD service is stored in the system parameter
+``l10n_th_partner_rd.vat_service_url``.
+
 Usage
 =====
 
-Input the Tax ID and Tax Branch on the Contact page, then click the "Get
-Address" button. It will call an API to retrieve data from the Revenue
-Department. The received information will be automatically filled into
-the following fields:
+On a new contact, type the 13-digit Tax ID: the fields set in the RD
+field mapping are filled with the data of the Revenue Department, the
+country is set to Thailand and the Branch Code of the contact
+identifiers is set to ``00000`` (head office). For a branch, change the
+Branch Code: the data of that branch is fetched again.
 
-- Street: From house number to street
-- Street2: Sub-district
-- City: District
-- State: Province
-- Zip: Postal code
+On a saved contact, click the search button next to the Tax ID to update
+it from the Revenue Department.
 
-Additionally, Type contact will automatically change to a company.
+Changelog
+=========
+
+20.0.1.0.0
+----------
+
+- Renamed from ``l10n_th_tax_address``.
+- No dependency on ``l10n_th_partner`` and ``l10n_th_base_location``
+  anymore: the Branch Code is the standard ``TH_BRANCH_CODE`` partner
+  identifier and the provinces are the standard Thai states.
+- The RD data is written through a configurable field mapping; by
+  default the fields are filled as in version 16.
+- A new contact is filled as soon as its Tax ID is typed, and the Branch
+  Code is set from the RD answer.
 
 Bug Tracker
 ===========
@@ -69,7 +161,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-thailand/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_tax_address%0Aversion:%2020.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-thailand/issues/new?body=module:%20l10n_th_partner_rd%0Aversion:%2020.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -110,6 +202,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-Saran440| 
 
-This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/20.0/l10n_th_tax_address>`_ project on GitHub.
+This module is part of the `OCA/l10n-thailand <https://github.com/OCA/l10n-thailand/tree/20.0/l10n_th_partner_rd>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

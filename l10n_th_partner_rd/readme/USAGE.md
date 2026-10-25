@@ -1,12 +1,8 @@
-Input the Tax ID and Tax Branch on the Contact page, then click the "Get
-Address" button. It will call an API to retrieve data from the Revenue
-Department. The received information will be automatically filled into
-the following fields:
+On a new contact, type the 13-digit Tax ID: the fields set in the RD
+field mapping are filled with the data of the Revenue Department, the
+country is set to Thailand and the Branch Code of the contact
+identifiers is set to `00000` (head office). For a branch, change the
+Branch Code: the data of that branch is fetched again.
 
-- Street: From house number to street
-- Street2: Sub-district
-- City: District
-- State: Province
-- Zip: Postal code
-
-Additionally, Type contact will automatically change to a company.
+On a saved contact, click the search button next to the Tax ID to
+update it from the Revenue Department.
