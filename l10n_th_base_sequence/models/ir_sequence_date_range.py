@@ -15,6 +15,10 @@ class IrSequenceDateRange(models.Model):
         "date_from",
         "number_next_actual",
         "sequence_id.use_date_range",
+        "sequence_id.prefix",
+        "sequence_id.suffix",
+        "sequence_id.padding",
+        "sequence_id.implementation",
     )
     def _compute_preview(self):
         for record in self:
