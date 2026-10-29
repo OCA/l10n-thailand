@@ -514,3 +514,93 @@ class TestWithholdingTax(AccountTestInvoicingCommon):
         self.assertEqual(
             register_payment.amount, (price_unit - (price_unit * 0.01)) * 2
         )
+
+    def test_07_wht_kept_after_edit_draft_payment(self):
+        """Editing a draft payment must not drop the WHT on its write-off line"""
+        price_unit = 1000.0
+        invoice = self._create_invoice(
+            self.partner_1.id,
+            self.purchase_journal.id,
+            "in_invoice",
+            self.expense_account.id,
+            price_unit,
+        )
+        invoice.invoice_line_ids.write({"wht_tax_id": self.wht_3.id})
+        invoice.action_post()
+        ctx = {
+            "active_ids": invoice.line_ids.ids,
+            "active_model": "account.move.line",
+        }
+        register_payment = Form(
+            self.wiz_payment_register_obj.with_context(**ctx)
+        ).save()
+        action_payment = register_payment.action_create_payments()
+        payment = self.env[action_payment["res_model"]].browse(action_payment["res_id"])
+        wht_line = payment.move_id.line_ids.filtered("wht_tax_id")
+        self.assertRecordValues(
+            wht_line,
+            [{"wht_tax_id": self.wht_3.id, "tax_base_amount": price_unit}],
+        )
+        payment.action_draft()
+        for vals in [
+            {"date": fields.Date.add(payment.date, days=1)},
+            {"payment_reference": "Edited ref"},
+            {"amount": payment.amount - 10.0},
+        ]:
+            payment.write(vals)
+            writeoff_lines = payment._seek_for_lines()[2]
+            self.assertRecordValues(
+                writeoff_lines,
+                [
+                    {
+                        "account_id": self.wht_account.id,
+                        "balance": -price_unit * 0.03,
+                        "wht_tax_id": self.wht_3.id,
+                        "tax_base_amount": price_unit,
+                    }
+                ],
+            )
+        payment.invalidate_recordset(["has_wht"])
+        self.assertTrue(payment.has_wht)
+        payment.action_post()
+        payment.wht_move_ids.write({"wht_cert_income_type": "1"})
+        payment.create_wht_cert()
+        self.assertEqual(payment.wht_certs_count, 1)
+
+    def test_08_wht_not_tagged_on_mixed_writeoff(self):
+        """Editing a draft payment with WHT and another write-off must not
+        put the WHT on the merged write-off line"""
+        payment = self.env["account.payment"].create(
+            {
+                "payment_type": "outbound",
+                "partner_type": "supplier",
+                "partner_id": self.partner_1.id,
+                "journal_id": self.journal_bank.id,
+                "amount": 960.0,
+                "write_off_line_vals": [
+                    {
+                        "name": "WHT 3%",
+                        "account_id": self.wht_account.id,
+                        "partner_id": self.partner_1.id,
+                        "currency_id": self.currency_usd.id,
+                        "amount_currency": -30.0,
+                        "balance": -30.0,
+                        "wht_tax_id": self.wht_3.id,
+                        "tax_base_amount": 1000.0,
+                    },
+                    {
+                        "name": "Bank fee",
+                        "account_id": self.expense_account.id,
+                        "partner_id": self.partner_1.id,
+                        "currency_id": self.currency_usd.id,
+                        "amount_currency": -10.0,
+                        "balance": -10.0,
+                    },
+                ],
+            }
+        )
+        self.assertEqual(len(payment._seek_for_lines()[2]), 2)
+        payment.write({"date": fields.Date.add(payment.date, days=1)})
+        writeoff_lines = payment._seek_for_lines()[2]
+        self.assertEqual(sum(writeoff_lines.mapped("balance")), -40.0)
+        self.assertFalse(writeoff_lines.filtered("wht_tax_id"))
