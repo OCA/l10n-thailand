@@ -169,3 +169,27 @@ class AccountPayment(models.Model):
     def create_wht_cert(self):
         self.ensure_one()
         self.move_id.create_wht_cert()
+
+    def _synchronize_to_moves(self, changed_fields):
+        """Core rebuilds write-off lines from name/account/amount only,
+        so editing a draft payment drops the WHT. Restore it after sync."""
+        wht_vals_per_payment = {}
+        for payment in self:
+            if payment.move_id.state == "posted":
+                continue
+            writeoff_lines = payment._seek_for_lines()[2]
+            wht_tax = writeoff_lines.wht_tax_id
+            if len(wht_tax) == 1 and all(line.wht_tax_id for line in writeoff_lines):
+                wht_vals_per_payment[payment] = {
+                    "wht_tax_id": wht_tax.id,
+                    "tax_base_amount": sum(writeoff_lines.mapped("tax_base_amount")),
+                }
+        res = super()._synchronize_to_moves(changed_fields)
+        for payment, wht_vals in wht_vals_per_payment.items():
+            lost_lines = payment._seek_for_lines()[2].filtered(
+                lambda line: not line.wht_tax_id
+            )
+            lost_lines.with_context(skip_account_move_synchronization=True).write(
+                wht_vals
+            )
+        return res
