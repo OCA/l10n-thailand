@@ -1,6 +1,8 @@
 # Copyright 2022 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
+from unittest.mock import patch
+
 from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests import Form, common
@@ -175,3 +177,117 @@ class TestGovPurchaseRequest(common.TransactionCase):
                 active_ids=[purchase_request.id],
                 active_id=purchase_request.id,
             ).create({})
+
+    def _create_purchase_request(self):
+        return self.purchase_request_model.create(
+            {
+                "procurement_type_id": self.procurement_type1.id,
+                "procurement_method_id": self.procurement_method1.id,
+                "line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "estimated_cost": 100.0,
+                            "product_qty": 1,
+                        },
+                    )
+                ],
+                "work_acceptance_committee_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "name": name,
+                            "approve_role": role,
+                            "committee_type": "work_acceptance",
+                        },
+                    )
+                    for name, role in (
+                        ("Chairman", "chairman"),
+                        ("Committee 1", "committee"),
+                        ("Committee 2", "committee"),
+                    )
+                ],
+            }
+        )
+
+    def test_03_reject_reset_procurement_only(self):
+        """Only procurement can reject or reset a verified or approved PR"""
+        pr_manager = common.new_test_user(
+            self.env,
+            login="gov_pr_manager",
+            groups="purchase_request.group_purchase_request_manager",
+        )
+        procurement = common.new_test_user(
+            self.env,
+            login="gov_procurement",
+            groups=(
+                "purchase.group_purchase_user,"
+                "purchase_request.group_purchase_request_manager"
+            ),
+        )
+        substate_verified = self.env.ref(
+            "l10n_th_gov_purchase_request.base_substate_verified"
+        )
+        purchase_request = self._create_purchase_request()
+        # Approved document
+        purchase_request.state = "approved"
+        with self.assertRaises(UserError):
+            purchase_request.with_user(pr_manager).button_rejected()
+        with self.assertRaises(UserError):
+            purchase_request.with_user(pr_manager).button_draft()
+        # Verified document
+        purchase_request.state = "to_approve"
+        purchase_request.substate_id = substate_verified
+        with self.assertRaises(UserError):
+            purchase_request.with_user(pr_manager).button_rejected()
+        # Bypass by context
+        purchase_request.with_user(pr_manager).with_context(
+            bypass_pr_reject=True
+        ).button_rejected()
+        self.assertEqual(purchase_request.state, "rejected")
+        # Procurement can do it
+        purchase_request.state = "approved"
+        purchase_request.with_user(procurement).button_rejected()
+        self.assertEqual(purchase_request.state, "rejected")
+        purchase_request.with_user(procurement).button_draft()
+        self.assertEqual(purchase_request.state, "draft")
+
+    def test_04_estimated_cost_currency(self):
+        """Estimated cost is converted to the company currency"""
+        purchase_request = self._create_purchase_request()
+        self.assertEqual(purchase_request.get_estimated_cost_currency(), 100.0)
+        # Purchase request's currency can be changed by another module
+        company_currency = purchase_request.company_id.currency_id
+        currency = (
+            self.env["res.currency"]
+            .with_context(active_test=False)
+            .search([("id", "!=", company_currency.id)], limit=1)
+        )
+        pr_class = type(purchase_request)
+        date = fields.Date.today()
+        with patch.object(pr_class, "currency_id", currency):
+            self.assertEqual(
+                purchase_request.get_estimated_cost_currency(date),
+                currency._convert(
+                    100.0, company_currency, purchase_request.company_id, date
+                ),
+            )
+            # Fields of `purchase_request_manual_currency`
+            with patch.multiple(
+                pr_class,
+                create=True,
+                manual_currency=True,
+                custom_rate=2.0,
+                type_currency="inverse_company_rate",
+            ):
+                self.assertEqual(purchase_request.get_estimated_cost_currency(), 200.0)
+            with patch.multiple(
+                pr_class,
+                create=True,
+                manual_currency=True,
+                custom_rate=2.0,
+                type_currency="company_rate",
+            ):
+                self.assertEqual(purchase_request.get_estimated_cost_currency(), 50.0)
