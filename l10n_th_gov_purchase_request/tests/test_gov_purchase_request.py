@@ -231,7 +231,9 @@ class TestGovPurchaseRequest(common.TransactionCase):
             "l10n_th_gov_purchase_request.base_substate_verified"
         )
         purchase_request = self._create_purchase_request()
-        # Approved document
+        # Approved document, pass by to_approve as draft -> approved
+        # is blocked by purchase_request_tier_validation (if installed)
+        purchase_request.state = "to_approve"
         purchase_request.state = "approved"
         with self.assertRaises(UserError):
             purchase_request.with_user(pr_manager).button_rejected()
