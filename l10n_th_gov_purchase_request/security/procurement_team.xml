@@ -1,0 +1,8 @@
+<odoo>
+
+    <record id="group_purchase_request_verify" model="res.groups">
+        <field name="name">Can verify purchase request</field>
+        <field name="category_id" ref="base.module_category_hidden" />
+    </record>
+
+</odoo>
