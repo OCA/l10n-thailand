@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form.address.en</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//span[@name='address_name']/following-sibling::div[hasclass('o_address_format')][1]"
+                position="after"
+            >
+                <span class="o_form_label o_td_label" name="address_en_name">
+                    <b>Address (EN)</b>
+                </span>
+                <div class="o_address_format">
+                    <field
+                        name="subdistrict_en"
+                        placeholder="Sub-District (EN)"
+                        class="o_address_street"
+                        attrs="{'readonly': [('type', '=', 'contact'), ('parent_id', '!=', False)]}"
+                    />
+                    <field
+                        name="district_en"
+                        placeholder="District (EN)"
+                        class="o_address_city"
+                        attrs="{'readonly': [('type', '=', 'contact'), ('parent_id', '!=', False)]}"
+                    />
+                    <field
+                        name="state_en"
+                        placeholder="State (EN)"
+                        class="o_address_state"
+                        attrs="{'readonly': [('type', '=', 'contact'), ('parent_id', '!=', False)]}"
+                    />
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
