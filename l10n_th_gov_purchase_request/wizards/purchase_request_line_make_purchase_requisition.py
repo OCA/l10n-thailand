@@ -9,7 +9,7 @@ class PurchaseRequestLineMakePurchaseRequisition(models.TransientModel):
     _inherit = "purchase.request.line.make.purchase.requisition"
 
     @api.model
-    def view_init(self, fields):
+    def default_get(self, fields):
         """Do not allow, if,
         - Some PRs is not approved
         - Some PRs' purchase type is not for Purchase Agreement"""
@@ -36,4 +36,4 @@ class PurchaseRequestLineMakePurchaseRequisition(models.TransientModel):
                         "allowed to create purchase agreement"
                     )
                 )
-        return super().view_init(fields)
+        return super().default_get(fields)
