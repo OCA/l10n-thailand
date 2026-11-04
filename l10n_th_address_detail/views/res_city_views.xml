@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright 2026 Ecosoft Co., Ltd (https://ecosoft.co.th/)
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html) -->
+<odoo>
+    <record id="view_city_tree" model="ir.ui.view">
+        <field name="model">res.city</field>
+        <field name="inherit_id" ref="base_address_extended.view_city_tree" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="l10n_th_name_en" optional="show" />
+                <field name="l10n_th_code" optional="hide" />
+            </field>
+        </field>
+    </record>
+    <record id="view_city_filter" model="ir.ui.view">
+        <field name="model">res.city</field>
+        <field name="inherit_id" ref="base_address_extended.view_city_filter" />
+        <field name="arch" type="xml">
+            <field name="name" position="attributes">
+                <attribute name="filter_domain">
+                    ['|', '|', '|', ('name', 'ilike', self), ('zipcode', 'ilike', self),
+                    ('l10n_th_name_en', 'ilike', self), ('l10n_th_code', '=like', self + '%')]
+                </attribute>
+            </field>
+        </field>
+    </record>
+    <record id="res_city_view_form" model="ir.ui.view">
+        <field name="model">res.city</field>
+        <field name="inherit_id" ref="base_address_extended.res_city_view_form" />
+        <field name="arch" type="xml">
+            <field name="state_id" position="after">
+                <field name="country_code" invisible="1" />
+                <field name="l10n_th_code" invisible="country_code != 'TH'" />
+                <field name="l10n_th_name_en" invisible="country_code != 'TH'" />
+            </field>
+            <group name="city_data" position="after">
+                <field
+                    name="l10n_th_subdistrict_ids"
+                    invisible="country_code != 'TH'"
+                    context="{'active_test': False}"
+                >
+                    <list editable="bottom">
+                        <field name="code" />
+                        <field name="name" />
+                        <field name="name_en" />
+                        <field name="zipcode" />
+                        <field name="zipcodes" optional="hide" />
+                        <field name="active" widget="boolean_toggle" />
+                    </list>
+                </field>
+            </group>
+        </field>
+    </record>
+</odoo>
