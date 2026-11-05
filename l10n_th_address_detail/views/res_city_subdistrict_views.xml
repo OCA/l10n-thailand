@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright 2026 Ecosoft Co., Ltd (https://ecosoft.co.th/)
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html) -->
+<odoo>
+    <record id="res_city_subdistrict_view_list" model="ir.ui.view">
+        <field name="model">l10n_th.res.city.subdistrict</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code" />
+                <field name="name" />
+                <field name="name_en" />
+                <field name="city_id" />
+                <field name="state_id" />
+                <field name="zipcode" />
+                <field name="zipcodes" optional="hide" />
+            </list>
+        </field>
+    </record>
+    <record id="res_city_subdistrict_view_form" model="ir.ui.view">
+        <field name="model">l10n_th.res.city.subdistrict</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="text-bg-danger"
+                        invisible="active"
+                    />
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Thai name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name_en" />
+                            <field name="code" />
+                            <field name="active" invisible="1" />
+                        </group>
+                        <group>
+                            <field
+                                name="city_id"
+                                domain="[('l10n_th_code', '!=', False)]"
+                                options="{'no_create': True}"
+                            />
+                            <field name="state_id" />
+                            <field name="zipcode" />
+                            <field name="zipcodes" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="res_city_subdistrict_view_search" model="ir.ui.view">
+        <field name="model">l10n_th.res.city.subdistrict</field>
+        <field name="arch" type="xml">
+            <search>
+                <field
+                    name="name"
+                    string="Sub-district"
+                    filter_domain="['|', '|', ('name', 'ilike', self), ('name_en', 'ilike', self), ('code', '=like', self + '%')]"
+                />
+                <field name="city_id" />
+                <field name="state_id" />
+                <field name="zipcodes" string="Postal Code" />
+                <separator />
+                <filter
+                    name="inactive"
+                    string="Archived"
+                    domain="[('active', '=', False)]"
+                />
+            </search>
+        </field>
+    </record>
+    <record id="action_res_city_subdistrict" model="ir.actions.act_window">
+        <field name="name">Sub-districts</field>
+        <field name="res_model">l10n_th.res.city.subdistrict</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem
+        id="menu_res_city_subdistrict"
+        name="Sub-districts (TH)"
+        action="action_res_city_subdistrict"
+        parent="contacts.menu_localisation"
+        sequence="3"
+    />
+</odoo>
