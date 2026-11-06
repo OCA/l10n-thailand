@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+    <record id="vat_service_url_param" model="ir.config_parameter">
+        <field name="key">l10n_th_partner_rd.vat_service_url</field>
+        <field name="value">https://rdws.rd.go.th/serviceRD3/vatserviceRD3.asmx</field>
+    </record>
+</odoo>

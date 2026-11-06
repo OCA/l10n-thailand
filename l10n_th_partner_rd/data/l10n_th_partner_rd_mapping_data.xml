@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Sub-district and district in their own fields, the rest in the street -->
+<odoo noupdate="1">
+    <record id="mapping_name" model="l10n_th.partner.rd.mapping">
+        <field name="sequence" eval="10" />
+        <field name="field_id" ref="base.field_res_partner__name" />
+        <field name="template">{name}</field>
+    </record>
+    <record id="mapping_street" model="l10n_th.partner.rd.mapping">
+        <field name="sequence" eval="20" />
+        <field name="field_id" ref="base.field_res_partner__street" />
+        <field
+            name="template"
+        >{house_no} {building} {room} {floor} {village} {moo} {soi} {yaek} {road}</field>
+    </record>
+    <record id="mapping_street2" model="l10n_th.partner.rd.mapping">
+        <field name="sequence" eval="30" />
+        <field name="field_id" ref="base.field_res_partner__street2" />
+        <field name="template">{sub_district}</field>
+    </record>
+    <record id="mapping_city" model="l10n_th.partner.rd.mapping">
+        <field name="sequence" eval="40" />
+        <field name="field_id" ref="base.field_res_partner__city" />
+        <field name="template">{district}</field>
+    </record>
+    <record id="mapping_state_id" model="l10n_th.partner.rd.mapping">
+        <field name="sequence" eval="50" />
+        <field name="field_id" ref="base.field_res_partner__state_id" />
+        <field name="template">{province}</field>
+    </record>
+    <record id="mapping_zip" model="l10n_th.partner.rd.mapping">
+        <field name="sequence" eval="60" />
+        <field name="field_id" ref="base.field_res_partner__zip" />
+        <field name="template">{zip}</field>
+    </record>
+</odoo>
