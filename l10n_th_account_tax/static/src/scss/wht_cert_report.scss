@@ -1,0 +1,23 @@
+// Sarabun for the 50 Tawi of withholding tax certificates, the font of Thai
+// official documents. As Latin fonts, the sizes of the standard report fit.
+// Absolute urls, asset bundles rewrite the urls with variables as relative.
+
+@font-face {
+    font-family: "Sarabun";
+    src: url("/l10n_th_account_tax/static/src/fonts/Sarabun/Sarabun-Regular.ttf")
+        format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Sarabun";
+    src: url("/l10n_th_account_tax/static/src/fonts/Sarabun/Sarabun-Bold.ttf")
+        format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}
+
+.o_l10n_th_wht_cert_tawi {
+    font-family: "Sarabun", sans-serif;
+}
