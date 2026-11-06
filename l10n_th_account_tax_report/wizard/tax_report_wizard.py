@@ -13,12 +13,12 @@ class TaxReportWizard(models.TransientModel):
     # Search Criteria
     tax_id = fields.Many2one(
         comodel_name="account.tax",
-        string="Tax",
         required=True,
         domain=[
             ("tax_exigibility", "=", "on_invoice"),
             ("type_tax_use", "in", ["sale", "purchase"]),
             ("include_base_amount", "=", False),
+            ("is_withholding_tax", "=", False),
         ],
     )
 

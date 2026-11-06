@@ -11,13 +11,13 @@
                         <field name="show_cancel" />
                     </group>
                     <group>
+                        <field name="company_id" groups="base.group_multi_company" />
                         <field
                             name="date_range_id"
                             options="{'no_create_edit': True, 'no_open': True}"
                         />
                         <field name="date_from" />
                         <field name="date_to" />
-                        <field name="company_id" groups="base.group_multi_company" />
                     </group>
                 </group>
                 <footer>

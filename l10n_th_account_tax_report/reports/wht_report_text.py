@@ -10,10 +10,10 @@ from odoo.exceptions import UserError
 
 class WithholdingTaxReportText(models.AbstractModel):
     _name = "report.l10n_th_account_tax_report.report_withholding_tax_text"
-    _inherit = [
+    _inherit = (
         "report.l10n_th_account_tax_report.report_withholding_tax",
         "thai.utils",
-    ]
+    )
     _description = "Thai Withholding Tax Report Text"
 
     def _convert_wht_tax_payer(self, tax_payer):
@@ -175,7 +175,7 @@ class WithholdingTaxReportText(models.AbstractModel):
             ]
         except Exception as e:
             raise UserError(
-                f"Not implement {report_values['income_tax_form']} yet"
+                self.env._("Not implement %s yet", report_values["income_tax_form"])
             ) from e
 
         text_file_value = self._create_text_wht(report_values, wht_textfile_format)

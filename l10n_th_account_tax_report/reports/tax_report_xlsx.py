@@ -27,14 +27,14 @@ class ReportThaiTaxXlsx(models.TransientModel):
                 "width": 3,
             },
             "2_tax_date": {
-                "header": {"value": "Date"},
+                "header": {"value": "Tax Date"},
                 "data": {
                     "value": self._render("tax_date"),
                 },
                 "width": 12,
             },
             "3_tax_invoice": {
-                "header": {"value": "Number"},
+                "header": {"value": "Tax Number"},
                 "data": {"value": self._render("tax_invoice_number")},
                 "width": 18,
             },

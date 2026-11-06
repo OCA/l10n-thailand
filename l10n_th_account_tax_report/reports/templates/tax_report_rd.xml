@@ -242,10 +242,25 @@
                                             <span t-out="line['tax_invoice_number']" />
                                         </td>
                                         <td class="text-center">
-                                            <t t-out="line['name']" />
+                                            <t
+                                                t-foreach="line['doc_refs']"
+                                                t-as="doc_ref"
+                                            >
+                                                <span
+                                                    t-att-res-id="doc_ref[1]"
+                                                    res-model="account.move"
+                                                    view-type="form"
+                                                    t-out="doc_ref[0] + ('' if doc_ref_last else ',')"
+                                                />
+                                            </t>
                                         </td>
                                         <td>
-                                            <span t-out="line['partner_name']" />
+                                            <span
+                                                t-att-res-id="line['partner_id']"
+                                                res-model="res.partner"
+                                                view-type="form"
+                                                t-out="line['partner_name']"
+                                            />
                                         </td>
                                         <td class="text-center">
                                             <span t-out="line['partner_vat']" />

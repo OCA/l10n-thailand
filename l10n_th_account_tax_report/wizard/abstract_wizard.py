@@ -21,7 +21,6 @@ class AccountTaxReportAbstractWizard(models.AbstractModel):
         comodel_name="res.company",
         default=lambda self: self.env.company.id,
         required=False,
-        string="Company",
     )
 
     @api.onchange("date_range_id")
@@ -57,8 +56,14 @@ class AccountTaxReportAbstractWizard(models.AbstractModel):
         # Implement in _get_report_name()
         report_name, data = self._get_report_name(report_type)
 
+        # PDF reports may use a specific engine, e.g. qweb-pdf-wkhtmltopdf
+        type_operator = "=like" if report_type == "qweb-pdf" else "="
+        type_value = "qweb-pdf%" if report_type == "qweb-pdf" else report_type
         report = self.env["ir.actions.report"].search(
-            [("report_name", "=", report_name), ("report_type", "=", report_type)],
+            [
+                ("report_name", "=", report_name),
+                ("report_type", type_operator, type_value),
+            ],
             limit=1,
         )
         report_action = report.report_action(self, data=data, config=False)

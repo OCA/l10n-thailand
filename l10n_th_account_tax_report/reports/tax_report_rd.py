@@ -16,6 +16,6 @@ class RDThaiTaxReport(models.AbstractModel):
 
         company = self.env["res.company"].browse(data["company_id"])
         report_values["company_address"] = company.partner_id._display_address(
-            without_company=True
+            without_name=True
         )
         return report_values

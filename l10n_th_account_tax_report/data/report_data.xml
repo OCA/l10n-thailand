@@ -7,7 +7,6 @@
         <field name="model">tax.report.wizard</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">l10n_th_account_tax_report.report_thai_tax</field>
-        <field name="report_file">l10n_th_account_tax_report.report_thai_tax</field>
         <field name="print_report_name">object._get_report_base_filename()</field>
         <field
             name="paperformat_id"
@@ -19,7 +18,6 @@
         <field name="model">tax.report.wizard</field>
         <field name="report_type">qweb-html</field>
         <field name="report_name">l10n_th_account_tax_report.report_thai_tax</field>
-        <field name="report_file">l10n_th_account_tax_report.report_thai_tax</field>
     </record>
     <record id="action_print_report_thai_tax_xlsx" model="ir.actions.report">
         <field name="name">Thai TAX Report XLSX</field>
@@ -27,9 +25,6 @@
         <field name="report_type">xlsx</field>
         <field
             name="report_name"
-        >l10n_th_account_tax_report.report_thai_tax_xlsx</field>
-        <field
-            name="report_file"
         >l10n_th_account_tax_report.report_thai_tax_xlsx</field>
         <field name="print_report_name">object._get_report_base_filename()</field>
     </record>
@@ -41,7 +36,6 @@
         <field name="model">tax.report.wizard</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">l10n_th_account_tax_report.report_rd_thai_tax</field>
-        <field name="report_file">l10n_th_account_tax_report.report_rd_thai_tax</field>
         <field
             name="print_report_name"
         >(object.date_range_id and '%s - [%s]' % (object.tax_id.display_name, object.date_range_id.display_name) or '%s' % object.tax_id.display_name)</field>
@@ -55,7 +49,6 @@
         <field name="model">tax.report.wizard</field>
         <field name="report_type">qweb-html</field>
         <field name="report_name">l10n_th_account_tax_report.report_rd_thai_tax</field>
-        <field name="report_file">l10n_th_account_tax_report.report_rd_thai_tax</field>
     </record>
 
     <!-- PDF/HMTL/XLSX/TEXT REPORTS -->
@@ -66,9 +59,6 @@
         <field name="report_type">qweb-pdf</field>
         <field
             name="report_name"
-        >l10n_th_account_tax_report.report_withholding_tax</field>
-        <field
-            name="report_file"
         >l10n_th_account_tax_report.report_withholding_tax</field>
         <field name="print_report_name">object._get_report_base_filename()</field>
         <field
@@ -83,9 +73,6 @@
         <field
             name="report_name"
         >l10n_th_account_tax_report.report_withholding_tax</field>
-        <field
-            name="report_file"
-        >l10n_th_account_tax_report.report_withholding_tax</field>
     </record>
     <record id="action_print_report_wht_xlsx" model="ir.actions.report">
         <field name="name">Withholding Tax Report XLSX</field>
@@ -93,9 +80,6 @@
         <field name="report_type">xlsx</field>
         <field
             name="report_name"
-        >l10n_th_account_tax_report.report_withholding_tax_xlsx</field>
-        <field
-            name="report_file"
         >l10n_th_account_tax_report.report_withholding_tax_xlsx</field>
         <field name="print_report_name">object._get_report_base_filename()</field>
     </record>
@@ -105,9 +89,6 @@
         <field name="report_type">qweb-text</field>
         <field
             name="report_name"
-        >l10n_th_account_tax_report.report_withholding_tax_text</field>
-        <field
-            name="report_file"
         >l10n_th_account_tax_report.report_withholding_tax_text</field>
         <field
             name="paperformat_id"
@@ -123,9 +104,6 @@
         <field name="report_type">qweb-pdf</field>
         <field
             name="report_name"
-        >l10n_th_account_tax_report.report_rd_withholding_tax</field>
-        <field
-            name="report_file"
         >l10n_th_account_tax_report.report_rd_withholding_tax</field>
         <field name="print_report_name">object._get_report_base_filename()</field>
         <field

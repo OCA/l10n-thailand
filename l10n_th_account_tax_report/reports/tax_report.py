@@ -3,6 +3,7 @@
 
 
 from odoo import models
+from odoo.tools import SQL
 
 
 class ThaiTaxReport(models.AbstractModel):
@@ -20,12 +21,13 @@ class ThaiTaxReport(models.AbstractModel):
             company_id, account_id, partner_id, tax_invoice_number,
             TO_CHAR(tax_date, 'DD/MM/YYYY') AS tax_date,
             string_agg(DISTINCT name, ', ' ORDER BY name) AS name,
+            array_agg(DISTINCT move_id) AS move_ids,
             sum(tax_base_amount) tax_base_amount,
             sum(tax_amount) tax_amount
         """
 
     def _query_select_sub_tax(self):
-        return """t.id, t.company_id, ml.account_id, t.partner_id,
+        return """t.id, m.id AS move_id, t.company_id, ml.account_id, t.partner_id,
             CASE WHEN ml.parent_state = 'posted' AND t.reversing_id IS NULL
                 THEN t.tax_invoice_number
             ELSE
@@ -51,19 +53,25 @@ class ThaiTaxReport(models.AbstractModel):
 
     def _domain_where_clause_tax(self, show_cancel):
         condition = "IN ('posted', 'cancel')" if show_cancel else "= 'posted'"
-        return " ".join(["ml.parent_state", condition])
+        return f"ml.parent_state {condition}"
 
     def _get_tax_data(self, tax_id, date_from, date_to, show_cancel, company_id):
         domain = self._domain_where_clause_tax(show_cancel)
-        self._cr.execute(
-            f"""
-            SELECT {self._query_select_tax()}
+        # Flush pending ORM writes read by the raw query below
+        self.env["account.move.tax.invoice"].flush_model()
+        self.env["account.move.line"].flush_model()
+        self.env["account.move"].flush_model(["ref"])
+        self.env["account.tax.repartition.line"].flush_model(["account_id", "tax_id"])
+        self.env.cr.execute(
+            SQL(
+                """
+            SELECT %s
             FROM (
-                SELECT {self._query_select_sub_tax()}
+                SELECT %s
                 FROM account_move_tax_invoice t
                 JOIN account_move_line ml ON ml.id = t.move_line_id
                 JOIN account_move m ON m.id = ml.move_id
-                WHERE {domain}
+                WHERE %s
                     AND t.tax_invoice_number IS NOT NULL
                     AND ml.account_id IN (
                         SELECT account_id
@@ -86,10 +94,12 @@ class ThaiTaxReport(models.AbstractModel):
                 AND ml.company_id = %s
                 AND t.reversed_id is null
             ) a
-            GROUP BY {self._query_groupby_tax()}
+            GROUP BY %s
             ORDER BY row_number, tax_date, tax_invoice_number
         """,
-            (
+                SQL(self._query_select_tax()),
+                SQL(self._query_select_sub_tax()),
+                SQL(domain),
                 tax_id,
                 date_from,
                 date_to,
@@ -98,22 +108,36 @@ class ThaiTaxReport(models.AbstractModel):
                 date_from.month,
                 date_from.year,
                 company_id,
+                SQL(self._query_groupby_tax()),
             ),
         )
-        tax_report_data = self._cr.dictfetchall()
+        tax_report_data = self.env.cr.dictfetchall()
         return tax_report_data
 
     def _add_data_line(self, tax_report_data):
         partner_model = self.env["res.partner"]
+        moves = self.env["account.move"].browse(
+            {move_id for line in tax_report_data for move_id in line["move_ids"]}
+        )
+        doc_refs = {
+            move.id: (
+                move.ref or move.name,
+                (move.tax_cash_basis_origin_move_id or move).id,
+            )
+            for move in moves
+        }
         total_base = 0.0
         total_tax = 0.0
         for line in tax_report_data:
+            line["doc_refs"] = sorted(
+                {doc_refs[move_id] for move_id in line["move_ids"]}
+            )
             partner_id = partner_model.browse(line["partner_id"])
             line.update(
                 {
                     "partner_name": partner_id.display_name,
                     "partner_vat": partner_id.vat,
-                    "partner_branch": partner_id.company_registry,
+                    "partner_branch": partner_id._get_tax_report_branch(),
                 }
             )
             total_base += line["tax_base_amount"]
@@ -148,7 +172,7 @@ class ThaiTaxReport(models.AbstractModel):
             "tax_report_format": company.tax_report_format,
             "company_name": company.display_name,
             "company_vat": company.partner_id.vat,
-            "company_branch": company.partner_id.company_registry,
+            "company_branch": company.partner_id._get_tax_report_branch(),
             "date_from": date_from,
             "date_to": date_to,
             "tax_id": tax_id,

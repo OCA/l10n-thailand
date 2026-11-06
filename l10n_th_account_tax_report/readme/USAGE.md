@@ -8,7 +8,7 @@ This module provides two types of tax reports:
 
 To generate the VAT report:
 
-1. Go to **Invoicing > Reporting > Thai Accounting Report > Thai Tax Report**
+1. Go to **Invoicing > Reporting > Thai Accounting Reports > Thai Tax Report**
 2. Select the **Tax Type** and the **Date Range (Period)**
 3. Choose one of the following actions:
    - **View** – preview the report on screen
@@ -19,7 +19,7 @@ To generate the VAT report:
 
 To generate the WHT report:
 
-1. Go to **Invoicing > Reporting > Thai Accounting Report > WHT Income Tax Report**
+1. Go to **Invoicing > Reporting > Thai Accounting Reports > WHT Income Tax Report**
 2. Select the **Income Tax Form** and the **Date Range (Period)**
 3. Choose one of the following actions:
    - **View** – preview the report on screen

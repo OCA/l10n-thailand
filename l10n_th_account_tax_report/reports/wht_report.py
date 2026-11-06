@@ -65,12 +65,15 @@ class WithholdingTaxReport(models.AbstractModel):
 
             # Partner
             partner = cert.partner_id
-            partner_address = partner._display_address(without_company=True)
+            partner_address = partner._display_address(without_name=True)
             firstname = partner.name
-            lastname = partner.lastname or ""
-            if lastname:
-                firstname = firstname[: -(len(lastname))]
-            if partner.company_type == "company":
+            # TODO(l10n_th_partner): `lastname` came from partner_firstname
+            # (dependency of l10n_th_partner), not available anymore.
+            # lastname = partner.lastname or ""
+            # if lastname:
+            #     firstname = firstname[: -(len(lastname))]
+            lastname = ""
+            if partner.is_company:
                 firstname = partner.name
                 lastname = ""
 
@@ -78,7 +81,7 @@ class WithholdingTaxReport(models.AbstractModel):
             if line["wht_cert_income_type"] == "4A" and line["wht_cert_bank_account"]:
                 partner_bank_account = partner_bank_model.browse(
                     line["wht_cert_bank_account"][0]
-                ).sanitized_acc_number
+                ).sanitized_account_number
             else:
                 partner_bank_account = False
 
@@ -112,7 +115,7 @@ class WithholdingTaxReport(models.AbstractModel):
                     "partner_name": not cert_cancel
                     and partner.display_name
                     or "Cancelled",
-                    "partner_title": partner.title.name,
+                    "partner_title": partner._get_tax_report_title(),
                     "partner_firstname": firstname,
                     "partner_lastname": lastname,
                     "partner_address": not cert_cancel and partner_address or False,
@@ -125,7 +128,7 @@ class WithholdingTaxReport(models.AbstractModel):
                     and partner.country_id.name
                     or False,
                     "partner_vat": partner.vat,
-                    "partner_branch": partner.company_registry,
+                    "partner_branch": partner._get_tax_report_branch(),
                     "partner_bank_account": partner_bank_account,
                 }
             )
@@ -193,7 +196,7 @@ class WithholdingTaxReport(models.AbstractModel):
             "wht_report_format": company.wht_report_format,
             "company_name": company.display_name,
             "company_vat": company.partner_id.vat,
-            "company_branch": company.partner_id.company_registry,
+            "company_branch": company.partner_id._get_tax_report_branch(),
             "date_from": date_from,
             "date_to": date_to,
             "income_tax_form": income_tax_form,
