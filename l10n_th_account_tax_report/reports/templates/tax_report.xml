@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <!-- Template Thai Tax Report -->
     <template id="report_thai_tax">
@@ -13,7 +13,7 @@
 
     <template id="internal_layout">
         <div class="article">
-            <t t-raw="0" />
+            <t t-out="0" />
         </div>
         <div class="footer">
             <div class="row">

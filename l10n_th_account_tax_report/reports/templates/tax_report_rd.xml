@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <!-- Template Thai Tax (RD) Report -->
     <template id="report_rd_thai_tax">
@@ -157,16 +157,16 @@
                                         style="width: 21%;"
                                     >
                                         <span
-                                            class="text-center"
                                             t-if="o.tax_id.type_tax_use == 'sale'"
+                                            class="text-center"
                                         >ชื่อผู้ซื้อสินค้า/ผู้รับบริการ</span>
                                         <span
-                                            class="text-center"
                                             t-elif="o.tax_id.type_tax_use == 'purchase'"
+                                            class="text-center"
                                         >ชื่อผู้ขายสินค้า/ผู้ให้บริการ</span>
                                         <span
-                                            class="text-center"
                                             t-else=""
+                                            class="text-center"
                                         >คู่ค้า</span>
                                     </th>
                                     <th
@@ -175,16 +175,16 @@
                                         style="width: 15%;"
                                     >
                                         <span
-                                            class="text-center"
                                             t-if="o.tax_id.type_tax_use == 'sale'"
+                                            class="text-center"
                                         >เลขประจำตัวผู้เสียภาษีอากรของชื่อผู้ซื้อสินค้า/ผู้รับบริการ</span>
                                         <span
-                                            class="text-center"
                                             t-elif="o.tax_id.type_tax_use == 'purchase'"
+                                            class="text-center"
                                         >เลขประจำตัวผู้เสียภาษีอากรของชื่อผู้ขายสินค้า/ผู้ให้บริการ</span>
                                         <span
-                                            class="text-center"
                                             t-else=""
+                                            class="text-center"
                                         >เลขประจำตัวผู้เสียภาษีอากรของคู่ค้า</span>
                                     </th>
                                     <th
