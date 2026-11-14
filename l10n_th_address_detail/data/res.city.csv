@@ -1,0 +1,929 @@
+id,name,l10n_th_name_en,l10n_th_code,country_id:id,state_id:id
+city_th_1001,พระนคร,Phra Nakhon,1001,base.th,base.state_th_001
+city_th_1002,ดุสิต,Dusit,1002,base.th,base.state_th_001
+city_th_1003,หนองจอก,Nong Chok,1003,base.th,base.state_th_001
+city_th_1004,บางรัก,Bang Rak,1004,base.th,base.state_th_001
+city_th_1005,บางเขน,Bang Khen,1005,base.th,base.state_th_001
+city_th_1006,บางกะปิ,Bang Kapi,1006,base.th,base.state_th_001
+city_th_1007,ปทุมวัน,Pathum Wan,1007,base.th,base.state_th_001
+city_th_1008,ป้อมปราบศัตรูพ่าย,Pom Prap Sattruphai,1008,base.th,base.state_th_001
+city_th_1009,พระโขนง,Phra Khanong,1009,base.th,base.state_th_001
+city_th_1010,มีนบุรี,Min Buri,1010,base.th,base.state_th_001
+city_th_1011,ลาดกระบัง,Lat Krabang,1011,base.th,base.state_th_001
+city_th_1012,ยานนาวา,Yannawa,1012,base.th,base.state_th_001
+city_th_1013,สัมพันธวงศ์,Samphanthawong,1013,base.th,base.state_th_001
+city_th_1014,พญาไท,Phaya Thai,1014,base.th,base.state_th_001
+city_th_1015,ธนบุรี,Thon Buri,1015,base.th,base.state_th_001
+city_th_1016,บางกอกใหญ่,Bangkok Yai,1016,base.th,base.state_th_001
+city_th_1017,ห้วยขวาง,Huai Khwang,1017,base.th,base.state_th_001
+city_th_1018,คลองสาน,Khlong San,1018,base.th,base.state_th_001
+city_th_1019,ตลิ่งชัน,Taling Chan,1019,base.th,base.state_th_001
+city_th_1020,บางกอกน้อย,Bangkok Noi,1020,base.th,base.state_th_001
+city_th_1021,บางขุนเทียน,Bang Khun Thian,1021,base.th,base.state_th_001
+city_th_1022,ภาษีเจริญ,Phasi Charoen,1022,base.th,base.state_th_001
+city_th_1023,หนองแขม,Nong Khaem,1023,base.th,base.state_th_001
+city_th_1024,ราษฎร์บูรณะ,Rat Burana,1024,base.th,base.state_th_001
+city_th_1025,บางพลัด,Bang Phlat,1025,base.th,base.state_th_001
+city_th_1026,ดินแดง,Din Daeng,1026,base.th,base.state_th_001
+city_th_1027,บึงกุ่ม,Bueng Kum,1027,base.th,base.state_th_001
+city_th_1028,สาทร,Sathon,1028,base.th,base.state_th_001
+city_th_1029,บางซื่อ,Bang Sue,1029,base.th,base.state_th_001
+city_th_1030,จตุจักร,Chatuchak,1030,base.th,base.state_th_001
+city_th_1031,บางคอแหลม,Bang Kho Laem,1031,base.th,base.state_th_001
+city_th_1032,ประเวศ,Prawet,1032,base.th,base.state_th_001
+city_th_1033,คลองเตย,Khlong Toei,1033,base.th,base.state_th_001
+city_th_1034,สวนหลวง,Suan Luang,1034,base.th,base.state_th_001
+city_th_1035,จอมทอง,Chom Thong,1035,base.th,base.state_th_001
+city_th_1036,ดอนเมือง,Don Mueang,1036,base.th,base.state_th_001
+city_th_1037,ราชเทวี,Rat Thewi,1037,base.th,base.state_th_001
+city_th_1038,ลาดพร้าว,Lat Phrao,1038,base.th,base.state_th_001
+city_th_1039,วัฒนา,Watthana,1039,base.th,base.state_th_001
+city_th_1040,บางแค,Bang Khae,1040,base.th,base.state_th_001
+city_th_1041,หลักสี่,Lak Si,1041,base.th,base.state_th_001
+city_th_1042,สายไหม,Sai Mai,1042,base.th,base.state_th_001
+city_th_1043,คันนายาว,Khanna Yao,1043,base.th,base.state_th_001
+city_th_1044,สะพานสูง,Saphan Sung,1044,base.th,base.state_th_001
+city_th_1045,วังทองหลาง,Wang Thong Lang,1045,base.th,base.state_th_001
+city_th_1046,คลองสามวา,Khlong Sam Wa,1046,base.th,base.state_th_001
+city_th_1047,บางนา,Bang Na,1047,base.th,base.state_th_001
+city_th_1048,ทวีวัฒนา,Thawi Watthana,1048,base.th,base.state_th_001
+city_th_1049,ทุ่งครุ,Thung Khru,1049,base.th,base.state_th_001
+city_th_1050,บางบอน,Bang Bon,1050,base.th,base.state_th_001
+city_th_1101,เมืองสมุทรปราการ,Mueang Samut Prakan,1101,base.th,base.state_th_057
+city_th_1102,บางบ่อ,Bang Bo,1102,base.th,base.state_th_057
+city_th_1103,บางพลี,Bang Phli,1103,base.th,base.state_th_057
+city_th_1104,พระประแดง,Phra Pradaeng,1104,base.th,base.state_th_057
+city_th_1105,พระสมุทรเจดีย์,Phra Samut Chedi,1105,base.th,base.state_th_057
+city_th_1106,บางเสาธง,Bang Sao Thong,1106,base.th,base.state_th_057
+city_th_1201,เมืองนนทบุรี,Mueang Nonthaburi,1201,base.th,base.state_th_036
+city_th_1202,บางกรวย,Bang Kruai,1202,base.th,base.state_th_036
+city_th_1203,บางใหญ่,Bang Yai,1203,base.th,base.state_th_036
+city_th_1204,บางบัวทอง,Bang Bua Thong,1204,base.th,base.state_th_036
+city_th_1205,ไทรน้อย,Sai Noi,1205,base.th,base.state_th_036
+city_th_1206,ปากเกร็ด,Pak Kret,1206,base.th,base.state_th_036
+city_th_1301,เมืองปทุมธานี,Mueang Pathum Thani,1301,base.th,base.state_th_037
+city_th_1302,คลองหลวง,Khlong Luang,1302,base.th,base.state_th_037
+city_th_1303,ธัญบุรี,Thanyaburi,1303,base.th,base.state_th_037
+city_th_1304,หนองเสือ,Nong Suea,1304,base.th,base.state_th_037
+city_th_1305,ลาดหลุมแก้ว,Lat Lum Kaeo,1305,base.th,base.state_th_037
+city_th_1306,ลำลูกกา,Lam Luk Ka,1306,base.th,base.state_th_037
+city_th_1307,สามโคก,Sam Khok,1307,base.th,base.state_th_037
+city_th_1401,พระนครศรีอยุธยา,Phra Nakhon Si Ayutthaya,1401,base.th,base.state_th_046
+city_th_1402,ท่าเรือ,Tha Ruea,1402,base.th,base.state_th_046
+city_th_1403,นครหลวง,Nakhon Luang,1403,base.th,base.state_th_046
+city_th_1404,บางไทร,Bang Sai,1404,base.th,base.state_th_046
+city_th_1405,บางบาล,Bang Ban,1405,base.th,base.state_th_046
+city_th_1406,บางปะอิน,Bang Pa-In,1406,base.th,base.state_th_046
+city_th_1407,บางปะหัน,Bang Pahan,1407,base.th,base.state_th_046
+city_th_1408,ผักไห่,Phak Hai,1408,base.th,base.state_th_046
+city_th_1409,ภาชี,Phachi,1409,base.th,base.state_th_046
+city_th_1410,ลาดบัวหลวง,Lat Bua Luang,1410,base.th,base.state_th_046
+city_th_1411,วังน้อย,Wang Noi,1411,base.th,base.state_th_046
+city_th_1412,เสนา,Sena,1412,base.th,base.state_th_046
+city_th_1413,บางซ้าย,Bang Sai,1413,base.th,base.state_th_046
+city_th_1414,อุทัย,Uthai,1414,base.th,base.state_th_046
+city_th_1415,มหาราช,Maha Rat,1415,base.th,base.state_th_046
+city_th_1416,บ้านแพรก,Ban Phraek,1416,base.th,base.state_th_046
+city_th_1501,เมืองอ่างทอง,Mueang Ang Thong,1501,base.th,base.state_th_003
+city_th_1502,ไชโย,Chaiyo,1502,base.th,base.state_th_003
+city_th_1503,ป่าโมก,Pa Mok,1503,base.th,base.state_th_003
+city_th_1504,โพธิ์ทอง,Pho Thong,1504,base.th,base.state_th_003
+city_th_1505,แสวงหา,Sawaeng Ha,1505,base.th,base.state_th_003
+city_th_1506,วิเศษชัยชาญ,Wiset Chai Chan,1506,base.th,base.state_th_003
+city_th_1507,สามโก้,Samko,1507,base.th,base.state_th_003
+city_th_1601,เมืองลพบุรี,Mueang Lop Buri,1601,base.th,base.state_th_022
+city_th_1602,พัฒนานิคม,Phatthana Nikhom,1602,base.th,base.state_th_022
+city_th_1603,โคกสำโรง,Khok Samrong,1603,base.th,base.state_th_022
+city_th_1604,ชัยบาดาล,Chai Badan,1604,base.th,base.state_th_022
+city_th_1605,ท่าวุ้ง,Tha Wung,1605,base.th,base.state_th_022
+city_th_1606,บ้านหมี่,Ban Mi,1606,base.th,base.state_th_022
+city_th_1607,ท่าหลวง,Tha Luang,1607,base.th,base.state_th_022
+city_th_1608,สระโบสถ์,Sa Bot,1608,base.th,base.state_th_022
+city_th_1609,โคกเจริญ,Khok Charoen,1609,base.th,base.state_th_022
+city_th_1610,ลำสนธิ,Lam Sonthi,1610,base.th,base.state_th_022
+city_th_1611,หนองม่วง,Nong Muang,1611,base.th,base.state_th_022
+city_th_1701,เมืองสิงห์บุรี,Mueang Sing Buri,1701,base.th,base.state_th_062
+city_th_1702,บางระจัน,Bang Rachan,1702,base.th,base.state_th_062
+city_th_1703,ค่ายบางระจัน,Khai Bang Rachan,1703,base.th,base.state_th_062
+city_th_1704,พรหมบุรี,Phrom Buri,1704,base.th,base.state_th_062
+city_th_1705,ท่าช้าง,Tha Chang,1705,base.th,base.state_th_062
+city_th_1706,อินทร์บุรี,In Buri,1706,base.th,base.state_th_062
+city_th_1801,เมืองชัยนาท,Mueang Chai Nat,1801,base.th,base.state_th_007
+city_th_1802,มโนรมย์,Manorom,1802,base.th,base.state_th_007
+city_th_1803,วัดสิงห์,Wat Sing,1803,base.th,base.state_th_007
+city_th_1804,สรรพยา,Sapphaya,1804,base.th,base.state_th_007
+city_th_1805,สรรคบุรี,Sankhaburi,1805,base.th,base.state_th_007
+city_th_1806,หันคา,Hankha,1806,base.th,base.state_th_007
+city_th_1807,หนองมะโมง,Nong Mamong,1807,base.th,base.state_th_007
+city_th_1808,เนินขาม,Noen Kham,1808,base.th,base.state_th_007
+city_th_1901,เมืองสระบุรี,Mueang Saraburi,1901,base.th,base.state_th_060
+city_th_1902,แก่งคอย,Kaeng Khoi,1902,base.th,base.state_th_060
+city_th_1903,หนองแค,Nong Khae,1903,base.th,base.state_th_060
+city_th_1904,วิหารแดง,Wihan Daeng,1904,base.th,base.state_th_060
+city_th_1905,หนองแซง,Nong Saeng,1905,base.th,base.state_th_060
+city_th_1906,บ้านหมอ,Ban Mo,1906,base.th,base.state_th_060
+city_th_1907,ดอนพุด,Don Phut,1907,base.th,base.state_th_060
+city_th_1908,หนองโดน,Nong Don,1908,base.th,base.state_th_060
+city_th_1909,พระพุทธบาท,Phra Phutthabat,1909,base.th,base.state_th_060
+city_th_1910,เสาไห้,Sao Hai,1910,base.th,base.state_th_060
+city_th_1911,มวกเหล็ก,Muak Lek,1911,base.th,base.state_th_060
+city_th_1912,วังม่วง,Wang Muang,1912,base.th,base.state_th_060
+city_th_1913,เฉลิมพระเกียรติ,Chaloem Phra Kiat,1913,base.th,base.state_th_060
+city_th_2001,เมืองชลบุรี,Mueang Chon Buri,2001,base.th,base.state_th_012
+city_th_2002,บ้านบึง,Ban Bueng,2002,base.th,base.state_th_012
+city_th_2003,หนองใหญ่,Nong Yai,2003,base.th,base.state_th_012
+city_th_2004,บางละมุง,Bang Lamung,2004,base.th,base.state_th_012
+city_th_2005,พานทอง,Phan Thong,2005,base.th,base.state_th_012
+city_th_2006,พนัสนิคม,Phanat Nikhom,2006,base.th,base.state_th_012
+city_th_2007,ศรีราชา,Si Racha,2007,base.th,base.state_th_012
+city_th_2008,เกาะสีชัง,Ko Sichang,2008,base.th,base.state_th_012
+city_th_2009,สัตหีบ,Sattahip,2009,base.th,base.state_th_012
+city_th_2010,บ่อทอง,Bo Thong,2010,base.th,base.state_th_012
+city_th_2011,เกาะจันทร์,Ko Chan,2011,base.th,base.state_th_012
+city_th_2101,เมืองระยอง,Mueang Rayong,2101,base.th,base.state_th_053
+city_th_2102,บ้านฉาง,Ban Chang,2102,base.th,base.state_th_053
+city_th_2103,แกลง,Klaeng,2103,base.th,base.state_th_053
+city_th_2104,วังจันทร์,Wang Chan,2104,base.th,base.state_th_053
+city_th_2105,บ้านค่าย,Ban Khai,2105,base.th,base.state_th_053
+city_th_2106,ปลวกแดง,Pluak Daeng,2106,base.th,base.state_th_053
+city_th_2107,เขาชะเมา,Khao Chamao,2107,base.th,base.state_th_053
+city_th_2108,นิคมพัฒนา,Nikhom Phatthana,2108,base.th,base.state_th_053
+city_th_2201,เมืองจันทบุรี,Mueang Chanthaburi,2201,base.th,base.state_th_009
+city_th_2202,ขลุง,Khlung,2202,base.th,base.state_th_009
+city_th_2203,ท่าใหม่,Tha Mai,2203,base.th,base.state_th_009
+city_th_2204,โป่งน้ำร้อน,Pong Nam Ron,2204,base.th,base.state_th_009
+city_th_2205,มะขาม,Makham,2205,base.th,base.state_th_009
+city_th_2206,แหลมสิงห์,Laem Sing,2206,base.th,base.state_th_009
+city_th_2207,สอยดาว,Soi Dao,2207,base.th,base.state_th_009
+city_th_2208,แก่งหางแมว,Kaeng Hang Maeo,2208,base.th,base.state_th_009
+city_th_2209,นายายอาม,Na Yai Am,2209,base.th,base.state_th_009
+city_th_2210,เขาคิชฌกูฏ,Khao Khitchakut,2210,base.th,base.state_th_009
+city_th_2301,เมืองตราด,Mueang Trat,2301,base.th,base.state_th_071
+city_th_2302,คลองใหญ่,Khlong Yai,2302,base.th,base.state_th_071
+city_th_2303,เขาสมิง,Khao Saming,2303,base.th,base.state_th_071
+city_th_2304,บ่อไร่,Bo Rai,2304,base.th,base.state_th_071
+city_th_2305,แหลมงอบ,Laem Ngop,2305,base.th,base.state_th_071
+city_th_2306,เกาะกูด,Ko Kut,2306,base.th,base.state_th_071
+city_th_2307,เกาะช้าง,Ko Chang,2307,base.th,base.state_th_071
+city_th_2401,เมืองฉะเชิงเทรา,Mueang Chachoengsao,2401,base.th,base.state_th_006
+city_th_2402,บางคล้า,Bang Khla,2402,base.th,base.state_th_006
+city_th_2403,บางน้ำเปรี้ยว,Bang Nam Priao,2403,base.th,base.state_th_006
+city_th_2404,บางปะกง,Bang Pakong,2404,base.th,base.state_th_006
+city_th_2405,บ้านโพธิ์,Ban Pho,2405,base.th,base.state_th_006
+city_th_2406,พนมสารคาม,Phanom Sarakham,2406,base.th,base.state_th_006
+city_th_2407,ราชสาส์น,Ratchasan,2407,base.th,base.state_th_006
+city_th_2408,สนามชัยเขต,Sanam Chai Khet,2408,base.th,base.state_th_006
+city_th_2409,แปลงยาว,Plaeng Yao,2409,base.th,base.state_th_006
+city_th_2410,ท่าตะเกียบ,Tha Takiap,2410,base.th,base.state_th_006
+city_th_2411,คลองเขื่อน,Khlong Khuean,2411,base.th,base.state_th_006
+city_th_2501,เมืองปราจีนบุรี,Mueang Prachin Buri,2501,base.th,base.state_th_049
+city_th_2502,กบินทร์บุรี,Kabin Buri,2502,base.th,base.state_th_049
+city_th_2503,นาดี,Na Di,2503,base.th,base.state_th_049
+city_th_2506,บ้านสร้าง,Ban Sang,2506,base.th,base.state_th_049
+city_th_2507,ประจันตคาม,Prachantakham,2507,base.th,base.state_th_049
+city_th_2508,ศรีมหาโพธิ,Si Maha Phot,2508,base.th,base.state_th_049
+city_th_2509,ศรีมโหสถ,Si Mahosot,2509,base.th,base.state_th_049
+city_th_2601,เมืองนครนายก,Mueang Nakhon Nayok,2601,base.th,base.state_th_026
+city_th_2602,ปากพลี,Pak Phli,2602,base.th,base.state_th_026
+city_th_2603,บ้านนา,Ban Na,2603,base.th,base.state_th_026
+city_th_2604,องครักษ์,Ongkharak,2604,base.th,base.state_th_026
+city_th_2701,เมืองสระแก้ว,Mueang Sa Kaeo,2701,base.th,base.state_th_055
+city_th_2702,คลองหาด,Khlong Hat,2702,base.th,base.state_th_055
+city_th_2703,ตาพระยา,Ta Phraya,2703,base.th,base.state_th_055
+city_th_2704,วังน้ำเย็น,Wang Nam Yen,2704,base.th,base.state_th_055
+city_th_2705,วัฒนานคร,Watthana Nakhon,2705,base.th,base.state_th_055
+city_th_2706,อรัญประเทศ,Aranyaprathet,2706,base.th,base.state_th_055
+city_th_2707,เขาฉกรรจ์,Khao Chakan,2707,base.th,base.state_th_055
+city_th_2708,โคกสูง,Khok Sung,2708,base.th,base.state_th_055
+city_th_2709,วังสมบูรณ์,Wang Sombun,2709,base.th,base.state_th_055
+city_th_3001,เมืองนครราชสีมา,Mueang Nakhon Ratchasima,3001,base.th,base.state_th_029
+city_th_3002,ครบุรี,Khon Buri,3002,base.th,base.state_th_029
+city_th_3003,เสิงสาง,Soeng Sang,3003,base.th,base.state_th_029
+city_th_3004,คง,Khong,3004,base.th,base.state_th_029
+city_th_3005,บ้านเหลื่อม,Ban Lueam,3005,base.th,base.state_th_029
+city_th_3006,จักราช,Chakkarat,3006,base.th,base.state_th_029
+city_th_3007,โชคชัย,Chok Chai,3007,base.th,base.state_th_029
+city_th_3008,ด่านขุนทด,Dan Khun Thot,3008,base.th,base.state_th_029
+city_th_3009,โนนไทย,Non Thai,3009,base.th,base.state_th_029
+city_th_3010,โนนสูง,Non Sung,3010,base.th,base.state_th_029
+city_th_3011,ขามสะแกแสง,Kham Sakaesaeng,3011,base.th,base.state_th_029
+city_th_3012,บัวใหญ่,Bua Yai,3012,base.th,base.state_th_029
+city_th_3013,ประทาย,Prathai,3013,base.th,base.state_th_029
+city_th_3014,ปักธงชัย,Pak Thong Chai,3014,base.th,base.state_th_029
+city_th_3015,พิมาย,Phimai,3015,base.th,base.state_th_029
+city_th_3016,ห้วยแถลง,Huai Thalaeng,3016,base.th,base.state_th_029
+city_th_3017,ชุมพวง,Chum Phuang,3017,base.th,base.state_th_029
+city_th_3018,สูงเนิน,Sung Noen,3018,base.th,base.state_th_029
+city_th_3019,ขามทะเลสอ,Kham Thale So,3019,base.th,base.state_th_029
+city_th_3020,สีคิ้ว,Si Khio,3020,base.th,base.state_th_029
+city_th_3021,ปากช่อง,Pak Chong,3021,base.th,base.state_th_029
+city_th_3022,หนองบุญมาก,Nong Bunmak,3022,base.th,base.state_th_029
+city_th_3023,แก้งสนามนาง,Kaeng Sanam Nang,3023,base.th,base.state_th_029
+city_th_3024,โนนแดง,Non Daeng,3024,base.th,base.state_th_029
+city_th_3025,วังน้ำเขียว,Wang Nam Khiao,3025,base.th,base.state_th_029
+city_th_3026,เทพารักษ์,Thepharak,3026,base.th,base.state_th_029
+city_th_3027,เมืองยาง,Mueang Yang,3027,base.th,base.state_th_029
+city_th_3028,พระทองคำ,Phra Thong Kham,3028,base.th,base.state_th_029
+city_th_3029,ลำทะเมนชัย,Lam Thamenchai,3029,base.th,base.state_th_029
+city_th_3030,บัวลาย,Bua Lai,3030,base.th,base.state_th_029
+city_th_3031,สีดา,Sida,3031,base.th,base.state_th_029
+city_th_3032,เฉลิมพระเกียรติ,Chaloem Phra Kiat,3032,base.th,base.state_th_029
+city_th_3101,เมืองบุรีรัมย์,Mueang Buri Ram,3101,base.th,base.state_th_005
+city_th_3102,คูเมือง,Khu Mueang,3102,base.th,base.state_th_005
+city_th_3103,กระสัง,Krasang,3103,base.th,base.state_th_005
+city_th_3104,นางรอง,Nang Rong,3104,base.th,base.state_th_005
+city_th_3105,หนองกี่,Nong Ki,3105,base.th,base.state_th_005
+city_th_3106,ละหานทราย,Lahan Sai,3106,base.th,base.state_th_005
+city_th_3107,ประโคนชัย,Prakhon Chai,3107,base.th,base.state_th_005
+city_th_3108,บ้านกรวด,Ban Kruat,3108,base.th,base.state_th_005
+city_th_3109,พุทไธสง,Phutthaisong,3109,base.th,base.state_th_005
+city_th_3110,ลำปลายมาศ,Lam Plai Mat,3110,base.th,base.state_th_005
+city_th_3111,สตึก,Satuek,3111,base.th,base.state_th_005
+city_th_3112,ปะคำ,Pakham,3112,base.th,base.state_th_005
+city_th_3113,นาโพธิ์,Na Pho,3113,base.th,base.state_th_005
+city_th_3114,หนองหงส์,Nong Hong,3114,base.th,base.state_th_005
+city_th_3115,พลับพลาชัย,Phlapphla Chai,3115,base.th,base.state_th_005
+city_th_3116,ห้วยราช,Huai Rat,3116,base.th,base.state_th_005
+city_th_3117,โนนสุวรรณ,Non Suwan,3117,base.th,base.state_th_005
+city_th_3118,ชำนิ,Chamni,3118,base.th,base.state_th_005
+city_th_3119,บ้านใหม่ไชยพจน์,Ban Mai Chaiyaphot,3119,base.th,base.state_th_005
+city_th_3120,โนนดินแดง,Non Din Daeng,3120,base.th,base.state_th_005
+city_th_3121,บ้านด่าน,Ban Dan,3121,base.th,base.state_th_005
+city_th_3122,แคนดง,Khaen Dong,3122,base.th,base.state_th_005
+city_th_3123,เฉลิมพระเกียรติ,Chaloem Phra Kiat,3123,base.th,base.state_th_005
+city_th_3201,เมืองสุรินทร์,Mueang Surin,3201,base.th,base.state_th_068
+city_th_3202,ชุมพลบุรี,Chumphon Buri,3202,base.th,base.state_th_068
+city_th_3203,ท่าตูม,Tha Tum,3203,base.th,base.state_th_068
+city_th_3204,จอมพระ,Chom Phra,3204,base.th,base.state_th_068
+city_th_3205,ปราสาท,Prasat,3205,base.th,base.state_th_068
+city_th_3206,กาบเชิง,Kap Choeng,3206,base.th,base.state_th_068
+city_th_3207,รัตนบุรี,Rattanaburi,3207,base.th,base.state_th_068
+city_th_3208,สนม,Sanom,3208,base.th,base.state_th_068
+city_th_3209,ศีขรภูมิ,Sikhoraphum,3209,base.th,base.state_th_068
+city_th_3210,สังขะ,Sangkha,3210,base.th,base.state_th_068
+city_th_3211,ลำดวน,Lamduan,3211,base.th,base.state_th_068
+city_th_3212,สำโรงทาบ,Samrong Thap,3212,base.th,base.state_th_068
+city_th_3213,บัวเชด,Buachet,3213,base.th,base.state_th_068
+city_th_3214,พนมดงรัก,Phanom Dong Rak,3214,base.th,base.state_th_068
+city_th_3215,ศรีณรงค์,Si Narong,3215,base.th,base.state_th_068
+city_th_3216,เขวาสินรินทร์,Khwao Sinarin,3216,base.th,base.state_th_068
+city_th_3217,โนนนารายณ์,Non Narai,3217,base.th,base.state_th_068
+city_th_3301,เมืองศรีสะเกษ,Mueang Si Sa Ket,3301,base.th,base.state_th_063
+city_th_3302,ยางชุมน้อย,Yang Chum Noi,3302,base.th,base.state_th_063
+city_th_3303,กันทรารมย์,Kanthararom,3303,base.th,base.state_th_063
+city_th_3304,กันทรลักษ์,Kantharalak,3304,base.th,base.state_th_063
+city_th_3305,ขุขันธ์,Khukhan,3305,base.th,base.state_th_063
+city_th_3306,ไพรบึง,Phrai Bueng,3306,base.th,base.state_th_063
+city_th_3307,ปรางค์กู่,Prang Ku,3307,base.th,base.state_th_063
+city_th_3308,ขุนหาญ,Khun Han,3308,base.th,base.state_th_063
+city_th_3309,ราษีไศล,Rasi Salai,3309,base.th,base.state_th_063
+city_th_3310,อุทุมพรพิสัย,Uthumphon Phisai,3310,base.th,base.state_th_063
+city_th_3311,บึงบูรพ์,Bueng Bun,3311,base.th,base.state_th_063
+city_th_3312,ห้วยทับทัน,Huai Thap Than,3312,base.th,base.state_th_063
+city_th_3313,โนนคูณ,Non Khun,3313,base.th,base.state_th_063
+city_th_3314,ศรีรัตนะ,Si Rattana,3314,base.th,base.state_th_063
+city_th_3315,น้ำเกลี้ยง,Nam Kliang,3315,base.th,base.state_th_063
+city_th_3316,วังหิน,Wang Hin,3316,base.th,base.state_th_063
+city_th_3317,ภูสิงห์,Phu Sing,3317,base.th,base.state_th_063
+city_th_3318,เมืองจันทร์,Mueang Chan,3318,base.th,base.state_th_063
+city_th_3319,เบญจลักษ์,Benchalak,3319,base.th,base.state_th_063
+city_th_3320,พยุห์,Phayu,3320,base.th,base.state_th_063
+city_th_3321,โพธิ์ศรีสุวรรณ,Pho Si Suwan,3321,base.th,base.state_th_063
+city_th_3322,ศิลาลาด,Sila Lat,3322,base.th,base.state_th_063
+city_th_3401,เมืองอุบลราชธานี,Mueang Ubon Ratchathani,3401,base.th,base.state_th_072
+city_th_3402,ศรีเมืองใหม่,Si Mueang Mai,3402,base.th,base.state_th_072
+city_th_3403,โขงเจียม,Khong Chiam,3403,base.th,base.state_th_072
+city_th_3404,เขื่องใน,Khueang Nai,3404,base.th,base.state_th_072
+city_th_3405,เขมราฐ,Khemarat,3405,base.th,base.state_th_072
+city_th_3407,เดชอุดม,Det Udom,3407,base.th,base.state_th_072
+city_th_3408,นาจะหลวย,Na Chaluai,3408,base.th,base.state_th_072
+city_th_3409,น้ำยืน,Nam Yuen,3409,base.th,base.state_th_072
+city_th_3410,บุณฑริก,Buntharik,3410,base.th,base.state_th_072
+city_th_3411,ตระการพืชผล,Trakan Phuet Phon,3411,base.th,base.state_th_072
+city_th_3412,กุดข้าวปุ้น,Kut Khaopun,3412,base.th,base.state_th_072
+city_th_3414,ม่วงสามสิบ,Muang Sam Sip,3414,base.th,base.state_th_072
+city_th_3415,วารินชำราบ,Warin Chamrap,3415,base.th,base.state_th_072
+city_th_3419,พิบูลมังสาหาร,Phibun Mangsahan,3419,base.th,base.state_th_072
+city_th_3420,ตาลสุม,Tan Sum,3420,base.th,base.state_th_072
+city_th_3421,โพธิ์ไทร,Pho Sai,3421,base.th,base.state_th_072
+city_th_3422,สำโรง,Samrong,3422,base.th,base.state_th_072
+city_th_3424,ดอนมดแดง,Don Mot Daeng,3424,base.th,base.state_th_072
+city_th_3425,สิรินธร,Sirindhorn,3425,base.th,base.state_th_072
+city_th_3426,ทุ่งศรีอุดม,Thung Si Udom,3426,base.th,base.state_th_072
+city_th_3429,นาเยีย,Na Yia,3429,base.th,base.state_th_072
+city_th_3430,นาตาล,Na Tan,3430,base.th,base.state_th_072
+city_th_3431,เหล่าเสือโก้ก,Lao Suea Kok,3431,base.th,base.state_th_072
+city_th_3432,สว่างวีระวงศ์,Sawang Wirawong,3432,base.th,base.state_th_072
+city_th_3433,น้ำขุ่น,Nam Khun,3433,base.th,base.state_th_072
+city_th_3501,เมืองยโสธร,Mueang Yasothon,3501,base.th,base.state_th_077
+city_th_3502,ทรายมูล,Sai Mun,3502,base.th,base.state_th_077
+city_th_3503,กุดชุม,Kut Chum,3503,base.th,base.state_th_077
+city_th_3504,คำเขื่อนแก้ว,Kham Khuean Kaeo,3504,base.th,base.state_th_077
+city_th_3505,ป่าติ้ว,Pa Tio,3505,base.th,base.state_th_077
+city_th_3506,มหาชนะชัย,Maha Chana Chai,3506,base.th,base.state_th_077
+city_th_3507,ค้อวัง,Kho Wang,3507,base.th,base.state_th_077
+city_th_3508,เลิงนกทา,Loeng Nok Tha,3508,base.th,base.state_th_077
+city_th_3509,ไทยเจริญ,Thai Charoen,3509,base.th,base.state_th_077
+city_th_3601,เมืองชัยภูมิ,Mueang Chaiyaphum,3601,base.th,base.state_th_008
+city_th_3602,บ้านเขว้า,Ban Khwao,3602,base.th,base.state_th_008
+city_th_3603,คอนสวรรค์,Khon Sawan,3603,base.th,base.state_th_008
+city_th_3604,เกษตรสมบูรณ์,Kaset Sombun,3604,base.th,base.state_th_008
+city_th_3605,หนองบัวแดง,Nong Bua Daeng,3605,base.th,base.state_th_008
+city_th_3606,จัตุรัส,Chatturat,3606,base.th,base.state_th_008
+city_th_3607,บำเหน็จณรงค์,Bamnet Narong,3607,base.th,base.state_th_008
+city_th_3608,หนองบัวระเหว,Nong Bua Rawe,3608,base.th,base.state_th_008
+city_th_3609,เทพสถิต,Thep Sathit,3609,base.th,base.state_th_008
+city_th_3610,ภูเขียว,Phu Khiao,3610,base.th,base.state_th_008
+city_th_3611,บ้านแท่น,Ban Thaen,3611,base.th,base.state_th_008
+city_th_3612,แก้งคร้อ,Kaeng Khro,3612,base.th,base.state_th_008
+city_th_3613,คอนสาร,Khon San,3613,base.th,base.state_th_008
+city_th_3614,ภักดีชุมพล,Phakdi Chumphon,3614,base.th,base.state_th_008
+city_th_3615,เนินสง่า,Noen Sa-Nga,3615,base.th,base.state_th_008
+city_th_3616,ซับใหญ่,Sap Yai,3616,base.th,base.state_th_008
+city_th_3701,เมืองอำนาจเจริญ,Mueang Amnat Charoen,3701,base.th,base.state_th_002
+city_th_3702,ชานุมาน,Chanuman,3702,base.th,base.state_th_002
+city_th_3703,ปทุมราชวงศา,Pathum Ratchawongsa,3703,base.th,base.state_th_002
+city_th_3704,พนา,Phana,3704,base.th,base.state_th_002
+city_th_3705,เสนางคนิคม,Senangkhanikhom,3705,base.th,base.state_th_002
+city_th_3706,หัวตะพาน,Hua Taphan,3706,base.th,base.state_th_002
+city_th_3707,ลืออำนาจ,Lue Amnat,3707,base.th,base.state_th_002
+city_th_3801,เมืองบึงกาฬ,Mueang Bueng Kan,3801,base.th,base.state_th_004
+city_th_3802,พรเจริญ,Phon Charoen,3802,base.th,base.state_th_004
+city_th_3803,โซ่พิสัย,So Phisai,3803,base.th,base.state_th_004
+city_th_3804,เซกา,Seka,3804,base.th,base.state_th_004
+city_th_3805,ปากคาด,Pak Khat,3805,base.th,base.state_th_004
+city_th_3806,บึงโขงหลง,Bueng Khong Long,3806,base.th,base.state_th_004
+city_th_3807,ศรีวิไล,Si Wilai,3807,base.th,base.state_th_004
+city_th_3808,บุ่งคล้า,Bung Khla,3808,base.th,base.state_th_004
+city_th_3901,เมืองหนองบัวลำภู,Mueang Nong Bua Lam Phu,3901,base.th,base.state_th_034
+city_th_3902,นากลาง,Na Klang,3902,base.th,base.state_th_034
+city_th_3903,โนนสัง,Non Sang,3903,base.th,base.state_th_034
+city_th_3904,ศรีบุญเรือง,Si Bun Rueang,3904,base.th,base.state_th_034
+city_th_3905,สุวรรณคูหา,Suwannakhuha,3905,base.th,base.state_th_034
+city_th_3906,นาวัง,Na Wang,3906,base.th,base.state_th_034
+city_th_4001,เมืองขอนแก่น,Mueang Khon Kaen,4001,base.th,base.state_th_017
+city_th_4002,บ้านฝาง,Ban Fang,4002,base.th,base.state_th_017
+city_th_4003,พระยืน,Phra Yuen,4003,base.th,base.state_th_017
+city_th_4004,หนองเรือ,Nong Ruea,4004,base.th,base.state_th_017
+city_th_4005,ชุมแพ,Chum Phae,4005,base.th,base.state_th_017
+city_th_4006,สีชมพู,Si Chomphu,4006,base.th,base.state_th_017
+city_th_4007,น้ำพอง,Nam Phong,4007,base.th,base.state_th_017
+city_th_4008,อุบลรัตน์,Ubolratana,4008,base.th,base.state_th_017
+city_th_4009,กระนวน,Kranuan,4009,base.th,base.state_th_017
+city_th_4010,บ้านไผ่,Ban Phai,4010,base.th,base.state_th_017
+city_th_4011,เปือยน้อย,Pueai Noi,4011,base.th,base.state_th_017
+city_th_4012,พล,Phon,4012,base.th,base.state_th_017
+city_th_4013,แวงใหญ่,Waeng Yai,4013,base.th,base.state_th_017
+city_th_4014,แวงน้อย,Waeng Noi,4014,base.th,base.state_th_017
+city_th_4015,หนองสองห้อง,Nong Song Hong,4015,base.th,base.state_th_017
+city_th_4016,ภูเวียง,Phu Wiang,4016,base.th,base.state_th_017
+city_th_4017,มัญจาคีรี,Mancha Khiri,4017,base.th,base.state_th_017
+city_th_4018,ชนบท,Chonnabot,4018,base.th,base.state_th_017
+city_th_4019,เขาสวนกวาง,Khao Suan Kwang,4019,base.th,base.state_th_017
+city_th_4020,ภูผาม่าน,Phu Phaman,4020,base.th,base.state_th_017
+city_th_4021,ซำสูง,Sam Sung,4021,base.th,base.state_th_017
+city_th_4022,โคกโพธิ์ไชย,Khok Pho Chai,4022,base.th,base.state_th_017
+city_th_4023,หนองนาคำ,Nong Na Kham,4023,base.th,base.state_th_017
+city_th_4024,บ้านแฮด,Ban Haet,4024,base.th,base.state_th_017
+city_th_4025,โนนศิลา,Non Sila,4025,base.th,base.state_th_017
+city_th_4029,เวียงเก่า,Wiang Kao,4029,base.th,base.state_th_017
+city_th_4101,เมืองอุดรธานี,Mueang Udon Thani,4101,base.th,base.state_th_073
+city_th_4102,กุดจับ,Kut Chap,4102,base.th,base.state_th_073
+city_th_4103,หนองวัวซอ,Nong Wua So,4103,base.th,base.state_th_073
+city_th_4104,กุมภวาปี,Kumphawapi,4104,base.th,base.state_th_073
+city_th_4105,โนนสะอาด,Non Sa-At,4105,base.th,base.state_th_073
+city_th_4106,หนองหาน,Nong Han,4106,base.th,base.state_th_073
+city_th_4107,ทุ่งฝน,Thung Fon,4107,base.th,base.state_th_073
+city_th_4108,ไชยวาน,Chai Wan,4108,base.th,base.state_th_073
+city_th_4109,ศรีธาตุ,Si That,4109,base.th,base.state_th_073
+city_th_4110,วังสามหมอ,Wang Sam Mo,4110,base.th,base.state_th_073
+city_th_4111,บ้านดุง,Ban Dung,4111,base.th,base.state_th_073
+city_th_4117,บ้านผือ,Ban Phue,4117,base.th,base.state_th_073
+city_th_4118,น้ำโสม,Nam Som,4118,base.th,base.state_th_073
+city_th_4119,เพ็ญ,Phen,4119,base.th,base.state_th_073
+city_th_4120,สร้างคอม,Sang Khom,4120,base.th,base.state_th_073
+city_th_4121,หนองแสง,Nong Saeng,4121,base.th,base.state_th_073
+city_th_4122,นายูง,Na Yung,4122,base.th,base.state_th_073
+city_th_4123,พิบูลย์รักษ์,Phibun Rak,4123,base.th,base.state_th_073
+city_th_4124,กู่แก้ว,Ku Kaeo,4124,base.th,base.state_th_073
+city_th_4125,ประจักษ์ศิลปาคม,Prachaksinlapakhom,4125,base.th,base.state_th_073
+city_th_4201,เมืองเลย,Mueang Loei,4201,base.th,base.state_th_021
+city_th_4202,นาด้วง,Na Duang,4202,base.th,base.state_th_021
+city_th_4203,เชียงคาน,Chiang Khan,4203,base.th,base.state_th_021
+city_th_4204,ปากชม,Pak Chom,4204,base.th,base.state_th_021
+city_th_4205,ด่านซ้าย,Dan Sai,4205,base.th,base.state_th_021
+city_th_4206,นาแห้ว,Na Haeo,4206,base.th,base.state_th_021
+city_th_4207,ภูเรือ,Phu Ruea,4207,base.th,base.state_th_021
+city_th_4208,ท่าลี่,Tha Li,4208,base.th,base.state_th_021
+city_th_4209,วังสะพุง,Wang Saphung,4209,base.th,base.state_th_021
+city_th_4210,ภูกระดึง,Phu Kradueng,4210,base.th,base.state_th_021
+city_th_4211,ภูหลวง,Phu Luang,4211,base.th,base.state_th_021
+city_th_4212,ผาขาว,Pha Khao,4212,base.th,base.state_th_021
+city_th_4213,เอราวัณ,Erawan,4213,base.th,base.state_th_021
+city_th_4214,หนองหิน,Nong Hin,4214,base.th,base.state_th_021
+city_th_4301,เมืองหนองคาย,Mueang Nong Khai,4301,base.th,base.state_th_035
+city_th_4302,ท่าบ่อ,Tha Bo,4302,base.th,base.state_th_035
+city_th_4305,โพนพิสัย,Phon Phisai,4305,base.th,base.state_th_035
+city_th_4307,ศรีเชียงใหม่,Si Chiang Mai,4307,base.th,base.state_th_035
+city_th_4308,สังคม,Sangkhom,4308,base.th,base.state_th_035
+city_th_4314,สระใคร,Sakhrai,4314,base.th,base.state_th_035
+city_th_4315,เฝ้าไร่,Fao Rai,4315,base.th,base.state_th_035
+city_th_4316,รัตนวาปี,Rattanawapi,4316,base.th,base.state_th_035
+city_th_4317,โพธิ์ตาก,Pho Tak,4317,base.th,base.state_th_035
+city_th_4401,เมืองมหาสารคาม,Mueang Maha Sarakham,4401,base.th,base.state_th_024
+city_th_4402,แกดำ,Kae Dam,4402,base.th,base.state_th_024
+city_th_4403,โกสุมพิสัย,Kosum Phisai,4403,base.th,base.state_th_024
+city_th_4404,กันทรวิชัย,Kantharawichai,4404,base.th,base.state_th_024
+city_th_4405,เชียงยืน,Chiang Yuen,4405,base.th,base.state_th_024
+city_th_4406,บรบือ,Borabue,4406,base.th,base.state_th_024
+city_th_4407,นาเชือก,Na Chueak,4407,base.th,base.state_th_024
+city_th_4408,พยัคฆภูมิพิสัย,Phayakkhaphum Phisai,4408,base.th,base.state_th_024
+city_th_4409,วาปีปทุม,Wapi Pathum,4409,base.th,base.state_th_024
+city_th_4410,นาดูน,Na Dun,4410,base.th,base.state_th_024
+city_th_4411,ยางสีสุราช,Yang Sisurat,4411,base.th,base.state_th_024
+city_th_4412,กุดรัง,Kut Rang,4412,base.th,base.state_th_024
+city_th_4413,ชื่นชม,Chuen Chom,4413,base.th,base.state_th_024
+city_th_4501,เมืองร้อยเอ็ด,Mueang Roi Et,4501,base.th,base.state_th_054
+city_th_4502,เกษตรวิสัย,Kaset Wisai,4502,base.th,base.state_th_054
+city_th_4503,ปทุมรัตต์,Pathum Rat,4503,base.th,base.state_th_054
+city_th_4504,จตุรพักตรพิมาน,Chaturaphak Phiman,4504,base.th,base.state_th_054
+city_th_4505,ธวัชบุรี,Thawat Buri,4505,base.th,base.state_th_054
+city_th_4506,พนมไพร,Phanom Phrai,4506,base.th,base.state_th_054
+city_th_4507,โพนทอง,Phon Thong,4507,base.th,base.state_th_054
+city_th_4508,โพธิ์ชัย,Pho Chai,4508,base.th,base.state_th_054
+city_th_4509,หนองพอก,Nong Phok,4509,base.th,base.state_th_054
+city_th_4510,เสลภูมิ,Selaphum,4510,base.th,base.state_th_054
+city_th_4511,สุวรรณภูมิ,Suwannaphum,4511,base.th,base.state_th_054
+city_th_4512,เมืองสรวง,Mueang Suang,4512,base.th,base.state_th_054
+city_th_4513,โพนทราย,Phon Sai,4513,base.th,base.state_th_054
+city_th_4514,อาจสามารถ,At Samat,4514,base.th,base.state_th_054
+city_th_4515,เมยวดี,Moei Wadi,4515,base.th,base.state_th_054
+city_th_4516,ศรีสมเด็จ,Si Somdet,4516,base.th,base.state_th_054
+city_th_4517,จังหาร,Changhan,4517,base.th,base.state_th_054
+city_th_4518,เชียงขวัญ,Chiang Khwan,4518,base.th,base.state_th_054
+city_th_4519,หนองฮี,Nong Hi,4519,base.th,base.state_th_054
+city_th_4520,ทุ่งเขาหลวง,Thung Khao Luang,4520,base.th,base.state_th_054
+city_th_4601,เมืองกาฬสินธุ์,Mueang Kalasin,4601,base.th,base.state_th_014
+city_th_4602,นามน,Na Mon,4602,base.th,base.state_th_014
+city_th_4603,กมลาไสย,Kamalasai,4603,base.th,base.state_th_014
+city_th_4604,ร่องคำ,Rong Kham,4604,base.th,base.state_th_014
+city_th_4605,กุฉินารายณ์,Kuchinarai,4605,base.th,base.state_th_014
+city_th_4606,เขาวง,Khao Wong,4606,base.th,base.state_th_014
+city_th_4607,ยางตลาด,Yang Talat,4607,base.th,base.state_th_014
+city_th_4608,ห้วยเม็ก,Huai Mek,4608,base.th,base.state_th_014
+city_th_4609,สหัสขันธ์,Sahatsakhan,4609,base.th,base.state_th_014
+city_th_4610,คำม่วง,Kham Muang,4610,base.th,base.state_th_014
+city_th_4611,ท่าคันโท,Tha Khantho,4611,base.th,base.state_th_014
+city_th_4612,หนองกุงศรี,Nong Kung Si,4612,base.th,base.state_th_014
+city_th_4613,สมเด็จ,Somdet,4613,base.th,base.state_th_014
+city_th_4614,ห้วยผึ้ง,Huai Phueng,4614,base.th,base.state_th_014
+city_th_4615,สามชัย,Sam Chai,4615,base.th,base.state_th_014
+city_th_4616,นาคู,Na Khu,4616,base.th,base.state_th_014
+city_th_4617,ดอนจาน,Don Chan,4617,base.th,base.state_th_014
+city_th_4618,ฆ้องชัย,Khong Chai,4618,base.th,base.state_th_014
+city_th_4701,เมืองสกลนคร,Mueang Sakon Nakhon,4701,base.th,base.state_th_056
+city_th_4702,กุสุมาลย์,Kusuman,4702,base.th,base.state_th_056
+city_th_4703,กุดบาก,Kut Bak,4703,base.th,base.state_th_056
+city_th_4704,พรรณานิคม,Phanna Nikhom,4704,base.th,base.state_th_056
+city_th_4705,พังโคน,Phang Khon,4705,base.th,base.state_th_056
+city_th_4706,วาริชภูมิ,Waritchaphum,4706,base.th,base.state_th_056
+city_th_4707,นิคมน้ำอูน,Nikhom Nam Un,4707,base.th,base.state_th_056
+city_th_4708,วานรนิวาส,Wanon Niwat,4708,base.th,base.state_th_056
+city_th_4709,คำตากล้า,Kham Ta Kla,4709,base.th,base.state_th_056
+city_th_4710,บ้านม่วง,Ban Muang,4710,base.th,base.state_th_056
+city_th_4711,อากาศอำนวย,Akat Amnuai,4711,base.th,base.state_th_056
+city_th_4712,สว่างแดนดิน,Sawang Daen Din,4712,base.th,base.state_th_056
+city_th_4713,ส่องดาว,Song Dao,4713,base.th,base.state_th_056
+city_th_4714,เต่างอย,Tao Ngoi,4714,base.th,base.state_th_056
+city_th_4715,โคกศรีสุพรรณ,Khok Si Suphan,4715,base.th,base.state_th_056
+city_th_4716,เจริญศิลป์,Charoen Sin,4716,base.th,base.state_th_056
+city_th_4717,โพนนาแก้ว,Phon Na Kaeo,4717,base.th,base.state_th_056
+city_th_4718,ภูพาน,Phu Phan,4718,base.th,base.state_th_056
+city_th_4801,เมืองนครพนม,Mueang Nakhon Phanom,4801,base.th,base.state_th_028
+city_th_4802,ปลาปาก,Pla Pak,4802,base.th,base.state_th_028
+city_th_4803,ท่าอุเทน,Tha Uthen,4803,base.th,base.state_th_028
+city_th_4804,บ้านแพง,Ban Phaeng,4804,base.th,base.state_th_028
+city_th_4805,ธาตุพนม,That Phanom,4805,base.th,base.state_th_028
+city_th_4806,เรณูนคร,Renu Nakhon,4806,base.th,base.state_th_028
+city_th_4807,นาแก,Na Kae,4807,base.th,base.state_th_028
+city_th_4808,ศรีสงคราม,Si Songkhram,4808,base.th,base.state_th_028
+city_th_4809,นาหว้า,Na Wa,4809,base.th,base.state_th_028
+city_th_4810,โพนสวรรค์,Phon Sawan,4810,base.th,base.state_th_028
+city_th_4811,นาทม,Na Thom,4811,base.th,base.state_th_028
+city_th_4812,วังยาง,Wang Yang,4812,base.th,base.state_th_028
+city_th_4901,เมืองมุกดาหาร,Mueang Mukdahan,4901,base.th,base.state_th_025
+city_th_4902,นิคมคำสร้อย,Nikhom Kham Soi,4902,base.th,base.state_th_025
+city_th_4903,ดอนตาล,Don Tan,4903,base.th,base.state_th_025
+city_th_4904,ดงหลวง,Dong Luang,4904,base.th,base.state_th_025
+city_th_4905,คำชะอี,Khamcha-I,4905,base.th,base.state_th_025
+city_th_4906,หว้านใหญ่,Wan Yai,4906,base.th,base.state_th_025
+city_th_4907,หนองสูง,Nong Sung,4907,base.th,base.state_th_025
+city_th_5001,เมืองเชียงใหม่,Mueang Chiang Mai,5001,base.th,base.state_th_010
+city_th_5002,จอมทอง,Chom Thong,5002,base.th,base.state_th_010
+city_th_5003,แม่แจ่ม,Mae Chaem,5003,base.th,base.state_th_010
+city_th_5004,เชียงดาว,Chiang Dao,5004,base.th,base.state_th_010
+city_th_5005,ดอยสะเก็ด,Doi Saket,5005,base.th,base.state_th_010
+city_th_5006,แม่แตง,Mae Taeng,5006,base.th,base.state_th_010
+city_th_5007,แม่ริม,Mae Rim,5007,base.th,base.state_th_010
+city_th_5008,สะเมิง,Samoeng,5008,base.th,base.state_th_010
+city_th_5009,ฝาง,Fang,5009,base.th,base.state_th_010
+city_th_5010,แม่อาย,Mae Ai,5010,base.th,base.state_th_010
+city_th_5011,พร้าว,Phrao,5011,base.th,base.state_th_010
+city_th_5012,สันป่าตอง,San Pa Tong,5012,base.th,base.state_th_010
+city_th_5013,สันกำแพง,San Kamphaeng,5013,base.th,base.state_th_010
+city_th_5014,สันทราย,San Sai,5014,base.th,base.state_th_010
+city_th_5015,หางดง,Hang Dong,5015,base.th,base.state_th_010
+city_th_5016,ฮอด,Hot,5016,base.th,base.state_th_010
+city_th_5017,ดอยเต่า,Doi Tao,5017,base.th,base.state_th_010
+city_th_5018,อมก๋อย,Omkoi,5018,base.th,base.state_th_010
+city_th_5019,สารภี,Saraphi,5019,base.th,base.state_th_010
+city_th_5020,เวียงแหง,Wiang Haeng,5020,base.th,base.state_th_010
+city_th_5021,ไชยปราการ,Chai Prakan,5021,base.th,base.state_th_010
+city_th_5022,แม่วาง,Mae Wang,5022,base.th,base.state_th_010
+city_th_5023,แม่ออน,Mae On,5023,base.th,base.state_th_010
+city_th_5024,ดอยหล่อ,Doi Lo,5024,base.th,base.state_th_010
+city_th_5025,กัลยาณิวัฒนา,Kanlayaniwatthana,5025,base.th,base.state_th_010
+city_th_5101,เมืองลำพูน,Mueang Lamphun,5101,base.th,base.state_th_020
+city_th_5102,แม่ทา,Mae Tha,5102,base.th,base.state_th_020
+city_th_5103,บ้านโฮ่ง,Ban Hong,5103,base.th,base.state_th_020
+city_th_5104,ลี้,Li,5104,base.th,base.state_th_020
+city_th_5105,ทุ่งหัวช้าง,Thung Hua Chang,5105,base.th,base.state_th_020
+city_th_5106,ป่าซาง,Pa Sang,5106,base.th,base.state_th_020
+city_th_5107,บ้านธิ,Ban Thi,5107,base.th,base.state_th_020
+city_th_5108,เวียงหนองล่อง,Wiang Nong Long,5108,base.th,base.state_th_020
+city_th_5201,เมืองลำปาง,Mueang Lampang,5201,base.th,base.state_th_019
+city_th_5202,แม่เมาะ,Mae Mo,5202,base.th,base.state_th_019
+city_th_5203,เกาะคา,Ko Kha,5203,base.th,base.state_th_019
+city_th_5204,เสริมงาม,Soem Ngam,5204,base.th,base.state_th_019
+city_th_5205,งาว,Ngao,5205,base.th,base.state_th_019
+city_th_5206,แจ้ห่ม,Chae Hom,5206,base.th,base.state_th_019
+city_th_5207,วังเหนือ,Wang Nuea,5207,base.th,base.state_th_019
+city_th_5208,เถิน,Thoen,5208,base.th,base.state_th_019
+city_th_5209,แม่พริก,Mae Phrik,5209,base.th,base.state_th_019
+city_th_5210,แม่ทะ,Mae Tha,5210,base.th,base.state_th_019
+city_th_5211,สบปราบ,Sop Prap,5211,base.th,base.state_th_019
+city_th_5212,ห้างฉัตร,Hang Chat,5212,base.th,base.state_th_019
+city_th_5213,เมืองปาน,Mueang Pan,5213,base.th,base.state_th_019
+city_th_5301,เมืองอุตรดิตถ์,Mueang Uttaradit,5301,base.th,base.state_th_075
+city_th_5302,ตรอน,Tron,5302,base.th,base.state_th_075
+city_th_5303,ท่าปลา,Tha Pla,5303,base.th,base.state_th_075
+city_th_5304,น้ำปาด,Nam Pat,5304,base.th,base.state_th_075
+city_th_5305,ฟากท่า,Fak Tha,5305,base.th,base.state_th_075
+city_th_5306,บ้านโคก,Ban Khok,5306,base.th,base.state_th_075
+city_th_5307,พิชัย,Phichai,5307,base.th,base.state_th_075
+city_th_5308,ลับแล,Laplae,5308,base.th,base.state_th_075
+city_th_5309,ทองแสนขัน,Thong Saen Khan,5309,base.th,base.state_th_075
+city_th_5401,เมืองแพร่,Mueang Phrae,5401,base.th,base.state_th_047
+city_th_5402,ร้องกวาง,Rong Kwang,5402,base.th,base.state_th_047
+city_th_5403,ลอง,Long,5403,base.th,base.state_th_047
+city_th_5404,สูงเม่น,Sung Men,5404,base.th,base.state_th_047
+city_th_5405,เด่นชัย,Den Chai,5405,base.th,base.state_th_047
+city_th_5406,สอง,Song,5406,base.th,base.state_th_047
+city_th_5407,วังชิ้น,Wang Chin,5407,base.th,base.state_th_047
+city_th_5408,หนองม่วงไข่,Nong Muang Khai,5408,base.th,base.state_th_047
+city_th_5501,เมืองน่าน,Mueang Nan,5501,base.th,base.state_th_032
+city_th_5502,แม่จริม,Mae Charim,5502,base.th,base.state_th_032
+city_th_5503,บ้านหลวง,Ban Luang,5503,base.th,base.state_th_032
+city_th_5504,นาน้อย,Na Noi,5504,base.th,base.state_th_032
+city_th_5505,ปัว,Pua,5505,base.th,base.state_th_032
+city_th_5506,ท่าวังผา,Tha Wang Pha,5506,base.th,base.state_th_032
+city_th_5507,เวียงสา,Wiang Sa,5507,base.th,base.state_th_032
+city_th_5508,ทุ่งช้าง,Thung Chang,5508,base.th,base.state_th_032
+city_th_5509,เชียงกลาง,Chiang Klang,5509,base.th,base.state_th_032
+city_th_5510,นาหมื่น,Na Muen,5510,base.th,base.state_th_032
+city_th_5511,สันติสุข,Santi Suk,5511,base.th,base.state_th_032
+city_th_5512,บ่อเกลือ,Bo Kluea,5512,base.th,base.state_th_032
+city_th_5513,สองแคว,Song Khwae,5513,base.th,base.state_th_032
+city_th_5514,ภูเพียง,Phu Phiang,5514,base.th,base.state_th_032
+city_th_5515,เฉลิมพระเกียรติ,Chaloem Phra Kiat,5515,base.th,base.state_th_032
+city_th_5601,เมืองพะเยา,Mueang Phayao,5601,base.th,base.state_th_041
+city_th_5602,จุน,Chun,5602,base.th,base.state_th_041
+city_th_5603,เชียงคำ,Chiang Kham,5603,base.th,base.state_th_041
+city_th_5604,เชียงม่วน,Chiang Muan,5604,base.th,base.state_th_041
+city_th_5605,ดอกคำใต้,Dok Khamtai,5605,base.th,base.state_th_041
+city_th_5606,ปง,Pong,5606,base.th,base.state_th_041
+city_th_5607,แม่ใจ,Mae Chai,5607,base.th,base.state_th_041
+city_th_5608,ภูซาง,Phu Sang,5608,base.th,base.state_th_041
+city_th_5609,ภูกามยาว,Phu Kamyao,5609,base.th,base.state_th_041
+city_th_5701,เมืองเชียงราย,Mueang Chiang Rai,5701,base.th,base.state_th_011
+city_th_5702,เวียงชัย,Wiang Chai,5702,base.th,base.state_th_011
+city_th_5703,เชียงของ,Chiang Khong,5703,base.th,base.state_th_011
+city_th_5704,เทิง,Thoeng,5704,base.th,base.state_th_011
+city_th_5705,พาน,Phan,5705,base.th,base.state_th_011
+city_th_5706,ป่าแดด,Pa Daet,5706,base.th,base.state_th_011
+city_th_5707,แม่จัน,Mae Chan,5707,base.th,base.state_th_011
+city_th_5708,เชียงแสน,Chiang Saen,5708,base.th,base.state_th_011
+city_th_5709,แม่สาย,Mae Sai,5709,base.th,base.state_th_011
+city_th_5710,แม่สรวย,Mae Suai,5710,base.th,base.state_th_011
+city_th_5711,เวียงป่าเป้า,Wiang Pa Pao,5711,base.th,base.state_th_011
+city_th_5712,พญาเม็งราย,Phaya Mengrai,5712,base.th,base.state_th_011
+city_th_5713,เวียงแก่น,Wiang Kaen,5713,base.th,base.state_th_011
+city_th_5714,ขุนตาล,Khun Tan,5714,base.th,base.state_th_011
+city_th_5715,แม่ฟ้าหลวง,Mae Fa Luang,5715,base.th,base.state_th_011
+city_th_5716,แม่ลาว,Mae Lao,5716,base.th,base.state_th_011
+city_th_5717,เวียงเชียงรุ้ง,Wiang Chiang Rung,5717,base.th,base.state_th_011
+city_th_5718,ดอยหลวง,Doi Luang,5718,base.th,base.state_th_011
+city_th_5801,เมืองแม่ฮ่องสอน,Mueang Mae Hong Son,5801,base.th,base.state_th_023
+city_th_5802,ขุนยวม,Khun Yuam,5802,base.th,base.state_th_023
+city_th_5803,ปาย,Pai,5803,base.th,base.state_th_023
+city_th_5804,แม่สะเรียง,Mae Sariang,5804,base.th,base.state_th_023
+city_th_5805,แม่ลาน้อย,Mae La Noi,5805,base.th,base.state_th_023
+city_th_5806,สบเมย,Sop Moei,5806,base.th,base.state_th_023
+city_th_5807,ปางมะผ้า,Pang Mapha,5807,base.th,base.state_th_023
+city_th_6001,เมืองนครสวรรค์,Mueang Nakhon Sawan,6001,base.th,base.state_th_030
+city_th_6002,โกรกพระ,Krok Phra,6002,base.th,base.state_th_030
+city_th_6003,ชุมแสง,Chum Saeng,6003,base.th,base.state_th_030
+city_th_6004,หนองบัว,Nong Bua,6004,base.th,base.state_th_030
+city_th_6005,บรรพตพิสัย,Banphot Phisai,6005,base.th,base.state_th_030
+city_th_6006,เก้าเลี้ยว,Kao Liao,6006,base.th,base.state_th_030
+city_th_6007,ตาคลี,Takhli,6007,base.th,base.state_th_030
+city_th_6008,ท่าตะโก,Tha Tako,6008,base.th,base.state_th_030
+city_th_6009,ไพศาลี,Phaisali,6009,base.th,base.state_th_030
+city_th_6010,พยุหะคีรี,Phayuha Khiri,6010,base.th,base.state_th_030
+city_th_6011,ลาดยาว,Lat Yao,6011,base.th,base.state_th_030
+city_th_6012,ตากฟ้า,Tak Fa,6012,base.th,base.state_th_030
+city_th_6013,แม่วงก์,Mae Wong,6013,base.th,base.state_th_030
+city_th_6014,แม่เปิน,Mae Poen,6014,base.th,base.state_th_030
+city_th_6015,ชุมตาบง,Chum Ta Bong,6015,base.th,base.state_th_030
+city_th_6101,เมืองอุทัยธานี,Mueang Uthai Thani,6101,base.th,base.state_th_074
+city_th_6102,ทัพทัน,Thap Than,6102,base.th,base.state_th_074
+city_th_6103,สว่างอารมณ์,Sawang Arom,6103,base.th,base.state_th_074
+city_th_6104,หนองฉาง,Nong Chang,6104,base.th,base.state_th_074
+city_th_6105,หนองขาหย่าง,Nong Khayang,6105,base.th,base.state_th_074
+city_th_6106,บ้านไร่,Ban Rai,6106,base.th,base.state_th_074
+city_th_6107,ลานสัก,Lan Sak,6107,base.th,base.state_th_074
+city_th_6108,ห้วยคต,Huai Khot,6108,base.th,base.state_th_074
+city_th_6201,เมืองกำแพงเพชร,Mueang Kamphaeng Phet,6201,base.th,base.state_th_015
+city_th_6202,ไทรงาม,Sai Ngam,6202,base.th,base.state_th_015
+city_th_6203,คลองลาน,Khlong Lan,6203,base.th,base.state_th_015
+city_th_6204,ขาณุวรลักษบุรี,Khanu Woralaksaburi,6204,base.th,base.state_th_015
+city_th_6205,คลองขลุง,Khlong Khlung,6205,base.th,base.state_th_015
+city_th_6206,พรานกระต่าย,Phran Kratai,6206,base.th,base.state_th_015
+city_th_6207,ลานกระบือ,Lan Krabue,6207,base.th,base.state_th_015
+city_th_6208,ทรายทองวัฒนา,Sai Thong Watthana,6208,base.th,base.state_th_015
+city_th_6209,ปางศิลาทอง,Pang Sila Thong,6209,base.th,base.state_th_015
+city_th_6210,บึงสามัคคี,Bueng Samakkhi,6210,base.th,base.state_th_015
+city_th_6211,โกสัมพีนคร,Kosamphi Nakhon,6211,base.th,base.state_th_015
+city_th_6301,เมืองตาก,Mueang Tak,6301,base.th,base.state_th_069
+city_th_6302,บ้านตาก,Ban Tak,6302,base.th,base.state_th_069
+city_th_6303,สามเงา,Sam Ngao,6303,base.th,base.state_th_069
+city_th_6304,แม่ระมาด,Mae Ramat,6304,base.th,base.state_th_069
+city_th_6305,ท่าสองยาง,Tha Song Yang,6305,base.th,base.state_th_069
+city_th_6306,แม่สอด,Mae Sot,6306,base.th,base.state_th_069
+city_th_6307,พบพระ,Phop Phra,6307,base.th,base.state_th_069
+city_th_6308,อุ้มผาง,Um Phang,6308,base.th,base.state_th_069
+city_th_6309,วังเจ้า,Wang Chao,6309,base.th,base.state_th_069
+city_th_6401,เมืองสุโขทัย,Mueang Sukhothai,6401,base.th,base.state_th_065
+city_th_6402,บ้านด่านลานหอย,Ban Dan Lan Hoi,6402,base.th,base.state_th_065
+city_th_6403,คีรีมาศ,Khiri Mat,6403,base.th,base.state_th_065
+city_th_6404,กงไกรลาศ,Kong Krailat,6404,base.th,base.state_th_065
+city_th_6405,ศรีสัชนาลัย,Si Satchanalai,6405,base.th,base.state_th_065
+city_th_6406,ศรีสำโรง,Si Samrong,6406,base.th,base.state_th_065
+city_th_6407,สวรรคโลก,Sawankhalok,6407,base.th,base.state_th_065
+city_th_6408,ศรีนคร,Si Nakhon,6408,base.th,base.state_th_065
+city_th_6409,ทุ่งเสลี่ยม,Thung Saliam,6409,base.th,base.state_th_065
+city_th_6501,เมืองพิษณุโลก,Mueang Phitsanulok,6501,base.th,base.state_th_045
+city_th_6502,นครไทย,Nakhon Thai,6502,base.th,base.state_th_045
+city_th_6503,ชาติตระการ,Chat Trakan,6503,base.th,base.state_th_045
+city_th_6504,บางระกำ,Bang Rakam,6504,base.th,base.state_th_045
+city_th_6505,บางกระทุ่ม,Bang Krathum,6505,base.th,base.state_th_045
+city_th_6506,พรหมพิราม,Phrom Phiram,6506,base.th,base.state_th_045
+city_th_6507,วัดโบสถ์,Wat Bot,6507,base.th,base.state_th_045
+city_th_6508,วังทอง,Wang Thong,6508,base.th,base.state_th_045
+city_th_6509,เนินมะปราง,Noen Maprang,6509,base.th,base.state_th_045
+city_th_6601,เมืองพิจิตร,Mueang Phichit,6601,base.th,base.state_th_044
+city_th_6602,วังทรายพูน,Wang Sai Phun,6602,base.th,base.state_th_044
+city_th_6603,โพธิ์ประทับช้าง,Pho Prathap Chang,6603,base.th,base.state_th_044
+city_th_6604,ตะพานหิน,Taphan Hin,6604,base.th,base.state_th_044
+city_th_6605,บางมูลนาก,Bang Mun Nak,6605,base.th,base.state_th_044
+city_th_6606,โพทะเล,Pho Thale,6606,base.th,base.state_th_044
+city_th_6607,สามง่าม,Sam Ngam,6607,base.th,base.state_th_044
+city_th_6608,ทับคล้อ,Thap Khlo,6608,base.th,base.state_th_044
+city_th_6609,สากเหล็ก,Sak Lek,6609,base.th,base.state_th_044
+city_th_6610,บึงนาราง,Bueng Na Rang,6610,base.th,base.state_th_044
+city_th_6611,ดงเจริญ,Dong Charoen,6611,base.th,base.state_th_044
+city_th_6612,วชิรบารมี,Wachirabarami,6612,base.th,base.state_th_044
+city_th_6701,เมืองเพชรบูรณ์,Mueang Phetchabun,6701,base.th,base.state_th_042
+city_th_6702,ชนแดน,Chon Daen,6702,base.th,base.state_th_042
+city_th_6703,หล่มสัก,Lom Sak,6703,base.th,base.state_th_042
+city_th_6704,หล่มเก่า,Lom Kao,6704,base.th,base.state_th_042
+city_th_6705,วิเชียรบุรี,Wichian Buri,6705,base.th,base.state_th_042
+city_th_6706,ศรีเทพ,Si Thep,6706,base.th,base.state_th_042
+city_th_6707,หนองไผ่,Nong Phai,6707,base.th,base.state_th_042
+city_th_6708,บึงสามพัน,Bueng Sam Phan,6708,base.th,base.state_th_042
+city_th_6709,น้ำหนาว,Nam Nao,6709,base.th,base.state_th_042
+city_th_6710,วังโป่ง,Wang Pong,6710,base.th,base.state_th_042
+city_th_6711,เขาค้อ,Khao Kho,6711,base.th,base.state_th_042
+city_th_7001,เมืองราชบุรี,Mueang Ratchaburi,7001,base.th,base.state_th_052
+city_th_7002,จอมบึง,Chom Bueng,7002,base.th,base.state_th_052
+city_th_7003,สวนผึ้ง,Suan Phueng,7003,base.th,base.state_th_052
+city_th_7004,ดำเนินสะดวก,Damnoen Saduak,7004,base.th,base.state_th_052
+city_th_7005,บ้านโป่ง,Ban Pong,7005,base.th,base.state_th_052
+city_th_7006,บางแพ,Bang Phae,7006,base.th,base.state_th_052
+city_th_7007,โพธาราม,Photharam,7007,base.th,base.state_th_052
+city_th_7008,ปากท่อ,Pak Tho,7008,base.th,base.state_th_052
+city_th_7009,วัดเพลง,Wat Phleng,7009,base.th,base.state_th_052
+city_th_7010,บ้านคา,Ban Kha,7010,base.th,base.state_th_052
+city_th_7101,เมืองกาญจนบุรี,Mueang Kanchanaburi,7101,base.th,base.state_th_016
+city_th_7102,ไทรโยค,Sai Yok,7102,base.th,base.state_th_016
+city_th_7103,บ่อพลอย,Bo Phloi,7103,base.th,base.state_th_016
+city_th_7104,ศรีสวัสดิ์,Si Sawat,7104,base.th,base.state_th_016
+city_th_7105,ท่ามะกา,Tha Maka,7105,base.th,base.state_th_016
+city_th_7106,ท่าม่วง,Tha Muang,7106,base.th,base.state_th_016
+city_th_7107,ทองผาภูมิ,Thong Pha Phum,7107,base.th,base.state_th_016
+city_th_7108,สังขละบุรี,Sangkhla Buri,7108,base.th,base.state_th_016
+city_th_7109,พนมทวน,Phanom Thuan,7109,base.th,base.state_th_016
+city_th_7110,เลาขวัญ,Lao Khwan,7110,base.th,base.state_th_016
+city_th_7111,ด่านมะขามเตี้ย,Dan Makham Tia,7111,base.th,base.state_th_016
+city_th_7112,หนองปรือ,Nong Prue,7112,base.th,base.state_th_016
+city_th_7113,ห้วยกระเจา,Huai Krachao,7113,base.th,base.state_th_016
+city_th_7201,เมืองสุพรรณบุรี,Mueang Suphan Buri,7201,base.th,base.state_th_066
+city_th_7202,เดิมบางนางบวช,Doem Bang Nang Buat,7202,base.th,base.state_th_066
+city_th_7203,ด่านช้าง,Dan Chang,7203,base.th,base.state_th_066
+city_th_7204,บางปลาม้า,Bang Pla Ma,7204,base.th,base.state_th_066
+city_th_7205,ศรีประจันต์,Si Prachan,7205,base.th,base.state_th_066
+city_th_7206,ดอนเจดีย์,Don Chedi,7206,base.th,base.state_th_066
+city_th_7207,สองพี่น้อง,Song Phi Nong,7207,base.th,base.state_th_066
+city_th_7208,สามชุก,Sam Chuk,7208,base.th,base.state_th_066
+city_th_7209,อู่ทอง,U Thong,7209,base.th,base.state_th_066
+city_th_7210,หนองหญ้าไซ,Nong Ya Sai,7210,base.th,base.state_th_066
+city_th_7301,เมืองนครปฐม,Mueang Nakhon Pathom,7301,base.th,base.state_th_027
+city_th_7302,กำแพงแสน,Kamphaeng Saen,7302,base.th,base.state_th_027
+city_th_7303,นครชัยศรี,Nakhon Chai Si,7303,base.th,base.state_th_027
+city_th_7304,ดอนตูม,Don Tum,7304,base.th,base.state_th_027
+city_th_7305,บางเลน,Bang Len,7305,base.th,base.state_th_027
+city_th_7306,สามพราน,Sam Phran,7306,base.th,base.state_th_027
+city_th_7307,พุทธมณฑล,Phutthamonthon,7307,base.th,base.state_th_027
+city_th_7401,เมืองสมุทรสาคร,Mueang Samut Sakhon,7401,base.th,base.state_th_058
+city_th_7402,กระทุ่มแบน,Krathum Baen,7402,base.th,base.state_th_058
+city_th_7403,บ้านแพ้ว,Ban Phaeo,7403,base.th,base.state_th_058
+city_th_7501,เมืองสมุทรสงคราม,Mueang Samut Songkhram,7501,base.th,base.state_th_059
+city_th_7502,บางคนที,Bang Khonthi,7502,base.th,base.state_th_059
+city_th_7503,อัมพวา,Amphawa,7503,base.th,base.state_th_059
+city_th_7601,เมืองเพชรบุรี,Mueang Phetchaburi,7601,base.th,base.state_th_043
+city_th_7602,เขาย้อย,Khao Yoi,7602,base.th,base.state_th_043
+city_th_7603,หนองหญ้าปล้อง,Nong Ya Plong,7603,base.th,base.state_th_043
+city_th_7604,ชะอำ,Cha-Am,7604,base.th,base.state_th_043
+city_th_7605,ท่ายาง,Tha Yang,7605,base.th,base.state_th_043
+city_th_7606,บ้านลาด,Ban Lat,7606,base.th,base.state_th_043
+city_th_7607,บ้านแหลม,Ban Laem,7607,base.th,base.state_th_043
+city_th_7608,แก่งกระจาน,Kaeng Krachan,7608,base.th,base.state_th_043
+city_th_7701,เมืองประจวบคีรีขันธ์,Mueang Prachuap Khiri Khan,7701,base.th,base.state_th_050
+city_th_7702,กุยบุรี,Kui Buri,7702,base.th,base.state_th_050
+city_th_7703,ทับสะแก,Thap Sakae,7703,base.th,base.state_th_050
+city_th_7704,บางสะพาน,Bang Saphan,7704,base.th,base.state_th_050
+city_th_7705,บางสะพานน้อย,Bang Saphan Noi,7705,base.th,base.state_th_050
+city_th_7706,ปราณบุรี,Pran Buri,7706,base.th,base.state_th_050
+city_th_7707,หัวหิน,Hua Hin,7707,base.th,base.state_th_050
+city_th_7708,สามร้อยยอด,Sam Roi Yot,7708,base.th,base.state_th_050
+city_th_8001,เมืองนครศรีธรรมราช,Mueang Nakhon Si Thammarat,8001,base.th,base.state_th_031
+city_th_8002,พรหมคีรี,Phrom Khiri,8002,base.th,base.state_th_031
+city_th_8003,ลานสกา,Lan Saka,8003,base.th,base.state_th_031
+city_th_8004,ฉวาง,Chawang,8004,base.th,base.state_th_031
+city_th_8005,พิปูน,Phipun,8005,base.th,base.state_th_031
+city_th_8006,เชียรใหญ่,Chian Yai,8006,base.th,base.state_th_031
+city_th_8007,ชะอวด,Cha-Uat,8007,base.th,base.state_th_031
+city_th_8008,ท่าศาลา,Tha Sala,8008,base.th,base.state_th_031
+city_th_8009,ทุ่งสง,Thung Song,8009,base.th,base.state_th_031
+city_th_8010,นาบอน,Na Bon,8010,base.th,base.state_th_031
+city_th_8011,ทุ่งใหญ่,Thung Yai,8011,base.th,base.state_th_031
+city_th_8012,ปากพนัง,Pak Phanang,8012,base.th,base.state_th_031
+city_th_8013,ร่อนพิบูลย์,Ron Phibun,8013,base.th,base.state_th_031
+city_th_8014,สิชล,Sichon,8014,base.th,base.state_th_031
+city_th_8015,ขนอม,Khanom,8015,base.th,base.state_th_031
+city_th_8016,หัวไทร,Hua Sai,8016,base.th,base.state_th_031
+city_th_8017,บางขัน,Bang Khan,8017,base.th,base.state_th_031
+city_th_8018,ถ้ำพรรณรา,Tham Phannara,8018,base.th,base.state_th_031
+city_th_8019,จุฬาภรณ์,Chulabhorn,8019,base.th,base.state_th_031
+city_th_8020,พระพรหม,Phra Phrom,8020,base.th,base.state_th_031
+city_th_8021,นบพิตำ,Nopphitam,8021,base.th,base.state_th_031
+city_th_8022,ช้างกลาง,Chang Klang,8022,base.th,base.state_th_031
+city_th_8023,เฉลิมพระเกียรติ,Chaloem Phra Kiat,8023,base.th,base.state_th_031
+city_th_8101,เมืองกระบี่,Mueang Krabi,8101,base.th,base.state_th_018
+city_th_8102,เขาพนม,Khao Phanom,8102,base.th,base.state_th_018
+city_th_8103,เกาะลันตา,Ko Lanta,8103,base.th,base.state_th_018
+city_th_8104,คลองท่อม,Khlong Thom,8104,base.th,base.state_th_018
+city_th_8105,อ่าวลึก,Ao Luek,8105,base.th,base.state_th_018
+city_th_8106,ปลายพระยา,Plai Phraya,8106,base.th,base.state_th_018
+city_th_8107,ลำทับ,Lam Thap,8107,base.th,base.state_th_018
+city_th_8108,เหนือคลอง,Nuea Khlong,8108,base.th,base.state_th_018
+city_th_8201,เมืองพังงา,Mueang Phang-Nga,8201,base.th,base.state_th_039
+city_th_8202,เกาะยาว,Ko Yao,8202,base.th,base.state_th_039
+city_th_8203,กะปง,Kapong,8203,base.th,base.state_th_039
+city_th_8204,ตะกั่วทุ่ง,Takua Thung,8204,base.th,base.state_th_039
+city_th_8205,ตะกั่วป่า,Takua Pa,8205,base.th,base.state_th_039
+city_th_8206,คุระบุรี,Khura Buri,8206,base.th,base.state_th_039
+city_th_8207,ทับปุด,Thap Put,8207,base.th,base.state_th_039
+city_th_8208,ท้ายเหมือง,Thai Mueang,8208,base.th,base.state_th_039
+city_th_8301,เมืองภูเก็ต,Mueang Phuket,8301,base.th,base.state_th_048
+city_th_8302,กะทู้,Kathu,8302,base.th,base.state_th_048
+city_th_8303,ถลาง,Thalang,8303,base.th,base.state_th_048
+city_th_8401,เมืองสุราษฎร์ธานี,Mueang Surat Thani,8401,base.th,base.state_th_067
+city_th_8402,กาญจนดิษฐ์,Kanchanadit,8402,base.th,base.state_th_067
+city_th_8403,ดอนสัก,Don Sak,8403,base.th,base.state_th_067
+city_th_8404,เกาะสมุย,Ko Samui,8404,base.th,base.state_th_067
+city_th_8405,เกาะพะงัน,Ko Pha-Ngan,8405,base.th,base.state_th_067
+city_th_8406,ไชยา,Chaiya,8406,base.th,base.state_th_067
+city_th_8407,ท่าชนะ,Tha Chana,8407,base.th,base.state_th_067
+city_th_8408,คีรีรัฐนิคม,Khiri Rat Nikhom,8408,base.th,base.state_th_067
+city_th_8409,บ้านตาขุน,Ban Ta Khun,8409,base.th,base.state_th_067
+city_th_8410,พนม,Phanom,8410,base.th,base.state_th_067
+city_th_8411,ท่าฉาง,Tha Chang,8411,base.th,base.state_th_067
+city_th_8412,บ้านนาสาร,Ban Na San,8412,base.th,base.state_th_067
+city_th_8413,บ้านนาเดิม,Ban Na Doem,8413,base.th,base.state_th_067
+city_th_8414,เคียนซา,Khian Sa,8414,base.th,base.state_th_067
+city_th_8415,เวียงสระ,Wiang Sa,8415,base.th,base.state_th_067
+city_th_8416,พระแสง,Phrasaeng,8416,base.th,base.state_th_067
+city_th_8417,พุนพิน,Phunphin,8417,base.th,base.state_th_067
+city_th_8418,ชัยบุรี,Chai Buri,8418,base.th,base.state_th_067
+city_th_8419,วิภาวดี,Vibhavadi,8419,base.th,base.state_th_067
+city_th_8501,เมืองระนอง,Mueang Ranong,8501,base.th,base.state_th_051
+city_th_8502,ละอุ่น,La-Un,8502,base.th,base.state_th_051
+city_th_8503,กะเปอร์,Kapoe,8503,base.th,base.state_th_051
+city_th_8504,กระบุรี,Kra Buri,8504,base.th,base.state_th_051
+city_th_8505,สุขสำราญ,Suk Samran,8505,base.th,base.state_th_051
+city_th_8601,เมืองชุมพร,Mueang Chumphon,8601,base.th,base.state_th_013
+city_th_8602,ท่าแซะ,Tha Sae,8602,base.th,base.state_th_013
+city_th_8603,ปะทิว,Pathio,8603,base.th,base.state_th_013
+city_th_8604,หลังสวน,Lang Suan,8604,base.th,base.state_th_013
+city_th_8605,ละแม,Lamae,8605,base.th,base.state_th_013
+city_th_8606,พะโต๊ะ,Phato,8606,base.th,base.state_th_013
+city_th_8607,สวี,Sawi,8607,base.th,base.state_th_013
+city_th_8608,ทุ่งตะโก,Thung Tako,8608,base.th,base.state_th_013
+city_th_9001,เมืองสงขลา,Mueang Songkhla,9001,base.th,base.state_th_064
+city_th_9002,สทิงพระ,Sathing Phra,9002,base.th,base.state_th_064
+city_th_9003,จะนะ,Chana,9003,base.th,base.state_th_064
+city_th_9004,นาทวี,Na Thawi,9004,base.th,base.state_th_064
+city_th_9005,เทพา,Thepha,9005,base.th,base.state_th_064
+city_th_9006,สะบ้าย้อย,Saba Yoi,9006,base.th,base.state_th_064
+city_th_9007,ระโนด,Ranot,9007,base.th,base.state_th_064
+city_th_9008,กระแสสินธุ์,Krasae Sin,9008,base.th,base.state_th_064
+city_th_9009,รัตภูมิ,Rattaphum,9009,base.th,base.state_th_064
+city_th_9010,สะเดา,Sadao,9010,base.th,base.state_th_064
+city_th_9011,หาดใหญ่,Hat Yai,9011,base.th,base.state_th_064
+city_th_9012,นาหม่อม,Na Mom,9012,base.th,base.state_th_064
+city_th_9013,ควนเนียง,Khuan Niang,9013,base.th,base.state_th_064
+city_th_9014,บางกล่ำ,Bang Klam,9014,base.th,base.state_th_064
+city_th_9015,สิงหนคร,Singhanakhon,9015,base.th,base.state_th_064
+city_th_9016,คลองหอยโข่ง,Khlong Hoi Khong,9016,base.th,base.state_th_064
+city_th_9101,เมืองสตูล,Mueang Satun,9101,base.th,base.state_th_061
+city_th_9102,ควนโดน,Khuan Don,9102,base.th,base.state_th_061
+city_th_9103,ควนกาหลง,Khuan Kalong,9103,base.th,base.state_th_061
+city_th_9104,ท่าแพ,Tha Phae,9104,base.th,base.state_th_061
+city_th_9105,ละงู,La-Ngu,9105,base.th,base.state_th_061
+city_th_9106,ทุ่งหว้า,Thung Wa,9106,base.th,base.state_th_061
+city_th_9107,มะนัง,Manang,9107,base.th,base.state_th_061
+city_th_9201,เมืองตรัง,Mueang Trang,9201,base.th,base.state_th_070
+city_th_9202,กันตัง,Kantang,9202,base.th,base.state_th_070
+city_th_9203,ย่านตาขาว,Yan Ta Khao,9203,base.th,base.state_th_070
+city_th_9204,ปะเหลียน,Palian,9204,base.th,base.state_th_070
+city_th_9205,สิเกา,Sikao,9205,base.th,base.state_th_070
+city_th_9206,ห้วยยอด,Huai Yot,9206,base.th,base.state_th_070
+city_th_9207,วังวิเศษ,Wang Wiset,9207,base.th,base.state_th_070
+city_th_9208,นาโยง,Na Yong,9208,base.th,base.state_th_070
+city_th_9209,รัษฎา,Ratsada,9209,base.th,base.state_th_070
+city_th_9210,หาดสำราญ,Hat Samran,9210,base.th,base.state_th_070
+city_th_9301,เมืองพัทลุง,Mueang Phatthalung,9301,base.th,base.state_th_040
+city_th_9302,กงหรา,Kong Ra,9302,base.th,base.state_th_040
+city_th_9303,เขาชัยสน,Khao Chaison,9303,base.th,base.state_th_040
+city_th_9304,ตะโหมด,Tamot,9304,base.th,base.state_th_040
+city_th_9305,ควนขนุน,Khuan Khanun,9305,base.th,base.state_th_040
+city_th_9306,ปากพะยูน,Pak Phayun,9306,base.th,base.state_th_040
+city_th_9307,ศรีบรรพต,Si Banphot,9307,base.th,base.state_th_040
+city_th_9308,ป่าบอน,Pa Bon,9308,base.th,base.state_th_040
+city_th_9309,บางแก้ว,Bang Kaeo,9309,base.th,base.state_th_040
+city_th_9310,ป่าพะยอม,Pa Phayom,9310,base.th,base.state_th_040
+city_th_9311,ศรีนครินทร์,Srinagarindra,9311,base.th,base.state_th_040
+city_th_9401,เมืองปัตตานี,Mueang Pattani,9401,base.th,base.state_th_038
+city_th_9402,โคกโพธิ์,Khok Pho,9402,base.th,base.state_th_038
+city_th_9403,หนองจิก,Nong Chik,9403,base.th,base.state_th_038
+city_th_9404,ปะนาเระ,Panare,9404,base.th,base.state_th_038
+city_th_9405,มายอ,Mayo,9405,base.th,base.state_th_038
+city_th_9406,ทุ่งยางแดง,Thung Yang Daeng,9406,base.th,base.state_th_038
+city_th_9407,สายบุรี,Sai Buri,9407,base.th,base.state_th_038
+city_th_9408,ไม้แก่น,Mai Kaen,9408,base.th,base.state_th_038
+city_th_9409,ยะหริ่ง,Yaring,9409,base.th,base.state_th_038
+city_th_9410,ยะรัง,Yarang,9410,base.th,base.state_th_038
+city_th_9411,กะพ้อ,Kapho,9411,base.th,base.state_th_038
+city_th_9412,แม่ลาน,Mae Lan,9412,base.th,base.state_th_038
+city_th_9501,เมืองยะลา,Mueang Yala,9501,base.th,base.state_th_076
+city_th_9502,เบตง,Betong,9502,base.th,base.state_th_076
+city_th_9503,บันนังสตา,Bannang Sata,9503,base.th,base.state_th_076
+city_th_9504,ธารโต,Than To,9504,base.th,base.state_th_076
+city_th_9505,ยะหา,Yaha,9505,base.th,base.state_th_076
+city_th_9506,รามัน,Raman,9506,base.th,base.state_th_076
+city_th_9507,กาบัง,Kabang,9507,base.th,base.state_th_076
+city_th_9508,กรงปินัง,Krong Pinang,9508,base.th,base.state_th_076
+city_th_9601,เมืองนราธิวาส,Mueang Narathiwat,9601,base.th,base.state_th_033
+city_th_9602,ตากใบ,Tak Bai,9602,base.th,base.state_th_033
+city_th_9603,บาเจาะ,Bacho,9603,base.th,base.state_th_033
+city_th_9604,ยี่งอ,Yi-Ngo,9604,base.th,base.state_th_033
+city_th_9605,ระแงะ,Ra-Ngae,9605,base.th,base.state_th_033
+city_th_9606,รือเสาะ,Rueso,9606,base.th,base.state_th_033
+city_th_9607,ศรีสาคร,Si Sakhon,9607,base.th,base.state_th_033
+city_th_9608,แว้ง,Waeng,9608,base.th,base.state_th_033
+city_th_9609,สุคิริน,Sukhirin,9609,base.th,base.state_th_033
+city_th_9610,สุไหงโก-ลก,Su-Ngai Kolok,9610,base.th,base.state_th_033
+city_th_9611,สุไหงปาดี,Su-Ngai Padi,9611,base.th,base.state_th_033
+city_th_9612,จะแนะ,Chanae,9612,base.th,base.state_th_033
+city_th_9613,เจาะไอร้อง,Cho-Airong,9613,base.th,base.state_th_033

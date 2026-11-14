@@ -1,0 +1,67 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_address_detail
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Language: th\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: l10n_th_address_detail
+#: model_terms:ir.ui.view,arch_db:l10n_th_address_detail.view_partner_form
+msgid "House No..."
+msgstr "บ้านเลขที่..."
+
+#. module: l10n_th_address_detail
+#: model_terms:ir.ui.view,arch_db:l10n_th_address_detail.view_partner_form
+msgid "Moo..."
+msgstr "หมู่ที่..."
+
+#. module: l10n_th_address_detail
+#: model_terms:ir.ui.view,arch_db:l10n_th_address_detail.view_partner_form
+msgid "Village name..."
+msgstr "ชื่อหมู่บ้าน..."
+
+#. module: l10n_th_address_detail
+#: model_terms:ir.ui.view,arch_db:l10n_th_address_detail.view_partner_form
+msgid "Building name..."
+msgstr "ชื่ออาคาร..."
+
+#. module: l10n_th_address_detail
+#: model_terms:ir.ui.view,arch_db:l10n_th_address_detail.view_partner_form
+msgid "Floor..."
+msgstr "ชั้น..."
+
+#. module: l10n_th_address_detail
+#: model_terms:ir.ui.view,arch_db:l10n_th_address_detail.view_partner_form
+msgid "Room No..."
+msgstr "เลขห้อง..."
+
+#. module: l10n_th_address_detail
+#: model_terms:ir.ui.view,arch_db:l10n_th_address_detail.view_partner_form
+msgid "Soi..."
+msgstr "ซอย..."
+
+#. module: l10n_th_address_detail
+#: model_terms:ir.ui.view,arch_db:l10n_th_address_detail.view_partner_form
+msgid "Yaek..."
+msgstr "แยก..."
+
+#. module: l10n_th_address_detail
+#: model_terms:ir.ui.view,arch_db:l10n_th_address_detail.view_partner_form
+msgid "Road name..."
+msgstr "ชื่อถนน..."
+
+#. module: l10n_th_address_detail
+#: model_terms:ir.ui.view,arch_db:l10n_th_address_detail.view_partner_form
+msgid "Sub-district..."
+msgstr "ตำบล/แขวง..."
+
+#. module: l10n_th_address_detail
+#: model_terms:ir.ui.view,arch_db:l10n_th_address_detail.view_partner_form
+msgid "District..."
+msgstr "อำเภอ/เขต..."

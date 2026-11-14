@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright 2026 Ecosoft Co., Ltd (https://ecosoft.co.th/)
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html) -->
+<odoo>
+    <record id="view_country_form" model="ir.ui.view">
+        <field name="model">res.country</field>
+        <field name="inherit_id" ref="base.view_country_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button
+                    name="%(action_res_city_subdistrict)d"
+                    class="oe_stat_button"
+                    icon="public"
+                    type="action"
+                    invisible="code != 'TH'"
+                >
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">Sub-districts</span>
+                    </div>
+                </button>
+            </xpath>
+            <field name="name_position" position="before">
+                <label for="l10n_th_street_format" invisible="code != 'TH'" />
+                <div class="o_row" invisible="code != 'TH'">
+                    <field name="l10n_th_street_format" />
+                    <div class="text-muted ms-2">
+                        Change the street lines generated from the Thai address details
+                    </div>
+                </div>
+            </field>
+        </field>
+    </record>
+</odoo>

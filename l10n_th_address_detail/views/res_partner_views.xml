@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright 2026 Ecosoft Co., Ltd (https://ecosoft.co.th/)
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html) -->
+<odoo>
+    <!-- Not inside div.o_address_format: these divs are replaced by the address
+         view of the company country (e.g. the Thai one of l10n_th) -->
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <!-- After base_address_extended, which adds the core city_id -->
+        <field name="priority" eval="20" />
+        <field name="arch" type="xml">
+            <div name="identifiers" position="before">
+                <label
+                    for="l10n_th_house_number"
+                    string="Address Detail"
+                    invisible="country_code and country_code != 'TH'"
+                />
+                <div
+                    name="l10n_th_address_details"
+                    invisible="country_code and country_code != 'TH'"
+                >
+                    <div class="row g-2">
+                        <div class="col-4">
+                            <label
+                                for="l10n_th_house_number"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_house_number"
+                                placeholder="House No..."
+                                class="w-100"
+                            />
+                        </div>
+                        <div class="col-4">
+                            <label
+                                for="l10n_th_moo"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_moo"
+                                placeholder="Moo..."
+                                class="w-100"
+                            />
+                        </div>
+                        <div class="col-4">
+                            <label
+                                for="l10n_th_village"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_village"
+                                placeholder="Village name..."
+                                class="w-100"
+                            />
+                        </div>
+                        <div class="col-4">
+                            <label
+                                for="l10n_th_building"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_building"
+                                placeholder="Building name..."
+                                class="w-100"
+                            />
+                        </div>
+                        <div class="col-4">
+                            <label
+                                for="l10n_th_floor"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_floor"
+                                placeholder="Floor..."
+                                class="w-100"
+                            />
+                        </div>
+                        <div class="col-4">
+                            <label
+                                for="l10n_th_room"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_room"
+                                placeholder="Room No..."
+                                class="w-100"
+                            />
+                        </div>
+                        <div class="col-4">
+                            <label
+                                for="l10n_th_soi"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_soi"
+                                placeholder="Soi..."
+                                class="w-100"
+                            />
+                        </div>
+                        <div class="col-4">
+                            <label
+                                for="l10n_th_yaek"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_yaek"
+                                placeholder="Yaek..."
+                                class="w-100"
+                            />
+                        </div>
+                        <div class="col-4">
+                            <label
+                                for="l10n_th_road"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_road"
+                                placeholder="Road name..."
+                                class="w-100"
+                            />
+                        </div>
+                    </div>
+                    <div
+                        class="row g-2 mt-0"
+                        invisible="country_code != 'TH' or not country_enforce_cities"
+                    >
+                        <div class="col-6">
+                            <label
+                                for="l10n_th_subdistrict_id"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_subdistrict_id"
+                                placeholder="Sub-district..."
+                                class="w-100"
+                                domain="[('city_id', '=?', city_id), ('state_id', '=?', state_id)]"
+                                options="{'no_create': True}"
+                            />
+                        </div>
+                        <div class="col-6">
+                            <label
+                                for="city_id"
+                                string="District"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="city_id"
+                                placeholder="District..."
+                                class="w-100"
+                                domain="[('l10n_th_code', '!=', False), ('state_id', '=?', state_id)]"
+                                options="{'no_create': True}"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Thai districts are selected in the Thai address -->
+            <xpath
+                expr="//div[hasclass('o_address_format')]/field[@name='city_id']"
+                position="attributes"
+            >
+                <attribute
+                    name="invisible"
+                >not country_enforce_cities or country_code == 'TH'</attribute>
+            </xpath>
+            <xpath
+                expr="//div[hasclass('o_address_format')]/field[@name='city']"
+                position="attributes"
+            >
+                <attribute
+                    name="invisible"
+                >country_code != 'TH' and country_enforce_cities and (city_id or city in ('', False))</attribute>
+            </xpath>
+            <xpath
+                expr="//div[@name='div_address']/field[@name='city_id']"
+                position="attributes"
+            >
+                <attribute
+                    name="invisible"
+                >not country_enforce_cities or country_code == 'TH'</attribute>
+            </xpath>
+            <xpath
+                expr="//div[@name='div_address']/field[@name='city']"
+                position="attributes"
+            >
+                <attribute
+                    name="invisible"
+                >country_code != 'TH' and country_enforce_cities and (city_id or city in ('', False))</attribute>
+            </xpath>
+            <!-- Address of a child contact (delivery, invoice...) -->
+            <div name="div_address" position="after">
+                <label
+                    for="l10n_th_house_number"
+                    string="Address Detail"
+                    invisible="country_code and country_code != 'TH'"
+                />
+                <div
+                    name="l10n_th_address_details"
+                    invisible="country_code and country_code != 'TH'"
+                >
+                    <div class="row g-2">
+                        <div class="col-4">
+                            <label
+                                for="l10n_th_house_number"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_house_number"
+                                placeholder="House No..."
+                                class="w-100"
+                            />
+                        </div>
+                        <div class="col-4">
+                            <label
+                                for="l10n_th_moo"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_moo"
+                                placeholder="Moo..."
+                                class="w-100"
+                            />
+                        </div>
+                        <div class="col-4">
+                            <label
+                                for="l10n_th_village"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_village"
+                                placeholder="Village name..."
+                                class="w-100"
+                            />
+                        </div>
+                        <div class="col-4">
+                            <label
+                                for="l10n_th_building"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_building"
+                                placeholder="Building name..."
+                                class="w-100"
+                            />
+                        </div>
+                        <div class="col-4">
+                            <label
+                                for="l10n_th_floor"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_floor"
+                                placeholder="Floor..."
+                                class="w-100"
+                            />
+                        </div>
+                        <div class="col-4">
+                            <label
+                                for="l10n_th_room"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_room"
+                                placeholder="Room No..."
+                                class="w-100"
+                            />
+                        </div>
+                        <div class="col-4">
+                            <label
+                                for="l10n_th_soi"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_soi"
+                                placeholder="Soi..."
+                                class="w-100"
+                            />
+                        </div>
+                        <div class="col-4">
+                            <label
+                                for="l10n_th_yaek"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_yaek"
+                                placeholder="Yaek..."
+                                class="w-100"
+                            />
+                        </div>
+                        <div class="col-4">
+                            <label
+                                for="l10n_th_road"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_road"
+                                placeholder="Road name..."
+                                class="w-100"
+                            />
+                        </div>
+                    </div>
+                    <div
+                        class="row g-2 mt-0"
+                        invisible="country_code != 'TH' or not country_enforce_cities"
+                    >
+                        <div class="col-6">
+                            <label
+                                for="l10n_th_subdistrict_id"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="l10n_th_subdistrict_id"
+                                placeholder="Sub-district..."
+                                class="w-100"
+                                domain="[('city_id', '=?', city_id), ('state_id', '=?', state_id)]"
+                                options="{'no_create': True}"
+                            />
+                        </div>
+                        <div class="col-6">
+                            <label
+                                for="city_id"
+                                string="District"
+                                class="small text-muted fw-normal"
+                            />
+                            <field
+                                name="city_id"
+                                placeholder="District..."
+                                class="w-100"
+                                domain="[('l10n_th_code', '!=', False), ('state_id', '=?', state_id)]"
+                                options="{'no_create': True}"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </field>
+    </record>
+</odoo>
