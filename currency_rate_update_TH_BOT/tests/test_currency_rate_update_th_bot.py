@@ -28,6 +28,7 @@ class TestResCurrencyRateProviderBOT(BaseCommon):
         cls.today = fields.Date.today()
         cls.thb_currency = cls.env.ref("base.THB")
         cls.eur_currency = cls.env.ref("base.EUR")
+        cls.eur_currency.active = True
         cls.my_company = cls.Company.create(
             {"name": "Test Company", "currency_id": cls.thb_currency.id}
         )
@@ -47,6 +48,33 @@ class TestResCurrencyRateProviderBOT(BaseCommon):
             }
         )
         cls.CurrencyRate.search([]).unlink()
+
+    @classmethod
+    def _get_bot_response(cls, data, status_code=200):
+        response = mock.Mock()
+        response.status_code = status_code
+        response.json.return_value = data
+        return response
+
+    @classmethod
+    def _get_bot_data(cls, details, last_updated="2023-09-19"):
+        """Response of BOT, details: list of (period, currency, name, mid_rate)"""
+        return {
+            "result": {
+                "data": {
+                    "data_header": {"last_updated": last_updated},
+                    "data_detail": [
+                        {
+                            "period": period,
+                            "currency_id": currency,
+                            "currency_name_eng": name,
+                            "mid_rate": mid_rate,
+                        }
+                        for period, currency, name, mid_rate in details
+                    ],
+                }
+            }
+        }
 
     def test_01_supported_currencies(self):
         # None
@@ -80,10 +108,18 @@ class TestResCurrencyRateProviderBOT(BaseCommon):
         date = self.today - relativedelta(days=1)
         self.bot_provider._update(date, date)
 
+    @mute_logger("odoo.addons.currency_rate_update.models.res_currency_rate_provider")
     def test_04_update_clien_id_fail(self):
         self.my_company.bot_token = "Test"
         date = self.today - relativedelta(days=1)
-        self.bot_provider._update(date, date)
+        response = self._get_bot_response(
+            {"httpCode": "401", "moreInformation": "Invalid Credentials"}
+        )
+        with mock.patch.object(requests, "get", return_value=response):
+            self.bot_provider._update(date, date)
+        self.assertFalse(
+            self.CurrencyRate.search([("company_id", "=", self.my_company.id)])
+        )
 
     def test_05_update_content(self):
         """After call api to BOT, it will return value"""
@@ -199,3 +235,126 @@ class TestResCurrencyRateProviderBOT(BaseCommon):
         """BOT currency name follows the currency name by default"""
         self.eur_currency.name = "EUX"
         self.assertEqual(self.eur_currency.bot_currency_name, "EUX")
+
+    def test_08_obtain_rates_one_request(self):
+        """Rates of all currencies are obtained in one request"""
+        self.my_company.bot_token = "Test"
+        currencies = self.env["res.currency"]
+        for xmlid in ("base.USD", "base.JPY", "base.IDR"):
+            currency = self.env.ref(xmlid)
+            currency.active = True
+            currencies += currency
+        response = self._get_bot_response(
+            self._get_bot_data(
+                [
+                    ("2023-09-19", "USD", "USA : DOLLAR (USD) ", "35.8186000"),
+                    ("2023-09-19", "JPY", "JAPAN : YEN (100 YEN) (JPY)", "24.2000000"),
+                    (
+                        "2023-09-19",
+                        "IDR",
+                        "INDONESIA : RUPIAH (1,000 RUPIAH) (IDR)",
+                        "2.3300000",
+                    ),
+                    # Currency not requested and rate not available are skipped
+                    ("2023-09-19", "EUR", "EURO ZONE : EURO (EUR)", "38.2000000"),
+                    ("2023-09-18", "USD", "USA : DOLLAR (USD) ", ""),
+                ]
+            )
+        )
+        date = datetime.date(2023, 9, 19)
+        with mock.patch.object(requests, "get", return_value=response) as mock_get:
+            content = self.bot_provider._obtain_rates(
+                "THB", currencies.mapped("name"), date, date
+            )
+        mock_get.assert_called_once()
+        self.assertNotIn("currency=", mock_get.call_args.args[0])
+        self.assertEqual(
+            content,
+            {
+                "2023-09-19": {
+                    "USD": 1.0 / 35.8186,
+                    "JPY": 100.0 / 24.2,
+                    "IDR": 1000.0 / 2.33,
+                }
+            },
+        )
+
+    def test_09_obtain_rates_split_period(self):
+        """BOT limits the period of a request to 31 days"""
+        self.my_company.bot_token = "Test"
+        response = self._get_bot_response(
+            self._get_bot_data(
+                [("2023-09-19", "EUR", "EURO ZONE : EURO (EUR)", "38.2000000")]
+            )
+        )
+        date_from = datetime.date(2023, 8, 1)
+        date_to = datetime.date(2023, 9, 19)
+        with mock.patch.object(requests, "get", return_value=response) as mock_get:
+            content = self.bot_provider._obtain_rates(
+                "THB", ["EUR"], date_from, date_to
+            )
+        self.assertEqual(
+            [call.args[0].split("?")[1] for call in mock_get.call_args_list],
+            [
+                "start_period=2023-08-01&end_period=2023-08-31",
+                "start_period=2023-09-01&end_period=2023-09-19",
+            ],
+        )
+        self.assertEqual(content, {"2023-09-19": {"EUR": 1.0 / 38.2}})
+
+    def test_10_update_share_request(self):
+        """Providers of many companies share the requests to BOT"""
+        self.my_company.bot_token = "Test"
+        company2 = self.Company.create(
+            {
+                "name": "Test Company 2",
+                "currency_id": self.thb_currency.id,
+                "bot_token": "Test2",
+            }
+        )
+        bot_provider2 = self.CurrencyRateProvider.create(
+            {
+                "service": "BOT",
+                "currency_ids": [(4, self.eur_currency.id)],
+                "company_id": company2.id,
+            }
+        )
+        response = self._get_bot_response(
+            self._get_bot_data(
+                [("2023-09-19", "EUR", "EURO ZONE : EURO (EUR)", "38.2000000")]
+            )
+        )
+        date = datetime.date(2023, 9, 19)
+        with mock.patch.object(requests, "get", return_value=response) as mock_get:
+            (self.bot_provider + bot_provider2)._update(date, date)
+        mock_get.assert_called_once()
+        rates = self.CurrencyRate.search(
+            [("currency_id", "=", self.eur_currency.id), ("name", "=", date)]
+        )
+        self.assertEqual(rates.company_id, self.my_company + company2)
+        for rate in rates:
+            self.assertAlmostEqual(rate.inverse_company_rate, 38.2)
+
+    def test_11_obtain_rates_no_data(self):
+        """Currency without data on BOT does not block other currencies"""
+        self.my_company.bot_token = "Test"
+        date = datetime.date(2023, 9, 19)
+        response = self._get_bot_response({"result": {"data": None}})
+        with mock.patch.object(requests, "get", return_value=response):
+            content = self.bot_provider._obtain_rates("THB", ["EUR"], date, date)
+        self.assertEqual(content, {})
+        # Limit of requests to BOT is reached
+        response = self._get_bot_response({}, status_code=429)
+        with (
+            mock.patch.object(requests, "get", return_value=response),
+            self.assertRaises(UserError),
+        ):
+            self.bot_provider._obtain_rates("THB", ["EUR"], date, date)
+        # Response is not a json
+        response = self._get_bot_response({}, status_code=502)
+        response.json.side_effect = ValueError()
+        with (
+            mock.patch.object(requests, "get", return_value=response),
+            self.assertRaises(UserError),
+        ):
+            self.bot_provider._obtain_rates("THB", ["EUR"], date, date)
