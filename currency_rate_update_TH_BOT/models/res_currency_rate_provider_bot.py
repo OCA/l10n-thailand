@@ -1,8 +1,6 @@
 # Copyright 2023 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-import datetime
-
 import requests
 
 from odoo import api, fields, models
@@ -104,7 +102,7 @@ class ResCurrencyRateProviderBOT(models.Model):
     ):
         data = result["data"]
         last_updated = data["data_header"]["last_updated"]
-        date_last_update = datetime.datetime.strptime(last_updated, "%Y-%m-%d").date()
+        date_last_update = fields.Date.to_date(last_updated)
         if date_from > date_last_update and date_to > date_last_update:
             raise UserError(self.env._("BOT Last Updated: %(date)s", date=last_updated))
         data_details = data["data_detail"]
@@ -118,7 +116,7 @@ class ResCurrencyRateProviderBOT(models.Model):
                 else False
             )
             if period:
-                if period in content.keys():
+                if period in content:
                     content[period][bot_currency.name] = unit / float(
                         data_detail[bot_currency.bot_currency_rate_type]
                     )
@@ -142,8 +140,8 @@ class ResCurrencyRateProviderBOT(models.Model):
             bot_token = self.company_id.bot_token
             if not bot_token:
                 raise UserError(self.env._("No bot.or.th credentials specified!"))
-            hostname = ICP.get_param("hostname_TH_BOT")
-            route_BOT = ICP.get_param("route_TH_BOT_exchange_daily")
+            hostname = ICP.get_str("hostname_TH_BOT")
+            route_BOT = ICP.get_str("route_TH_BOT_exchange_daily")
             default_url = "{}{}/?start_period={}&end_period={}".format(
                 hostname,
                 route_BOT,
@@ -158,7 +156,7 @@ class ResCurrencyRateProviderBOT(models.Model):
             bot_currencies = self.env["res.currency"].search(
                 [("name", "in", currencies)]
             )
-            content = dict()
+            content = {}
             for bot_currency in bot_currencies:
                 currency = bot_currency.bot_currency_name
                 url = f"{default_url}&currency={currency}"

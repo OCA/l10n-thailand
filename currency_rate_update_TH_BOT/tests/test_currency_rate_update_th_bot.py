@@ -15,6 +15,8 @@ from odoo.addons.base.tests.common import BaseCommon
 
 
 class TestResCurrencyRateProviderBOT(BaseCommon):
+    _test_user_groups = ("base.group_system", "base.group_partner_manager")
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -29,6 +31,7 @@ class TestResCurrencyRateProviderBOT(BaseCommon):
         cls.my_company = cls.Company.create(
             {"name": "Test Company", "currency_id": cls.thb_currency.id}
         )
+        cls._test_user.company_ids += cls.my_company
         cls.none_provider = cls.CurrencyRateProvider.create(
             {
                 "service": "none",
@@ -129,7 +132,7 @@ class TestResCurrencyRateProviderBOT(BaseCommon):
                 ],
             },
         }
-        date = datetime.datetime.strptime("2023-09-19", "%Y-%m-%d").date()
+        date = datetime.date(2023, 9, 19)
         # Test with content there is no value
         self.bot_provider._update_content_currency_update(
             self.eur_currency, {}, result_demo, date, date
@@ -176,7 +179,7 @@ class TestResCurrencyRateProviderBOT(BaseCommon):
         }
         response = mock.Mock()
         response.json.return_value = result_demo
-        date = datetime.datetime.strptime("2023-09-19", "%Y-%m-%d").date()
+        date = datetime.date(2023, 9, 19)
         with mock.patch.object(requests, "get", return_value=response):
             content = self.bot_provider._obtain_rates("THB", ["JPY"], date, date)
         # BOT quotes JPY per 100 units
@@ -186,9 +189,11 @@ class TestResCurrencyRateProviderBOT(BaseCommon):
             "httpCode": "401",
             "moreInformation": "Missing Credentials",
         }
-        with mock.patch.object(requests, "get", return_value=response):
-            with self.assertRaises(UserError):
-                self.bot_provider._obtain_rates("THB", ["JPY"], date, date)
+        with (
+            mock.patch.object(requests, "get", return_value=response),
+            self.assertRaises(UserError),
+        ):
+            self.bot_provider._obtain_rates("THB", ["JPY"], date, date)
 
     def test_07_bot_currency_name(self):
         """BOT currency name follows the currency name by default"""

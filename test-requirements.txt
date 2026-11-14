@@ -1,0 +1,2 @@
+# OCA/currency#238: [20.0][MIG] currency_rate_update
+odoo-addon-currency_rate_update @ git+https://github.com/OCA/currency.git@refs/pull/238/head#subdirectory=currency_rate_update
