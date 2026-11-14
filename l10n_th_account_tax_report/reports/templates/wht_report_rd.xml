@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Common Template -->
+    <template id="report_rd_digit_boxes">
+        <t t-if="value">
+            <div class="row">
+                <t t-foreach="range(size)" t-as="digit">
+                    <p t-attf-class="box-vat{{ ' vat_tab' if digit in tabs else '' }}">
+                        <t t-out="value[digit:digit + 1]" />
+                    </p>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_rd_base_company_withholding_tax">
+        <div class="company_vat">
+            <t
+                t-call="l10n_th_account_tax_report.report_rd_digit_boxes"
+                value="company_vat"
+                size="13"
+                tabs="[1, 5, 10, 12]"
+            />
+        </div>
+        <div class="company_branch">
+            <t
+                t-call="l10n_th_account_tax_report.report_rd_digit_boxes"
+                value="company_branch"
+                size="5"
+                tabs="[]"
+            />
+        </div>
+        <span class="num_page_from" t-out="num + 1" />
+        <span class="num_page_to" t-out="num_page" />
+    </template>
+
+    <template id="report_rd_base_page_withholding_tax">
+        <!-- Scan of the RD form, and on the last page the image of its grand
+             total row at total_box = [left, top, width, height] (px). img elements,
+             not CSS backgrounds: wkhtmltopdf waits for images, not for backgrounds
+             (the form could be missing from the first PDF after a restart) -->
+        <t
+            t-set="image"
+            t-value="'/l10n_th_account_tax_report/static/src/img/%s' % income_tax_form"
+        />
+        <div
+            t-attf-class="article o_report_rd_withholding_tax_report_{{ income_tax_form }}"
+            style="width:340mm; height:242mm; position:relative;"
+        >
+            <img
+                t-attf-src="{{ image }}.png"
+                style="position:absolute; left:0; top:0; width:340mm; height:242mm;"
+            />
+            <img
+                t-if="page_last and total_box"
+                t-attf-src="{{ image }}_total.png"
+                t-attf-style="position:absolute; left:{{ total_box[0] }}px; top:{{ total_box[1] }}px; width:{{ total_box[2] }}px; height:{{ total_box[3] }}px;"
+            />
+            <t
+                t-call="l10n_th_account_tax_report.report_rd_base_company_withholding_tax"
+            />
+            <div class="wht_line">
+                <t t-out="0" />
+            </div>
+            <t
+                t-call="l10n_th_account_tax_report.report_rd_base_total_withholding_tax"
+            />
+        </div>
+    </template>
+
+    <template id="report_rd_base_total_withholding_tax">
+        <div class="total_base">
+            <t t-out="'{0:,.2f}'.format(page['total_base'])" />
+        </div>
+        <div class="total_amount">
+            <t t-out="'{0:,.2f}'.format(page['total_wht'])" />
+        </div>
+        <t t-if="page_last and income_tax_form != 'pnd2'">
+            <div class="sum_total_base">
+                <t t-out="'{0:,.2f}'.format(total_base)" />
+            </div>
+            <div class="sum_total_amount">
+                <t t-out="'{0:,.2f}'.format(total_wht)" />
+            </div>
+        </t>
+    </template>
+
+    <!-- Template Withholding Tax (RD) Report -->
+    <template id="report_rd_withholding_tax">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t
+                    t-if="income_tax_form == 'pnd1'"
+                    t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd1"
+                />
+                <t
+                    t-if="income_tax_form == 'pnd1a'"
+                    t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd1a"
+                />
+                <t
+                    t-if="income_tax_form == 'pnd2'"
+                    t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd2"
+                />
+                <t
+                    t-if="income_tax_form == 'pnd3'"
+                    t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd3"
+                />
+                <t
+                    t-if="income_tax_form == 'pnd53'"
+                    t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd53"
+                />
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- RD PND1 -->
+    <template id="report_rd_withholding_tax_pnd1">
+        <t t-set="num_page" t-value="len(rd_pages)" />
+        <t t-foreach="rd_pages" t-as="page">
+            <t t-set="num" t-value="page_index" />
+            <t
+                t-call="l10n_th_account_tax_report.report_rd_base_page_withholding_tax"
+                total_box="[644, 704, 559, 61]"
+            >
+                <t t-foreach="page['lines']" t-as="line">
+                    <t
+                        t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd1_line"
+                    />
+                </t>
+            </t>
+        </t>
+        <div style="page-break-before: always;" />
+    </template>
+
+    <template id="report_rd_withholding_tax_pnd1_line">
+        <div class="row" style="width: 100%;">
+            <div class="col" style="width: 6%;">
+                <div class="row">
+                    <div class="wht_line_number">
+                        <span t-out="line['row_number']" />
+                    </div>
+                </div>
+            </div>
+            <div class="col" style="width: 50%;">
+                <div class="row">
+                    <div class="wht_line_vat">
+                        <t
+                            t-call="l10n_th_account_tax_report.report_rd_digit_boxes"
+                            value="line['partner_vat']"
+                            size="13"
+                            tabs="[1, 5, 10, 12]"
+                        />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="wht_line_firstname">
+                        <span
+                            t-att-res-id="not line['cert_cancel'] and line['partner_id']"
+                            res-model="res.partner"
+                            view-type="form"
+                            t-att-style="line['rd_styles'].get('partner_firstname')"
+                            t-out="line['partner_firstname']"
+                        />
+                    </div>
+                    <div class="wht_line_lastname">
+                        <span
+                            t-att-style="line['rd_styles'].get('partner_lastname')"
+                            t-out="line['partner_lastname']"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="col" style="width: 13%;">
+                <div class="row">
+                    <div class="wht_line_date">
+                        <span
+                            t-att-res-id="line['cert_id'][0]"
+                            res-model="withholding.tax.cert"
+                            view-type="form"
+                            t-out="line['cert_date_str']"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="col" style="width: 26%;">
+                <div class="row">
+                    <div class="wht_line_base">
+                        <t t-out="'{0:,.2f}'.format(line['base'])" />
+                    </div>
+                    <div class="wht_line_amount">
+                        <t t-out="'{0:,.2f}'.format(line['amount'])" />
+                    </div>
+                </div>
+            </div>
+            <div class="col" style="width: 5%;">
+                <div class="row">
+                    <div class="wht_line_tax_payer">
+                        <span t-out="line['cert_tax_payer_code']" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

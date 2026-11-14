@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- RD PND53 -->
+    <template id="report_rd_withholding_tax_pnd53">
+        <t t-set="num_page" t-value="len(rd_pages)" />
+        <t t-foreach="rd_pages" t-as="page">
+            <t t-set="num" t-value="page_index" />
+            <t
+                t-call="l10n_th_account_tax_report.report_rd_base_page_withholding_tax"
+                total_box="[696, 669, 533, 52]"
+            >
+                <t t-foreach="page['lines']" t-as="line">
+                    <t
+                        t-call="l10n_th_account_tax_report.report_rd_withholding_tax_pnd53_line"
+                    />
+                </t>
+            </t>
+        </t>
+        <div style="page-break-before: always;" />
+    </template>
+
+    <template id="report_rd_withholding_tax_pnd53_line">
+        <div class="row" style="width: 100%;">
+            <div class="col" style="width: 5%;">
+                <div class="row">
+                    <div class="wht_line_number">
+                        <span t-out="line['row_number']" />
+                    </div>
+                </div>
+            </div>
+            <div class="col" style="width: 35%;">
+                <div class="row wht_line_vat">
+                    <t
+                        t-call="l10n_th_account_tax_report.report_rd_digit_boxes"
+                        value="line['partner_vat']"
+                        size="13"
+                        tabs="[1, 3, 4, 7, 12]"
+                    />
+                </div>
+                <div class="row">
+                    <div class="wht_line_name">
+                        <span
+                            t-att-res-id="not line['cert_cancel'] and line['partner_id']"
+                            res-model="res.partner"
+                            view-type="form"
+                            t-att-style="line['rd_styles'].get('partner_name')"
+                            t-out="line['partner_name']"
+                        />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="wht_line_address">
+                        <span
+                            t-attf-style="line-height: 50%; {{ line['rd_styles'].get('partner_address', '') }}"
+                            t-out="line['partner_address']"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="col" style="width: 8%;">
+                <div class="row">
+                    <div class="wht_line_branch">
+                        <t
+                            t-call="l10n_th_account_tax_report.report_rd_digit_boxes"
+                            value="line['partner_branch']"
+                            size="5"
+                            tabs="[]"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="col" style="width: 7%;">
+                <div class="row">
+                    <div class="wht_line_date">
+                        <span
+                            t-att-res-id="line['cert_id'][0]"
+                            res-model="withholding.tax.cert"
+                            view-type="form"
+                            t-out="line['cert_date_str']"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="col" style="width: 42%;">
+                <div class="row">
+                    <div class="wht_line_desc">
+                        <span
+                            style="line-height: 50%;"
+                            t-out="line['wht_cert_income_desc']"
+                        />
+                    </div>
+                    <div class="wht_line_percent">
+                        <t t-out="'{0:,.2f}'.format(line['wht_percent'])" />
+                    </div>
+                    <div class="wht_line_base">
+                        <t t-out="'{0:,.2f}'.format(line['base'])" />
+                    </div>
+                    <div class="wht_line_amount">
+                        <t t-out="'{0:,.2f}'.format(line['amount'])" />
+                    </div>
+                </div>
+            </div>
+            <div class="col" style="width: 3%;">
+                <div class="row">
+                    <div class="wht_line_tax_payer">
+                        <span t-out="line['cert_tax_payer_code']" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

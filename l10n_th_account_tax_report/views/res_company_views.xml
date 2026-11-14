@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="res_company_view_form" model="ir.ui.view">
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="wht_textfile_config" string="WHT Text File Format">
+                    <group name="wht_file_format">
+                        <field name="wht_text_file_pnd1_format" />
+                        <field name="wht_text_file_pnd3_format" />
+                        <field name="wht_text_file_pnd53_format" />
+                    </group>
+                    <group name="wht_help_config" string="Help">
+                        <div>
+                            <p>
+                                <strong
+                            >Display format for exporting text file</strong><br />
+                                You can use <em
+                            >Python-style string patterns</em> with the following fields.
+                                For example: <code
+                            >partner_vat</code> will display the partner VAT number.
+                            </p>
+
+                            <p>
+                                <strong>General:</strong>
+                            </p>
+                            <ul>
+                                <li><code>row_number</code> - Index</li>
+                                <li><code>cert_cancel</code> - Cancelled</li>
+                                <li><code>cert_date</code> - Date</li>
+                                <li><code>cert_date_str</code> - Date (string)</li>
+                                <li><code>cert_name</code> - Name</li>
+                            </ul>
+
+                            <p>
+                                <strong>Tax Payer:</strong>
+                            </p>
+                            <ul>
+                                <li><code>cert_tax_payer</code> - Tax Payer</li>
+                                <li><code
+                                >cert_tax_payer_display</code> - Tax Payer Display</li>
+                                <li><code
+                                >cert_tax_payer_code</code> - Tax Payer Code</li>
+                            </ul>
+
+                            <p>
+                                <strong>Partner:</strong>
+                            </p>
+                            <ul>
+                                <li><code>partner_id</code> - Partner ID</li>
+                                <li><code>partner_name</code> - Partner Name</li>
+                                <li><code>partner_title</code> - Partner Title</li>
+                                <li><code
+                                >partner_firstname</code> - Partner Firstname</li>
+                                <li><code
+                                >partner_lastname</code> - Partner Lastname</li>
+                                <li><code>partner_address</code> - Partner Address</li>
+                                <li><code>partner_street</code> - Partner Street</li>
+                                <li><code>partner_street2</code> - Partner Street2</li>
+                                <li><code>partner_city</code> - Partner City</li>
+                                <li><code>partner_state</code> - Partner State</li>
+                                <li><code>partner_zip</code> - Partner Zip</li>
+                                <li><code>partner_country</code> - Partner Country</li>
+                                <li><code>partner_vat</code> - Partner VAT</li>
+                                <li><code>partner_branch</code> - Partner Branch</li>
+                                <li><code
+                                >partner_bank_account</code> - Partner Bank Account</li>
+                            </ul>
+
+                            <p>
+                                <strong>Income &amp; Tax:</strong>
+                            </p>
+                            <ul>
+                                <li><code>income_code</code> - Income Code</li>
+                                <li><code>base</code> - Base</li>
+                                <li><code>amount</code> - Amount</li>
+                            </ul>
+                            <p>
+                                And for line-level variables, you can prefix with <b
+                            >loop_</b>,
+                                e.g. <code>loop_amount</code> to show values per line.
+                            </p>
+                            <p>
+                                <strong>Note:</strong> <b
+                            >loop_</b> is not support PND1 Format.
+                            </p>
+                        </div>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
