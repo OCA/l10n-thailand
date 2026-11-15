@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_asset_remove_view_form" model="ir.ui.view">
+        <field name="name">account.asset.remove.form</field>
+        <field name="model">account.asset.remove</field>
+        <field
+            name="inherit_id"
+            ref="account_asset_management.account_asset_remove_view_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='remove']" position="after">
+                <button
+                    string="Remove Asset"
+                    name="remove_multi_assets"
+                    type="object"
+                    class="oe_highlight"
+                />
+            </xpath>
+            <xpath expr="//button[@name='remove']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="before">
+                <field name="remove_reason" />
+            </xpath>
+        </field>
+    </record>
+    <record id="asset_low_value_remove_form" model="ir.ui.view">
+        <field name="name">asset.low.value.remove.form</field>
+        <field name="model">account.asset.remove</field>
+        <field name="priority" eval="50" />
+        <field
+            name="inherit_id"
+            ref="account_asset_low_value.asset_low_value_remove_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='remove']" position="after">
+                <button
+                    string="Remove Asset"
+                    name="remove_multi_assets"
+                    type="object"
+                    class="oe_highlight"
+                />
+            </xpath>
+            <xpath expr="//button[@name='remove']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="before">
+                <field name="remove_reason" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
