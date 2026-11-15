@@ -174,7 +174,9 @@ class ResCurrencyRateProviderBOT(models.Model):
     def _get_bot_result(self, date_from, date_to):
         """Request the rates of all currencies on the period, in one request"""
         self.ensure_one()
-        bot_token = self.company_id.bot_token
+        # The token is restricted to administrators, but the rates can be
+        # updated by other users (i.e. accountants)
+        bot_token = self.company_id.sudo().bot_token
         if not bot_token:
             raise UserError(self.env._("No bot.or.th credentials specified!"))
         cache = self.env.context.get("bot_rates_cache", {})

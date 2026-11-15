@@ -19,7 +19,7 @@
                     <div class="content-group">
                         <div class="row mt16">
                             <label for="bot_token" class="col-lg-3 o_light_label" />
-                            <field name="bot_token" />
+                            <field name="bot_token" password="True" />
                         </div>
                     </div>
                 </setting>

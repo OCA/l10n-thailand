@@ -8,7 +8,8 @@ import requests
 from dateutil.relativedelta import relativedelta
 
 from odoo import fields
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
+from odoo.tests import new_test_user
 from odoo.tools import mute_logger
 
 from odoo.addons.base.tests.common import BaseCommon
@@ -358,3 +359,30 @@ class TestResCurrencyRateProviderBOT(BaseCommon):
             self.assertRaises(UserError),
         ):
             self.bot_provider._obtain_rates("THB", ["EUR"], date, date)
+
+    def test_12_bot_token_access(self):
+        """BOT token is restricted to administrators, but used by other users"""
+        self.my_company.bot_token = "Test"
+        user = new_test_user(
+            self.env,
+            login="test_accountant",
+            groups="account.group_account_manager",
+            company_id=self.my_company.id,
+            company_ids=[(6, 0, self.my_company.ids)],
+        )
+        company = self.my_company.with_user(user)
+        self.assertEqual(company.name, "Test Company")
+        with self.assertRaises(AccessError):
+            company.read(["bot_token"])
+        response = self._get_bot_response(
+            self._get_bot_data(
+                [("2023-09-19", "EUR", "EURO ZONE : EURO (EUR)", "38.2000000")]
+            )
+        )
+        date = datetime.date(2023, 9, 19)
+        with mock.patch.object(requests, "get", return_value=response) as mock_get:
+            content = self.bot_provider.with_user(user)._obtain_rates(
+                "THB", ["EUR"], date, date
+            )
+        self.assertEqual(mock_get.call_args.kwargs["headers"]["Authorization"], "Test")
+        self.assertEqual(content, {"2023-09-19": {"EUR": 1.0 / 38.2}})
