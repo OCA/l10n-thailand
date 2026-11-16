@@ -1,0 +1,108 @@
+# Copyright 2020 Ecosoft Co., Ltd (http://ecosoft.co.th/)
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
+
+from odoo.exceptions import ValidationError
+from odoo.tests import Form, TransactionCase, tagged
+
+
+@tagged("post_install", "-at_install")
+class TestL10nThPartner(TransactionCase):
+    def setUp(self):
+        super().setUp()
+        self.main_company = self.env.ref("base.main_company")
+        self.create_title()
+        self.create_original("Firstname", "Lastname")
+        self.company_type = self.env.ref("l10n_th_partner.company_type_3")
+
+    def create_title(self):
+        # Use title shipped by partner_title module data
+        self.title_id = self.env.ref("partner_title.res_partner_title_miss")
+
+    def create_original(self, firstname, lastname):
+        with Form(self.env["res.users"], view="base.view_users_form") as f:
+            f.firstname = firstname
+            f.lastname = lastname
+            f.login = firstname
+        self.user = f.save()
+
+    def test_res_users(self):
+        """Test that you change title"""
+        self.assertEqual(self.user.name, "Firstname Lastname")
+        self.user.title_id = self.title_id
+        self.assertEqual(self.user.name, "Miss Firstname Lastname")
+
+    def test_res_partner(self):
+        """Test all of partner individual"""
+        partner = self.user.partner_id
+        partner.email = "test"
+        partner.title_id = self.title_id
+        # change individual -> company
+        self.assertEqual(partner.title_id, self.title_id)
+        self.assertFalse(partner.name_company)
+        with Form(partner) as p:
+            p.company_type = "company"
+            p.name_company = ("Test Company",)
+        self.assertNotEqual(partner.title_id, self.title_id)
+        self.assertTrue(partner.name_company)
+
+    def test_res_partner_company(self):
+        """Test all of partner company"""
+        with Form(
+            self.env["res.partner"], view="partner_firstname.view_partner_form"
+        ) as f:
+            f.company_type = "company"
+            f.name_company = ("Test Company",)
+            f.partner_company_type_id = self.company_type
+        partner = f.save()
+        # name include title, name_company not include title
+        self.assertTrue(partner.name_company)
+        self.assertNotEqual(partner.name, partner.name_company)
+
+    def test_res_users_config_no_space(self):
+        """Test that you change title and config title no space"""
+        self.user.title_id = self.title_id
+        self.assertEqual(self.user.partner_id.name, "Miss Firstname Lastname")
+        self.assertEqual(self.user.name, "Miss Firstname Lastname")
+        self.main_company.no_space_title_name = True
+        self.assertEqual(self.user.partner_id.name, "MissFirstname Lastname")
+        self.assertEqual(self.user.name, "MissFirstname Lastname")
+
+    def test_child_contact_same_vat_branch_allowed(self):
+        """Child contacts (e.g. Delivery/Invoice address) should be allowed
+        to share the same VAT and Branch as their parent contact."""
+        parent = self.env["res.partner"].create(
+            {
+                "name": "Parent Company",
+                "is_company": True,
+                "vat": "9876543210987",
+                "company_registry": "00001",
+                "company_id": self.main_company.id,
+            }
+        )
+        # Creating a child contact with the same vat+branch should NOT raise
+        child = self.env["res.partner"].create(
+            {
+                "name": "Delivery Address",
+                "parent_id": parent.id,
+                "type": "delivery",
+                "vat": "9876543210987",
+                "company_registry": "00001",
+                "company_id": self.main_company.id,
+            }
+        )
+        self.assertEqual(child.parent_id, parent)
+
+    def test_duplicate_partner_vat_branch(self):
+        partner1 = self.env["res.partner"].create(
+            {
+                "firstname": "Firstname",
+                "lastname": "Lastname",
+                "vat": "0123456789012",
+                "company_registry": "00000",
+                "company_id": self.main_company.id,
+            }
+        )
+        partner2 = partner1.copy()
+        with self.assertRaises(ValidationError):
+            with Form(partner2) as p2:
+                p2.company_registry = "00000"
