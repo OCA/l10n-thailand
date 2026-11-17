@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+    <record id="mail_template_wht_cert" model="mail.template">
+        <field name="name">Withholding Tax Certificate: Send by email</field>
+        <field name="model_id" ref="model_withholding_tax_cert" />
+        <field
+            name="subject"
+        >{{ object.company_id.name }} Withholding Tax Certificate (Ref {{ object.number or 'n/a' }})</field>
+        <field name="partner_to">{{ object.partner_id.id }}</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                    Dear <t t-out="object.partner_id.name or ''" /><br /><br />
+                    Here is your withholding tax certificate <span
+                    style="font-weight:bold;"
+                    t-out="object.number or ''"
+                /> with a withholding tax of <span
+                    style="font-weight:bold;"
+                    t-out="format_amount(sum(object.wht_line.mapped('amount')), object.currency_id) or ''"
+                /> from <t t-out="object.company_id.name or ''" />.
+                    <br /><br />
+                    Do not hesitate to contact us if you have any questions.
+                    <br /><br />
+                    Best regards,
+                    <t t-if="not is_html_empty(user.signature)">
+                    <br />
+                    <br />
+                    <t t-out="user.signature or ''">--<br /></t>
+                </t>
+                </p>
+            </div>
+        </field>
+        <field name="lang">{{ object.partner_id.lang }}</field>
+        <field
+            name="report_template_ids"
+            eval="[Command.link(ref('l10n_th_account_tax.action_report_wht_cert'))]"
+        />
+        <field name="auto_delete" eval="True" />
+    </record>
+</odoo>

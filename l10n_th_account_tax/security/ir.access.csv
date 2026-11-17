@@ -1,0 +1,20 @@
+id,name,model_id,group_id/id,operation,domain
+access_withholding_tax_cert,withholding.tax.cert,withholding.tax.cert,account.group_account_invoice,crud,
+access_withholding_tax_cert_line,withholding.tax.cert.line,withholding.tax.cert.line,account.group_account_invoice,crud,
+access_withholding_tax_cert_user,withholding.tax.cert.user,withholding.tax.cert,base.group_user,r,
+access_withholding_tax_cert_line_user,withholding.tax.cert.line.user,withholding.tax.cert.line,base.group_user,r,
+access_withholding_tax_code_income,withholding.tax.code.income,withholding.tax.code.income,account.group_account_invoice,crud,
+access_withholding_tax_code_income_user,withholding.tax.code.income.user,withholding.tax.code.income,base.group_user,r,
+withholding_tax_rule,Withholding Tax,withholding.tax.cert,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+withholding_tax_line_rule,Withholding Tax Line,withholding.tax.cert.line,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_personal_income_tax,personal.income.tax,personal.income.tax,account.group_account_user,crud,
+access_personal_income_tax_user,personal.income.tax.user,personal.income.tax,base.group_user,r,
+access_personal_income_tax_rate,personal.income.tax.rate,personal.income.tax.rate,account.group_account_user,crud,
+access_personal_income_tax_rate_user,personal.income.tax.rate.user,personal.income.tax.rate,base.group_user,r,
+access_wht_report_invoice,wht.report,wht.report,account.group_account_invoice,r,
+access_wht_report_readonly,wht.report readonly,wht.report,account.group_account_readonly,r,
+wht_report_comp_rule,WHT Report multi-company,wht.report,,r,"[('company_id', 'in', company_ids)]"
+access_account_move_tax_invoice_invoice,account.move.tax.invoice invoice,account.move.tax.invoice,account.group_account_invoice,crud,
+access_account_move_tax_invoice_user,account.move.tax.invoice user,account.move.tax.invoice,base.group_user,r,
+account_move_tax_invoice_comp_rule,Tax Invoice multi-company,account.move.tax.invoice,,crud,"[('company_id', 'in', company_ids)]"
+access_clear_tax,clear.tax,clear.tax,account.group_account_invoice,crud,
