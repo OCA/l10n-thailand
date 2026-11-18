@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Template Thai Tax (RD) Report -->
+    <template id="report_rd_thai_tax">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="l10n_th_account_tax_report.internal_layout">
+                    <t t-call="l10n_th_account_tax_report.report_rd_tax_report" />
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_rd_tax_report">
+        <div class="page">
+            <!-- Variable -->
+            <t t-set="num_results" t-value="len(tax_report_data)" />
+            <!-- Template -->
+            <t t-call="l10n_th_account_tax_report.report_rd_tax_report_header" />
+            <t t-call="l10n_th_account_tax_report.report_rd_tax_report_article" />
+        </div>
+    </template>
+
+    <template id="report_rd_company_tax_branch">
+        <div class="col-3">
+            <t t-if="not company_branch or company_branch in ['-', '00000']">
+            <input type="checkbox" checked="checked" disabled="disabled" />
+        </t>
+            <t t-else="">
+            <input type="checkbox" disabled="disabled" />
+        </t>
+            สำนักงานใหญ่
+        </div>
+        <div class="col-6">
+            <t t-if="company_branch and company_branch not in ['-', '00000']">
+            <input type="checkbox" checked="checked" disabled="disabled" />
+        </t>
+            <t t-else="">
+            <input type="checkbox" disabled="disabled" />
+        </t>
+            สาขาที่ <span
+            t-if="company_branch and company_branch not in ['-', '00000']"
+            t-out="company_branch"
+        />
+        </div>
+    </template>
+
+    <template id="report_rd_tax_report_header">
+        <div t-attf-class="header">
+            <div class="o_report_rd_tax_report">
+                <!-- Title -->
+                <div class="text-center">
+                    <t t-set="period" t-value="o._get_period_be(date_from, date_to)" />
+                    <h3>
+                        <span
+                            t-if="o.tax_id.type_tax_use == 'sale'"
+                        >รายงานภาษีขาย</span>
+                        <span
+                            t-elif="o.tax_id.type_tax_use == 'purchase'"
+                        >รายงานภาษีซื้อ</span>
+                        <span t-else="">รายงานภาษีมูลค่าเพิ่ม</span>
+                    </h3>
+                    <h4>
+                        เดือนภาษี <span t-out="period[0]" /> ปี <span
+                        t-out="period[1]"
+                    />
+                    </h4>
+                </div>
+                <!-- Company Details -->
+                <div class="row">
+                    <div class="col-7">
+                        <div class="row">
+                            <div class="col-3">
+                                <strong>ชื่อผู้ประกอบการ</strong>
+                            </div>
+                            <div class="col-9">
+                                <span t-out="company_name" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <strong>ชื่อสถานประกอบการ</strong>
+                            </div>
+                            <div class="col-9">
+                                <span t-out="company_name" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <strong>ที่อยู่</strong>
+                            </div>
+                            <div class="col-9">
+                                <span t-out="company_address" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <div class="row">
+                            <div class="col-5">
+                                <strong>เลขประจำตัวผู้เสียภาษีอากร</strong>
+                            </div>
+                            <div class="col-7">
+                                <span t-out="company_vat" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <t
+                                t-call="l10n_th_account_tax_report.report_rd_company_tax_branch"
+                            />
+                            <div class="col-3">
+                                หน้าที่ <span class="page" /> / <span class="topage" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="report_rd_tax_report_article">
+        <div class="o_report_rd_tax_report">
+            <div class="row">
+                <div class="col-12">
+                    <t t-set="n" t-value="0" />
+                    <t t-set="np" t-value="15" />
+                    <t t-foreach="range(ceil(num_results/np))" t-as="i">
+                        <t
+                            t-set="tax_report_data_split"
+                            t-value="tax_report_data[i*np:min((i+1) * np, num_results)]"
+                        />
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th
+                                        rowspan="2"
+                                        class="text-center"
+                                        style="width: 3%;"
+                                    >
+                                        ลำดับ
+                                    </th>
+                                    <th
+                                        colspan="2"
+                                        class="text-center"
+                                        style="width: 16%;"
+                                    >
+                                        ใบกำกับภาษี
+                                    </th>
+                                    <th
+                                        rowspan="2"
+                                        class="text-center"
+                                        style="width: 9%;"
+                                    >
+                                        เลขที่เอกสาร
+                                    </th>
+                                    <th
+                                        rowspan="2"
+                                        class="text-center"
+                                        style="width: 21%;"
+                                    >
+                                        <span
+                                            class="text-center"
+                                            t-if="o.tax_id.type_tax_use == 'sale'"
+                                        >ชื่อผู้ซื้อสินค้า/ผู้รับบริการ</span>
+                                        <span
+                                            class="text-center"
+                                            t-elif="o.tax_id.type_tax_use == 'purchase'"
+                                        >ชื่อผู้ขายสินค้า/ผู้ให้บริการ</span>
+                                        <span
+                                            class="text-center"
+                                            t-else=""
+                                        >คู่ค้า</span>
+                                    </th>
+                                    <th
+                                        rowspan="2"
+                                        class="text-center"
+                                        style="width: 15%;"
+                                    >
+                                        <span
+                                            class="text-center"
+                                            t-if="o.tax_id.type_tax_use == 'sale'"
+                                        >เลขประจำตัวผู้เสียภาษีอากรของชื่อผู้ซื้อสินค้า/ผู้รับบริการ</span>
+                                        <span
+                                            class="text-center"
+                                            t-elif="o.tax_id.type_tax_use == 'purchase'"
+                                        >เลขประจำตัวผู้เสียภาษีอากรของชื่อผู้ขายสินค้า/ผู้ให้บริการ</span>
+                                        <span
+                                            class="text-center"
+                                            t-else=""
+                                        >เลขประจำตัวผู้เสียภาษีอากรของคู่ค้า</span>
+                                    </th>
+                                    <th
+                                        colspan="2"
+                                        class="text-center"
+                                        style="width: 12%;"
+                                    >
+                                        สถานประกอบการ
+                                    </th>
+                                    <th
+                                        rowspan="2"
+                                        class="text-center"
+                                        style="width: 12%;"
+                                    >
+                                        มูลค่าสินค้าหรือบริการ
+                                    </th>
+                                    <th
+                                        rowspan="2"
+                                        class="text-center"
+                                        style="width: 12%;"
+                                    >
+                                        จำนวนเงินภาษีมูลค่าเพิ่ม
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center" style="width: 7%;">
+                                        วันที่
+                                    </th>
+                                    <th class="text-center" style="width: 9%;">
+                                        เลขที่
+                                    </th>
+                                    <th class="text-center" style="width: 7%;">
+                                        สำนักงานใหญ่
+                                    </th>
+                                    <th class="text-center" style="width: 5%;">
+                                        สาขาที่
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="total_base_page" t-value="0.00" />
+                                <t t-set="total_tax_page" t-value="0.00" />
+                                <t t-foreach="tax_report_data_split" t-as="line">
+                                    <tr>
+                                        <td
+                                            class="text-center"
+                                            style="border-left: 1px solid black;"
+                                        >
+                                            <span t-out="line['row_number']" />
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-out="line['tax_date']" />
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-out="line['tax_invoice_number']" />
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-out="line['name']" />
+                                        </td>
+                                        <td>
+                                            <span t-out="line['partner_name']" />
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-out="line['partner_vat']" />
+                                        </td>
+                                        <td>
+                                            <span
+                                                t-if="not line['partner_branch'] or line['partner_branch'] in ['-', '00000']"
+                                            >สำนักงานใหญ่</span>
+                                        </td>
+                                        <td>
+                                            <span
+                                                t-if="line['partner_branch'] and line['partner_branch'] not in ['-', '00000']"
+                                                t-out="line['partner_branch']"
+                                            />
+                                        </td>
+                                        <td class="text-right">
+                                            <t
+                                                t-set="total_base_page"
+                                                t-value="total_base_page + line['tax_base_amount']"
+                                            />
+                                            <t
+                                                t-out="'{0:,.2f}'.format(line['tax_base_amount'])"
+                                            />
+                                        </td>
+                                        <td class="text-right">
+                                            <t
+                                                t-set="total_tax_page"
+                                                t-value="total_tax_page + line['tax_amount']"
+                                            />
+                                            <t
+                                                t-out="'{0:,.2f}'.format(line['tax_amount'])"
+                                            />
+                                        </td>
+                                    </tr>
+                                </t>
+                                <tr>
+                                    <th
+                                        colspan="8"
+                                        class="text-center"
+                                        style="border-left: 1px solid black;"
+                                    >
+                                        รวมหน้า
+                                    </th>
+                                    <th class="text-right">
+                                        <span
+                                            t-out="'{:,.2f}'.format(total_base_page)"
+                                        />
+                                    </th>
+                                    <th class="text-right">
+                                        <span
+                                            t-out="'{:,.2f}'.format(total_tax_page)"
+                                        />
+                                    </th>
+                                </tr>
+                                <t t-if="line['row_number'] == num_results">
+                                    <tr>
+                                        <th
+                                            colspan="8"
+                                            class="text-center"
+                                            style="border-left: 1px solid black;"
+                                        >
+                                            รวมทั้งสิ้น
+                                        </th>
+                                        <th class="text-right">
+                                            <span
+                                                t-out="'{:,.2f}'.format(total_base)"
+                                            />
+                                        </th>
+                                        <th class="text-right">
+                                            <span t-out="'{:,.2f}'.format(total_tax)" />
+                                        </th>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <div style="page-break-before: always;" />
+                    </t>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>
