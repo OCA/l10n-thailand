@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_bank_template_section_list" model="ir.ui.view">
+        <field name="name">bank.template.section.list</field>
+        <field name="model">bank.template.section</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="sequence" />
+                <field name="parent_id" />
+                <field name="data_level" />
+            </list>
+        </field>
+    </record>
+    <record id="view_bank_template_section_form" model="ir.ui.view">
+        <field name="name">bank.template.section.form</field>
+        <field name="model">bank.template.section</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="parent_id" />
+                        </group>
+                        <group>
+                            <field name="sequence" />
+                            <field name="data_level" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_bank_template_section" model="ir.actions.act_window">
+        <field name="name">Bank Section</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bank.template.section</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a Section Template Bank.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem
+        id="menu_bank_template_section_template"
+        parent="menu_bank_template"
+        action="action_bank_template_section"
+        sequence="20"
+    />
+</odoo>

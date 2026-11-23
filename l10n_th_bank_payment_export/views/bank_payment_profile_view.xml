@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 Ecosoft Co., Ltd (http://ecosoft.co.th/)
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html) -->
+<odoo>
+    <record id="bank_payment_profile_view_list" model="ir.ui.view">
+        <field name="name">bank.payment.profile.view.list</field>
+        <field name="model">bank.payment.profile</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="bank" />
+                <field name="journal_ids" widget="many2many_tags" />
+                <field name="company_id" groups="base.group_multi_company" />
+            </list>
+        </field>
+    </record>
+    <record id="bank_payment_profile_view_form" model="ir.ui.view">
+        <field name="name">bank.payment.profile.view.form</field>
+        <field name="model">bank.payment.profile</field>
+        <field name="arch" type="xml">
+            <form>
+                <header />
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" />
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="left">
+                            <field name="bank" />
+                        </group>
+                        <group name="right">
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="journal_ids" widget="many2many_tags" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="bank_payment_profile_line" string="Profile Line">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field
+                                        name="field_id"
+                                        domain="[('model', '=', 'bank.payment.export')]"
+                                    />
+                                    <field name="field_type" />
+                                    <field name="value" />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Help">
+                            <group>
+                                <div>
+                                    <p>
+                                        The <b
+                                    >Bank Payment Export Profile</b> allows you to easily configure your payment exports.
+                                        You can start with a predefined profile and customize the values to suit your specific needs.
+                                    </p>
+                                    <p>
+                                        When specifying values for relationship fields (e.g., <code
+                                    >many2one</code> or <code>many2many</code>),<br />
+                                        you can use either the record's <b
+                                    >ID</b> or its <b>Name</b>.
+                                    </p>
+                                    <p>
+                                        For <code
+                                    >selection</code> fields, you must enter the exact technical value. Often, this is the text displayed before a hyphen (-).<br
+                                    />
+                                        For example, if the <b
+                                    >Product Code</b> option appears as <b
+                                    >DCP - Direct Credit</b>,<br />
+                                        you should enter just <b>DCP</b>.
+                                    </p>
+                                </div>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="bank_payment_profile_view_search" model="ir.ui.view">
+        <field name="name">bank.payment.profile.view.search</field>
+        <field name="model">bank.payment.profile</field>
+        <field name="arch" type="xml">
+            <search string="Bank Payment Profile">
+                <field name="name" />
+                <group expand="1" string="Group By">
+                    <filter
+                        string="Bank"
+                        name="group_by_bank"
+                        context="{'group_by': 'bank'}"
+                    />
+                    <filter
+                        string="Company"
+                        name="group_by_company"
+                        context="{'group_by': 'company_id'}"
+                        groups="base.group_multi_company"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_bank_payment_profile" model="ir.actions.act_window">
+        <field name="name">Bank Payment Profiles</field>
+        <field name="res_model">bank.payment.profile</field>
+        <field name="view_id" ref="bank_payment_profile_view_list" />
+    </record>
+    <menuitem
+        id="menu_bank_payment_profile"
+        action="action_bank_payment_profile"
+        parent="account.root_payment_menu"
+        sequence="60"
+    />
+</odoo>
