@@ -5,6 +5,8 @@ from odoo import Command, fields
 from odoo.exceptions import UserError
 from odoo.tests import Form, common
 
+from odoo.addons.base_exception.exceptions import BaseExceptionError
+
 
 class TestGovPurchaseRequest(common.TransactionCase):
     @classmethod
@@ -50,8 +52,8 @@ class TestGovPurchaseRequest(common.TransactionCase):
         )
         # Exceptions rule, at least 3 committees are required.
         self.assertEqual(purchase_request.state, "draft")
-        purchase_request.button_to_approve()
-        self.assertTrue(purchase_request.exception_ids)
+        with self.assertRaises(BaseExceptionError):
+            purchase_request.button_to_approve()
         self.assertEqual(purchase_request.state, "draft")
         # Create committees
         self.procurement_committee_model.create(
