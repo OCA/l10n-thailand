@@ -1,0 +1,3 @@
+id,name,bank,kbank_transfer_type,file_encoding
+kbank_transfer_same_bank,KBank Transfer Same Bank,KASITHBK,same_bank,cp874
+kbank_transfer_other_bank,KBank Transfer Other Bank,KASITHBK,other_bank,cp874

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_bank_template_form" model="ir.ui.view">
+        <field name="name">bank.template.form</field>
+        <field name="model">bank.template</field>
+        <field
+            name="inherit_id"
+            ref="l10n_th_bank_payment_export.view_bank_template_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bank']" position="after">
+                <field name="kbank_transfer_type" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
