@@ -1,0 +1,58 @@
+# Copyright 2023 Ecosoft Co., Ltd. (http://ecosoft.co.th)
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+from odoo import fields, models
+
+
+class AccountAssetRemove(models.TransientModel):
+    _inherit = "account.asset.remove"
+
+    remove_reason = fields.Char(string="Removed Reason")
+
+    def remove(self):
+        res = super().remove()
+        asset_ids = self.env.context.get("active_ids", [])
+        assets = self.env["account.asset"].browse(asset_ids)
+        # Write remove reason
+        assets.write({"remove_reason": self.remove_reason})
+        # Pass asset number to reference in journal entry
+        moves = []
+        if isinstance(res, dict):
+            if "domain" in res.keys() and "res_model" in res.keys():
+                if res["res_model"] == "account.move":
+                    moves = self.env["account.move"].search(res["domain"])
+        for move in moves:
+            # Filter out asset is not number
+            asset_numbers = {
+                num for num in move.line_ids.mapped("asset_id.number") if num
+            }
+            if not asset_numbers:
+                continue
+
+            move.write({"ref": ", ".join(asset_numbers)})
+        return res
+
+    def remove_multi_assets(self):
+        asset_ids = self.env.context.get("active_ids", [])
+        assets = self.env["account.asset"].browse(asset_ids)
+        ctx = dict(self.env.context)
+        for asset in assets:
+            if asset.state != "close" and (
+                asset.method in ["linear-limit", "degr-limit"]
+                and asset.value_residual != asset.salvage_value
+                or asset.value_residual
+            ):
+                ctx.update({"early_removal": True})
+            ctx.update({"active_id": asset.id})
+            self.with_context(**ctx).remove()
+        return True
+
+    def _get_removal_data(self, asset, residual_value):
+        move_lines = super()._get_removal_data(asset, residual_value)
+        name = asset.display_name
+        analytic_distribution = asset.analytic_distribution
+        for move_line in move_lines:
+            move_line[2].update({"name": name})
+            if self.env.company.asset_move_line_analytic:
+                move_line[2].update({"analytic_distribution": analytic_distribution})
+        return move_lines
