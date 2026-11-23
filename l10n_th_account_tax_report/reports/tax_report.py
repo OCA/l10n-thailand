@@ -20,6 +20,7 @@ class ThaiTaxReport(models.AbstractModel):
             company_id, account_id, partner_id, tax_invoice_number,
             TO_CHAR(tax_date, 'DD/MM/YYYY') AS tax_date,
             string_agg(DISTINCT name, ', ' ORDER BY name) AS name,
+            string_agg(DISTINCT move_name, ', ' ORDER BY move_name) AS move_name,
             sum(tax_base_amount) tax_base_amount,
             sum(tax_amount) tax_amount
         """
@@ -43,7 +44,8 @@ class ThaiTaxReport(models.AbstractModel):
             CASE WHEN m.ref IS NOT NULL
                 THEN m.ref
             ELSE ml.move_name
-            END AS name
+            END AS name,
+            ml.move_name AS move_name
         """
 
     def _query_groupby_tax(self):
