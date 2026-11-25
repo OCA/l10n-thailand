@@ -17,6 +17,7 @@ dependencies = [
     "odoo-addon-l10n_th_partner==18.0.*",
     "odoo-addon-l10n_th_tier_department==18.0.*",
     "odoo-addon-l10n_th_tier_department_demo==18.0.*",
+    "odoo-addon-l10n_th_year_be==18.0.*",
 ]
 classifiers=[
     "Programming Language :: Python",

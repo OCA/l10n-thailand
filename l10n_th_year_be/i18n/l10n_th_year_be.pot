@@ -1,0 +1,136 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_year_be
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-05 00:00+0000\n"
+"PO-Revision-Date: 2026-07-05 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_th_year_be
+#: model:ir.model.fields.selection,name:l10n_th_year_be.selection__res_config_settings__l10n_th_date_auto_convert_be_input__100_years
+msgid "100 years"
+msgstr ""
+
+#. module: l10n_th_year_be
+#: model:ir.model.fields.selection,name:l10n_th_year_be.selection__res_config_settings__l10n_th_date_auto_convert_be_input__200_years
+msgid "200 years"
+msgstr ""
+
+#. module: l10n_th_year_be
+#: model:ir.model.fields.selection,name:l10n_th_year_be.selection__res_config_settings__l10n_th_date_auto_convert_be_input__half_offset
+msgid "half of 543 years"
+msgstr ""
+
+#. module: l10n_th_year_be
+#: model:ir.model.fields,field_description:l10n_th_year_be.field_res_config_settings__l10n_th_date_auto_convert_be_input
+#: model_terms:ir.ui.view,arch_db:l10n_th_year_be.res_config_settings_view_form
+msgid "Auto-correct BE Manual Input"
+msgstr ""
+
+#. module: l10n_th_year_be
+#. odoo-javascript
+#: code:addons/l10n_th_year_be/static/src/js/date_be_field.esm.js:0
+#: model:ir.model.fields.selection,name:l10n_th_year_be.selection__res_config_settings__l10n_th_date_year_format__be
+#: model:ir.model.fields.selection,name:l10n_th_year_be.selection__res_users__l10n_th_date_year_format__be
+msgid "Buddhist Era (BE)"
+msgstr ""
+
+#. module: l10n_th_year_be
+#: model:ir.model.fields,help:l10n_th_year_be.field_res_users__l10n_th_date_year_format
+msgid "Choose how years are displayed."
+msgstr ""
+
+#. module: l10n_th_year_be
+#: model_terms:ir.ui.view,arch_db:l10n_th_year_be.res_config_settings_view_form
+msgid "Choose the default Common Era (CE) or Buddhist Era (BE) year display."
+msgstr ""
+
+#. module: l10n_th_year_be
+#: model:ir.model.fields,help:l10n_th_year_be.field_res_config_settings__l10n_th_date_year_format
+msgid "Choose the default year format to display."
+msgstr ""
+
+#. module: l10n_th_year_be
+#. odoo-javascript
+#: code:addons/l10n_th_year_be/static/src/js/date_be_field.esm.js:0
+msgid "Choose the year display for this field."
+msgstr ""
+
+#. module: l10n_th_year_be
+#. odoo-javascript
+#: code:addons/l10n_th_year_be/static/src/js/date_be_field.esm.js:0
+#: model:ir.model.fields.selection,name:l10n_th_year_be.selection__res_config_settings__l10n_th_date_year_format__ce
+#: model:ir.model.fields.selection,name:l10n_th_year_be.selection__res_users__l10n_th_date_year_format__ce
+msgid "Common Era (CE)"
+msgstr ""
+
+#. module: l10n_th_year_be
+#: model:ir.model,name:l10n_th_year_be.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_th_year_be
+#: model:ir.model.fields,field_description:l10n_th_year_be.field_res_config_settings__l10n_th_date_year_format
+#: model:ir.model.fields,field_description:l10n_th_year_be.field_res_users__l10n_th_date_year_format
+#: model_terms:ir.ui.view,arch_db:l10n_th_year_be.res_config_settings_view_form
+msgid "Date Year Format"
+msgstr ""
+
+#. module: l10n_th_year_be
+#: model:ir.model,name:l10n_th_year_be.model_ir_http
+msgid "HTTP Routing"
+msgstr ""
+
+#. module: l10n_th_year_be
+#: model:ir.model,name:l10n_th_year_be.model_ir_qweb_field_date
+msgid "Qweb Field Date"
+msgstr ""
+
+#. module: l10n_th_year_be
+#: model:ir.model,name:l10n_th_year_be.model_ir_qweb_field_datetime
+msgid "Qweb Field Datetime"
+msgstr ""
+
+#. module: l10n_th_year_be
+#: model_terms:ir.ui.view,arch_db:l10n_th_year_be.res_config_settings_view_form
+msgid "Regional Formats"
+msgstr ""
+
+#. module: l10n_th_year_be
+#: model:ir.model.fields.selection,name:l10n_th_year_be.selection__res_users__l10n_th_date_year_format__system
+msgid "System Default"
+msgstr ""
+
+#. module: l10n_th_year_be
+#: model:ir.model.fields,help:l10n_th_year_be.field_res_config_settings__l10n_th_date_auto_convert_be_input
+#: model_terms:ir.ui.view,arch_db:l10n_th_year_be.res_config_settings_view_form
+msgid ""
+"Threshold value for detecting user input year as Buddhist Era (BE) or Common "
+"Era (CE) for converting BE to CE before saving the value."
+msgstr ""
+
+#. module: l10n_th_year_be
+#: model:ir.model,name:l10n_th_year_be.model_res_users
+msgid "User"
+msgstr ""
+
+#. module: l10n_th_year_be
+#. odoo-javascript
+#: code:addons/l10n_th_year_be/static/src/js/date_be_field.esm.js:0
+msgid "User/System Default"
+msgstr ""
+
+#. module: l10n_th_year_be
+#. odoo-javascript
+#: code:addons/l10n_th_year_be/static/src/js/date_be_field.esm.js:0
+msgid "Year format"
+msgstr ""

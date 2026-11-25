@@ -1,0 +1,139 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_th_year_be
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-05 00:00+0000\n"
+"PO-Revision-Date: 2026-07-05 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: th\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_th_year_be
+#: model:ir.model.fields.selection,name:l10n_th_year_be.selection__res_config_settings__l10n_th_date_auto_convert_be_input__100_years
+msgid "100 years"
+msgstr "100 ปี"
+
+#. module: l10n_th_year_be
+#: model:ir.model.fields.selection,name:l10n_th_year_be.selection__res_config_settings__l10n_th_date_auto_convert_be_input__200_years
+msgid "200 years"
+msgstr "200 ปี"
+
+#. module: l10n_th_year_be
+#: model:ir.model.fields.selection,name:l10n_th_year_be.selection__res_config_settings__l10n_th_date_auto_convert_be_input__half_offset
+msgid "half of 543 years"
+msgstr "ครึ่งของ 543 ปี"
+
+#. module: l10n_th_year_be
+#: model:ir.model.fields,field_description:l10n_th_year_be.field_res_config_settings__l10n_th_date_auto_convert_be_input
+#: model_terms:ir.ui.view,arch_db:l10n_th_year_be.res_config_settings_view_form
+msgid "Auto-correct BE Manual Input"
+msgstr "แก้ไขปี พ.ศ. ที่ผู้ใช้ป้อนโดยอัตโนมัติ"
+
+#. module: l10n_th_year_be
+#. odoo-javascript
+#: code:addons/l10n_th_year_be/static/src/js/date_be_field.esm.js:0
+#: model:ir.model.fields.selection,name:l10n_th_year_be.selection__res_config_settings__l10n_th_date_year_format__be
+#: model:ir.model.fields.selection,name:l10n_th_year_be.selection__res_users__l10n_th_date_year_format__be
+msgid "Buddhist Era (BE)"
+msgstr "พุทธศักราช (พ.ศ.)"
+
+#. module: l10n_th_year_be
+#: model:ir.model.fields,help:l10n_th_year_be.field_res_users__l10n_th_date_year_format
+msgid "Choose how years are displayed."
+msgstr "เลือกรูปแบบการแสดงปี"
+
+#. module: l10n_th_year_be
+#: model_terms:ir.ui.view,arch_db:l10n_th_year_be.res_config_settings_view_form
+msgid "Choose the default Common Era (CE) or Buddhist Era (BE) year display."
+msgstr "เลือกรูปแบบปีเริ่มต้นเป็น ค.ศ. หรือ พ.ศ."
+
+#. module: l10n_th_year_be
+#: model:ir.model.fields,help:l10n_th_year_be.field_res_config_settings__l10n_th_date_year_format
+msgid "Choose the default year format to display."
+msgstr "เลือกรูปแบบปีเริ่มต้นที่ต้องการแสดง"
+
+#. module: l10n_th_year_be
+#. odoo-javascript
+#: code:addons/l10n_th_year_be/static/src/js/date_be_field.esm.js:0
+msgid "Choose the year display for this field."
+msgstr "เลือกรูปแบบการแสดงปีสำหรับฟิลด์นี้"
+
+#. module: l10n_th_year_be
+#. odoo-javascript
+#: code:addons/l10n_th_year_be/static/src/js/date_be_field.esm.js:0
+#: model:ir.model.fields.selection,name:l10n_th_year_be.selection__res_config_settings__l10n_th_date_year_format__ce
+#: model:ir.model.fields.selection,name:l10n_th_year_be.selection__res_users__l10n_th_date_year_format__ce
+msgid "Common Era (CE)"
+msgstr "คริสต์ศักราช (ค.ศ.)"
+
+#. module: l10n_th_year_be
+#: model:ir.model,name:l10n_th_year_be.model_res_config_settings
+msgid "Config Settings"
+msgstr "การตั้งค่า"
+
+#. module: l10n_th_year_be
+#: model:ir.model.fields,field_description:l10n_th_year_be.field_res_config_settings__l10n_th_date_year_format
+#: model:ir.model.fields,field_description:l10n_th_year_be.field_res_users__l10n_th_date_year_format
+#: model_terms:ir.ui.view,arch_db:l10n_th_year_be.res_config_settings_view_form
+msgid "Date Year Format"
+msgstr "รูปแบบปีของวันที่"
+
+#. module: l10n_th_year_be
+#: model:ir.model,name:l10n_th_year_be.model_ir_http
+msgid "HTTP Routing"
+msgstr "HTTP Routing"
+
+#. module: l10n_th_year_be
+#: model:ir.model,name:l10n_th_year_be.model_ir_qweb_field_date
+msgid "Qweb Field Date"
+msgstr "Qweb Field Date"
+
+#. module: l10n_th_year_be
+#: model:ir.model,name:l10n_th_year_be.model_ir_qweb_field_datetime
+msgid "Qweb Field Datetime"
+msgstr "Qweb Field Datetime"
+
+#. module: l10n_th_year_be
+#: model_terms:ir.ui.view,arch_db:l10n_th_year_be.res_config_settings_view_form
+msgid "Regional Formats"
+msgstr "รูปแบบภูมิภาค"
+
+#. module: l10n_th_year_be
+#: model:ir.model.fields.selection,name:l10n_th_year_be.selection__res_users__l10n_th_date_year_format__system
+msgid "System Default"
+msgstr "ค่าเริ่มต้นของระบบ"
+
+#. module: l10n_th_year_be
+#: model:ir.model.fields,help:l10n_th_year_be.field_res_config_settings__l10n_th_date_auto_convert_be_input
+#: model_terms:ir.ui.view,arch_db:l10n_th_year_be.res_config_settings_view_form
+msgid ""
+"Threshold value for detecting user input year as Buddhist Era (BE) or Common "
+"Era (CE) for converting BE to CE before saving the value."
+msgstr ""
+"ค่าเกณฑ์สำหรับตรวจจับว่าปีที่ผู้ใช้ป้อนเป็น พ.ศ. หรือ ค.ศ. เพื่อแปลง"
+"พ.ศ. เป็น ค.ศ. ก่อนบันทึกค่า"
+
+#. module: l10n_th_year_be
+#: model:ir.model,name:l10n_th_year_be.model_res_users
+msgid "User"
+msgstr "ผู้ใช้"
+
+#. module: l10n_th_year_be
+#. odoo-javascript
+#: code:addons/l10n_th_year_be/static/src/js/date_be_field.esm.js:0
+msgid "User/System Default"
+msgstr "ค่าเริ่มต้นของผู้ใช้/ระบบ"
+
+#. module: l10n_th_year_be
+#. odoo-javascript
+#: code:addons/l10n_th_year_be/static/src/js/date_be_field.esm.js:0
+msgid "Year format"
+msgstr "รูปแบบปี"
