@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <div id="vat_div" position="inside">
+                <button
+                    name="action_l10n_th_rd_get_address"
+                    type="object"
+                    icon="manage_search"
+                    class="btn-link"
+                    title="Fill the name and address from the Revenue Department"
+                    invisible="not vat or not id"
+                />
+            </div>
+        </field>
+    </record>
+</odoo>
