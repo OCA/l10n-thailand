@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_print_report_purchase_xlsx" model="ir.actions.report">
+        <field name="name">Purchase Report XLSX</field>
+        <field name="model">purchase.report.wizard</field>
+        <field name="report_type">xlsx</field>
+        <field
+            name="report_name"
+        >l10n_th_gov_purchase_report.report_purchase_xlsx</field>
+        <field
+            name="report_file"
+        >l10n_th_gov_purchase_report.report_purchase_xlsx</field>
+        <field
+            name="print_report_name"
+        >'Purchase [%s - %s]' % (object.date_from, object.date_to)</field>
+    </record>
+    <record id="action_print_report_non_purchase_xlsx" model="ir.actions.report">
+        <field name="name">Non Purchase Report XLSX</field>
+        <field name="model">non.purchase.report.wizard</field>
+        <field name="report_type">xlsx</field>
+        <field
+            name="report_name"
+        >l10n_th_gov_purchase_report.report_non_purchase_xlsx</field>
+        <field
+            name="report_file"
+        >l10n_th_gov_purchase_report.report_non_purchase_xlsx</field>
+        <field
+            name="print_report_name"
+        >'Non Purchase [%s - %s]' % (object.date_from, object.date_to)</field>
+    </record>
+    <record id="action_print_report_po_tracking_xlsx" model="ir.actions.report">
+        <field name="name">Purchase Tracking Report XLSX</field>
+        <field name="model">purchase.tracking.report.wizard</field>
+        <field name="report_type">xlsx</field>
+        <field
+            name="report_name"
+        >l10n_th_gov_purchase_report.report_po_tracking_xlsx</field>
+        <field
+            name="report_file"
+        >l10n_th_gov_purchase_report.report_po_tracking_xlsx</field>
+        <field
+            name="print_report_name"
+        >'Purchase Tracking [%s - %s]' % (object.date_from, object.date_to)</field>
+    </record>
+</odoo>
