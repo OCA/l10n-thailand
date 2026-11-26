@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_tax_filing_invoice,account.tax.filing,model_account_tax_filing,account.group_account_invoice,1,1,1,1
+access_account_tax_filing_user,account.tax.filing,model_account_tax_filing,account.group_account_user,1,1,1,1
+access_account_tax_filing_manager,account.tax.filing,model_account_tax_filing,account.group_account_manager,1,1,1,1
+access_account_tax_filing_line_invoice,account.tax.filing.line,model_account_tax_filing_line,account.group_account_invoice,1,1,1,1
+access_account_tax_filing_line_user,account.tax.filing.line,model_account_tax_filing_line,account.group_account_user,1,1,1,1
+access_account_tax_filing_line_manager,account.tax.filing.line,model_account_tax_filing_line,account.group_account_manager,1,1,1,1

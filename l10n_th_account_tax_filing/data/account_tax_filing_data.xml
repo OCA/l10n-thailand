@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="seq_account_tax_filing" model="ir.sequence">
+        <field name="name">Account Tax Filing Sequence</field>
+        <field name="code">account.tax.filing</field>
+        <field name="padding" eval="5" />
+        <field name="implementation">no_gap</field>
+        <field name="prefix">ATF</field>
+    </record>
+</odoo>
