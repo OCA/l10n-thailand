@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_city_tree" model="ir.ui.view">
+        <field name="name">res.city.list</field>
+        <field name="model">res.city</field>
+        <field name="inherit_id" ref="base_address_extended.view_city_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="code" />
+                <field name="subdistrict_ids" widget="many2many_tags" />
+                <field name="prefix" />
+                <field name="short_prefix" />
+            </xpath>
+        </field>
+    </record>
+    <record id="view_city_filter" model="ir.ui.view">
+        <field name="model">res.city</field>
+        <field name="inherit_id" ref="base_address_extended.view_city_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="code" />
+            </xpath>
+            <xpath expr="//search" position="inside">
+                <group>
+                    <filter
+                        name="group_state"
+                        string="State"
+                        context="{'group_by': 'state_id'}"
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
+    <!-- Add code in form view -->
+    <record id="view_city_form" model="ir.ui.view">
+        <field name="model">res.city</field>
+        <field name="inherit_id" ref="base_location.view_city_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="prefix" />
+                <field name="short_prefix" />
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page name="subdistrict" string="Sub-District">
+                    <field name="subdistrict_ids" />
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
